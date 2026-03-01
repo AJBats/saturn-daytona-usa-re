@@ -20,10 +20,10 @@ hud_large_element:
     mov #0x1, r11
     mov.l   .L_pool_0601E448, r14
     extu.w r10, r13
-    bra     .L_loop_check
+    bra     .L_0601E46C
     mov r13, r12
 
-.L_loop_body:
+.L_0601E39C:
     extu.w r12, r2
     mov.l   .L_pool_0601E44C, r3
     shll2 r2
@@ -31,11 +31,11 @@ hud_large_element:
     mov.w @r2, r2
     extu.w r2, r2
     tst r2, r2
-    bf      .L_slot_has_id
-    bra     .L_next_input
+    bf      .L_0601E3B0
+    bra     .L_0601E46A
     nop
 
-.L_slot_has_id:
+.L_0601E3B0:
     extu.w r13, r2
     mov r12, r0
     shll2 r2
@@ -45,10 +45,10 @@ hud_large_element:
     mov.w r0, @(28, r2)
     .byte   0xB0, 0x63    /* bsr 0x0601E488 (hud_text_handler */
     mov r13, r4
-    bra     .L_state_dispatch
+    bra     .L_0601E404
     nop
 
-.L_state_2_check:
+.L_0601E3C6:
     extu.w r13, r4
     shll2 r4
     shll2 r4
@@ -59,7 +59,7 @@ hud_large_element:
     .byte   0xB1, 0x66    /* bsr 0x0601E6A4 (hud_utility */
     extu.w r4, r4
     tst r0, r0
-    bt      .L_display_inactive
+    bt      .L_0601E3F0
     extu.w r13, r3
     shll2 r3
     shll2 r3
@@ -68,10 +68,10 @@ hud_large_element:
     extu.b r8, r2
     mov #0x1F, r0
     mov.b r2, @(r0, r3)
-    bra     .L_bounds_check
+    bra     .L_0601E410
     nop
 
-.L_display_inactive:
+.L_0601E3F0:
     extu.w r13, r2
     shll2 r2
     shll2 r2
@@ -80,18 +80,18 @@ hud_large_element:
     extu.b r11, r3
     mov #0x1F, r0
     mov.b r3, @(r0, r2)
-    bra     .L_bounds_check
+    bra     .L_0601E410
     nop
 
-.L_state_dispatch:
+.L_0601E404:
     cmp/eq #0x0, r0
-    bt      .L_bounds_check
+    bt      .L_0601E410
     cmp/eq #0x1, r0
-    bt      .L_next_input
+    bt      .L_0601E46A
     cmp/eq #0x2, r0
-    bt      .L_state_2_check
+    bt      .L_0601E3C6
 
-.L_bounds_check:
+.L_0601E410:
     extu.w r13, r4
     mov.l   .L_pool_0601E450, r3
     mov.l   .L_pool_0601E454, r2
@@ -107,7 +107,7 @@ hud_large_element:
     mov.l @r3, r3
     add #0x20, r3
     cmp/hs r3, r4
-    bt      .L_out_of_bounds
+    bt      .L_0601E458
 
     extu.w r13, r3
     shll2 r3
@@ -117,7 +117,7 @@ hud_large_element:
     extu.b r10, r2
     mov #0x1E, r0
     mov.b r2, @(r0, r3)
-    bra     .L_advance_output
+    bra     .L_0601E468
     nop
 
     .global DAT_0601e444
@@ -133,7 +133,7 @@ DAT_0601e444:
 .L_pool_0601E454:
     .4byte  sym_0604A5C0
 
-.L_out_of_bounds:
+.L_0601E458:
     extu.w r13, r2
     shll2 r2
     shll2 r2
@@ -143,16 +143,16 @@ DAT_0601e444:
     mov #0x1E, r0
     mov.b r3, @(r0, r2)
 
-.L_advance_output:
+.L_0601E468:
     add #0x1, r13
 
-.L_next_input:
+.L_0601E46A:
     add #0x1, r12
 
-.L_loop_check:
+.L_0601E46C:
     extu.w r12, r3
     cmp/ge r9, r3
-    bf      .L_loop_body
+    bf      .L_0601E39C
 
     .byte   0xD3, 0x29    /* mov.l .L_pool_0601E518, r3 (out-of-TU: output element count address) */
     mov.w r13, @r3

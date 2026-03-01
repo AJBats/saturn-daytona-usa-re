@@ -10,18 +10,18 @@ obj_anim_advance:
     sts.l pr, @-r15
     mov #0x10, r13
     mov #0x0, r14
-.L_slot_loop:
-    bsr     .L_clear_slot_anim
+.L_06020DDA:
+    bsr     .L_06020DEE
     extu.b r14, r4
     add #0x1, r14
     extu.b r14, r2
     cmp/ge r13, r2
-    bf      .L_slot_loop
+    bf      .L_06020DDA
     lds.l @r15+, pr
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_clear_slot_anim:
+.L_06020DEE:
     extu.b r4, r4
     mov r4, r3
     shll2 r4

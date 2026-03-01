@@ -22,10 +22,10 @@ time_compare_display:
     mov.b r4, @r15
     extu.b r12, r10
     extu.b r12, r14
-.L_slot_loop:
+.L_06015B6A:
     extu.b r14, r3
     cmp/ge r9, r3
-    bt      .L_last_slot
+    bt      .L_06015BA6
     extu.b r14, r4
     mov r4, r3
     shll2 r4
@@ -40,7 +40,7 @@ time_compare_display:
     mov.l r2, @(48, r4)
     mov r2, r3
     cmp/pz r3
-    bf      .L_call_vtx_builder
+    bf      .L_06015BE0
     extu.b r14, r3
     mov r3, r2
     shll2 r3
@@ -51,12 +51,12 @@ time_compare_display:
     exts.w r3, r3
     add r13, r3
     mov.l r12, @(48, r3)
-    bra     .L_call_vtx_builder
+    bra     .L_06015BE0
     add #0x1, r10
-.L_last_slot:
+.L_06015BA6:
     extu.b r14, r0
     cmp/eq #0x7, r0
-    bf      .L_call_vtx_builder
+    bf      .L_06015BE0
     extu.b r14, r4
     mov r4, r3
     shll2 r4
@@ -71,7 +71,7 @@ time_compare_display:
     mov.l r2, @(48, r4)
     mov r2, r3
     cmp/pl r3
-    bt      .L_call_vtx_builder
+    bt      .L_06015BE0
     extu.b r14, r3
     mov r3, r2
     shll2 r3
@@ -83,17 +83,17 @@ time_compare_display:
     add r13, r3
     mov.l r12, @(48, r3)
     add #0x1, r10
-.L_call_vtx_builder:
+.L_06015BE0:
     mov.l   .L_pool_06015C28, r3
     jsr @r3
     extu.b r14, r4
     add #0x1, r14
     extu.b r14, r2
     cmp/ge r8, r2
-    bf      .L_slot_loop
+    bf      .L_06015B6A
     extu.b r10, r0
     cmp/eq #0x8, r0
-    bf      .L_return_normal
+    bf      .L_06015C0E
     mov.b @r15, r4
     extu.b r4, r4
     add #0x4, r15
@@ -107,7 +107,7 @@ time_compare_display:
     mov.l   .L_pool_06015C2C, r3
     jmp @r3
     mov.l @r15+, r14
-.L_return_normal:
+.L_06015C0E:
     add #0x4, r15
     lds.l @r15+, pr
     mov.l @r15+, r8

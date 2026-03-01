@@ -29,7 +29,7 @@ perspective_proj_3d:
     mov.l   .L_pool_06014828, r2
     mov.l r1, @r2
 
-.L_search_loop:
+.L_06014796:
     mov r9, r0
 
     mov.b @r5+, r1
@@ -37,32 +37,32 @@ perspective_proj_3d:
     extu.b r1, r1
     extu.b r2, r2
     cmp/eq r1, r2
-    bf/s    .L_compare_byte1
+    bf/s    .L_060147A8
     mov r7, r14
     add #0x1, r14
 
-.L_compare_byte1:
+.L_060147A8:
     mov.b @r0+, r3
     mov.b @r5+, r1
     extu.b r3, r3
     extu.b r1, r1
     cmp/eq r1, r3
-    bf      .L_compare_byte2
+    bf      .L_060147B6
     add #0x1, r14
 
-.L_compare_byte2:
+.L_060147B6:
     mov.b @r0, r2
     mov.b @r5+, r1
     extu.b r2, r2
     extu.b r1, r1
     cmp/eq r1, r2
-    bf      .L_check_full_match
+    bf      .L_060147C4
     add #0x1, r14
 
-.L_check_full_match:
+.L_060147C4:
     mov r14, r0
     cmp/eq #0x3, r0
-    bf      .L_check_sentinel
+    bf      .L_06014840
 
     mov r6, r3
     mov.l   .L_pool_0601482C, r2
@@ -73,17 +73,17 @@ perspective_proj_3d:
     mov #0x2, r3
     mov.l r1, @r0
     cmp/hs r3, r6
-    bt      .L_match_found_final
+    bt      .L_06014838
 
     cmp/hs r10, r6
-    bt/s    .L_clamp_index
+    bt/s    .L_060147E8
     mov r9, r14
-    bra     .L_compute_replacement
+    bra     .L_060147EA
     nop
-.L_clamp_index:
+.L_060147E8:
     mov r10, r6
 
-.L_compute_replacement:
+.L_060147EA:
     mov r6, r5
     mov.l   .L_pool_06014830, r0
     shll2 r5
@@ -105,7 +105,7 @@ perspective_proj_3d:
     add #0x1, r14
     mov.b @r5+, r2
     mov.b r2, @r14
-    bra     .L_check_sentinel
+    bra     .L_06014840
     extu.b r11, r13
 
     .global DAT_06014818
@@ -127,24 +127,24 @@ DAT_06014818:
 .L_pool_06014834:
     .4byte  sym_0605B4A8                /* replacement key table (3-byte entries) */
 
-.L_match_found_final:
+.L_06014838:
     extu.b r7, r13
     extu.w r8, r2
     mov.l   .L_pool_06014864, r3
     mov.w r2, @r3
 
-.L_check_sentinel:
+.L_06014840:
     mov.b @r5, r2
     extu.b r2, r2
     cmp/eq r11, r2
-    bf/s    .L_loop_continue_check
+    bf/s    .L_0601484C
     add #0x1, r6
     extu.b r7, r13
 
-.L_loop_continue_check:
+.L_0601484C:
     extu.b r13, r0
     cmp/eq #0x1, r0
-    bt      .L_search_loop
+    bt      .L_06014796
 
     mov.l r6, @r4
     mov r13, r0

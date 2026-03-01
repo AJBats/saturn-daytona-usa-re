@@ -8,31 +8,31 @@ input_proc_init:
     mov.l r14, @-r15
     mov.l r13, @-r15
     mov.l r11, @-r15
-    mov.l   .L_cd_hirq, r11
-    mov.l   .L_hirq_timeout_limit, r13
+    mov.l   .L_06035E24, r11
+    mov.l   .L_06035E28, r13
     mov #0x0, r14
     mov #-0x3, r1
     mov r14, r7
-.L_poll_hirq:
+.L_06035E10:
     mov.w @r11, r6
     extu.w r4, r2
     extu.w r6, r3
     and r2, r3
     tst r3, r3
-    bt      .L_not_yet
+    bt      .L_06035E2C
     mov r14, r1
-    bra     .L_poll_done
+    bra     .L_06035E32
     mov.w r6, @r5
     .2byte  0x00FF
-.L_cd_hirq:
+.L_06035E24:
     .4byte  0x25890008                  /* CD HIRQ — interrupt request register */
-.L_hirq_timeout_limit:
+.L_06035E28:
     .4byte  0x00240000                  /* [HIGH] timeout limit — 0x240000 iterations */
-.L_not_yet:
+.L_06035E2C:
     add #0x1, r7
     cmp/ge r13, r7
-    bf      .L_poll_hirq
-.L_poll_done:
+    bf      .L_06035E10
+.L_06035E32:
     mov r1, r0
     mov.l @r15+, r11
     mov.l @r15+, r13
@@ -50,28 +50,28 @@ input_proc_init:
 
     .global sym_06035E5E
 sym_06035E5E:
-    mov.l   .L_cd_cr1, r3
+    mov.l   .L_06035E80, r3
     mov.w @r3, r3
     mov.w r3, @r4
-    mov.l   .L_cd_cr2, r2
+    mov.l   .L_06035E84, r2
     mov.w @r2, r2
     mov r2, r0
     mov.w r0, @(2, r4)
-    mov.l   .L_cd_cr3, r3
+    mov.l   .L_06035E88, r3
     mov.w @r3, r3
     mov r3, r0
     mov.w r0, @(4, r4)
-    mov.l   .L_cd_cr4, r3
+    mov.l   .L_06035E8C, r3
     mov.w @r3, r3
     mov r3, r0
     rts
     mov.w r0, @(6, r4)
     .2byte  0xFFFF
-.L_cd_cr1:
+.L_06035E80:
     .4byte  0x25890018                  /* CD CR1 — command register 1 */
-.L_cd_cr2:
+.L_06035E84:
     .4byte  0x2589001C                  /* CD CR2 — command register 2 */
-.L_cd_cr3:
+.L_06035E88:
     .4byte  0x25890020                  /* CD CR3 — command register 3 */
-.L_cd_cr4:
+.L_06035E8C:
     .4byte  0x25890024                  /* CD CR4 — command register 4 */

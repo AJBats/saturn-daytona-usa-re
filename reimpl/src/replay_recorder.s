@@ -29,11 +29,11 @@ replay_recorder:
     extu.w r13, r3
     mov.l @(16, r15), r2
     cmp/ge r2, r3
-    bf/s    .L_car_loop_top
+    bf/s    .L_0601BC14
     mov r6, r14
-    bra     .L_epilogue
+    bra     .L_0601BDD2
     nop
-.L_car_loop_top:
+.L_0601BC14:
     extu.w r13, r7
     mov #0x60, r6
     extu.w r14, r5
@@ -67,7 +67,7 @@ replay_recorder:
     mov.b @r10, r3
     extu.b r3, r3
     tst r3, r3
-    bt      .L_skip_extra_pos_draw
+    bt      .L_0601BC6C
     mov r10, r7
     mov #0x60, r6
     extu.w r14, r5
@@ -78,7 +78,7 @@ replay_recorder:
     shll r5
     jsr @r12
     mov #0x8, r4
-.L_skip_extra_pos_draw:
+.L_0601BC6C:
     extu.w r13, r10
     mov r10, r3
     shll2 r10
@@ -108,16 +108,16 @@ replay_recorder:
     mov.b r3, @(r0, r15)
     extu.b r10, r3
     cmp/ge r2, r3
-    bf      .L_anim_idx_no_wrap
+    bf      .L_0601BCB0
     add #-0xC, r10
     mov #0x1, r2
     mov #0x1C, r0
     mov.b r2, @(r0, r15)
-.L_anim_idx_no_wrap:
+.L_0601BCB0:
     extu.b r10, r3
     mov #0xA, r2
     cmp/ge r2, r3
-    bra     .L_check_anim_high
+    bra     .L_0601BCE0
     nop
 
     .global DAT_0601bcba
@@ -141,11 +141,11 @@ _pool_car_data_table:
     .4byte  sym_0605DE64
 _pool_fn_anim_transform:
     .4byte  anim_frame_transform
-.L_check_anim_high:
-    bf      .L_anim_base_set
+.L_0601BCE0:
+    bf      .L_0601BCE6
     mov #0x2, r2
     mov.b r2, @r15
-.L_anim_base_set:
+.L_0601BCE6:
     extu.b r10, r7
     mov.b @r15, r3
     mov #0x1C, r0
@@ -195,11 +195,11 @@ _pool_fn_anim_transform:
     mov r0, r3
     extu.b r3, r3
     tst r3, r3
-    bt      .L_skip_overlay_a
+    bt      .L_0601BD8E
     mov.l   _pool_table_selector, r0
     mov.l @r0, r0
     cmp/eq #0x1, r0
-    bf      .L_use_table_b
+    bf      .L_0601BD74
     extu.w r14, r6
     mov.l @(4, r15), r7
     shll2 r6
@@ -209,7 +209,7 @@ _pool_fn_anim_transform:
     shll2 r6
     add #0x25, r6
     shll r6
-    bra     .L_draw_overlay_model
+    bra     .L_0601BD88
     mov.l @(4, r15), r5
 _pool_model_geom_table:
     .4byte  sym_06063750
@@ -217,7 +217,7 @@ _pool_overlay_data:
     .4byte  sym_0604A4B8
 _pool_table_selector:
     .4byte  sym_06078644
-.L_use_table_b:
+.L_0601BD74:
     mov.l @(8, r15), r7
     extu.w r14, r6
     mov.l @(4, r7), r7
@@ -228,11 +228,11 @@ _pool_table_selector:
     add #0x25, r6
     shll r6
     mov.l @(8, r15), r5
-.L_draw_overlay_model:
+.L_0601BD88:
     mov.l @r5, r5
     jsr @r11
     mov #0xC, r4
-.L_skip_overlay_a:
+.L_0601BD8E:
     extu.w r13, r3
     mov r3, r2
     shll2 r3
@@ -244,11 +244,11 @@ _pool_table_selector:
     mov r0, r3
     extu.b r3, r3
     tst r3, r3
-    bt      .L_skip_overlay_b
+    bt      .L_0601BDC2
     mov.l @(12, r15), r7
     extu.w r14, r6
     mov.l @(12, r15), r5
-    mov.l   .L_fp_half, r3
+    mov.l   .L_0601BDE8, r3
     mov.l @(4, r7), r7
     shll2 r6
     mov.l @r5, r5
@@ -259,16 +259,16 @@ _pool_table_selector:
     shll r6
     jsr @r11
     mov #0xC, r4
-.L_skip_overlay_b:
+.L_0601BDC2:
     add #0x1, r13
     mov.l @(16, r15), r2
     extu.w r13, r3
     cmp/ge r2, r3
-    bt/s    .L_epilogue
+    bt/s    .L_0601BDD2
     add #0x3, r14
-    bra     .L_car_loop_top
+    bra     .L_0601BC14
     nop
-.L_epilogue:
+.L_0601BDD2:
     add #0x24, r15
     lds.l @r15+, pr
     mov.l @r15+, r8
@@ -280,5 +280,5 @@ _pool_table_selector:
     rts
     mov.l @r15+, r14
     .2byte  0xFFFF
-.L_fp_half:
+.L_0601BDE8:
     .4byte  0x00008000

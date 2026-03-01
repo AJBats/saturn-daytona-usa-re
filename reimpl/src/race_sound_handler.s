@@ -10,9 +10,9 @@ race_sound_handler:
     mov.l r12, @-r15
     mov.l r11, @-r15
     sts.l pr, @-r15
-    mov.l   .L_sound_ram_0x02DBC, r11
+    mov.l   .L_06018F78, r11
     mov.w   DAT_06018f74, r12
-    mov.l   .L_smpc_sf, r13
+    mov.l   .L_06018F7C, r13
     mov #0x1, r14
 
 _poll_sf_idle_sndoff:
@@ -24,7 +24,7 @@ _poll_sf_idle_sndoff:
     extu.b r14, r2
     mov.b r2, @r13
     mov #0x7, r3
-    mov.l   .L_smpc_comreg_ct, r2
+    mov.l   .L_06018F80, r2
     mov.b r3, @r2
 
 _poll_sf_done_sndoff:
@@ -37,7 +37,7 @@ _poll_sf_done_sndoff:
     .byte   0xB1, 0xCE    /* bsr 0x060192B4 (external) */
     nop
     mov.w   DAT_06018f76, r2
-    mov.l   .L_scsp_reg_0x000, r3
+    mov.l   .L_06018F84, r3
     mov.w r2, @r3
 
     mov.l   .L_pool_06018F88, r3
@@ -56,7 +56,7 @@ _poll_sf_idle_sndon:
     extu.b r14, r2
     mov.b r2, @r13
     mov #0x6, r3
-    mov.l   .L_smpc_comreg_ct, r2
+    mov.l   .L_06018F80, r2
     mov.b r3, @r2
 
 _poll_sf_done_sndon:
@@ -100,13 +100,13 @@ DAT_06018f74:
 DAT_06018f76:
     .2byte  0x0200                      /* SCSP master control reset value */
 
-.L_sound_ram_0x02DBC:
+.L_06018F78:
     .4byte  0x25A02DBC                  /* Sound RAM +0x02DBC */
-.L_smpc_sf:
+.L_06018F7C:
     .4byte  0x20100063                  /* SMPC SF — status flag */
-.L_smpc_comreg_ct:
+.L_06018F80:
     .4byte  0x2010001F                  /* SMPC COMREG (cache-through) */
-.L_scsp_reg_0x000:
+.L_06018F84:
     .4byte  0x25B00400                  /* SCSP common register +0x000 */
 .L_pool_06018F88:
     .4byte  sym_06012E84                /* -> load_sounds_bin (load SOUNDS.BIN to Sound RAM) */

@@ -15,7 +15,7 @@ obj_state_serialize:
     jsr @r3
     mov #0x24, r0
     mov #0x0, r14
-.L_obj_loop:
+.L_06020D64:
     extu.b r14, r2
     mov r2, r3
     shll2 r2
@@ -28,7 +28,7 @@ obj_state_serialize:
     mov.b @r2, r2
     extu.b r2, r2
     tst r2, r2
-    bt      .L_skip_dispatch
+    bt      .L_06020D9C
     extu.b r14, r0
     mov r0, r3
     shll2 r0
@@ -44,11 +44,11 @@ obj_state_serialize:
     mov.l @(r0, r12), r3
     jsr @r3
     mov r14, r4
-.L_skip_dispatch:
+.L_06020D9C:
     add #0x1, r14
     extu.b r14, r2
     cmp/ge r11, r2
-    bf      .L_obj_loop
+    bf      .L_06020D64
     add #0x24, r15
     lds.l @r15+, pr
     mov.l @r15+, r11

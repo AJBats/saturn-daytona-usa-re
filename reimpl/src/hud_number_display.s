@@ -6,7 +6,7 @@
     .type hud_number_display, @function
 hud_number_display:
     sts.l pr, @-r15
-    .byte   0xD0, 0x05    /* mov.l .L_effect_dispatch_table, r0 */
+    .byte   0xD0, 0x05    /* mov.l .L_06028364, r0 */
     mov.l @(r0, r4), r2
     mov.l @r2, r2
     add r2, r5
@@ -18,5 +18,5 @@ hud_number_display:
     .byte   0xA0, 0x1B    /* bra 0x06028398 (external) */
     mov #0x0, r0
     .2byte  0x0000
-.L_effect_dispatch_table:
+.L_06028364:
     .4byte  sym_06028614                   /* [MEDIUM] effect dispatch table base */

@@ -34,23 +34,23 @@ sprite_anim_update:
     mov.w @r11, r11
     extu.w r11, r3
     tst r3, r3
-    bf      .L_has_input
-    bra     .L_check_slot_count
+    bf      .L_0602670C
+    bra     .L_06026824
     nop
-.L_has_input:
+.L_0602670C:
     mov.l   _pool_anim_state, r6
     extu.w r11, r3
     mov.w   DAT_0602672e, r2
     mov.l   _pool_palette_pending, r4
     and r2, r3
     tst r3, r3
-    bt/s    .L_check_accept
+    bt/s    .L_06026784
     mov #0x6, r5
     mov.w @r14, r0
     extu.w r0, r0
     cmp/eq #0x12, r0
-    bf      .L_not_first_option
-    bra     .L_set_pending_flag
+    bf      .L_06026750
+    bra     .L_06026752
     mov #0x1, r3
 _wpool_dlist_size:
     .2byte  0x0090                  /* display list size parameter */
@@ -82,9 +82,9 @@ _pool_anim_state:
     .4byte  sym_06061198            /* animation state byte */
 _pool_palette_pending:
     .4byte  sym_06089ED8            /* palette copy pending flag (word) */
-.L_not_first_option:
+.L_06026750:
     mov #0x0, r3
-.L_set_pending_flag:
+.L_06026752:
     mov r10, r7
     mov.w r3, @r4
     mov.b r5, @r6
@@ -108,13 +108,13 @@ _pool_palette_pending:
     mov.l   _pool_clear_text_b, r7
     jsr @r12
     mov #0x8, r4
-    bra     .L_epilogue_return
+    bra     .L_06026892
     nop
-.L_check_accept:
+.L_06026784:
     extu.w r11, r3
     mov.w   _wpool_accept_mask, r2
     cmp/eq r2, r3
-    bf      .L_check_scroll_up
+    bf      .L_060267C0
     mov #0x0, r2
     mov r10, r7
     mov.w r2, @r4
@@ -139,13 +139,13 @@ _pool_palette_pending:
     mov r9, r5
     jsr @r12
     mov #0x8, r4
-    bra     .L_epilogue_return
+    bra     .L_06026892
     nop
-.L_check_scroll_up:
+.L_060267C0:
     extu.w r11, r3
     mov.w   DAT_0602684a, r2
     cmp/eq r2, r3
-    bf      .L_check_scroll_down
+    bf      .L_060267E4
     mov r10, r7
     mov r13, r6
     mov.w @r14, r5
@@ -160,11 +160,11 @@ _pool_palette_pending:
     mov.w @r14, r3
     add #-0x2, r3
     mov.w r3, @r14
-.L_check_scroll_down:
+.L_060267E4:
     extu.w r11, r11
     mov.w   _wpool_scroll_down_mask, r2
     cmp/eq r2, r11
-    bf      .L_clamp_game_mode
+    bf      .L_06026808
     mov r10, r7
     mov r13, r6
     mov.w @r14, r5
@@ -179,28 +179,28 @@ _pool_palette_pending:
     mov.w @r14, r3
     add #0x2, r3
     mov.w r3, @r14
-.L_clamp_game_mode:
+.L_06026808:
     mov.w @r14, r2
     mov #0x14, r3
     extu.w r2, r2
     cmp/gt r3, r2
-    bf      .L_check_lower_bound
+    bf      .L_06026816
     mov #0x12, r3
     mov.w r3, @r14
-.L_check_lower_bound:
+.L_06026816:
     mov #0x12, r3
     mov.w @r14, r2
     extu.w r2, r2
     cmp/ge r3, r2
-    bt      .L_check_slot_count
+    bt      .L_06026824
     mov #0x14, r3
     mov.w r3, @r14
-.L_check_slot_count:
+.L_06026824:
     mov.l   _pool_slot_count, r0
     mov.w @r0, r0
     extu.w r0, r0
     tst #0x4, r0
-    bt      .L_tailcall_dlist_loader
+    bt      .L_0602685C
     mov r10, r7
     mov r13, r6
     mov.w @r14, r5
@@ -212,7 +212,7 @@ _pool_palette_pending:
     shll r5
     jsr @r12
     mov #0x8, r4
-    bra     .L_epilogue_return
+    bra     .L_06026892
     nop
 _wpool_accept_mask:
     .2byte  0x0100                  /* accept/start button exact match */
@@ -229,7 +229,7 @@ _pool_clear_text_b:
     .4byte  sym_06059144            /* blank text "      " (clears CANCEL slot) */
 _pool_slot_count:
     .4byte  sym_06089EC6            /* slot count (word) */
-.L_tailcall_dlist_loader:
+.L_0602685C:
     mov.l   _pool_dlist_entry, r2
     mov.l r2, @r15
     mov r2, r7
@@ -257,7 +257,7 @@ _pool_slot_count:
     mov.l   _pool_dlist_loader, r3
     jmp @r3
     mov.l @r15+, r14
-.L_epilogue_return:
+.L_06026892:
     add #0x4, r15
     lds.l @r15+, pr
     mov.l @r15+, r8

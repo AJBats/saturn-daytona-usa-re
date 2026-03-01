@@ -22,33 +22,33 @@ hud_anim_ctrl:
     .byte   0xD0, 0x16    /* mov.l .L_pool_06015502, r0 */
     mov.l @r0, r0
     tst r0, r0
-    bf      .L_set_post_race_state
+    bf      .L_060154B4
     .byte   0xD3, 0x15    /* mov.l .L_pool_06015506, r3 */
     mov.w   .L_wpool_060154EE, r0
     mov.l @r3, r3
     mov.l @(r0, r3), r2
     mov #0x3, r3
     cmp/ge r3, r2
-    bf      .L_check_display_status
-.L_set_post_race_state:
+    bf      .L_060154C2
+.L_060154B4:
     .byte   0xD2, 0x12    /* mov.l .L_pool_0601550A, r2 */
     mov.w @r2, r3
     mov.w   .L_wpool_060154F0, r2
     extu.w r3, r3
     and r2, r3
     tst r3, r3
-    bt      .L_use_display_init_state
-.L_check_display_status:
+    bt      .L_060154CC
+.L_060154C2:
     mov #0x16, r3
     .byte   0xD2, 0x0F    /* mov.l .L_pool_0601550E, r2 */
     mov.l r3, @r2
-    bra     .L_call_stub_and_exit
+    bra     .L_060154D2
     nop
-.L_use_display_init_state:
+.L_060154CC:
     mov #0x18, r3
     .byte   0xD2, 0x0D    /* mov.l .L_pool_0601550E, r2 */
     mov.l r3, @r2
-.L_call_stub_and_exit:
+.L_060154D2:
     .byte   0xD3, 0x0D    /* mov.l .L_pool_06015512, r3 */
     jsr @r3
     nop

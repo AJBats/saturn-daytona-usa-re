@@ -10,20 +10,20 @@ track_edge_validate:
     mov.l r12, @-r15
     sts.l pr, @-r15
     add #-0x10, r15
-    mov.l   .L_fn_checkpoint_validate, r12
-    mov.l   .L_car_state_base, r14
-    mov.w   .L_off_state_phase, r1
+    mov.l   .L_06041FA0, r12
+    mov.l   .L_06041FA4, r14
+    mov.w   .L_06041F92, r1
     mov.l @r14, r0
     mov.l @(r0, r1), r0
     cmp/eq #0x1, r0
-    bf/s    .L_state2_check
+    bf/s    .L_06041F60
     mov r4, r13
     mov.l @r14, r5
     mov.w   DAT_06041f94, r3
     mov.l @r14, r4
     mov.w   DAT_06041f96, r0
     add r3, r5
-    mov.l   .L_fn_road_edge, r3
+    mov.l   .L_06041FA8, r3
     jsr @r3
     mov.l @(r0, r4), r4
     mov r15, r4
@@ -41,15 +41,15 @@ track_edge_validate:
     mov.b r1, @(r0, r3)
     mov.l @r14, r4
     mov.w   DAT_06041f96, r0
-    mov.l   .L_fn_road_width, r3
+    mov.l   .L_06041FAC, r3
     jsr @r3
     mov.l @(r0, r4), r4
     mov r0, r4
     tst r4, r4
-    bt      .L_state1_revalidate
-    bra     .L_epilogue
+    bt      .L_06041F40
+    bra     .L_0604206E
     mov #0x1, r0
-.L_state1_revalidate:
+.L_06041F40:
     mov r15, r4
     jsr @r12
     add #0x4, r4
@@ -64,20 +64,20 @@ track_edge_validate:
     mov.l r3, @r13
     mov.l @r14, r2
     mov #0x2, r3
-    mov.w   .L_off_state_phase, r0
+    mov.w   .L_06041F92, r0
     mov.l r3, @(r0, r2)
-.L_state2_check:
+.L_06041F60:
     mov.l @r14, r0
-    mov.w   .L_off_state_phase, r1
+    mov.w   .L_06041F92, r1
     mov.l @(r0, r1), r0
     cmp/eq #0x2, r0
-    bf      .L_state3_check
+    bf      .L_06041FD4
     mov.l @r14, r7
     mov.w   DAT_06041f96, r0
     mov.l @r14, r6
     mov.l @r14, r5
     mov.l @r14, r4
-    mov.l   .L_fn_post_collision, r3
+    mov.l   .L_06041FB0, r3
     mov.l @(r0, r7), r7
     add #0xC, r0
     mov.l @(r0, r6), r6
@@ -88,14 +88,14 @@ track_edge_validate:
     mov.l @(r0, r4), r4
     mov r0, r4
     tst r4, r4
-    bt      .L_state2_advance
-    bra     .L_epilogue
+    bt      .L_06041FB4
+    bra     .L_0604206E
     mov #0x1, r0
 
     .global DAT_06041f90
 DAT_06041f90:
     .word 0x0338
-.L_off_state_phase:
+.L_06041F92:
     .2byte  0x0348                       /* car state offset: validation phase (0-5) */
 
     .global DAT_06041f94
@@ -107,17 +107,17 @@ DAT_06041f96:
     .2byte  0x034C                       /* car state offset: road parameters */
     .4byte  0x0000FFF7                   /* (adjacent pool data) */
     .4byte  smpc_cmd_helper_b            /* (adjacent pool: SMPC helper) */
-.L_fn_checkpoint_validate:
+.L_06041FA0:
     .4byte  ai_checkpoint_validate       /* AI checkpoint validation function */
-.L_car_state_base:
+.L_06041FA4:
     .4byte  sym_060A5400                 /* AI car state base (ptr to struct) */
-.L_fn_road_edge:
+.L_06041FA8:
     .4byte  track_road_edge_b            /* track road edge detection */
-.L_fn_road_width:
+.L_06041FAC:
     .4byte  track_road_width_main        /* track road width validation */
-.L_fn_post_collision:
+.L_06041FB0:
     .4byte  track_post_collision         /* post-collision track recovery */
-.L_state2_advance:
+.L_06041FB4:
     mov r15, r4
     jsr @r12
     add #0x4, r4
@@ -132,16 +132,16 @@ DAT_06041f96:
     mov.l r3, @r13
     mov.l @r14, r2
     mov #0x3, r3
-    mov.w   .L_off_state_phase_b, r0
+    mov.w   .L_0604207A, r0
     mov.l r3, @(r0, r2)
-.L_state3_check:
+.L_06041FD4:
     mov.l @r14, r0
-    mov.w   .L_off_state_phase_b, r1
+    mov.w   .L_0604207A, r1
     mov.l @(r0, r1), r0
     cmp/eq #0x3, r0
-    bf      .L_state4_check
+    bf      .L_06042004
     mov.w   DAT_0604207c, r2
-    mov.l   .L_fn_input_check, r3
+    mov.l   .L_06042080, r3
     jsr @r3
     mov.l r2, @r15
     mov r0, r4
@@ -149,53 +149,53 @@ DAT_06041f96:
     exts.w r4, r5
     and r3, r5
     tst r5, r5
-    bt      .L_state3_bit_clear
-    bra     .L_state3_test_flag
+    bt      .L_06041FF6
+    bra     .L_06041FF8
     mov #0x1, r5
-.L_state3_bit_clear:
+.L_06041FF6:
     mov #0x0, r5
-.L_state3_test_flag:
+.L_06041FF8:
     tst r5, r5
-    bt      .L_state4_check
+    bt      .L_06042004
     mov.l @r14, r3
     mov #0x4, r2
-    mov.w   .L_off_state_phase_b, r0
+    mov.w   .L_0604207A, r0
     mov.l r2, @(r0, r3)
-.L_state4_check:
+.L_06042004:
     mov.l @r14, r0
-    mov.w   .L_off_state_phase_b, r1
+    mov.w   .L_0604207A, r1
     mov.l @(r0, r1), r0
     cmp/eq #0x4, r0
-    bf      .L_state5_check
+    bf      .L_06042036
     mov.l @r14, r5
     mov.w   DAT_0604207e, r0
     mov.l @r14, r4
-    mov.l   .L_fn_road_width_b, r3
+    mov.l   .L_06042084, r3
     mov.l @(r0, r5), r5
     add #-0x10, r0
     jsr @r3
     mov.l @(r0, r4), r4
     mov r0, r4
     tst r4, r4
-    bt      .L_state4_advance
-    bra     .L_epilogue
+    bt      .L_06042028
+    bra     .L_0604206E
     mov #0x1, r0
-.L_state4_advance:
+.L_06042028:
     mov.l @r13, r3
     add #0x1, r3
     mov.l r3, @r13
     mov.l @r14, r2
     mov #0x5, r3
-    mov.w   .L_off_state_phase_b, r0
+    mov.w   .L_0604207A, r0
     mov.l r3, @(r0, r2)
-.L_state5_check:
+.L_06042036:
     mov.l @r14, r0
-    mov.w   .L_off_state_phase_b, r1
+    mov.w   .L_0604207A, r1
     mov.l @(r0, r1), r0
     cmp/eq #0x5, r0
-    bf      .L_read_final_state
+    bf      .L_06042068
     mov #0x40, r2
-    mov.l   .L_fn_input_check, r3
+    mov.l   .L_06042080, r3
     jsr @r3
     mov.l r2, @r15
     mov r0, r4
@@ -203,31 +203,31 @@ DAT_06041f96:
     exts.w r4, r5
     and r3, r5
     tst r5, r5
-    bt      .L_state5_bit_clear
-    bra     .L_state5_test_flag
+    bt      .L_06042058
+    bra     .L_0604205A
     mov #0x1, r5
-.L_state5_bit_clear:
+.L_06042058:
     mov #0x0, r5
-.L_state5_test_flag:
+.L_0604205A:
     mov r5, r0
     cmp/eq #0x1, r0
-    bf      .L_read_final_state
+    bf      .L_06042068
     mov.l @r14, r3
     mov #0x0, r2
-    mov.w   .L_off_state_phase_b, r0
+    mov.w   .L_0604207A, r0
     mov.l r2, @(r0, r3)
-.L_read_final_state:
+.L_06042068:
     mov.l @r14, r0
-    mov.w   .L_off_state_phase_b, r1
+    mov.w   .L_0604207A, r1
     mov.l @(r0, r1), r0
-.L_epilogue:
+.L_0604206E:
     add #0x10, r15
     lds.l @r15+, pr
     mov.l @r15+, r12
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_off_state_phase_b:
+.L_0604207A:
     .2byte  0x0348                       /* state phase offset (dup for PC-relative reach) */
 
     .global DAT_0604207c
@@ -237,7 +237,7 @@ DAT_0604207c:
     .global DAT_0604207e
 DAT_0604207e:
     .2byte  0x035C                       /* road data offset (dup for PC-relative reach) */
-.L_fn_input_check:
+.L_06042080:
     .4byte  sym_06035C4E                 /* input status check function */
-.L_fn_road_width_b:
+.L_06042084:
     .4byte  track_road_width_main        /* road width validation (dup for reach) */

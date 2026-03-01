@@ -6,7 +6,7 @@
     .type effect_init_stub, @function
 effect_init_stub:
     sts.l pr, @-r15
-    mov.l   .L_effect_dispatch_table, r0
+    mov.l   .L_06028380, r0
     mov.l @(r0, r4), r2
     mov.l @r2, r2
     add r2, r5
@@ -17,5 +17,5 @@ effect_init_stub:
     add #0x5, r1
     .byte   0xA0, 0x0C    /* bra 0x06028398 (external) */
     mov #0x0, r0
-.L_effect_dispatch_table:
+.L_06028380:
     .4byte  sym_06028614                   /* [MEDIUM] effect dispatch table base */

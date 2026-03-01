@@ -180,7 +180,7 @@ obj_template_init:
     add r3, r13
     add r7, r13
     mov.l   _pool_tile_data_4, r2
-    bra     .L_fill_template_4
+    bra     .L_060047EC
     nop
 
     .global DAT_060047d2
@@ -201,7 +201,7 @@ _pool_tile_data_3:
     .4byte  sym_06042D1A
 _pool_tile_data_4:
     .4byte  sym_06042DCA
-.L_fill_template_4:
+.L_060047EC:
     mov.l r2, @r13
     exts.w r1, r0
     mov.w r0, @(4, r13)
@@ -407,7 +407,7 @@ _pool_tile_data_4:
     mov.l r2, @r13
     mov.w   DAT_0600498c, r0
     mov.w r0, @(4, r13)
-    bra     .L_fill_template_10
+    bra     .L_060049A0
     nop
 
     .global DAT_0600498a
@@ -429,7 +429,7 @@ _pool_tile_data_8:
     .4byte  sym_06042E4E
 _pool_tile_data_10:
     .4byte  sym_0604304E
-.L_fill_template_10:
+.L_060049A0:
     exts.b r5, r0
     mov.b r0, @(6, r13)
     exts.b r5, r0

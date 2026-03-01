@@ -11,16 +11,16 @@ menu_header_render:
     mov.b @(r0, r3), r3
     extu.b r3, r3
     mov.l r3, @r5
-    .byte   0xD5, 0x04    /* mov.l .L_fp_max, r5 */
+    .byte   0xD5, 0x04    /* mov.l .L_0603B41C, r5 */
     mov.l @r15, r4
-    .byte   0xD3, 0x04    /* mov.l .L_fn_attract_init_setup, r3 */
+    .byte   0xD3, 0x04    /* mov.l .L_0603B420, r3 */
     jsr @r3
     mov.l @(4, r4), r4
     mov #0x0, r4
     add #0x4, r15
     .byte   0xA2, 0x90    /* bra 0x0603B93C (external) */
     lds.l @r15+, pr
-.L_fp_max:
+.L_0603B41C:
     .4byte  0x7FFFFFFF                  /* max positive 16.16 */
-.L_fn_attract_init_setup:
+.L_0603B420:
     .4byte  attract_init_setup             /* [HIGH] attract mode initialization/setup function */

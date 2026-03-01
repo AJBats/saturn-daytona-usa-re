@@ -10,70 +10,70 @@ cmd_validate_exec:
     mov.l r13, @-r15
     sts.l pr, @-r15
     cmp/ge r3, r4
-    bf/s    .L_cmd_id_out_of_range
+    bf/s    .L_0603AC30
     mov r6, r14
     mov #0x18, r3
     cmp/gt r3, r4
-    bf      .L_validate_alignment
-.L_cmd_id_out_of_range:
-    bra     .L_return
+    bf      .L_0603AC34
+.L_0603AC30:
+    bra     .L_0603ACE2
     mov #-0x5, r0
-.L_validate_alignment:
+.L_0603AC34:
     mov #0x3, r3
     and r5, r3
     tst r3, r3
-    bt      .L_check_params
-    bra     .L_return
+    bt      .L_0603AC40
+    bra     .L_0603ACE2
     mov #-0x15, r0
-.L_check_params:
+.L_0603AC40:
     tst r14, r14
-    bt      .L_store_buffer
+    bt      .L_0603AC62
     mov.l @r14, r6
     tst r6, r6
-    bt      .L_check_count
+    bt      .L_0603AC50
     mov r6, r0
     cmp/eq #0x1, r0
-    bf      .L_invalid_params
-.L_check_count:
+    bf      .L_0603AC5E
+.L_0603AC50:
     mov.l @(4, r14), r2
     mov #0x2, r3
     cmp/ge r3, r2
-    bf      .L_invalid_params
+    bf      .L_0603AC5E
     mov.l @(8, r14), r0
     tst r0, r0
-    bf      .L_store_buffer
-.L_invalid_params:
-    bra     .L_return
+    bf      .L_0603AC62
+.L_0603AC5E:
+    bra     .L_0603ACE2
     mov #-0x4, r0
-.L_store_buffer:
+.L_0603AC62:
     mov.l   .L_pool_0603ACA0, r3
     mov.l r5, @r3
     .byte   0xB5, 0x71    /* bsr 0x0603B74C (external) */
     nop
     tst r14, r14
-    bf      .L_has_params
-    bra     .L_call_error_check
+    bf      .L_0603AC72
+    bra     .L_0603AC74
     mov #0x1, r4
-.L_has_params:
+.L_0603AC72:
     mov #0x0, r4
-.L_call_error_check:
+.L_0603AC74:
     mov.l   .L_pool_0603ACA4, r3
     jsr @r3
     nop
     mov r0, r4
     tst r4, r4
-    bt      .L_check_status_bit
+    bt      .L_0603AC88
     lds.l @r15+, pr
     mov.l @r15+, r13
     .byte   0xA6, 0x5A    /* bra 0x0603B93C (external) */
     mov.l @r15+, r14
-.L_check_status_bit:
+.L_0603AC88:
     mov.l   .L_pool_0603ACA0, r0
     mov.w   DAT_0603ac9e, r1
     mov.l @r0, r0
     mov.l @(r0, r1), r0
     tst #0x1, r0
-    bf      .L_dispatch_command
+    bf      .L_0603ACA8
     mov #-0x2, r4
     lds.l @r15+, pr
     mov.l @r15+, r13
@@ -87,39 +87,39 @@ DAT_0603ac9e:
     .4byte  sym_060A4D14
 .L_pool_0603ACA4:
     .4byte  error_code_stub
-.L_dispatch_command:
+.L_0603ACA8:
     tst r14, r14
-    bf      .L_dispatch_with_params
+    bf      .L_0603ACC2
     .byte   0xD3, 0x20    /* mov.l .L_pool_0603AD30, r3 */
     jsr @r3
     nop
     mov r0, r13
     cmp/pz r13
-    bt      .L_finalize
+    bt      .L_0603ACD8
     mov #-0x7, r4
     lds.l @r15+, pr
     mov.l @r15+, r13
     .byte   0xA6, 0x3D    /* bra 0x0603B93C (external) */
     mov.l @r15+, r14
-.L_dispatch_with_params:
+.L_0603ACC2:
     .byte   0xD3, 0x1C    /* mov.l .L_pool_0603AD34, r3 */
     jsr @r3
     mov r14, r4
     mov r0, r13
     cmp/pl r13
-    bt      .L_finalize
+    bt      .L_0603ACD8
     mov #-0x1, r4
     lds.l @r15+, pr
     mov.l @r15+, r13
     .byte   0xA6, 0x32    /* bra 0x0603B93C (external) */
     mov.l @r15+, r14
-.L_finalize:
+.L_0603ACD8:
     .byte   0xB0, 0x68    /* bsr 0x0603ADAC (external) */
     mov r14, r4
     .byte   0xB6, 0x2E    /* bsr 0x0603B93C (external) */
     mov #0x0, r4
     mov r13, r0
-.L_return:
+.L_0603ACE2:
     lds.l @r15+, pr
     mov.l @r15+, r13
     rts

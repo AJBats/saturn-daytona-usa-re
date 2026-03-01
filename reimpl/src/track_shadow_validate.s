@@ -14,7 +14,7 @@ track_shadow_validate:
     mov.w   .L_wpool_0604211E, r1
     mov.l @(r0, r1), r0
     cmp/eq #0x1, r0
-    bf      .L_phase2_check
+    bf      .L_060420E0
     mov.l @r14, r5
     mov.w   DAT_06042120, r0
     mov.l @r14, r4
@@ -25,13 +25,13 @@ track_shadow_validate:
     mov.l @(r0, r4), r4
     mov r0, r4
     tst r4, r4
-    bt      .L_projection_ready
+    bt      .L_060420BC
     mov #0x1, r0
     add #0x10, r15
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-.L_projection_ready:
+.L_060420BC:
     mov r15, r4
     mov.l   .L_pool_0604212C, r3
     jsr @r3
@@ -50,12 +50,12 @@ track_shadow_validate:
     mov #0x2, r2
     mov.w   .L_wpool_0604211E, r0
     mov.l r2, @(r0, r3)
-.L_phase2_check:
+.L_060420E0:
     mov.l @r14, r0
     mov.w   .L_wpool_0604211E, r1
     mov.l @(r0, r1), r0
     cmp/eq #0x2, r0
-    bf      .L_return_check_type
+    bf      .L_06042110
     mov.w   DAT_06042122, r2
     mov.l   .L_pool_06042130, r3
     jsr @r3
@@ -65,19 +65,19 @@ track_shadow_validate:
     exts.w r4, r5
     and r3, r5
     tst r5, r5
-    bt      .L_csct_not_set
-    bra     .L_csct_set
+    bt      .L_06042102
+    bra     .L_06042104
     mov #0x1, r5
-.L_csct_not_set:
+.L_06042102:
     mov #0x0, r5
-.L_csct_set:
+.L_06042104:
     tst r5, r5
-    bt      .L_return_check_type
+    bt      .L_06042110
     mov.l @r14, r3
     mov #0x0, r2
     mov.w   .L_wpool_0604211E, r0
     mov.l r2, @(r0, r3)
-.L_return_check_type:
+.L_06042110:
     mov.l @r14, r0
     mov.w   .L_wpool_0604211E, r1
     mov.l @(r0, r1), r0

@@ -13,25 +13,25 @@ update_mode_dispatch:
     .byte   0xD2, 0x11    /* mov.l .L_pool_0600DFBB, r2 */
     mov.w r3, @r2
     .byte   0xD0, 0x11    /* mov.l .L_pool_0600DFBF, r0 */
-    bra     .L_dispatch
+    bra     .L_0600DFC0
     mov.b @r0, r0
 
-.L_mode_0:
+.L_0600DF7A:
     .byte   0xB2, 0x49    /* bsr 0x0600E410 (external) */
     nop
-    bra     .L_tail_exit
+    bra     .L_0600DFCC
     nop
 
-.L_mode_1:
+.L_0600DF82:
     .byte   0xB2, 0x7B    /* bsr 0x0600E47C (external) */
     nop
-    bra     .L_tail_exit
+    bra     .L_0600DFCC
     nop
 
-.L_mode_2:
+.L_0600DF8A:
     .byte   0xB2, 0x77    /* bsr 0x0600E47C (external) */
     nop
-    bra     .L_tail_exit
+    bra     .L_0600DFCC
     nop
 
     .2byte  0xFFFF
@@ -51,14 +51,14 @@ update_mode_dispatch:
 .L_pool_0600DFBF:
     .4byte  sym_06083261
 
-.L_dispatch:
+.L_0600DFC0:
     cmp/eq #0x0, r0
-    bt      .L_mode_0
+    bt      .L_0600DF7A
     cmp/eq #0x1, r0
-    bt      .L_mode_1
+    bt      .L_0600DF82
     cmp/eq #0x2, r0
-    bt      .L_mode_2
+    bt      .L_0600DF8A
 
-.L_tail_exit:
+.L_0600DFCC:
     .byte   0xA0, 0x78    /* bra 0x0600E0C0 (external) */
     lds.l @r15+, pr

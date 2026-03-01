@@ -25,34 +25,34 @@ dma_memory_transfer:
     mov #0x0, r6
     mov #0x0, r7
     mov #0x0, r10
-    mov.l   .L_mask_byte1, r12
+    mov.l   .L_060286B4, r12
     mov.l   .L_pool_060286B8, r14
 
-.L_next_element:
+.L_0602867E:
     shlr r7
     mov r7, r8
     mov.w   .L_wpool_060286AC, r9
     and r9, r8
     cmp/eq r8, r10
-    bf      .L_check_literal
+    bf      .L_06028692
     mov.b @r4+, r9
     extu.b r9, r9
     or r12, r9
     mov r9, r7
 
-.L_check_literal:
+.L_06028692:
     mov r7, r8
     mov #0x1, r13
     and r13, r8
     cmp/pl r8
-    bf      .L_backref
+    bf      .L_060286BC
     mov.b @r4+, r9
     extu.b r9, r9
     mov.b r9, @r5
     add #0x1, r5
     mov.b r9, @(r0, r6)
     add #0x1, r6
-    bra     .L_next_element
+    bra     .L_0602867E
     and r14, r6
 
 .L_wpool_060286AC:
@@ -62,13 +62,13 @@ dma_memory_transfer:
 .L_pool_060286B0:
     .4byte  sym_0602872C
 
-.L_mask_byte1:
+.L_060286B4:
     .4byte  0x0000FF00                  /* byte 1 mask */
 
 .L_pool_060286B8:
     .4byte  0x00000FFF
 
-.L_backref:
+.L_060286BC:
     mov.b @r4+, r1
     extu.b r1, r1
     mov.b @r4+, r2
@@ -76,7 +76,7 @@ dma_memory_transfer:
     mov r2, r8
     or r1, r8
     cmp/eq r8, r10
-    bt      .L_decompress_done
+    bt      .L_0602870A
     mov r2, r9
     mov.w   DAT_06028708, r13
     or r13, r9
@@ -94,7 +94,7 @@ dma_memory_transfer:
     mov r9, r2
     mov #0x0, r3
 
-.L_copy_match:
+.L_060286EC:
     mov r1, r8
     add r3, r8
     and r14, r8
@@ -106,15 +106,15 @@ dma_memory_transfer:
     and r14, r6
     add #0x1, r3
     cmp/gt r3, r2
-    bt      .L_copy_match
-    bra     .L_next_element
+    bt      .L_060286EC
+    bra     .L_0602867E
     nop
 
     .global DAT_06028708
 DAT_06028708:
     .2byte  0x00F0
 
-.L_decompress_done:
+.L_0602870A:
     mov.l @r15+, r0
     mov.l @r15+, r1
     mov.l @r15+, r2

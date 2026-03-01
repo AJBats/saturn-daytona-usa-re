@@ -10,16 +10,16 @@ timer_overflow_handler:
     mov.b @(r0, r4), r3
     extu.b r3, r3
     tst r3, r3
-    bf      .L_field_nonzero
+    bf      .L_0604073A
     mov r5, r0
     lds.l @r15+, macl
     lds.l @r15+, pr
     rts
     nop
-.L_field_nonzero:
+.L_0604073A:
     mov #0x1E, r0
     mov r5, r1
-    mov.l   .L_fn_signed_div, r3
+    mov.l   .L_06040774, r3
     mov.b @(r0, r4), r6
     extu.b r6, r6
     jsr @r3
@@ -32,7 +32,7 @@ timer_overflow_handler:
     extu.b r2, r2
     add r2, r3
     mul.l r3, r0
-    mov.l   .L_fn_signed_mod, r2
+    mov.l   .L_06040778, r2
     sts macl, r0
     mov r0, r3
     jsr @r2
@@ -44,7 +44,7 @@ timer_overflow_handler:
     nop
     .4byte  ai_section_check
     .4byte  sym_06040FEA
-.L_fn_signed_div:
+.L_06040774:
     .4byte  sym_06034FFC
-.L_fn_signed_mod:
+.L_06040778:
     .4byte  sym_06036BE4

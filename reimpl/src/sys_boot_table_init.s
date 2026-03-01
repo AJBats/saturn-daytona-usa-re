@@ -34,19 +34,19 @@ sys_boot_table_init:
     mov.l @r14, r5
     mov.w   DAT_0603b7a6, r3
     add r3, r5
-    bra     .L_loop_test
+    bra     .L_0603B794
     mov r13, r4
-.L_loop_clear_entry:
+.L_0603B78A:
     mov.w   DAT_0603b7a8, r0
     mov.l r13, @(r0, r5)
     mov.w   DAT_0603b7aa, r3
     add r3, r5
     add #0x1, r4
-.L_loop_test:
+.L_0603B794:
     mov.l @r14, r2
     mov.l @r2, r3
     cmp/ge r3, r4
-    bf      .L_loop_clear_entry
+    bf      .L_0603B78A
     lds.l @r15+, pr
     mov.l @r15+, r13
     rts

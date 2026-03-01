@@ -16,10 +16,10 @@ collision_detect_main:
     mov r14, r0
     mov.b @(3, r0), r0
     tst #0x8, r0
-    bf      .L_proximity_set
+    bf      .L_0600CE9C
     .byte   0xBF, 0x5F    /* bsr 0x0600CD40 (external) */
     nop
-    bra     .L_update_from_segment
+    bra     .L_0600CEA0
     nop
 
     .global DAT_0600ce86
@@ -45,10 +45,10 @@ DAT_0600ce8e:
     .4byte  sym_0607E940
     .4byte  sym_0607EA9C
     .4byte  atan2
-.L_proximity_set:
+.L_0600CE9C:
     .byte   0xBF, 0x98    /* bsr 0x0600CDD0 (external) */
     nop
-.L_update_from_segment:
+.L_0600CEA0:
     .byte   0x90, 0x4B    /* mov.w .L_wpool_0600CF3A, r0 */
     .byte   0xD3, 0x28    /* mov.l .L_pool_0600CF44, r3 */
     mov.l @(r0, r14), r2

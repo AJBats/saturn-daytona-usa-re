@@ -32,7 +32,7 @@ bg_obj_render_loop:
     mov.l r4, @(4, r15)
     mov.l   _pool_disp_table_ptr, r3
     mov.l r3, @r15
-.L_loop_top:
+.L_06013FFA:
     mov.l   _pool_fn_pre_transform, r3
     jsr @r3
     mov r14, r12
@@ -87,7 +87,7 @@ bg_obj_render_loop:
     mov.l r2, @r9
     mov.l @(4, r15), r3
     cmp/hs r3, r14
-    bf/s    .L_loop_top
+    bf/s    .L_06013FFA
     add #0x4, r11
     add #0x8, r15
     lds.l @r15+, macl

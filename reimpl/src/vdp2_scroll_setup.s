@@ -9,17 +9,17 @@ vdp2_scroll_setup:
     jsr @r13
     nop
     lds.l @r15+, pr
-    mov.l   .L_car_state_ptr, r0
+    mov.l   .L_0602E2C4, r0
     mov.l @r0, r0
-    mov.w   .L_scroll_coeff_offset, r5
+    mov.w   .L_0602E290, r5
     add r0, r5
-    mov.w   .L_scroll_clamp_lo, r3
+    mov.w   .L_0602E292, r3
     mov.l @r5, r1
-    mov.w   .L_scroll_clamp_hi, r4
+    mov.w   .L_0602E294, r4
     cmp/gt r3, r1
-    bt      .L_above_lower_bound
+    bt      .L_0602E2D0
     mov r3, r1
-    bra     .L_normalize
+    bra     .L_0602E2D6
     nop
 
     .global DAT_0602e284
@@ -39,11 +39,11 @@ DAT_0602e28a:
     .global DAT_0602e28e
 DAT_0602e28e:
     .word 0x0208
-.L_scroll_coeff_offset:
+.L_0602E290:
     .2byte  0x00E4                         /* struct offset +0xE4: scroll coefficient field [HIGH] */
-.L_scroll_clamp_lo:
+.L_0602E292:
     .2byte  0x0708                         /* scroll coefficient lower clamp bound [HIGH] */
-.L_scroll_clamp_hi:
+.L_0602E294:
     .2byte  0x2134                         /* scroll coefficient upper clamp bound [HIGH] */
     .2byte  0x0000                         /* padding */
     .4byte  sym_0607EAC8                   /* data table: VDP2 state struct */
@@ -57,15 +57,15 @@ DAT_0602e28e:
     .4byte  sym_06030EE0                   /* data table: per-car state update */
     .4byte  brake_force_apply              /* data table: brake force application */
     .4byte  accel_response                 /* data table: acceleration response */
-.L_car_state_ptr:
+.L_0602E2C4:
     .4byte  sym_0607E940                   /* pool: pointer to car state struct */
     .4byte  sym_0602D82A                   /* pool: display intensity curve fn */
     .4byte  sym_0602F17C                   /* pool: camera state machine fn */
-.L_above_lower_bound:
+.L_0602E2D0:
     cmp/gt r1, r4
-    bt      .L_normalize
+    bt      .L_0602E2D6
     mov r4, r1
-.L_normalize:
+.L_0602E2D6:
     sub r3, r1
     shll8 r1
     .byte   0x90, 0x0D    /* mov.w .L_wpool_0602E2F8, r0 */

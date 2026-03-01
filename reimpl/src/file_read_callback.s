@@ -18,7 +18,7 @@ file_read_callback:
     mov #0x20, r4
     mov.l   _pool_position_vec_a, r4
     mov.l r14, @r4
-    mov.l   .L_fp_eight, r2
+    mov.l   .L_06012160, r2
     mov.l r2, @(4, r4)
     shlr2 r2
     mov.l   _pool_fp_fifteen_point_two, r3
@@ -55,12 +55,12 @@ file_read_callback:
     mov.l   _pool_race_end_state, r0
     mov.l @r0, r0
     tst r0, r0
-    bf      .L_race_ended
+    bf      .L_0601213A
     mov #0x3C, r3
     mov.l r3, @r4
-    bra     .L_return
+    bra     .L_06012148
     mov.l r14, @r5
-.L_race_ended:
+.L_0601213A:
     mov #0x1, r2
     mov.l r2, @r4
     mov #0x14, r3
@@ -68,7 +68,7 @@ file_read_callback:
     lds.l @r15+, pr
     .byte   0xA0, 0xA1    /* bra 0x0601228A (external) */
     mov.l @r15+, r14
-.L_return:
+.L_06012148:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
@@ -84,7 +84,7 @@ _pool_fn_display_channel_b:
     .4byte  display_channel_b               /* display channel enable function */
 _pool_position_vec_a:
     .4byte  sym_060788B4                    /* position vector A: primary HUD element XYZ */
-.L_fp_eight:
+.L_06012160:
     .4byte  0x00080000                      /* 8.0 (16.16 fixed-point) */
 _pool_fp_fifteen_point_two:
     .4byte  0x000F3333                      /* ~15.2 (16.16 fixed-point) */
@@ -118,9 +118,9 @@ sym_06012198:
     .byte   0xD0, 0x21    /* mov.l .L_pool_06012220, r0 */
     mov.l @r0, r0
     tst r0, r0
-    bt      .L_race_active
+    bt      .L_060121A4
     .byte   0xA0, 0x73    /* bra 0x0601228A (external) */
     nop
-.L_race_active:
+.L_060121A4:
     .byte   0xA3, 0x1C    /* bra 0x060127E0 (external) */
     nop

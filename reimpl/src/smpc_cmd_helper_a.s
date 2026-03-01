@@ -18,14 +18,14 @@ smpc_cmd_helper_a:
 
     .global sym_06035C1C
 sym_06035C1C:
-    bra     .L_strlen_test
+    bra     .L_06035C22
     mov #0x0, r5
-.L_strlen_inc:
+.L_06035C20:
     add #0x1, r5
-.L_strlen_test:
+.L_06035C22:
     mov.b @r4+, r3
     tst r3, r3
-    bf      .L_strlen_inc
+    bf      .L_06035C20
     rts
     mov r5, r0
 

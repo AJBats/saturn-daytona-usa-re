@@ -35,9 +35,9 @@ geom_pipeline_coord:
     mov.l   _pool_demo_mode_flag, r0
     mov.l @r0, r0
     tst r0, r0
-    bt      .L_seg_table_selected
+    bt      .L_060173EC
     mov.l   _pool_seg_tbl_demo, r13
-.L_seg_table_selected:
+.L_060173EC:
     mov.w @(2, r13), r0
     mov.w @r13, r6
     mov.w   DAT_0601748c, r10
@@ -87,25 +87,25 @@ geom_pipeline_coord:
     mov.l   _pool_max_frame_idx, r5
     mov.l @r4, r4
     cmp/ge r5, r4
-    bf      .L_frame_clamped
+    bf      .L_06017452
     mov r5, r4
-.L_frame_clamped:
+.L_06017452:
     mov.l   _pool_race_event_flags, r0
     mov.l @r0, r0
     tst #0x1, r0
-    bf      .L_no_frame_multiply
+    bf      .L_06017464
     mov.l   _pool_frame_count_var, r4
     mov.l @r4, r4
     mov r4, r3
     shll2 r4
     add r3, r4
-.L_no_frame_multiply:
+.L_06017464:
     mov.l   _pool_fn_anim_xform, r3
     jsr @r3
     nop
     mov r0, r6
     mov #0x0, r4
-.L_vtx_copy_loop_a:
+.L_0601746E:
     extu.b r4, r2
     mov r15, r3
     extu.b r4, r5
@@ -118,7 +118,7 @@ geom_pipeline_coord:
     shll r0
     mov.w @(r0, r12), r0
     mov.w r0, @(4, r2)
-    bra     .L_vtx_copy_body_a
+    bra     .L_060174C8
     nop
 
     .global DAT_0601748a
@@ -166,7 +166,7 @@ _pool_frame_count_var:
     .4byte  sym_0607EBD0
 _pool_fn_anim_xform:
     .4byte  anim_frame_transform
-.L_vtx_copy_body_a:
+.L_060174C8:
     extu.b r4, r3
     mov r15, r2
     mov.b @r5, r1
@@ -182,7 +182,7 @@ _pool_fn_anim_xform:
     mov.w r0, @(16, r3)
     extu.b r4, r3
     cmp/ge r11, r3
-    bf      .L_vtx_copy_loop_a
+    bf      .L_0601746E
     mov r13, r7
     mov r15, r4
     add #0xC, r7
@@ -203,7 +203,7 @@ _pool_fn_anim_xform:
     mov.l @(4, r15), r4
     mov r0, r6
     mov #0x0, r4
-.L_vtx_copy_loop_b:
+.L_06017510:
     extu.b r4, r2
     mov r15, r3
     extu.b r4, r5
@@ -231,7 +231,7 @@ _pool_fn_anim_xform:
     mov.w r0, @(16, r3)
     extu.b r4, r3
     cmp/ge r11, r3
-    bf      .L_vtx_copy_loop_b
+    bf      .L_06017510
     mov r13, r7
     mov r15, r4
     add #0x18, r7
@@ -265,7 +265,7 @@ _pool_fn_anim_xform:
     mov.l   _pool_demo_flag_b, r1
     mov.l @r1, r1
     tst r1, r1
-    bt      .L_normal_seg_path
+    bt      .L_060175CC
     mov r13, r7
     add #0x1E, r7
     mov.l r7, @(4, r15)
@@ -284,7 +284,7 @@ _pool_fn_anim_xform:
     add r3, r5
     .byte   0xB0, 0xEA    /* bsr 0x06017784 (geom_computation) */
     mov.l @r4, r4
-    bra     .L_epilogue
+    bra     .L_06017714
     nop
 
     .global DAT_060175b4
@@ -310,7 +310,7 @@ _pool_fn_mem_store:
     .4byte  sym_06035C2C
 _pool_demo_flag_b:
     .4byte  sym_0607EAE0
-.L_normal_seg_path:
+.L_060175CC:
     mov.w   DAT_06017692, r9
     mov #0xB, r3
     mov.w   _wpool_seg_struct_ofs, r10
@@ -326,10 +326,10 @@ _pool_demo_flag_b:
     .word 0x0129
     or r1, r0
     tst r0, r0
-    bt      .L_no_seg_variant
-    bra     .L_seg_dispatch
+    bt      .L_0601769E
+    bra     .L_06017682
     mov.l @(8, r15), r0
-.L_dispatch_case_1:
+.L_060175F0:
     mov r13, r7
     mov r14, r5
     add #0x2A, r7
@@ -347,9 +347,9 @@ _pool_demo_flag_b:
     add r9, r5
     .byte   0xB0, 0xB9    /* bsr 0x06017784 (geom_computation) */
     mov.l @r4, r4
-    bra     .L_after_seg_geom
+    bra     .L_060176BE
     nop
-.L_dispatch_case_2:
+.L_06017616:
     mov r13, r7
     mov r14, r5
     add #0x2A, r7
@@ -366,9 +366,9 @@ _pool_demo_flag_b:
     extu.w r6, r6
     .byte   0xB0, 0xA7    /* bsr 0x06017784 (geom_computation) */
     mov.l @(r0, r14), r4
-    bra     .L_after_seg_geom
+    bra     .L_060176BE
     nop
-.L_dispatch_case_3:
+.L_0601763A:
     mov r13, r7
     mov r14, r5
     add #0x2A, r7
@@ -385,9 +385,9 @@ _pool_demo_flag_b:
     extu.w r6, r6
     .byte   0xB0, 0x95    /* bsr 0x06017784 (geom_computation) */
     mov.l @(r0, r14), r4
-    bra     .L_after_seg_geom
+    bra     .L_060176BE
     nop
-.L_dispatch_default:
+.L_0601765E:
     mov r13, r7
     mov r14, r5
     add #0x2A, r7
@@ -404,16 +404,16 @@ _pool_demo_flag_b:
     extu.w r6, r6
     .byte   0xB0, 0x83    /* bsr 0x06017784 (geom_computation) */
     mov.l @(r0, r14), r4
-    bra     .L_after_seg_geom
+    bra     .L_060176BE
     nop
-.L_seg_dispatch:
+.L_06017682:
     cmp/eq #0x1, r0
-    bt      .L_dispatch_case_1
+    bt      .L_060175F0
     cmp/eq #0x2, r0
-    bt      .L_dispatch_case_2
+    bt      .L_06017616
     cmp/eq #0x3, r0
-    bt      .L_dispatch_case_3
-    bra     .L_dispatch_default
+    bt      .L_0601763A
+    bra     .L_0601765E
     nop
 
     .global DAT_06017692
@@ -437,7 +437,7 @@ DAT_0601769a:
     .global DAT_0601769c
 DAT_0601769c:
     .2byte  0x0360
-.L_no_seg_variant:
+.L_0601769E:
     mov r13, r7
     mov r14, r5
     add #0x2A, r7
@@ -454,10 +454,10 @@ DAT_0601769c:
     extu.w r6, r6
     .byte   0xB0, 0x63    /* bsr 0x06017784 (geom_computation) */
     mov.l @(r0, r14), r4
-.L_after_seg_geom:
+.L_060176BE:
     mov.l @(4, r15), r0
     tst r0, r0
-    bt      .L_skip_opt_seg
+    bt      .L_060176EC
     mov r13, r7
     add #0x1E, r7
     mov.l r7, @r15
@@ -478,7 +478,7 @@ DAT_0601769c:
     add r14, r4
     .byte   0xB0, 0x4C    /* bsr 0x06017784 (geom_computation) */
     mov.l @r4, r4
-.L_skip_opt_seg:
+.L_060176EC:
     mov r13, r7
     add #0x24, r7
     mov.l r7, @r15
@@ -499,7 +499,7 @@ DAT_0601769c:
     add r14, r4
     .byte   0xB0, 0x38    /* bsr 0x06017784 (geom_computation) */
     mov.l @r4, r4
-.L_epilogue:
+.L_06017714:
     add #0x6C, r15
     lds.l @r15+, pr
     mov.l @r15+, r8

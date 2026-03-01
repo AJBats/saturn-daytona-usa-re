@@ -14,7 +14,7 @@ speed_unit_display:
     mov #0x0, r14
     mov.b r4, @r15
     extu.b r14, r5
-.L_slot_init_loop:
+.L_06015E38:
     extu.b r5, r4
     extu.b r13, r0
     mov r4, r3
@@ -32,7 +32,7 @@ speed_unit_display:
     mov.l r3, @(4, r4)
     mov.l r14, @(44, r4)
     cmp/ge r13, r2
-    bf/s    .L_slot_init_loop
+    bf/s    .L_06015E38
     mov.l r14, @(48, r4)
     mov.b @r15, r4
     extu.b r4, r4

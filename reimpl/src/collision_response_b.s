@@ -6,58 +6,58 @@
     .type collision_response_b, @function
 collision_response_b:
     sts.l pr, @-r15
-    mov.w   .L_off_gear_rotation, r1
+    mov.w   .L_0602F284, r1
     mov.l @(r0, r1), r3
     tst r3, r3
-    bt      .L_check_zone
+    bt      .L_0602F298
     cmp/pz r3
-    bf      .L_state_negative
+    bf      .L_0602F286
     add #-0x1, r3
-    bra     .L_check_zone
+    bra     .L_0602F298
     mov.l r3, @(r0, r1)
-.L_off_gear_rotation:
+.L_0602F284:
     .2byte  0x00D8                   /* car+0xD8: gear_rotation state */
-.L_state_negative:
+.L_0602F286:
     add #0x1, r3
     mov.l r3, @(r0, r1)
-    mov.w   .L_off_vel_rate, r2
-    mov.w   .L_off_drive_speed_a, r1
+    mov.w   .L_0602F2AC, r2
+    mov.w   .L_0602F2AE, r1
     mov.l @(r0, r2), r3
     mov.l r3, @(r0, r1)
-    mov.w   .L_off_force_aux, r4
+    mov.w   .L_0602F2B0, r4
     sub r4, r3
     mov.l r3, @(r0, r2)
-.L_check_zone:
-    mov.w   .L_off_zone_timer, r1
+.L_0602F298:
+    mov.w   .L_0602F2B2, r1
     mov.w @(r0, r1), r2
-    mov.w   .L_off_zone_target, r5
+    mov.w   .L_0602F2B4, r5
     mov.w @(r0, r5), r6
     cmp/eq r2, r6
-    bt      .L_clamp_and_store
+    bt      .L_0602F34C
     cmp/gt r2, r6
-    bt      .L_target_higher
-    bra     .L_target_lower
+    bt      .L_0602F2B6
+    bra     .L_0602F304
     nop
-.L_off_vel_rate:
+.L_0602F2AC:
     .2byte  0x00C4                   /* car+0xC4: velocity rate */
-.L_off_drive_speed_a:
+.L_0602F2AE:
     .2byte  0x00E0                   /* car+0xE0: drive wheel speed */
-.L_off_force_aux:
+.L_0602F2B0:
     .2byte  0x00FA                   /* car+0xFA: force auxiliary */
-.L_off_zone_timer:
+.L_0602F2B2:
     .2byte  0x00DC                   /* car+0xDC: zone timer (16-bit) */
-.L_off_zone_target:
+.L_0602F2B4:
     .2byte  0x00DE                   /* car+0xDE: zone target (16-bit) */
-.L_target_higher:
+.L_0602F2B6:
     mov #0x3, r3
     cmp/eq r3, r2
-    bt      .L_clamp_and_store
+    bt      .L_0602F34C
     mov.w r6, @(r0, r1)
-    mov.w   .L_off_drive_speed_b, r3
+    mov.w   .L_0602F2F8, r3
     mov.l @(r0, r3), r4
     shll16 r4
     mov r2, r5
-    mov.l   .L_gear_ratio_table, r8
+    mov.l   .L_0602F2FC, r8
     mov r8, r9
     shll2 r5
     add r5, r8
@@ -70,35 +70,35 @@ collision_response_b:
     sts macl, r4
     mov.l @r9, r5
     xtrct r7, r4
-    mov.l   .L_fn_fpdiv_a, r0
+    mov.l   .L_0602F300, r0
     jsr @r0
     nop
-    mov.w   .L_off_drive_speed_b, r3
+    mov.w   .L_0602F2F8, r3
     shlr16 r0
     mov r0, r4
     mov r14, r0
     mov.l r4, @(r0, r3)
     mov #0x5, r5
-    mov.w   .L_off_gear_rotation_b, r1
-    bra     .L_clamp_and_store
+    mov.w   .L_0602F2FA, r1
+    bra     .L_0602F34C
     mov.l r5, @(r0, r1)
-.L_off_drive_speed_b:
+.L_0602F2F8:
     .2byte  0x00E0                   /* car+0xE0: drive_speed (duplicate pool) */
-.L_off_gear_rotation_b:
+.L_0602F2FA:
     .2byte  0x00D8                   /* car+0xD8: gear_rotation (duplicate pool) */
-.L_gear_ratio_table:
+.L_0602F2FC:
     .4byte  sym_060477BC             /* gear ratio lookup table */
-.L_fn_fpdiv_a:
+.L_0602F300:
     .4byte  fpdiv_setup              /* 16.16 fixed-point divide */
-.L_target_lower:
+.L_0602F304:
     tst r2, r2
-    bt      .L_clamp_and_store
+    bt      .L_0602F34C
     mov.w r6, @(r0, r1)
-    mov.w   .L_off_drive_speed_c, r3
+    mov.w   .L_0602F388, r3
     mov.l @(r0, r3), r4
     shll16 r4
     mov r2, r5
-    mov.l   .L_gear_ratio_table_b, r8
+    mov.l   .L_0602F39C, r8
     mov r8, r9
     shll2 r5
     add r5, r8
@@ -111,43 +111,43 @@ collision_response_b:
     sts macl, r4
     mov.l @r9, r5
     xtrct r7, r4
-    mov.l   .L_fn_fpdiv_b, r0
+    mov.l   .L_0602F3A0, r0
     jsr @r0
     nop
-    mov.w   .L_off_drive_speed_c, r3
+    mov.w   .L_0602F388, r3
     shlr16 r0
     mov r0, r4
     mov r14, r0
     mov.l r4, @(r0, r3)
-    mov.w   .L_off_extended_speed, r5
-    mov.w   .L_off_vel_rate_c, r1
+    mov.w   .L_0602F38A, r5
+    mov.w   .L_0602F38C, r1
     add r5, r4
     mov.l r4, @(r0, r1)
     mov #0x5, r4
     neg r4, r4
-    mov.w   .L_off_gear_rotation_c, r3
+    mov.w   .L_0602F38E, r3
     mov.l r4, @(r0, r3)
-.L_clamp_and_store:
-    mov.w   .L_max_drive_speed, r3
-    mov.w   .L_off_drive_speed_c, r1
+.L_0602F34C:
+    mov.w   .L_0602F390, r3
+    mov.w   .L_0602F388, r1
     mov.l @(r0, r1), r4
     cmp/gt r4, r3
-    bt      .L_compute_delta
+    bt      .L_0602F360
     mov #-0x1, r4
     extu.b r4, r4
-    mov.w   .L_off_ext_check, r5
+    mov.w   .L_0602F392, r5
     mov.l r3, @(r0, r1)
     mov.l r4, @(r0, r5)
-.L_compute_delta:
-    mov.w   .L_off_projected_b, r6
-    mov.w   .L_off_drag_flag, r2
+.L_0602F360:
+    mov.w   .L_0602F394, r6
+    mov.w   .L_0602F396, r2
     mov.l @(r0, r6), r3
     mov.l @(r0, r1), r4
     mov.l @(r0, r2), r5
     add r5, r4
     sub r3, r4
-    mov.w   .L_off_zone_timer_b, r1
-    mov.l   .L_clamp_limit_table, r7
+    mov.w   .L_0602F398, r1
+    mov.l   .L_0602F3A4, r7
     mov.w @(r0, r1), r2
     shll2 r2
     shll r2
@@ -155,55 +155,55 @@ collision_response_b:
     mov.l @r7, r8
     mov.l @(4, r7), r9
     cmp/gt r8, r4
-    bt      .L_check_upper_bound
+    bt      .L_0602F3A8
     mov r8, r4
-    bra     .L_apply_delta
+    bra     .L_0602F3AE
     nop
-.L_off_drive_speed_c:
+.L_0602F388:
     .2byte  0x00E0                   /* car+0xE0: drive_speed (duplicate pool) */
-.L_off_extended_speed:
+.L_0602F38A:
     .2byte  0x04E2                   /* extended speed bias constant */
-.L_off_vel_rate_c:
+.L_0602F38C:
     .2byte  0x00C4                   /* car+0xC4: vel_rate (duplicate pool) */
-.L_off_gear_rotation_c:
+.L_0602F38E:
     .2byte  0x00D8                   /* car+0xD8: gear_rotation (duplicate pool) */
-.L_max_drive_speed:
+.L_0602F390:
     .2byte  0x2134                   /* maximum drive wheel speed */
-.L_off_ext_check:
+.L_0602F392:
     .2byte  0x0084                   /* car+0x84: ext_check / overflow flag */
-.L_off_projected_b:
+.L_0602F394:
     .2byte  0x00E4                   /* car+0xE4: projected value B */
-.L_off_drag_flag:
+.L_0602F396:
     .2byte  0x00C0                   /* car+0xC0: drag override flag */
-.L_off_zone_timer_b:
+.L_0602F398:
     .2byte  0x00DC                   /* car+0xDC: zone_timer (duplicate pool) */
     .2byte  0x0000                   /* alignment padding */
-.L_gear_ratio_table_b:
+.L_0602F39C:
     .4byte  sym_060477BC             /* gear ratio table (duplicate pool) */
-.L_fn_fpdiv_b:
+.L_0602F3A0:
     .4byte  fpdiv_setup              /* 16.16 fixed-point divide (duplicate pool) */
-.L_clamp_limit_table:
+.L_0602F3A4:
     .4byte  sym_0602F3CC             /* collision clamp limit table */
-.L_check_upper_bound:
+.L_0602F3A8:
     cmp/ge r4, r9
-    bt      .L_apply_delta
+    bt      .L_0602F3AE
     mov r9, r4
-.L_apply_delta:
+.L_0602F3AE:
     add r4, r3
     mov #0x0, r8
-    mov.w   .L_max_drive_speed_b, r9
+    mov.w   .L_0602F3BE, r9
     cmp/gt r8, r3
-    bt      .L_check_max_clamp
+    bt      .L_0602F3C0
     mov r8, r3
-    bra     .L_store_and_return
+    bra     .L_0602F3C6
     nop
-.L_max_drive_speed_b:
+.L_0602F3BE:
     .2byte  0x2134                   /* max drive speed (duplicate pool) */
-.L_check_max_clamp:
+.L_0602F3C0:
     cmp/ge r3, r9
-    bt      .L_store_and_return
+    bt      .L_0602F3C6
     mov r9, r3
-.L_store_and_return:
+.L_0602F3C6:
     lds.l @r15+, pr
     rts
     mov.l r3, @(r0, r6)
@@ -230,9 +230,9 @@ sym_0602F3CC:
     .global sym_0602F3EC
 sym_0602F3EC:
     mov.l @(12, r0), r2
-    mov.l   .L_damage_scale_factor, r3
+    mov.l   .L_0602F40C, r3
     dmuls.l r2, r3
-    mov.l   .L_max_raw_damage, r4
+    mov.l   .L_0602F410, r4
     sts mach, r3
     sts macl, r2
     xtrct r3, r2
@@ -240,46 +240,46 @@ sym_0602F3EC:
     exts.w r2, r2
     mov #0x0, r3
     cmp/gt r3, r2
-    bt      .L_check_max_raw
+    bt      .L_0602F414
     mov r3, r2
-    bra     .L_store_and_attenuate
+    bra     .L_0602F41A
     nop
     .2byte  0x0000                   /* alignment padding */
-.L_damage_scale_factor:
+.L_0602F40C:
     .4byte  0x00480000               /* damage scale: 72.0 in 16.16 */
-.L_max_raw_damage:
+.L_0602F410:
     .4byte  0x00000158               /* max raw damage = 344 */
-.L_check_max_raw:
+.L_0602F414:
     cmp/gt r2, r4
-    bt      .L_store_and_attenuate
+    bt      .L_0602F41A
     mov r4, r2
-.L_store_and_attenuate:
+.L_0602F41A:
     mov.l r2, @(8, r0)
     shll8 r2
     shlr2 r2
-    mov.l   .L_attn_floor, r4
+    mov.l   .L_0602F42C, r4
     cmp/ge r4, r2
-    bt      .L_check_mid_clamp
-    bra     .L_apply_attenuation
+    bt      .L_0602F430
+    bra     .L_0602F448
     mov r4, r2
     .2byte  0x0000                   /* alignment padding */
-.L_attn_floor:
+.L_0602F42C:
     .4byte  0x00000000               /* attenuation floor = 0 */
-.L_check_mid_clamp:
-    mov.l   .L_attn_mid_max, r4
+.L_0602F430:
+    mov.l   .L_0602F43C, r4
     cmp/ge r2, r4
-    bt      .L_check_fine_clamp
-    bra     .L_apply_attenuation
+    bt      .L_0602F440
+    bra     .L_0602F448
     mov r4, r2
     .2byte  0x0000                   /* alignment padding */
-.L_attn_mid_max:
+.L_0602F43C:
     .4byte  0x00002AAA               /* mid-stage max = 10922 (1/3 of 0x7FFF) */
-.L_check_fine_clamp:
-    mov.l   .L_attn_fine_max, r4
+.L_0602F440:
+    mov.l   .L_0602F46C, r4
     cmp/ge r2, r4
-    bt      .L_apply_attenuation
+    bt      .L_0602F448
     mov r4, r2
-.L_apply_attenuation:
+.L_0602F448:
     mov.w   DAT_0602f464, r3
     mov.l @(r0, r3), r4
     sub r2, r4
@@ -287,10 +287,10 @@ sym_0602F3EC:
     mov.w   DAT_0602f466, r3
     mov.l @(r0, r3), r4
     tst r4, r4
-    bt      .L_apply_speed_copy
-    mov.l   .L_drag_attn_boost, r2
-.L_apply_speed_copy:
-    mov.w   .L_off_speed_copy, r1
+    bt      .L_0602F45A
+    mov.l   .L_0602F470, r2
+.L_0602F45A:
+    mov.w   .L_0602F468, r1
     mov.l @(r0, r1), r4
     sub r2, r4
     rts
@@ -303,12 +303,12 @@ DAT_0602f464:
     .global DAT_0602f466
 DAT_0602f466:
     .2byte  0x00C0                   /* car+0xC0: drag override flag */
-.L_off_speed_copy:
+.L_0602F468:
     .2byte  0x0050                   /* car+0x50: speed copy */
     .2byte  0x0000                   /* alignment padding */
-.L_attn_fine_max:
+.L_0602F46C:
     .4byte  0x00000AAA               /* fine-stage max = 2730 (1/10 of 0x7FFF) */
-.L_drag_attn_boost:
+.L_0602F470:
     .4byte  0x00002AAA               /* boosted attn when drag active */
 
     .global sym_0602F474
@@ -318,65 +318,65 @@ sym_0602F474:
     mov.w   DAT_0602f4aa, r1
     mov.w @(r0, r1), r3
     tst r3, r3
-    bt      .L_lookup_intensity
+    bt      .L_0602F49C
     mov #0x1, r6
     sub r6, r3
     mov.w r3, @(r0, r1)
     cmp/eq r5, r3
-    bt      .L_level_1
+    bt      .L_0602F49A
     cmp/eq r6, r3
-    bt      .L_level_2
+    bt      .L_0602F498
     mov #0x2, r7
     cmp/eq r7, r3
-    bt      .L_level_3
+    bt      .L_0602F496
     add #0x1, r5
-.L_level_3:
+.L_0602F496:
     add #0x1, r5
-.L_level_2:
+.L_0602F498:
     add #0x1, r5
-.L_level_1:
+.L_0602F49A:
     add #0x1, r5
-.L_lookup_intensity:
-    mov.l   .L_intensity_table, r6
+.L_0602F49C:
+    mov.l   .L_0602F4B0, r6
     shll2 r5
     add r5, r6
     mov.l @r6, r3
-    mov.w   .L_off_light_output, r1
+    mov.w   .L_0602F4AC, r1
     rts
     mov.l r3, @(r0, r1)
 
     .global DAT_0602f4aa
 DAT_0602f4aa:
     .2byte  0x00D4                   /* car+0xD4: mode field (countdown timer) */
-.L_off_light_output:
+.L_0602F4AC:
     .2byte  0x0114                   /* car+0x114: lighting output value */
     .2byte  0x0000                   /* alignment padding */
-.L_intensity_table:
+.L_0602F4B0:
     .4byte  sym_060477D8             /* 4-entry intensity lookup table */
 
     .global sym_0602F4B4
 sym_0602F4B4:
-    mov.l   .L_demo_mode_flag, r1
+    mov.l   .L_0602F4C4, r1
     mov.l @r1, r3
     mov #0x1, r6
     tst r3, r3
-    bt      .L_fog_active
+    bt      .L_0602F4C8
     rts
     nop
     .2byte  0x0000                   /* alignment padding */
-.L_demo_mode_flag:
+.L_0602F4C4:
     .4byte  sym_0607EAE0             /* demo_mode_flag (nonzero = skip) */
-.L_fog_active:
+.L_0602F4C8:
     mov.w   DAT_0602f51a, r1
     mov.w @(r0, r1), r3
     cmp/pl r3
-    bf      .L_load_car_positions
+    bf      .L_0602F4D4
     sub r6, r3
     mov.w r3, @(r0, r1)
-.L_load_car_positions:
-    mov.l   .L_car_iteration_base, r5
+.L_0602F4D4:
+    mov.l   .L_0602F520, r5
     mov.l @r5, r5
-    mov.l   .L_car_ptr_target, r3
+    mov.l   .L_0602F524, r3
     mov.l @r3, r6
     mov.w   DAT_0602f51c, r2
     mov.w   DAT_0602f51e, r4
@@ -397,19 +397,19 @@ sym_0602F4B4:
     mov r7, r1
     sub r9, r1
     cmp/pl r1
-    bt      .L_dx_positive
+    bt      .L_0602F506
     neg r1, r1
-.L_dx_positive:
+.L_0602F506:
     mov r8, r4
     sub r10, r4
     cmp/pl r4
-    bt      .L_dz_positive
+    bt      .L_0602F510
     neg r4, r4
-.L_dz_positive:
+.L_0602F510:
     cmp/ge r4, r1
-    bt      .L_dx_dominant
+    bt      .L_0602F528
     shar r1
-    bra     .L_distance_computed
+    bra     .L_0602F52C
     add r1, r4
 
     .global DAT_0602f51a
@@ -423,14 +423,14 @@ DAT_0602f51c:
     .global DAT_0602f51e
 DAT_0602f51e:
     .2byte  0x0018                   /* car+0x18: Z position */
-.L_car_iteration_base:
+.L_0602F520:
     .4byte  sym_0607EA98             /* half car count for iteration */
-.L_car_ptr_target:
+.L_0602F524:
     .4byte  sym_0607E948             /* target car struct pointer */
-.L_dx_dominant:
+.L_0602F528:
     shar r4
     add r1, r4
-.L_distance_computed:
+.L_0602F52C:
     mov r4, r2
     mov.l @r15+, r5
     mov.l @r15+, r4

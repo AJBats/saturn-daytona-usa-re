@@ -108,14 +108,14 @@ sym_0600338C:
     mov.l r5, @r15
     and r3, r4
     tst r4, r4
-    bt      .L_bit2_clear
+    bt      .L_060033CA
     .byte   0xD3, 0x1D    /* mov.l _pool_adv_display_status, r3 */
     mov.w @r3, r2
     extu.w r2, r2
     mov.w   _w_interlace_mask, r3
     and r3, r2
     tst r2, r2
-    bf      .L_interlace_active
+    bf      .L_060033E2
     .byte   0xD3, 0x1B    /* mov.l _pool_slot_struct_base, r3 */
     mov.l r3, @(4, r15)
     mov r3, r7
@@ -134,7 +134,7 @@ sym_0600338C:
     .byte   0xD3, 0x14    /* mov.l _pool_fn_dlist_loader, r3 */
     jmp @r3
     add #0x8, r15
-.L_bit2_clear:
+.L_060033CA:
     mov #0x60, r6
     mov.l @r15, r5
     .byte   0xD7, 0x13    /* mov.l _pool_static_elem_data, r7 */
@@ -147,7 +147,7 @@ sym_0600338C:
     .byte   0xD3, 0x10    /* mov.l _pool_fn_geom_dispatch, r3 */
     jmp @r3
     add #0x8, r15
-.L_interlace_active:
+.L_060033E2:
     rts
     add #0x8, r15
 
@@ -156,14 +156,14 @@ sym_060033E6:
     .byte   0xD0, 0x0F    /* mov.l _pool_env_flags, r0 */
     mov.l @r0, r0
     tst #0x4, r0
-    bt      .L_no_replay
+    bt      .L_060033FA
     .byte   0xD7, 0x0E    /* mov.l _pool_replay_string, r7 */
     mov.w   _w_text_size, r6
     mov.w   _w_text_vram_dest, r5
     .byte   0xD3, 0x0A    /* mov.l _pool_fn_geom_dispatch, r3 */
     jmp @r3
     mov #0x8, r4
-.L_no_replay:
+.L_060033FA:
     .byte   0xD7, 0x0C    /* mov.l _pool_alt_text_data, r7 */
     mov.w   _w_text_size, r6
     mov.w   _w_text_vram_dest, r5
@@ -211,7 +211,7 @@ sym_06003430:
     .byte   0xD3, 0x1B    /* mov.l .L_pool_060034A0, r3 */
     mov.b @r3, r3
     tst r3, r3
-    bf      .L_variant_b
+    bf      .L_06003450
     .byte   0xD3, 0x1A    /* mov.l .L_pool_060034A4, r3 */
     mov.l r3, @r15
     mov r3, r7
@@ -223,7 +223,7 @@ sym_06003430:
     .byte   0xD3, 0x17    /* mov.l .L_pool_060034A8, r3 */
     jmp @r3
     add #0x4, r15
-.L_variant_b:
+.L_06003450:
     .byte   0xD2, 0x16    /* mov.l .L_pool_060034AC, r2 */
     mov.l r2, @r15
     mov r2, r7

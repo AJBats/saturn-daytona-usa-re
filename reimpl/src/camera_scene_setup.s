@@ -14,17 +14,17 @@ camera_scene_setup:
     mov.l r8, @-r15
     sts.l pr, @-r15
     mov r4, r13
-    .byte   0xD8, 0x15    /* mov.l .L_sprite_index_table, r8 */
-    .byte   0xD9, 0x17    /* mov.l .L_rot_chain_b_params, r9 */
-    .byte   0xDA, 0x10    /* mov.l .L_fn_chain_b, r10 */
-    .byte   0xDB, 0x17    /* mov.l .L_rot_chain_a_params, r11 */
-    .byte   0xDC, 0x0B    /* mov.l .L_fn_chain_a, r12 */
-    .byte   0xD0, 0x17    /* mov.l .L_race_end_state, r0 */
-    bra     .L_dispatch_state
+    .byte   0xD8, 0x15    /* mov.l .L_0600A534, r8 */
+    .byte   0xD9, 0x17    /* mov.l .L_0600A53C, r9 */
+    .byte   0xDA, 0x10    /* mov.l .L_0600A524, r10 */
+    .byte   0xDB, 0x17    /* mov.l .L_0600A540, r11 */
+    .byte   0xDC, 0x0B    /* mov.l .L_0600A514, r12 */
+    .byte   0xD0, 0x17    /* mov.l .L_0600A544, r0 */
+    bra     .L_0600A594
     mov.l @r0, r0
-.L_state_0:
+.L_0600A4EC:
     mov r13, r14
-    .byte   0xD4, 0x16    /* mov.l .L_s0_chain_a_src, r4 */
+    .byte   0xD4, 0x16    /* mov.l .L_0600A548, r4 */
     shll2 r14
     add r14, r11
     add r14, r4
@@ -35,36 +35,36 @@ camera_scene_setup:
     mov.l @r9, r6
     mov r8, r5
     add #0x54, r5
-    .byte   0xD4, 0x11    /* mov.l .L_s0_chain_b_model, r4 */
-    bra     .L_chain_b_call
+    .byte   0xD4, 0x11    /* mov.l .L_0600A54C, r4 */
+    bra     .L_0600A58A
     mov.w @r5, r5
     .2byte  0xFFFF
     .4byte  sym_060628C8
     .4byte  sym_06062874
-.L_fn_chain_a:
+.L_0600A514:
     .4byte  sym_06031D8C
     .4byte  sym_0606291C
     .4byte  sym_06089E9E
     .4byte  sym_06062820
-.L_fn_chain_b:
+.L_0600A524:
     .4byte  sym_06031A28
     .4byte  sym_060621DC
     .4byte  sym_06062130
     .4byte  sym_06062184
-.L_sprite_index_table:
+.L_0600A534:
     .4byte  sym_06089E44
     .4byte  sym_060620DC
-.L_rot_chain_b_params:
+.L_0600A53C:
     .4byte  sym_060634DC
-.L_rot_chain_a_params:
+.L_0600A540:
     .4byte  sym_060634F8
-.L_race_end_state:
+.L_0600A544:
     .4byte  sym_0607EAD8
-.L_s0_chain_a_src:
+.L_0600A548:
     .4byte  sym_06063488
-.L_s0_chain_b_model:
+.L_0600A54C:
     .4byte  sym_06063434
-.L_state_1:
+.L_0600A550:
     mov r13, r14
     .byte   0xD4, 0x25    /* mov.l .L_s1_chain_a_src, r4 */
     shll2 r14
@@ -78,9 +78,9 @@ camera_scene_setup:
     mov r8, r5
     add #0x54, r5
     .byte   0xD4, 0x20    /* mov.l .L_s1_chain_b_model, r4 */
-    bra     .L_chain_b_call
+    bra     .L_0600A58A
     mov.w @r5, r5
-.L_state_2:
+.L_0600A56E:
     mov r13, r14
     .byte   0xD4, 0x1F    /* mov.l .L_s2_chain_a_src, r4 */
     shll2 r14
@@ -95,20 +95,20 @@ camera_scene_setup:
     add #0x54, r5
     mov.w @r5, r5
     .byte   0xD4, 0x1A    /* mov.l .L_s2_chain_b_model, r4 */
-.L_chain_b_call:
+.L_0600A58A:
     add r14, r4
     jsr @r10
     mov.l @r4, r4
-    bra     .L_epilogue
+    bra     .L_0600A5A0
     nop
-.L_dispatch_state:
+.L_0600A594:
     cmp/eq #0x0, r0
-    bt      .L_state_0
+    bt      .L_0600A4EC
     cmp/eq #0x1, r0
-    bt      .L_state_1
+    bt      .L_0600A550
     cmp/eq #0x2, r0
-    bt      .L_state_2
-.L_epilogue:
+    bt      .L_0600A56E
+.L_0600A5A0:
     lds.l @r15+, pr
     mov.l @r15+, r8
     mov.l @r15+, r9

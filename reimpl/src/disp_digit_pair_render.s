@@ -14,9 +14,9 @@ disp_digit_pair_render:
     mov.b @(r0, r14), r0
     .byte   0xD2, 0x0C    /* mov.l .L_pool_060325F4, r2 */
     tst r2, r0
-    bf      .L_flags_set
+    bf      .L_060325F8
     .byte   0xD0, 0x0C    /* mov.l .L_pool_060325F8, r0 */
-    bra     .L_store_ptr
+    bra     .L_060325FA
     add r0, r1
     .4byte  sym_06026DBC                    /* pre-transform setup function */
     .4byte  sym_06089EDC                    /* global rendering budget counter */
@@ -34,9 +34,9 @@ disp_digit_pair_render:
     .4byte  0xFFFFFFFC                      /* mask: upper flag bits (all except bit 0-1) */
 .L_pool_060325F8:
     .4byte  sym_06081898                    /* global digit data table base address */
-.L_flags_set:
+.L_060325F8:
     add r14, r1
-.L_store_ptr:
+.L_060325FA:
     .byte   0xD0, 0x1B    /* mov.l .L_pool_06032668, r0 */
     mov.l r1, @(r0, r14)
     .byte   0xD7, 0x1B    /* mov.l .L_pool_0603266C, r7 */

@@ -23,22 +23,22 @@ course1_physics_init:
     mov.l   .L_pool_06019E7C, r0
     mov.b @r0, r0
     cmp/eq #0x1, r0
-    bt/s    .L_active_path
+    bt/s    .L_06019E40
     mov #0x5, r14
 
     mov #0x0, r13
-.L_normal_loop_top:
+.L_06019DDE:
     extu.b r13, r2
     mov.l   .L_pool_06019E80, r3
     mov.l @r3, r3
     cmp/eq r3, r2
-    bf      .L_normal_not_player
-    bra     .L_normal_slot_chosen
+    bf      .L_06019DEC
+    bra     .L_06019DEE
     extu.b r11, r10
-.L_normal_not_player:
+.L_06019DEC:
     extu.b r14, r10
 
-.L_normal_slot_chosen:
+.L_06019DEE:
     extu.b r10, r7
     extu.b r13, r0
     shll8 r7
@@ -78,38 +78,38 @@ course1_physics_init:
     add #0x1, r13
     extu.b r13, r3
     cmp/ge r14, r3
-    bf      .L_normal_loop_top
-    bra     .L_epilogue
+    bf      .L_06019DDE
+    bra     .L_06019EDC
     nop
 
-.L_active_path:
+.L_06019E40:
     mov #0x0, r13
-.L_active_loop_top:
+.L_06019E42:
     extu.b r13, r2
     mov.l   .L_pool_06019E80, r3
     mov.l @r3, r3
     cmp/eq r3, r2
-    bf      .L_active_not_player
+    bf      .L_06019E8C
 
     mov #0x8, r2
     mov.b @r12, r3
     extu.b r3, r3
     cmp/ge r2, r3
-    bt      .L_active_phase_ge_8
-    bra     .L_active_slot_chosen
+    bt      .L_06019E5A
+    bra     .L_06019E8E
     extu.b r11, r10
 
-.L_active_phase_ge_8:
+.L_06019E5A:
     mov #0x10, r3
     mov.b @r12, r2
     extu.b r2, r2
     cmp/gt r3, r2
-    bf/s    .L_active_phase_le_16
+    bf/s    .L_06019E6A
     mov #0x7, r10
     mov #0x0, r3
     mov.b r3, @r12
-.L_active_phase_le_16:
-    bra     .L_active_slot_chosen
+.L_06019E6A:
+    bra     .L_06019E8E
     nop
     .2byte  0xFFFF
 
@@ -128,10 +128,10 @@ course1_physics_init:
 .L_pool_06019E88:
     .4byte  sym_06049B18
 
-.L_active_not_player:
+.L_06019E8C:
     mov #0x3, r10
 
-.L_active_slot_chosen:
+.L_06019E8E:
     extu.b r10, r7
     extu.b r13, r0
     shll8 r7
@@ -171,9 +171,9 @@ course1_physics_init:
     add #0x1, r13
     extu.b r13, r3
     cmp/ge r14, r3
-    bf      .L_active_loop_top
+    bf      .L_06019E42
 
-.L_epilogue:
+.L_06019EDC:
     add #0xC, r15
     lds.l @r15+, pr
     mov.l @r15+, r8

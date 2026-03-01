@@ -8,42 +8,42 @@ nmi_handler:
     sts.l pr, @-r15
     add #-0xC, r15
     cmp/pz r4
-    bf      .L_slot_out_of_range
+    bf      .L_0604141C
     mov #0x18, r2
     cmp/ge r2, r4
-    bf      .L_check_occupancy
-.L_slot_out_of_range:
+    bf      .L_06041424
+.L_0604141C:
     add #0xC, r15
     lds.l @r15+, pr
     rts
     mov #-0x6, r0
-.L_check_occupancy:
-    .byte   0xD0, 0x09    /* mov.l .L_ai_state_base, r0 */
+.L_06041424:
+    .byte   0xD0, 0x09    /* mov.l .L_0604144C, r0 */
     mov.l @r0, r0
     mov.b @(r0, r4), r3
     tst r3, r3
-    bf      .L_compute_distance
+    bf      .L_06041436
     add #0xC, r15
     lds.l @r15+, pr
     rts
     mov #-0x7, r0
-.L_compute_distance:
-    .byte   0xD3, 0x06    /* mov.l .L_fn_track_dist, r3 */
+.L_06041436:
+    .byte   0xD3, 0x06    /* mov.l .L_06041450, r3 */
     jsr @r3
     nop
     mov r0, r4
     tst r4, r4
-    bt      .L_write_result
+    bt      .L_06041454
     add #0xC, r15
     lds.l @r15+, pr
     rts
     mov #-0xA, r0
     .2byte  0x0348
-.L_ai_state_base:
+.L_0604144C:
     .4byte  sym_060A5400
-.L_fn_track_dist:
+.L_06041450:
     .4byte  track_dist_stub
-.L_write_result:
+.L_06041454:
     .byte   0xD3, 0x1C    /* mov.l .L_pool_060414C8, r3 */
     jsr @r3
     mov r15, r4

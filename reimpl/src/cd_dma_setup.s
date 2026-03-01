@@ -24,7 +24,7 @@ cd_dma_setup:
     mov #-0x1, r4
     mov r4, r12
     mov.l r4, @(8, r15)
-    bra     .L_phase1_check
+    bra     .L_06012CA0
     mov #0x0, r9
 
     .global DAT_06012c66
@@ -47,29 +47,29 @@ DAT_06012c66:
     .4byte  cmd_status_check
 .L_pool_06012C98:
     .4byte  sym_0600026C
-.L_poll_cd_ready:
+.L_06012C9C:
     .byte   0xBF, 0x9E    /* bsr 0x06012BDC (external) */
     nop
-.L_phase1_check:
+.L_06012CA0:
     mov.b @r10, r0
     tst r0, r0
-    bf      .L_poll_cd_ready
-.L_phase1_status_check:
+    bf      .L_06012C9C
+.L_06012CA6:
     jsr @r11
     mov.l @r15, r4
     add #0x1, r9
     cmp/ge r13, r9
-    bf/s    .L_phase1_retry_ok
+    bf/s    .L_06012CB8
     mov r0, r12
     mov.l @r14, r2
     jsr @r2
     nop
-.L_phase1_retry_ok:
+.L_06012CB8:
     cmp/pz r12
-    bf      .L_phase1_status_check
+    bf      .L_06012CA6
     mov #0x0, r2
     mov.l r2, @r15
-.L_phase2_transfer:
+.L_06012CC0:
     mov #-0x1, r7
     mov #0x0, r5
     mov.l @(4, r15), r6
@@ -79,14 +79,14 @@ DAT_06012c66:
     mov.l @r15, r3
     add #0x1, r3
     cmp/ge r13, r3
-    bf/s    .L_phase2_retry_ok
+    bf/s    .L_06012CDC
     mov.l r3, @r15
     mov.l @r14, r3
     jsr @r3
     nop
-.L_phase2_retry_ok:
+.L_06012CDC:
     cmp/pz r9
-    bf      .L_phase2_transfer
+    bf      .L_06012CC0
     add #0xC, r15
     lds.l @r15+, pr
     mov.l @r15+, r8

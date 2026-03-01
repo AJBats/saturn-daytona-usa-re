@@ -14,13 +14,13 @@ vdp1_polygon_build:
     mov.l r8, @-r15
     sts.l pr, @-r15
     add #-0x18, r15
-    mov.l   .L_fp_half, r8
-    mov.l   .L_coord_limit, r9
+    mov.l   .L_060376AC, r8
+    mov.l   .L_060376B0, r9
     mov.w   DAT_060376a4, r10
     mov.w   DAT_060376a6, r12
     mov #0x3F, r14
-    mov.l   .L_vdp1_cmd_template, r7
-    mov.l   .L_vdp1_output_buf, r6
+    mov.l   .L_060376B4, r7
+    mov.l   .L_060376B8, r6
     mov #0x0, r3
     mov.l r3, @(12, r15)
     mov.b @(8, r5), r0
@@ -36,8 +36,8 @@ vdp1_polygon_build:
     mov.w   DAT_060376a8, r2
     and r2, r11
     extu.w r11, r11
-    mov.l   .L_vdp1_cmd_list, r13
-    bra     .L_type_dispatch
+    mov.l   .L_060376BC, r13
+    bra     .L_06037E58
     extu.w r4, r0
 
     .global DAT_060376a4
@@ -52,22 +52,22 @@ DAT_060376a6:
 DAT_060376a8:
     .2byte  0x4000                  /* bit 14 isolate (color bank select) */
     .2byte  0xFFFF
-.L_fp_half:
+.L_060376AC:
     .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
-.L_coord_limit:
+.L_060376B0:
     .4byte  0x0000BFFF              /* 48K-1 coordinate range limit */
-.L_vdp1_cmd_template:
+.L_060376B4:
     .4byte  0xDA200000              /* VDP1 distorted sprite + draw mode bits */
-.L_vdp1_output_buf:
+.L_060376B8:
     .4byte  sym_060A3DB0            /* polygon output buffer base */
-.L_vdp1_cmd_list:
+.L_060376BC:
     .4byte  sym_060A3D88            /* VDP1 command list write pointer */
-.L_type_04_handler:
+.L_060376C0:
     mov.b @r5, r4
     extu.b r4, r4
     mov #0x1, r2
     and r2, r4
-    mov.l   .L_mask_bit0_clr, r3
+    mov.l   .L_060377CC, r3
     mov #0x20, r0
     mov.w @(r0, r13), r2
     and r3, r2
@@ -81,7 +81,7 @@ DAT_060376a8:
     extu.b r4, r4
     mov #0x1, r3
     and r3, r4
-    mov.l   .L_mask_bit0_clr, r2
+    mov.l   .L_060377CC, r2
     mov.w @r6, r3
     and r2, r3
     mov.w r3, @r6
@@ -160,15 +160,15 @@ DAT_060376a8:
     .4byte  0xE3002F31
     .4byte  0x6B63A1A1
     .4byte  0x7B18FFFF
-.L_mask_bit0_clr:
+.L_060377CC:
     .4byte  0x0000FFFE
     .4byte  0x0000FFFC
     .4byte  0x0000FFF3
     .4byte  0x0000FF8F
     .4byte  0x0000FFFD
     .4byte  0x0000FFF0
-.L_type_08_handler:
-    mov.l   .L_mask_pmod_ctrl_clr, r2
+.L_060377E4:
+    mov.l   .L_06037904, r2
     mov #0x20, r0
     mov.w @(r0, r13), r3
     and r2, r3
@@ -185,7 +185,7 @@ DAT_060376a8:
     mov.w   DAT_060378fa, r3
     and r3, r4
     extu.w r4, r4
-    mov.l   .L_mask_colr_bit0_clr, r2
+    mov.l   .L_06037908, r2
     mov.w @r6, r3
     and r2, r3
     mov.w r3, @r6
@@ -233,7 +233,7 @@ DAT_060376a8:
     shll2 r0
     and #0xC, r0
     extu.w r0, r4
-    mov.l   .L_mask_dir_field_clr, r3
+    mov.l   .L_0603790C, r3
     mov.w @(18, r6), r0
     mov r0, r2
     and r3, r2
@@ -253,7 +253,7 @@ DAT_060376a8:
     mov.w   DAT_060378fc, r3
     and r3, r4
     extu.w r4, r4
-    mov.l   .L_mask_colr_hi_a_clr, r2
+    mov.l   .L_06037910, r2
     mov.w @r6, r3
     and r2, r3
     mov.w r3, @r6
@@ -265,7 +265,7 @@ DAT_060376a8:
     extu.b r4, r4
     extu.w r4, r4
     mov.w   DAT_060378fe, r3
-    mov.l   .L_mask_colr_hi_b_clr, r2
+    mov.l   .L_06037914, r2
     shll8 r4
     shll2 r4
     shll2 r4
@@ -283,17 +283,17 @@ DAT_060376a8:
     extu.w r4, r4
     shll8 r4
     shll r4
-    mov.w   .L_wmask_bit9, r3
+    mov.w   .L_06037900, r3
     and r3, r4
     extu.w r4, r4
-    mov.l   .L_mask_colr_bit1_clr, r2
+    mov.l   .L_06037918, r2
     mov.w @r6, r3
     and r2, r3
     mov.w r3, @r6
     mov.w @r6, r2
     or r4, r2
     mov.w r2, @r6
-    mov.l   .L_mask_size_field_clr, r3
+    mov.l   .L_0603791C, r3
     mov.w @(20, r6), r0
     mov r0, r2
     and r3, r2
@@ -304,7 +304,7 @@ DAT_060376a8:
     mov #0x4, r3
     mov.w r3, @r15
     mov r6, r11
-    bra     .L_setup_vtx_iter
+    bra     .L_06037B0C
     add #0x1C, r11
 
     .global DAT_060378f8
@@ -322,31 +322,31 @@ DAT_060378fc:
     .global DAT_060378fe
 DAT_060378fe:
     .2byte  0x3000
-.L_wmask_bit9:
+.L_06037900:
     .2byte  0x0200
     .2byte  0xFFFF
-.L_mask_pmod_ctrl_clr:
+.L_06037904:
     .4byte  0x0000FDFD
-.L_mask_colr_bit0_clr:
+.L_06037908:
     .4byte  0x0000FEFF
-.L_mask_dir_field_clr:
+.L_0603790C:
     .4byte  0x0000FFF3
-.L_mask_colr_hi_a_clr:
+.L_06037910:
     .4byte  0x0000F3FF
-.L_mask_colr_hi_b_clr:
+.L_06037914:
     .4byte  0x0000CFFF
-.L_mask_colr_bit1_clr:
+.L_06037918:
     .4byte  0x0000FDFF
-.L_mask_size_field_clr:
+.L_0603791C:
     .4byte  0x0000FF0F
-.L_type_10_handler:
+.L_06037920:
     mov.b @r5, r4
     extu.b r4, r4
     extu.w r4, r0
     shll2 r0
     and #0x4, r0
     extu.w r0, r4
-    mov.l   .L_mask_pmod_bit2_clr, r3
+    mov.l   .L_06037A08, r3
     mov #0x20, r0
     mov.w @(r0, r13), r2
     and r3, r2
@@ -360,7 +360,7 @@ DAT_060378fe:
     extu.w r4, r0
     and #0x1, r0
     extu.w r0, r4
-    mov.l   .L_mask_colr_bit0_clr_b, r3
+    mov.l   .L_06037A0C, r3
     mov.w @(2, r6), r0
     mov r0, r2
     and r3, r2
@@ -406,7 +406,7 @@ DAT_060378fe:
     mov r3, r0
     mov.w r0, @(12, r6)
     mov.b @(3, r5), r0
-    mov.l   .L_mask_dir_54_clr, r3
+    mov.l   .L_06037A10, r3
     mov r0, r4
     extu.b r4, r4
     extu.w r4, r0
@@ -431,7 +431,7 @@ DAT_060378fe:
     shll r0
     and #0x2, r0
     extu.w r0, r4
-    mov.l   .L_mask_colr_bit1_clr_b, r3
+    mov.l   .L_06037A14, r3
     mov.w @(2, r6), r0
     mov r0, r2
     and r3, r2
@@ -442,7 +442,7 @@ DAT_060378fe:
     or r4, r3
     mov r3, r0
     mov.w r0, @(2, r6)
-    mov.l   .L_mask_size_nibble_clr, r3
+    mov.l   .L_06037A18, r3
     mov.w @(20, r6), r0
     mov r0, r2
     and r3, r2
@@ -453,20 +453,20 @@ DAT_060378fe:
     mov #0x8, r3
     mov.w r3, @r15
     mov r6, r11
-    bra     .L_setup_vtx_iter
+    bra     .L_06037B0C
     add #0x20, r11
     .2byte  0xFFFF
-.L_mask_pmod_bit2_clr:
+.L_06037A08:
     .4byte  0x0000FFFB
-.L_mask_colr_bit0_clr_b:
+.L_06037A0C:
     .4byte  0x0000FFFE
-.L_mask_dir_54_clr:
+.L_06037A10:
     .4byte  0x0000FFCF
-.L_mask_colr_bit1_clr_b:
+.L_06037A14:
     .4byte  0x0000FFFD
-.L_mask_size_nibble_clr:
+.L_06037A18:
     .4byte  0x0000F0FF
-.L_type_20_handler:
+.L_06037A1C:
     mov.b @r5, r4
     extu.b r4, r4
     extu.w r4, r0
@@ -474,7 +474,7 @@ DAT_060378fe:
     shll r0
     and #0x8, r0
     extu.w r0, r4
-    mov.l   .L_mask_pmod_bit3_clr, r3
+    mov.l   .L_06037B14, r3
     mov #0x20, r0
     mov.w @(r0, r13), r2
     and r3, r2
@@ -490,7 +490,7 @@ DAT_060378fe:
     shll2 r0
     and #0x10, r0
     extu.w r0, r4
-    mov.l   .L_mask_colr_bit4_clr, r3
+    mov.l   .L_06037B18, r3
     mov.w @(2, r6), r0
     mov r0, r2
     and r3, r2
@@ -536,7 +536,7 @@ DAT_060378fe:
     mov r3, r0
     mov.w r0, @(14, r6)
     mov.b @(3, r5), r0
-    mov.l   .L_mask_dir_76_clr, r3
+    mov.l   .L_06037B1C, r3
     mov r0, r4
     extu.b r4, r4
     extu.w r4, r0
@@ -564,7 +564,7 @@ DAT_060378fe:
     shll r0
     and #0x20, r0
     extu.w r0, r4
-    mov.l   .L_mask_colr_bit5_clr, r3
+    mov.l   .L_06037B20, r3
     mov.w @(2, r6), r0
     mov r0, r2
     and r3, r2
@@ -587,23 +587,23 @@ DAT_060378fe:
     mov.w r3, @r15
     mov r6, r11
     add #0x24, r11
-.L_setup_vtx_iter:
-    bra     .L_build_vertex_coords
+.L_06037B0C:
+    bra     .L_06037E88
     mov #0x2, r13
 
     .global DAT_06037b10
 DAT_06037b10:
     .2byte  0x0FFF
     .2byte  0xFFFF
-.L_mask_pmod_bit3_clr:
+.L_06037B14:
     .4byte  0x0000FFF7
-.L_mask_colr_bit4_clr:
+.L_06037B18:
     .4byte  0x0000FFEF
-.L_mask_dir_76_clr:
+.L_06037B1C:
     .4byte  0x0000FF3F
-.L_mask_colr_bit5_clr:
+.L_06037B20:
     .4byte  0x0000FFDF
-.L_type_01_handler:
+.L_06037B24:
     mov.b @r5, r4
     extu.b r4, r4
     extu.w r4, r0
@@ -611,7 +611,7 @@ DAT_06037b10:
     shll2 r0
     and #0x10, r0
     extu.w r0, r4
-    mov.l   .L_mask_pmod_bit4_clr, r3
+    mov.l   .L_06037C9C, r3
     mov #0x20, r0
     mov.w @(r0, r13), r2
     and r3, r2
@@ -627,7 +627,7 @@ DAT_06037b10:
     mov.w   DAT_06037c8e, r3
     and r3, r4
     extu.w r4, r4
-    mov.l   .L_mask_colr_bit8_clr, r2
+    mov.l   .L_06037CA0, r2
     mov.w @(2, r6), r0
     mov r0, r3
     and r2, r3
@@ -680,7 +680,7 @@ DAT_06037b10:
     mov.w   DAT_06037c90, r3
     and r3, r4
     extu.w r4, r4
-    mov.l   .L_mask_dir_98_clr, r2
+    mov.l   .L_06037CA4, r2
     mov.w @(18, r6), r0
     mov r0, r3
     and r2, r3
@@ -700,7 +700,7 @@ DAT_06037b10:
     mov.w   DAT_06037c92, r3
     and r3, r4
     extu.w r4, r4
-    mov.l   .L_mask_dir_ba_clr, r2
+    mov.l   .L_06037CA8, r2
     mov.w @(18, r6), r0
     mov r0, r3
     and r2, r3
@@ -720,7 +720,7 @@ DAT_06037b10:
     mov.w   DAT_06037c94, r3
     and r3, r4
     extu.w r4, r4
-    mov.l   .L_mask_colr_bit10_clr, r2
+    mov.l   .L_06037CAC, r2
     mov.w @(2, r6), r0
     mov r0, r3
     and r2, r3
@@ -733,7 +733,7 @@ DAT_06037b10:
     mov.w r0, @(2, r6)
     mov.b @(5, r5), r0
     mov.w   DAT_06037c96, r3
-    mov.l   .L_mask_colr_hi_cde_clr, r2
+    mov.l   .L_06037CB0, r2
     mov r0, r4
     extu.b r4, r4
     mov.w @(2, r6), r0
@@ -758,10 +758,10 @@ DAT_06037b10:
     extu.w r4, r4
     shll8 r4
     shll r4
-    mov.w   .L_wmask_bit9_b, r3
+    mov.w   .L_06037C98, r3
     and r3, r4
     extu.w r4, r4
-    mov.l   .L_mask_colr_bit9_clr, r2
+    mov.l   .L_06037CB4, r2
     mov.w @(2, r6), r0
     mov r0, r3
     and r2, r3
@@ -772,18 +772,18 @@ DAT_06037b10:
     or r4, r3
     mov r3, r0
     mov.w r0, @(2, r6)
-    mov.l   .L_poly_flag_a, r0
+    mov.l   .L_06037CB8, r0
     mov.b @r0, r0
     extu.b r0, r0
     cmp/eq #0x1, r0
-    bf/s    .L_flag_b_not_set
+    bf/s    .L_06037CE2
     mov #0x8, r13
-    mov.l   .L_poly_flag_b, r0
+    mov.l   .L_06037CBC, r0
     mov.b @r0, r0
     extu.b r0, r0
     cmp/eq #0x1, r0
-    bf      .L_flag_b_not_set
-    bra     .L_both_flags_set
+    bf      .L_06037CE2
+    bra     .L_06037CC0
     nop
 
     .global DAT_06037c8e
@@ -805,29 +805,29 @@ DAT_06037c94:
     .global DAT_06037c96
 DAT_06037c96:
     .2byte  0x7000
-.L_wmask_bit9_b:
+.L_06037C98:
     .2byte  0x0200
     .2byte  0xFFFF
-.L_mask_pmod_bit4_clr:
+.L_06037C9C:
     .4byte  0x0000FFEF
-.L_mask_colr_bit8_clr:
+.L_06037CA0:
     .4byte  0x0000FEFF
-.L_mask_dir_98_clr:
+.L_06037CA4:
     .4byte  0x0000FCFF
-.L_mask_dir_ba_clr:
+.L_06037CA8:
     .4byte  0x0000F3FF
-.L_mask_colr_bit10_clr:
+.L_06037CAC:
     .4byte  0x0000FBFF
-.L_mask_colr_hi_cde_clr:
+.L_06037CB0:
     .4byte  0x00008FFF
-.L_mask_colr_bit9_clr:
+.L_06037CB4:
     .4byte  0x0000FDFF
-.L_poly_flag_a:
+.L_06037CB8:
     .4byte  sym_060A4C58
-.L_poly_flag_b:
+.L_06037CBC:
     .4byte  sym_060A4C59
-.L_both_flags_set:
-    mov.l   .L_mask_size_lo_clr, r2
+.L_06037CC0:
+    mov.l   .L_06037D2C, r2
     mov.w @(22, r6), r0
     mov r0, r3
     and r2, r3
@@ -842,15 +842,15 @@ DAT_06037c96:
     mov.l r3, @(4, r15)
     mov r3, r11
     add #0x10, r3
-    bra     .L_build_vertex_coords
+    bra     .L_06037E88
     mov.l r3, @(12, r15)
-.L_flag_b_not_set:
-    mov.l   .L_poly_flag_a_2, r0
+.L_06037CE2:
+    mov.l   .L_06037D30, r0
     mov.b @r0, r0
     extu.b r0, r0
     cmp/eq #0x1, r0
-    bf      .L_check_flag_b_only
-    mov.l   .L_mask_size_lo_clr, r2
+    bf      .L_06037D06
+    mov.l   .L_06037D2C, r2
     mov.w @(22, r6), r0
     mov r0, r3
     and r2, r3
@@ -861,15 +861,15 @@ DAT_06037c96:
     mov #0x0, r3
     mov.w r3, @r15
     mov r6, r11
-    bra     .L_flag_check_done
+    bra     .L_06037D28
     add #0x28, r11
-.L_check_flag_b_only:
-    mov.l   .L_poly_flag_b_2, r0
+.L_06037D06:
+    mov.l   .L_06037D34, r0
     mov.b @r0, r0
     extu.b r0, r0
     cmp/eq #0x1, r0
-    bf      .L_flag_check_done
-    mov.l   .L_mask_size_hi_clr, r2
+    bf      .L_06037D28
+    mov.l   .L_06037D38, r2
     mov.w @(22, r6), r0
     mov r0, r3
     and r2, r3
@@ -881,35 +881,35 @@ DAT_06037c96:
     mov.w r3, @r15
     mov r6, r11
     add #0x38, r11
-.L_flag_check_done:
-    bra     .L_build_vertex_coords
+.L_06037D28:
+    bra     .L_06037E88
     nop
-.L_mask_size_lo_clr:
+.L_06037D2C:
     .4byte  0x0000FFF0
-.L_poly_flag_a_2:
+.L_06037D30:
     .4byte  sym_060A4C58
-.L_poly_flag_b_2:
+.L_06037D34:
     .4byte  sym_060A4C59
-.L_mask_size_hi_clr:
+.L_06037D38:
     .4byte  0x0000FF0F
-.L_type_02_handler:
-    mov.l   .L_poly_flag_a_3, r0
+.L_06037D3C:
+    mov.l   .L_06037E38, r0
     mov.b @r0, r0
     extu.b r0, r0
     cmp/eq #0x1, r0
-    bt      .L_type2_check_flag_b
-    bra     .L_build_vertex_coords
+    bt      .L_06037D4A
+    bra     .L_06037E88
     nop
-.L_type2_check_flag_b:
-    mov.l   .L_poly_flag_b_3, r0
+.L_06037D4A:
+    mov.l   .L_06037E3C, r0
     mov.b @r0, r0
     extu.b r0, r0
     cmp/eq #0x2, r0
-    bt      .L_type2_build_cmd
-    bra     .L_build_vertex_coords
+    bt      .L_06037D58
+    bra     .L_06037E88
     nop
-.L_type2_build_cmd:
-    mov.l   .L_mask_pmod_bit5_clr, r2
+.L_06037D58:
+    mov.l   .L_06037E40, r2
     mov #0x20, r0
     mov.w @(r0, r13), r3
     and r2, r3
@@ -917,16 +917,16 @@ DAT_06037c96:
     mov.b @r5, r0
     extu.b r0, r0
     tst r0, r0
-    bt      .L_type2_skip_or_bit
+    bt      .L_06037D76
     mov #0x20, r0
     mov.w @(r0, r13), r0
     or #0x20, r0
     mov #0x20, r1
     add r13, r1
     mov.w r0, @r1
-.L_type2_skip_or_bit:
+.L_06037D76:
     mov #0x1, r3
-    mov.l   .L_mask_colr_bit0_clr_c, r2
+    mov.l   .L_06037E44, r2
     mov.b @(1, r5), r0
     mov r0, r4
     extu.b r4, r4
@@ -977,7 +977,7 @@ DAT_06037c96:
     extu.b r4, r4
     mov #0x3, r3
     and r3, r4
-    mov.l   .L_mask_dir_10_clr, r2
+    mov.l   .L_06037E48, r2
     mov.w @(18, r6), r0
     mov r0, r3
     and r2, r3
@@ -997,19 +997,19 @@ DAT_06037c96:
     shll2 r0
     and #0x70, r0
     extu.w r0, r4
-    mov.l   .L_mask_colr_hi_456_clr, r3
+    mov.l   .L_06037E4C, r3
     mov.w @r6, r2
     and r3, r2
     mov.w r2, @r6
     mov.w @r6, r3
     or r4, r3
     mov.w r3, @r6
-    mov.l   .L_mask_colr_bit1_clr_c, r2
+    mov.l   .L_06037E50, r2
     mov.w @r6, r3
     and r2, r3
     mov.w r3, @r6
     mov #0x8, r13
-    mov.l   .L_mask_size_lo_clr_b, r2
+    mov.l   .L_06037E54, r2
     mov.w @(22, r6), r0
     mov r0, r3
     and r2, r3
@@ -1020,59 +1020,59 @@ DAT_06037c96:
     mov #0x4, r3
     mov.w r3, @r15
     mov r6, r11
-    bra     .L_build_vertex_coords
+    bra     .L_06037E88
     add #0x38, r11
-.L_poly_flag_a_3:
+.L_06037E38:
     .4byte  sym_060A4C58
-.L_poly_flag_b_3:
+.L_06037E3C:
     .4byte  sym_060A4C59
-.L_mask_pmod_bit5_clr:
+.L_06037E40:
     .4byte  0x0000FFDF
-.L_mask_colr_bit0_clr_c:
+.L_06037E44:
     .4byte  0x0000FFFE
-.L_mask_dir_10_clr:
+.L_06037E48:
     .4byte  0x0000FFFC
-.L_mask_colr_hi_456_clr:
+.L_06037E4C:
     .4byte  0x0000FF8F
-.L_mask_colr_bit1_clr_c:
+.L_06037E50:
     .4byte  0x0000FFFD
-.L_mask_size_lo_clr_b:
+.L_06037E54:
     .4byte  0x0000FF0F
-.L_type_dispatch:
+.L_06037E58:
     cmp/eq #0x1, r0
-    bf      .L_try_type_02
-    bra     .L_type_01_handler
+    bf      .L_06037E60
+    bra     .L_06037B24
     nop
-.L_try_type_02:
+.L_06037E60:
     cmp/eq #0x2, r0
-    bf      .L_try_type_04
-    bra     .L_type_02_handler
+    bf      .L_06037E68
+    bra     .L_06037D3C
     nop
-.L_try_type_04:
+.L_06037E68:
     cmp/eq #0x4, r0
-    bf      .L_try_type_08
-    bra     .L_type_04_handler
+    bf      .L_06037E70
+    bra     .L_060376C0
     nop
-.L_try_type_08:
+.L_06037E70:
     cmp/eq #0x8, r0
-    bf      .L_try_type_10
-    bra     .L_type_08_handler
+    bf      .L_06037E78
+    bra     .L_060377E4
     nop
-.L_try_type_10:
+.L_06037E78:
     cmp/eq #0x10, r0
-    bf      .L_try_type_20
-    bra     .L_type_10_handler
+    bf      .L_06037E80
+    bra     .L_06037920
     nop
-.L_try_type_20:
+.L_06037E80:
     cmp/eq #0x20, r0
-    bf      .L_build_vertex_coords
-    bra     .L_type_20_handler
+    bf      .L_06037E88
+    bra     .L_06037A1C
     nop
-.L_build_vertex_coords:
+.L_06037E88:
     mov.b @(6, r5), r0
     extu.b r0, r0
     cmp/eq #0x1, r0
-    bf      .L_color_calc_normal
+    bf      .L_06037EAE
     mov.l @(12, r5), r0
     add r7, r0
     shlr16 r0
@@ -1082,63 +1082,63 @@ DAT_06037c96:
     mov.w r0, @(4, r15)
     mov.w @(4, r15), r0
     mov.w @r15, r1
-    mov.l   .L_fn_color_lookup, r3
+    mov.l   .L_06037EEC, r3
     extu.w r0, r0
     jsr @r3
     extu.w r1, r1
-    bra     .L_color_write
+    bra     .L_06037F1C
     nop
-.L_color_calc_normal:
+.L_06037EAE:
     mov.b @(2, r5), r0
     extu.b r0, r0
     cmp/eq #0x1, r0
-    bf      .L_no_tex_flag
+    bf      .L_06037ED2
     mov.b @(1, r5), r0
     mov r0, r2
     extu.b r2, r2
     tst r2, r2
-    bf      .L_tex_nonzero
-    mov.w   .L_tex_size_8k, r3
+    bf      .L_06037ECA
+    mov.w   .L_06037EE6, r3
     mov r3, r0
     mov.w r0, @(4, r15)
-    bra     .L_color_lookup_entry
+    bra     .L_06037EF6
     nop
-.L_tex_nonzero:
-    mov.w   .L_tex_size_2k, r2
+.L_06037ECA:
+    mov.w   .L_06037EE8, r2
     mov r2, r0
-    bra     .L_color_lookup_entry
+    bra     .L_06037EF6
     mov.w r0, @(4, r15)
-.L_no_tex_flag:
+.L_06037ED2:
     mov.b @(1, r5), r0
     mov r0, r2
     extu.b r2, r2
     tst r2, r2
-    bf      .L_tex_default_nonzero
-    mov.w   .L_tex_size_16k, r3
+    bf      .L_06037EF0
+    mov.w   .L_06037EEA, r3
     mov r3, r0
     mov.w r0, @(4, r15)
-    bra     .L_color_lookup_entry
+    bra     .L_06037EF6
     nop
-.L_tex_size_8k:
+.L_06037EE6:
     .2byte  0x2000                  /* texture size 8K */
-.L_tex_size_2k:
+.L_06037EE8:
     .2byte  0x0800                  /* texture size 2K */
-.L_tex_size_16k:
+.L_06037EEA:
     .2byte  0x4000                  /* texture size 16K */
-.L_fn_color_lookup:
+.L_06037EEC:
     .4byte  sym_06035280            /* color lookup function */
-.L_tex_default_nonzero:
-    mov.w   .L_tex_size_4k, r2
+.L_06037EF0:
+    mov.w   .L_06037FF4, r2
     mov r2, r0
     mov.w r0, @(4, r15)
-.L_color_lookup_entry:
+.L_06037EF6:
     mov.l @(12, r5), r1
     mov.w @(4, r15), r0
-    mov.l   .L_fn_input_proc, r3
+    mov.l   .L_06037FF8, r3
     add r7, r1
     jsr @r3
     extu.w r0, r0
-    mov.w   .L_color_field_mask, r2
+    mov.w   .L_06037FF6, r2
     and r2, r0
     shlr2 r0
     shlr2 r0
@@ -1147,11 +1147,11 @@ DAT_06037c96:
     mov.w r0, @(8, r15)
     mov.w @(8, r15), r0
     mov.w @r15, r1
-    mov.l   .L_fn_color_lookup_b, r3
+    mov.l   .L_06037FFC, r3
     extu.w r0, r0
     jsr @r3
     extu.w r1, r1
-.L_color_write:
+.L_06037F1C:
     mov.w @r4, r2
     mov #0x0, r3
     or r0, r2
@@ -1159,8 +1159,8 @@ DAT_06037c96:
     mov.w r3, @r15
     extu.w r13, r3
     cmp/pl r3
-    bf      .L_vtx_loop_done
-.L_vtx_loop:
+    bf      .L_06037F92
+.L_06037F2C:
     mov.w @r15, r3
     mov r5, r2
     extu.w r3, r3
@@ -1178,7 +1178,7 @@ DAT_06037c96:
     mov.l @r1, r1
     extu.w r0, r0
     mov.l r0, @(20, r15)
-    mov.l   .L_fn_input_proc, r2
+    mov.l   .L_06037FF8, r2
     jsr @r2
     add r7, r1
     and r14, r0
@@ -1187,7 +1187,7 @@ DAT_06037c96:
     add #0xC, r1
     mov.w r0, @r3
     mov.l @(8, r15), r3
-    mov.l   .L_fn_input_proc, r2
+    mov.l   .L_06037FF8, r2
     add r3, r1
     mov.l @(4, r1), r1
     add r7, r1
@@ -1211,11 +1211,11 @@ DAT_06037c96:
     mov.w r3, @r15
     extu.w r3, r3
     cmp/ge r2, r3
-    bf      .L_vtx_loop
-.L_vtx_loop_done:
+    bf      .L_06037F2C
+.L_06037F92:
     mov.l @(12, r15), r0
     tst r0, r0
-    bt      .L_set_dirty_and_exit
+    bt      .L_0603801E
     mov.w @r4, r0
     and #0xF, r0
     mov.w r0, @r4
@@ -1228,9 +1228,9 @@ DAT_06037c96:
     mov.w r2, @r4
     extu.w r13, r3
     cmp/pl r3
-    bf/s    .L_set_dirty_and_exit
+    bf/s    .L_0603801E
     mov #0x0, r4
-.L_vtx_loop_secondary:
+.L_06037FB4:
     extu.w r4, r11
     extu.w r4, r1
     mov.l @(12, r15), r3
@@ -1245,7 +1245,7 @@ DAT_06037c96:
     add r3, r1
     extu.w r0, r0
     mov.l @r1, r1
-    mov.l   .L_fn_input_proc, r3
+    mov.l   .L_06037FF8, r3
     add r7, r1
     jsr @r3
     mov.l r0, @r15
@@ -1255,23 +1255,23 @@ DAT_06037c96:
     add #0xC, r1
     mov.w r0, @r11
     mov.l @(8, r15), r3
-    mov.l   .L_fn_input_proc, r2
+    mov.l   .L_06037FF8, r2
     add r3, r1
     mov.l @(4, r1), r1
     add r7, r1
     jsr @r2
     mov.l @r15, r0
-    bra     .L_vtx_secondary_color
+    bra     .L_06038000
     nop
-.L_tex_size_4k:
+.L_06037FF4:
     .2byte  0x1000                  /* texture size 4K */
-.L_color_field_mask:
+.L_06037FF6:
     .2byte  0x01C0                  /* bits 8:6 — color field extract mask */
-.L_fn_input_proc:
+.L_06037FF8:
     .4byte  input_proc_complete     /* coordinate transform function */
-.L_fn_color_lookup_b:
+.L_06037FFC:
     .4byte  sym_06035280            /* color lookup function (2nd ref) */
-.L_vtx_secondary_color:
+.L_06038000:
     and r14, r0
     add #0x1, r4
     shll8 r0
@@ -1285,17 +1285,17 @@ DAT_06037c96:
     or r2, r1
     extu.w r13, r2
     cmp/ge r2, r3
-    bf/s    .L_vtx_loop_secondary
+    bf/s    .L_06037FB4
     mov.w r1, @r11
-.L_set_dirty_and_exit:
-    mov.l   .L_vdp1_dirty_flag, r4
+.L_0603801E:
+    mov.l   .L_06038040, r4
     mov.w @r4, r2
     extu.w r2, r2
     tst r2, r2
-    bf      .L_epilogue
+    bf      .L_0603802C
     mov #0x1, r3
     mov.w r3, @r4
-.L_epilogue:
+.L_0603802C:
     add #0x18, r15
     lds.l @r15+, pr
     mov.l @r15+, r8
@@ -1306,15 +1306,15 @@ DAT_06037c96:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_vdp1_dirty_flag:
+.L_06038040:
     .4byte  sym_060635AC            /* VDP1 command list dirty flag */
 
     .global sym_06038044
 sym_06038044:
-    mov.l   .L_cmd_list_base, r0
+    mov.l   .L_06038068, r0
     mov #0x8, r7
     mov #0x0, r5
-.L_copy_loop:
+.L_0603804A:
     extu.w r5, r6
     mov r0, r3
     shll r6
@@ -1327,8 +1327,8 @@ sym_06038044:
     mov.w r1, @r3
     extu.w r5, r3
     cmp/ge r7, r3
-    bf      .L_copy_loop
+    bf      .L_0603804A
     rts
     nop
-.L_cmd_list_base:
+.L_06038068:
     .4byte  sym_060A3D88            /* VDP1 command list base pointer */

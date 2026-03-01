@@ -21,7 +21,7 @@ obj_list_proc:
     mov.l @r14, r2
     mov.l   .L_pool_06020528, r3
     cmp/gt r3, r2
-    bf      .L_under_limit
+    bf      .L_06020508
     mov.b @r15, r4
     .byte   0xB4, 0x7B    /* bsr 0x06020DEE (external) */
     extu.b r4, r4
@@ -33,7 +33,7 @@ obj_list_proc:
     mov.l   .L_pool_06020524, r3
     jmp @r3
     mov.l @r15+, r14
-.L_under_limit:
+.L_06020508:
     add #0x4, r15
     lds.l @r15+, pr
     rts

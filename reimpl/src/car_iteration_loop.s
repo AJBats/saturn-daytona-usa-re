@@ -36,7 +36,7 @@ car_iteration_loop:
     mov.w   DAT_0600deb2, r3
     add r4, r3
     mov.l r3, @(4, r15)
-    bra     .L_loop_test
+    bra     .L_0600DF22
     mov.l r4, @r15
 
     .global DAT_0600deb2
@@ -62,22 +62,22 @@ _pool_camera_yaw_ptr:
     .4byte  sym_06063EF0
 _pool_car_array_base:
     .4byte  sym_06078900
-.L_loop_body:
+.L_0600DEDC:
     .byte   0xD0, 0x2D    /* mov.l .L_pool_0600DF94, r0 */
     mov.b @r0, r0
     extu.b r0, r0
     tst r0, r0
-    bt      .L_normal_mode
+    bt      .L_0600DF14
     extu.w r12, r12
     tst r12, r12
-    bf      .L_setup_car0
+    bf      .L_0600DEF8
     mov.w r13, @r8
     mov.l @(4, r15), r2
     mov.l r2, @r14
     mov r2, r3
-    bra     .L_call_car_update
+    bra     .L_0600DF1C
     mov.l r2, @r11
-.L_setup_car0:
+.L_0600DEF8:
     mov #0x0, r2
     mov.w r2, @r8
     mov.l @r10, r3
@@ -90,41 +90,41 @@ _pool_car_array_base:
     mov.l r3, @r2
     mov.l @r14, r3
     mov.l r3, @r11
-    bra     .L_call_car_update
+    bra     .L_0600DF1C
     nop
-.L_normal_mode:
+.L_0600DF14:
     mov.l @r9, r0
     tst r0, r0
-    bf      .L_call_car_update
+    bf      .L_0600DF1C
     mov.l r13, @r9
-.L_call_car_update:
+.L_0600DF1C:
     .byte   0xB2, 0xE9    /* bsr 0x0600E4F2 (external) */
     nop
     add #0x1, r12
-.L_loop_test:
+.L_0600DF22:
     extu.w r12, r2
     .byte   0xD3, 0x1D    /* mov.l .L_pool_0600DF9C, r3 */
     mov.b @r3, r3
     extu.b r3, r3
     cmp/ge r3, r2
-    bf      .L_loop_body
+    bf      .L_0600DEDC
     .byte   0xD3, 0x1C    /* mov.l .L_pool_0600DFA0, r3 */
     jsr @r3
     nop
     .byte   0xD0, 0x1B    /* mov.l .L_pool_0600DFA4, r0 */
     mov.b @r0, r0
     tst r0, r0
-    bt      .L_standard_render
+    bt      .L_0600DF46
     .byte   0xD3, 0x1A    /* mov.l .L_pool_0600DFA8, r3 */
     jsr @r3
     nop
-    bra     .L_frame_finalize
+    bra     .L_0600DF4C
     nop
-.L_standard_render:
+.L_0600DF46:
     .byte   0xD3, 0x19    /* mov.l .L_pool_0600DFAC, r3 */
     jsr @r3
     nop
-.L_frame_finalize:
+.L_0600DF4C:
     .byte   0xD3, 0x18    /* mov.l .L_pool_0600DFB0, r3 */
     jsr @r3
     nop

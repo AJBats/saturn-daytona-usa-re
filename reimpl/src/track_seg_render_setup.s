@@ -29,9 +29,9 @@ track_seg_render_setup:
     mov.l @r7, r1
     mov.l @(0x4, r7), r2
     cmp/gt r1, r5
-    bt      .L_check_upper_bound
+    bt      .L_0602F260
     mov r1, r5
-    bra     .L_apply_clamped_distance
+    bra     .L_0602F266
     nop
 
     .global DAT_0602f24c
@@ -48,11 +48,11 @@ DAT_0602f24e:
     .4byte  fpdiv_setup                  /* [MEDIUM] fpdiv_setup fn ptr (shared pool, caller loads r12) */
 .L_pool_0602F25C:
     .4byte  sym_0602F3CC                 /* [HIGH] per-segment render distance clamp table (min/max pairs) */
-.L_check_upper_bound:
+.L_0602F260:
     cmp/ge r5, r2
-    bt      .L_apply_clamped_distance
+    bt      .L_0602F266
     mov r2, r5
-.L_apply_clamped_distance:
+.L_0602F266:
     add r5, r4
     mov.w   .L_wpool_0602F26E, r1
     rts

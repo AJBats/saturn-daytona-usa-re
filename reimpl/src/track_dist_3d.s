@@ -15,17 +15,17 @@ track_dist_3d:
     mov r0, r4
     extu.w r4, r0
     tst #0x40, r0
-    bf      .L_field_valid
-    bra     .L_epilogue
+    bf      .L_0603666A
+    bra     .L_06036676
     mov #-0x1, r0
-.L_field_valid:
+.L_0603666A:
     mov r13, r6
     mov r14, r5
     .byte   0xD3, 0x22    /* mov.l .L_pool_060366F8, r3 */
     jsr @r3
     mov #0x0, r4
     mov r0, r4
-.L_epilogue:
+.L_06036676:
     lds.l @r15+, pr
     mov.l @r15+, r13
     rts

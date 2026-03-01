@@ -8,7 +8,7 @@ obj_render_prepare:
     mov.l   .L_pool_06020E70, r7
     mov #0x10, r6
     mov #0x0, r5
-.L_search_loop:
+.L_06020E42:
     extu.b r4, r3
     extu.b r5, r2
     mov r2, r1
@@ -22,15 +22,15 @@ obj_render_prepare:
     mov.b @r2, r2
     extu.b r2, r2
     cmp/eq r2, r3
-    bf      .L_no_match
-    bra     .L_found
+    bf      .L_06020E62
+    bra     .L_06020E6A
     nop
-.L_no_match:
+.L_06020E62:
     add #0x1, r5
     extu.b r5, r2
     cmp/ge r6, r2
-    bf      .L_search_loop
-.L_found:
+    bf      .L_06020E42
+.L_06020E6A:
     rts
     extu.b r5, r0
     .2byte  0xFFFF

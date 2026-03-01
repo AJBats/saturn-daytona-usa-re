@@ -16,33 +16,33 @@ menu_page_transition:
     add #0x34, r13
     mov.l @(r0, r13), r0
     tst r0, r0
-    bf/s    .L_page_exists
+    bf/s    .L_0603B568
     mov #0x0, r11
     mov.l r11, @r12
-    bra     .L_epilogue
+    bra     .L_0603B586
     mov r11, r14
     .4byte  sym_0603F9F2
     .4byte  sym_0603F9F6
 .L_pool_0603B564:
     .4byte  sym_060A4D14
-.L_page_exists:
+.L_0603B568:
     mov.l @r13, r2
     mov.l r2, @r12
     .byte   0xBF, 0x5A    /* bsr 0x0603B424 (external) */
     mov r2, r4
     mov r0, r14
     tst r14, r14
-    bf      .L_epilogue
+    bf      .L_0603B586
     mov #0x60, r0
     mov.l @(r0, r13), r0
     tst r0, r0
-    bf      .L_has_next_page
+    bf      .L_0603B584
     mov.l r11, @r12
-    bra     .L_epilogue
+    bra     .L_0603B586
     mov r11, r14
-.L_has_next_page:
+.L_0603B584:
     mov #0x1, r14
-.L_epilogue:
+.L_0603B586:
     .byte   0xB1, 0xD9    /* bsr 0x0603B93C (external) */
     mov #0x0, r4
     mov r14, r0

@@ -6,38 +6,38 @@
     .type car_select_setup, @function
 car_select_setup:
     sts.l pr, @-r15
-    mov.l   .L_fn_display_layer_config, r3
+    mov.l   .L_06019910, r3
     jsr @r3
     mov #0xC, r4
-    mov.l   .L_fn_render_state_commit, r3
+    mov.l   .L_06019914, r3
     jsr @r3
     nop
     mov #0x1, r4
-    mov.l   .L_ptr_input_dirty_flag, r3
+    mov.l   .L_06019918, r3
     mov #-0x1, r1
     mov.b r4, @r3
     extu.b r4, r4
-    mov.l   .L_ptr_course_active_flag, r3
+    mov.l   .L_0601991C, r3
     mov.b r4, @r3
-    mov.l   .L_ptr_variant_init_flag, r3
+    mov.l   .L_06019920, r3
     mov.b r1, @r3
     .byte   0xB0, 0x12    /* bsr 0x06019928 (track_seg_phys_init) */
     nop
     .byte   0xB7, 0x82    /* bsr 0x0601A80C (course_data_rom_load) */
     nop
-    mov.l   .L_fn_course_init_pipeline, r3
+    mov.l   .L_06019924, r3
     jmp @r3
     lds.l @r15+, pr
     .2byte  0xFFFF
-.L_fn_display_layer_config:
+.L_06019910:
     .4byte  sym_0602853E                     /* display_layer_config */
-.L_fn_render_state_commit:
+.L_06019914:
     .4byte  sym_06028560                     /* render_state_commit */
-.L_ptr_input_dirty_flag:
+.L_06019918:
     .4byte  sym_06085FF1                     /* input dirty flag (byte) */
-.L_ptr_course_active_flag:
+.L_0601991C:
     .4byte  sym_06085FF6                     /* course active flag (byte) */
-.L_ptr_variant_init_flag:
+.L_06019920:
     .4byte  sym_06085FF7                     /* variant init flag (byte) */
-.L_fn_course_init_pipeline:
+.L_06019924:
     .4byte  course_init_pipeline             /* course selection input handler */

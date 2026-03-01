@@ -17,48 +17,48 @@ car_physics_final:
     mov.l r8, @-r15
     sts.l pr, @-r15
     add #-0xC, r15
-    mov.l   .L_render_table_b, r8
-    mov.l   .L_fn_render_dispatch, r11
-    mov.l   .L_render_params, r12
-    mov.w   .L_mode_a_id, r3
+    mov.l   .L_0601A4AC, r8
+    mov.l   .L_0601A4B0, r11
+    mov.l   .L_0601A4B4, r12
+    mov.w   .L_0601A4A8, r3
     cmp/eq r3, r5
-    bf/s    .L_mode_b_path
+    bf/s    .L_0601A496
     mov #0x2, r4
     extu.w r14, r3
-    mov.l   .L_start_table_a, r2
+    mov.l   .L_0601A4B8, r2
     add r2, r3
     mov.b @r3, r1
     mov r1, r0
     mov.b r0, @(8, r15)
-    bra     .L_mode_a_classify
+    bra     .L_0601A442
     extu.w r14, r0
-.L_mode_a_class2:
-    bra     .L_mode_a_loop_setup
+.L_0601A42A:
+    bra     .L_0601A430
     extu.b r4, r10
-.L_mode_a_class3:
+.L_0601A42E:
     extu.b r6, r10
-.L_mode_a_loop_setup:
+.L_0601A430:
     mov #0x0, r13
     extu.w r14, r2
-    mov.l   .L_count_table_a, r3
+    mov.l   .L_0601A4BC, r3
     add r3, r2
     mov.l r2, @(4, r15)
     extu.b r10, r1
     shll2 r1
-    bra     .L_mode_a_loop_cond
+    bra     .L_0601A47C
     mov.l r1, @r15
-.L_mode_a_classify:
+.L_0601A442:
     cmp/eq #0x1, r0
-    bt      .L_mode_a_class2
+    bt      .L_0601A42A
     cmp/eq #0x4, r0
-    bt      .L_mode_a_class2
-    bra     .L_mode_a_class3
+    bt      .L_0601A42A
+    bra     .L_0601A42E
     nop
-.L_mode_a_loop_body:
+.L_0601A44E:
     mov r12, r7
     mov #0x0, r6
     extu.b r13, r3
-    mov.l   .L_lookup_table_a, r2
+    mov.l   .L_0601A4C0, r2
     mov.b @(8, r15), r0
     mov r0, r9
     extu.b r9, r9
@@ -78,72 +78,72 @@ car_physics_final:
     jsr @r11
     mov.l @r15, r4
     add #0x1, r13
-.L_mode_a_loop_cond:
+.L_0601A47C:
     extu.b r13, r3
     mov.l @(4, r15), r2
     mov.b @r2, r2
     extu.b r2, r2
     cmp/ge r2, r3
-    bf      .L_mode_a_loop_body
+    bf      .L_0601A44E
     extu.w r14, r5
-    mov.l   .L_final_params_a, r7
+    mov.l   .L_0601A4C4, r7
     shll r5
-    mov.l   .L_final_offset_a, r3
+    mov.l   .L_0601A4C8, r3
     add r3, r5
-    bra     .L_final_dispatch_shared
+    bra     .L_0601A532
     mov #0x60, r6
-.L_mode_b_path:
+.L_0601A496:
     extu.w r14, r2
-    mov.l   .L_start_table_b, r3
+    mov.l   .L_0601A4CC, r3
     add r3, r2
     mov.b @r2, r1
     mov.b r1, @r15
-    bra     .L_mode_b_classify
+    bra     .L_0601A4E4
     extu.w r14, r0
-.L_mode_b_class2:
-    bra     .L_mode_b_loop_setup
+.L_0601A4A4:
+    bra     .L_0601A4D2
     extu.b r4, r10
-.L_mode_a_id:
+.L_0601A4A8:
     .2byte  0x00A8                        /* mode A identifier value */
     .2byte  0xFFFF
-.L_render_table_b:
+.L_0601A4AC:
     .4byte  sym_06049B36               /* mode B lookup table base */
-.L_fn_render_dispatch:
+.L_0601A4B0:
     .4byte  sym_060283E0               /* geometry render dispatch function */
-.L_render_params:
+.L_0601A4B4:
     .4byte  sym_06049E54               /* render parameter table */
-.L_start_table_a:
+.L_0601A4B8:
     .4byte  sym_06049CD4               /* mode A start offset table (per slot) */
-.L_count_table_a:
+.L_0601A4BC:
     .4byte  sym_06049CCC               /* mode A iteration count table (per slot) */
-.L_lookup_table_a:
+.L_0601A4C0:
     .4byte  sym_06049C28               /* mode A byte-pair lookup table */
-.L_final_params_a:
+.L_0601A4C4:
     .4byte  sym_06049E58               /* mode A final render parameters */
-.L_final_offset_a:
+.L_0601A4C8:
     .4byte  sym_06059084               /* mode A final byte-pair offset base */
-.L_start_table_b:
+.L_0601A4CC:
     .4byte  sym_06049C1E               /* mode B start offset table (per slot) */
-.L_mode_b_class3:
+.L_0601A4D0:
     extu.b r6, r10
-.L_mode_b_loop_setup:
+.L_0601A4D2:
     mov #0x0, r13
     extu.w r14, r2
-    mov.l   .L_count_table_b, r3
+    mov.l   .L_0601A564, r3
     add r3, r2
     mov.l r2, @(4, r15)
     extu.b r10, r1
     shll2 r1
-    bra     .L_mode_b_loop_cond
+    bra     .L_0601A51A
     mov.l r1, @(8, r15)
-.L_mode_b_classify:
+.L_0601A4E4:
     cmp/eq #0x5, r0
-    bt      .L_mode_b_class2
+    bt      .L_0601A4A4
     cmp/eq #0x8, r0
-    bt      .L_mode_b_class2
-    bra     .L_mode_b_class3
+    bt      .L_0601A4A4
+    bra     .L_0601A4D0
     nop
-.L_mode_b_loop_body:
+.L_0601A4F0:
     mov r12, r7
     mov #0x0, r6
     mov.b @r15, r9
@@ -165,20 +165,20 @@ car_physics_final:
     jsr @r11
     mov.l @(8, r15), r4
     add #0x1, r13
-.L_mode_b_loop_cond:
+.L_0601A51A:
     extu.b r13, r3
     mov.l @(4, r15), r2
     mov.b @r2, r2
     extu.b r2, r2
     cmp/ge r2, r3
-    bf      .L_mode_b_loop_body
-    mov.l   .L_final_params_b, r7
+    bf      .L_0601A4F0
+    mov.l   .L_0601A568, r7
     mov #0x60, r6
     extu.w r14, r5
     shll r5
-    mov.l   .L_final_offset_b, r3
+    mov.l   .L_0601A56C, r3
     add r3, r5
-.L_final_dispatch_shared:
+.L_0601A532:
     mov.l r5, @r15
     mov.b @(1, r5), r0
     mov.l @r15, r2
@@ -201,14 +201,14 @@ car_physics_final:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    mov.l   .L_fn_final_dispatch, r2
+    mov.l   .L_0601A570, r2
     jmp @r2
     mov.l @r15+, r14
-.L_count_table_b:
+.L_0601A564:
     .4byte  sym_06049C14               /* mode B iteration count table (per slot) */
-.L_final_params_b:
+.L_0601A568:
     .4byte  sym_06049E58               /* mode B final render parameters */
-.L_final_offset_b:
+.L_0601A56C:
     .4byte  sym_06059060               /* mode B final byte-pair offset base */
-.L_fn_final_dispatch:
+.L_0601A570:
     .4byte  sym_060284AE               /* final geometry dispatch (tail call) */

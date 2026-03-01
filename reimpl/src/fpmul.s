@@ -13,7 +13,7 @@ fpmul:
 
     .global fpdiv_setup
 fpdiv_setup:
-    mov.w   .L_divu_base, r2
+    mov.w   .L_06027570, r2
     mov r4, r3
     mov.l r5, @(0, r2)
     shlr16 r3
@@ -23,7 +23,7 @@ fpdiv_setup:
     mov.l r4, @(20, r2)
     rts
     mov.l @(28, r2), r0
-.L_divu_base:
+.L_06027570:
     .2byte  0xFF00
     .2byte  0x0000
 
@@ -192,7 +192,7 @@ dma_transfer:
     tst r1, r0
     bf      dma_transfer
     .byte   0xD1, 0x07
-    mov.w   .L_dma_mode, r2
+    mov.w   .L_0602768A, r2
     mov.l r4, @(4, r1)
     mov.l r5, @(0, r1)
     mov.l r6, @(8, r1)
@@ -201,20 +201,20 @@ dma_transfer:
     mov.l r0, @(20, r1)
     rts
     mov.l r2, @(16, r1)
-.L_dma_mode:
+.L_0602768A:
     .2byte  0x0101
-.L_scu_dsta:
+.L_0602768C:
     .4byte  0x25FE007C
-.L_dma_busy_mask:
+.L_06027690:
     .4byte  0x0000272E
-.L_scu_d0r:
+.L_06027694:
     .4byte  0x25FE0000
     .4byte  0x00090000
 
     .global viewport_project
 viewport_project:
-    mov.w   .L_divu_base_b, r1
-    mov.w   .L_proj_scale, r0
+    mov.w   .L_060276C0, r1
+    mov.w   .L_060276CA, r0
     mov.l @(8, r4), r2
     mov.l r0, @(16, r1)
     mov.l r2, @(0, r1)
@@ -231,10 +231,10 @@ viewport_project:
     sts mach, r0
     rts
     mov.w r0, @(2, r5)
-.L_divu_base_b:
+.L_060276C0:
     .2byte  0xFF00
     .2byte  0x0009
     .4byte  0x00010000
     .2byte  0xFF00
-.L_proj_scale:
+.L_060276CA:
     .2byte  0x00A0

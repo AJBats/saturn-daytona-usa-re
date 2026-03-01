@@ -89,9 +89,9 @@ race_timer_sync:
     mov.l @r11, r3
     mov.w   .L_wpool_0603FA60, r0
     mov.l r10, @(r0, r3)
-    bra     .L_sync_loop_test
+    bra     .L_0603FA6C
     nop
-.L_sync_loop_body:
+.L_0603FA46:
     mov r15, r5
     bsr     scene_buffer_update
     mov r14, r4
@@ -101,8 +101,8 @@ race_timer_sync:
     add #0x1, r3
     mov.l r3, @(r0, r2)
     cmp/gt r13, r3
-    bf      .L_sync_loop_test
-    bra     .L_sync_loop_exit
+    bf      .L_0603FA6C
+    bra     .L_0603FA7E
     nop
 .L_wpool_0603FA5E:
     .2byte  0xFF7F                      /* [HIGH] 0xFFFFFF7F sign-ext — AND mask clears bit 7 (active flag) */
@@ -113,20 +113,20 @@ race_timer_sync:
     .4byte  sym_060A4D14                /* [HIGH] global game state struct pointer */
 .L_pool_0603FA68:
     .4byte  0x01000000                  /* [HIGH] MINIT — primary SH-2 init comm threshold */
-.L_sync_loop_test:
+.L_0603FA6C:
     mov #0x34, r0
     mov.b @(r0, r14), r4
     extu.b r4, r4
     and r12, r4
     tst r4, r4
-    bt      .L_sync_loop_exit
+    bt      .L_0603FA7E
     mov r4, r0
     cmp/eq #0x5, r0
-    bf      .L_sync_loop_body
-.L_sync_loop_exit:
+    bf      .L_0603FA46
+.L_0603FA7E:
     mov.l @(4, r14), r0
     tst r0, r0
-    bt      .L_skip_callback_a
+    bt      .L_0603FA9A
     mov.l @(4, r15), r6
     mov.l @(4, r14), r5
     .byte   0xD3, 0x27    /* mov.l .L_pool_0603FB28, r3 */
@@ -138,17 +138,17 @@ race_timer_sync:
     add r3, r2
     mov.l r2, @(24, r14)
     mov.l r10, @(4, r14)
-.L_skip_callback_a:
+.L_0603FA9A:
     mov.l @(12, r14), r0
     tst r0, r0
-    bt      .L_skip_callback_b
+    bt      .L_0603FAAC
     mov.l @(4, r15), r6
     mov.l @(12, r14), r5
     .byte   0xD3, 0x20    /* mov.l .L_pool_0603FB28, r3 */
     jsr @r3
     mov.l @(12, r15), r4
     mov.l r10, @(12, r14)
-.L_skip_callback_b:
+.L_0603FAAC:
     mov #0x34, r0
     mov #0x34, r1
     mov.b @(r0, r14), r0

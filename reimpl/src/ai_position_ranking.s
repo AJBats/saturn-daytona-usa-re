@@ -20,18 +20,18 @@ ai_position_ranking:
     mov.l @r3, r3
     and r3, r0
     tst #0x1, r0
-    bt/s    .L_check_time_attack
+    bt/s    .L_06014F5C
     mov #0x23, r4
     mov.l   _pool_rank_table_mode_a, r13
-    bra     .L_table_selected
+    bra     .L_06014F66
     mov #0x28, r4
-.L_check_time_attack:
+.L_06014F5C:
     mov.l @r5, r0
     cmp/eq #0x15, r0
-    bf      .L_table_selected
+    bf      .L_06014F66
     mov.l   _pool_rank_table_mode_b, r13
     mov #0x6, r4
-.L_table_selected:
+.L_06014F66:
     extu.b r4, r4
     mov.w @r14, r5
     extu.w r5, r5
@@ -46,7 +46,7 @@ ai_position_ranking:
     neg r1, r1
     and r1, r3
     tst r3, r3
-    bt      .L_epilogue
+    bt      .L_06015030
     mov.l   _pool_frame_decrement, r3
     mov.w @r12, r2
     mov.l @r3, r3
@@ -54,15 +54,15 @@ ai_position_ranking:
     mov.w r2, @r12
     mov.w @r12, r3
     cmp/pl r3
-    bt      .L_epilogue
-.L_process_next_entry:
+    bt      .L_06015030
+.L_06014F94:
     mov.l   _pool_fn_data_lookup, r3
     jsr @r3
     mov #0x0, r4
     extu.b r0, r5
     extu.b r5, r0
     cmp/eq #0x11, r0
-    bt      .L_epilogue
+    bt      .L_06015030
     extu.b r5, r4
     mov.l   _pool_slot_data_base, r2
     mov.w @r14, r0
@@ -106,14 +106,14 @@ ai_position_ranking:
     mov.b @r4, r0
     extu.b r0, r0
     cmp/eq #0x15, r0
-    bf      .L_check_countdown
+    bf      .L_06014FFE
     mov #0x64, r2
     mov.w r2, @r14
-.L_check_countdown:
+.L_06014FFE:
     mov.w @r12, r3
     tst r3, r3
-    bf      .L_epilogue
-    bra     .L_process_next_entry
+    bf      .L_06015030
+    bra     .L_06014F94
     nop
 _pool_countdown_timer:
     .4byte  sym_06085F94
@@ -135,7 +135,7 @@ _pool_fn_data_lookup:
     .4byte  vdp2_data_lookup
 _pool_slot_data_base:
     .4byte  sym_06084FC8
-.L_epilogue:
+.L_06015030:
     lds.l @r15+, pr
     mov.l @r15+, r12
     mov.l @r15+, r13

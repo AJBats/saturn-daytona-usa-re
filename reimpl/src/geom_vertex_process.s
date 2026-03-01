@@ -21,11 +21,11 @@ geom_vertex_process:
     mov.l   .L_pool_0601EA00, r0
     mov.b @r0, r0
     tst r0, r0
-    bt/s    .L_not_pending
+    bt/s    .L_0601E980
     mov #0x0, r8
-    bra     .L_epilogue_return
+    bra     .L_0601EA8E
     mov.b r8, @r13
-.L_not_pending:
+.L_0601E980:
     .byte   0xBC, 0x98    /* bsr 0x0601E2B4 (hud_overlay_render) */
     nop
     mov.l   .L_pool_0601EA04, r14
@@ -42,7 +42,7 @@ geom_vertex_process:
     extu.b r0, r4
     mov #0x7, r2
     cmp/ge r2, r4
-    bf      .L_not_idle
+    bf      .L_0601E9BA
     .byte   0xB0, 0xE5    /* bsr 0x0601EB70 (geom_normal_compute) */
     nop
     mov.b @r14, r2
@@ -53,9 +53,9 @@ geom_vertex_process:
     mov #0x4, r2
     jsr @r12
     mov.b r2, @r13
-    bra     .L_epilogue_return
+    bra     .L_0601EA8E
     nop
-.L_not_idle:
+.L_0601E9BA:
     mov #0x1, r1
     mov.b @r14, r2
     mov.l   .L_pool_0601EA0C, r3
@@ -64,7 +64,7 @@ geom_vertex_process:
     mov.b r1, @r2
     mov #0x3, r3
     cmp/ge r3, r4
-    bf      .L_element_changed
+    bf      .L_0601EA14
     add #-0x3, r4
     mov.b @r14, r3
     mov.l   .L_pool_0601EA10, r2
@@ -100,7 +100,7 @@ geom_vertex_process:
     .4byte  sym_060877DD
 .L_pool_0601EA10:
     .4byte  sym_060877D9
-.L_element_changed:
+.L_0601EA14:
     mov.b @r14, r2
     .byte   0xD3, 0x2F    /* mov.l @(0xBC,PC), r3 */
     extu.b r2, r2
@@ -125,19 +125,19 @@ geom_vertex_process:
     extu.b r4, r4
     mov r0, r4
     tst r4, r4
-    bt      .L_render_unchanged
+    bt      .L_0601EA4E
     jsr @r12
     mov.b r11, @r13
-    bra     .L_epilogue_return
+    bra     .L_0601EA8E
     nop
-.L_render_unchanged:
+.L_0601EA4E:
     .byte   0xD2, 0x23    /* mov.l @(0x8C,PC), r2 */
     mov.b @r2, r2
     extu.b r2, r2
     tst r2, r2
-    bf      .L_epilogue_return
+    bf      .L_0601EA8E
     mov r8, r4
-.L_compare_loop:
+.L_0601EA5A:
     mov.l @r9, r3
     add r4, r3
     mov.b @r3, r2
@@ -147,15 +147,15 @@ geom_vertex_process:
     mov.b @r3, r1
     extu.b r1, r1
     cmp/eq r1, r2
-    bt      .L_bytes_match
+    bt      .L_0601EA76
     jsr @r12
     mov.b r11, @r13
-    bra     .L_epilogue_return
+    bra     .L_0601EA8E
     nop
-.L_bytes_match:
+.L_0601EA76:
     add #0x1, r4
     cmp/ge r10, r4
-    bf      .L_compare_loop
+    bf      .L_0601EA5A
     lds.l @r15+, pr
     mov.l @r15+, r8
     mov.l @r15+, r9
@@ -165,7 +165,7 @@ geom_vertex_process:
     mov.l @r15+, r13
     .byte   0xA0, 0xA6    /* bra 0x0601EBDA (geom_vertex_compute) */
     mov.l @r15+, r14
-.L_epilogue_return:
+.L_0601EA8E:
     lds.l @r15+, pr
     mov.l @r15+, r8
     mov.l @r15+, r9

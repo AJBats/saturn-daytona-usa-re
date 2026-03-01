@@ -18,7 +18,7 @@ track_surface_validate:
     mov.l @r14, r0
     mov.l @(r0, r1), r0
     cmp/eq #0x1, r0
-    bf/s    .L_check_state2
+    bf/s    .L_06041BFC
     mov r4, r12
     mov r15, r5
     mov.l @r14, r4
@@ -48,12 +48,12 @@ track_surface_validate:
     mov.w   _wpool_off_max_dist, r0
     mov.l @(r0, r4), r4
     cmp/ge r4, r2
-    bt      .L_clamp_to_max
-    bra     .L_store_distance
+    bt      .L_06041B98
+    bra     .L_06041B9A
     nop
-.L_clamp_to_max:
+.L_06041B98:
     mov.l r4, @r15
-.L_store_distance:
+.L_06041B9A:
     mov.l @r14, r2
     mov.w   _wpool_off_result_ptr, r0
     mov.l @(r0, r2), r3
@@ -61,7 +61,7 @@ track_surface_validate:
     mov.l r2, @r3
     mov.l @r15, r3
     cmp/pl r3
-    bt      .L_distance_positive
+    bt      .L_06041BE0
     mov.l @r14, r2
     mov.w   DAT_06041bc8, r0
     mov.l r13, @(r0, r2)
@@ -69,13 +69,13 @@ track_surface_validate:
     mov.l @r14, r3
     mov.l @(r0, r3), r0
     tst r0, r0
-    bt      .L_exit_zero
+    bt      .L_06041BC2
     mov.l @r14, r3
     mov.w   DAT_06041bd2, r0
     mov.l @(r0, r3), r2
     mov.l r13, @r2
-.L_exit_zero:
-    bra     .L_epilogue
+.L_06041BC2:
+    bra     .L_06041CBA
     mov #0x0, r0
 
     .global DAT_06041bc6
@@ -105,35 +105,35 @@ _pool_car_state_base:
     .4byte  sym_060A5400            /* AI/game state base pointer (indirect) */
 _pool_fn_surface_type_c:
     .4byte  track_surface_type_c    /* surface type query variant C */
-.L_distance_positive:
+.L_06041BE0:
     mov.l @r14, r3
     mov.w   DAT_06041ca8, r0
     mov.l @(r0, r3), r0
     tst r0, r0
-    bf      .L_advance_state2
+    bf      .L_06041BF4
     mov.l @r14, r3
     mov.w   DAT_06041caa, r0
     mov.l r13, @(r0, r3)
-    bra     .L_epilogue
+    bra     .L_06041CBA
     mov r13, r0
-.L_advance_state2:
+.L_06041BF4:
     mov.l @r14, r3
     mov #0x2, r2
     mov.w   DAT_06041caa, r0
     mov.l r2, @(r0, r3)
-.L_check_state2:
+.L_06041BFC:
     mov.l @r14, r0
     mov.w   DAT_06041caa, r1
     mov.l @(r0, r1), r0
     cmp/eq #0x2, r0
-    bf      .L_check_state3
+    bf      .L_06041C5A
     mov.l @r14, r0
     mov.l @(52, r0), r0
     cmp/eq #0x1, r0
-    bf      .L_state2_exec
-    bra     .L_epilogue
+    bf      .L_06041C12
+    bra     .L_06041CBA
     mov #0x2, r0
-.L_state2_exec:
+.L_06041C12:
     mov #0x1, r3
     mov.l @r14, r2
     mov.l r3, @(52, r2)
@@ -151,10 +151,10 @@ _pool_fn_surface_type_c:
     mov.l @(r0, r4), r4
     mov r0, r4
     tst r4, r4
-    bt      .L_state2_checkpoint
-    bra     .L_epilogue
+    bt      .L_06041C3A
+    bra     .L_06041CBA
     mov #0x2, r0
-.L_state2_checkpoint:
+.L_06041C3A:
     mov r15, r4
     jsr @r11
     add #0x8, r4
@@ -171,22 +171,22 @@ _pool_fn_surface_type_c:
     mov #0x3, r3
     mov.w   DAT_06041caa, r0
     mov.l r3, @(r0, r2)
-.L_check_state3:
+.L_06041C5A:
     mov.l @r14, r0
     mov.w   DAT_06041caa, r1
     mov.l @(r0, r1), r0
     cmp/eq #0x3, r0
-    bf      .L_fallthrough_exit
+    bf      .L_06041CB8
     mov r15, r4
     mov.l   _pool_fn_distance_calc, r3
     jsr @r3
     add #0x4, r4
     mov r0, r4
     tst r4, r4
-    bt      .L_state3_finalize
-    bra     .L_epilogue
+    bt      .L_06041C76
+    bra     .L_06041CBA
     mov #0x1, r0
-.L_state3_finalize:
+.L_06041C76:
     mov r15, r4
     jsr @r11
     add #0x8, r4
@@ -210,7 +210,7 @@ _pool_fn_surface_type_c:
     mov.l r3, @r2
     mov.l @r14, r3
     mov.l r13, @(52, r3)
-    bra     .L_epilogue
+    bra     .L_06041CBA
     mov r13, r0
 
     .global DAT_06041ca8
@@ -227,9 +227,9 @@ _pool_fn_surface_type_d:
     .4byte  track_surface_type_d    /* surface type query variant D */
 _pool_fn_distance_calc:
     .4byte  track_distance_calc     /* track distance computation */
-.L_fallthrough_exit:
+.L_06041CB8:
     mov #0x1, r0
-.L_epilogue:
+.L_06041CBA:
     add #0x14, r15
     lds.l @r15+, pr
     mov.l @r15+, r11

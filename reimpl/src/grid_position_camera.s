@@ -13,96 +13,96 @@ grid_position_camera:
     mov.w @r13, r0
     extu.w r0, r0
     tst #0x1, r0
-    bt/s    .L_mode_b
+    bt/s    .L_0601A108
     mov #0x0, r12
-    bra     .L_mode_selected
+    bra     .L_0601A10A
     mov #0x6, r5
-.L_mode_b:
+.L_0601A108:
     mov #0x19, r5
-.L_mode_selected:
-    mov.l   .L_up_btn_mask, r7
+.L_0601A10A:
+    mov.l   .L_0601A1A0, r7
     mov.l   .L_pool_0601A1A4, r4
     mov.w @(2, r13), r0
     mov r0, r2
     extu.w r2, r2
     and r7, r2
     tst r2, r2
-    bt      .L_check_new_down
+    bt      .L_0601A126
     mov.l @r14, r3
     add #0x1, r3
     mov.l r3, @r14
     exts.b r12, r2
-    bra     .L_clamp
+    bra     .L_0601A17A
     mov.b r2, @r4
-.L_check_new_down:
-    mov.w   .L_down_btn_mask, r6
+.L_0601A126:
+    mov.w   .L_0601A196, r6
     mov.w @(2, r13), r0
     mov r0, r2
     extu.w r2, r2
     and r6, r2
     tst r2, r2
-    bt      .L_check_held_up
+    bt      .L_0601A140
     mov.l @r14, r3
     add #-0x1, r3
     mov.l r3, @r14
     exts.b r12, r2
-    bra     .L_clamp
+    bra     .L_0601A17A
     mov.b r2, @r4
-.L_check_held_up:
+.L_0601A140:
     mov.w @r13, r2
     extu.w r2, r2
     and r7, r2
     tst r2, r2
-    bt      .L_check_held_down
+    bt      .L_0601A15E
     mov.b @r4, r3
     extu.b r5, r5
     cmp/eq r5, r3
-    bf      .L_clamp
+    bf      .L_0601A17A
     mov.l @r14, r3
     add #0x1, r3
     mov.l r3, @r14
     exts.b r12, r2
-    bra     .L_clamp
+    bra     .L_0601A17A
     mov.b r2, @r4
-.L_check_held_down:
+.L_0601A15E:
     mov.w @r13, r2
     extu.w r2, r2
     and r6, r2
     tst r2, r2
-    bt      .L_clamp
+    bt      .L_0601A17A
     extu.b r5, r5
     mov.b @r4, r3
     cmp/eq r5, r3
-    bf      .L_clamp
+    bf      .L_0601A17A
     mov.l @r14, r3
     add #-0x1, r3
     mov.l r3, @r14
     exts.b r12, r2
     mov.b r2, @r4
-.L_clamp:
+.L_0601A17A:
     mov #0x5, r2
     mov.l @r14, r3
     cmp/ge r2, r3
-    bf      .L_check_lower_clamp
+    bf      .L_0601A186
     mov #0x4, r2
     mov.l r2, @r14
-.L_check_lower_clamp:
+.L_0601A186:
     mov.l @r14, r3
     cmp/pz r3
-    bt      .L_epilogue
+    bt      .L_0601A18E
     mov.l r12, @r14
-.L_epilogue:
+.L_0601A18E:
     mov.l @r15+, r12
     mov.l @r15+, r13
     .byte   0xAF, 0x0E    /* bra 0x06019FB2 (external) */
     mov.l @r15+, r14
-.L_down_btn_mask:
+.L_0601A196:
     .2byte  0x4000                          /* Down button bit mask (bit 14) */
 .L_pool_0601A198:
     .4byte  g_pad_state                    /* &input_state (+0=held, +2=newly pressed) */
 .L_pool_0601A19C:
     .4byte  sym_0605AD04                    /* &grid_slot_counter (32-bit) */
-.L_up_btn_mask:
+.L_0601A1A0:
     .4byte  0x00008000                      /* Up button bit mask (bit 15, 32-bit for AND) */
 .L_pool_0601A1A4:
     .4byte  sym_0605D243                    /* &grid_slot_byte (byte output) */

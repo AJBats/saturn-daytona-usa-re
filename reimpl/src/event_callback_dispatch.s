@@ -26,20 +26,20 @@ event_callback_dispatch:
     mov.l @r15, r2
     add r2, r5
     cmp/ge r3, r5
-    bf      .L_fill_record
+    bf      .L_06040BD4
     mov.l @(8, r15), r0
     tst r0, r0
-    bt      .L_fill_record
+    bt      .L_06040BD4
     mov.l @r15, r3
     cmp/pl r3
-    bf      .L_fill_record
+    bf      .L_06040BD4
     mov.l @(12, r15), r2
     mov.l @(8, r15), r3
     sub r3, r2
     mov.l @(4, r15), r1
     sub r2, r1
     mov.l r1, @(4, r15)
-.L_fill_record:
+.L_06040BD4:
     mov.l   .L_pool_06040C08, r13
     mov.l   .L_pool_06040C0C, r3
     jsr @r3

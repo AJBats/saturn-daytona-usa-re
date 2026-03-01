@@ -40,14 +40,14 @@ sym_06011EB4:
     mov.l   .L_pool_06011F14, r0
     mov.b @r0, r0
     tst r0, r0
-    bt      .L_single_player_path
+    bt      .L_06011EC2
     bra     dual_hud_render
     add #0x4, r15
-.L_single_player_path:
+.L_06011EC2:
     mov.l   .L_pool_06011F18, r0
     mov.l @r0, r0
     tst r0, r0
-    bt      .L_render_player2_hud
+    bt      .L_06011EE4
     mov.l   .L_pool_06011F08, r3
     mov.l r3, @r15
     mov r3, r7
@@ -61,7 +61,7 @@ sym_06011EB4:
     mov.l   .L_pool_06011F0C, r3
     jmp @r3
     add #0x4, r15
-.L_render_player2_hud:
+.L_06011EE4:
     mov.l   .L_pool_06011F10, r2
     mov.l r2, @r15
     mov r2, r7
@@ -115,7 +115,7 @@ sym_06011F1C:
     .byte   0x9D, 0x53    /* mov.w .L_wpool_06011FD8, r13 */
     mov #0x0, r6
     exts.w r6, r5
-.L_fade_loop:
+.L_06011F34:
     mov.w @r4, r0
     exts.w r6, r3
     exts.w r0, r7
@@ -123,12 +123,12 @@ sym_06011F1C:
     and r10, r7
     add #-0x2, r7
     cmp/pl r7
-    bf      .L_blue_clamp_zero
-    bra     .L_blue_done
+    bf      .L_06011F48
+    bra     .L_06011F4A
     mov r7, r2
-.L_blue_clamp_zero:
+.L_06011F48:
     mov #0x0, r2
-.L_blue_done:
+.L_06011F4A:
     exts.w r0, r7
     mov.w @r4, r3
     and r9, r7
@@ -136,12 +136,12 @@ sym_06011F1C:
     add #-0x40, r7
     mov.w r3, @r4
     cmp/pl r7
-    bf      .L_green_clamp_zero
-    bra     .L_green_done
+    bf      .L_06011F5E
+    bra     .L_06011F60
     mov r7, r2
-.L_green_clamp_zero:
+.L_06011F5E:
     mov #0x0, r2
-.L_green_done:
+.L_06011F60:
     mov.w @r4, r3
     exts.w r0, r7
     or r2, r3
@@ -149,19 +149,19 @@ sym_06011F1C:
     mov.w r3, @r4
     add r13, r7
     cmp/pl r7
-    bf      .L_red_clamp_zero
-    bra     .L_red_done
+    bf      .L_06011F74
+    bra     .L_06011F76
     mov r7, r2
-.L_red_clamp_zero:
+.L_06011F74:
     mov #0x0, r2
-.L_red_done:
+.L_06011F76:
     add #0x1, r5
     mov.w @r4, r3
     or r2, r3
     mov.w r3, @r4
     exts.w r5, r2
     cmp/ge r11, r2
-    bf/s    .L_fade_loop
+    bf/s    .L_06011F34
     add #0x2, r4
     mov.l @r15+, r9
     mov.l @r15+, r10

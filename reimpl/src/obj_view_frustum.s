@@ -8,7 +8,7 @@ obj_view_frustum:
     sts.l pr, @-r15
     add #-0x10, r15
     mov r15, r4
-    mov.l   .L_ptr_input_proc_analog, r3
+    mov.l   .L_06036A10, r3
     jsr @r3
     add #0x8, r4
     mov r15, r2
@@ -18,7 +18,7 @@ obj_view_frustum:
     add #0x8, r2
     add #0x8, r5
     mov.b r3, @r2
-    mov.l   .L_ptr_input_proc_digital, r3
+    mov.l   .L_06036A18, r3
     jsr @r3
     mov #0x0, r4
     mov r0, r4
@@ -33,8 +33,8 @@ obj_view_frustum:
     rts
     mov.l @r15+, r14
     .2byte  0x0100
-.L_ptr_input_proc_analog:
+.L_06036A10:
     .4byte  input_proc_analog     /* [HIGH] JSR target — input_proc_analog @ 0x06035E90 */
     .4byte  input_proc_buttons    /* [HIGH] adjacent pool entry — input_proc_buttons @ 0x06035EC8 (not directly referenced in this function) */
-.L_ptr_input_proc_digital:
+.L_06036A18:
     .4byte  input_proc_digital    /* [HIGH] JSR target — input_proc_digital @ 0x06035EA2 */

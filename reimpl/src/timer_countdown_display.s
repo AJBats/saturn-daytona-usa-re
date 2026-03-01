@@ -16,7 +16,7 @@ timer_countdown_display:
     add r0, r8
     mov.l   .L_pool_06031A68, r13
     mov.l   .L_pool_06031A6C, r11
-.L_digit_loop:
+.L_06031A4A:
     add #-0x18, r8
     mov.w @(16, r8), r0
     mov #0xC, r3
@@ -27,8 +27,8 @@ timer_countdown_display:
     add r3, r7
     mov.l @(8, r7), r3
     cmp/pl r3
-    bt      .L_sprite_valid
-    bra     .L_next_digit
+    bt      .L_06031A74
+    bra     .L_06031CF2
     nop
 
     .global DAT_06031a64
@@ -41,7 +41,7 @@ DAT_06031a64:
     .4byte  sym_06031D3C
 .L_pool_06031A70:
     .4byte  sym_06094FA8
-.L_sprite_valid:
+.L_06031A74:
     mov.w   .L_wpool_06031ADC, r0
     mov.l r0, @(16, r12)
     mov.l r3, @(0, r12)
@@ -51,7 +51,7 @@ DAT_06031a64:
     mov.w @(12, r8), r0
     mov r8, r4
     tst #0x8, r0
-    bf      .L_after_matrix_xform
+    bf      .L_06031AE8
     mov.l   .L_pool_06031AE0, r5
     mov.l   .L_pool_06031AE4, r0
     mov.l @r0, r9
@@ -91,8 +91,8 @@ DAT_06031a64:
     sts macl, r0
     xtrct r1, r0
     cmp/pl r0
-    bt      .L_after_matrix_xform
-    bra     .L_next_digit
+    bt      .L_06031AE8
+    bra     .L_06031CF2
     nop
 .L_wpool_06031ADC:
     .2byte  0x00A0
@@ -101,7 +101,7 @@ DAT_06031a64:
     .4byte  sym_06031D6C
 .L_pool_06031AE4:
     .4byte  sym_06089EDC
-.L_after_matrix_xform:
+.L_06031AE8:
     mov r11, r5
     mov.l @(4, r7), r2
     mov.l @r7, r1
@@ -125,11 +125,11 @@ DAT_06031a64:
     mov.l r1, @r5
     sts mach, r2
     mov.l r2, @(4, r5)
-    bsr     .L_validate_screen_bounds
+    bsr     .L_06031D1A
     nop
     cmp/pl r3
-    bt      .L_digit1_valid
-    bra     .L_next_digit
+    bt      .L_06031B28
+    bra     .L_06031CF2
     nop
 
     .global DAT_06031b22
@@ -137,7 +137,7 @@ DAT_06031b22:
     .2byte  0x00A0
 .L_pool_06031B24:
     .4byte  sym_06094FA8
-.L_digit1_valid:
+.L_06031B28:
     mov.l r3, @(4, r13)
     add #0x8, r5
     mov.l @(4, r7), r2
@@ -162,18 +162,18 @@ DAT_06031b22:
     mov.l r1, @r5
     sts mach, r2
     mov.l r2, @(4, r5)
-    bsr     .L_validate_screen_bounds
+    bsr     .L_06031D1A
     nop
     cmp/pl r3
-    bt      .L_digit2_valid
-    bra     .L_next_digit
+    bt      .L_06031B6C
+    bra     .L_06031CF2
     nop
 .L_wpool_06031B64:
     .2byte  0x00A0
     .2byte  0x0000
 .L_pool_06031B68:
     .4byte  sym_06094FA8
-.L_digit2_valid:
+.L_06031B6C:
     mov.l r3, @(8, r13)
     add #0x8, r5
     mov.l @(4, r7), r2
@@ -198,18 +198,18 @@ DAT_06031b22:
     mov.l r1, @r5
     sts mach, r2
     mov.l r2, @(4, r5)
-    bsr     .L_validate_screen_bounds
+    bsr     .L_06031D1A
     nop
     cmp/pl r3
-    bt      .L_digit3_valid
-    bra     .L_next_digit
+    bt      .L_06031BB0
+    bra     .L_06031CF2
     nop
 .L_wpool_06031BA8:
     .2byte  0x00A0
     .2byte  0x0000
 .L_pool_06031BAC:
     .4byte  sym_06094FA8
-.L_digit3_valid:
+.L_06031BB0:
     mov.l r3, @(12, r13)
     add #0x8, r5
     mov.l @(4, r7), r2
@@ -222,7 +222,7 @@ DAT_06031b22:
     mov.l r1, @r5
     sts mach, r2
     mov.l r2, @(4, r5)
-    bsr     .L_validate_screen_bounds
+    bsr     .L_06031D1A
     nop
     mov.l   .L_pool_06031BFC, r0
     mov #0x18, r1
@@ -237,14 +237,14 @@ DAT_06031b22:
     mov.l @(16, r11), r4
     mov.l @(24, r11), r6
     cmp/gt r0, r12
-    bf      .L_check_right_bound
+    bf      .L_06031C04
     cmp/gt r2, r12
-    bf      .L_check_right_bound
+    bf      .L_06031C04
     cmp/gt r4, r12
-    bf      .L_check_right_bound
+    bf      .L_06031C04
     cmp/gt r6, r12
-    bf      .L_check_right_bound
-    bra     .L_next_digit
+    bf      .L_06031C04
+    bra     .L_06031CF2
     nop
 .L_wpool_06031BF8:
     .2byte  0xFF50
@@ -253,41 +253,41 @@ DAT_06031b22:
     .4byte  sym_060620D0
 .L_pool_06031C00:
     .4byte  sym_0608AC20
-.L_check_right_bound:
+.L_06031C04:
     mov.w   .L_wpool_06031C7C, r12
     cmp/gt r0, r12
-    bt      .L_load_y_coords
+    bt      .L_06031C16
     cmp/gt r2, r12
-    bt      .L_load_y_coords
+    bt      .L_06031C16
     cmp/gt r4, r12
-    bt      .L_load_y_coords
+    bt      .L_06031C16
     cmp/gt r6, r12
-    bt      .L_next_digit
-.L_load_y_coords:
+    bt      .L_06031CF2
+.L_06031C16:
     mov.w   .L_wpool_06031C7E, r12
     mov.l @(4, r11), r1
     mov.l @(12, r11), r3
     mov.l @(20, r11), r5
     mov.l @(28, r11), r7
     cmp/gt r1, r12
-    bf      .L_check_bottom_bound
+    bf      .L_06031C30
     cmp/gt r3, r12
-    bf      .L_check_bottom_bound
+    bf      .L_06031C30
     cmp/gt r5, r12
-    bf      .L_check_bottom_bound
+    bf      .L_06031C30
     cmp/gt r7, r12
-    bt      .L_next_digit
-.L_check_bottom_bound:
+    bt      .L_06031CF2
+.L_06031C30:
     mov.w   .L_wpool_06031C80, r12
     cmp/gt r1, r12
-    bt      .L_write_sprite_cmd
+    bt      .L_06031C42
     cmp/gt r3, r12
-    bt      .L_write_sprite_cmd
+    bt      .L_06031C42
     cmp/gt r5, r12
-    bt      .L_write_sprite_cmd
+    bt      .L_06031C42
     cmp/gt r7, r12
-    bf      .L_next_digit
-.L_write_sprite_cmd:
+    bf      .L_06031CF2
+.L_06031C42:
     mov r9, r12
     add #0x18, r12
     mov.w r7, @-r12
@@ -332,67 +332,67 @@ loc_06031C88:
     add r4, r3
     add r5, r6
     add r6, r3
-    bra     .L_commit_sprite_entry
+    bra     .L_06031CDA
     shlr2 r3
 
     .global loc_06031C92
 loc_06031C92:
     cmp/ge r3, r4
-    bt      .L_min_cmp_r5
+    bt      .L_06031C98
     mov r4, r3
-.L_min_cmp_r5:
+.L_06031C98:
     cmp/ge r3, r5
-    bt      .L_min_cmp_r6
+    bt      .L_06031C9E
     mov r5, r3
-.L_min_cmp_r6:
+.L_06031C9E:
     cmp/ge r3, r6
-    bt      .L_min_done
+    bt      .L_06031CA4
     mov r6, r3
-.L_min_done:
-    bra     .L_commit_sprite_entry
+.L_06031CA4:
+    bra     .L_06031CDA
     nop
 
     .global loc_06031CA8
 loc_06031CA8:
     cmp/gt r3, r4
-    bf      .L_max_cmp_r5
+    bf      .L_06031CAE
     mov r4, r3
-.L_max_cmp_r5:
+.L_06031CAE:
     cmp/gt r3, r5
-    bf      .L_max_cmp_r6
+    bf      .L_06031CB4
     mov r5, r3
-.L_max_cmp_r6:
+.L_06031CB4:
     cmp/gt r3, r6
-    bf      .L_max_done
+    bf      .L_06031CBA
     mov r6, r3
-.L_max_done:
-    bra     .L_commit_sprite_entry
+.L_06031CBA:
+    bra     .L_06031CDA
     nop
 
     .global loc_06031CBE
 loc_06031CBE:
     mov #0x20, r0
-    bra     .L_max_with_offset
+    bra     .L_06031CC6
     shll16 r0
 
     .global loc_06031CC4
 loc_06031CC4:
     mov.l   .L_pool_06031CFC, r0
-.L_max_with_offset:
+.L_06031CC6:
     cmp/gt r3, r4
-    bf      .L_max_off_cmp_r5
+    bf      .L_06031CCC
     mov r4, r3
-.L_max_off_cmp_r5:
+.L_06031CCC:
     cmp/gt r3, r5
-    bf      .L_max_off_cmp_r6
+    bf      .L_06031CD2
     mov r5, r3
-.L_max_off_cmp_r6:
+.L_06031CD2:
     cmp/gt r3, r6
-    bf      .L_apply_depth_offset
+    bf      .L_06031CD8
     mov r6, r3
-.L_apply_depth_offset:
+.L_06031CD8:
     add r0, r3
-.L_commit_sprite_entry:
+.L_06031CDA:
     mov.l   .L_pool_06031D00, r2
     neg r3, r3
     mov.l   .L_pool_06031D04, r1
@@ -405,10 +405,10 @@ loc_06031CC4:
     shar r0
     add #0x1, r0
     mov.l r0, @r2
-.L_next_digit:
+.L_06031CF2:
     dt r14
-    bt      .L_epilogue
-    bra     .L_digit_loop
+    bt      .L_06031D08
+    bra     .L_06031A4A
     nop
     .2byte  0x0000
 .L_pool_06031CFC:
@@ -417,7 +417,7 @@ loc_06031CC4:
     .4byte  sym_060620D0
 .L_pool_06031D04:
     .4byte  sym_0606A4F8
-.L_epilogue:
+.L_06031D08:
     lds.l @r15+, pr
     mov.l @r15+, r14
     mov.l @r15+, r13
@@ -427,19 +427,19 @@ loc_06031CC4:
     mov.l @r15+, r9
     rts
     mov.l @r15+, r8
-.L_validate_screen_bounds:
+.L_06031D1A:
     mov.w   DAT_06031d36, r0
     cmp/gt r0, r1
-    bt      .L_next_digit
+    bt      .L_06031CF2
     mov.w   DAT_06031d38, r0
     cmp/gt r1, r0
-    bt      .L_next_digit
+    bt      .L_06031CF2
     mov.w   DAT_06031d3a, r0
     cmp/gt r0, r2
-    bt      .L_next_digit
+    bt      .L_06031CF2
     mov.w   DAT_06031d38, r0
     cmp/gt r2, r0
-    bt      .L_next_digit
+    bt      .L_06031CF2
     rts
     nop
 
@@ -510,7 +510,7 @@ sym_06031D8C:
     mov #0x24, r7
     add r6, r7
     add #-0x8, r15
-.L_xform_loop:
+.L_06031D98:
     clrmac
     mac.l @r4+, @r6+
     mac.l @r4+, @r6+
@@ -549,7 +549,7 @@ sym_06031D8C:
     mov.l r0, @r3
     mov.l r1, @(4, r3)
     add #-0x24, r6
-    bf/s    .L_xform_loop
+    bf/s    .L_06031D98
     add #0xC, r3
     rts
     add #0x8, r15

@@ -11,17 +11,17 @@ hud_transparency:
     mov.l r8, @-r15
     sts.l pr, @-r15
     sts.l macl, @-r15
-    mov.w   .L_w_coeff_count, r13
+    mov.w   .L_06011658, r13
     mov.l   .L_pool_0601165C, r14
-    mov.l   .L_fp_eight, r12
-    bsr     .L_config_vdp2_coeff
+    mov.l   .L_06011660, r12
+    bsr     .L_0601164A
     nop
     mov.w @r14, r2
     add #0x1, r2
     mov.w r2, @r14
-    mov.l   .L_vdp2_vram_0x5F800, r5
+    mov.l   .L_06011664, r5
     mov #0x0, r4
-.L_coeff_loop:
+.L_06011610:
     extu.w r4, r0
     extu.w r4, r1
     mov.l   .L_pool_06011668, r3
@@ -31,12 +31,12 @@ hud_transparency:
     jsr @r3
     mov #0x2, r0
     tst r0, r0
-    bt      .L_use_pos_scale
-    bra     .L_store_coeff
+    bt      .L_06011628
+    bra     .L_0601162A
     mov r12, r3
-.L_use_pos_scale:
+.L_06011628:
     mov.l   .L_pool_0601166C, r3
-.L_store_coeff:
+.L_0601162A:
     add #0x1, r4
     mov.w @r14, r1
     extu.w r1, r1
@@ -45,7 +45,7 @@ hud_transparency:
     mov.l r3, @r8
     extu.w r4, r3
     cmp/ge r13, r3
-    bf      .L_coeff_loop
+    bf      .L_06011610
     lds.l @r15+, macl
     lds.l @r15+, pr
     mov.l @r15+, r8
@@ -54,25 +54,25 @@ hud_transparency:
     rts
     mov.l @r15+, r14
 
-.L_config_vdp2_coeff:
+.L_0601164A:
     mov.l   .L_pool_06011670, r3
-    mov.l   .L_vdp2_reg_0x0A4, r2
+    mov.l   .L_06011674, r2
     mov.l r3, @r2
-    mov.w   .L_w_rpmd_mode, r3
+    mov.w   .L_0601165A, r3
     add #-0xA, r2
     rts
     mov.w r3, @r2
 
 
-.L_w_coeff_count:
+.L_06011658:
     .2byte  0x0100              /* [HIGH] 256 — coefficient table entry count (loop bound) */
-.L_w_rpmd_mode:
+.L_0601165A:
     .2byte  0x0200              /* [HIGH] VDP2 RPMD rotation scroll mode select value */
 .L_pool_0601165C:
     .4byte  sym_0607886E        /* &transition_state_word (16-bit frame counter) */
-.L_fp_eight:
+.L_06011660:
     .4byte  0x00080000                  /* 8.0 (16.16 fixed-point) */
-.L_vdp2_vram_0x5F800:
+.L_06011664:
     .4byte  0x25E5F800                  /* VDP2 VRAM +0x5F800 */
 .L_pool_06011668:
     .4byte  sym_06035C2C        /* &sym_06035C2C (mem_store_helper — returns selector in r0) */
@@ -80,5 +80,5 @@ hud_transparency:
     .4byte  0xFFF80000          /* negative scale factor (-8.0 in 16.16 fixed-point) */
 .L_pool_06011670:
     .4byte  0x12F2FC00          /* VDP2 coefficient table base address value */
-.L_vdp2_reg_0x0A4:
+.L_06011674:
     .4byte  0x25F800A4                  /* VDP2 register +0x0A4 */

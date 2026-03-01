@@ -23,23 +23,23 @@ track_seg_phys_init:
     sts.l pr, @-r15
     add #-0x4, r15
 
-    mov.l   .L_ptr_car_dlist_table, r9
-    mov.l   .L_ptr_car_slot_params, r11
-    mov.l   .L_ptr_disp_elem_renderer, r12
-    mov.w   .L_const_base_index, r13
-    mov.l   .L_ptr_init_pending_flag, r0
+    mov.l   .L_06019A28, r9
+    mov.l   .L_06019A2C, r11
+    mov.l   .L_06019A30, r12
+    mov.w   .L_06019A24, r13
+    mov.l   .L_06019A34, r0
     mov.b @r0, r0
     cmp/eq #0x1, r0
-    bf/s    .L_epilogue
+    bf/s    .L_06019A10
     mov #0x8, r10
 
-    mov.l   .L_ptr_render_mode_flags, r4
+    mov.l   .L_06019A38, r4
     mov.l @r4, r0
     or #0x4, r0
     mov.l r0, @r4
 
     mov #0x0, r14
-.L_car_loop:
+.L_06019956:
     extu.b r14, r0
     mov r13, r6
     extu.b r14, r8
@@ -62,10 +62,10 @@ track_seg_phys_init:
     add #0x1, r14
     extu.b r14, r2
     cmp/ge r10, r2
-    bf      .L_car_loop
+    bf      .L_06019956
 
     mov r13, r6
-    mov.l   .L_ptr_car_course_index, r14
+    mov.l   .L_06019A3C, r14
     mov.b @r14, r0
     mov.b @r14, r5
     shll2 r0
@@ -89,7 +89,7 @@ track_seg_phys_init:
 
     mov r13, r6
     mov.b @r14, r5
-    mov.l   .L_ptr_secondary_dlist_base, r7
+    mov.l   .L_06019A40, r7
     shll r5
     add r11, r5
     mov.b @(1, r5), r0
@@ -105,8 +105,8 @@ track_seg_phys_init:
 
     mov.b @r14, r0
     cmp/eq #0x6, r0
-    bt      .L_call_physics_init
-    mov.l   .L_ptr_car_display_data, r7
+    bt      .L_060199FA
+    mov.l   .L_06019A44, r7
     mov r13, r6
     mov r11, r3
     mov.l @r7, r7
@@ -126,7 +126,7 @@ track_seg_phys_init:
     jsr @r12
     mov #0xC, r4
 
-.L_call_physics_init:
+.L_060199FA:
     .byte   0xB0, 0xE5    /* bsr 0x06019BC8 (external) */
     nop
     .byte   0xB1, 0xDB    /* bsr 0x06019DB8 (external) */
@@ -137,10 +137,10 @@ track_seg_phys_init:
     nop
 
     mov #0x0, r2
-    mov.l   .L_ptr_init_pending_flag, r3
+    mov.l   .L_06019A34, r3
     mov.b r2, @r3
 
-.L_epilogue:
+.L_06019A10:
     add #0x4, r15
     lds.l @r15+, pr
     mov.l @r15+, r8
@@ -152,22 +152,22 @@ track_seg_phys_init:
     rts
     mov.l @r15+, r14
 
-.L_const_base_index:
+.L_06019A24:
     .2byte  0x0090                      /* 144 = display list base index constant */
     .2byte  0xFFFF                      /* padding to align pool */
-.L_ptr_car_dlist_table:
+.L_06019A28:
     .4byte  sym_0605D294                /* car display list pointer table (8 entries) */
-.L_ptr_car_slot_params:
+.L_06019A2C:
     .4byte  sym_06049AFC                /* car slot param table (2 bytes/entry) */
-.L_ptr_disp_elem_renderer:
+.L_06019A30:
     .4byte  sym_060284AE                /* display element renderer function */
-.L_ptr_init_pending_flag:
+.L_06019A34:
     .4byte  sym_06085FF1                /* init pending flag (byte, 1 = pending) */
-.L_ptr_render_mode_flags:
+.L_06019A38:
     .4byte  sym_0605B6D8                /* render mode flags (32-bit) */
-.L_ptr_car_course_index:
+.L_06019A3C:
     .4byte  sym_06085FF0                /* current car/course index (byte, 0-7) */
-.L_ptr_secondary_dlist_base:
+.L_06019A40:
     .4byte  sym_06049E44                /* secondary display list base (variant +1) */
-.L_ptr_car_display_data:
+.L_06019A44:
     .4byte  sym_0605D4F0                /* car display data pointer (indirect) */

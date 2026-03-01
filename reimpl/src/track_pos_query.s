@@ -48,16 +48,16 @@ track_pos_query:
     shll2 r5
     sub r5, r7
     cmp/pz r7
-    bt      .L_dist_positive
+    bt      .L_0600CD92
     mov r5, r2
-    bra     .L_have_angular_dist
+    bra     .L_0600CD94
     sub r6, r2
-.L_dist_positive:
+.L_0600CD92:
     mov r7, r2
-.L_have_angular_dist:
+.L_0600CD94:
     mov.w   DAT_0600cdc2, r3
     cmp/gt r3, r2
-    bf      .L_return
+    bf      .L_0600CDB2
     mov.w   DAT_0600cdbe, r0
     mov.l @(r0, r14), r3
     add #0x1, r3
@@ -66,11 +66,11 @@ track_pos_query:
     mov.l   .L_pool_0600CDCC, r2
     mov.l @r2, r2
     cmp/gt r2, r3
-    bf      .L_return
+    bf      .L_0600CDB2
     mov #0x0, r2
     mov.w   DAT_0600cdbe, r0
     mov.l r2, @(r0, r14)
-.L_return:
+.L_0600CDB2:
     mov r13, r0
     lds.l @r15+, pr
     mov.l @r15+, r13

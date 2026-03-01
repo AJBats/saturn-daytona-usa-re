@@ -15,46 +15,46 @@ render_cs0_loop:
     sts.l pr, @-r15
     sts.l macl, @-r15
     add #-0x44, r15
-    mov.l   .L_render_budget_ptr, r8
-    mov.l   .L_sprite_index_table, r11
-    mov.l   .L_distance_check_fn, r12
-    mov.l   .L_render_submit_fn, r13
-    mov.l   .L_render_disabled_flag, r0
+    mov.l   .L_0600B6D0, r8
+    mov.l   .L_0600B6D4, r11
+    mov.l   .L_0600B6D8, r12
+    mov.l   .L_0600B6DC, r13
+    mov.l   .L_0600B6E0, r0
     mov.l @r0, r0
     tst r0, r0
-    bt      .L_render_enabled
-    bra     .L_epilogue
+    bt      .L_0600B6E4
+    bra     .L_0600B8F8
     nop
     .4byte  sym_06031DF4                    /* (unreferenced pool: render submit B) */
     .4byte  sym_0608A52C                    /* (unreferenced pool: render budget B) */
-.L_render_budget_ptr:
+.L_0600B6D0:
     .4byte  sym_06089EDC
-.L_sprite_index_table:
+.L_0600B6D4:
     .4byte  sym_06089E44
-.L_distance_check_fn:
+.L_0600B6D8:
     .4byte  sym_06031D8C
-.L_render_submit_fn:
+.L_0600B6DC:
     .4byte  sym_06031A28
-.L_render_disabled_flag:
+.L_0600B6E0:
     .4byte  sym_0607EAE0
-.L_render_enabled:
+.L_0600B6E4:
     mov #0x1, r10
-    mov.l   .L_car3_data_base, r5
+    mov.l   .L_0600B750, r5
     mov r5, r3
     add #0x28, r3
     mov.l r3, @(16, r15)
-    mov.l   .L_car1_data_base, r6
+    mov.l   .L_0600B754, r6
     mov r6, r2
     add #0x28, r2
     mov.l r2, @(8, r15)
-    mov.l   .L_car2_data_base, r4
+    mov.l   .L_0600B758, r4
     mov r4, r3
     add #0x28, r3
     mov.l r3, @(4, r15)
     mov r11, r2
     add #0x4, r2
     mov.l r2, @r15
-    mov.l   .L_car0_data_base, r7
+    mov.l   .L_0600B75C, r7
     mov r7, r3
     add #0x28, r3
     mov.l r3, @(12, r15)
@@ -90,101 +90,101 @@ render_cs0_loop:
     add #0x18, r4
     mov.l r4, @(28, r15)
     add #0x18, r7
-    bra     .L_loop_check
+    bra     .L_0600B8EC
     mov.l r7, @(32, r15)
-.L_car3_data_base:
+.L_0600B750:
     .4byte  sym_060621D8
-.L_car1_data_base:
+.L_0600B754:
     .4byte  sym_0606212C
-.L_car2_data_base:
+.L_0600B758:
     .4byte  sym_06062180
-.L_car0_data_base:
+.L_0600B75C:
     .4byte  sym_060620D8
-.L_loop_body:
-    mov.w   .L_obj_stride, r14
-    mov.l   .L_obj_table_base, r3
-    mov.l   .L_visibility_mask, r1
+.L_0600B760:
+    mov.w   .L_0600B838, r14
+    mov.l   .L_0600B848, r3
+    mov.l   .L_0600B84C, r1
     mul.l r14, r10
     sts macl, r14
     add r3, r14
     mov.l @r14, r2
     and r1, r2
     tst r2, r2
-    bf      .L_obj_visible
-    bra     .L_next_object
+    bf      .L_0600B778
+    bra     .L_0600B8EA
     nop
-.L_obj_visible:
-    mov.l   .L_mat_push_fn, r3
+.L_0600B778:
+    mov.l   .L_0600B850, r3
     jsr @r3
     nop
     mov.l @(24, r14), r6
     mov.l @(20, r14), r5
     mov.w   DAT_0600b83a, r0
-    mov.l   .L_mat_xform_trans_fn, r3
+    mov.l   .L_0600B854, r3
     mov.l @(r0, r14), r2
     add r2, r5
     jsr @r3
     mov.l @(16, r14), r4
     mov.l @(32, r14), r4
-    mov.l   .L_fp_half, r2
-    mov.l   .L_mat_rot_y_fn, r3
+    mov.l   .L_0600B858, r2
+    mov.l   .L_0600B85C, r3
     jsr @r3
     add r2, r4
     mov.l @(36, r14), r4
-    mov.l   .L_mat_rot_z_fn, r3
+    mov.l   .L_0600B860, r3
     jsr @r3
     neg r4, r4
     mov.l @(28, r14), r4
-    mov.l   .L_mat_rot_x_fn, r3
+    mov.l   .L_0600B864, r3
     jsr @r3
     neg r4, r4
     mov.w   DAT_0600b83c, r0
     mov.l @(r0, r14), r2
-    mov.w   .L_off_collision_b, r0
+    mov.w   .L_0600B83E, r0
     mov.l @(r0, r14), r3
     add r3, r2
     tst r2, r2
-    bt      .L_check_detail_flags
+    bt      .L_0600B7DC
     mov.w   DAT_0600b840, r0
     mov.l @(r0, r14), r4
     add #-0xC, r0
     neg r4, r4
     mov.l @(r0, r14), r3
     sub r3, r4
-    mov.l   .L_mat_rot_y_fn, r3
+    mov.l   .L_0600B85C, r3
     jsr @r3
     nop
-    mov.w   .L_off_rot_alt_y, r0
-    mov.l   .L_mat_rot_z_fn, r3
+    mov.w   .L_0600B842, r0
+    mov.l   .L_0600B860, r3
     mov.l @(r0, r14), r4
     jsr @r3
     neg r4, r4
-    mov.w   .L_off_rot_alt_z, r0
-    mov.l   .L_mat_rot_x_fn, r3
+    mov.w   .L_0600B844, r0
+    mov.l   .L_0600B864, r3
     mov.l @(r0, r14), r4
     jsr @r3
     neg r4, r4
-.L_check_detail_flags:
-    mov.l   .L_lod_selector_table, r9
+.L_0600B7DC:
+    mov.l   .L_0600B868, r9
     mov r14, r0
     add r10, r9
     mov.b @(1, r0), r0
     mov.b @r9, r9
     tst #0x40, r0
-    bf/s    .L_detail_close
+    bf/s    .L_0600B7FA
     extu.b r9, r9
-    mov.l   .L_state_flag_a, r0
-    mov.l   .L_state_flag_b, r3
+    mov.l   .L_0600B86C, r0
+    mov.l   .L_0600B870, r3
     mov.l @r0, r0
     mov.l @r3, r3
     add r3, r0
     cmp/eq #0x8, r0
-    bf      .L_check_medium_detail
-.L_detail_close:
+    bf      .L_0600B874
+.L_0600B7FA:
     mov.w   DAT_0600b83c, r0
     mov.l @(r0, r14), r3
     cmp/pl r3
-    bt      .L_close_secondary
+    bt      .L_0600B81A
     mov.l @(16, r15), r5
     mov.l @(8, r15), r4
     mov.l @r5, r5
@@ -197,7 +197,7 @@ render_cs0_loop:
     mov.w @r5, r5
     jsr @r13
     mov.l @r4, r4
-.L_close_secondary:
+.L_0600B81A:
     mov.l @(36, r15), r5
     mov.l @(40, r15), r4
     mov.l @r5, r5
@@ -211,9 +211,9 @@ render_cs0_loop:
     mov.w @(r0, r11), r5
     jsr @r13
     mov.l @r4, r4
-    bra     .L_decrement_budget
+    bra     .L_0600B8E4
     nop
-.L_obj_stride:
+.L_0600B838:
     .2byte  0x0268
 
     .global DAT_0600b83a
@@ -223,44 +223,44 @@ DAT_0600b83a:
     .global DAT_0600b83c
 DAT_0600b83c:
     .2byte  0x01BC
-.L_off_collision_b:
+.L_0600B83E:
     .2byte  0x00B8
 
     .global DAT_0600b840
 DAT_0600b840:
     .2byte  0x01D8
-.L_off_rot_alt_y:
+.L_0600B842:
     .2byte  0x01D0
-.L_off_rot_alt_z:
+.L_0600B844:
     .2byte  0x01C8
     .2byte  0xFFFF
-.L_obj_table_base:
+.L_0600B848:
     .4byte  sym_06078900
-.L_visibility_mask:
+.L_0600B84C:
     .4byte  0x00E00000
-.L_mat_push_fn:
+.L_0600B850:
     .4byte  sym_06026DBC
-.L_mat_xform_trans_fn:
+.L_0600B854:
     .4byte  sym_06026E2E
-.L_fp_half:
+.L_0600B858:
     .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
-.L_mat_rot_y_fn:
+.L_0600B85C:
     .4byte  mat_rot_y
-.L_mat_rot_z_fn:
+.L_0600B860:
     .4byte  mat_rot_z
-.L_mat_rot_x_fn:
+.L_0600B864:
     .4byte  mat_rot_x
-.L_lod_selector_table:
+.L_0600B868:
     .4byte  sym_06047FC4
-.L_state_flag_a:
+.L_0600B86C:
     .4byte  sym_06063E1C
-.L_state_flag_b:
+.L_0600B870:
     .4byte  sym_06063E20
-.L_check_medium_detail:
+.L_0600B874:
     mov r14, r0
     mov.b @(1, r0), r0
     tst #0x20, r0
-    bt      .L_check_far_detail
+    bt      .L_0600B89C
     mov.l @(52, r15), r5
     mov.l @(56, r15), r4
     mov.l @r5, r5
@@ -275,17 +275,17 @@ DAT_0600b840:
     mov.l @(r0, r15), r4
     jsr @r13
     mov.l @r4, r4
-    bra     .L_decrement_budget
+    bra     .L_0600B8E4
     nop
-.L_check_far_detail:
+.L_0600B89C:
     mov r14, r0
     mov.b @(1, r0), r0
     tst #0x80, r0
-    bt      .L_decrement_budget
+    bt      .L_0600B8E4
     mov.w   DAT_0600b90e, r0
     mov.l @(r0, r14), r3
     cmp/pl r3
-    bt      .L_far_render_pass
+    bt      .L_0600B8C4
     mov.l @(16, r15), r5
     mov.l @(8, r15), r4
     mov.l @r5, r5
@@ -298,7 +298,7 @@ DAT_0600b840:
     mov.w @r5, r5
     jsr @r13
     mov.l @r4, r4
-.L_far_render_pass:
+.L_0600B8C4:
     mov #0x1, r5
     .byte   0xB8, 0xE7    /* bsr 0x0600AA98 (external) */
     mov r14, r4
@@ -315,20 +315,20 @@ DAT_0600b840:
     mov.w @(r0, r11), r5
     jsr @r13
     mov.l @r4, r4
-.L_decrement_budget:
+.L_0600B8E4:
     mov.l @r8, r3
     add #-0x30, r3
     mov.l r3, @r8
-.L_next_object:
+.L_0600B8EA:
     add #0x1, r10
-.L_loop_check:
-    mov.l   .L_obj_count_ptr, r2
+.L_0600B8EC:
+    mov.l   .L_0600B910, r2
     mov.w @r2, r2
     cmp/hs r2, r10
-    bt      .L_epilogue
-    bra     .L_loop_body
+    bt      .L_0600B8F8
+    bra     .L_0600B760
     nop
-.L_epilogue:
+.L_0600B8F8:
     add #0x44, r15
     lds.l @r15+, macl
     lds.l @r15+, pr
@@ -344,5 +344,5 @@ DAT_0600b840:
     .global DAT_0600b90e
 DAT_0600b90e:
     .2byte  0x01BC
-.L_obj_count_ptr:
+.L_0600B910:
     .4byte  sym_06078664

@@ -22,7 +22,7 @@ vdp2_frame_update:
     .word 0x0029
     or r1, r0
     tst r0, r0
-    bt      .L_epilogue
+    bt      .L_06017292
     mov.l   .L_pool_060172B8, r5
     mov.b @r5, r3
     extu.b r3, r3
@@ -37,10 +37,10 @@ vdp2_frame_update:
     .word 0x0129
     and r1, r0
     tst r0, r0
-    bt      .L_epilogue
+    bt      .L_06017292
     mov.l @r4, r0
     cmp/eq #0x19, r0
-    bf      .L_standard_layers
+    bf      .L_06017244
     mov.l @r14, r5
     mov.w   DAT_0601729e, r4
     jsr @r12
@@ -81,7 +81,7 @@ vdp2_frame_update:
     mov.l @r14, r3
     add #0x20, r3
     mov.l r3, @r14
-.L_standard_layers:
+.L_06017244:
     mov.l @r14, r5
     mov r11, r4
     jsr @r12
@@ -121,7 +121,7 @@ vdp2_frame_update:
     mov.l @r14, r3
     add #0x20, r3
     mov.l r3, @r14
-.L_epilogue:
+.L_06017292:
     lds.l @r15+, pr
     mov.l @r15+, r11
     mov.l @r15+, r12

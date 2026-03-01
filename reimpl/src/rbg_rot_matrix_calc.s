@@ -19,9 +19,9 @@ rbg_rot_matrix_calc:
     mov.l @(r0, r1), r3
     mov.l   _pool_state_threshold, r4
     cmp/gt r3, r4
-    bt      .L_always_branch
-.L_always_branch:
-    bra     .L_phase2_rbg_check
+    bt      .L_0602E36E
+.L_0602E36E:
+    bra     .L_0602E3F4
     nop
 
     .global DAT_0602e372
@@ -68,7 +68,7 @@ _pool_state_threshold:
     .4byte  sym_0605A1C4
     .4byte  0x00000001
     .4byte  sym_0607EAC8
-.L_phase2_rbg_check:
+.L_0602E3F4:
     mov.l   _pool_rbg_coeff_ptr, r1
     mov.l @r1, r3
     mov.l   _pool_rbg_threshold, r4
@@ -79,7 +79,7 @@ _pool_state_threshold:
     mov.l   _pool_flag_bit2_mask, r1
     and r1, r2
     tst r2, r2
-    bt      .L_load_next_dispatch
+    bt      .L_0602E42C
     mov.l   _pool_render_state_ptr, r0
     mov.l   _pool_zero_value, r1
     mov.b r1, @r0
@@ -97,5 +97,5 @@ _pool_render_state_ptr:
     .4byte  sym_06082A26
 _pool_zero_value:
     .4byte  0x00000000
-.L_load_next_dispatch:
+.L_0602E42C:
     .byte   0xDD, 0x07    /* mov.l .L_pool_0602E44C, r13 */

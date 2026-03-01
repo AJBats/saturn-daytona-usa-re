@@ -16,24 +16,24 @@ evt_validate_multi:
     mov r0, r4
     mov.l @(4, r15), r0
     tst r0, r0
-    bt      .L_skip_word_store
+    bt      .L_060405D4
     mov.l @(4, r15), r3
     mov.w r4, @r3
-.L_skip_word_store:
+.L_060405D4:
     mov.l @r15, r0
     tst r0, r0
-    bt      .L_skip_long_store
+    bt      .L_060405E4
     mov.l @r15, r3
     mov r15, r2
     add #0x8, r2
     mov.l @(8, r2), r1
     mov.l r1, @r3
-.L_skip_long_store:
+.L_060405E4:
     mov r15, r0
     add #0x8, r0
     mov.b @r0, r0
     extu.b r0, r0
-    bra     .L_switch_entry
+    bra     .L_06040634
     and #0xF, r0
 
     .4byte  0x7F144F26
@@ -50,7 +50,7 @@ evt_validate_multi:
     .4byte  0x000BE003
     .4byte  0x7F144F26
     .4byte  0x000BE004
-.L_default_ret_5:
+.L_06040628:
     add #0x14, r15
     lds.l @r15+, pr
     rts
@@ -59,10 +59,10 @@ evt_validate_multi:
 .L_pool_06040630:
     .4byte  evt_validator_pair
 
-.L_switch_entry:
+.L_06040634:
     mov #0xB, r1
     cmp/hs r1, r0
-    bt      .L_default_ret_5
+    bt      .L_06040628
     shll r0
     mov r0, r1
     .word 0xC702

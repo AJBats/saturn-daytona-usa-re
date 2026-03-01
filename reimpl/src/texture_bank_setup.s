@@ -16,11 +16,11 @@ texture_bank_setup:
     mov.l r9, @-r15
     mov.l r8, @-r15
     sts.l pr, @-r15
-    mov.l   .L_mask_byte1, r9
-    mov.l   .L_vram_addr_out, r10
-    mov.l   .L_disp_ctrl_reg, r12
-    mov.l   .L_scene_flags, r13
-    mov.l   .L_vram_base_in, r14
+    mov.l   .L_0603715C, r9
+    mov.l   .L_06037160, r10
+    mov.l   .L_06037164, r12
+    mov.l   .L_06037168, r13
+    mov.l   .L_0603716C, r14
     mov.l r3, @r10
     mov.l r3, @(4, r10)
     mov.l @r11, r3
@@ -36,32 +36,32 @@ texture_bank_setup:
     mov.b @(8, r11), r0
     extu.b r0, r0
     cmp/eq #0x1, r0
-    bf      .L_nbg0_not_bit8
+    bf      .L_06037132
     mov.w   DAT_06037156, r2
     mov.w @(14, r12), r0
     mov r0, r3
     or r2, r3
     mov r3, r0
-    bra     .L_nbg0_bit8_done
+    bra     .L_0603713C
     nop
-.L_nbg0_not_bit8:
-    mov.l   .L_mask_clear_bit8, r2
+.L_06037132:
+    mov.l   .L_06037170, r2
     mov.w @(14, r12), r0
     mov r0, r3
     and r2, r3
     mov r3, r0
-.L_nbg0_bit8_done:
+.L_0603713C:
     mov.w r0, @(14, r12)
     mov.b @(9, r11), r0
     extu.b r0, r0
     cmp/eq #0x1, r0
-    bf      .L_nbg0_not_bit9
-    mov.w   .L_bit9_set, r2
+    bf      .L_06037174
+    mov.w   .L_06037158, r2
     mov.w @(14, r12), r0
     mov r0, r3
     or r2, r3
     mov r3, r0
-    bra     .L_nbg0_bit9_done
+    bra     .L_0603717E
     nop
 
     .global DAT_06037154
@@ -71,28 +71,28 @@ DAT_06037154:
     .global DAT_06037156
 DAT_06037156:
     .2byte  0x0100
-.L_bit9_set:
+.L_06037158:
     .2byte  0x0200
     .2byte  0xFFFF
-.L_mask_byte1:
+.L_0603715C:
     .4byte  0x0000FF00                  /* byte 1 mask */
-.L_vram_addr_out:
+.L_06037160:
     .4byte  sym_060A4C44
-.L_disp_ctrl_reg:
+.L_06037164:
     .4byte  sym_060A3D88
-.L_scene_flags:
+.L_06037168:
     .4byte  sym_060A3E38
-.L_vram_base_in:
+.L_0603716C:
     .4byte  sym_060A4C4C
-.L_mask_clear_bit8:
+.L_06037170:
     .4byte  0x0000FEFF
-.L_nbg0_not_bit9:
-    mov.l   .L_mask_clear_bit9, r2
+.L_06037174:
+    mov.l   .L_06037290, r2
     mov.w @(14, r12), r0
     mov r0, r3
     and r2, r3
     mov r3, r0
-.L_nbg0_bit9_done:
+.L_0603717E:
     mov #0x0, r5
     mov #0x4, r2
     mov.w r0, @(14, r12)
@@ -101,10 +101,10 @@ DAT_06037156:
     mov r0, r3
     extu.b r3, r3
     cmp/ge r2, r3
-    bt/s    .L_bank0_ge4
+    bt/s    .L_060371DE
     extu.b r5, r8
     mov.w @(14, r12), r0
-    mov.l   .L_mask_clear_bank0, r3
+    mov.l   .L_06037294, r3
     mov r0, r2
     extu.w r2, r2
     mov.b @(10, r11), r0
@@ -118,52 +118,52 @@ DAT_06037156:
     mov.b @(10, r11), r0
     extu.b r0, r0
     cmp/eq #0x1, r0
-    bf      .L_after_bank0
+    bf      .L_060371F4
     mov.l @r14, r0
     tst r0, r0
-    bt      .L_bank0_base_zero
-    mov.l   .L_mask_clear_bank0, r3
+    bt      .L_060371C6
+    mov.l   .L_06037294, r3
     mov.w @(14, r12), r0
     mov r0, r2
     and r3, r2
     mov r2, r0
-    bra     .L_bank0_after_base
+    bra     .L_060371C8
     mov.w r0, @(14, r12)
-.L_bank0_base_zero:
+.L_060371C6:
     mov #0x1, r8
-.L_bank0_after_base:
+.L_060371C8:
     mov.w @(6, r13), r0
     mov r0, r2
     and r9, r2
     mov r2, r0
     mov.w r0, @(6, r13)
     mov.l @r14, r3
-    mov.l   .L_vdp2_vram_0x00000, r2
+    mov.l   .L_06037298, r2
     add r2, r3
     mov.l r3, @r10
-    bra     .L_after_bank0
+    bra     .L_060371F4
     mov #0x1, r4
-.L_bank0_ge4:
+.L_060371DE:
     mov.b @(10, r11), r0
     extu.b r0, r0
     cmp/eq #0x4, r0
-    bf      .L_after_bank0
+    bf      .L_060371F4
     mov.w @(6, r13), r0
     and #0xFF, r0
     mov.w r0, @(6, r13)
     mov.l @(4, r14), r3
-    mov.l   .L_vdp2_vram_0x00000, r2
+    mov.l   .L_06037298, r2
     add r2, r3
     mov.l r3, @(4, r10)
-.L_after_bank0:
+.L_060371F4:
     mov.b @(11, r11), r0
     mov #0x4, r2
     mov r0, r3
     extu.b r3, r3
     cmp/ge r2, r3
-    bt      .L_bank1_ge4
+    bt      .L_060372A4
     mov.w @(14, r12), r0
-    mov.l   .L_mask_clear_bank1, r3
+    mov.l   .L_0603729C, r3
     mov r0, r2
     extu.w r2, r2
     mov.b @(11, r11), r0
@@ -179,23 +179,23 @@ DAT_06037156:
     mov.b @(11, r11), r0
     extu.b r0, r0
     cmp/eq #0x1, r0
-    bf      .L_after_bank1
+    bf      .L_060372C6
     extu.b r4, r2
     tst r2, r2
-    bf      .L_bank1_secondary
+    bf      .L_0603725C
     mov.l @r14, r0
     tst r0, r0
-    bt      .L_bank1_base_zero
-    mov.l   .L_mask_clear_bank1, r3
+    bt      .L_0603723E
+    mov.l   .L_0603729C, r3
     mov.w @(14, r12), r0
     mov r0, r2
     and r3, r2
     mov r2, r0
-    bra     .L_bank1_after_base
+    bra     .L_06037240
     mov.w r0, @(14, r12)
-.L_bank1_base_zero:
+.L_0603723E:
     mov #0x2, r8
-.L_bank1_after_base:
+.L_06037240:
     mov.w @(6, r13), r0
     mov r0, r2
     and r9, r2
@@ -205,22 +205,22 @@ DAT_06037156:
     or #0x1, r0
     mov.w r0, @(6, r13)
     mov.l @r14, r3
-    mov.l   .L_vdp2_vram_0x20000, r2
+    mov.l   .L_060372A0, r2
     add r2, r3
     mov.l r3, @r10
-    bra     .L_bank1_done
+    bra     .L_0603728A
     mov #0x1, r4
-.L_bank1_secondary:
+.L_0603725C:
     mov.l @(4, r14), r0
     tst r0, r0
-    bt      .L_bank1_sec_base_ok
-    mov.l   .L_mask_clear_bank1, r3
+    bt      .L_0603726E
+    mov.l   .L_0603729C, r3
     mov.w @(14, r12), r0
     mov r0, r2
     and r3, r2
     mov r2, r0
     mov.w r0, @(14, r12)
-.L_bank1_sec_base_ok:
+.L_0603726E:
     mov.w @(6, r13), r0
     and #0xFF, r0
     mov.w r0, @(6, r13)
@@ -231,32 +231,32 @@ DAT_06037156:
     mov r2, r0
     mov.w r0, @(6, r13)
     mov.l @(4, r14), r3
-    mov.l   .L_vdp2_vram_0x20000, r2
+    mov.l   .L_060372A0, r2
     add r2, r3
     mov.l r3, @(4, r10)
     add #0x1, r4
-.L_bank1_done:
-    bra     .L_after_bank1
+.L_0603728A:
+    bra     .L_060372C6
     nop
 
     .global DAT_0603728e
 DAT_0603728e:
     .2byte  0x0100
-.L_mask_clear_bit9:
+.L_06037290:
     .4byte  0x0000FDFF
-.L_mask_clear_bank0:
+.L_06037294:
     .4byte  0x0000FFFC
-.L_vdp2_vram_0x00000:
+.L_06037298:
     .4byte  0x25E00000                  /* VDP2 VRAM +0x00000 */
-.L_mask_clear_bank1:
+.L_0603729C:
     .4byte  0x0000FFF3
-.L_vdp2_vram_0x20000:
+.L_060372A0:
     .4byte  0x25E20000                  /* VDP2 VRAM +0x20000 */
-.L_bank1_ge4:
+.L_060372A4:
     mov.b @(11, r11), r0
     extu.b r0, r0
     cmp/eq #0x4, r0
-    bf      .L_after_bank1
+    bf      .L_060372C6
     mov.w @(6, r13), r0
     and #0xFF, r0
     mov.w r0, @(6, r13)
@@ -267,18 +267,18 @@ DAT_0603728e:
     mov r2, r0
     mov.w r0, @(6, r13)
     mov.l @(4, r14), r3
-    mov.l   .L_vdp2_vram_0x20000_b, r2
+    mov.l   .L_06037368, r2
     add r2, r3
     mov.l r3, @(4, r10)
-.L_after_bank1:
+.L_060372C6:
     mov #0x4, r2
     mov.b @(12, r11), r0
     mov r0, r3
     extu.b r3, r3
     cmp/ge r2, r3
-    bt      .L_bank2_ge4
+    bt      .L_06037374
     mov.w @(14, r12), r0
-    mov.l   .L_mask_clear_bank2, r3
+    mov.l   .L_0603736C, r3
     mov r0, r2
     extu.w r2, r2
     mov.b @(12, r11), r0
@@ -295,23 +295,23 @@ DAT_0603728e:
     mov.b @(12, r11), r0
     extu.b r0, r0
     cmp/eq #0x1, r0
-    bf      .L_after_bank2
+    bf      .L_0603739E
     extu.b r4, r2
     tst r2, r2
-    bf      .L_bank2_secondary
+    bf      .L_06037330
     mov.l @r14, r0
     tst r0, r0
-    bt      .L_bank2_base_zero
-    mov.l   .L_mask_clear_bank2, r3
+    bt      .L_06037312
+    mov.l   .L_0603736C, r3
     mov.w @(14, r12), r0
     mov r0, r2
     and r3, r2
     mov r2, r0
-    bra     .L_bank2_after_base
+    bra     .L_06037314
     mov.w r0, @(14, r12)
-.L_bank2_base_zero:
+.L_06037312:
     mov #0x3, r8
-.L_bank2_after_base:
+.L_06037314:
     mov.w @(6, r13), r0
     mov r0, r2
     and r9, r2
@@ -321,26 +321,26 @@ DAT_0603728e:
     or #0x2, r0
     mov.w r0, @(6, r13)
     mov.l @r14, r3
-    mov.l   .L_vdp2_vram_0x40000, r2
+    mov.l   .L_06037370, r2
     add r2, r3
     mov.l r3, @r10
-    bra     .L_bank2_done
+    bra     .L_0603735E
     mov #0x1, r4
-.L_bank2_secondary:
+.L_06037330:
     mov.l @(4, r14), r0
     tst r0, r0
-    bt      .L_bank2_sec_base_ok
-    mov.l   .L_mask_clear_bank2, r3
+    bt      .L_06037342
+    mov.l   .L_0603736C, r3
     mov.w @(14, r12), r0
     mov r0, r2
     and r3, r2
     mov r2, r0
     mov.w r0, @(14, r12)
-.L_bank2_sec_base_ok:
+.L_06037342:
     mov.w @(6, r13), r0
     and #0xFF, r0
     mov.w r0, @(6, r13)
-    mov.w   .L_bank2_byte_hi, r3
+    mov.w   .L_06037364, r3
     mov.w @(6, r13), r0
     mov r0, r2
     or r3, r2
@@ -348,34 +348,34 @@ DAT_0603728e:
     mov.w r0, @(6, r13)
     add #0x1, r4
     mov.l @(4, r14), r3
-    mov.l   .L_vdp2_vram_0x40000, r2
+    mov.l   .L_06037370, r2
     add r2, r3
     mov.l r3, @(4, r10)
-.L_bank2_done:
-    bra     .L_after_bank2
+.L_0603735E:
+    bra     .L_0603739E
     nop
 
     .global DAT_06037362
 DAT_06037362:
     .2byte  0x0100
-.L_bank2_byte_hi:
+.L_06037364:
     .2byte  0x0200
     .2byte  0xFFFF
-.L_vdp2_vram_0x20000_b:
+.L_06037368:
     .4byte  0x25E20000                  /* VDP2 VRAM +0x20000 */
-.L_mask_clear_bank2:
+.L_0603736C:
     .4byte  0x0000FFCF
-.L_vdp2_vram_0x40000:
+.L_06037370:
     .4byte  0x25E40000                  /* VDP2 VRAM +0x40000 */
-.L_bank2_ge4:
+.L_06037374:
     mov.b @(12, r11), r0
     extu.b r0, r0
     cmp/eq #0x4, r0
-    bf      .L_after_bank2
-    mov.l   .L_secondary_enable, r2
+    bf      .L_0603739E
+    mov.l   .L_06037440, r2
     mov.l @r2, r0
     tst r0, r0
-    bt      .L_after_bank2
+    bt      .L_0603739E
     mov.w @(6, r13), r0
     and #0xFF, r0
     mov.w r0, @(6, r13)
@@ -386,18 +386,18 @@ DAT_06037362:
     mov r2, r0
     mov.w r0, @(6, r13)
     mov.l @(4, r14), r3
-    mov.l   .L_vdp2_vram_0x40000_b, r2
+    mov.l   .L_06037444, r2
     add r2, r3
     mov.l r3, @(4, r10)
-.L_after_bank2:
+.L_0603739E:
     mov #0x4, r2
     mov.b @(13, r11), r0
     mov r0, r3
     extu.b r3, r3
     cmp/ge r2, r3
-    bt      .L_bank3_ge4
+    bt      .L_06037450
     mov.w @(14, r12), r0
-    mov.l   .L_mask_clear_bank3, r3
+    mov.l   .L_06037448, r3
     mov r0, r2
     extu.w r2, r2
     mov.b @(13, r11), r0
@@ -415,23 +415,23 @@ DAT_06037362:
     mov.b @(13, r11), r0
     extu.b r0, r0
     cmp/eq #0x1, r0
-    bf      .L_after_bank3
+    bf      .L_0603747A
     extu.b r4, r4
     tst r4, r4
-    bf      .L_bank3_secondary
+    bf      .L_0603740A
     mov.l @r14, r0
     tst r0, r0
-    bt      .L_bank3_base_zero
-    mov.l   .L_mask_clear_bank3, r3
+    bt      .L_060373EC
+    mov.l   .L_06037448, r3
     mov.w @(14, r12), r0
     mov r0, r2
     and r3, r2
     mov r2, r0
-    bra     .L_bank3_after_base
+    bra     .L_060373EE
     mov.w r0, @(14, r12)
-.L_bank3_base_zero:
+.L_060373EC:
     mov #0x4, r8
-.L_bank3_after_base:
+.L_060373EE:
     mov.w @(6, r13), r0
     mov r0, r2
     and r9, r2
@@ -441,62 +441,62 @@ DAT_06037362:
     or #0x3, r0
     mov.w r0, @(6, r13)
     mov.l @r14, r3
-    mov.l   .L_vdp2_vram_0x60000, r2
+    mov.l   .L_0603744C, r2
     add r2, r3
     mov.l r3, @r10
-    bra     .L_bank3_done
+    bra     .L_06037436
     nop
-.L_bank3_secondary:
+.L_0603740A:
     mov.l @(4, r14), r0
     tst r0, r0
-    bt      .L_bank3_sec_base_ok
-    mov.l   .L_mask_clear_bank3, r3
+    bt      .L_0603741C
+    mov.l   .L_06037448, r3
     mov.w @(14, r12), r0
     mov r0, r2
     and r3, r2
     mov r2, r0
     mov.w r0, @(14, r12)
-.L_bank3_sec_base_ok:
+.L_0603741C:
     mov.w @(6, r13), r0
     and #0xFF, r0
     mov.w r0, @(6, r13)
-    mov.w   .L_bank3_byte_hi, r3
+    mov.w   .L_0603743C, r3
     mov.w @(6, r13), r0
     mov r0, r2
     or r3, r2
     mov r2, r0
     mov.w r0, @(6, r13)
     mov.l @(4, r14), r3
-    mov.l   .L_vdp2_vram_0x60000, r2
+    mov.l   .L_0603744C, r2
     add r2, r3
     mov.l r3, @(4, r10)
-.L_bank3_done:
-    bra     .L_after_bank3
+.L_06037436:
+    bra     .L_0603747A
     nop
 
     .global DAT_0603743a
 DAT_0603743a:
     .2byte  0x0200
-.L_bank3_byte_hi:
+.L_0603743C:
     .2byte  0x0300
     .2byte  0xFFFF
-.L_secondary_enable:
+.L_06037440:
     .4byte  sym_060A4C50
-.L_vdp2_vram_0x40000_b:
+.L_06037444:
     .4byte  0x25E40000                  /* VDP2 VRAM +0x40000 */
-.L_mask_clear_bank3:
+.L_06037448:
     .4byte  0x0000FF3F
-.L_vdp2_vram_0x60000:
+.L_0603744C:
     .4byte  0x25E60000                  /* VDP2 VRAM +0x60000 */
-.L_bank3_ge4:
+.L_06037450:
     mov.b @(13, r11), r0
     extu.b r0, r0
     cmp/eq #0x4, r0
-    bf      .L_after_bank3
-    mov.l   .L_secondary_enable_b, r2
+    bf      .L_0603747A
+    mov.l   .L_06037538, r2
     mov.l @r2, r0
     tst r0, r0
-    bt      .L_after_bank3
+    bt      .L_0603747A
     mov.w @(6, r13), r0
     and #0xFF, r0
     mov.w r0, @(6, r13)
@@ -507,62 +507,62 @@ DAT_0603743a:
     mov r2, r0
     mov.w r0, @(6, r13)
     mov.l @(4, r14), r3
-    mov.l   .L_vdp2_vram_0x60000_b, r2
+    mov.l   .L_0603753C, r2
     add r2, r3
     mov.l r3, @(4, r10)
-.L_after_bank3:
+.L_0603747A:
     mov.l @(4, r10), r0
     tst r0, r0
-    bt      .L_no_secondary_addr
-    bra     .L_epilogue
+    bt      .L_06037484
+    bra     .L_060375F2
     nop
-.L_no_secondary_addr:
+.L_06037484:
     mov.b @(14, r11), r0
     extu.b r0, r0
     cmp/eq #0x1, r0
-    bf      .L_after_vis_check
-    mov.l   .L_vram_addr_out_b, r2
+    bf      .L_060374B2
+    mov.l   .L_06037540, r2
     mov.l @r2, r0
     tst r0, r0
-    bf      .L_after_vis_check
-    mov.l   .L_fn_visibility_check, r3
+    bf      .L_060374B2
+    mov.l   .L_06037544, r3
     jsr @r3
     nop
     cmp/eq #0x1, r0
-    bf      .L_after_vis_check
-    mov.l   .L_fp_half, r3
+    bf      .L_060374B2
+    mov.l   .L_06037548, r3
     mov.w @(14, r12), r0
     mov r0, r2
     or r3, r2
     mov r2, r0
     mov.w r0, @(14, r12)
-    mov.l   .L_vdp2_cram_0x800, r3
+    mov.l   .L_0603754C, r3
     mov.l r3, @r10
-    bra     .L_epilogue
+    bra     .L_060375F2
     nop
-.L_after_vis_check:
+.L_060374B2:
     mov.l @r10, r0
     tst r0, r0
-    bt      .L_both_addr_zero
-    mov.l   .L_secondary_active, r3
+    bt      .L_06037578
+    mov.l   .L_06037550, r3
     mov.b @r3, r3
     extu.b r3, r3
     tst r3, r3
-    bt      .L_both_addr_zero
+    bt      .L_06037578
     mov.l @(4, r14), r0
     tst r0, r0
-    bf      .L_after_offset_calc
+    bf      .L_060374D0
     mov.l @r14, r3
-    mov.w   .L_vram_offset_0x400, r2
+    mov.w   .L_06037534, r2
     add r2, r3
     mov.l r3, @(4, r14)
-.L_after_offset_calc:
+.L_060374D0:
     mov.l @r14, r0
     tst r0, r0
-    bf      .L_ensure_base_nonzero
+    bf      .L_060374DA
     mov #-0x1, r3
     mov.l r3, @r14
-.L_ensure_base_nonzero:
+.L_060374DA:
     mov.l @(4, r14), r2
     mov.l @r10, r3
     add r3, r2
@@ -577,104 +577,104 @@ DAT_0603743a:
     or r2, r3
     extu.w r3, r0
     mov.w r0, @(6, r13)
-    bra     .L_dispatch_switch
+    bra     .L_06037564
     extu.b r8, r0
-.L_dispatch_bank0:
-    mov.l   .L_mask_clear_bank0_b, r2
+.L_060374FA:
+    mov.l   .L_06037554, r2
     mov.w @(14, r12), r0
     mov r0, r3
     and r2, r3
     mov r3, r0
-    bra     .L_dispatch_writeback
+    bra     .L_0603752E
     nop
-.L_dispatch_bank1:
-    mov.l   .L_mask_clear_bank1_b, r2
+.L_06037508:
+    mov.l   .L_06037558, r2
     mov.w @(14, r12), r0
     mov r0, r3
     and r2, r3
     mov r3, r0
-    bra     .L_dispatch_writeback
+    bra     .L_0603752E
     nop
-.L_dispatch_bank2:
-    mov.l   .L_mask_clear_bank2_b, r2
+.L_06037516:
+    mov.l   .L_0603755C, r2
     mov.w @(14, r12), r0
     mov r0, r3
     and r2, r3
     mov r3, r0
-    bra     .L_dispatch_writeback
+    bra     .L_0603752E
     nop
-.L_dispatch_bank3:
-    mov.l   .L_mask_clear_bank3_b, r2
+.L_06037524:
+    mov.l   .L_06037560, r2
     mov.w @(14, r12), r0
     mov r0, r3
     and r2, r3
     mov r3, r0
-.L_dispatch_writeback:
-    bra     .L_epilogue
+.L_0603752E:
+    bra     .L_060375F2
     mov.w r0, @(14, r12)
 
     .global DAT_06037532
 DAT_06037532:
     .2byte  0x0300
-.L_vram_offset_0x400:
+.L_06037534:
     .2byte  0x0400
 
     .global DAT_06037536
 DAT_06037536:
     .2byte  0x00FF
-.L_secondary_enable_b:
+.L_06037538:
     .4byte  sym_060A4C50
-.L_vdp2_vram_0x60000_b:
+.L_0603753C:
     .4byte  0x25E60000                  /* VDP2 VRAM +0x60000 */
-.L_vram_addr_out_b:
+.L_06037540:
     .4byte  sym_060A4C44
-.L_fn_visibility_check:
+.L_06037544:
     .4byte  sym_0603C156
-.L_fp_half:
+.L_06037548:
     .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
-.L_vdp2_cram_0x800:
+.L_0603754C:
     .4byte  0x25F00800                  /* VDP2 color RAM +0x800 */
-.L_secondary_active:
+.L_06037550:
     .4byte  sym_060A4C59
-.L_mask_clear_bank0_b:
+.L_06037554:
     .4byte  0x0000FFFC
-.L_mask_clear_bank1_b:
+.L_06037558:
     .4byte  0x0000FFF3
-.L_mask_clear_bank2_b:
+.L_0603755C:
     .4byte  0x0000FFCF
-.L_mask_clear_bank3_b:
+.L_06037560:
     .4byte  0x0000FF3F
-.L_dispatch_switch:
+.L_06037564:
     cmp/eq #0x1, r0
-    bt      .L_dispatch_bank0
+    bt      .L_060374FA
     cmp/eq #0x2, r0
-    bt      .L_dispatch_bank1
+    bt      .L_06037508
     cmp/eq #0x3, r0
-    bt      .L_dispatch_bank2
+    bt      .L_06037516
     cmp/eq #0x4, r0
-    bt      .L_dispatch_bank3
-    bra     .L_epilogue
+    bt      .L_06037524
+    bra     .L_060375F2
     nop
-.L_both_addr_zero:
+.L_06037578:
     mov.l @r10, r0
     tst r0, r0
-    bf      .L_epilogue
+    bf      .L_060375F2
     mov.l @r14, r0
     tst r0, r0
-    bt      .L_after_primary_path
-    mov.l   .L_primary_active, r3
+    bt      .L_060375B8
+    mov.l   .L_06037604, r3
     mov.b @r3, r3
     extu.b r3, r3
     tst r3, r3
-    bt      .L_after_primary_path
+    bt      .L_060375B8
     mov.w @(6, r13), r0
     mov r14, r4
     mov r0, r3
     and r9, r3
     mov r3, r0
     mov.w r0, @(6, r13)
-    mov.l   .L_fp_two, r0
-    mov.l   .L_fn_bank_select, r3
+    mov.l   .L_06037608, r0
+    mov.l   .L_0603760C, r3
     jsr @r3
     mov.l @r4, r1
     extu.w r0, r0
@@ -685,25 +685,25 @@ DAT_06037536:
     mov r2, r0
     mov.w r0, @(6, r13)
     mov.l @r4, r3
-    mov.l   .L_vdp2_vram_0x00000_b, r2
+    mov.l   .L_06037610, r2
     add r2, r3
     mov.l r3, @r10
-.L_after_primary_path:
+.L_060375B8:
     mov.l @(4, r14), r0
     tst r0, r0
-    bt      .L_epilogue
-    mov.l   .L_secondary_active_b, r3
+    bt      .L_060375F2
+    mov.l   .L_06037614, r3
     mov.b @r3, r3
     extu.b r3, r3
     tst r3, r3
-    bt      .L_epilogue
+    bt      .L_060375F2
     mov.w @(6, r13), r0
     mov r14, r4
     and #0xFF, r0
     add #0x4, r4
     mov.w r0, @(6, r13)
-    mov.l   .L_fp_two, r0
-    mov.l   .L_fn_bank_select, r3
+    mov.l   .L_06037608, r0
+    mov.l   .L_0603760C, r3
     jsr @r3
     mov.l @r4, r1
     extu.w r0, r0
@@ -715,10 +715,10 @@ DAT_06037536:
     mov r2, r0
     mov.w r0, @(6, r13)
     mov.l @r4, r3
-    mov.l   .L_vdp2_vram_0x00000_b, r2
+    mov.l   .L_06037610, r2
     add r2, r3
     mov.l r3, @(4, r10)
-.L_epilogue:
+.L_060375F2:
     lds.l @r15+, pr
     mov.l @r15+, r8
     mov.l @r15+, r9
@@ -728,15 +728,15 @@ DAT_06037536:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_primary_active:
+.L_06037604:
     .4byte  sym_060A4C58
-.L_fp_two:
+.L_06037608:
     .4byte  0x00020000                  /* 2.0 (16.16 fixed-point) */
-.L_fn_bank_select:
+.L_0603760C:
     .4byte  sym_06034FFC
-.L_vdp2_vram_0x00000_b:
+.L_06037610:
     .4byte  0x25E00000                  /* VDP2 VRAM +0x00000 */
-.L_secondary_active_b:
+.L_06037614:
     .4byte  sym_060A4C59
 
     .global sym_06037618
@@ -765,7 +765,7 @@ sym_06037618:
     mov r3, r0
     mov.w r0, @(10, r4)
     extu.b r5, r6
-.L_zero_loop:
+.L_06037648:
     extu.b r6, r3
     mov r4, r2
     shll2 r3
@@ -775,6 +775,6 @@ sym_06037618:
     mov.l r5, @r3
     extu.b r6, r3
     cmp/ge r7, r3
-    bf      .L_zero_loop
+    bf      .L_06037648
     rts
     nop

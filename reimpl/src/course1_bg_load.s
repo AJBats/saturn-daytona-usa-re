@@ -13,49 +13,49 @@ course1_bg_load:
     mov #0x8, r10
     mov.l r9, @-r15
     sts.l pr, @-r15
-    mov.l   .L_offset_table_a, r11
-    mov.l   .L_offset_table_b, r12
-    mov.l   .L_bg_data_base, r14
-    mov.l   .L_fn_memcpy_long, r13
-    mov.w   .L_palette_size, r6
-    mov.l   .L_wram_low, r9
-    mov.l   .L_palette_src, r4
+    mov.l   .L_060188E4, r11
+    mov.l   .L_060188E8, r12
+    mov.l   .L_060188EC, r14
+    mov.l   .L_060188F0, r13
+    mov.w   .L_060188DA, r6
+    mov.l   .L_060188F4, r9
+    mov.l   .L_060188F8, r4
     jsr @r13
     mov r9, r5
-    mov.w   .L_tile_a_size, r6
-    mov.w   .L_palette_size, r5
-    mov.l   .L_tile_a_src, r4
+    mov.w   .L_060188DC, r6
+    mov.w   .L_060188DA, r5
+    mov.l   .L_060188FC, r4
     jsr @r13
     add r9, r5
-    mov.l   .L_bg_base_size, r6
-    mov.l   .L_bg_base_offset, r5
+    mov.l   .L_06018900, r6
+    mov.l   .L_06018904, r5
     add r9, r5
     jsr @r13
     mov r14, r4
-    mov.l   .L_map_size, r6
-    mov.l   .L_vram_dest_base, r9
-    mov.l   .L_map_src, r4
+    mov.l   .L_06018908, r6
+    mov.l   .L_0601890C, r9
+    mov.l   .L_06018910, r4
     jsr @r13
     mov r9, r5
-    mov.w   .L_tile_bd_size, r6
-    mov.l   .L_tile_b_offset, r5
-    mov.l   .L_tile_b_src, r4
+    mov.w   .L_060188DE, r6
+    mov.l   .L_06018914, r5
+    mov.l   .L_06018918, r4
     jsr @r13
     add r9, r5
-    mov.w   .L_tile_c_size, r6
-    mov.l   .L_tile_c_offset, r5
-    mov.l   .L_tile_c_src, r4
+    mov.w   .L_060188E0, r6
+    mov.l   .L_0601891C, r5
+    mov.l   .L_06018920, r4
     jsr @r13
     add r9, r5
-    mov.w   .L_tile_bd_size, r6
-    mov.l   .L_data_d_offset, r5
-    mov.l   .L_data_d_src, r4
+    mov.w   .L_060188DE, r6
+    mov.l   .L_06018924, r5
+    mov.l   .L_06018928, r4
     jsr @r13
     add r9, r5
     mov #0x0, r6
     mov r6, r5
     mov r6, r4
-.L_patch_loop:
+.L_06018898:
     mov r4, r2
     mov r4, r3
     add #0x2, r5
@@ -74,10 +74,10 @@ course1_bg_load:
     add r14, r1
     mov.l r1, @r3
     cmp/ge r10, r5
-    bf/s    .L_patch_loop
+    bf/s    .L_06018898
     add #0x4, r4
-    mov.l   .L_race_end_state, r4
-    mov.l   .L_fn_sound_init, r3
+    mov.l   .L_0601892C, r4
+    mov.l   .L_06018930, r3
     jsr @r3
     mov.l @r4, r4
     lds.l @r15+, pr
@@ -86,57 +86,57 @@ course1_bg_load:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    mov.l   .L_fn_projection_mgr, r3
+    mov.l   .L_06018934, r3
     jmp @r3
     mov.l @r15+, r14
-.L_palette_size:
+.L_060188DA:
     .2byte  0x0CC8                         /* palette data: 3272 bytes */
-.L_tile_a_size:
+.L_060188DC:
     .2byte  0x7A00                         /* tile set A: 31232 bytes */
-.L_tile_bd_size:
+.L_060188DE:
     .2byte  0x3000                         /* tile set B/D: 12288 bytes */
-.L_tile_c_size:
+.L_060188E0:
     .2byte  0x4000                         /* tile set C: 16384 bytes */
     .2byte  0xFFFF                         /* alignment padding */
-.L_offset_table_a:
+.L_060188E4:
     .4byte  sym_0605D1FC                   /* BG offset source table (course 1) */
-.L_offset_table_b:
+.L_060188E8:
     .4byte  sym_06085FD0                   /* BG offset dest table */
-.L_bg_data_base:
+.L_060188EC:
     .4byte  sym_060D6900                   /* BG data base address */
-.L_fn_memcpy_long:
+.L_060188F0:
     .4byte  memcpy_long_idx                /* long-indexed memory copy */
-.L_wram_low:
+.L_060188F4:
     .4byte  0x00200000                     /* Work RAM Low base */
-.L_palette_src:
+.L_060188F8:
     .4byte  sym_060D5840                   /* palette source data */
-.L_tile_a_src:
+.L_060188FC:
     .4byte  sym_060C6000                   /* tile set A source */
-.L_bg_base_size:
+.L_06018900:
     .4byte  0x0000BD00                     /* base BG data: 48384 bytes */
-.L_bg_base_offset:
+.L_06018904:
     .4byte  0x000086C8                     /* WRAM offset for base BG */
-.L_map_size:
+.L_06018908:
     .4byte  0x00019000                     /* map data: 100KB */
-.L_vram_dest_base:
+.L_0601890C:
     .4byte  0x00240000                     /* VDP2 VRAM destination base */
-.L_map_src:
+.L_06018910:
     .4byte  sym_060A6000                   /* map data source */
-.L_tile_b_offset:
+.L_06018914:
     .4byte  0x0001C0B8                     /* VRAM offset for tile set B */
-.L_tile_b_src:
+.L_06018918:
     .4byte  sym_060BF000                   /* tile set B source */
-.L_tile_c_offset:
+.L_0601891C:
     .4byte  0x000180B8                     /* VRAM offset for tile set C */
-.L_tile_c_src:
+.L_06018920:
     .4byte  sym_060C2000                   /* tile set C source */
-.L_data_d_offset:
+.L_06018924:
     .4byte  0x0001DFE8                     /* VRAM offset for data block D */
-.L_data_d_src:
+.L_06018928:
     .4byte  0x002F8000                     /* data block D source address */
-.L_race_end_state:
+.L_0601892C:
     .4byte  sym_0607EAD8                   /* pointer to race end state variable */
-.L_fn_sound_init:
+.L_06018930:
     .4byte  sound_init_sequence            /* sound initialization for course */
-.L_fn_projection_mgr:
+.L_06018934:
     .4byte  projection_mgr                 /* projection manager (tail call) */

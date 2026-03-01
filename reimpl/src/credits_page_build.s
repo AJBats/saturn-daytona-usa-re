@@ -12,9 +12,9 @@ credits_page_build:
     mov r15, r4
     bsr     ring_desc_init
     add #0x24, r4
-    bra     .L_loop_test
+    bra     .L_0603F3BC
     mov #0x0, r13
-.L_loop_body:
+.L_0603F366:
     mov r15, r5
     mov r15, r4
     add #0x4, r5
@@ -25,14 +25,14 @@ credits_page_build:
     mov.b @r2, r3
     extu.b r3, r3
     tst r3, r3
-    bf      .L_entry_valid
-    bra     .L_loop_done
+    bf      .L_0603F384
+    bra     .L_0603F3C0
     nop
 .L_pool_0603F380:
     .4byte  display_buffer_init
-.L_entry_valid:
+.L_0603F384:
     cmp/gt r12, r13
-    bf      .L_copy_entry
+    bf      .L_0603F3A0
     mov #0xC, r6
     mov r15, r5
     mov r14, r4
@@ -42,10 +42,10 @@ credits_page_build:
     jsr @r3
     add #-0xC, r4
     tst r0, r0
-    bf      .L_copy_entry
-    bra     .L_advance_entry
+    bf      .L_0603F3A0
+    bra     .L_0603F3B6
     nop
-.L_copy_entry:
+.L_0603F3A0:
     mov r15, r5
     add #0x4, r5
     .byte   0xB2, 0x52    /* bsr 0x0603F84C (external) */
@@ -57,14 +57,14 @@ credits_page_build:
     add #0x10, r5
     jsr @r10
     add #0xC, r4
-.L_advance_entry:
+.L_0603F3B6:
     add #0x18, r14
     add #0x1, r13
     add #-0x1, r11
-.L_loop_test:
+.L_0603F3BC:
     cmp/pl r11
-    bt      .L_loop_body
-.L_loop_done:
+    bt      .L_0603F366
+.L_0603F3C0:
     add #-0x18, r14
     mov.b @(11, r14), r0
     or #0x80, r0

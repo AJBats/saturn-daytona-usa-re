@@ -7,34 +7,34 @@
 checkpoint_state_check:
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   .L_ai_state_base, r6
+    mov.l   .L_060414CC, r6
     mov.l @r6, r0
     add #0x18, r0
     mov.b @(r0, r5), r0
     cmp/eq #0x1, r0
-    bf      .L_invalid_state
+    bf      .L_06041488
     mov.l @r6, r0
     mov.b @(r0, r5), r0
     cmp/eq #0x1, r0
-    bt      .L_check_trigger
-.L_invalid_state:
+    bt      .L_06041490
+.L_06041488:
     add #0x4, r15
     lds.l @r15+, pr
     rts
     mov #-0x5, r0
-.L_check_trigger:
+.L_06041490:
     mov.l @r6, r2
-    mov.w   .L_off_trigger_flag, r0
+    mov.w   .L_060414C4, r0
     mov.l @(r0, r2), r0
     tst r0, r0
-    bt      .L_set_trigger
+    bt      .L_060414A2
     add #0x4, r15
     lds.l @r15+, pr
     rts
     mov #-0x1, r0
-.L_set_trigger:
+.L_060414A2:
     mov #0x1, r2
-    mov.w   .L_off_trigger_flag, r0
+    mov.w   .L_060414C4, r0
     mov.l @r6, r3
     mov.l r2, @(r0, r3)
     add #0x4, r0
@@ -50,9 +50,9 @@ checkpoint_state_check:
     lds.l @r15+, pr
     rts
     nop
-.L_off_trigger_flag:
+.L_060414C4:
     .2byte  0x0360                      /* AI state offset: checkpoint trigger flag */
     .2byte  0xFFFF                     /* alignment padding */
     .4byte  ai_checkpoint_validate     /* (adjacent reference for BSR target) */
-.L_ai_state_base:
+.L_060414CC:
     .4byte  sym_060A5400               /* pointer to AI state base structure */

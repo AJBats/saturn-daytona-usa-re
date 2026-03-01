@@ -7,10 +7,10 @@
 name_entry_state:
     sts.l pr, @-r15
     mov r6, r0
-    mov.l   .L_mask_byte1, r7
+    mov.l   .L_0603D504, r7
     mov.l   .L_pool_0603D508, r5
     mov.l   .L_pool_0603D50C, r4
-    mov.w   .L_w_chan3_field1_desc, r1
+    mov.w   .L_0603D4FE, r1
     mov.l   .L_pool_0603D510, r3
     jsr @r3
     mov r5, r2
@@ -20,7 +20,7 @@ name_entry_state:
     and r7, r2
     mov.w r2, @r4
     mov.w   DAT_0603d500, r14
-    mov.w   .L_w_chan3_field1_desc, r1
+    mov.w   .L_0603D4FE, r1
     mov.l   .L_pool_0603D510, r3
     jsr @r3
     mov r5, r2
@@ -29,7 +29,7 @@ name_entry_state:
     extu.w r2, r2
     and r14, r2
     mov.w r2, @r4
-    mov.w   .L_w_chan3_field1_desc, r1
+    mov.w   .L_0603D4FE, r1
     mov.l   .L_pool_0603D510, r3
     jsr @r3
     mov r5, r2
@@ -40,7 +40,7 @@ name_entry_state:
     extu.w r2, r0
     mov.w r0, @(2, r4)
     mov r6, r0
-    mov.w   .L_w_chan3_field1_desc, r1
+    mov.w   .L_0603D4FE, r1
     mov.l   .L_pool_0603D510, r3
     jsr @r3
     mov r5, r2
@@ -51,7 +51,7 @@ name_entry_state:
     extu.w r2, r0
     mov.w r0, @(2, r4)
     mov r6, r0
-    mov.w   .L_w_chan3_field1_desc, r1
+    mov.w   .L_0603D4FE, r1
     mov.l   .L_pool_0603D510, r3
     jsr @r3
     mov r5, r2
@@ -62,7 +62,7 @@ name_entry_state:
     extu.w r2, r0
     mov.w r0, @(4, r4)
     mov r6, r0
-    mov.w   .L_w_chan3_field1_desc, r1
+    mov.w   .L_0603D4FE, r1
     mov.l   .L_pool_0603D510, r3
     jsr @r3
     mov r5, r2
@@ -73,7 +73,7 @@ name_entry_state:
     extu.w r2, r0
     mov.w r0, @(4, r4)
     mov r6, r0
-    mov.w   .L_w_chan3_field1_desc, r1
+    mov.w   .L_0603D4FE, r1
     mov.l   .L_pool_0603D510, r3
     jsr @r3
     mov r5, r2
@@ -84,7 +84,7 @@ name_entry_state:
     extu.w r2, r0
     mov.w r0, @(6, r4)
     mov r6, r0
-    mov.w   .L_w_chan3_field1_desc, r1
+    mov.w   .L_0603D4FE, r1
     mov.l   .L_pool_0603D510, r3
     jsr @r3
     mov r5, r2
@@ -95,21 +95,21 @@ name_entry_state:
     extu.w r2, r0
     mov.w r0, @(4, r4)
     mov r6, r0
-    mov.w   .L_w_chan3_field1_desc, r1
+    mov.w   .L_0603D4FE, r1
     mov.l   .L_pool_0603D510, r3
     jsr @r3
     mov r5, r2
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-.L_w_chan3_field1_desc:
+.L_0603D4FE:
     .2byte  0x0301                     /* [HIGH] chan 3 field 1 descriptor */
 
     .global DAT_0603d500
 DAT_0603d500:
     .2byte  0x00FF
     .2byte  0xFFFF
-.L_mask_byte1:
+.L_0603D504:
     .4byte  0x0000FF00                 /* [HIGH] byte 1 mask */
 .L_pool_0603D508:
     .4byte  sym_060A4D58               /* [MEDIUM] scroll config byte ptr */

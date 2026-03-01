@@ -8,7 +8,7 @@ scene_setup_master:
     sts.l pr, @-r15
     mov #0x0, r2
     add #-0x8, r15
-    mov.l   .L_scene_state_flags, r3
+    mov.l   .L_0602390C, r3
     mov.w r2, @r3
     mov r2, r3
     mov r3, r0
@@ -16,101 +16,101 @@ scene_setup_master:
     mov.w r0, @(6, r15)
     mov r3, r0
     mov.w r0, @(4, r15)
-    mov.l   .L_fn_handler_slot01, r7
-    mov.w   .L_size_slot01, r5
+    mov.l   .L_06023910, r7
+    mov.w   .L_060238FA, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_vdp1_sprite_render, r3
+    mov.l   .L_06023914, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
     add #0x1, r4
     mov #0x0, r6
-    mov.w   .L_size_slot02, r5
-    mov.l   .L_fn_handler_slot02, r7
+    mov.w   .L_060238FC, r5
+    mov.l   .L_06023918, r7
     mov.w @(6, r15), r0
-    mov.l   .L_fn_vdp1_sprite_render, r3
+    mov.l   .L_06023914, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
     add #0x2, r4
-    mov.l   .L_fn_handler_slot03, r7
+    mov.l   .L_0602391C, r7
     mov #0x0, r6
     mov.w   DAT_060238fe, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_vdp1_sprite_render, r3
+    mov.l   .L_06023914, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
     add #0x3, r4
     mov #0x0, r6
     mov.w   DAT_06023900, r5
-    mov.l   .L_fn_handler_slot04, r7
+    mov.l   .L_06023920, r7
     mov.w @(6, r15), r0
-    mov.l   .L_fn_vdp1_sprite_render, r3
+    mov.l   .L_06023914, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
     add #0x4, r4
-    mov.l   .L_fn_handler_slot05, r7
+    mov.l   .L_06023924, r7
     mov #0x0, r6
-    mov.w   .L_size_slot05, r5
+    mov.w   .L_06023902, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_vdp1_sprite_render, r3
+    mov.l   .L_06023914, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
     add #0x5, r4
     mov #0x0, r6
     mov.w   DAT_06023904, r5
-    mov.l   .L_fn_handler_slot06, r7
+    mov.l   .L_06023928, r7
     mov.w @(6, r15), r0
-    mov.l   .L_fn_vdp1_sprite_render, r3
+    mov.l   .L_06023914, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
     add #0x6, r4
-    mov.l   .L_fn_handler_slot07, r7
+    mov.l   .L_0602392C, r7
     mov #0x4, r6
-    mov.w   .L_size_slot07, r5
+    mov.w   .L_06023906, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_vdp1_sprite_render, r3
+    mov.l   .L_06023914, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
     add #0x7, r4
     mov #0x4, r6
-    mov.w   .L_size_slot07, r5
-    mov.l   .L_fn_handler_slot08, r7
+    mov.w   .L_06023906, r5
+    mov.l   .L_06023930, r7
     mov.w @(6, r15), r0
-    mov.l   .L_fn_vdp1_sprite_render, r3
+    mov.l   .L_06023914, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
     add #0x8, r4
-    mov.l   .L_fn_handler_slot09, r7
+    mov.l   .L_06023934, r7
     mov #0x0, r6
-    mov.w   .L_size_slot09, r5
+    mov.w   .L_06023908, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_vdp1_sprite_render, r3
+    mov.l   .L_06023914, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
     add #0x9, r4
     mov #0x3C, r6
-    mov.w   .L_size_slot0A, r5
-    mov.l   .L_fn_handler_slot0A, r7
+    mov.w   .L_0602390A, r5
+    mov.l   .L_06023938, r7
     mov.w @(6, r15), r0
-    mov.l   .L_fn_vdp1_sprite_render, r3
+    mov.l   .L_06023914, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
     add #0xA, r4
-    mov.l   .L_fn_handler_phase1_last, r7
-    bra     .L_register_phase2
+    mov.l   .L_0602393C, r7
+    bra     .L_06023940
     nop
-.L_size_slot01:
+.L_060238FA:
     .2byte  0x0108
-.L_size_slot02:
+.L_060238FC:
     .2byte  0x0810
 
     .global DAT_060238fe
@@ -120,48 +120,48 @@ DAT_060238fe:
     .global DAT_06023900
 DAT_06023900:
     .2byte  0x083C
-.L_size_slot05:
+.L_06023902:
     .2byte  0x0519
 
     .global DAT_06023904
 DAT_06023904:
     .2byte  0x080F
-.L_size_slot07:
+.L_06023906:
     .2byte  0x0738
-.L_size_slot09:
+.L_06023908:
     .2byte  0x0208
-.L_size_slot0A:
+.L_0602390A:
     .2byte  0x0A28
-.L_scene_state_flags:
+.L_0602390C:
     .4byte  sym_06089E44
-.L_fn_handler_slot01:
+.L_06023910:
     .4byte  0x002A299B
-.L_fn_vdp1_sprite_render:
+.L_06023914:
     .4byte  vdp1_sprite_render
-.L_fn_handler_slot02:
+.L_06023918:
     .4byte  0x002A29A3
-.L_fn_handler_slot03:
+.L_0602391C:
     .4byte  0x002A2A53
-.L_fn_handler_slot04:
+.L_06023920:
     .4byte  0x002A2B27
-.L_fn_handler_slot05:
+.L_06023924:
     .4byte  0x002A2E73
-.L_fn_handler_slot06:
+.L_06023928:
     .4byte  0x002A2F93
-.L_fn_handler_slot07:
+.L_0602392C:
     .4byte  0x002A3027
-.L_fn_handler_slot08:
+.L_06023930:
     .4byte  0x002A325B
-.L_fn_handler_slot09:
+.L_06023934:
     .4byte  0x002A3433
-.L_fn_handler_slot0A:
+.L_06023938:
     .4byte  0x002A3457
-.L_fn_handler_phase1_last:
+.L_0602393C:
     .4byte  0x002A0640
-.L_register_phase2:
+.L_06023940:
     mov.w @(4, r15), r0
-    mov.w   .L_size_slot10_b, r5
-    mov.l   .L_fn_vdp1_sprite_render_2, r3
+    mov.w   .L_06023A54, r5
+    mov.l   .L_06023A68, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -171,10 +171,10 @@ DAT_06023904:
     extu.w r4, r4
     jsr @r3
     add #0x10, r4
-    mov.l   .L_fn_handler_slot10_b, r7
+    mov.l   .L_06023A6C, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_slot11_b, r5
-    mov.l   .L_fn_vdp1_sprite_render_2, r3
+    mov.w   .L_06023A56, r5
+    mov.l   .L_06023A68, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -184,10 +184,10 @@ DAT_06023904:
     extu.w r4, r4
     jsr @r3
     add #0x11, r4
-    mov.l   .L_fn_handler_slot11_b, r7
+    mov.l   .L_06023A70, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_slot12_b, r5
-    mov.l   .L_fn_vdp1_sprite_render_2, r3
+    mov.w   .L_06023A58, r5
+    mov.l   .L_06023A68, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -197,10 +197,10 @@ DAT_06023904:
     extu.w r4, r4
     jsr @r3
     add #0x12, r4
-    mov.l   .L_fn_handler_slot12_b, r7
+    mov.l   .L_06023A74, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_slot13_b, r5
-    mov.l   .L_fn_vdp1_sprite_render_2, r3
+    mov.w   .L_06023A5A, r5
+    mov.l   .L_06023A68, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -210,10 +210,10 @@ DAT_06023904:
     extu.w r4, r4
     jsr @r3
     add #0x13, r4
-    mov.l   .L_fn_handler_slot13_b, r7
+    mov.l   .L_06023A78, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_slot14_b, r5
-    mov.l   .L_fn_vdp1_sprite_render_2, r3
+    mov.w   .L_06023A5C, r5
+    mov.l   .L_06023A68, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -223,10 +223,10 @@ DAT_06023904:
     extu.w r4, r4
     jsr @r3
     add #0x14, r4
-    mov.l   .L_fn_handler_slot14_b, r7
+    mov.l   .L_06023A7C, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_slot14_b, r5
-    mov.l   .L_fn_vdp1_sprite_render_2, r3
+    mov.w   .L_06023A5C, r5
+    mov.l   .L_06023A68, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -236,10 +236,10 @@ DAT_06023904:
     extu.w r4, r4
     jsr @r3
     add #0x15, r4
-    mov.l   .L_fn_handler_slot15_b, r7
+    mov.l   .L_06023A80, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_slot16_b, r5
-    mov.l   .L_fn_vdp1_sprite_render_2, r3
+    mov.w   .L_06023A5E, r5
+    mov.l   .L_06023A68, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -249,10 +249,10 @@ DAT_06023904:
     extu.w r4, r4
     jsr @r3
     add #0x16, r4
-    mov.l   .L_fn_handler_slot16_b, r7
+    mov.l   .L_06023A84, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_slot17_b, r5
-    mov.l   .L_fn_vdp1_sprite_render_2, r3
+    mov.w   .L_06023A60, r5
+    mov.l   .L_06023A68, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -262,10 +262,10 @@ DAT_06023904:
     extu.w r4, r4
     jsr @r3
     add #0x17, r4
-    mov.l   .L_fn_handler_slot17_b, r7
+    mov.l   .L_06023A88, r7
     mov.w @(4, r15), r0
     mov.w   DAT_06023a62, r5
-    mov.l   .L_fn_vdp1_sprite_render_2, r3
+    mov.l   .L_06023A68, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -275,10 +275,10 @@ DAT_06023904:
     extu.w r4, r4
     jsr @r3
     add #0x18, r4
-    mov.l   .L_fn_handler_slot18_b, r7
+    mov.l   .L_06023A8C, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_slot19_b, r5
-    mov.l   .L_fn_vdp1_sprite_render_2, r3
+    mov.w   .L_06023A64, r5
+    mov.l   .L_06023A68, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -288,69 +288,69 @@ DAT_06023904:
     extu.w r4, r4
     jsr @r3
     add #0x19, r4
-    mov.l   .L_fn_handler_slot19_b, r7
+    mov.l   .L_06023A90, r7
     mov.w @(4, r15), r0
     mov r0, r6
     extu.w r6, r6
     add #0x4, r6
     shll2 r6
-    mov.w   .L_size_slot19_b, r5
-    bra     .L_register_phase3
+    mov.w   .L_06023A64, r5
+    bra     .L_06023A94
     nop
-.L_size_slot10_b:
+.L_06023A54:
     .2byte  0x0228
-.L_size_slot11_b:
+.L_06023A56:
     .2byte  0x0428
-.L_size_slot12_b:
+.L_06023A58:
     .2byte  0x0418
-.L_size_slot13_b:
+.L_06023A5A:
     .2byte  0x0820
-.L_size_slot14_b:
+.L_06023A5C:
     .2byte  0x0518
-.L_size_slot16_b:
+.L_06023A5E:
     .2byte  0x0508
-.L_size_slot17_b:
+.L_06023A60:
     .2byte  0x0D10
 
     .global DAT_06023a62
 DAT_06023a62:
     .2byte  0x041C
-.L_size_slot19_b:
+.L_06023A64:
     .2byte  0x0348
     .2byte  0xFFFF
-.L_fn_vdp1_sprite_render_2:
+.L_06023A68:
     .4byte  vdp1_sprite_render
-.L_fn_handler_slot10_b:
+.L_06023A6C:
     .4byte  0x002A06AC
-.L_fn_handler_slot11_b:
+.L_06023A70:
     .4byte  0x002A074C
-.L_fn_handler_slot12_b:
+.L_06023A74:
     .4byte  0x002A07E4
-.L_fn_handler_slot13_b:
+.L_06023A78:
     .4byte  0x002A09B4
-.L_fn_handler_slot14_b:
+.L_06023A7C:
     .4byte  0x002A0A34
-.L_fn_handler_slot15_b:
+.L_06023A80:
     .4byte  0x002A0AA4
-.L_fn_handler_slot16_b:
+.L_06023A84:
     .4byte  0x002A0AD8
-.L_fn_handler_slot17_b:
+.L_06023A88:
     .4byte  0x002A0C14
-.L_fn_handler_slot18_b:
+.L_06023A8C:
     .4byte  0x002A0D7C
-.L_fn_handler_slot19_b:
+.L_06023A90:
     .4byte  0x002A0F58
-.L_register_phase3:
+.L_06023A94:
     mov.w @(6, r15), r0
-    mov.l   .L_fn_vdp1_sprite_render_3, r3
+    mov.l   .L_06023BB8, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
     add #0x1A, r4
-    mov.l   .L_fn_handler_slot1A_c, r7
+    mov.l   .L_06023BBC, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_slot1A_c, r5
-    mov.l   .L_fn_vdp1_sprite_render_3, r3
+    mov.w   .L_06023BA8, r5
+    mov.l   .L_06023BB8, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -360,10 +360,10 @@ DAT_06023a62:
     extu.w r4, r4
     jsr @r3
     add #0x1B, r4
-    mov.l   .L_fn_handler_slot1B_c, r7
+    mov.l   .L_06023BC0, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_slot1B_c, r5
-    mov.l   .L_fn_vdp1_sprite_render_3, r3
+    mov.w   .L_06023BAA, r5
+    mov.l   .L_06023BB8, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -373,10 +373,10 @@ DAT_06023a62:
     extu.w r4, r4
     jsr @r3
     add #0x1C, r4
-    mov.l   .L_fn_handler_slot1C_c, r7
+    mov.l   .L_06023BC4, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_slot1C_c, r5
-    mov.l   .L_fn_vdp1_sprite_render_3, r3
+    mov.w   .L_06023BAC, r5
+    mov.l   .L_06023BB8, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -386,10 +386,10 @@ DAT_06023a62:
     extu.w r4, r4
     jsr @r3
     add #0x1D, r4
-    mov.l   .L_fn_handler_slot1D_c, r7
+    mov.l   .L_06023BC8, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_slot1D_c, r5
-    mov.l   .L_fn_vdp1_sprite_render_3, r3
+    mov.w   .L_06023BAE, r5
+    mov.l   .L_06023BB8, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -399,10 +399,10 @@ DAT_06023a62:
     extu.w r4, r4
     jsr @r3
     add #0x1E, r4
-    mov.l   .L_fn_handler_slot1E_c, r7
+    mov.l   .L_06023BCC, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_slot1E_c, r5
-    mov.l   .L_fn_vdp1_sprite_render_3, r3
+    mov.w   .L_06023BB0, r5
+    mov.l   .L_06023BB8, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -412,10 +412,10 @@ DAT_06023a62:
     extu.w r4, r4
     jsr @r3
     add #0x1F, r4
-    mov.l   .L_fn_handler_slot1F_c, r7
+    mov.l   .L_06023BD0, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_slot1F_c, r5
-    mov.l   .L_fn_vdp1_sprite_render_3, r3
+    mov.w   .L_06023BB2, r5
+    mov.l   .L_06023BB8, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -425,10 +425,10 @@ DAT_06023a62:
     extu.w r4, r4
     jsr @r3
     add #0x20, r4
-    mov.l   .L_fn_handler_slot20_c, r7
+    mov.l   .L_06023BD4, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_slot20_c, r5
-    mov.l   .L_fn_vdp1_sprite_render_3, r3
+    mov.w   .L_06023BB4, r5
+    mov.l   .L_06023BB8, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -438,10 +438,10 @@ DAT_06023a62:
     extu.w r4, r4
     jsr @r3
     add #0x21, r4
-    mov.l   .L_fn_handler_slot21_c, r7
+    mov.l   .L_06023BD8, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_slot1F_c, r5
-    mov.l   .L_fn_vdp1_sprite_render_3, r3
+    mov.w   .L_06023BB2, r5
+    mov.l   .L_06023BB8, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -451,10 +451,10 @@ DAT_06023a62:
     extu.w r4, r4
     jsr @r3
     add #0x22, r4
-    mov.l   .L_fn_handler_slot22_c, r7
+    mov.l   .L_06023BDC, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_slot1F_c, r5
-    mov.l   .L_fn_vdp1_sprite_render_3, r3
+    mov.w   .L_06023BB2, r5
+    mov.l   .L_06023BB8, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -464,10 +464,10 @@ DAT_06023a62:
     extu.w r4, r4
     jsr @r3
     add #0x23, r4
-    mov.l   .L_fn_handler_slot23_c, r7
+    mov.l   .L_06023BE0, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_slot20_c, r5
-    mov.l   .L_fn_vdp1_sprite_render_3, r3
+    mov.w   .L_06023BB4, r5
+    mov.l   .L_06023BB8, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -477,50 +477,50 @@ DAT_06023a62:
     extu.w r4, r4
     jsr @r3
     add #0x24, r4
-    bra     .L_register_phase4
+    bra     .L_06023BE4
     nop
-.L_size_slot1A_c:
+.L_06023BA8:
     .2byte  0x0348
-.L_size_slot1B_c:
+.L_06023BAA:
     .2byte  0x0630
-.L_size_slot1C_c:
+.L_06023BAC:
     .2byte  0x0A28
-.L_size_slot1D_c:
+.L_06023BAE:
     .2byte  0x0C08
-.L_size_slot1E_c:
+.L_06023BB0:
     .2byte  0x0C10
-.L_size_slot1F_c:
+.L_06023BB2:
     .2byte  0x0308
-.L_size_slot20_c:
+.L_06023BB4:
     .2byte  0x0410
     .2byte  0xFFFF
-.L_fn_vdp1_sprite_render_3:
+.L_06023BB8:
     .4byte  vdp1_sprite_render
-.L_fn_handler_slot1A_c:
+.L_06023BBC:
     .4byte  0x002A1140
-.L_fn_handler_slot1B_c:
+.L_06023BC0:
     .4byte  0x002A12F8
-.L_fn_handler_slot1C_c:
+.L_06023BC4:
     .4byte  0x002A1484
-.L_fn_handler_slot1D_c:
+.L_06023BC8:
     .4byte  0x002A1890
-.L_fn_handler_slot1E_c:
+.L_06023BCC:
     .4byte  0x002A1908
-.L_fn_handler_slot1F_c:
+.L_06023BD0:
     .4byte  0x002A1AC4
-.L_fn_handler_slot20_c:
+.L_06023BD4:
     .4byte  0x002A1B04
-.L_fn_handler_slot21_c:
+.L_06023BD8:
     .4byte  0x002A1B9C
-.L_fn_handler_slot22_c:
+.L_06023BDC:
     .4byte  0x002A1BC8
-.L_fn_handler_slot23_c:
+.L_06023BE0:
     .4byte  0x002A1C04
-.L_register_phase4:
-    mov.l   .L_fn_handler_slot25_d, r7
+.L_06023BE4:
+    mov.l   .L_06023D08, r7
     mov.w @(4, r15), r0
     mov.w   DAT_06023cf8, r5
-    mov.l   .L_fn_vdp1_sprite_render_4, r3
+    mov.l   .L_06023D0C, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -530,10 +530,10 @@ DAT_06023a62:
     extu.w r4, r4
     jsr @r3
     add #0x25, r4
-    mov.l   .L_fn_handler_slot26_d, r7
+    mov.l   .L_06023D10, r7
     mov.w @(4, r15), r0
     mov.w   DAT_06023cf8, r5
-    mov.l   .L_fn_vdp1_sprite_render_4, r3
+    mov.l   .L_06023D0C, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -543,10 +543,10 @@ DAT_06023a62:
     extu.w r4, r4
     jsr @r3
     add #0x26, r4
-    mov.l   .L_fn_handler_slot27_d, r7
+    mov.l   .L_06023D14, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_slot27_d, r5
-    mov.l   .L_fn_vdp1_sprite_render_4, r3
+    mov.w   .L_06023CFA, r5
+    mov.l   .L_06023D0C, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -556,10 +556,10 @@ DAT_06023a62:
     extu.w r4, r4
     jsr @r3
     add #0x27, r4
-    mov.l   .L_fn_handler_slot28_d, r7
+    mov.l   .L_06023D18, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_slot28_d, r5
-    mov.l   .L_fn_vdp1_sprite_render_4, r3
+    mov.w   .L_06023CFC, r5
+    mov.l   .L_06023D0C, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -569,10 +569,10 @@ DAT_06023a62:
     extu.w r4, r4
     jsr @r3
     add #0x28, r4
-    mov.l   .L_fn_handler_slot29_d, r7
+    mov.l   .L_06023D1C, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_slot29_d, r5
-    mov.l   .L_fn_vdp1_sprite_render_4, r3
+    mov.w   .L_06023CFE, r5
+    mov.l   .L_06023D0C, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -582,10 +582,10 @@ DAT_06023a62:
     extu.w r4, r4
     jsr @r3
     add #0x29, r4
-    mov.l   .L_fn_handler_slot2A_d, r7
+    mov.l   .L_06023D20, r7
     mov.w @(4, r15), r0
     mov.w   DAT_06023d00, r5
-    mov.l   .L_fn_vdp1_sprite_render_4, r3
+    mov.l   .L_06023D0C, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -595,10 +595,10 @@ DAT_06023a62:
     extu.w r4, r4
     jsr @r3
     add #0x2A, r4
-    mov.l   .L_fn_handler_slot2B_d, r7
+    mov.l   .L_06023D24, r7
     mov.w @(4, r15), r0
     mov.w   DAT_06023d02, r5
-    mov.l   .L_fn_vdp1_sprite_render_4, r3
+    mov.l   .L_06023D0C, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -608,10 +608,10 @@ DAT_06023a62:
     extu.w r4, r4
     jsr @r3
     add #0x2B, r4
-    mov.l   .L_fn_handler_slot2C_d, r7
+    mov.l   .L_06023D28, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_slot2C_d, r5
-    mov.l   .L_fn_vdp1_sprite_render_4, r3
+    mov.w   .L_06023D04, r5
+    mov.l   .L_06023D0C, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -621,10 +621,10 @@ DAT_06023a62:
     extu.w r4, r4
     jsr @r3
     add #0x2C, r4
-    mov.l   .L_fn_handler_slot2D_d, r7
+    mov.l   .L_06023D2C, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_slot2C_d, r5
-    mov.l   .L_fn_vdp1_sprite_render_4, r3
+    mov.w   .L_06023D04, r5
+    mov.l   .L_06023D0C, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -634,10 +634,10 @@ DAT_06023a62:
     extu.w r4, r4
     jsr @r3
     add #0x2D, r4
-    mov.l   .L_fn_handler_slot2E_d, r7
+    mov.l   .L_06023D30, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_slot28_d, r5
-    mov.l   .L_fn_vdp1_sprite_render_4, r3
+    mov.w   .L_06023CFC, r5
+    mov.l   .L_06023D0C, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -647,23 +647,23 @@ DAT_06023a62:
     extu.w r4, r4
     jsr @r3
     add #0x2E, r4
-    mov.l   .L_fn_handler_slot2F_d, r7
+    mov.l   .L_06023D34, r7
     mov.w @(4, r15), r0
     mov r0, r6
     extu.w r6, r6
     add #0x5, r6
     shll2 r6
-    bra     .L_register_phase5
+    bra     .L_06023D38
     nop
 
     .global DAT_06023cf8
 DAT_06023cf8:
     .2byte  0x060C
-.L_size_slot27_d:
+.L_06023CFA:
     .2byte  0x0610
-.L_size_slot28_d:
+.L_06023CFC:
     .2byte  0x0510
-.L_size_slot29_d:
+.L_06023CFE:
     .2byte  0x0310
 
     .global DAT_06023d00
@@ -673,45 +673,45 @@ DAT_06023d00:
     .global DAT_06023d02
 DAT_06023d02:
     .2byte  0x080C
-.L_size_slot2C_d:
+.L_06023D04:
     .2byte  0x0110
     .2byte  0xFFFF
-.L_fn_handler_slot25_d:
+.L_06023D08:
     .4byte  0x002A1CC8
-.L_fn_vdp1_sprite_render_4:
+.L_06023D0C:
     .4byte  vdp1_sprite_render
-.L_fn_handler_slot26_d:
+.L_06023D10:
     .4byte  0x002A1D2C
-.L_fn_handler_slot27_d:
+.L_06023D14:
     .4byte  0x002A1D84
-.L_fn_handler_slot28_d:
+.L_06023D18:
     .4byte  0x002A1E20
-.L_fn_handler_slot29_d:
+.L_06023D1C:
     .4byte  0x002A1E8C
-.L_fn_handler_slot2A_d:
+.L_06023D20:
     .4byte  0x002A1EFC
-.L_fn_handler_slot2B_d:
+.L_06023D24:
     .4byte  0x002A1FC8
-.L_fn_handler_slot2C_d:
+.L_06023D28:
     .4byte  0x002A2060
-.L_fn_handler_slot2D_d:
+.L_06023D2C:
     .4byte  0x002A2080
-.L_fn_handler_slot2E_d:
+.L_06023D30:
     .4byte  0x002A20A0
-.L_fn_handler_slot2F_d:
+.L_06023D34:
     .4byte  0x002A211C
-.L_register_phase5:
-    mov.w   .L_size_slot2F_e, r5
+.L_06023D38:
+    mov.w   .L_06023E4E, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_vdp1_sprite_render_5, r3
+    mov.l   .L_06023E58, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
     add #0x2F, r4
-    mov.l   .L_fn_handler_slot30_e, r7
+    mov.l   .L_06023E5C, r7
     mov.w @(4, r15), r0
     mov.w   DAT_06023e50, r5
-    mov.l   .L_fn_vdp1_sprite_render_5, r3
+    mov.l   .L_06023E58, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -721,10 +721,10 @@ DAT_06023d02:
     extu.w r4, r4
     jsr @r3
     add #0x30, r4
-    mov.l   .L_fn_handler_slot31_e, r7
+    mov.l   .L_06023E60, r7
     mov.w @(4, r15), r0
     mov.w   DAT_06023e52, r5
-    mov.l   .L_fn_vdp1_sprite_render_5, r3
+    mov.l   .L_06023E58, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -734,10 +734,10 @@ DAT_06023d02:
     extu.w r4, r4
     jsr @r3
     add #0x31, r4
-    mov.l   .L_fn_handler_slot32_e, r7
+    mov.l   .L_06023E64, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_slot32_e, r5
-    mov.l   .L_fn_vdp1_sprite_render_5, r3
+    mov.w   .L_06023E54, r5
+    mov.l   .L_06023E58, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -747,10 +747,10 @@ DAT_06023d02:
     extu.w r4, r4
     jsr @r3
     add #0x32, r4
-    mov.l   .L_fn_handler_slot33_e, r7
+    mov.l   .L_06023E68, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_slot32_e, r5
-    mov.l   .L_fn_vdp1_sprite_render_5, r3
+    mov.w   .L_06023E54, r5
+    mov.l   .L_06023E58, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -760,10 +760,10 @@ DAT_06023d02:
     extu.w r4, r4
     jsr @r3
     add #0x33, r4
-    mov.l   .L_fn_handler_slot34_e, r7
+    mov.l   .L_06023E6C, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_slot32_e, r5
-    mov.l   .L_fn_vdp1_sprite_render_5, r3
+    mov.w   .L_06023E54, r5
+    mov.l   .L_06023E58, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -773,10 +773,10 @@ DAT_06023d02:
     extu.w r4, r4
     jsr @r3
     add #0x34, r4
-    mov.l   .L_fn_handler_slot35_e, r7
+    mov.l   .L_06023E70, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_slot32_e, r5
-    mov.l   .L_fn_vdp1_sprite_render_5, r3
+    mov.w   .L_06023E54, r5
+    mov.l   .L_06023E58, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -786,10 +786,10 @@ DAT_06023d02:
     extu.w r4, r4
     jsr @r3
     add #0x35, r4
-    mov.l   .L_fn_handler_slot36_e, r7
+    mov.l   .L_06023E74, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_slot32_e, r5
-    mov.l   .L_fn_vdp1_sprite_render_5, r3
+    mov.w   .L_06023E54, r5
+    mov.l   .L_06023E58, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -799,10 +799,10 @@ DAT_06023d02:
     extu.w r4, r4
     jsr @r3
     add #0x36, r4
-    mov.l   .L_fn_handler_slot37_e, r7
+    mov.l   .L_06023E78, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_slot32_e, r5
-    mov.l   .L_fn_vdp1_sprite_render_5, r3
+    mov.w   .L_06023E54, r5
+    mov.l   .L_06023E58, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -812,10 +812,10 @@ DAT_06023d02:
     extu.w r4, r4
     jsr @r3
     add #0x37, r4
-    mov.l   .L_fn_handler_slot38_e, r7
+    mov.l   .L_06023E7C, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_slot32_e, r5
-    mov.l   .L_fn_vdp1_sprite_render_5, r3
+    mov.w   .L_06023E54, r5
+    mov.l   .L_06023E58, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -825,10 +825,10 @@ DAT_06023d02:
     extu.w r4, r4
     jsr @r3
     add #0x38, r4
-    mov.l   .L_fn_handler_slot39_e, r7
+    mov.l   .L_06023E80, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_slot32_e, r5
-    mov.l   .L_fn_vdp1_sprite_render_5, r3
+    mov.w   .L_06023E54, r5
+    mov.l   .L_06023E58, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -838,9 +838,9 @@ DAT_06023d02:
     extu.w r4, r4
     jsr @r3
     add #0x39, r4
-    bra     .L_init_second_table
+    bra     .L_06023E84
     nop
-.L_size_slot2F_e:
+.L_06023E4E:
     .2byte  0x0310
 
     .global DAT_06023e50
@@ -850,33 +850,33 @@ DAT_06023e50:
     .global DAT_06023e52
 DAT_06023e52:
     .2byte  0x080C
-.L_size_slot32_e:
+.L_06023E54:
     .2byte  0x0108
     .2byte  0xFFFF
-.L_fn_vdp1_sprite_render_5:
+.L_06023E58:
     .4byte  vdp1_sprite_render
-.L_fn_handler_slot30_e:
+.L_06023E5C:
     .4byte  0x002A2194
-.L_fn_handler_slot31_e:
+.L_06023E60:
     .4byte  0x002A225C
-.L_fn_handler_slot32_e:
+.L_06023E64:
     .4byte  0x002A22F4
-.L_fn_handler_slot33_e:
+.L_06023E68:
     .4byte  0x002A22FC
-.L_fn_handler_slot34_e:
+.L_06023E6C:
     .4byte  0x002A2304
-.L_fn_handler_slot35_e:
+.L_06023E70:
     .4byte  0x002A230C
-.L_fn_handler_slot36_e:
+.L_06023E74:
     .4byte  0x002A2314
-.L_fn_handler_slot37_e:
+.L_06023E78:
     .4byte  0x002A231C
-.L_fn_handler_slot38_e:
+.L_06023E7C:
     .4byte  0x002A2324
-.L_fn_handler_slot39_e:
+.L_06023E80:
     .4byte  0x002A232C
-.L_init_second_table:
-    mov.l   .L_scene_table_idx, r2
+.L_06023E84:
+    mov.l   .L_06023FA0, r2
     mov #0x1, r3
     mov #0x0, r6
     mov r3, r5
@@ -885,7 +885,7 @@ DAT_06023e52:
     mov r2, r0
     mov.w r0, @(6, r15)
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler, r3
+    mov.l   .L_06023FA4, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -893,7 +893,7 @@ DAT_06023e52:
     mov #0x0, r6
     mov #0x2, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler, r3
+    mov.l   .L_06023FA4, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -901,7 +901,7 @@ DAT_06023e52:
     mov #0x0, r6
     mov #0x3, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler, r3
+    mov.l   .L_06023FA4, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -909,7 +909,7 @@ DAT_06023e52:
     mov #0x0, r6
     mov #0x4, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler, r3
+    mov.l   .L_06023FA4, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -917,7 +917,7 @@ DAT_06023e52:
     mov #0x0, r6
     mov #0x5, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler, r3
+    mov.l   .L_06023FA4, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -925,7 +925,7 @@ DAT_06023e52:
     mov #0x0, r6
     mov #0x6, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler, r3
+    mov.l   .L_06023FA4, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -933,7 +933,7 @@ DAT_06023e52:
     mov #0x4, r6
     mov #0x7, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler, r3
+    mov.l   .L_06023FA4, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -941,7 +941,7 @@ DAT_06023e52:
     mov #0x4, r6
     mov #0x8, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler, r3
+    mov.l   .L_06023FA4, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -949,7 +949,7 @@ DAT_06023e52:
     mov #0x0, r6
     mov #0x9, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler, r3
+    mov.l   .L_06023FA4, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -957,7 +957,7 @@ DAT_06023e52:
     mov #0x3C, r6
     mov #0xA, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler, r3
+    mov.l   .L_06023FA4, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -965,7 +965,7 @@ DAT_06023e52:
     mov #0x20, r6
     mov #0x10, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler, r3
+    mov.l   .L_06023FA4, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -973,7 +973,7 @@ DAT_06023e52:
     mov #0x20, r6
     mov #0x11, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler, r3
+    mov.l   .L_06023FA4, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -981,7 +981,7 @@ DAT_06023e52:
     mov #0x20, r6
     mov #0x12, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler, r3
+    mov.l   .L_06023FA4, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -989,7 +989,7 @@ DAT_06023e52:
     mov #0x20, r6
     mov #0x13, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler, r3
+    mov.l   .L_06023FA4, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -997,7 +997,7 @@ DAT_06023e52:
     mov #0x20, r6
     mov #0x14, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler, r3
+    mov.l   .L_06023FA4, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -1005,7 +1005,7 @@ DAT_06023e52:
     mov #0x20, r6
     mov #0x15, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler, r3
+    mov.l   .L_06023FA4, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -1015,21 +1015,21 @@ DAT_06023e52:
     mov.w @(6, r15), r0
     mov r0, r4
     extu.w r4, r4
-    bra     .L_register_second_table
+    bra     .L_06023FA8
     add #0x16, r4
     .2byte  0xFFFF
-.L_scene_table_idx:
+.L_06023FA0:
     .4byte  sym_06089E46
-.L_fn_register_handler:
+.L_06023FA4:
     .4byte  sym_06007540
-.L_register_second_table:
-    mov.l   .L_fn_register_handler_2, r3
+.L_06023FA8:
+    mov.l   .L_060240C8, r3
     jsr @r3
     nop
     mov #0x20, r6
     mov #0x17, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler_2, r3
+    mov.l   .L_060240C8, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -1037,7 +1037,7 @@ DAT_06023e52:
     mov #0x34, r6
     mov #0x18, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler_2, r3
+    mov.l   .L_060240C8, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -1045,7 +1045,7 @@ DAT_06023e52:
     mov #0x28, r6
     mov #0x19, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler_2, r3
+    mov.l   .L_060240C8, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -1053,7 +1053,7 @@ DAT_06023e52:
     mov #0x28, r6
     mov #0x1A, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler_2, r3
+    mov.l   .L_060240C8, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -1061,7 +1061,7 @@ DAT_06023e52:
     mov #0x28, r6
     mov #0x1B, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler_2, r3
+    mov.l   .L_060240C8, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -1069,7 +1069,7 @@ DAT_06023e52:
     mov #0x34, r6
     mov #0x1C, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler_2, r3
+    mov.l   .L_060240C8, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -1077,7 +1077,7 @@ DAT_06023e52:
     mov #0x28, r6
     mov #0x1D, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler_2, r3
+    mov.l   .L_060240C8, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -1085,7 +1085,7 @@ DAT_06023e52:
     mov #0x30, r6
     mov #0x1E, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler_2, r3
+    mov.l   .L_060240C8, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -1093,7 +1093,7 @@ DAT_06023e52:
     mov #0x30, r6
     mov #0x1F, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler_2, r3
+    mov.l   .L_060240C8, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -1101,7 +1101,7 @@ DAT_06023e52:
     mov #0x24, r6
     mov #0x20, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler_2, r3
+    mov.l   .L_060240C8, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -1109,7 +1109,7 @@ DAT_06023e52:
     mov #0x24, r6
     mov #0x21, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler_2, r3
+    mov.l   .L_060240C8, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -1117,7 +1117,7 @@ DAT_06023e52:
     mov #0x24, r6
     mov #0x22, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler_2, r3
+    mov.l   .L_060240C8, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -1125,14 +1125,14 @@ DAT_06023e52:
     mov #0x24, r6
     mov #0x23, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler_2, r3
+    mov.l   .L_060240C8, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
     add #0x23, r4
     mov #0x24, r6
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler_2, r3
+    mov.l   .L_060240C8, r3
     mov r6, r5
     mov r0, r4
     extu.w r4, r4
@@ -1141,7 +1141,7 @@ DAT_06023e52:
     mov #0x2C, r6
     mov #0x25, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler_2, r3
+    mov.l   .L_060240C8, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -1149,7 +1149,7 @@ DAT_06023e52:
     mov #0x2C, r6
     mov #0x26, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler_2, r3
+    mov.l   .L_060240C8, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -1157,21 +1157,21 @@ DAT_06023e52:
     mov #0x24, r6
     mov #0x27, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler_2, r3
+    mov.l   .L_060240C8, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
     add #0x27, r4
     mov #0x2C, r6
     mov #0x28, r5
-    bra     .L_register_second_cont
+    bra     .L_060240CC
     nop
     .2byte  0xFFFF
-.L_fn_register_handler_2:
+.L_060240C8:
     .4byte  sym_06007540
-.L_register_second_cont:
+.L_060240CC:
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler_3, r3
+    mov.l   .L_060241E8, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -1179,7 +1179,7 @@ DAT_06023e52:
     mov #0x2C, r6
     mov #0x29, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler_3, r3
+    mov.l   .L_060241E8, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -1187,7 +1187,7 @@ DAT_06023e52:
     mov #0x2C, r6
     mov #0x2A, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler_3, r3
+    mov.l   .L_060241E8, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -1195,7 +1195,7 @@ DAT_06023e52:
     mov #0x2C, r6
     mov #0x2B, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler_3, r3
+    mov.l   .L_060241E8, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -1203,7 +1203,7 @@ DAT_06023e52:
     mov #0x24, r6
     mov #0x2C, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler_3, r3
+    mov.l   .L_060241E8, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -1211,7 +1211,7 @@ DAT_06023e52:
     mov #0x24, r6
     mov #0x2D, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler_3, r3
+    mov.l   .L_060241E8, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -1219,7 +1219,7 @@ DAT_06023e52:
     mov #0x2C, r6
     mov #0x2E, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler_3, r3
+    mov.l   .L_060241E8, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -1227,7 +1227,7 @@ DAT_06023e52:
     mov #0x2C, r6
     mov #0x2F, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler_3, r3
+    mov.l   .L_060241E8, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -1235,7 +1235,7 @@ DAT_06023e52:
     mov #0x2C, r6
     mov #0x30, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler_3, r3
+    mov.l   .L_060241E8, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -1243,7 +1243,7 @@ DAT_06023e52:
     mov #0x2C, r6
     mov #0x31, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler_3, r3
+    mov.l   .L_060241E8, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -1251,7 +1251,7 @@ DAT_06023e52:
     mov #0x2C, r6
     mov #0x32, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler_3, r3
+    mov.l   .L_060241E8, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -1259,7 +1259,7 @@ DAT_06023e52:
     mov #0x2C, r6
     mov #0x33, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler_3, r3
+    mov.l   .L_060241E8, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -1267,7 +1267,7 @@ DAT_06023e52:
     mov #0x2C, r6
     mov #0x34, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler_3, r3
+    mov.l   .L_060241E8, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -1275,7 +1275,7 @@ DAT_06023e52:
     mov #0x2C, r6
     mov #0x35, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler_3, r3
+    mov.l   .L_060241E8, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -1283,7 +1283,7 @@ DAT_06023e52:
     mov #0x28, r6
     mov #0x36, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler_3, r3
+    mov.l   .L_060241E8, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -1291,7 +1291,7 @@ DAT_06023e52:
     mov #0x34, r6
     mov #0x37, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler_3, r3
+    mov.l   .L_060241E8, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -1299,7 +1299,7 @@ DAT_06023e52:
     mov #0x20, r6
     mov #0x38, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler_3, r3
+    mov.l   .L_060241E8, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -1309,18 +1309,18 @@ DAT_06023e52:
     mov.w @(6, r15), r0
     mov r0, r4
     extu.w r4, r4
-    bra     .L_init_obj_layer
+    bra     .L_060241EC
     add #0x39, r4
     .2byte  0xFFFF
-.L_fn_register_handler_3:
+.L_060241E8:
     .4byte  sym_06007540
-.L_init_obj_layer:
-    mov.l   .L_fn_register_handler_4, r3
+.L_060241EC:
+    mov.l   .L_060242E8, r3
     jsr @r3
     nop
     mov #0x38, r3
     mov #0x40, r6
-    mov.l   .L_obj_layer_table_base, r2
+    mov.l   .L_060242EC, r2
     mov.w r3, @r2
     mov #0x0, r3
     mov.w   DAT_060242e0, r2
@@ -1328,18 +1328,18 @@ DAT_06023e52:
     mov.w r0, @(6, r15)
     mov r3, r0
     mov.w r0, @(4, r15)
-    mov.l   .L_fn_obj_handler_slot10, r7
-    mov.w   .L_size_obj_slot, r5
+    mov.l   .L_060242F0, r7
+    mov.w   .L_060242E2, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_vdp1_sprite_render_6, r3
+    mov.l   .L_060242F4, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
     add #0x10, r4
-    mov.l   .L_fn_obj_handler_slot11, r7
+    mov.l   .L_060242F8, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_obj_slot, r5
-    mov.l   .L_fn_vdp1_sprite_render_6, r3
+    mov.w   .L_060242E2, r5
+    mov.l   .L_060242F4, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -1349,10 +1349,10 @@ DAT_06023e52:
     extu.w r4, r4
     jsr @r3
     add #0x11, r4
-    mov.l   .L_fn_obj_handler_slot12, r7
+    mov.l   .L_060242FC, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_obj_slot, r5
-    mov.l   .L_fn_vdp1_sprite_render_6, r3
+    mov.w   .L_060242E2, r5
+    mov.l   .L_060242F4, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -1362,10 +1362,10 @@ DAT_06023e52:
     extu.w r4, r4
     jsr @r3
     add #0x12, r4
-    mov.l   .L_fn_obj_handler_slot13, r7
+    mov.l   .L_06024300, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_obj_slot, r5
-    mov.l   .L_fn_vdp1_sprite_render_6, r3
+    mov.w   .L_060242E2, r5
+    mov.l   .L_060242F4, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -1375,7 +1375,7 @@ DAT_06023e52:
     extu.w r4, r4
     jsr @r3
     add #0x13, r4
-    mov.l   .L_obj_layer_idx, r2
+    mov.l   .L_06024304, r2
     mov #0x3A, r3
     mov.w r3, @r2
     mov #0xE, r3
@@ -1384,14 +1384,14 @@ DAT_06023e52:
     mov.w r0, @(6, r15)
     mov r3, r0
     mov.w r0, @(4, r15)
-    mov.l   .L_game_variant_flag, r0
+    mov.l   .L_06024308, r0
     mov.l @r0, r0
     tst r0, r0
-    bt      .L_variant_flag_zero
-    mov.l   .L_fn_variant_handler_0, r7
+    bt      .L_0602431C
+    mov.l   .L_0602430C, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_variant_slot, r5
-    mov.l   .L_fn_vdp1_sprite_render_6, r3
+    mov.w   .L_060242E6, r5
+    mov.l   .L_060242F4, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -1399,10 +1399,10 @@ DAT_06023e52:
     mov r0, r4
     jsr @r3
     extu.w r4, r4
-    mov.l   .L_fn_variant_handler_1, r7
+    mov.l   .L_06024310, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_variant_slot, r5
-    mov.l   .L_fn_vdp1_sprite_render_6, r3
+    mov.w   .L_060242E6, r5
+    mov.l   .L_060242F4, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -1411,10 +1411,10 @@ DAT_06023e52:
     extu.w r4, r4
     jsr @r3
     add #0x1, r4
-    mov.l   .L_fn_variant_handler_2, r7
+    mov.l   .L_06024314, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_variant_slot, r5
-    mov.l   .L_fn_vdp1_sprite_render_6, r3
+    mov.w   .L_060242E6, r5
+    mov.l   .L_060242F4, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -1423,10 +1423,10 @@ DAT_06023e52:
     extu.w r4, r4
     jsr @r3
     add #0x2, r4
-    mov.l   .L_fn_variant_handler_3, r7
+    mov.l   .L_06024318, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_variant_slot, r5
-    mov.l   .L_fn_vdp1_sprite_render_6, r3
+    mov.w   .L_060242E6, r5
+    mov.l   .L_060242F4, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -1435,51 +1435,51 @@ DAT_06023e52:
     extu.w r4, r4
     jsr @r3
     add #0x3, r4
-    bra     .L_check_multiplayer
+    bra     .L_0602437A
     nop
 
     .global DAT_060242e0
 DAT_060242e0:
     .2byte  0x0E00
-.L_size_obj_slot:
+.L_060242E2:
     .2byte  0x0630
 
     .global DAT_060242e4
 DAT_060242e4:
     .2byte  0x0E82
-.L_size_variant_slot:
+.L_060242E6:
     .2byte  0x0210
-.L_fn_register_handler_4:
+.L_060242E8:
     .4byte  sym_06007540
-.L_obj_layer_table_base:
+.L_060242EC:
     .4byte  sym_06089E9C
-.L_fn_obj_handler_slot10:
+.L_060242F0:
     .4byte  0x002A3987
-.L_fn_vdp1_sprite_render_6:
+.L_060242F4:
     .4byte  vdp1_sprite_render
-.L_fn_obj_handler_slot11:
+.L_060242F8:
     .4byte  0x002A3C2F
-.L_fn_obj_handler_slot12:
+.L_060242FC:
     .4byte  0x002A3D23
-.L_fn_obj_handler_slot13:
+.L_06024300:
     .4byte  0x002A3E23
-.L_obj_layer_idx:
+.L_06024304:
     .4byte  sym_06089EA0
-.L_game_variant_flag:
+.L_06024308:
     .4byte  sym_0607EAB8
-.L_fn_variant_handler_0:
+.L_0602430C:
     .4byte  0x002A43A6
-.L_fn_variant_handler_1:
+.L_06024310:
     .4byte  0x002A43D8
-.L_fn_variant_handler_2:
+.L_06024314:
     .4byte  0x002A4450
-.L_fn_variant_handler_3:
+.L_06024318:
     .4byte  0x002A44BF
-.L_variant_flag_zero:
-    mov.l   .L_fn_fallback_handler_0, r7
+.L_0602431C:
+    mov.l   .L_060243EC, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_fallback_slot, r5
-    mov.l   .L_fn_vdp1_sprite_render_7, r3
+    mov.w   .L_060243E8, r5
+    mov.l   .L_060243F0, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -1487,10 +1487,10 @@ DAT_060242e4:
     mov r0, r4
     jsr @r3
     extu.w r4, r4
-    mov.l   .L_fn_fallback_handler_1, r7
+    mov.l   .L_060243F4, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_fallback_slot, r5
-    mov.l   .L_fn_vdp1_sprite_render_7, r3
+    mov.w   .L_060243E8, r5
+    mov.l   .L_060243F0, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -1499,10 +1499,10 @@ DAT_060242e4:
     extu.w r4, r4
     jsr @r3
     add #0x1, r4
-    mov.l   .L_fn_fallback_handler_2, r7
+    mov.l   .L_060243F8, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_fallback_slot, r5
-    mov.l   .L_fn_vdp1_sprite_render_7, r3
+    mov.w   .L_060243E8, r5
+    mov.l   .L_060243F0, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -1511,10 +1511,10 @@ DAT_060242e4:
     extu.w r4, r4
     jsr @r3
     add #0x2, r4
-    mov.l   .L_fn_fallback_handler_3, r7
+    mov.l   .L_060243FC, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_fallback_slot, r5
-    mov.l   .L_fn_vdp1_sprite_render_7, r3
+    mov.w   .L_060243E8, r5
+    mov.l   .L_060243F0, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -1523,16 +1523,16 @@ DAT_060242e4:
     extu.w r4, r4
     jsr @r3
     add #0x3, r4
-.L_check_multiplayer:
-    mov.l   .L_multiplayer_flag, r0
+.L_0602437A:
+    mov.l   .L_06024400, r0
     mov.b @r0, r0
     extu.b r0, r0
     tst r0, r0
-    bt      .L_single_player_path
-    mov.l   .L_fn_multi_handler_4, r7
+    bt      .L_06024414
+    mov.l   .L_06024404, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_fallback_slot, r5
-    mov.l   .L_fn_vdp1_sprite_render_7, r3
+    mov.w   .L_060243E8, r5
+    mov.l   .L_060243F0, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -1541,10 +1541,10 @@ DAT_060242e4:
     extu.w r4, r4
     jsr @r3
     add #0x4, r4
-    mov.l   .L_fn_multi_handler_5, r7
+    mov.l   .L_06024408, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_fallback_slot, r5
-    mov.l   .L_fn_vdp1_sprite_render_7, r3
+    mov.w   .L_060243E8, r5
+    mov.l   .L_060243F0, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -1553,10 +1553,10 @@ DAT_060242e4:
     extu.w r4, r4
     jsr @r3
     add #0x5, r4
-    mov.l   .L_fn_multi_handler_6, r7
+    mov.l   .L_0602440C, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_fallback_slot, r5
-    mov.l   .L_fn_vdp1_sprite_render_7, r3
+    mov.w   .L_060243E8, r5
+    mov.l   .L_060243F0, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -1565,10 +1565,10 @@ DAT_060242e4:
     extu.w r4, r4
     jsr @r3
     add #0x6, r4
-    mov.l   .L_fn_multi_handler_7, r7
+    mov.l   .L_06024410, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_fallback_slot, r5
-    mov.l   .L_fn_vdp1_sprite_render_7, r3
+    mov.w   .L_060243E8, r5
+    mov.l   .L_060243F0, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -1577,36 +1577,36 @@ DAT_060242e4:
     extu.w r4, r4
     jsr @r3
     add #0x7, r4
-    bra     .L_after_mode_handlers
+    bra     .L_060244D4
     nop
-.L_size_fallback_slot:
+.L_060243E8:
     .2byte  0x0210
     .2byte  0xFFFF
-.L_fn_fallback_handler_0:
+.L_060243EC:
     .4byte  0x002A452A
-.L_fn_vdp1_sprite_render_7:
+.L_060243F0:
     .4byte  vdp1_sprite_render
-.L_fn_fallback_handler_1:
+.L_060243F4:
     .4byte  0x002A455C
-.L_fn_fallback_handler_2:
+.L_060243F8:
     .4byte  0x002A45CD
-.L_fn_fallback_handler_3:
+.L_060243FC:
     .4byte  0x002A463C
-.L_multiplayer_flag:
+.L_06024400:
     .4byte  sym_06078635
-.L_fn_multi_handler_4:
+.L_06024404:
     .4byte  0x002A46AC
-.L_fn_multi_handler_5:
+.L_06024408:
     .4byte  0x002A46DE
-.L_fn_multi_handler_6:
+.L_0602440C:
     .4byte  0x002A4753
-.L_fn_multi_handler_7:
+.L_06024410:
     .4byte  0x002A47C4
-.L_single_player_path:
-    mov.l   .L_fn_single_handler_4, r7
+.L_06024414:
+    mov.l   .L_0602450C, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_single_slot, r5
-    mov.l   .L_fn_vdp1_sprite_render_8, r3
+    mov.w   .L_06024506, r5
+    mov.l   .L_06024510, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -1615,10 +1615,10 @@ DAT_060242e4:
     extu.w r4, r4
     jsr @r3
     add #0x4, r4
-    mov.l   .L_fn_single_handler_5, r7
+    mov.l   .L_06024514, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_single_slot, r5
-    mov.l   .L_fn_vdp1_sprite_render_8, r3
+    mov.w   .L_06024506, r5
+    mov.l   .L_06024510, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -1627,10 +1627,10 @@ DAT_060242e4:
     extu.w r4, r4
     jsr @r3
     add #0x5, r4
-    mov.l   .L_fn_single_handler_6, r7
+    mov.l   .L_06024518, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_single_slot, r5
-    mov.l   .L_fn_vdp1_sprite_render_8, r3
+    mov.w   .L_06024506, r5
+    mov.l   .L_06024510, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -1639,10 +1639,10 @@ DAT_060242e4:
     extu.w r4, r4
     jsr @r3
     add #0x6, r4
-    mov.l   .L_fn_single_handler_7, r7
+    mov.l   .L_0602451C, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_single_slot, r5
-    mov.l   .L_fn_vdp1_sprite_render_8, r3
+    mov.w   .L_06024506, r5
+    mov.l   .L_06024510, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -1651,10 +1651,10 @@ DAT_060242e4:
     extu.w r4, r4
     jsr @r3
     add #0x7, r4
-    mov.l   .L_fn_single_handler_8, r7
+    mov.l   .L_06024520, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_single_slot, r5
-    mov.l   .L_fn_vdp1_sprite_render_8, r3
+    mov.w   .L_06024506, r5
+    mov.l   .L_06024510, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -1663,10 +1663,10 @@ DAT_060242e4:
     extu.w r4, r4
     jsr @r3
     add #0x8, r4
-    mov.l   .L_fn_single_handler_9, r7
+    mov.l   .L_06024524, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_single_slot, r5
-    mov.l   .L_fn_vdp1_sprite_render_8, r3
+    mov.w   .L_06024506, r5
+    mov.l   .L_06024510, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -1675,10 +1675,10 @@ DAT_060242e4:
     extu.w r4, r4
     jsr @r3
     add #0x9, r4
-    mov.l   .L_fn_single_handler_A, r7
+    mov.l   .L_06024528, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_single_slot, r5
-    mov.l   .L_fn_vdp1_sprite_render_8, r3
+    mov.w   .L_06024506, r5
+    mov.l   .L_06024510, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -1687,10 +1687,10 @@ DAT_060242e4:
     extu.w r4, r4
     jsr @r3
     add #0xA, r4
-    mov.l   .L_fn_single_handler_B, r7
+    mov.l   .L_0602452C, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_single_slot, r5
-    mov.l   .L_fn_vdp1_sprite_render_8, r3
+    mov.w   .L_06024506, r5
+    mov.l   .L_06024510, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -1699,194 +1699,194 @@ DAT_060242e4:
     extu.w r4, r4
     jsr @r3
     add #0xB, r4
-.L_after_mode_handlers:
-    mov.l   .L_course_type_flag, r0
-    bra     .L_course_type_switch
+.L_060244D4:
+    mov.l   .L_06024530, r0
+    bra     .L_0602455C
     mov.l @r0, r0
-.L_course_type_0:
+.L_060244DA:
     mov #0x38, r6
-    mov.w   .L_size_course_slot, r5
-    mov.l   .L_fn_course0_handler_C, r7
+    mov.w   .L_06024508, r5
+    mov.l   .L_06024534, r7
     mov.w @(6, r15), r0
-    mov.l   .L_fn_vdp1_sprite_render_8, r3
+    mov.l   .L_06024510, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
     add #0xC, r4
-    bra     .L_register_entities
+    bra     .L_06024568
     nop
-.L_course_type_1:
-    mov.l   .L_fn_course1_handler_C, r7
+.L_060244F0:
+    mov.l   .L_06024538, r7
     mov #0x38, r6
-    mov.w   .L_size_course_slot, r5
+    mov.w   .L_06024508, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_vdp1_sprite_render_8, r3
+    mov.l   .L_06024510, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
     add #0xC, r4
-    bra     .L_register_entities
+    bra     .L_06024568
     nop
-.L_size_single_slot:
+.L_06024506:
     .2byte  0x0210
-.L_size_course_slot:
+.L_06024508:
     .2byte  0x0940
     .2byte  0xFFFF
-.L_fn_single_handler_4:
+.L_0602450C:
     .4byte  0x002A4836
-.L_fn_vdp1_sprite_render_8:
+.L_06024510:
     .4byte  vdp1_sprite_render
-.L_fn_single_handler_5:
+.L_06024514:
     .4byte  0x002A4862
-.L_fn_single_handler_6:
+.L_06024518:
     .4byte  0x002A48CF
-.L_fn_single_handler_7:
+.L_0602451C:
     .4byte  0x002A4946
-.L_fn_single_handler_8:
+.L_06024520:
     .4byte  0x002A49B3
-.L_fn_single_handler_9:
+.L_06024524:
     .4byte  0x002A49F0
-.L_fn_single_handler_A:
+.L_06024528:
     .4byte  0x002A4A61
-.L_fn_single_handler_B:
+.L_0602452C:
     .4byte  0x002A4AD7
-.L_course_type_flag:
+.L_06024530:
     .4byte  sym_0607EAD8
-.L_fn_course0_handler_C:
+.L_06024534:
     .4byte  0x002A3F1F
-.L_fn_course1_handler_C:
+.L_06024538:
     .4byte  0x002A405A
-.L_course_type_2:
-    mov.l   .L_fn_course2_handler_C, r7
+.L_0602453C:
+    mov.l   .L_06024554, r7
     mov #0x38, r6
-    mov.w   .L_size_course2_slot, r5
+    mov.w   .L_06024552, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_vdp1_sprite_render_9, r3
+    mov.l   .L_06024558, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
     add #0xC, r4
-    bra     .L_register_entities
+    bra     .L_06024568
     nop
-.L_size_course2_slot:
+.L_06024552:
     .2byte  0x0C40
-.L_fn_course2_handler_C:
+.L_06024554:
     .4byte  0x002A41C5
-.L_fn_vdp1_sprite_render_9:
+.L_06024558:
     .4byte  vdp1_sprite_render
-.L_course_type_switch:
+.L_0602455C:
     cmp/eq #0x0, r0
-    bt      .L_course_type_0
+    bt      .L_060244DA
     cmp/eq #0x1, r0
-    bt      .L_course_type_1
+    bt      .L_060244F0
     cmp/eq #0x2, r0
-    bt      .L_course_type_2
-.L_register_entities:
-    mov.l   .L_fn_entity_handler_0, r7
-    mov.w   .L_size_entity_slot, r5
+    bt      .L_0602453C
+.L_06024568:
+    mov.l   .L_0602463C, r7
+    mov.w   .L_0602461C, r5
     mov.w   DAT_0602461e, r4
-    mov.l   .L_fn_vdp1_sprite_render_10, r3
+    mov.l   .L_06024640, r3
     jsr @r3
     mov #0x4C, r6
-    mov.l   .L_entity_callback_src, r2
-    mov.l   .L_entity_callback_dst, r3
+    mov.l   .L_06024644, r2
+    mov.l   .L_06024648, r3
     mov.l @r2, r2
     mov.l r2, @r3
     mov r3, r2
     mov.l @r2, r2
     add #-0x1, r2
     mov.l r2, @r3
-    mov.l   .L_fn_entity_handler_1, r7
-    mov.w   .L_size_entity_slot, r5
-    mov.w   .L_entity_id_98, r4
-    mov.l   .L_fn_vdp1_sprite_render_10, r3
+    mov.l   .L_0602464C, r7
+    mov.w   .L_0602461C, r5
+    mov.w   .L_06024620, r4
+    mov.l   .L_06024640, r3
     jsr @r3
     mov #0x4C, r6
-    mov.l   .L_fn_entity_handler_2, r7
-    mov.w   .L_size_entity_slot, r5
-    mov.w   .L_entity_id_99, r4
-    mov.l   .L_fn_vdp1_sprite_render_10, r3
+    mov.l   .L_06024650, r7
+    mov.w   .L_0602461C, r5
+    mov.w   .L_06024622, r4
+    mov.l   .L_06024640, r3
     jsr @r3
     mov #0x4C, r6
-    mov.l   .L_fn_entity_handler_3, r7
-    mov.w   .L_size_entity_slot, r5
+    mov.l   .L_06024654, r7
+    mov.w   .L_0602461C, r5
     mov.w   DAT_06024624, r4
-    mov.l   .L_fn_vdp1_sprite_render_10, r3
+    mov.l   .L_06024640, r3
     jsr @r3
     mov #0x4C, r6
-    mov.l   .L_fn_entity_handler_4, r7
-    mov.w   .L_size_entity_slot, r5
-    mov.w   .L_entity_id_9B, r4
-    mov.l   .L_fn_vdp1_sprite_render_10, r3
+    mov.l   .L_06024658, r7
+    mov.w   .L_0602461C, r5
+    mov.w   .L_06024626, r4
+    mov.l   .L_06024640, r3
     jsr @r3
     mov #0x4C, r6
-    mov.l   .L_fn_entity_handler_5, r7
-    mov.w   .L_size_entity_slot, r5
+    mov.l   .L_0602465C, r7
+    mov.w   .L_0602461C, r5
     mov.w   DAT_06024628, r4
-    mov.l   .L_fn_vdp1_sprite_render_10, r3
+    mov.l   .L_06024640, r3
     jsr @r3
     mov #0x4C, r6
     mov #0x50, r6
     mov.w   DAT_06024624, r5
-    mov.l   .L_fn_register_handler_5, r3
+    mov.l   .L_06024660, r3
     mov r5, r4
     jsr @r3
     add #0x3, r4
-    mov.l   .L_fn_entity_handler_6, r7
-    mov.w   .L_size_entity_slot, r5
+    mov.l   .L_06024664, r7
+    mov.w   .L_0602461C, r5
     mov.w   DAT_0602462a, r4
-    mov.l   .L_fn_vdp1_sprite_render_10, r3
+    mov.l   .L_06024640, r3
     jsr @r3
     mov #0x4C, r6
-    mov.l   .L_fn_entity_handler_7, r7
-    mov.w   .L_size_entity_slot, r5
+    mov.l   .L_06024668, r7
+    mov.w   .L_0602461C, r5
     mov.w   DAT_0602462c, r4
-    mov.l   .L_fn_vdp1_sprite_render_10, r3
+    mov.l   .L_06024640, r3
     jsr @r3
     mov #0x4C, r6
-    mov.l   .L_fn_entity_handler_8, r7
-    mov.w   .L_size_entity_sm, r5
-    mov.w   .L_entity_id_90, r4
-    mov.l   .L_fn_vdp1_sprite_render_10, r3
+    mov.l   .L_0602466C, r7
+    mov.w   .L_0602462E, r5
+    mov.w   .L_06024630, r4
+    mov.l   .L_06024640, r3
     jsr @r3
     mov #0x44, r6
-    mov.l   .L_fn_entity_handler_9, r7
-    mov.w   .L_size_entity_md, r5
-    mov.w   .L_entity_id_91, r4
-    mov.l   .L_fn_vdp1_sprite_render_10, r3
+    mov.l   .L_06024670, r7
+    mov.w   .L_06024632, r5
+    mov.w   .L_06024634, r4
+    mov.l   .L_06024640, r3
     jsr @r3
     mov #0x44, r6
-    mov.l   .L_fn_entity_handler_A, r7
-    mov.w   .L_size_entity_lg, r5
+    mov.l   .L_06024674, r7
+    mov.w   .L_06024636, r5
     mov.w   DAT_06024638, r4
-    mov.l   .L_fn_vdp1_sprite_render_10, r3
+    mov.l   .L_06024640, r3
     jsr @r3
     mov #0x48, r6
     mov #0x4C, r6
     mov.w   DAT_06024638, r5
-    mov.l   .L_fn_register_handler_5, r3
+    mov.l   .L_06024660, r3
     mov r5, r4
     jsr @r3
     add #0x1, r4
     mov #0x50, r6
     mov.w   DAT_06024638, r5
-    bra     .L_register_final_table
+    bra     .L_06024678
     nop
-.L_size_entity_slot:
+.L_0602461C:
     .2byte  0x0418
 
     .global DAT_0602461e
 DAT_0602461e:
     .2byte  0x0E97
-.L_entity_id_98:
+.L_06024620:
     .2byte  0x0E98
-.L_entity_id_99:
+.L_06024622:
     .2byte  0x0E99
 
     .global DAT_06024624
 DAT_06024624:
     .2byte  0x0E9A
-.L_entity_id_9B:
+.L_06024626:
     .2byte  0x0E9B
 
     .global DAT_06024628
@@ -1900,69 +1900,69 @@ DAT_0602462a:
     .global DAT_0602462c
 DAT_0602462c:
     .2byte  0x0E9F
-.L_size_entity_sm:
+.L_0602462E:
     .2byte  0x0110
-.L_entity_id_90:
+.L_06024630:
     .2byte  0x0E90
-.L_size_entity_md:
+.L_06024632:
     .2byte  0x0210
-.L_entity_id_91:
+.L_06024634:
     .2byte  0x0E91
-.L_size_entity_lg:
+.L_06024636:
     .2byte  0x0420
 
     .global DAT_06024638
 DAT_06024638:
     .2byte  0x0E92
     .2byte  0xFFFF
-.L_fn_entity_handler_0:
+.L_0602463C:
     .4byte  0x002A7A5E
-.L_fn_vdp1_sprite_render_10:
+.L_06024640:
     .4byte  vdp1_sprite_render
-.L_entity_callback_src:
+.L_06024644:
     .4byte  sym_0606A4F4
-.L_entity_callback_dst:
+.L_06024648:
     .4byte  sym_06085F98
-.L_fn_entity_handler_1:
+.L_0602464C:
     .4byte  0x002A7AC5
-.L_fn_entity_handler_2:
+.L_06024650:
     .4byte  0x002A7B1F
-.L_fn_entity_handler_3:
+.L_06024654:
     .4byte  0x002A7BA0
-.L_fn_entity_handler_4:
+.L_06024658:
     .4byte  0x002A7BE9
-.L_fn_entity_handler_5:
+.L_0602465C:
     .4byte  0x002A7C3B
-.L_fn_register_handler_5:
+.L_06024660:
     .4byte  sym_06007540
-.L_fn_entity_handler_6:
+.L_06024664:
     .4byte  0x002A7CA5
-.L_fn_entity_handler_7:
+.L_06024668:
     .4byte  0x002A7CFA
-.L_fn_entity_handler_8:
+.L_0602466C:
     .4byte  0x002A8B47
-.L_fn_entity_handler_9:
+.L_06024670:
     .4byte  0x002A8B7E
-.L_fn_entity_handler_A:
+.L_06024674:
     .4byte  0x002A8BBB
-.L_register_final_table:
+.L_06024678:
     mov r5, r4
-    mov.l   .L_fn_register_handler_6, r3
+    mov.l   .L_0602478C, r3
     jsr @r3
     add #0x2, r4
     mov #0x54, r6
     mov.w   DAT_06024782, r5
-    mov.l   .L_fn_register_handler_6, r3
+    mov.l   .L_0602478C, r3
     mov r5, r4
     jsr @r3
     add #0x3, r4
-    mov.l   .L_fn_scene_anim_handler, r7
+    mov.l   .L_06024790, r7
     mov.w   DAT_06024784, r5
     mov.w   DAT_06024786, r4
-    mov.l   .L_fn_vdp1_sprite_render_11, r3
+    mov.l   .L_06024794, r3
     jsr @r3
     mov #0x58, r6
-    mov.l   .L_final_table_idx, r2
+    mov.l   .L_06024798, r2
     mov #0x39, r3
     mov #0x0, r6
     mov #0x1, r5
@@ -1974,7 +1974,7 @@ DAT_06024638:
     mov r3, r0
     mov.w r0, @(4, r15)
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler_6, r3
+    mov.l   .L_0602478C, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -1982,7 +1982,7 @@ DAT_06024638:
     mov #0x0, r6
     mov #0x2, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler_6, r3
+    mov.l   .L_0602478C, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -1990,7 +1990,7 @@ DAT_06024638:
     mov #0x0, r6
     mov #0x3, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler_6, r3
+    mov.l   .L_0602478C, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -1998,7 +1998,7 @@ DAT_06024638:
     mov #0x0, r6
     mov #0x4, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler_6, r3
+    mov.l   .L_0602478C, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -2006,7 +2006,7 @@ DAT_06024638:
     mov #0x0, r6
     mov #0x5, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler_6, r3
+    mov.l   .L_0602478C, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -2014,7 +2014,7 @@ DAT_06024638:
     mov #0x0, r6
     mov #0x6, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler_6, r3
+    mov.l   .L_0602478C, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -2022,7 +2022,7 @@ DAT_06024638:
     mov #0x4, r6
     mov #0x7, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler_6, r3
+    mov.l   .L_0602478C, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -2030,7 +2030,7 @@ DAT_06024638:
     mov #0x4, r6
     mov #0x8, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler_6, r3
+    mov.l   .L_0602478C, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -2038,7 +2038,7 @@ DAT_06024638:
     mov #0x0, r6
     mov #0x9, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler_6, r3
+    mov.l   .L_0602478C, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
@@ -2046,15 +2046,15 @@ DAT_06024638:
     mov #0x3C, r6
     mov #0xA, r5
     mov.w @(6, r15), r0
-    mov.l   .L_fn_register_handler_6, r3
+    mov.l   .L_0602478C, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
     add #0xA, r4
-    mov.l   .L_fn_final_handler_10, r7
+    mov.l   .L_0602479C, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_final_slot, r5
-    mov.l   .L_fn_vdp1_sprite_render_11, r3
+    mov.w   .L_0602478A, r5
+    mov.l   .L_06024794, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -2064,10 +2064,10 @@ DAT_06024638:
     extu.w r4, r4
     jsr @r3
     add #0x10, r4
-    mov.l   .L_fn_final_handler_11, r7
+    mov.l   .L_060247A0, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_final_slot, r5
-    mov.l   .L_fn_vdp1_sprite_render_11, r3
+    mov.w   .L_0602478A, r5
+    mov.l   .L_06024794, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -2077,7 +2077,7 @@ DAT_06024638:
     extu.w r4, r4
     jsr @r3
     add #0x11, r4
-    bra     .L_register_render_layer
+    bra     .L_060247A4
     nop
 
     .global DAT_06024782
@@ -2095,25 +2095,25 @@ DAT_06024786:
     .global DAT_06024788
 DAT_06024788:
     .2byte  0x0E40
-.L_size_final_slot:
+.L_0602478A:
     .2byte  0x0108
-.L_fn_register_handler_6:
+.L_0602478C:
     .4byte  sym_06007540
-.L_fn_scene_anim_handler:
+.L_06024790:
     .4byte  0x002A92CB
-.L_fn_vdp1_sprite_render_11:
+.L_06024794:
     .4byte  vdp1_sprite_render
-.L_final_table_idx:
+.L_06024798:
     .4byte  sym_06089E9E
-.L_fn_final_handler_10:
+.L_0602479C:
     .4byte  0x002A7D76
-.L_fn_final_handler_11:
+.L_060247A0:
     .4byte  0x002A7D8E
-.L_register_render_layer:
-    mov.l   .L_fn_render_handler_12, r7
+.L_060247A4:
+    mov.l   .L_060248C4, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_render_slot, r5
-    mov.l   .L_fn_vdp1_sprite_render_12, r3
+    mov.w   .L_060248BA, r5
+    mov.l   .L_060248C8, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -2123,10 +2123,10 @@ DAT_06024788:
     extu.w r4, r4
     jsr @r3
     add #0x12, r4
-    mov.l   .L_fn_render_handler_13, r7
+    mov.l   .L_060248CC, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_render_slot, r5
-    mov.l   .L_fn_vdp1_sprite_render_12, r3
+    mov.w   .L_060248BA, r5
+    mov.l   .L_060248C8, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -2136,10 +2136,10 @@ DAT_06024788:
     extu.w r4, r4
     jsr @r3
     add #0x13, r4
-    mov.l   .L_fn_render_handler_14, r7
+    mov.l   .L_060248D0, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_render_slot, r5
-    mov.l   .L_fn_vdp1_sprite_render_12, r3
+    mov.w   .L_060248BA, r5
+    mov.l   .L_060248C8, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -2149,10 +2149,10 @@ DAT_06024788:
     extu.w r4, r4
     jsr @r3
     add #0x14, r4
-    mov.l   .L_fn_render_handler_15, r7
+    mov.l   .L_060248D4, r7
     mov.w @(4, r15), r0
     mov.w   DAT_060248bc, r5
-    mov.l   .L_fn_vdp1_sprite_render_12, r3
+    mov.l   .L_060248C8, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -2162,10 +2162,10 @@ DAT_06024788:
     extu.w r4, r4
     jsr @r3
     add #0x15, r4
-    mov.l   .L_fn_render_handler_16, r7
+    mov.l   .L_060248D8, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_render_slot, r5
-    mov.l   .L_fn_vdp1_sprite_render_12, r3
+    mov.w   .L_060248BA, r5
+    mov.l   .L_060248C8, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -2175,10 +2175,10 @@ DAT_06024788:
     extu.w r4, r4
     jsr @r3
     add #0x16, r4
-    mov.l   .L_fn_render_handler_17, r7
+    mov.l   .L_060248DC, r7
     mov.w @(4, r15), r0
     mov.w   DAT_060248be, r5
-    mov.l   .L_fn_vdp1_sprite_render_12, r3
+    mov.l   .L_060248C8, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -2188,10 +2188,10 @@ DAT_06024788:
     extu.w r4, r4
     jsr @r3
     add #0x17, r4
-    mov.l   .L_fn_render_handler_18, r7
+    mov.l   .L_060248E0, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_render_slot, r5
-    mov.l   .L_fn_vdp1_sprite_render_12, r3
+    mov.w   .L_060248BA, r5
+    mov.l   .L_060248C8, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -2201,10 +2201,10 @@ DAT_06024788:
     extu.w r4, r4
     jsr @r3
     add #0x18, r4
-    mov.l   .L_fn_render_handler_19, r7
+    mov.l   .L_060248E4, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_render_slot, r5
-    mov.l   .L_fn_vdp1_sprite_render_12, r3
+    mov.w   .L_060248BA, r5
+    mov.l   .L_060248C8, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -2214,10 +2214,10 @@ DAT_06024788:
     extu.w r4, r4
     jsr @r3
     add #0x19, r4
-    mov.l   .L_fn_render_handler_1A, r7
+    mov.l   .L_060248E8, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_render_slot_lg, r5
-    mov.l   .L_fn_vdp1_sprite_render_12, r3
+    mov.w   .L_060248C0, r5
+    mov.l   .L_060248C8, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -2227,10 +2227,10 @@ DAT_06024788:
     extu.w r4, r4
     jsr @r3
     add #0x1A, r4
-    mov.l   .L_fn_render_handler_1B, r7
+    mov.l   .L_060248EC, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_render_slot, r5
-    mov.l   .L_fn_vdp1_sprite_render_12, r3
+    mov.w   .L_060248BA, r5
+    mov.l   .L_060248C8, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -2240,16 +2240,16 @@ DAT_06024788:
     extu.w r4, r4
     jsr @r3
     add #0x1B, r4
-    mov.l   .L_fn_render_handler_1C, r7
+    mov.l   .L_060248F0, r7
     mov.w @(4, r15), r0
     mov r0, r6
     extu.w r6, r6
     add #0x3, r6
     shll2 r6
-    mov.w   .L_size_render_slot, r5
-    bra     .L_register_final_batch
+    mov.w   .L_060248BA, r5
+    bra     .L_060248F4
     nop
-.L_size_render_slot:
+.L_060248BA:
     .2byte  0x0108
 
     .global DAT_060248bc
@@ -2259,44 +2259,44 @@ DAT_060248bc:
     .global DAT_060248be
 DAT_060248be:
     .2byte  0x040C
-.L_size_render_slot_lg:
+.L_060248C0:
     .2byte  0x0208
     .2byte  0xFFFF
-.L_fn_render_handler_12:
+.L_060248C4:
     .4byte  0x002A7DA6
-.L_fn_vdp1_sprite_render_12:
+.L_060248C8:
     .4byte  vdp1_sprite_render
-.L_fn_render_handler_13:
+.L_060248CC:
     .4byte  0x002A7DC6
-.L_fn_render_handler_14:
+.L_060248D0:
     .4byte  0x002A7DE6
-.L_fn_render_handler_15:
+.L_060248D4:
     .4byte  0x002A7DF2
-.L_fn_render_handler_16:
+.L_060248D8:
     .4byte  0x002A7E0A
-.L_fn_render_handler_17:
+.L_060248DC:
     .4byte  0x002A7E16
-.L_fn_render_handler_18:
+.L_060248E0:
     .4byte  0x002A7E9E
-.L_fn_render_handler_19:
+.L_060248E4:
     .4byte  0x002A7EB6
-.L_fn_render_handler_1A:
+.L_060248E8:
     .4byte  0x002A7ECA
-.L_fn_render_handler_1B:
+.L_060248EC:
     .4byte  0x002A7EFE
-.L_fn_render_handler_1C:
+.L_060248F0:
     .4byte  0x002A7F0A
-.L_register_final_batch:
+.L_060248F4:
     mov.w @(6, r15), r0
-    mov.l   .L_fn_vdp1_sprite_render_13, r3
+    mov.l   .L_06024A10, r3
     mov r0, r4
     extu.w r4, r4
     jsr @r3
     add #0x1C, r4
-    mov.l   .L_fn_final_batch_1D, r7
+    mov.l   .L_06024A14, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_final_batch, r5
-    mov.l   .L_fn_vdp1_sprite_render_13, r3
+    mov.w   .L_06024A06, r5
+    mov.l   .L_06024A10, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -2306,10 +2306,10 @@ DAT_060248be:
     extu.w r4, r4
     jsr @r3
     add #0x1D, r4
-    mov.l   .L_fn_final_batch_1E, r7
+    mov.l   .L_06024A18, r7
     mov.w @(4, r15), r0
-    mov.w   .L_size_final_batch, r5
-    mov.l   .L_fn_vdp1_sprite_render_13, r3
+    mov.w   .L_06024A06, r5
+    mov.l   .L_06024A10, r3
     mov r0, r6
     extu.w r6, r6
     mov.w @(6, r15), r0
@@ -2370,7 +2370,7 @@ DAT_060248be:
     .4byte  0x430B7426
     .4byte  0xD70EA01D
     .2byte  0x0009
-.L_size_final_batch:
+.L_06024A06:
     .2byte  0x0108
 
     .global DAT_06024a08
@@ -2381,11 +2381,11 @@ DAT_06024a08:
 DAT_06024a0a:
     .2byte  0x021C
     .4byte  0x05080210
-.L_fn_vdp1_sprite_render_13:
+.L_06024A10:
     .4byte  vdp1_sprite_render
-.L_fn_final_batch_1D:
+.L_06024A14:
     .4byte  0x002A7F12
-.L_fn_final_batch_1E:
+.L_06024A18:
     .4byte  0x002A7F1A
     .4byte  0x002A7F3A
     .4byte  0x002A7FB6

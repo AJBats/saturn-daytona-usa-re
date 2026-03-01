@@ -17,19 +17,19 @@ menu_cursor_pos:
     add #0x10, r15
     mov.l @r15, r0
     tst #0x8, r0
-    bt      .L_done
-    bra     .L_check_write
+    bt      .L_0603B15C
+    bra     .L_0603B14E
     nop
-.L_check_write:
+.L_0603B14E:
     mov.l @r15, r0
     tst #0x4, r0
-    bt      .L_done
-    bra     .L_store_pos
+    bt      .L_0603B15C
+    bra     .L_0603B158
     nop
-.L_store_pos:
+.L_0603B158:
     mov.l @(4, r15), r2
     mov.l r14, @r2
-.L_done:
+.L_0603B15C:
     .byte   0xB3, 0xEE    /* bsr 0x0603B93C (external) */
     mov #0x0, r4
     add #0x14, r15

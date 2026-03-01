@@ -21,17 +21,17 @@ shadow_intensity:
     or r3, r6
     sub r6, r1
     cmp/pl r1
-    bt      .L_abs_done
+    bt      .L_0602E7F8
     neg r1, r1
-.L_abs_done:
+.L_0602E7F8:
     mov.l   .L_pool_0602E811, r7
     mov.b @r7, r7
     tst r7, r7
-    bf      .L_flipped_compare
+    bf      .L_0602E814
     extu.w r1, r1
     cmp/gt r1, r4
     .byte   0x89, 0x2E    /* bt 0x0602E864 (external) */
-    bra     .L_shadow_calc_setup
+    bra     .L_0602E81A
     nop
 
     .global DAT_0602e80a
@@ -40,11 +40,11 @@ DAT_0602e80a:
     .4byte  atan2                       /* pool: atan2 function address */
 .L_pool_0602E811:
     .4byte  sym_06078663                /* pool: camera direction flip flag address */
-.L_flipped_compare:
+.L_0602E814:
     extu.w r1, r1
     cmp/gt r1, r4
     .byte   0x8B, 0x24    /* bf 0x0602E864 (external) */
-.L_shadow_calc_setup:
+.L_0602E81A:
     .byte   0xD3, 0x06    /* mov.l .L_pool_0602E834, r3 */
     cmp/ge r3, r8
     .byte   0x89, 0x11    /* bt 0x0602E844 (external) */

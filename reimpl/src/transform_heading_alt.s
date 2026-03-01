@@ -20,21 +20,21 @@ transform_heading_alt:
     mov.w r3, @r13
     extu.w r0, r2
     mov.w r2, @r14
-    bra     .L_loop_test
+    bra     .L_0602647E
     extu.w r0, r5
-.L_loop_body:
+.L_0602640E:
     extu.w r5, r2
     cmp/eq r4, r2
-    bf      .L_not_player_slot
-    bra     .L_next_slot
+    bf      .L_06026418
+    bra     .L_0602647C
     nop
-.L_not_player_slot:
+.L_06026418:
     extu.w r5, r0
     shll2 r0
     shll r0
     add r10, r0
     mov.w @(6, r0), r0
-    bra     .L_dispatch_setup
+    bra     .L_0602644C
     extu.w r0, r0
     .2byte  0xA001                          /* branch instruction embedded in stream (not executed inline) */
     .4byte  0x627D626D                      /* embedded dispatch path bytes */
@@ -42,8 +42,8 @@ transform_heading_alt:
     .4byte  0xA001627D                      /* embedded dispatch path bytes */
     .4byte  0x626DA021                      /* embedded dispatch path bytes */
     .2byte  0x2E21                          /* embedded dispatch path bytes */
-.L_dispatch_out_of_range:
-    bra     .L_next_slot
+.L_0602643A:
+    bra     .L_0602647C
     nop
     .2byte  0xFFFF                          /* alignment padding */
 .L_pool_06026440:
@@ -52,12 +52,12 @@ transform_heading_alt:
     .4byte  sym_06089ED6                    /* [HIGH] &course_id_a word */
 .L_pool_06026448:
     .4byte  sym_06089ED4                    /* [HIGH] &course_id_b word */
-.L_dispatch_setup:
+.L_0602644C:
     mov.w   .L_wpool_06026462, r1
     sub r1, r0
     mov #0xC, r1
     cmp/hs r1, r0
-    bt      .L_dispatch_out_of_range
+    bt      .L_0602643A
     shll r0
     mov r0, r1
     .word 0xC702
@@ -72,12 +72,12 @@ transform_heading_alt:
     .4byte  0xFFC8FFC8                      /* dispatch offsets for render_type 0x0096 and 0x0098 */
     .4byte  0xFFD2FFD2                      /* dispatch offsets for render_type 0x009A and 0x009C */
     .4byte  0xFFD2FFD2                      /* dispatch offsets for render_type 0x009E and 0x00A0 */
-.L_next_slot:
+.L_0602647C:
     add #0x1, r5
-.L_loop_test:
+.L_0602647E:
     extu.w r5, r2
     cmp/ge r12, r2
-    bf      .L_loop_body
+    bf      .L_0602640E
     mov.l @r15+, r10
     mov.l @r15+, r12
     mov.l @r15+, r13

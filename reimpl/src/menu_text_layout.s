@@ -16,24 +16,24 @@ menu_text_layout:
     shll2 r3
     shll2 r3
     cmp/eq #0x1, r0
-    bf/s    .L_check_mode_2
+    bf/s    .L_0603B000
     add r3, r12
     mov.l @(12, r12), r3
     jsr @r3
     mov.l @r13, r4
-    bra     .L_check_accumulator
+    bra     .L_0603B020
     add r0, r14
-.L_check_mode_2:
+.L_0603B000:
     mov r6, r0
     cmp/eq #0x2, r0
-    bf      .L_check_mode_other
+    bf      .L_0603B00E
     mov.l @r13, r3
     mov.l @(16, r3), r2
-    bra     .L_check_accumulator
+    bra     .L_0603B020
     add r2, r14
-.L_check_mode_other:
+.L_0603B00E:
     tst r6, r6
-    bt      .L_check_accumulator
+    bt      .L_0603B020
     mov #-0xD, r4
     add #0x4, r15
     lds.l @r15+, pr
@@ -41,9 +41,9 @@ menu_text_layout:
     mov.l @r15+, r13
     .byte   0xA4, 0x8E    /* bra 0x0603B93C (external) */
     mov.l @r15+, r14
-.L_check_accumulator:
+.L_0603B020:
     cmp/pz r14
-    bt      .L_finalize
+    bt      .L_0603B03C
     mov #-0xF, r4
     add #0x4, r15
     lds.l @r15+, pr
@@ -55,7 +55,7 @@ menu_text_layout:
     .4byte  save_commit_write
 .L_pool_0603B038:
     .4byte  sym_060A4D14
-.L_finalize:
+.L_0603B03C:
     mov.l @(8, r12), r2
     mov r14, r5
     jsr @r2

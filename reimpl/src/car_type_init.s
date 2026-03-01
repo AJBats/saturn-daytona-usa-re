@@ -13,14 +13,14 @@ car_type_init:
     mov.l r10, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   .L_p_player_mode_ptr, r11
-    mov.l   .L_p_car_ptr_active, r14
-    mov.l   .L_p_course_data_base, r13
+    mov.l   .L_0600E2CC, r11
+    mov.l   .L_0600E2D0, r14
+    mov.l   .L_0600E2D4, r13
     mov.w   DAT_0600e2ba, r0
     mov.l @r14, r14
     mov.l r3, @(r0, r14)
     mov.l @(4, r14), r12
-    mov.l   .L_p_config_table_primary, r2
+    mov.l   .L_0600E2D8, r2
     mov r12, r3
     shll2 r12
     shll2 r3
@@ -30,15 +30,15 @@ car_type_init:
     mov.w @(6, r12), r0
     mov r0, r4
     extu.w r4, r4
-    mov.w   .L_w_off_car_type, r0
+    mov.w   .L_0600E2BC, r0
     mov.l r4, @(r0, r14)
     add #-0x8, r0
     mov.l r4, @(r0, r14)
     mov.l @r11, r1
     shll r1
-    mov.l   .L_p_heading_offset_table, r3
-    mov.l   .L_p_car_count_ptr, r0
-    mov.l   .L_p_mem_store_helper, r2
+    mov.l   .L_0600E2DC, r3
+    mov.l   .L_0600E2E0, r0
+    mov.l   .L_0600E2E4, r2
     add r3, r1
     mov.w @r1, r1
     extu.w r1, r1
@@ -52,7 +52,7 @@ car_type_init:
     mov r0, r3
     extu.w r3, r3
     shll2 r3
-    mov.l   .L_p_config_table_tertiary, r2
+    mov.l   .L_0600E2E8, r2
     add r2, r3
     mov.l @r3, r1
     mov.w   DAT_0600e2c0, r0
@@ -68,30 +68,30 @@ car_type_init:
     shll2 r0
     add r3, r0
     exts.b r0, r0
-    mov.l   .L_p_lane_data_secondary, r2
+    mov.l   .L_0600E2EC, r2
     add r2, r0
-    mov.l   .L_p_race_state_ptr, r3
+    mov.l   .L_0600E2F0, r3
     mov.l @r3, r3
     mov.b @(r0, r3), r10
     extu.b r10, r10
-    mov.l   .L_p_render_state_ptr, r3
+    mov.l   .L_0600E2F4, r3
     mov.l @r3, r3
-    mov.l   .L_p_debug_flag, r0
+    mov.l   .L_0600E2F8, r0
     mov.b @r0, r0
     extu.b r0, r0
     tst r0, r0
-    bt/s    .L_use_normal_lane
+    bt/s    .L_0600E278
     add r3, r10
     mov.l @r11, r10
-    mov.l   .L_p_lane_data_debug, r3
+    mov.l   .L_0600E2FC, r3
     add r3, r10
     mov.b @r10, r10
     extu.b r10, r10
-.L_use_normal_lane:
+.L_0600E278:
     mov.l @r12, r5
     mov r10, r4
-    mov.l   .L_p_param_table, r3
-    mov.l   .L_p_fpmul, r2
+    mov.l   .L_0600E300, r3
+    mov.l   .L_0600E304, r2
     shll2 r4
     add r3, r4
     jsr @r2
@@ -99,16 +99,16 @@ car_type_init:
     mov.w   DAT_0600e2c4, r1
     add r14, r1
     mov.l r0, @r1
-    mov.w   .L_w_fpmul_scale, r5
+    mov.w   .L_0600E2C6, r5
     mov.w   DAT_0600e2c4, r0
-    mov.l   .L_p_fpmul, r3
+    mov.l   .L_0600E304, r3
     jsr @r3
     mov.l @(r0, r14), r4
     mov.w   DAT_0600e2c8, r1
     mov #0x0, r2
     add r14, r1
     mov.l r0, @r1
-    mov.l   .L_p_car_count_ptr, r3
+    mov.l   .L_0600E2E0, r3
     mov.w   DAT_0600e2be, r0
     mov.l @r3, r3
     mov.l @(r0, r14), r1
@@ -116,16 +116,16 @@ car_type_init:
     addc r2, r3
     shar r3
     cmp/ge r3, r1
-    bt      .L_set_top_half
+    bt      .L_0600E308
     mov #0x0, r2
     mov.w   DAT_0600e2ca, r0
-    bra     .L_after_track_progress
+    bra     .L_0600E30E
     mov.l r2, @(r0, r14)
 
     .global DAT_0600e2ba
 DAT_0600e2ba:
     .2byte  0x0244
-.L_w_off_car_type:
+.L_0600E2BC:
     .2byte  0x01F0
 
     .global DAT_0600e2be
@@ -143,7 +143,7 @@ DAT_0600e2c2:
     .global DAT_0600e2c4
 DAT_0600e2c4:
     .2byte  0x0194
-.L_w_fpmul_scale:
+.L_0600E2C6:
     .2byte  0x372F
 
     .global DAT_0600e2c8
@@ -153,41 +153,41 @@ DAT_0600e2c8:
     .global DAT_0600e2ca
 DAT_0600e2ca:
     .2byte  0x0228
-.L_p_player_mode_ptr:
+.L_0600E2CC:
     .4byte  sym_0607EAD8
-.L_p_car_ptr_active:
+.L_0600E2D0:
     .4byte  sym_0607E940
-.L_p_course_data_base:
+.L_0600E2D4:
     .4byte  sym_06078680
-.L_p_config_table_primary:
+.L_0600E2D8:
     .4byte  sym_06047DE4
-.L_p_heading_offset_table:
+.L_0600E2DC:
     .4byte  sym_0605A220
-.L_p_car_count_ptr:
+.L_0600E2E0:
     .4byte  sym_0607EA9C
-.L_p_mem_store_helper:
+.L_0600E2E4:
     .4byte  sym_06035C2C
-.L_p_config_table_tertiary:
+.L_0600E2E8:
     .4byte  sym_06085FD0
-.L_p_lane_data_secondary:
+.L_0600E2EC:
     .4byte  sym_06047DD0
-.L_p_race_state_ptr:
+.L_0600E2F0:
     .4byte  sym_0605AD04
-.L_p_render_state_ptr:
+.L_0600E2F4:
     .4byte  sym_0605AD00
-.L_p_debug_flag:
+.L_0600E2F8:
     .4byte  sym_06086030
-.L_p_lane_data_debug:
+.L_0600E2FC:
     .4byte  sym_06047DDF
-.L_p_param_table:
+.L_0600E300:
     .4byte  sym_06047D8C
-.L_p_fpmul:
+.L_0600E304:
     .4byte  fpmul
-.L_set_top_half:
+.L_0600E308:
     mov #-0x1, r3
     mov.w   DAT_0600e3e8, r0
     mov.l r3, @(r0, r14)
-.L_after_track_progress:
+.L_0600E30E:
     mov.w   DAT_0600e3ea, r0
     mov.l @(r0, r14), r2
     add #-0x8, r0
@@ -197,43 +197,43 @@ DAT_0600e2ca:
     mov r0, r4
     mov.l @r11, r0
     tst r0, r0
-    bt      .L_single_player_path
+    bt      .L_0600E346
     tst r4, r4
-    bt      .L_versus_even_car
+    bt      .L_0600E332
     mov.w   DAT_0600e3ec, r3
     mov r3, r0
     add #0x7C, r0
     mov.l r3, @(r0, r14)
-    bra     .L_clear_speed_fields
+    bra     .L_0600E338
     nop
-.L_versus_even_car:
-    mov.w   .L_w_steer_init_wide, r3
+.L_0600E332:
+    mov.w   .L_0600E3EE, r3
     mov.w   DAT_0600e3f0, r0
     mov.l r3, @(r0, r14)
-.L_clear_speed_fields:
+.L_0600E338:
     mov #0x0, r2
     mov.w   DAT_0600e3f2, r0
     mov.l r2, @(r0, r14)
     mov r2, r3
     add #-0x4, r0
-    bra     .L_apply_heading
+    bra     .L_0600E370
     mov.l r2, @(r0, r14)
-.L_single_player_path:
+.L_0600E346:
     tst r4, r4
-    bt      .L_single_player_car
-    mov.w   .L_w_steer_init_wide, r3
+    bt      .L_0600E358
+    mov.w   .L_0600E3EE, r3
     mov.w   DAT_0600e3f0, r0
     mov.l r3, @(r0, r14)
-    mov.l   .L_p_speed_init_ai, r3
+    mov.l   .L_0600E3FC, r3
     mov.l r3, @(12, r14)
-    bra     .L_apply_heading
+    bra     .L_0600E370
     nop
-.L_single_player_car:
+.L_0600E358:
     mov.w   DAT_0600e3ec, r2
     mov r2, r0
     add #0x7C, r0
     mov.l r2, @(r0, r14)
-    mov.l   .L_p_speed_init_player, r3
+    mov.l   .L_0600E400, r3
     mov.l r3, @(12, r14)
     mov.w   DAT_0600e3f4, r2
     mov.w   DAT_0600e3f2, r0
@@ -241,12 +241,12 @@ DAT_0600e2ca:
     mov r2, r3
     add #-0x4, r0
     mov.l r2, @(r0, r14)
-.L_apply_heading:
+.L_0600E370:
     mov.w   DAT_0600e3f0, r0
     mov.l @(r0, r14), r3
     add #-0x4, r0
     mov.l r3, @(r0, r14)
-    mov.l   .L_p_heading_smooth, r3
+    mov.l   .L_0600E404, r3
     jsr @r3
     mov r13, r4
     mov.l @r13, r2
@@ -255,26 +255,26 @@ DAT_0600e2ca:
     mov.l r3, @(24, r14)
     mov.l @(4, r14), r0
     tst r0, r0
-    bf      .L_position_setup
+    bf      .L_0600E398
     mov.l @r11, r0
     cmp/eq #0x2, r0
-    bf      .L_position_setup
+    bf      .L_0600E398
     mov.w   DAT_0600e3f6, r2
     mov r2, r0
     mov.w r0, @(14, r13)
-.L_position_setup:
+.L_0600E398:
     mov r15, r6
     mov r14, r5
     mov.l r6, @-r15
     add #0x10, r5
     mov.l r5, @-r15
     mov.l @(24, r14), r5
-    mov.l   .L_p_elevation_query, r3
+    mov.l   .L_0600E408, r3
     jsr @r3
     mov.l @(16, r14), r4
     mov r0, r4
     mov.l @r15+, r5
-    mov.l   .L_p_render_update, r3
+    mov.l   .L_0600E40C, r3
     jsr @r3
     mov.l @r15+, r6
     mov.w @(12, r13), r0
@@ -293,7 +293,7 @@ DAT_0600e2ca:
     mov.l @(32, r14), r3
     mov.l r3, @(40, r14)
     mov.l @(32, r14), r2
-    mov.w   .L_w_off_heading_copy, r0
+    mov.w   .L_0600E3F8, r0
     mov.l r2, @(r0, r14)
     add #0x4, r15
     lds.l @r15+, pr
@@ -315,7 +315,7 @@ DAT_0600e3ea:
     .global DAT_0600e3ec
 DAT_0600e3ec:
     .2byte  0x0180
-.L_w_steer_init_wide:
+.L_0600E3EE:
     .2byte  0x0580
 
     .global DAT_0600e3f0
@@ -333,16 +333,16 @@ DAT_0600e3f4:
     .global DAT_0600e3f6
 DAT_0600e3f6:
     .2byte  0x1EC0
-.L_w_off_heading_copy:
+.L_0600E3F8:
     .2byte  0x01B0
     .2byte  0xFFFF
-.L_p_speed_init_ai:
+.L_0600E3FC:
     .4byte  0x00042E38
-.L_p_speed_init_player:
+.L_0600E400:
     .4byte  0x00042000
-.L_p_heading_smooth:
+.L_0600E404:
     .4byte  heading_smooth_gentle
-.L_p_elevation_query:
+.L_0600E408:
     .4byte  sym_06006838
-.L_p_render_update:
+.L_0600E40C:
     .4byte  scene_render_alt

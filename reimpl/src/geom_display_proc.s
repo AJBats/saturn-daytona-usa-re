@@ -12,8 +12,8 @@ geom_display_proc:
     mov.l r10, @-r15
     sts.l macl, @-r15
     add #-0x1C, r15
-    mov.l   .L_ptr_cmd_cache, r5
-    mov.l   .L_ptr_cmd_source, r3
+    mov.l   .L_0601F5C8, r5
+    mov.l   .L_0601F5CC, r3
     mov.l @r3, r3
     mov.l r3, @r5
     mov r3, r12
@@ -59,7 +59,7 @@ geom_display_proc:
     add r3, r1
     shar r14
     and r5, r14
-    mov.w   .L_const_1000, r3
+    mov.w   .L_0601F5C4, r3
     mul.l r3, r14
     sts macl, r14
     mov r0, r6
@@ -141,13 +141,13 @@ geom_display_proc:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_const_1000:
+.L_0601F5C4:
     .2byte  0x03E8
 
     .global DAT_0601f5c6
 DAT_0601f5c6:
     .2byte  0xF844
-.L_ptr_cmd_cache:
+.L_0601F5C8:
     .4byte  sym_060877E4
-.L_ptr_cmd_source:
+.L_0601F5CC:
     .4byte  sym_060A4C98

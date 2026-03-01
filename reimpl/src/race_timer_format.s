@@ -6,7 +6,7 @@
     .type race_timer_format, @function
 race_timer_format:
     mov.l r14, @-r15
-    .byte   0xD3, 0x17    /* mov.l .L_fp_half, r3 */
+    .byte   0xD3, 0x17    /* mov.l .L_06013920, r3 */
     mov.l r3, @-r15
     .byte   0xD5, 0x17    /* mov.l .L_pool_06013928, r5 */
     .byte   0xD3, 0x18    /* mov.l .L_pool_0601392C, r3 */
@@ -46,7 +46,7 @@ DAT_060138da:
     .4byte  sym_06026CE0
     .4byte  sym_0605B6B8
     .4byte  0x00010000
-.L_fp_half:
+.L_06013920:
     .4byte  0x00008000
 .L_pool_06013928:
     .4byte  0x00960000

@@ -12,7 +12,7 @@ mat_vec_transform:
     mov.l   .L_pool_06027078, r14
     add r6, r7
     mov #0x3, r3
-.L_transform_row_loop:
+.L_0602700A:
     clrmac
     mac.l @r4+, @r6+
     mac.l @r4+, @r6+
@@ -25,7 +25,7 @@ mat_vec_transform:
     xtrct r0, r1
     add r2, r1
     mov.l r1, @r14
-    bf/s    .L_transform_row_loop
+    bf/s    .L_0602700A
     add #0x4, r14
     add #-0xC, r14
     mov.l @r14+, r0
@@ -104,7 +104,7 @@ sym_060270C6:
     .byte   0xD0, 0x9A    /* mov.l .L_pool_06027330, r0 */
     .byte   0xD1, 0x98    /* mov.l .L_pool_0602732C, r1 */
     mov #0x0, r2
-    bra     .L_write_identity
+    bra     .L_060270D6
     mov.l r0, @r1
 
     .global sym_060270D0
@@ -112,7 +112,7 @@ sym_060270D0:
     .byte   0xD0, 0x96    /* mov.l .L_pool_0602732C, r0 */
     mov #0x0, r2
     mov.l @r0, r0
-.L_write_identity:
+.L_060270D6:
     .byte   0xD1, 0x9A    /* mov.l .L_pool_06027340, r1 */
     mov.l r2, @(4, r0)
     mov.l r1, @(0, r0)
@@ -139,7 +139,7 @@ sym_060270F2:
     mov #0x3, r3
     mov r4, r5
     add #0x24, r5
-.L_accum_row_loop:
+.L_06027104:
     clrmac
     mac.l @r4+, @r0+
     mac.l @r4+, @r0+
@@ -152,7 +152,7 @@ sym_060270F2:
     xtrct r1, r2
     add r6, r2
     mov.l r2, @r5
-    bf/s    .L_accum_row_loop
+    bf/s    .L_06027104
     add #0x4, r5
     rts
     nop

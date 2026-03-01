@@ -11,8 +11,8 @@ geom_final_output:
     mov.l r12, @-r15
     sts.l pr, @-r15
     mov r4, r12
-    mov.l   .L_p_car_struct, r14
-    mov.l   .L_p_course_data, r13
+    mov.l   .L_0601FF94, r14
+    mov.l   .L_0601FF98, r13
     mov.w   DAT_0601ff8a, r0
     mov.w @r12, r4
     mov.l @r14, r14
@@ -32,8 +32,8 @@ geom_final_output:
     extu.w r3, r3
     mov r3, r5
     mov.l r3, @(8, r14)
-    mov.w   .L_w_scale_multiplier, r4
-    mov.l   .L_p_fn_fpmul, r3
+    mov.w   .L_0601FF8C, r4
+    mov.l   .L_0601FF9C, r3
     jsr @r3
     shll16 r5
     mov r0, r4
@@ -48,7 +48,7 @@ geom_final_output:
     add #-0x4, r0
     mov.l r4, @(r0, r14)
     mov.w @r12, r5
-    mov.l   .L_p_fn_race_pos_interp, r3
+    mov.l   .L_0601FFA0, r3
     extu.w r5, r5
     jsr @r3
     mov r13, r4
@@ -72,7 +72,7 @@ geom_final_output:
     mov.l @(32, r14), r2
     mov.l r2, @(40, r14)
     mov.l @(32, r14), r3
-    mov.w   .L_w_ofs_heading_b_copy, r0
+    mov.w   .L_0601FF92, r0
     mov.l r3, @(r0, r14)
     mov.l @(28, r14), r3
     add #-0xC, r0
@@ -87,17 +87,17 @@ geom_final_output:
     mov.l @(r0, r14), r3
     add #0x1, r3
     mov.l r3, @(r0, r14)
-    mov.l   .L_p_section_count, r4
+    mov.l   .L_0601FFA4, r4
     mov.l @(r0, r14), r3
     mov.l @r4, r2
     cmp/gt r2, r3
-    bf      .L_no_wrap
+    bf      .L_0601FF78
     mov.l @r4, r2
     mov.w   DAT_0601ff8a, r0
     mov.l @(r0, r14), r3
     sub r2, r3
     mov.l r3, @(r0, r14)
-.L_no_wrap:
+.L_0601FF78:
     mov.w   DAT_0601ff8a, r0
     mov.l @(r0, r14), r3
     add #-0x8, r0
@@ -111,7 +111,7 @@ geom_final_output:
     .global DAT_0601ff8a
 DAT_0601ff8a:
     .2byte  0x01EC
-.L_w_scale_multiplier:
+.L_0601FF8C:
     .2byte  0x035A                         /* [HIGH] geometry scale factor for fpmul (0x035A) */
 
     .global DAT_0601ff8e
@@ -121,15 +121,15 @@ DAT_0601ff8e:
     .global DAT_0601ff90
 DAT_0601ff90:
     .2byte  0x01FC
-.L_w_ofs_heading_b_copy:
+.L_0601FF92:
     .2byte  0x01B0                         /* [HIGH] car struct offset: heading angle B copy (+0x01B0) */
-.L_p_car_struct:
+.L_0601FF94:
     .4byte  sym_0607E940                   /* &current_car_ptr (indirect) */
-.L_p_course_data:
+.L_0601FF98:
     .4byte  sym_06078680                   /* course/track data base */
-.L_p_fn_fpmul:
+.L_0601FF9C:
     .4byte  fpmul                          /* fixed-point multiply: (r4*r5) >> 16 */
-.L_p_fn_race_pos_interp:
+.L_0601FFA0:
     .4byte  race_pos_interp                /* race position interpolation function */
-.L_p_section_count:
+.L_0601FFA4:
     .4byte  sym_0607EA9C                   /* track section count (wrap boundary) */

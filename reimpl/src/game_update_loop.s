@@ -12,33 +12,33 @@ camera_attract_init:
     mov.l r10, @-r15
     mov.l r9, @-r15
     mov.l r8, @-r15
-    mov.l   .L_game_state_ptr, r0
+    mov.l   .L_06033BF0, r0
     mov.l @r0, r0
-    mov.l   .L_state_field_1EC, r1
+    mov.l   .L_06033BF4, r1
     mov.l @(r0, r1), r1
-    mov.l   .L_range_min_DC, r0
+    mov.l   .L_06033BF8, r0
     cmp/ge r0, r1
-    bf      .L_range_check_fail_1
-    mov.l   .L_range_max_EC, r0
+    bf      .L_06033C00
+    mov.l   .L_06033BFC, r0
     cmp/gt r0, r1
-    bt      .L_range_check_fail_1
-    bra     .L_range_check_pass_1
+    bt      .L_06033C00
+    bra     .L_06033C02
     sett
     .2byte  0x0000
-.L_game_state_ptr:
+.L_06033BF0:
     .4byte  sym_0607E944
-.L_state_field_1EC:
+.L_06033BF4:
     .4byte  0x000001EC
-.L_range_min_DC:
+.L_06033BF8:
     .4byte  0x000000DC
-.L_range_max_EC:
+.L_06033BFC:
     .4byte  0x000000EC
-.L_range_check_fail_1:
+.L_06033C00:
     clrt
-.L_range_check_pass_1:
-    bf      .L_skip_timeext_digits
+.L_06033C02:
+    bf      .L_06033C30
     mov #0x0, r4
-    mov.l   .L_fn_disp_elem_render, r0
+    mov.l   .L_06033C2C, r0
 
     .global disp_timeext_digit_0
     .type disp_timeext_digit_0, @function
@@ -48,7 +48,7 @@ disp_timeext_digit_0:
     nop
     lds.l @r15+, pr
     mov #0x1, r4
-    mov.l   .L_fn_disp_elem_render, r0
+    mov.l   .L_06033C2C, r0
 
     .global disp_timeext_digit_1
     .type disp_timeext_digit_1, @function
@@ -58,7 +58,7 @@ disp_timeext_digit_1:
     nop
     lds.l @r15+, pr
     mov #0x2, r4
-    mov.l   .L_fn_disp_elem_render, r0
+    mov.l   .L_06033C2C, r0
 
     .global disp_timeext_digit_2
     .type disp_timeext_digit_2, @function
@@ -67,12 +67,12 @@ disp_timeext_digit_2:
     jsr @r0
     nop
     lds.l @r15+, pr
-    bra     .L_check_sel_range
+    bra     .L_06033C3A
     nop
-.L_fn_disp_elem_render:
+.L_06033C2C:
     .4byte  sym_06033F54
-.L_skip_timeext_digits:
-    mov.l   .L_fn_clear_anim_state, r0
+.L_06033C30:
+    mov.l   .L_06033C54, r0
 
     .global time_extend_digits
     .type time_extend_digits, @function
@@ -81,34 +81,34 @@ time_extend_digits:
     jsr @r0
     nop
     lds.l @r15+, pr
-.L_check_sel_range:
-    mov.l   .L_game_state_ptr_2, r0
+.L_06033C3A:
+    mov.l   .L_06033C58, r0
     mov.l @r0, r0
-    mov.l   .L_state_field_1EC_2, r1
+    mov.l   .L_06033C5C, r1
     mov.l @(r0, r1), r1
-    mov.l   .L_range_min_ED, r0
+    mov.l   .L_06033C60, r0
     cmp/ge r0, r1
-    bf      .L_range_check_fail_2
-    mov.l   .L_range_max_104, r0
+    bf      .L_06033C68
+    mov.l   .L_06033C64, r0
     cmp/gt r0, r1
-    bt      .L_range_check_fail_2
-    bra     .L_range_check_pass_2
+    bt      .L_06033C68
+    bra     .L_06033C6A
     sett
     .2byte  0x0000
-.L_fn_clear_anim_state:
+.L_06033C54:
     .4byte  sym_0603446C
-.L_game_state_ptr_2:
+.L_06033C58:
     .4byte  sym_0607E944
-.L_state_field_1EC_2:
+.L_06033C5C:
     .4byte  0x000001EC
-.L_range_min_ED:
+.L_06033C60:
     .4byte  0x000000ED
-.L_range_max_104:
+.L_06033C64:
     .4byte  0x00000104
-.L_range_check_fail_2:
+.L_06033C68:
     clrt
-.L_range_check_pass_2:
-    bf      .L_check_selext_range
+.L_06033C6A:
+    bf      .L_06033D34
     mov #0x5, r4
 
     .global disp_sel_thunk_00
@@ -289,44 +289,44 @@ selector_group_render:
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
-.L_check_selext_range:
-    mov.l   .L_game_state_ptr_3, r0
+.L_06033D34:
+    mov.l   .L_06033D4C, r0
     mov.l @r0, r0
-    mov.l   .L_state_field_1EC_3, r1
+    mov.l   .L_06033D50, r1
     mov.l @(r0, r1), r1
-    mov.l   .L_range_min_1B8, r0
+    mov.l   .L_06033D54, r0
     cmp/ge r0, r1
-    bf      .L_range_check_fail_3
-    mov.l   .L_range_max_1E0, r0
+    bf      .L_06033D5C
+    mov.l   .L_06033D58, r0
     cmp/gt r0, r1
-    bt      .L_range_check_fail_3
-    bra     .L_range_check_pass_3
+    bt      .L_06033D5C
+    bra     .L_06033D5E
     sett
-.L_game_state_ptr_3:
+.L_06033D4C:
     .4byte  sym_0607E944
-.L_state_field_1EC_3:
+.L_06033D50:
     .4byte  0x000001EC
-.L_range_min_1B8:
+.L_06033D54:
     .4byte  0x000001B8
-.L_range_max_1E0:
+.L_06033D58:
     .4byte  0x000001E0
-.L_range_check_fail_3:
+.L_06033D5C:
     clrt
-.L_range_check_pass_3:
-    bt      .L_selext_range_active
-    bra     .L_reset_anim_counter
+.L_06033D5E:
+    bt      .L_06033D64
+    bra     .L_06033E8C
     nop
-.L_selext_range_active:
-    mov.l   .L_selext_enable_flag, r0
+.L_06033D64:
+    mov.l   .L_06033D70, r0
     mov.l @r0, r0
     tst r0, r0
-    bf      .L_selext_dispatch
-    bra     .L_attract_return
+    bf      .L_06033D74
+    bra     .L_06033E92
     nop
-.L_selext_enable_flag:
+.L_06033D70:
     .4byte  sym_0607EAE0
-.L_selext_dispatch:
-    mov.l   .L_selext_start_idx, r4
+.L_06033D74:
+    mov.l   .L_06033E64, r4
 
     .global disp_selext_thunk_00
     .type disp_selext_thunk_00, @function
@@ -335,12 +335,12 @@ disp_selext_thunk_00:
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
-    mov.l   .L_anim_frame_counter, r0
+    mov.l   .L_06033E68, r0
     mov.l @r0, r13
-    mov.l   .L_selext_phase2_threshold, r0
+    mov.l   .L_06033E6C, r0
     cmp/ge r0, r13
-    bf      .L_selext_advance_counter
-    mov.l   .L_selext_idx_1A, r4
+    bf      .L_06033E52
+    mov.l   .L_06033E70, r4
 
     .global disp_selext_thunk_01
     .type disp_selext_thunk_01, @function
@@ -349,7 +349,7 @@ disp_selext_thunk_01:
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
-    mov.l   .L_selext_idx_1B, r4
+    mov.l   .L_06033E74, r4
 
     .global disp_selext_thunk_02
     .type disp_selext_thunk_02, @function
@@ -358,7 +358,7 @@ disp_selext_thunk_02:
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
-    mov.l   .L_selext_idx_1C, r4
+    mov.l   .L_06033E78, r4
 
     .global disp_selext_thunk_03
     .type disp_selext_thunk_03, @function
@@ -367,7 +367,7 @@ disp_selext_thunk_03:
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
-    mov.l   .L_selext_idx_1D, r4
+    mov.l   .L_06033E7C, r4
 
     .global disp_selext_thunk_04
     .type disp_selext_thunk_04, @function
@@ -376,9 +376,9 @@ disp_selext_thunk_04:
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
-    mov.l   .L_selext_phase3_threshold, r0
+    mov.l   .L_06033E80, r0
     cmp/ge r0, r13
-    bf      .L_selext_advance_counter
+    bf      .L_06033E52
     mov #0x1E, r4
 
     .global disp_selext_thunk_05
@@ -424,9 +424,9 @@ disp_selext_thunk_09:
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
-    mov.l   .L_selext_phase4_threshold, r0
+    mov.l   .L_06033E84, r0
     cmp/ge r0, r13
-    bf      .L_selext_advance_counter
+    bf      .L_06033E52
     mov #0x23, r4
 
     .global disp_selext_thunk_10
@@ -517,42 +517,42 @@ score_display_render:
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
-.L_selext_advance_counter:
-    mov.l   .L_anim_frame_counter, r1
+.L_06033E52:
+    mov.l   .L_06033E68, r1
     mov.l @r1, r0
     add #0x1, r0
-    mov.l   .L_anim_frame_max, r2
+    mov.l   .L_06033E88, r2
     cmp/ge r2, r0
-    bf      .L_clamp_counter
-    mov.l   .L_anim_frame_max, r0
-.L_clamp_counter:
-    bra     .L_attract_return
+    bf      .L_06033E60
+    mov.l   .L_06033E88, r0
+.L_06033E60:
+    bra     .L_06033E92
     mov.l r0, @r1
-.L_selext_start_idx:
+.L_06033E64:
     .4byte  0x00000019
-.L_anim_frame_counter:
+.L_06033E68:
     .4byte  sym_06083250
-.L_selext_phase2_threshold:
+.L_06033E6C:
     .4byte  0x0000013B
-.L_selext_idx_1A:
+.L_06033E70:
     .4byte  0x0000001A
-.L_selext_idx_1B:
+.L_06033E74:
     .4byte  0x0000001B
-.L_selext_idx_1C:
+.L_06033E78:
     .4byte  0x0000001C
-.L_selext_idx_1D:
+.L_06033E7C:
     .4byte  0x0000001D
-.L_selext_phase3_threshold:
+.L_06033E80:
     .4byte  0x00000276
-.L_selext_phase4_threshold:
+.L_06033E84:
     .4byte  0x000003B1
-.L_anim_frame_max:
+.L_06033E88:
     .4byte  0x00000EC4
-.L_reset_anim_counter:
+.L_06033E8C:
     xor r0, r0
-    mov.l   .L_anim_frame_counter_2, r1
+    mov.l   .L_06033EA4, r1
     mov.l r0, @r1
-.L_attract_return:
+.L_06033E92:
     mov.l @r15+, r8
     mov.l @r15+, r9
     mov.l @r15+, r10
@@ -562,7 +562,7 @@ score_display_render:
     mov.l @r15+, r14
     rts
     nop
-.L_anim_frame_counter_2:
+.L_06033EA4:
     .4byte  sym_06083250
 
     .global disp_score_renderer
@@ -575,21 +575,21 @@ disp_score_renderer:
     mov.l r10, @-r15
     mov.l r9, @-r15
     mov.l r8, @-r15
-    mov.l   .L_game_mode_flag, r0
+    mov.l   .L_06033F30, r0
     mov.w @r0, r0
     cmp/eq #0x1, r0
-    bf      .L_check_score_phase
-    mov.l   .L_score_render_phase, r1
+    bf      .L_06033EC6
+    mov.l   .L_06033F34, r1
     mov.b @r1, r0
     add #0x1, r0
     mov.b r0, @r1
-.L_check_score_phase:
-    mov.l   .L_score_render_phase, r0
+.L_06033EC6:
+    mov.l   .L_06033F34, r0
     mov.b @r0, r0
     cmp/eq #0x1, r0
-    bf      .L_check_score_clear
-    mov.l   .L_score_digit_idx_0, r4
-    mov.l   .L_fn_disp_elem_render_2, r0
+    bf      .L_06033EFE
+    mov.l   .L_06033F38, r4
+    mov.l   .L_06033F3C, r0
 
     .global disp_score_digit_0
     .type disp_score_digit_0, @function
@@ -598,8 +598,8 @@ disp_score_digit_0:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_score_digit_idx_1, r4
-    mov.l   .L_fn_disp_elem_render_2, r0
+    mov.l   .L_06033F40, r4
+    mov.l   .L_06033F3C, r0
 
     .global disp_score_digit_1
     .type disp_score_digit_1, @function
@@ -608,8 +608,8 @@ disp_score_digit_1:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_score_digit_idx_2, r4
-    mov.l   .L_fn_disp_elem_render_2, r0
+    mov.l   .L_06033F44, r4
+    mov.l   .L_06033F3C, r0
 
     .global disp_score_digit_2
     .type disp_score_digit_2, @function
@@ -618,8 +618,8 @@ disp_score_digit_2:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_score_digit_idx_4, r4
-    mov.l   .L_fn_disp_elem_render_2, r0
+    mov.l   .L_06033F48, r4
+    mov.l   .L_06033F3C, r0
 
     .global bonus_points_display
     .type bonus_points_display, @function
@@ -628,13 +628,13 @@ bonus_points_display:
     jsr @r0
     nop
     lds.l @r15+, pr
-.L_check_score_clear:
-    mov.l   .L_score_render_phase, r0
+.L_06033EFE:
+    mov.l   .L_06033F34, r0
     mov.b @r0, r0
     cmp/eq #0x2, r0
-    bf      .L_score_render_done
-    mov.l   .L_score_clear_start_idx, r4
-.L_score_clear_loop:
+    bf      .L_06033F1C
+    mov.l   .L_06033F4C, r4
+.L_06033F08:
     mov.l r4, @-r15
     sts.l pr, @-r15
     bsr     sym_06033F54
@@ -642,10 +642,10 @@ bonus_points_display:
     lds.l @r15+, pr
     mov.l @r15+, r4
     add #0x1, r4
-    mov.l   .L_score_clear_end_idx, r0
+    mov.l   .L_06033F50, r0
     cmp/ge r0, r4
-    bf      .L_score_clear_loop
-.L_score_render_done:
+    bf      .L_06033F08
+.L_06033F1C:
     mov.l @r15+, r8
     mov.l @r15+, r9
     mov.l @r15+, r10
@@ -656,42 +656,42 @@ bonus_points_display:
     rts
     nop
     .2byte  0x0000
-.L_game_mode_flag:
+.L_06033F30:
     .4byte  sym_06063E08
-.L_score_render_phase:
+.L_06033F34:
     .4byte  sym_06083254
-.L_score_digit_idx_0:
+.L_06033F38:
     .4byte  0x00000000
-.L_fn_disp_elem_render_2:
+.L_06033F3C:
     .4byte  sym_06033F54
-.L_score_digit_idx_1:
+.L_06033F40:
     .4byte  0x00000001
-.L_score_digit_idx_2:
+.L_06033F44:
     .4byte  0x00000002
-.L_score_digit_idx_4:
+.L_06033F48:
     .4byte  0x00000004
-.L_score_clear_start_idx:
+.L_06033F4C:
     .4byte  0x00000006
-.L_score_clear_end_idx:
+.L_06033F50:
     .4byte  0x00000019
 
     .global sym_06033F54
 sym_06033F54:
     mov.l r13, @-r15
-    mov.l   .L_elem_struct_size, r1
+    mov.l   .L_06033F9C, r1
     mulu.w r4, r1
     sts macl, r0
-    mov.l   .L_elem_array_base, r14
+    mov.l   .L_06033FA0, r14
     add r0, r14
-    mov.l   .L_game_state_ptr_4, r0
+    mov.l   .L_06033FA4, r0
     mov.l @r0, r10
-    mov.l   .L_elem_type_offset, r0
+    mov.l   .L_06033FA8, r0
     mov.b @(r0, r14), r0
     cmp/eq #0x1, r0
     bt      disp_end_stub_0
     cmp/eq #0x4, r0
     bt      disp_end_stub_0
-    mov.l   .L_elem_anim_mode_offset, r0
+    mov.l   .L_06033FAC, r0
     mov.b @(r0, r14), r0
     cmp/eq #0x0, r0
     bt      disp_end_stub_2
@@ -704,7 +704,7 @@ sym_06033F54:
     .type disp_end_stub_0, @function
 disp_end_stub_0:
     sts.l pr, @-r15
-    bsr     .L_update_position
+    bsr     .L_06034000
     nop
     lds.l @r15+, pr
 
@@ -712,7 +712,7 @@ disp_end_stub_0:
     .type disp_end_stub_1, @function
 disp_end_stub_1:
     sts.l pr, @-r15
-    bsr     .L_camera_path_dispatch
+    bsr     .L_06034168
     nop
     lds.l @r15+, pr
 
@@ -720,27 +720,27 @@ disp_end_stub_1:
     .type display_frame_mgr, @function
 display_frame_mgr:
     sts.l pr, @-r15
-    bsr     .L_advance_anim_frame
+    bsr     .L_060346C0
     nop
     lds.l @r15+, pr
-    bra     .L_elem_render_return
+    bra     .L_06033FFC
     nop
-.L_elem_struct_size:
+.L_06033F9C:
     .4byte  0x0000002C
-.L_elem_array_base:
+.L_06033FA0:
     .4byte  DAT_06082A7C
-.L_game_state_ptr_4:
+.L_06033FA4:
     .4byte  sym_0607E944
-.L_elem_type_offset:
+.L_06033FA8:
     .4byte  0x00000001
-.L_elem_anim_mode_offset:
+.L_06033FAC:
     .4byte  0x00000026
 
     .global disp_end_stub_2
     .type disp_end_stub_2, @function
 disp_end_stub_2:
     sts.l pr, @-r15
-    bsr     .L_calc_distance
+    bsr     .L_0603449C
     nop
     lds.l @r15+, pr
 
@@ -748,7 +748,7 @@ disp_end_stub_2:
     .type disp_end_stub_3, @function
 disp_end_stub_3:
     sts.l pr, @-r15
-    bsr     .L_update_position
+    bsr     .L_06034000
     nop
     lds.l @r15+, pr
 
@@ -756,7 +756,7 @@ disp_end_stub_3:
     .type disp_end_stub_4, @function
 disp_end_stub_4:
     sts.l pr, @-r15
-    bsr     .L_camera_path_dispatch
+    bsr     .L_06034168
     nop
     lds.l @r15+, pr
 
@@ -764,17 +764,17 @@ disp_end_stub_4:
     .type disp_end_stub_5, @function
 disp_end_stub_5:
     sts.l pr, @-r15
-    bsr     .L_advance_anim_frame
+    bsr     .L_060346C0
     nop
     lds.l @r15+, pr
-    bra     .L_elem_render_return
+    bra     .L_06033FFC
     nop
 
     .global disp_end_stub_6
     .type disp_end_stub_6, @function
 disp_end_stub_6:
     sts.l pr, @-r15
-    bsr     .L_init_heading_transfer
+    bsr     .L_06034560
     nop
     lds.l @r15+, pr
 
@@ -782,7 +782,7 @@ disp_end_stub_6:
     .type disp_end_stub_7, @function
 disp_end_stub_7:
     sts.l pr, @-r15
-    bsr     .L_calc_distance
+    bsr     .L_0603449C
     nop
     lds.l @r15+, pr
 
@@ -790,7 +790,7 @@ disp_end_stub_7:
     .type disp_end_stub_8, @function
 disp_end_stub_8:
     sts.l pr, @-r15
-    bsr     .L_collision_pos_update
+    bsr     .L_0603458C
     nop
     lds.l @r15+, pr
 
@@ -798,7 +798,7 @@ disp_end_stub_8:
     .type disp_end_stub_9, @function
 disp_end_stub_9:
     sts.l pr, @-r15
-    bsr     .L_spawn_cam_setup
+    bsr     .L_06034640
     nop
     lds.l @r15+, pr
 
@@ -806,41 +806,41 @@ disp_end_stub_9:
     .type display_frame_flush, @function
 display_frame_flush:
     sts.l pr, @-r15
-    bsr     .L_advance_anim_frame
+    bsr     .L_060346C0
     nop
     lds.l @r15+, pr
-.L_elem_render_return:
+.L_06033FFC:
     rts
     mov.l @r15+, r13
-.L_update_position:
-    mov.l   .L_elem_type_ofs_frame, r0
+.L_06034000:
+    mov.l   .L_06034018, r0
     mov.b @(r0, r14), r0
     cmp/eq #0x3, r0
-    bf      .L_pos_normal_update
-    mov.l   .L_elem_heading_ofs_frame, r0
+    bf      .L_06034024
+    mov.l   .L_0603401C, r0
     mov.w @(r0, r14), r1
     exts.w r1, r1
-    mov.l   .L_elem_pos_z_ofs_frame, r0
+    mov.l   .L_06034020, r0
     mov.l @(r0, r14), r2
     add r1, r2
     rts
     mov.l r2, @(r0, r14)
-.L_elem_type_ofs_frame:
+.L_06034018:
     .4byte  0x00000001
-.L_elem_heading_ofs_frame:
+.L_0603401C:
     .4byte  0x00000012
-.L_elem_pos_z_ofs_frame:
+.L_06034020:
     .4byte  0x0000001C
-.L_pos_normal_update:
-    mov.l   .L_elem_heading_offset, r0
+.L_06034024:
+    mov.l   .L_06034088, r0
     mov.w @(r0, r14), r2
-    mov.l   .L_elem_angle_offset, r0
+    mov.l   .L_0603408C, r0
     mov.w @(r0, r14), r1
     add r2, r1
     mov.w r1, @(r0, r14)
     mov r1, r13
     mov r13, r4
-    mov.l   .L_fn_cos_lookup, r0
+    mov.l   .L_06034090, r0
 
     .global phys_position_load
     .type phys_position_load, @function
@@ -850,19 +850,19 @@ phys_position_load:
     nop
     lds.l @r15+, pr
     mov r0, r12
-    mov.l   .L_elem_vel_scale_offset, r0
+    mov.l   .L_06034094, r0
     mov.l @(r0, r14), r11
     dmuls.l r12, r11
     sts mach, r0
     sts macl, r1
     xtrct r0, r1
-    mov.l   .L_elem_pos_x_offset, r0
+    mov.l   .L_06034098, r0
     mov.l @(r0, r14), r0
     add r0, r1
-    mov.l   .L_elem_dst_x_offset, r0
+    mov.l   .L_0603409C, r0
     mov.l r1, @(r0, r14)
     mov r13, r4
-    mov.l   .L_fn_sin_lookup, r0
+    mov.l   .L_060340A0, r0
 
     .global phys_velocity_integrate
     .type phys_velocity_integrate, @function
@@ -875,50 +875,50 @@ phys_velocity_integrate:
     sts mach, r0
     sts macl, r1
     xtrct r0, r1
-    mov.l   .L_elem_pos_z_offset, r0
+    mov.l   .L_060340A4, r0
     mov.l @(r0, r14), r0
     add r0, r1
-    mov.l   .L_elem_dst_z_offset, r0
+    mov.l   .L_060340A8, r0
     mov.l r1, @(r0, r14)
-    mov.l   .L_elem_type_offset_2, r0
+    mov.l   .L_060340AC, r0
     mov.b @(r0, r14), r0
     cmp/eq #0x2, r0
-    bt      .L_direct_cam_write
-    mov.l   .L_elem_lateral_offset, r0
+    bt      .L_0603410C
+    mov.l   .L_060340B0, r0
     mov.w @(r0, r14), r1
     tst r1, r1
-    bf      .L_apply_lateral_vel
-    bra     .L_store_y_position
+    bf      .L_060340B4
+    bra     .L_060340EC
     xor r2, r2
-.L_elem_heading_offset:
+.L_06034088:
     .4byte  0x00000012
-.L_elem_angle_offset:
+.L_0603408C:
     .4byte  0x00000002
-.L_fn_cos_lookup:
+.L_06034090:
     .4byte  cos_lookup
-.L_elem_vel_scale_offset:
+.L_06034094:
     .4byte  0x00000020
-.L_elem_pos_x_offset:
+.L_06034098:
     .4byte  0x00000014
-.L_elem_dst_x_offset:
+.L_0603409C:
     .4byte  0x00000004
-.L_fn_sin_lookup:
+.L_060340A0:
     .4byte  sin_lookup
-.L_elem_pos_z_offset:
+.L_060340A4:
     .4byte  0x0000001C
-.L_elem_dst_z_offset:
+.L_060340A8:
     .4byte  0x0000000C
-.L_elem_type_offset_2:
+.L_060340AC:
     .4byte  0x00000001
-.L_elem_lateral_offset:
+.L_060340B0:
     .4byte  0x00000024
-.L_apply_lateral_vel:
+.L_060340B4:
     dmuls.l r12, r1
     sts mach, r0
     sts macl, r10
     xtrct r0, r10
     mov r10, r4
-    mov.l   .L_fn_sin_lookup_2, r0
+    mov.l   .L_060340F8, r0
 
     .global phys_result_store
     .type phys_result_store, @function
@@ -929,7 +929,7 @@ phys_result_store:
     lds.l @r15+, pr
     mov r0, r9
     mov r10, r4
-    mov.l   .L_fn_cos_lookup_2, r0
+    mov.l   .L_060340FC, r0
 
     .global phys_perspective
     .type phys_perspective, @function
@@ -940,7 +940,7 @@ phys_perspective:
     lds.l @r15+, pr
     mov r0, r5
     mov r9, r4
-    mov.l   .L_fn_fpdiv_setup, r0
+    mov.l   .L_06034100, r0
 
     .global phys_final_integrate
     .type phys_final_integrate, @function
@@ -953,33 +953,33 @@ phys_final_integrate:
     sts mach, r0
     sts macl, r2
     xtrct r0, r2
-.L_store_y_position:
-    mov.l   .L_elem_pos_y_offset, r0
+.L_060340EC:
+    mov.l   .L_06034104, r0
     mov.l @(r0, r14), r1
     add r1, r2
-    mov.l   .L_elem_dst_y_offset, r0
-    bra     .L_pos_update_done
+    mov.l   .L_06034108, r0
+    bra     .L_0603413E
     mov.l r2, @(r0, r14)
-.L_fn_sin_lookup_2:
+.L_060340F8:
     .4byte  sin_lookup
-.L_fn_cos_lookup_2:
+.L_060340FC:
     .4byte  cos_lookup
-.L_fn_fpdiv_setup:
+.L_06034100:
     .4byte  fpdiv_setup
-.L_elem_pos_y_offset:
+.L_06034104:
     .4byte  0x00000018
-.L_elem_dst_y_offset:
+.L_06034108:
     .4byte  0x00000008
-.L_direct_cam_write:
-    mov.l   .L_elem_dst_x_offset_2, r0
+.L_0603410C:
+    mov.l   .L_06034144, r0
     mov.l @(r0, r14), r4
-    mov.l   .L_scratch_pos_x, r0
+    mov.l   .L_06034148, r0
     mov.l r4, @r0
-    mov.l   .L_elem_dst_z_offset_2, r0
+    mov.l   .L_0603414C, r0
     mov.l @(r0, r14), r5
-    mov.l   .L_scratch_pos_z, r0
+    mov.l   .L_06034150, r0
     mov.l r5, @r0
-    mov.l   .L_fn_atan2_full, r0
+    mov.l   .L_06034154, r0
 
     .global phys_lighting_setup
     .type phys_lighting_setup, @function
@@ -989,9 +989,9 @@ phys_lighting_setup:
     nop
     lds.l @r15+, pr
     mov r0, r4
-    mov.l   .L_scratch_pos_x, r5
-    mov.l   .L_scratch_pos_y, r6
-    mov.l   .L_fn_scene_render_alt, r0
+    mov.l   .L_06034148, r5
+    mov.l   .L_06034158, r6
+    mov.l   .L_0603415C, r0
 
     .global ai_steering_response
     .type ai_steering_response, @function
@@ -1000,38 +1000,38 @@ ai_steering_response:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_scratch_result, r0
+    mov.l   .L_06034160, r0
     mov.l @r0, r1
-    mov.l   .L_elem_dst_y_offset_2, r0
+    mov.l   .L_06034164, r0
     mov.l r1, @(r0, r14)
-.L_pos_update_done:
+.L_0603413E:
     rts
     nop
     .2byte  0x0000
-.L_elem_dst_x_offset_2:
+.L_06034144:
     .4byte  0x00000004
-.L_scratch_pos_x:
+.L_06034148:
     .4byte  sym_06083238
-.L_elem_dst_z_offset_2:
+.L_0603414C:
     .4byte  0x0000000C
-.L_scratch_pos_z:
+.L_06034150:
     .4byte  sym_06083240
-.L_fn_atan2_full:
+.L_06034154:
     .4byte  sym_06006838
-.L_scratch_pos_y:
+.L_06034158:
     .4byte  sym_06083244
-.L_fn_scene_render_alt:
+.L_0603415C:
     .4byte  scene_render_alt
-.L_scratch_result:
+.L_06034160:
     .4byte  sym_0608323C
-.L_elem_dst_y_offset_2:
+.L_06034164:
     .4byte  0x00000008
-.L_camera_path_dispatch:
-    mov.l   .L_elem_type_ofs_a, r0
+.L_06034168:
+    mov.l   .L_060341C4, r0
     mov.b @(r0, r14), r0
     cmp/eq #0x1, r0
-    bf      .L_cam_check_mode_2
-    mov.l   .L_fn_cam_setup_a, r0
+    bf      .L_060341F4
+    mov.l   .L_060341C8, r0
 
     .global ai_vel_x_entry
     .type ai_vel_x_entry, @function
@@ -1040,15 +1040,15 @@ ai_vel_x_entry:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_cam_result_ptr_a, r13
+    mov.l   .L_060341CC, r13
     mov.l @r13, r13
-    mov.l   .L_elem_dst_x_ofs_a, r0
+    mov.l   .L_060341D0, r0
     mov.l @(r0, r14), r4
-    mov.l   .L_elem_dst_y_ofs_a, r0
+    mov.l   .L_060341D4, r0
     mov.l @(r0, r14), r5
-    mov.l   .L_elem_dst_z_ofs_a, r0
+    mov.l   .L_060341D8, r0
     mov.l @(r0, r14), r6
-    mov.l   .L_fn_cam_transform_a, r0
+    mov.l   .L_060341DC, r0
 
     .global ai_vel_x_step_a
     .type ai_vel_x_step_a, @function
@@ -1057,9 +1057,9 @@ ai_vel_x_step_a:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_elem_angle_ofs_a, r0
+    mov.l   .L_060341E0, r0
     mov.w @(r0, r14), r4
-    mov.l   .L_fn_mat_rot_y_a, r0
+    mov.l   .L_060341E4, r0
 
     .global ai_vel_x_step_b
     .type ai_vel_x_step_b, @function
@@ -1068,9 +1068,9 @@ ai_vel_x_step_b:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_elem_flags_ofs_a, r0
+    mov.l   .L_060341E8, r0
     mov.b @(r0, r14), r4
-    mov.l   .L_fn_cam_param_load_a, r0
+    mov.l   .L_060341EC, r0
 
     .global ai_vel_x_step_c
     .type ai_vel_x_step_c, @function
@@ -1079,7 +1079,7 @@ ai_vel_x_step_c:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_fn_cam_finalize_a, r0
+    mov.l   .L_060341F0, r0
 
     .global xaxis_integrate_damp
     .type xaxis_integrate_damp, @function
@@ -1088,39 +1088,39 @@ xaxis_integrate_damp:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_cam_result_ptr_a, r13
+    mov.l   .L_060341CC, r13
     mov.l @r13, r13
-    bra     .L_cam_path_return
+    bra     .L_06034468
     nop
     .2byte  0x0000
-.L_elem_type_ofs_a:
+.L_060341C4:
     .4byte  0x00000001
-.L_fn_cam_setup_a:
+.L_060341C8:
     .4byte  sym_06026DBC
-.L_cam_result_ptr_a:
+.L_060341CC:
     .4byte  sym_06089EDC
-.L_elem_dst_x_ofs_a:
+.L_060341D0:
     .4byte  0x00000004
-.L_elem_dst_y_ofs_a:
+.L_060341D4:
     .4byte  0x00000008
-.L_elem_dst_z_ofs_a:
+.L_060341D8:
     .4byte  0x0000000C
-.L_fn_cam_transform_a:
+.L_060341DC:
     .4byte  sym_06026E2E
-.L_elem_angle_ofs_a:
+.L_060341E0:
     .4byte  0x00000002
-.L_fn_mat_rot_y_a:
+.L_060341E4:
     .4byte  mat_rot_y
-.L_elem_flags_ofs_a:
+.L_060341E8:
     .4byte  0x00000011
-.L_fn_cam_param_load_a:
+.L_060341EC:
     .4byte  camera_param_load
-.L_fn_cam_finalize_a:
+.L_060341F0:
     .4byte  sym_06026DF8
-.L_cam_check_mode_2:
+.L_060341F4:
     cmp/eq #0x2, r0
-    bf      .L_cam_check_mode_3
-    mov.l   .L_fn_cam_setup_b, r0
+    bf      .L_06034280
+    mov.l   .L_06034250, r0
 
     .global ai_vel_x_cleanup_entry
     .type ai_vel_x_cleanup_entry, @function
@@ -1129,15 +1129,15 @@ ai_vel_x_cleanup_entry:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_cam_result_ptr_b, r13
+    mov.l   .L_06034254, r13
     mov.l @r13, r13
-    mov.l   .L_elem_dst_x_ofs_b, r0
+    mov.l   .L_06034258, r0
     mov.l @(r0, r14), r4
-    mov.l   .L_elem_dst_y_ofs_b, r0
+    mov.l   .L_0603425C, r0
     mov.l @(r0, r14), r5
-    mov.l   .L_elem_dst_z_ofs_b, r0
+    mov.l   .L_06034260, r0
     mov.l @(r0, r14), r6
-    mov.l   .L_fn_cam_transform_b, r0
+    mov.l   .L_06034264, r0
 
     .global ai_vel_x_cleanup_a
     .type ai_vel_x_cleanup_a, @function
@@ -1146,12 +1146,12 @@ ai_vel_x_cleanup_a:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_elem_angle_ofs_b, r0
+    mov.l   .L_06034268, r0
     mov.w @(r0, r14), r4
-    mov.l   .L_fp_half, r0
+    mov.l   .L_0603426C, r0
     add r0, r4
     exts.w r4, r4
-    mov.l   .L_fn_mat_rot_y_b, r0
+    mov.l   .L_06034270, r0
 
     .global ai_vel_x_cleanup_b
     .type ai_vel_x_cleanup_b, @function
@@ -1160,9 +1160,9 @@ ai_vel_x_cleanup_b:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_elem_flags_ofs_b, r0
+    mov.l   .L_06034274, r0
     mov.b @(r0, r14), r4
-    mov.l   .L_fn_cam_scene_setup_b, r0
+    mov.l   .L_06034278, r0
 
     .global ai_vel_x_cleanup_c
     .type ai_vel_x_cleanup_c, @function
@@ -1171,7 +1171,7 @@ ai_vel_x_cleanup_c:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_fn_cam_finalize_b, r0
+    mov.l   .L_0603427C, r0
 
     .global yaxis_integrate
     .type yaxis_integrate, @function
@@ -1180,38 +1180,38 @@ yaxis_integrate:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_cam_result_ptr_b, r13
+    mov.l   .L_06034254, r13
     mov.l @r13, r13
-    bra     .L_cam_path_return
+    bra     .L_06034468
     nop
-.L_fn_cam_setup_b:
+.L_06034250:
     .4byte  sym_06026DBC
-.L_cam_result_ptr_b:
+.L_06034254:
     .4byte  sym_06089EDC
-.L_elem_dst_x_ofs_b:
+.L_06034258:
     .4byte  0x00000004
-.L_elem_dst_y_ofs_b:
+.L_0603425C:
     .4byte  0x00000008
-.L_elem_dst_z_ofs_b:
+.L_06034260:
     .4byte  0x0000000C
-.L_fn_cam_transform_b:
+.L_06034264:
     .4byte  sym_06026E2E
-.L_elem_angle_ofs_b:
+.L_06034268:
     .4byte  0x00000002
-.L_fp_half:
+.L_0603426C:
     .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
-.L_fn_mat_rot_y_b:
+.L_06034270:
     .4byte  mat_rot_y
-.L_elem_flags_ofs_b:
+.L_06034274:
     .4byte  0x00000011
-.L_fn_cam_scene_setup_b:
+.L_06034278:
     .4byte  camera_scene_setup
-.L_fn_cam_finalize_b:
+.L_0603427C:
     .4byte  sym_06026DF8
-.L_cam_check_mode_3:
+.L_06034280:
     cmp/eq #0x3, r0
-    bf      .L_cam_check_mode_4
-    mov.l   .L_fn_cam_setup_c, r0
+    bf      .L_06034304
+    mov.l   .L_060342D8, r0
 
     .global ai_vel_y_entry
     .type ai_vel_y_entry, @function
@@ -1220,15 +1220,15 @@ ai_vel_y_entry:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_cam_result_ptr_c, r13
+    mov.l   .L_060342DC, r13
     mov.l @r13, r13
-    mov.l   .L_elem_pos_x_ofs_c, r0
+    mov.l   .L_060342E0, r0
     mov.l @(r0, r14), r4
-    mov.l   .L_elem_pos_y_ofs_c, r0
+    mov.l   .L_060342E4, r0
     mov.l @(r0, r14), r5
-    mov.l   .L_elem_pos_z_ofs_c, r0
+    mov.l   .L_060342E8, r0
     mov.l @(r0, r14), r6
-    mov.l   .L_fn_cam_transform_c, r0
+    mov.l   .L_060342EC, r0
 
     .global ai_vel_y_step_a
     .type ai_vel_y_step_a, @function
@@ -1237,9 +1237,9 @@ ai_vel_y_step_a:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_elem_angle_ofs_c, r0
+    mov.l   .L_060342F0, r0
     mov.w @(r0, r14), r4
-    mov.l   .L_fn_mat_rot_y_c, r0
+    mov.l   .L_060342F4, r0
 
     .global ai_vel_y_step_b
     .type ai_vel_y_step_b, @function
@@ -1248,9 +1248,9 @@ ai_vel_y_step_b:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_elem_flags_ofs_c, r0
+    mov.l   .L_060342F8, r0
     mov.b @(r0, r14), r4
-    mov.l   .L_fn_cam_scene_setup_c, r0
+    mov.l   .L_060342FC, r0
 
     .global ai_vel_y_step_c
     .type ai_vel_y_step_c, @function
@@ -1259,7 +1259,7 @@ ai_vel_y_step_c:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_fn_cam_finalize_c, r0
+    mov.l   .L_06034300, r0
 
     .global zaxis_integrate
     .type zaxis_integrate, @function
@@ -1268,40 +1268,40 @@ zaxis_integrate:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_cam_result_ptr_c, r13
+    mov.l   .L_060342DC, r13
     mov.l @r13, r13
-    bra     .L_cam_path_return
+    bra     .L_06034468
     nop
     .2byte  0x0000
-.L_fn_cam_setup_c:
+.L_060342D8:
     .4byte  sym_06026DBC
-.L_cam_result_ptr_c:
+.L_060342DC:
     .4byte  sym_06089EDC
-.L_elem_pos_x_ofs_c:
+.L_060342E0:
     .4byte  0x00000014
-.L_elem_pos_y_ofs_c:
+.L_060342E4:
     .4byte  0x00000018
-.L_elem_pos_z_ofs_c:
+.L_060342E8:
     .4byte  0x0000001C
-.L_fn_cam_transform_c:
+.L_060342EC:
     .4byte  sym_06026E2E
-.L_elem_angle_ofs_c:
+.L_060342F0:
     .4byte  0x00000002
-.L_fn_mat_rot_y_c:
+.L_060342F4:
     .4byte  mat_rot_y
-.L_elem_flags_ofs_c:
+.L_060342F8:
     .4byte  0x00000011
-.L_fn_cam_scene_setup_c:
+.L_060342FC:
     .4byte  camera_scene_setup
-.L_fn_cam_finalize_c:
+.L_06034300:
     .4byte  sym_06026DF8
-.L_cam_check_mode_4:
+.L_06034304:
     cmp/eq #0x4, r0
-    bt      .L_cam_mode_4_active
-    bra     .L_cam_path_return
+    bt      .L_0603430C
+    bra     .L_06034468
     nop
-.L_cam_mode_4_active:
-    mov.l   .L_fn_cam_setup_d, r0
+.L_0603430C:
+    mov.l   .L_06034420, r0
 
     .global ai_vel_z_entry
     .type ai_vel_z_entry, @function
@@ -1310,15 +1310,15 @@ ai_vel_z_entry:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_cam_result_ptr_d, r13
+    mov.l   .L_06034424, r13
     mov.l @r13, r13
-    mov.l   .L_elem_dst_x_ofs_d, r0
+    mov.l   .L_06034428, r0
     mov.l @(r0, r14), r4
-    mov.l   .L_elem_dst_y_ofs_d, r0
+    mov.l   .L_0603442C, r0
     mov.l @(r0, r14), r5
-    mov.l   .L_elem_dst_z_ofs_d, r0
+    mov.l   .L_06034430, r0
     mov.l @(r0, r14), r6
-    mov.l   .L_fn_cam_transform_d, r0
+    mov.l   .L_06034434, r0
 
     .global ai_vel_z_step_a
     .type ai_vel_z_step_a, @function
@@ -1327,9 +1327,9 @@ ai_vel_z_step_a:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_elem_angle_ofs_d, r0
+    mov.l   .L_06034438, r0
     mov.w @(r0, r14), r4
-    mov.l   .L_fn_mat_rot_y_d, r0
+    mov.l   .L_0603443C, r0
 
     .global ai_vel_z_step_b
     .type ai_vel_z_step_b, @function
@@ -1338,9 +1338,9 @@ ai_vel_z_step_b:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_elem_flags_ofs_d, r0
+    mov.l   .L_06034440, r0
     mov.b @(r0, r14), r4
-    mov.l   .L_fn_cam_param_load_d, r0
+    mov.l   .L_06034444, r0
 
     .global ai_vel_z_step_c
     .type ai_vel_z_step_c, @function
@@ -1349,7 +1349,7 @@ ai_vel_z_step_c:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_fn_cam_finalize_d, r0
+    mov.l   .L_06034448, r0
 
     .global ai_rot_a_entry
     .type ai_rot_a_entry, @function
@@ -1358,14 +1358,14 @@ ai_rot_a_entry:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_cam_result_ptr_d, r13
+    mov.l   .L_06034424, r13
     mov.l @r13, r13
-    mov.l   .L_anim_frame_counter_d, r0
+    mov.l   .L_0603444C, r0
     mov.l @r0, r1
-    mov.l   .L_rot_a_frame_threshold, r0
+    mov.l   .L_06034450, r0
     cmp/ge r0, r1
-    bf      .L_cam_rot_skip
-    mov.l   .L_fn_cam_setup_d, r0
+    bf      .L_0603441C
+    mov.l   .L_06034420, r0
 
     .global ai_rot_a_step
     .type ai_rot_a_step, @function
@@ -1374,19 +1374,19 @@ ai_rot_a_step:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_cam_result_ptr_d, r13
+    mov.l   .L_06034424, r13
     mov.l @r13, r13
-    mov.l   .L_elem_dst_x_ofs_d, r0
+    mov.l   .L_06034428, r0
     mov.l @(r0, r14), r4
-    mov.l   .L_rot_a_x_adjust, r0
+    mov.l   .L_06034454, r0
     sub r0, r4
-    mov.l   .L_elem_dst_y_ofs_d, r0
+    mov.l   .L_0603442C, r0
     mov.l @(r0, r14), r5
-    mov.l   .L_elem_dst_z_ofs_d, r0
+    mov.l   .L_06034430, r0
     mov.l @(r0, r14), r6
-    mov.l   .L_rot_a_z_adjust, r0
+    mov.l   .L_06034458, r0
     sub r0, r6
-    mov.l   .L_fn_cam_transform_d, r0
+    mov.l   .L_06034434, r0
 
     .global ai_rot_a_fix_a
     .type ai_rot_a_fix_a, @function
@@ -1395,9 +1395,9 @@ ai_rot_a_fix_a:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_elem_angle_ofs_d, r0
+    mov.l   .L_06034438, r0
     mov.w @(r0, r14), r4
-    mov.l   .L_fn_mat_rot_y_d, r0
+    mov.l   .L_0603443C, r0
 
     .global ai_rot_a_fix_b
     .type ai_rot_a_fix_b, @function
@@ -1406,9 +1406,9 @@ ai_rot_a_fix_b:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_elem_flags_ofs_d, r0
+    mov.l   .L_06034440, r0
     mov.b @(r0, r14), r4
-    mov.l   .L_fn_cam_param_load_d, r0
+    mov.l   .L_06034444, r0
 
     .global ai_rot_a_fix_c
     .type ai_rot_a_fix_c, @function
@@ -1417,7 +1417,7 @@ ai_rot_a_fix_c:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_fn_cam_finalize_d, r0
+    mov.l   .L_06034448, r0
 
     .global ai_rot_b_entry
     .type ai_rot_b_entry, @function
@@ -1426,14 +1426,14 @@ ai_rot_b_entry:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_cam_result_ptr_d, r13
+    mov.l   .L_06034424, r13
     mov.l @r13, r13
-    mov.l   .L_anim_frame_counter_d, r0
+    mov.l   .L_0603444C, r0
     mov.l @r0, r1
-    mov.l   .L_rot_b_frame_threshold, r0
+    mov.l   .L_0603445C, r0
     cmp/ge r0, r1
-    bf      .L_cam_rot_skip
-    mov.l   .L_fn_cam_setup_d, r0
+    bf      .L_0603441C
+    mov.l   .L_06034420, r0
 
     .global ai_rot_b_step
     .type ai_rot_b_step, @function
@@ -1442,19 +1442,19 @@ ai_rot_b_step:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_cam_result_ptr_d, r13
+    mov.l   .L_06034424, r13
     mov.l @r13, r13
-    mov.l   .L_elem_dst_x_ofs_d, r0
+    mov.l   .L_06034428, r0
     mov.l @(r0, r14), r4
-    mov.l   .L_rot_b_x_adjust, r0
+    mov.l   .L_06034460, r0
     sub r0, r4
-    mov.l   .L_elem_dst_y_ofs_d, r0
+    mov.l   .L_0603442C, r0
     mov.l @(r0, r14), r5
-    mov.l   .L_elem_dst_z_ofs_d, r0
+    mov.l   .L_06034430, r0
     mov.l @(r0, r14), r6
-    mov.l   .L_rot_b_z_adjust, r0
+    mov.l   .L_06034464, r0
     sub r0, r6
-    mov.l   .L_fn_cam_transform_d, r0
+    mov.l   .L_06034434, r0
 
     .global ai_rot_b_fix_a
     .type ai_rot_b_fix_a, @function
@@ -1463,10 +1463,10 @@ ai_rot_b_fix_a:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_elem_angle_ofs_d, r0
+    mov.l   .L_06034438, r0
     mov.w @(r0, r14), r4
     add r0, r4
-    mov.l   .L_fn_mat_rot_y_d, r0
+    mov.l   .L_0603443C, r0
 
     .global ai_rot_b_fix_b
     .type ai_rot_b_fix_b, @function
@@ -1475,9 +1475,9 @@ ai_rot_b_fix_b:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_elem_flags_ofs_d, r0
+    mov.l   .L_06034440, r0
     mov.b @(r0, r14), r4
-    mov.l   .L_fn_cam_param_load_d, r0
+    mov.l   .L_06034444, r0
 
     .global ai_rot_b_fix_c
     .type ai_rot_b_fix_c, @function
@@ -1486,7 +1486,7 @@ ai_rot_b_fix_c:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_fn_cam_finalize_d, r0
+    mov.l   .L_06034448, r0
 
     .global ai_decision_dispatch
     .type ai_decision_dispatch, @function
@@ -1495,90 +1495,90 @@ ai_decision_dispatch:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_cam_result_ptr_d, r13
+    mov.l   .L_06034424, r13
     mov.l @r13, r13
-.L_cam_rot_skip:
-    bra     .L_cam_path_return
+.L_0603441C:
+    bra     .L_06034468
     nop
-.L_fn_cam_setup_d:
+.L_06034420:
     .4byte  sym_06026DBC
-.L_cam_result_ptr_d:
+.L_06034424:
     .4byte  sym_06089EDC
-.L_elem_dst_x_ofs_d:
+.L_06034428:
     .4byte  0x00000004
-.L_elem_dst_y_ofs_d:
+.L_0603442C:
     .4byte  0x00000008
-.L_elem_dst_z_ofs_d:
+.L_06034430:
     .4byte  0x0000000C
-.L_fn_cam_transform_d:
+.L_06034434:
     .4byte  sym_06026E2E
-.L_elem_angle_ofs_d:
+.L_06034438:
     .4byte  0x00000002
-.L_fn_mat_rot_y_d:
+.L_0603443C:
     .4byte  mat_rot_y
-.L_elem_flags_ofs_d:
+.L_06034440:
     .4byte  0x00000011
-.L_fn_cam_param_load_d:
+.L_06034444:
     .4byte  camera_param_load
-.L_fn_cam_finalize_d:
+.L_06034448:
     .4byte  sym_06026DF8
-.L_anim_frame_counter_d:
+.L_0603444C:
     .4byte  sym_06083250
-.L_rot_a_frame_threshold:
+.L_06034450:
     .4byte  0x000004EC
-.L_rot_a_x_adjust:
+.L_06034454:
     .4byte  0x00280000
-.L_rot_a_z_adjust:
+.L_06034458:
     .4byte  0x003E0000
-.L_rot_b_frame_threshold:
+.L_0603445C:
     .4byte  0x00000627
-.L_rot_b_x_adjust:
+.L_06034460:
     .4byte  0x00190000
-.L_rot_b_z_adjust:
+.L_06034464:
     .4byte  0x001C0000
-.L_cam_path_return:
+.L_06034468:
     rts
     nop
 
     .global sym_0603446C
 sym_0603446C:
     xor r7, r7
-.L_clear_anim_loop:
-    mov.l   .L_elem_struct_size_2, r1
+.L_0603446E:
+    mov.l   .L_0603448C, r1
     mulu.w r7, r1
     sts macl, r0
-    mov.l   .L_elem_array_base_2, r14
+    mov.l   .L_06034490, r14
     add r0, r14
     xor r1, r1
-    mov.l   .L_elem_anim_mode_ofs_2, r0
+    mov.l   .L_06034494, r0
     mov.b r1, @(r0, r14)
     add #0x1, r7
-    mov.l   .L_elem_count_5, r0
+    mov.l   .L_06034498, r0
     cmp/ge r0, r7
-    bf      .L_clear_anim_loop
+    bf      .L_0603446E
     rts
     nop
     .2byte  0x0000
-.L_elem_struct_size_2:
+.L_0603448C:
     .4byte  0x0000002C
-.L_elem_array_base_2:
+.L_06034490:
     .4byte  DAT_06082A7C
-.L_elem_anim_mode_ofs_2:
+.L_06034494:
     .4byte  0x00000026
-.L_elem_count_5:
+.L_06034498:
     .4byte  0x00000005
-.L_calc_distance:
-    mov.l   .L_elem_type_ofs_dist, r0
+.L_0603449C:
+    mov.l   .L_06034508, r0
     mov.b @(r0, r14), r0
     cmp/eq #0x2, r0
-    bf      .L_dist_calc_return
-    mov.l   .L_elem_dst_x_ofs_dist, r0
+    bf      .L_0603454A
+    mov.l   .L_0603450C, r0
     mov.l @(r0, r14), r3
-    mov.l   .L_elem_dst_z_ofs_dist, r0
+    mov.l   .L_06034510, r0
     mov.l @(r0, r14), r4
-    mov.l   .L_cam_pos_x_ofs, r0
+    mov.l   .L_06034514, r0
     mov.l @(r0, r10), r5
-    mov.l   .L_cam_pos_z_ofs, r0
+    mov.l   .L_06034518, r0
     mov.l @(r0, r10), r6
     mov.l r13, @-r15
     mov.l r1, @-r15
@@ -1586,7 +1586,7 @@ sym_0603446C:
     mov.l r3, @-r15
     mov.l r4, @-r15
     mov.l r5, @-r15
-    mov.l   .L_scratch_vec_base, r13
+    mov.l   .L_0603451C, r13
     mov.l r3, @(0, r13)
     mov.l r4, @(4, r13)
     mov.l r5, @(8, r13)
@@ -1613,9 +1613,9 @@ sym_0603446C:
     mov.l @(16, r13), r4
     add r1, r4
     cmp/pz r4
-    bt      .L_dist_positive_sqrt
+    bt      .L_06034524
     shlr2 r4
-    mov.l   .L_fn_isqrt, r0
+    mov.l   .L_06034520, r0
 
     .global ai_speed_limit
     .type ai_speed_limit, @function
@@ -1624,24 +1624,24 @@ ai_speed_limit:
     jsr @r0
     nop
     lds.l @r15+, pr
-    bra     .L_dist_check_threshold
+    bra     .L_0603452E
     shll r0
-.L_elem_type_ofs_dist:
+.L_06034508:
     .4byte  0x00000001
-.L_elem_dst_x_ofs_dist:
+.L_0603450C:
     .4byte  0x00000004
-.L_elem_dst_z_ofs_dist:
+.L_06034510:
     .4byte  0x0000000C
-.L_cam_pos_x_ofs:
+.L_06034514:
     .4byte  0x00000010
-.L_cam_pos_z_ofs:
+.L_06034518:
     .4byte  0x00000018
-.L_scratch_vec_base:
+.L_0603451C:
     .4byte  sym_06083238
-.L_fn_isqrt:
+.L_06034520:
     .4byte  isqrt
-.L_dist_positive_sqrt:
-    mov.l   .L_fn_isqrt_2, r0
+.L_06034524:
+    mov.l   .L_06034550, r0
 
     .global ai_waypoint_follower
     .type ai_waypoint_follower, @function
@@ -1650,7 +1650,7 @@ ai_waypoint_follower:
     jsr @r0
     nop
     lds.l @r15+, pr
-.L_dist_check_threshold:
+.L_0603452E:
     mov.l @r15+, r5
     mov.l @r15+, r4
     mov.l @r15+, r3
@@ -1659,56 +1659,56 @@ ai_waypoint_follower:
     mov.l @r15+, r13
     mov r0, r2
     mov r2, r8
-    mov.l   .L_fp_eight, r0
+    mov.l   .L_06034554, r0
     cmp/ge r0, r2
-    bt      .L_dist_calc_return
-    mov.l   .L_const_one, r1
-    mov.l   .L_elem_anim_mode_ofs_dist, r0
+    bt      .L_0603454A
+    mov.l   .L_06034558, r1
+    mov.l   .L_0603455C, r0
     mov.b r1, @(r0, r14)
-.L_dist_calc_return:
+.L_0603454A:
     rts
     nop
     .2byte  0x0000
-.L_fn_isqrt_2:
+.L_06034550:
     .4byte  isqrt
-.L_fp_eight:
+.L_06034554:
     .4byte  0x00080000                  /* 8.0 (16.16 fixed-point) */
-.L_const_one:
+.L_06034558:
     .4byte  0x00000001
-.L_elem_anim_mode_ofs_dist:
+.L_0603455C:
     .4byte  0x00000026
-.L_init_heading_transfer:
-    mov.l   .L_elem_vel_ofs_init, r0
+.L_06034560:
+    mov.l   .L_0603457C, r0
     mov.l @(r0, r10), r1
-    mov.l   .L_elem_angle_ofs_init, r0
+    mov.l   .L_06034580, r0
     mov.w r1, @(r0, r14)
-    mov.l   .L_elem_dst_z_ofs_init, r0
+    mov.l   .L_06034584, r0
     mov.l @(r0, r10), r4
     shal r4
-    mov.l   .L_elem_vel_ofs_init, r0
+    mov.l   .L_0603457C, r0
     mov.l r4, @(r0, r14)
-    mov.l   .L_elem_anim_mode_ofs_init, r0
+    mov.l   .L_06034588, r0
     mov #0x2, r1
     mov.b r1, @(r0, r14)
     rts
     nop
-.L_elem_vel_ofs_init:
+.L_0603457C:
     .4byte  0x00000028
-.L_elem_angle_ofs_init:
+.L_06034580:
     .4byte  0x00000002
-.L_elem_dst_z_ofs_init:
+.L_06034584:
     .4byte  0x0000000C
-.L_elem_anim_mode_ofs_init:
+.L_06034588:
     .4byte  0x00000026
-.L_collision_pos_update:
-    mov.l   .L_elem_angle_ofs_coll, r0
+.L_0603458C:
+    mov.l   .L_06034608, r0
     mov.w @(r0, r14), r9
-    mov.l   .L_fp_quarter, r1
+    mov.l   .L_0603460C, r1
     add r1, r9
-    mov.l   .L_elem_vel_ofs_coll, r0
+    mov.l   .L_06034610, r0
     mov.l @(r0, r14), r8
     mov r9, r4
-    mov.l   .L_fn_cos_lookup_coll, r0
+    mov.l   .L_06034614, r0
 
     .global ai_collision_trigger
     .type ai_collision_trigger, @function
@@ -1721,12 +1721,12 @@ ai_collision_trigger:
     sts mach, r0
     sts macl, r3
     xtrct r0, r3
-    mov.l   .L_elem_dst_x_ofs_coll, r0
+    mov.l   .L_06034618, r0
     mov.l @(r0, r14), r1
     add r3, r1
     mov.l r1, @(r0, r14)
     mov r9, r4
-    mov.l   .L_fn_sin_lookup_coll, r0
+    mov.l   .L_0603461C, r0
 
     .global ai_collision_response
     .type ai_collision_response, @function
@@ -1739,19 +1739,19 @@ ai_collision_response:
     sts mach, r0
     sts macl, r3
     xtrct r0, r3
-    mov.l   .L_elem_dst_z_ofs_coll, r0
+    mov.l   .L_06034620, r0
     mov.l @(r0, r14), r1
     add r3, r1
     mov.l r1, @(r0, r14)
-    mov.l   .L_elem_dst_x_ofs_coll, r0
+    mov.l   .L_06034618, r0
     mov.l @(r0, r14), r4
-    mov.l   .L_scratch_pos_x_coll, r0
+    mov.l   .L_06034624, r0
     mov.l r4, @r0
-    mov.l   .L_elem_dst_z_ofs_coll, r0
+    mov.l   .L_06034620, r0
     mov.l @(r0, r14), r5
-    mov.l   .L_scratch_pos_z_coll, r0
+    mov.l   .L_06034628, r0
     mov.l r5, @r0
-    mov.l   .L_fn_atan2_coll, r0
+    mov.l   .L_0603462C, r0
 
     .global ai_reset_stub
     .type ai_reset_stub, @function
@@ -1761,9 +1761,9 @@ ai_reset_stub:
     nop
     lds.l @r15+, pr
     mov r0, r4
-    mov.l   .L_scratch_pos_x_coll, r5
-    mov.l   .L_scratch_pos_y_coll, r6
-    mov.l   .L_fn_scene_render_alt_coll, r0
+    mov.l   .L_06034624, r5
+    mov.l   .L_06034630, r6
+    mov.l   .L_06034634, r0
 
     .global ai_car_pos_init
     .type ai_car_pos_init, @function
@@ -1772,43 +1772,43 @@ ai_car_pos_init:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_scratch_result_coll, r0
+    mov.l   .L_06034638, r0
     mov.l @r0, r1
-    mov.l   .L_elem_dst_y_ofs_coll, r0
+    mov.l   .L_0603463C, r0
     mov.l r1, @(r0, r14)
     rts
     nop
     .2byte  0x0000
-.L_elem_angle_ofs_coll:
+.L_06034608:
     .4byte  0x00000002
-.L_fp_quarter:
+.L_0603460C:
     .4byte  0x00004000                  /* 0.25 (16.16 fixed-point) */
-.L_elem_vel_ofs_coll:
+.L_06034610:
     .4byte  0x00000028
-.L_fn_cos_lookup_coll:
+.L_06034614:
     .4byte  cos_lookup
-.L_elem_dst_x_ofs_coll:
+.L_06034618:
     .4byte  0x00000004
-.L_fn_sin_lookup_coll:
+.L_0603461C:
     .4byte  sin_lookup
-.L_elem_dst_z_ofs_coll:
+.L_06034620:
     .4byte  0x0000000C
-.L_scratch_pos_x_coll:
+.L_06034624:
     .4byte  sym_06083238
-.L_scratch_pos_z_coll:
+.L_06034628:
     .4byte  sym_06083240
-.L_fn_atan2_coll:
+.L_0603462C:
     .4byte  sym_06006838
-.L_scratch_pos_y_coll:
+.L_06034630:
     .4byte  sym_06083244
-.L_fn_scene_render_alt_coll:
+.L_06034634:
     .4byte  scene_render_alt
-.L_scratch_result_coll:
+.L_06034638:
     .4byte  sym_0608323C
-.L_elem_dst_y_ofs_coll:
+.L_0603463C:
     .4byte  0x00000008
-.L_spawn_cam_setup:
-    mov.l   .L_fn_cam_setup_e, r0
+.L_06034640:
+    mov.l   .L_06034694, r0
 
     .global ai_spawn_helper_a
     .type ai_spawn_helper_a, @function
@@ -1817,15 +1817,15 @@ ai_spawn_helper_a:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_cam_result_ptr_e, r13
+    mov.l   .L_06034698, r13
     mov.l @r13, r13
-    mov.l   .L_elem_dst_x_ofs_e, r0
+    mov.l   .L_0603469C, r0
     mov.l @(r0, r14), r4
-    mov.l   .L_elem_dst_y_ofs_e, r0
+    mov.l   .L_060346A0, r0
     mov.l @(r0, r14), r5
-    mov.l   .L_elem_dst_z_ofs_e, r0
+    mov.l   .L_060346A4, r0
     mov.l @(r0, r14), r6
-    mov.l   .L_fn_cam_transform_e, r0
+    mov.l   .L_060346A8, r0
 
     .global ai_spawn_helper_b
     .type ai_spawn_helper_b, @function
@@ -1834,9 +1834,9 @@ ai_spawn_helper_b:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_elem_angle_ofs_e, r0
+    mov.l   .L_060346AC, r0
     mov.w @(r0, r14), r4
-    mov.l   .L_fn_mat_rot_y_e, r0
+    mov.l   .L_060346B0, r0
 
     .global ai_spawn_helper_c
     .type ai_spawn_helper_c, @function
@@ -1845,9 +1845,9 @@ ai_spawn_helper_c:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_elem_flags_ofs_e, r0
+    mov.l   .L_060346B4, r0
     mov.b @(r0, r14), r4
-    mov.l   .L_fn_cam_scene_setup_e, r0
+    mov.l   .L_060346B8, r0
 
     .global ai_spawn_helper_d
     .type ai_spawn_helper_d, @function
@@ -1856,7 +1856,7 @@ ai_spawn_helper_d:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_fn_cam_finalize_e, r0
+    mov.l   .L_060346BC, r0
 
     .global ai_car_full_init
     .type ai_car_full_init, @function
@@ -1865,71 +1865,71 @@ ai_car_full_init:
     jsr @r0
     nop
     lds.l @r15+, pr
-    mov.l   .L_cam_result_ptr_e, r13
+    mov.l   .L_06034698, r13
     mov.l @r13, r13
     rts
     nop
     .2byte  0x0000
-.L_fn_cam_setup_e:
+.L_06034694:
     .4byte  sym_06026DBC
-.L_cam_result_ptr_e:
+.L_06034698:
     .4byte  sym_06089EDC
-.L_elem_dst_x_ofs_e:
+.L_0603469C:
     .4byte  0x00000004
-.L_elem_dst_y_ofs_e:
+.L_060346A0:
     .4byte  0x00000008
-.L_elem_dst_z_ofs_e:
+.L_060346A4:
     .4byte  0x0000000C
-.L_fn_cam_transform_e:
+.L_060346A8:
     .4byte  sym_06026E2E
-.L_elem_angle_ofs_e:
+.L_060346AC:
     .4byte  0x00000002
-.L_fn_mat_rot_y_e:
+.L_060346B0:
     .4byte  mat_rot_y
-.L_elem_flags_ofs_e:
+.L_060346B4:
     .4byte  0x00000011
-.L_fn_cam_scene_setup_e:
+.L_060346B8:
     .4byte  camera_scene_setup
-.L_fn_cam_finalize_e:
+.L_060346BC:
     .4byte  sym_06026DF8
-.L_advance_anim_frame:
-    mov.l   .L_elem_type_ofs_anim, r0
+.L_060346C0:
+    mov.l   .L_060346F0, r0
     mov.b @(r0, r14), r0
     add #-0x1, r0
-    mov.l   .L_anim_speed_table, r1
+    mov.l   .L_060346F4, r1
     mov.b @(r0, r1), r2
-    mov.l   .L_anim_count_table, r1
+    mov.l   .L_060346F8, r1
     mov.b @(r0, r1), r3
-    mov.l   .L_anim_tick_ofs, r0
+    mov.l   .L_060346FC, r0
     mov.b @(r0, r14), r1
     add #0x1, r1
     mov.b r1, @(r0, r14)
     cmp/ge r2, r1
-    bf      .L_anim_advance_done
+    bf      .L_060346EC
     xor r2, r2
     mov.b r2, @(r0, r14)
-    mov.l   .L_anim_frame_ofs, r0
+    mov.l   .L_06034700, r0
     mov.b @(r0, r14), r1
     add #0x1, r1
     cmp/ge r3, r1
-    bf      .L_store_anim_frame
-    mov.l   .L_anim_frame_reset, r1
-.L_store_anim_frame:
+    bf      .L_060346EA
+    mov.l   .L_06034704, r1
+.L_060346EA:
     mov.b r1, @(r0, r14)
-.L_anim_advance_done:
+.L_060346EC:
     rts
     nop
-.L_elem_type_ofs_anim:
+.L_060346F0:
     .4byte  0x00000001
-.L_anim_speed_table:
+.L_060346F4:
     .4byte  sym_060631B4
-.L_anim_count_table:
+.L_060346F8:
     .4byte  sym_060631B8
-.L_anim_tick_ofs:
+.L_060346FC:
     .4byte  0x00000010
-.L_anim_frame_ofs:
+.L_06034700:
     .4byte  0x00000011
-.L_anim_frame_reset:
+.L_06034704:
     .4byte  0x00000000
 
     .global vblank_handler
@@ -1943,16 +1943,16 @@ vblank_handler:
     mov.l r9, @-r15
     mov.l r8, @-r15
     mov r4, r14
-    mov.l   .L_prev_state_ofs, r0
+    mov.l   .L_0603474C, r0
     mov.l @(r0, r14), r2
-    mov.l   .L_saved_state_ofs, r0
+    mov.l   .L_06034750, r0
     mov.l r2, @(r0, r14)
 
     .global ai_rank_stub_a
     .type ai_rank_stub_a, @function
 ai_rank_stub_a:
     sts.l pr, @-r15
-    bsr     .L_calc_rank_position
+    bsr     .L_06034754
     nop
     lds.l @r15+, pr
 
@@ -1960,7 +1960,7 @@ ai_rank_stub_a:
     .type ai_rank_stub_b, @function
 ai_rank_stub_b:
     sts.l pr, @-r15
-    bsr     .L_update_blink_state
+    bsr     .L_060347A8
     nop
     lds.l @r15+, pr
 
@@ -1968,7 +1968,7 @@ ai_rank_stub_b:
     .type position_calc_current, @function
 position_calc_current:
     sts.l pr, @-r15
-    bsr     .L_checkpoint_sound
+    bsr     .L_06034848
     nop
     lds.l @r15+, pr
     mov.l @r15+, r8
@@ -1981,18 +1981,18 @@ position_calc_current:
     rts
     nop
     .2byte  0x0000
-.L_prev_state_ofs:
+.L_0603474C:
     .4byte  0x0000000C
-.L_saved_state_ofs:
+.L_06034750:
     .4byte  0x00000010
-.L_calc_rank_position:
-    mov.l   .L_game_state_ptr_rank, r0
+.L_06034754:
+    mov.l   .L_0603478C, r0
     mov.l @r0, r1
-    mov.l   .L_rank_position_ofs, r0
-    mov.l   .L_fp_300_const, r5
+    mov.l   .L_06034790, r0
+    mov.l   .L_06034794, r5
     mov.l @(r0, r1), r4
     shll16 r4
-    mov.l   .L_fn_fpdiv_rank, r0
+    mov.l   .L_06034798, r0
 
     .global ranking_system_full
     .type ranking_system_full, @function
@@ -2002,211 +2002,211 @@ ranking_system_full:
     nop
     lds.l @r15+, pr
     mov r0, r2
-    mov.l   .L_rank_position_ofs, r0
+    mov.l   .L_06034790, r0
     mov.l @(r0, r14), r1
     add r2, r1
-    mov.l   .L_fp_6_wrap, r3
+    mov.l   .L_0603479C, r3
     cmp/ge r3, r1
-    bf      .L_rank_no_wrap
+    bf      .L_0603477A
     xor r1, r1
-.L_rank_no_wrap:
+.L_0603477A:
     mov.l r1, @(r0, r14)
     mov r1, r2
     shlr16 r2
-    mov.l   .L_rank_mask_7, r0
+    mov.l   .L_060347A0, r0
     and r0, r2
-    mov.l   .L_rank_output_ofs, r0
+    mov.l   .L_060347A4, r0
     mov.l r2, @(r0, r14)
     rts
     nop
-.L_game_state_ptr_rank:
+.L_0603478C:
     .4byte  sym_0607E944
-.L_rank_position_ofs:
+.L_06034790:
     .4byte  0x00000008
-.L_fp_300_const:
+.L_06034794:
     .4byte  0x012C0000
-.L_fn_fpdiv_rank:
+.L_06034798:
     .4byte  fpdiv_setup
-.L_fp_6_wrap:
+.L_0603479C:
     .4byte  0x00060000
-.L_rank_mask_7:
+.L_060347A0:
     .4byte  0x00000007
-.L_rank_output_ofs:
+.L_060347A4:
     .4byte  0x0000000C
-.L_update_blink_state:
-    mov.l   .L_state_field_0C, r0
+.L_060347A8:
+    mov.l   .L_06034824, r0
     mov.l @(r0, r14), r1
     mov #0x1, r3
     cmp/eq r3, r1
-    bf      .L_check_blink_b
-    mov.l   .L_state_field_10, r0
+    bf      .L_060347C8
+    mov.l   .L_06034828, r0
     mov.l @(r0, r14), r0
     xor r1, r0
     tst r0, r0
-    bt      .L_check_blink_b
-    mov.l   .L_blink_phase_a_ofs, r0
-    mov.l   .L_sh2_periph_0x1FF, r1
+    bt      .L_060347C8
+    mov.l   .L_0603482C, r0
+    mov.l   .L_06034830, r1
     mov.b r1, @(r0, r14)
-    mov.l   .L_blink_tick_a_ofs, r0
+    mov.l   .L_06034834, r0
     xor r1, r1
     mov.b r1, @(r0, r14)
-.L_check_blink_b:
-    mov.l   .L_state_field_0C, r0
+.L_060347C8:
+    mov.l   .L_06034824, r0
     mov.l @(r0, r14), r1
     mov #0x5, r3
     cmp/eq r3, r1
-    bf      .L_advance_blink_ticks
-    mov.l   .L_state_field_10, r0
+    bf      .L_060347E8
+    mov.l   .L_06034828, r0
     mov.l @(r0, r14), r0
     xor r1, r0
     tst r0, r0
-    bt      .L_advance_blink_ticks
-    mov.l   .L_blink_phase_b_ofs, r0
-    mov.l   .L_sh2_periph_0x1FF, r1
+    bt      .L_060347E8
+    mov.l   .L_06034838, r0
+    mov.l   .L_06034830, r1
     mov.b r1, @(r0, r14)
-    mov.l   .L_blink_tick_b_ofs, r0
+    mov.l   .L_0603483C, r0
     xor r1, r1
     mov.b r1, @(r0, r14)
-.L_advance_blink_ticks:
-    mov.l   .L_blink_tick_a_ofs, r0
+.L_060347E8:
+    mov.l   .L_06034834, r0
     mov.b @(r0, r14), r1
     add #0x1, r1
     mov.b r1, @(r0, r14)
     mov #0x3, r2
     and r2, r1
-    mov.l   .L_blink_output_a_ofs, r0
+    mov.l   .L_06034840, r0
     mov.b r1, @(r0, r14)
     mov #0x3, r2
     cmp/eq r2, r1
-    bf      .L_advance_blink_b
-    mov.l   .L_blink_phase_a_ofs, r0
+    bf      .L_06034804
+    mov.l   .L_0603482C, r0
     xor r1, r1
     mov.b r1, @(r0, r14)
-.L_advance_blink_b:
-    mov.l   .L_blink_tick_b_ofs, r0
+.L_06034804:
+    mov.l   .L_0603483C, r0
     mov.b @(r0, r14), r1
     add #0x1, r1
     mov.b r1, @(r0, r14)
     mov #0x3, r2
     and r2, r1
-    mov.l   .L_blink_output_b_ofs, r0
+    mov.l   .L_06034844, r0
     mov.b r1, @(r0, r14)
     mov #0x3, r2
     cmp/eq r2, r1
-    bf      .L_blink_state_done
-    mov.l   .L_blink_phase_b_ofs, r0
+    bf      .L_06034820
+    mov.l   .L_06034838, r0
     xor r1, r1
     mov.b r1, @(r0, r14)
-.L_blink_state_done:
+.L_06034820:
     rts
     nop
-.L_state_field_0C:
+.L_06034824:
     .4byte  0x0000000C
-.L_state_field_10:
+.L_06034828:
     .4byte  0x00000010
-.L_blink_phase_a_ofs:
+.L_0603482C:
     .4byte  0x00000001
-.L_sh2_periph_0x1FF:
+.L_06034830:
     .4byte  0xFFFFFFFF                  /* SH-2 peripheral +0x1FF */
-.L_blink_tick_a_ofs:
+.L_06034834:
     .4byte  0x00000002
-.L_blink_phase_b_ofs:
+.L_06034838:
     .4byte  0x00000004
-.L_blink_tick_b_ofs:
+.L_0603483C:
     .4byte  0x00000005
-.L_blink_output_a_ofs:
+.L_06034840:
     .4byte  0x00000000
-.L_blink_output_b_ofs:
+.L_06034844:
     .4byte  0x00000003
-.L_checkpoint_sound:
-    mov.l   .L_sound_enable_flag, r0
+.L_06034848:
+    mov.l   .L_06034860, r0
     mov.b @r0, r0
     tst r0, r0
-    bt      .L_checkpoint_snd_done
-    mov.l   .L_input_flags_ptr, r0
+    bt      .L_060348EE
+    mov.l   .L_06034864, r0
     mov.l @r0, r0
-    mov.l   .L_start_button_mask, r1
+    mov.l   .L_06034868, r1
     tst r1, r0
-    bf      .L_check_state_changed
-    bra     .L_checkpoint_snd_done
+    bf      .L_0603486C
+    bra     .L_060348EE
     nop
     .2byte  0x0000
-.L_sound_enable_flag:
+.L_06034860:
     .4byte  sym_06083255
-.L_input_flags_ptr:
+.L_06034864:
     .4byte  sym_0607EBC4
-.L_start_button_mask:
+.L_06034868:
     .4byte  0x00028000
-.L_check_state_changed:
-    mov.l   .L_state_saved_ofs, r0
+.L_0603486C:
+    mov.l   .L_060348A0, r0
     mov.l @(r0, r14), r1
-    mov.l   .L_state_current_ofs, r0
+    mov.l   .L_060348A4, r0
     mov.l @(r0, r14), r0
     cmp/eq r1, r0
-    bt      .L_checkpoint_snd_done
-    mov.l   .L_game_state_ptr_snd, r0
+    bt      .L_060348EE
+    mov.l   .L_060348A8, r0
     mov.l @r0, r1
-    mov.l   .L_state_race_timer_ofs, r0
+    mov.l   .L_060348AC, r0
     mov.l @(r0, r1), r1
     mov.w   DAT_0603489e, r0
     cmp/ge r0, r1
-    bt      .L_timer_past_threshold
-    mov.l   .L_state_current_ofs, r0
+    bt      .L_060348B0
+    mov.l   .L_060348A4, r0
     mov.l @(r0, r14), r0
     cmp/eq #0x0, r0
-    bt      .L_snd_select_default
+    bt      .L_060348E0
     cmp/eq #0x3, r0
-    bt      .L_snd_select_state_3
+    bt      .L_060348C8
     cmp/eq #0x4, r0
-    bt      .L_snd_select_state_4
+    bt      .L_060348D4
     cmp/eq #0x5, r0
-    bt      .L_snd_select_default
-    bra     .L_checkpoint_snd_done
+    bt      .L_060348E0
+    bra     .L_060348EE
     nop
 
     .global DAT_0603489e
 DAT_0603489e:
     .2byte  0x0104
-.L_state_saved_ofs:
+.L_060348A0:
     .4byte  0x00000010
-.L_state_current_ofs:
+.L_060348A4:
     .4byte  0x0000000C
-.L_game_state_ptr_snd:
+.L_060348A8:
     .4byte  sym_0607E944
-.L_state_race_timer_ofs:
+.L_060348AC:
     .4byte  0x00000008
-.L_timer_past_threshold:
-    mov.l   .L_state_current_ofs_2, r0
+.L_060348B0:
+    mov.l   .L_060348C4, r0
     mov.l @(r0, r14), r0
     cmp/eq #0x0, r0
-    bt      .L_snd_select_default
+    bt      .L_060348E0
     cmp/eq #0x3, r0
-    bt      .L_snd_select_state_3
+    bt      .L_060348C8
     cmp/eq #0x4, r0
-    bt      .L_snd_select_state_4
-    bra     .L_checkpoint_snd_done
+    bt      .L_060348D4
+    bra     .L_060348EE
     nop
-.L_state_current_ofs_2:
+.L_060348C4:
     .4byte  0x0000000C
-.L_snd_select_state_3:
-    mov.l   .L_snd_cmd_state_3, r5
-    bra     .L_snd_dispatch_cmd
+.L_060348C8:
+    mov.l   .L_060348D0, r5
+    bra     .L_060348E2
     nop
     .2byte  0x0000
-.L_snd_cmd_state_3:
+.L_060348D0:
     .4byte  0xAE113BFF
-.L_snd_select_state_4:
-    mov.l   .L_snd_cmd_state_4, r5
-    bra     .L_snd_dispatch_cmd
+.L_060348D4:
+    mov.l   .L_060348DC, r5
+    bra     .L_060348E2
     nop
     .2byte  0x0000
-.L_snd_cmd_state_4:
+.L_060348DC:
     .4byte  0xAE113CFF
-.L_snd_select_default:
-    mov.l   .L_snd_cmd_default, r5
-.L_snd_dispatch_cmd:
-    mov.l   .L_snd_channel_0, r4
-    mov.l   .L_fn_sound_cmd_dispatch, r0
+.L_060348E0:
+    mov.l   .L_060348F4, r5
+.L_060348E2:
+    mov.l   .L_060348F8, r4
+    mov.l   .L_060348FC, r0
 
     .global lap_complete_check
     .type lap_complete_check, @function
@@ -2215,15 +2215,15 @@ lap_complete_check:
     jsr @r0
     nop
     lds.l @r15+, pr
-.L_checkpoint_snd_done:
+.L_060348EE:
     rts
     nop
     .2byte  0x0000
-.L_snd_cmd_default:
+.L_060348F4:
     .4byte  0xAE113DFF
-.L_snd_channel_0:
+.L_060348F8:
     .4byte  0x00000000
-.L_fn_sound_cmd_dispatch:
+.L_060348FC:
     .4byte  sound_cmd_dispatch
 
     .global terrain_data_lookup
@@ -2236,29 +2236,29 @@ terrain_data_lookup:
     mov.l r10, @-r15
     mov.l r9, @-r15
     mov.l r8, @-r15
-    mov.l   .L_game_state_ptr_terr, r1
+    mov.l   .L_06034928, r1
     mov.l @r1, r14
-    mov.l   .L_state_mode_B8_ofs, r0
+    mov.l   .L_0603492C, r0
     mov.l @(r0, r14), r0
     cmp/eq #0x2C, r0
-    bt      .L_terrain_play_sound
-    mov.l   .L_state_mode_1BC_ofs, r0
+    bt      .L_06034934
+    mov.l   .L_06034930, r0
     mov.l @(r0, r14), r0
     cmp/eq #0x28, r0
-    bt      .L_terrain_play_sound
-    bra     .L_terrain_calc_volume
+    bt      .L_06034934
+    bra     .L_06034942
     nop
     .2byte  0x0000
-.L_game_state_ptr_terr:
+.L_06034928:
     .4byte  sym_0607E944
-.L_state_mode_B8_ofs:
+.L_0603492C:
     .4byte  0x000000B8
-.L_state_mode_1BC_ofs:
+.L_06034930:
     .4byte  0x000001BC
-.L_terrain_play_sound:
-    mov.l   .L_snd_channel_terr, r4
-    mov.l   .L_snd_cmd_checkpoint, r5
-    mov.l   .L_fn_sound_cmd_dispatch_2, r0
+.L_06034934:
+    mov.l   .L_06034978, r4
+    mov.l   .L_0603497C, r5
+    mov.l   .L_06034980, r0
 
     .global checkpoint_validate
     .type checkpoint_validate, @function
@@ -2267,22 +2267,22 @@ checkpoint_validate:
     jsr @r0
     nop
     lds.l @r15+, pr
-.L_terrain_calc_volume:
+.L_06034942:
     mov.w   DAT_06034976, r0
     mov.l @(r0, r14), r5
     cmp/pz r5
-    bt      .L_speed_abs_done
+    bt      .L_0603494C
     neg r5, r5
-.L_speed_abs_done:
+.L_0603494C:
     shlr8 r5
     mov #0x7, r3
     shlr2 r5
     cmp/ge r5, r3
-    bt      .L_speed_clamped
+    bt      .L_06034958
     mov #0x7, r5
-.L_speed_clamped:
+.L_06034958:
     mov #0x2, r4
-    mov.l   .L_fn_sound_cmd_dispatch_2, r0
+    mov.l   .L_06034980, r0
 
     .global section_transition
     .type section_transition, @function
@@ -2304,11 +2304,11 @@ section_transition:
     .global DAT_06034976
 DAT_06034976:
     .2byte  0x005C
-.L_snd_channel_terr:
+.L_06034978:
     .4byte  0x00000000
-.L_snd_cmd_checkpoint:
+.L_0603497C:
     .4byte  0xAE1128FF
-.L_fn_sound_cmd_dispatch_2:
+.L_06034980:
     .4byte  sound_cmd_dispatch
 
     .global ai_checkpoint_section
@@ -2319,18 +2319,18 @@ ai_checkpoint_section:
     sts.l pr, @-r15
     mov r4, r13
     add #-0x8, r15
-    mov.l   .L_fn_input_proc_analog, r3
+    mov.l   .L_060349DC, r3
     jsr @r3
     mov r15, r4
     mov r15, r2
     mov #0x0, r3
     mov r15, r5
     mov.b r3, @r2
-    mov.l   .L_fn_input_proc_buttons, r3
+    mov.l   .L_060349E0, r3
     jsr @r3
     mov #0x0, r4
     mov r0, r14
-    mov.l   .L_fn_input_proc_extended, r3
+    mov.l   .L_060349E4, r3
     jsr @r3
     mov r13, r4
     mov r14, r0
@@ -2344,7 +2344,7 @@ ai_checkpoint_section:
     .type ai_checkpoint_validate, @function
 ai_checkpoint_validate:
     sts.l pr, @-r15
-    mov.l   .L_fn_input_proc_extended, r3
+    mov.l   .L_060349E4, r3
     jsr @r3
     nop
     lds.l @r15+, pr
@@ -2368,34 +2368,34 @@ cd_block_read_safe:
     mov r15, r4
     mov r0, r14
     tst r14, r14
-    bt      .L_transition_validate
-    bra     .L_transition_return
+    bt      .L_060349E8
+    bra     .L_06034A06
     mov r14, r0
-.L_fn_input_proc_analog:
+.L_060349DC:
     .4byte  input_proc_analog
-.L_fn_input_proc_buttons:
+.L_060349E0:
     .4byte  input_proc_buttons
-.L_fn_input_proc_extended:
+.L_060349E4:
     .4byte  input_proc_extended
-.L_transition_validate:
+.L_060349E8:
     mov r13, r5
-    mov.l   .L_fn_validate_response, r3
+    mov.l   .L_06034A94, r3
     jsr @r3
     mov r15, r4
     mov.b @r13, r4
     mov.w   DAT_06034a8e, r2
     extu.b r4, r4
     cmp/eq r2, r4
-    bt      .L_set_error_code
+    bt      .L_06034A02
     mov #0x20, r2
     and r4, r2
     tst r2, r2
-    bf      .L_return_result
-.L_set_error_code:
+    bf      .L_06034A04
+.L_06034A02:
     mov #-0x8, r14
-.L_return_result:
+.L_06034A04:
     mov r14, r0
-.L_transition_return:
+.L_06034A06:
     add #0x8, r15
     lds.l @r15+, pr
     mov.l @r15+, r13
@@ -2419,18 +2419,18 @@ cd_block_read_atomic:
     sts.l pr, @-r15
     add #-0x8, r15
     mov #0x0, r12
-    mov.l   .L_fn_smpc_exchange, r14
+    mov.l   .L_06034A98, r14
     mov r4, r11
     mov #-0x3, r10
     mov r12, r13
-.L_smpc_retry_loop:
+.L_06034A2A:
     stc sr, r0
     shlr2 r0
     shlr2 r0
     and #0xF, r0
     mov r0, r9
     stc sr, r0
-    mov.w   .L_sr_imask_clear, r3
+    mov.w   .L_06034A90, r3
     and r3, r0
     or #0xF0, r0
     ldc r0, sr
@@ -2443,7 +2443,7 @@ cd_block_read_atomic:
     shll2 r0
     shll2 r0
     stc sr, r2
-    mov.w   .L_sr_imask_clear, r3
+    mov.w   .L_06034A90, r3
     and r3, r2
     or r2, r0
     ldc r0, sr
@@ -2452,20 +2452,20 @@ cd_block_read_atomic:
     mov.l @r4, r3
     mov.l @r2, r2
     cmp/eq r2, r3
-    bf      .L_smpc_mismatch
+    bf      .L_06034A72
     mov r15, r2
     mov.l @(4, r4), r3
     mov.l @(4, r2), r2
     cmp/eq r2, r3
-    bf      .L_smpc_mismatch
-    bra     .L_smpc_update_done
+    bf      .L_06034A72
+    bra     .L_06034A7A
     mov r12, r10
-.L_smpc_mismatch:
+.L_06034A72:
     add #0x1, r13
     mov #0x64, r2
     cmp/ge r2, r13
-    bf      .L_smpc_retry_loop
-.L_smpc_update_done:
+    bf      .L_06034A2A
+.L_06034A7A:
     mov r10, r0
     add #0x8, r15
     lds.l @r15+, pr
@@ -2480,12 +2480,12 @@ cd_block_read_atomic:
     .global DAT_06034a8e
 DAT_06034a8e:
     .2byte  0x00FF
-.L_sr_imask_clear:
+.L_06034A90:
     .2byte  0xFF0F
     .2byte  0xFFFF
-.L_fn_validate_response:
+.L_06034A94:
     .4byte  sym_06035F16
-.L_fn_smpc_exchange:
+.L_06034A98:
     .4byte  sym_06035E5E
 
     .global ai_nop_stub
@@ -2500,7 +2500,7 @@ ai_pit_stop_logic:
     sts.l pr, @-r15
     add #-0x10, r15
     mov r15, r4
-    mov.l   .L_fn_input_proc_analog_2, r3
+    mov.l   .L_06034B44, r3
     jsr @r3
     add #0x8, r4
     mov r15, r2
@@ -2510,7 +2510,7 @@ ai_pit_stop_logic:
     add #0x8, r2
     add #0x8, r5
     mov.b r3, @r2
-    mov.l   .L_fn_input_proc_digital, r3
+    mov.l   .L_06034B48, r3
     jsr @r3
     mov #0x0, r4
     mov r0, r4
@@ -2545,7 +2545,7 @@ track_intersect_test:
     mov r4, r14
     add #-0x14, r15
     mov r15, r4
-    mov.l   .L_fn_input_proc_analog_2, r3
+    mov.l   .L_06034B44, r3
     jsr @r3
     add #0xC, r4
     mov r15, r2
@@ -2556,26 +2556,26 @@ track_intersect_test:
     add #0x4, r6
     add #0xC, r5
     mov.b r3, @r2
-    mov.l   .L_fn_input_proc_digital, r3
+    mov.l   .L_06034B48, r3
     jsr @r3
     mov #0x0, r4
     mov r0, r4
     tst r4, r4
-    bt      .L_intersect_extract_addr
+    bt      .L_06034B24
     mov r4, r0
     add #0x14, r15
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-.L_intersect_extract_addr:
+.L_06034B24:
     mov r15, r3
     mov r14, r5
     add #0x4, r3
     mov.l @r3, r2
-    mov.l   .L_mask_low24, r3
+    mov.l   .L_06034B4C, r3
     and r3, r2
     mov.l r2, @r15
-    mov.l   .L_fn_smpc_secondary_proc, r3
+    mov.l   .L_06034B50, r3
     jsr @r3
     mov r2, r4
     mov r0, r4
@@ -2584,13 +2584,13 @@ track_intersect_test:
     rts
     mov.l @r15+, r14
     .2byte  0xFFFF
-.L_fn_input_proc_analog_2:
+.L_06034B44:
     .4byte  input_proc_analog
-.L_fn_input_proc_digital:
+.L_06034B48:
     .4byte  input_proc_digital
-.L_mask_low24:
+.L_06034B4C:
     .4byte  0x00FFFFFF                  /* low 24-bit mask */
-.L_fn_smpc_secondary_proc:
+.L_06034B50:
     .4byte  smpc_secondary_proc
 
     .global mesh_boundary_check
@@ -2607,7 +2607,7 @@ ai_crash_recovery:
     sts.l pr, @-r15
     add #-0x10, r15
     mov r15, r4
-    mov.l   .L_fn_input_proc_analog_3, r3
+    mov.l   .L_06034BF8, r3
     jsr @r3
     add #0x8, r4
     mov r15, r2
@@ -2622,7 +2622,7 @@ ai_crash_recovery:
     mov r15, r2
     add #0x8, r2
     mov.b r0, @(1, r2)
-    mov.l   .L_fn_input_proc_digital_2, r3
+    mov.l   .L_06034BFC, r3
     jsr @r3
     mov #0x0, r4
     mov r0, r4
@@ -2654,7 +2654,7 @@ ai_drafting_calc:
     mov r5, r11
     add #-0xC, r15
     mov r15, r4
-    mov.l   .L_fn_input_proc_analog_3, r3
+    mov.l   .L_06034BF8, r3
     jsr @r3
     add #0x4, r4
     mov r15, r2
@@ -2681,53 +2681,53 @@ ai_drafting_calc:
     mov r12, r0
     add #0x4, r3
     mov.b r0, @(7, r3)
-    mov.w   .L_periph_type_mask, r0
+    mov.w   .L_06034BF4, r0
     and r14, r0
     cmp/eq #0x1, r0
-    bf      .L_no_wheel_periph
-    mov.w   .L_wheel_delay_count, r2
-    bra     .L_wheel_delay_loop
+    bf      .L_06034C2C
+    mov.w   .L_06034BF6, r2
+    bra     .L_06034C04
     nop
-.L_periph_type_mask:
+.L_06034BF4:
     .2byte  0x0081
-.L_wheel_delay_count:
+.L_06034BF6:
     .2byte  0x0DAC
-.L_fn_input_proc_analog_3:
+.L_06034BF8:
     .4byte  input_proc_analog
-.L_fn_input_proc_digital_2:
+.L_06034BFC:
     .4byte  input_proc_digital
-.L_wheel_delay_dec:
+.L_06034C00:
     mov.l @r15, r2
     add #-0x1, r2
-.L_wheel_delay_loop:
+.L_06034C04:
     mov.l r2, @r15
     mov.l @r15, r3
     cmp/pl r3
-    bt      .L_wheel_delay_dec
-    mov.l   .L_fn_periph_read_a, r3
+    bt      .L_06034C00
+    mov.l   .L_06034C7C, r3
     jsr @r3
     mov #0x41, r4
     mov r15, r5
-    mov.l   .L_fn_input_proc_buttons_2, r3
+    mov.l   .L_06034C80, r3
     add #0x4, r5
     jsr @r3
     mov #0x40, r4
     mov r0, r14
     tst r14, r14
-    bf      .L_drafting_return
-    mov.l   .L_fn_smpc_cmd_helper, r3
+    bf      .L_06034C38
+    mov.l   .L_06034C84, r3
     jsr @r3
     nop
-    bra     .L_drafting_return
+    bra     .L_06034C38
     nop
-.L_no_wheel_periph:
+.L_06034C2C:
     mov r15, r5
-    mov.l   .L_fn_input_proc_buttons_2, r3
+    mov.l   .L_06034C80, r3
     add #0x4, r5
     jsr @r3
     mov #0x0, r4
     mov r0, r14
-.L_drafting_return:
+.L_06034C38:
     mov r14, r0
     add #0xC, r15
     lds.l @r15+, pr
@@ -2742,14 +2742,14 @@ ai_drafting_calc:
 ai_brake_zone_calc:
     sts.l pr, @-r15
     add #-0x8, r15
-    mov.l   .L_fn_input_proc_analog_4, r3
+    mov.l   .L_06034C88, r3
     jsr @r3
     mov r15, r4
     mov r15, r2
     mov #0x5, r3
     mov r15, r5
     mov.b r3, @r2
-    mov.l   .L_fn_input_proc_buttons_2, r3
+    mov.l   .L_06034C80, r3
     jsr @r3
     mov #0x0, r4
     add #0x8, r15
@@ -2766,44 +2766,44 @@ ai_brake_zone_adjust:
     mov r4, r13
     add #-0x8, r15
     tst r13, r13
-    bf      .L_brake_use_extended_cmd
-    bra     .L_brake_send_cmd
+    bf      .L_06034C8C
+    bra     .L_06034C8E
     mov #0x2, r4
     .2byte  0xFFFF
-.L_fn_periph_read_a:
+.L_06034C7C:
     .4byte  sym_06035C92
-.L_fn_input_proc_buttons_2:
+.L_06034C80:
     .4byte  input_proc_buttons
-.L_fn_smpc_cmd_helper:
+.L_06034C84:
     .4byte  smpc_cmd_helper_c
-.L_fn_input_proc_analog_4:
+.L_06034C88:
     .4byte  input_proc_analog
-.L_brake_use_extended_cmd:
-    mov.w   .L_brake_zone_cmd_id, r4
-.L_brake_send_cmd:
-    mov.l   .L_fn_input_proc_init, r3
+.L_06034C8C:
+    mov.w   .L_06034D02, r4
+.L_06034C8E:
+    mov.l   .L_06034D04, r3
     jsr @r3
     mov r15, r5
     mov r0, r14
     mov r13, r0
     cmp/eq #0x1, r0
-    bf      .L_brake_check_result
+    bf      .L_06034CAA
     tst r14, r14
-    bf      .L_brake_check_result
+    bf      .L_06034CAA
     mov.w @r15, r0
     extu.w r0, r0
     tst #0x80, r0
-    bt      .L_brake_check_result
+    bt      .L_06034CAA
     mov #-0x4, r14
-.L_brake_check_result:
+.L_06034CAA:
     tst r14, r14
-    bt      .L_brake_finalize
+    bt      .L_06034CB4
     mov r15, r4
     bsr     ai_brake_zone_main
     add #0x4, r4
-.L_brake_finalize:
-    mov.l   .L_brake_zone_param, r4
-    mov.l   .L_fn_brake_finalize, r3
+.L_06034CB4:
+    mov.l   .L_06034D08, r4
+    mov.l   .L_06034D0C, r3
     jsr @r3
     nop
     mov r14, r0
@@ -2825,7 +2825,7 @@ ai_brake_zone:
     sts.l pr, @-r15
     add #-0x10, r15
     mov r15, r4
-    mov.l   .L_fn_input_proc_analog_5, r3
+    mov.l   .L_06034D10, r3
     jsr @r3
     add #0x8, r4
     mov r15, r2
@@ -2835,33 +2835,33 @@ ai_brake_zone:
     add #0x8, r2
     add #0x8, r5
     mov.b r3, @r2
-    mov.l   .L_fn_input_proc_digital_3, r3
+    mov.l   .L_06034D14, r3
     jsr @r3
     mov #0x0, r4
     mov r0, r4
     mov r15, r2
     mov r4, r0
     mov.l @r2, r3
-    mov.l   .L_mask_low24_06034D18, r2
+    mov.l   .L_06034D18, r2
     and r2, r3
     mov.l r3, @r14
     add #0x10, r15
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-.L_brake_zone_cmd_id:
+.L_06034D02:
     .2byte  0x0082
-.L_fn_input_proc_init:
+.L_06034D04:
     .4byte  input_proc_init
-.L_brake_zone_param:
+.L_06034D08:
     .4byte  0x0000FFFD
-.L_fn_brake_finalize:
+.L_06034D0C:
     .4byte  sym_06035C6E
-.L_fn_input_proc_analog_5:
+.L_06034D10:
     .4byte  input_proc_analog
-.L_fn_input_proc_digital_3:
+.L_06034D14:
     .4byte  input_proc_digital
-.L_mask_low24_06034D18:
+.L_06034D18:
     .4byte  0x00FFFFFF                  /* low 24-bit mask */
 
     .global ai_throttle_modulate
@@ -2875,7 +2875,7 @@ ai_throttle_modulate:
 ai_throttle_mod:
     sts.l pr, @-r15
     add #-0x8, r15
-    mov.l   .L_fn_input_proc_analog_6, r3
+    mov.l   .L_06034DBC, r3
     jsr @r3
     mov r15, r4
     mov r15, r2
@@ -2896,7 +2896,7 @@ ai_throttle_mod:
     bsr     ai_throttle_adjust
     add #0x8, r4
     mov r15, r5
-    mov.l   .L_fn_input_proc_buttons_3, r3
+    mov.l   .L_06034DC0, r3
     jsr @r3
     mov #0x0, r4
     mov r0, r4
@@ -2909,9 +2909,9 @@ ai_throttle_mod:
     .type ai_throttle_adjust, @function
 ai_throttle_adjust:
     sts.l pr, @-r15
-    bra     .L_throttle_dispatch
+    bra     .L_06034DD0
     mov.l @r4, r0
-.L_throttle_case_2:
+.L_06034D64:
     mov #0x0, r2
     mov.b r2, @r5
     mov.b @(4, r4), r0
@@ -2919,9 +2919,9 @@ ai_throttle_adjust:
     mov.b r0, @(1, r5)
     mov.b @(5, r4), r0
     mov r0, r3
-    bra     .L_throttle_store_byte2
+    bra     .L_06034D9A
     nop
-.L_throttle_case_1:
+.L_06034D76:
     mov r4, r0
     add #0x4, r0
     mov.b @(1, r0), r0
@@ -2940,48 +2940,48 @@ ai_throttle_adjust:
     mov.b @(3, r3), r0
     mov r0, r2
     mov r2, r0
-.L_throttle_store_byte2:
-    bra     .L_throttle_adjust_done
+.L_06034D9A:
+    bra     .L_06034DE4
     mov.b r0, @(2, r5)
-.L_throttle_case_3:
+.L_06034D9E:
     mov r5, r1
-    mov.l   .L_throttle_table_a, r2
-    mov.l   .L_fn_memcpy_small, r3
+    mov.l   .L_06034DC4, r2
+    mov.l   .L_06034DC8, r3
     jsr @r3
     mov #0x3, r0
-    bra     .L_throttle_adjust_done
+    bra     .L_06034DE4
     nop
-.L_throttle_case_default:
+.L_06034DAC:
     mov r5, r1
-    mov.l   .L_throttle_table_b, r2
-    mov.l   .L_fn_memcpy_small, r3
+    mov.l   .L_06034DCC, r2
+    mov.l   .L_06034DC8, r3
     jsr @r3
     mov #0x3, r0
-    bra     .L_throttle_adjust_done
+    bra     .L_06034DE4
     nop
     .2byte  0xFFFF
-.L_fn_input_proc_analog_6:
+.L_06034DBC:
     .4byte  input_proc_analog
-.L_fn_input_proc_buttons_3:
+.L_06034DC0:
     .4byte  input_proc_buttons
-.L_throttle_table_a:
+.L_06034DC4:
     .4byte  sym_06059CA7
-.L_fn_memcpy_small:
+.L_06034DC8:
     .4byte  sym_06035228
-.L_throttle_table_b:
+.L_06034DCC:
     .4byte  sym_06059CA4
-.L_throttle_dispatch:
+.L_06034DD0:
     cmp/eq #0x0, r0
-    bt      .L_throttle_case_default
+    bt      .L_06034DAC
     cmp/eq #0x1, r0
-    bt      .L_throttle_case_1
+    bt      .L_06034D76
     cmp/eq #0x2, r0
-    bt      .L_throttle_case_2
+    bt      .L_06034D64
     cmp/eq #0x3, r0
-    bt      .L_throttle_case_3
-    bra     .L_throttle_case_default
+    bt      .L_06034D9E
+    bra     .L_06034DAC
     nop
-.L_throttle_adjust_done:
+.L_06034DE4:
     lds.l @r15+, pr
     rts
     nop
@@ -2993,7 +2993,7 @@ ai_recovery_handler:
     sts.l pr, @-r15
     mov r4, r14
     add #-0x8, r15
-    mov.l   .L_fn_input_proc_analog_7, r3
+    mov.l   .L_06034E18, r3
     jsr @r3
     mov r15, r4
     mov r15, r2
@@ -3004,7 +3004,7 @@ ai_recovery_handler:
     bsr     ai_throttle_adjust
     mov r14, r4
     mov r15, r5
-    mov.l   .L_fn_input_proc_buttons_4, r3
+    mov.l   .L_06034E1C, r3
     jsr @r3
     mov #0x0, r4
     mov r0, r4
@@ -3012,7 +3012,7 @@ ai_recovery_handler:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-.L_fn_input_proc_analog_7:
+.L_06034E18:
     .4byte  input_proc_analog
-.L_fn_input_proc_buttons_4:
+.L_06034E1C:
     .4byte  input_proc_buttons

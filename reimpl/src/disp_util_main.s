@@ -32,17 +32,17 @@ disp_util_main:
     mov r11, r1
     .byte   0xD2, 0x20    /* mov.l .L_pool_06033158, r2 */
     cmp/pz r1
-    bt      .L_abs_dx_positive
+    bt      .L_060330DE
     neg r1, r1
-.L_abs_dx_positive:
+.L_060330DE:
     cmp/gt r2, r1
     .byte   0x89, 0x29    /* bt 0x06033136 (external) */
     mov r12, r1
     .byte   0xD2, 0x1D    /* mov.l .L_pool_0603315C, r2 */
     cmp/pz r1
-    bt      .L_abs_dy_positive
+    bt      .L_060330EC
     neg r1, r1
-.L_abs_dy_positive:
+.L_060330EC:
     cmp/gt r2, r1
     .byte   0x89, 0x22    /* bt 0x06033136 (external) */
     mov.l r0, @-r15

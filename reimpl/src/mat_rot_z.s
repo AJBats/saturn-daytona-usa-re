@@ -19,7 +19,7 @@ mat_rot_z:
     mov.l r2, @(12, r6)
     mov.l @r0, r4
     mov #0x3, r3
-.L_rot_z_row_loop:
+.L_06026F46:
     mov r4, r5
     mov r6, r7
     clrmac
@@ -38,7 +38,7 @@ mat_rot_z:
     sts macl, r2
     xtrct r0, r2
     mov.l r2, @(4, r4)
-    bf/s    .L_rot_z_row_loop
+    bf/s    .L_06026F46
     add #0xC, r4
     rts
     nop
@@ -49,9 +49,9 @@ sym_06026F72:
     .byte   0xD6, 0x3F    /* mov.l .L_pool_06027074, r6 */
     mov.l @r0, r5
     mov #0x3, r3
-.L_fullmul_col_loop:
+.L_06026F7A:
     mov #0x3, r2
-.L_fullmul_row_loop:
+.L_06026F7C:
     clrmac
     mac.l @r4+, @r5+
     add #0x8, r4
@@ -65,17 +65,17 @@ sym_06026F72:
     sts macl, r1
     xtrct r0, r1
     mov.l r1, @r6
-    bf/s    .L_fullmul_row_loop
+    bf/s    .L_06026F7C
     add #0x4, r6
     add #-0xC, r4
     dt r3
-    bf/s    .L_fullmul_col_loop
+    bf/s    .L_06026F7A
     add #0xC, r5
     mov r5, r7
     add #-0x24, r5
     add #0x24, r4
     mov #0x3, r3
-.L_trans_update_loop:
+.L_06026FAA:
     clrmac
     mac.l @r4+, @r5+
     mac.l @r4+, @r5+
@@ -88,7 +88,7 @@ sym_06026F72:
     mov.l @r7+, r0
     add r0, r1
     mov.l r1, @r6
-    bf/s    .L_trans_update_loop
+    bf/s    .L_06026FAA
     add #0x4, r6
     add #-0x30, r6
     add #-0x30, r7

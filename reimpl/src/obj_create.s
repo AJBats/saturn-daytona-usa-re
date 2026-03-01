@@ -47,7 +47,7 @@ obj_create:
     mov r0, r4
     .byte   0xB0, 0x2D    /* bsr 0x06020414 (external) */
     extu.w r4, r4
-    bra     .L_check_next_record
+    bra     .L_060203F8
     nop
 
     .global DAT_060203be
@@ -61,7 +61,7 @@ DAT_060203be:
     .4byte  sym_0605F458
 .L_pool_060203D7:
     .4byte  sym_0605F478
-.L_process_record:
+.L_060203D4:
     mov.b @(2, r14), r0
     mov.b @r14, r5
     mov r0, r4
@@ -80,12 +80,12 @@ DAT_060203be:
     add #0x4, r7
     .byte   0xB0, 0x0E    /* bsr 0x06020414 (external) */
     extu.w r4, r4
-.L_check_next_record:
+.L_060203F8:
     add #0x3, r14
     mov.b @r14, r2
     extu.b r2, r2
     cmp/eq r12, r2
-    bf      .L_process_record
+    bf      .L_060203D4
     add #0xC, r15
     lds.l @r15+, macl
     lds.l @r15+, pr

@@ -7,16 +7,16 @@
 render_stage_b:
     sts.l pr, @-r15
     mov #0x0, r8
-    mov.w   .L_frame_alloc_neg, r0
+    mov.w   .L_060236AC, r0
     add r0, r15
-    mov.l   .L_proj_param_source, r10
+    mov.l   .L_060236B0, r10
     mov r15, r1
-    mov.l   .L_channel_table_src, r2
-    mov.w   .L_memcpy_byte_count, r0
-    mov.l   .L_fn_memcpy_long, r3
+    mov.l   .L_060236B4, r2
+    mov.w   .L_060236AE, r0
+    mov.l   .L_060236B8, r3
     jsr @r3
     add #0x8, r1
-    mov.l   .L_sprite_index_table, r4
+    mov.l   .L_060236BC, r4
     mov #0x3, r0
     mov.w r0, @(4, r4)
     mov #0x4, r0
@@ -151,46 +151,46 @@ render_stage_b:
     mov.w r2, @r3
     mov r4, r3
     add #0x54, r3
-    bra     .L_finish_index_table
+    bra     .L_060236C0
     nop
-.L_frame_alloc_neg:
+.L_060236AC:
     .2byte  0xFE6C
-.L_memcpy_byte_count:
+.L_060236AE:
     .2byte  0x018C
-.L_proj_param_source:
+.L_060236B0:
     .4byte  sym_0606A4EC
-.L_channel_table_src:
+.L_060236B4:
     .4byte  sym_06060A48
-.L_fn_memcpy_long:
+.L_060236B8:
     .4byte  sym_06035168
-.L_sprite_index_table:
+.L_060236BC:
     .4byte  sym_06089E44
-.L_finish_index_table:
+.L_060236C0:
     mov #0x36, r2
     add #0x56, r4
     extu.w r5, r12
     mov.w r2, @r3
     mov #0x37, r3
     mov.w r3, @r4
-    mov.l   .L_vdp1_vram_base, r2
+    mov.l   .L_06023748, r2
     mov.l r2, @(4, r15)
     mov r2, r5
-    mov.w   .L_vdp1_copy_count, r6
-    mov.l   .L_game_state_idx_ptr, r4
-    mov.l   .L_scroll_base_table, r3
-    mov.w   .L_scroll_data_offset, r2
+    mov.w   .L_06023744, r6
+    mov.l   .L_0602374C, r4
+    mov.l   .L_06023750, r3
+    mov.w   .L_06023746, r2
     mov.l @r4, r4
     mov.l @r3, r3
     shll2 r4
     shll r4
     add r3, r4
     add r2, r4
-    mov.l   .L_fn_memcpy_word_idx, r2
+    mov.l   .L_06023754, r2
     jsr @r2
     nop
-    bra     .L_channel_loop_test
+    bra     .L_060237F2
     extu.w r8, r14
-.L_channel_loop_body:
+.L_060236F0:
     mov r14, r4
     mov r14, r3
     mov r15, r2
@@ -208,61 +208,61 @@ render_stage_b:
     mov.w @r15, r3
     extu.w r3, r3
     cmp/pl r3
-    bf/s    .L_primary_done
+    bf/s    .L_06023786
     extu.w r8, r13
-.L_primary_entry_loop:
+.L_06023716:
     tst r11, r11
-    bf      .L_primary_data_valid
-    bra     .L_primary_done
+    bf      .L_0602371E
+    bra     .L_06023786
     nop
-.L_primary_data_valid:
+.L_0602371E:
     extu.w r14, r0
     cmp/eq #0x1D, r0
-    bf      .L_render_primary_entry
+    bf      .L_0602376E
     extu.w r13, r0
     cmp/eq #0x17, r0
-    bf      .L_check_idx_3a
+    bf      .L_06023734
     mov.l @r10, r2
-    mov.l   .L_proj_param_a, r3
+    mov.l   .L_06023758, r3
     mov.l r2, @r3
-    bra     .L_render_primary_entry
+    bra     .L_0602376E
     nop
-.L_check_idx_3a:
+.L_06023734:
     extu.w r13, r0
     cmp/eq #0x3A, r0
-    bf      .L_check_idx_d0
+    bf      .L_06023760
     mov.l @r10, r2
-    mov.l   .L_proj_param_b, r3
+    mov.l   .L_0602375C, r3
     mov.l r2, @r3
-    bra     .L_render_primary_entry
+    bra     .L_0602376E
     nop
-.L_vdp1_copy_count:
+.L_06023744:
     .2byte  0x5780
-.L_scroll_data_offset:
+.L_06023746:
     .2byte  0x03C0
-.L_vdp1_vram_base:
+.L_06023748:
     .4byte  0x002A8000
-.L_game_state_idx_ptr:
+.L_0602374C:
     .4byte  sym_06059FFC
-.L_scroll_base_table:
+.L_06023750:
     .4byte  sym_06063F5C
-.L_fn_memcpy_word_idx:
+.L_06023754:
     .4byte  memcpy_word_idx
-.L_proj_param_a:
+.L_06023758:
     .4byte  sym_06089E30
-.L_proj_param_b:
+.L_0602375C:
     .4byte  sym_06089E2C
-.L_check_idx_d0:
+.L_06023760:
     extu.w r13, r2
-    mov.w   .L_proj_idx_d0, r3
+    mov.w   .L_06023814, r3
     cmp/eq r3, r2
-    bf      .L_render_primary_entry
+    bf      .L_0602376E
     mov.l @r10, r3
-    mov.l   .L_proj_config_ptr, r2
+    mov.l   .L_06023818, r2
     mov.l r3, @r2
-.L_render_primary_entry:
+.L_0602376E:
     extu.w r12, r5
-    mov.l   .L_fn_sprite_render, r3
+    mov.l   .L_0602381C, r3
     mov.l @(4, r15), r6
     jsr @r3
     mov r11, r4
@@ -271,9 +271,9 @@ render_stage_b:
     extu.w r13, r2
     extu.w r3, r3
     cmp/ge r3, r2
-    bf/s    .L_primary_entry_loop
+    bf/s    .L_06023716
     add #0xC, r11
-.L_primary_done:
+.L_06023786:
     mov r14, r4
     mov r14, r3
     mov r15, r2
@@ -290,23 +290,23 @@ render_stage_b:
     mov.w r3, @r15
     extu.w r14, r3
     cmp/ge r9, r3
-    bf      .L_no_channel_offset
+    bf      .L_060237B6
     extu.w r14, r3
     add #-0x1D, r3
     shll r3
-    mov.l   .L_channel_offset_table, r2
+    mov.l   .L_06023820, r2
     add r2, r3
     mov.w @r3, r3
     add r3, r12
-.L_no_channel_offset:
+.L_060237B6:
     mov.w @r15, r2
     extu.w r2, r2
     cmp/pl r2
-    bf/s    .L_secondary_done
+    bf/s    .L_060237D6
     extu.w r8, r13
-.L_secondary_entry_loop:
+.L_060237C0:
     extu.w r12, r5
-    mov.l   .L_fn_secondary_render, r3
+    mov.l   .L_06023824, r3
     jsr @r3
     mov r11, r4
     add #0x1, r13
@@ -314,35 +314,35 @@ render_stage_b:
     extu.w r13, r2
     extu.w r3, r3
     cmp/ge r3, r2
-    bf/s    .L_secondary_entry_loop
+    bf/s    .L_060237C0
     add #0x6, r11
-.L_secondary_done:
+.L_060237D6:
     extu.w r14, r0
     cmp/eq #0x20, r0
-    bf      .L_skip_bank_store
-    mov.l   .L_sprite_bank_base, r3
+    bf      .L_060237E0
+    mov.l   .L_06023828, r3
     mov.w r12, @r3
-.L_skip_bank_store:
+.L_060237E0:
     extu.w r14, r0
     cmp/eq #0x1F, r0
-    bf      .L_skip_extra_offset
+    bf      .L_060237E8
     add #0x2A, r12
-.L_skip_extra_offset:
+.L_060237E8:
     extu.w r14, r2
     cmp/ge r9, r2
-    bt      .L_no_per_channel_bump
+    bt      .L_060237F0
     add #0xA, r12
-.L_no_per_channel_bump:
+.L_060237F0:
     add #0x1, r14
-.L_channel_loop_test:
+.L_060237F2:
     extu.w r14, r2
     mov #0x21, r3
     cmp/ge r3, r2
-    bt      .L_epilogue
-    bra     .L_channel_loop_body
+    bt      .L_060237FE
+    bra     .L_060236F0
     nop
-.L_epilogue:
-    mov.w   .L_frame_dealloc, r1
+.L_060237FE:
+    mov.w   .L_06023816, r1
     add r1, r15
     lds.l @r15+, pr
     mov.l @r15+, r8
@@ -353,17 +353,17 @@ render_stage_b:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_proj_idx_d0:
+.L_06023814:
     .2byte  0x00D0
-.L_frame_dealloc:
+.L_06023816:
     .2byte  0x0194
-.L_proj_config_ptr:
+.L_06023818:
     .4byte  sym_06089E28
-.L_fn_sprite_render:
+.L_0602381C:
     .4byte  vdp1_sprite_render_alt
-.L_channel_offset_table:
+.L_06023820:
     .4byte  sym_06060A40
-.L_fn_secondary_render:
+.L_06023824:
     .4byte  sym_06007590
-.L_sprite_bank_base:
+.L_06023828:
     .4byte  sym_0607886C

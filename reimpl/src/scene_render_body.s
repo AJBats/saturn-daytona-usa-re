@@ -13,45 +13,45 @@ scene_render_body:
     mov.l   .L_pool_0600C0A0, r0
     mov.b @r0, r0
     tst r0, r0
-    bt/s    .L_skip_secondary_init
+    bt/s    .L_0600C02C
     mov #0x0, r9
     mov.l   .L_pool_0600C0A4, r4
     mov.l   .L_pool_0600C0A8, r3
     jsr @r3
     mov.l @r4, r4
-.L_skip_secondary_init:
+.L_0600C02C:
     mov.l @r8, r2
     mov.l   .L_pool_0600C0AC, r3
     and r3, r2
     tst r2, r2
-    bf      .L_past_render_dispatch
+    bf      .L_0600C050
     mov.l   .L_pool_0600C0B0, r0
     mov.b @r0, r0
     extu.b r0, r0
     tst r0, r0
-    bt      .L_render_path_b
+    bt      .L_0600C04A
     mov.l   .L_pool_0600C0B4, r3
     jsr @r3
     nop
-    bra     .L_past_render_dispatch
+    bra     .L_0600C050
     nop
-.L_render_path_b:
+.L_0600C04A:
     mov.l   .L_pool_0600C0B8, r3
     jsr @r3
     nop
-.L_past_render_dispatch:
+.L_0600C050:
     mov.l @r8, r2
     mov.l   .L_pool_0600C0BC, r3
     cmp/eq r3, r2
-    bf      .L_past_state17_render
+    bf      .L_0600C066
     mov.l   .L_pool_0600C0C0, r0
     mov.l @r0, r0
     tst r0, r0
-    bf      .L_past_state17_render
+    bf      .L_0600C066
     mov.l   .L_pool_0600C0C4, r3
     jsr @r3
     nop
-.L_past_state17_render:
+.L_0600C066:
     mov #0x30, r6
     mov.l @r12, r2
     add #0x30, r2
@@ -65,13 +65,13 @@ scene_render_body:
     mov.l   .L_pool_0600C0D4, r0
     mov.l @r0, r0
     tst r0, r0
-    bf      .L_use_lod_config_count
+    bf      .L_0600C0DC
     mov.l   .L_pool_0600C0D8, r3
     mov.l @r3, r3
     shar r3
     exts.w r3, r3
     mov.w r3, @r4
-    bra     .L_set_secondary_callback
+    bra     .L_0600C0E2
     nop
 .L_wpool_0600C090:
     .2byte  0xFE11                      /* hardware status address mask fragment */
@@ -112,11 +112,11 @@ scene_render_body:
     .4byte  sym_06059F30                /* object count mode (0=compute, else=use config) */
 .L_pool_0600C0D8:
     .4byte  sym_0607EA98                /* total renderable object count */
-.L_use_lod_config_count:
+.L_0600C0DC:
     mov.b @r13, r2
     extu.b r2, r2
     mov.w r2, @r4
-.L_set_secondary_callback:
+.L_0600C0E2:
     .byte   0xD3, 0x29    /* mov.l .L_pool_0600C188, r3 */
     .byte   0xD2, 0x29    /* mov.l .L_pool_0600C18C, r2 */
     mov.l r3, @r2
@@ -127,11 +127,11 @@ scene_render_body:
     .byte   0xD2, 0x29    /* mov.l .L_pool_0600C198, r2 */
     and r2, r3
     tst r3, r3
-    bf      .L_skip_per_frame_update
+    bf      .L_0600C0FE
     .byte   0xD3, 0x28    /* mov.l .L_pool_0600C19C, r3 */
     jsr @r3
     nop
-.L_skip_per_frame_update:
+.L_0600C0FE:
     .byte   0xD3, 0x28    /* mov.l .L_pool_0600C1A0, r3 */
     jsr @r3
     nop
@@ -140,44 +140,44 @@ scene_render_body:
     mov.l @r8, r2
     .byte   0xD3, 0x26    /* mov.l .L_pool_0600C0AC, r3 */
     cmp/eq r3, r2
-    bt      .L_begin_hw_poll
+    bt      .L_0600C11C
     .byte   0xD3, 0x25    /* mov.l .L_pool_0600C1A8, r3 */
     jsr @r3
     nop
-    bra     .L_begin_hw_poll
+    bra     .L_0600C11C
     nop
-.L_set_lod_increment:
+.L_0600C11A:
     mov r11, r9
-.L_begin_hw_poll:
+.L_0600C11C:
     mov.b @r10, r2
     extu.b r2, r2
     and r14, r2
     cmp/eq r14, r2
-    bf      .L_set_lod_increment
+    bf      .L_0600C11A
     mov.b @r10, r0
     and #0xF, r0
     mov.b r0, @r10
     tst r9, r9
-    bt      .L_lod_decrement_path
+    bt      .L_0600C144
     mov.b @r13, r3
     .byte   0xD2, 0x1E    /* mov.l .L_pool_0600C0D8, r2 */
     extu.b r3, r3
     mov.l @r2, r2
     cmp/ge r2, r3
-    bt      .L_lod_adjustment_done
+    bt      .L_0600C152
     mov.b @r13, r2
     add #0x1, r2
-    bra     .L_lod_adjustment_done
+    bra     .L_0600C152
     mov.b r2, @r13
-.L_lod_decrement_path:
+.L_0600C144:
     mov.b @r13, r2
     extu.b r2, r2
     cmp/gt r11, r2
-    bf      .L_lod_adjustment_done
+    bf      .L_0600C152
     mov.b @r13, r2
     add #-0x1, r2
     mov.b r2, @r13
-.L_lod_adjustment_done:
+.L_0600C152:
     .byte   0xD3, 0x17    /* mov.l .L_pool_0600C1B4, r3 */
     jsr @r3
     nop

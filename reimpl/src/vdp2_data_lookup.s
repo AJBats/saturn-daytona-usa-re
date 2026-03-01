@@ -8,7 +8,7 @@ vdp2_data_lookup:
     .byte   0xD7, 0x0D    /* mov.l .L_pool_060173A9, r7 */
     mov #0x12, r6
     mov #0x0, r5
-.L_search_loop:
+.L_06017378:
     extu.b r4, r3
     extu.b r5, r2
     mov r2, r1
@@ -22,15 +22,15 @@ vdp2_data_lookup:
     mov.b @r2, r2
     extu.b r2, r2
     cmp/eq r2, r3
-    bf      .L_no_match
-    bra     .L_return
+    bf      .L_06017398
+    bra     .L_060173A0
     nop
-.L_no_match:
+.L_06017398:
     add #0x1, r5
     extu.b r5, r2
     cmp/ge r6, r2
-    bf      .L_search_loop
-.L_return:
+    bf      .L_06017378
+.L_060173A0:
     rts
     extu.b r5, r0
     .4byte  sym_06085490

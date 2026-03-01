@@ -11,7 +11,7 @@ car_param_lookup:
     .byte   0xDE, 0x12    /* mov.l .L_pool_06012B4F, r14 */
     mov.l @r14, r0
     tst #0x4, r0
-    bt      .L_call_course_lookup
+    bt      .L_06012B24
     .byte   0xD3, 0x11    /* mov.l .L_pool_06012B53, r3 */
     mov.l r3, @r15
     mov r3, r7
@@ -24,12 +24,12 @@ car_param_lookup:
     .byte   0xD3, 0x0E    /* mov.l .L_pool_06012B57, r3 */
     jsr @r3
     mov #0x8, r4
-    bra     .L_increment_and_return
+    bra     .L_06012B28
     nop
-.L_call_course_lookup:
+.L_06012B24:
     .byte   0xBF, 0xCE    /* bsr 0x06012AC4 (external) */
     nop
-.L_increment_and_return:
+.L_06012B28:
     mov.l @r14, r2
     add #0x1, r2
     mov.l r2, @r14

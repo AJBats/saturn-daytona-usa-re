@@ -15,26 +15,26 @@ multi_obj_physics:
     sts.l pr, @-r15
     add #-0x4, r15
     mov.w   DAT_0601440e, r8
-    mov.l   .L_fn_rot_z, r9
-    mov.l   .L_fn_transform_dispatch, r10
-    mov.l   .L_global_counter, r11
-    mov.w   .L_scale_factor, r14
-    mov.l   .L_fn_pre_anim, r3
+    mov.l   .L_06014414, r9
+    mov.l   .L_06014418, r10
+    mov.l   .L_0601441C, r11
+    mov.w   .L_06014410, r14
+    mov.l   .L_06014420, r3
     jsr @r3
     nop
     mov #0x0, r13
-    mov.l   .L_disp_table_ptr, r2
+    mov.l   .L_06014424, r2
     mov.l r2, @r15
 .L_06014388:
     mov r13, r12
-    mov.l   .L_anim_entry_base, r3
-    mov.l   .L_fn_pre_transform, r2
+    mov.l   .L_06014428, r3
+    mov.l   .L_0601442C, r2
     shll2 r12
     shll2 r12
     shll r12
     jsr @r2
     add r3, r12
-    mov.l   .L_fp_one, r6
+    mov.l   .L_06014430, r6
     mov r8, r5
     jsr @r10
     mov #0x0, r4
@@ -49,7 +49,7 @@ multi_obj_physics:
     mov r0, r4
     jsr @r9
     neg r4, r4
-    mov.l   .L_special_obj_idx, r3
+    mov.l   .L_06014434, r3
     mov.l @r3, r3
     cmp/eq r13, r3
     bf      .L_060143C2
@@ -58,21 +58,21 @@ multi_obj_physics:
 .L_060143C2:
     mov r14, r6
     mov r14, r5
-    mov.l   .L_fn_scale_columns, r3
+    mov.l   .L_06014438, r3
     jsr @r3
     mov r14, r4
     mov #0x4, r5
     mov r13, r12
-    mov.l   .L_obj_table, r4
-    mov.l   .L_fn_chain_a, r3
+    mov.l   .L_0601443C, r4
+    mov.l   .L_06014440, r3
     shll2 r12
     add r12, r4
     jsr @r3
     mov.l @r4, r4
     mov #0x1, r6
     mov.l @r15, r5
-    mov.l   .L_disp_table, r4
-    mov.l   .L_fn_chain_b, r3
+    mov.l   .L_06014444, r4
+    mov.l   .L_06014448, r3
     mov.w @r5, r5
     add r12, r4
     jsr @r3
@@ -98,34 +98,34 @@ multi_obj_physics:
     .global DAT_0601440e
 DAT_0601440e:
     .2byte  0x8000                        /* 180° base Z rotation angle */
-.L_scale_factor:
+.L_06014410:
     .2byte  0x4CCC                        /* ~0.3 uniform scale factor (16.16) */
     .2byte  0xFFFF
-.L_fn_rot_z:
+.L_06014414:
     .4byte  mat_rot_z                  /* Z-axis rotation */
-.L_fn_transform_dispatch:
+.L_06014418:
     .4byte  sym_06026E2E               /* transform dispatch function */
-.L_global_counter:
+.L_0601441C:
     .4byte  sym_06089EDC               /* global animation counter (dec by 0x30/iter) */
-.L_fn_pre_anim:
+.L_06014420:
     .4byte  sym_06026E0C               /* pre-animation setup (called once) */
-.L_disp_table_ptr:
+.L_06014424:
     .4byte  sym_06089E4A               /* display table base pointer */
-.L_anim_entry_base:
+.L_06014428:
     .4byte  sym_0605AD5C               /* animation entry array (32 bytes each) */
-.L_fn_pre_transform:
+.L_0601442C:
     .4byte  sym_06026DBC               /* per-object pre-transform setup */
-.L_fp_one:
+.L_06014430:
     .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
-.L_special_obj_idx:
+.L_06014434:
     .4byte  sym_06084B08               /* special object index (triggers BSR handler) */
-.L_fn_scale_columns:
+.L_06014438:
     .4byte  mat_scale_columns          /* uniform column scale */
-.L_obj_table:
+.L_0601443C:
     .4byte  sym_06062338               /* object transform table A */
-.L_fn_chain_a:
+.L_06014440:
     .4byte  sym_06031D8C               /* transform chain dispatch A */
-.L_disp_table:
+.L_06014444:
     .4byte  sym_060622C0               /* display transform table B */
-.L_fn_chain_b:
+.L_06014448:
     .4byte  sym_06031A28               /* transform chain dispatch B */

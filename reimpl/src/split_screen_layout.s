@@ -8,9 +8,9 @@ split_screen_layout:
     sts.l pr, @-r15
     add #-0x4, r15
     mov.w r7, @r15
-    mov.l   .L_fn_swap_sign_ext, r12
-    mov.l   .L_hud_record_base, r13
-    mov.l   .L_hud_record_count, r14
+    mov.l   .L_06011AE8, r12
+    mov.l   .L_06011AEC, r13
+    mov.l   .L_06011AF0, r14
 
     mov.l @r11, r4
     mov.w @r14, r3
@@ -192,9 +192,9 @@ split_screen_layout:
     rts
     mov.l @r15+, r14
     .2byte  0xFFFF
-.L_fn_swap_sign_ext:
+.L_06011AE8:
     .4byte  swap_sign_ext               /* extract int16 from 16.16 fixed-point */
-.L_hud_record_base:
+.L_06011AEC:
     .4byte  sym_060786CC                /* HUD record array base (24 bytes per entry) */
-.L_hud_record_count:
+.L_06011AF0:
     .4byte  sym_0605AAA0                /* HUD record count/index (16-bit) */

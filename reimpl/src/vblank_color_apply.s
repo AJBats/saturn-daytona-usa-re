@@ -10,206 +10,206 @@ vblank_color_apply:
     mov r0, r1
     and r5, r3
     tst r3, r3
-    bf      .L_ch2_enabled
+    bf      .L_0603EDD8
     mov #0x2, r3
     and r5, r3
     tst r3, r3
-    bt      .L_ch2_done
-.L_ch2_enabled:
+    bt      .L_0603EE00
+.L_0603EDD8:
     mov #0x4, r3
     and r4, r3
     tst r3, r3
-    bf      .L_ch2_set_bits
+    bf      .L_0603EDE8
     mov #0x2, r3
     and r4, r3
     tst r3, r3
-    bt      .L_ch2_clear_bits
-.L_ch2_set_bits:
+    bt      .L_0603EDF4
+.L_0603EDE8:
     extu.b r7, r3
     mov.b @(1, r6), r0
     mov r0, r2
     or r3, r2
-    bra     .L_ch2_store
+    bra     .L_0603EDFE
     mov r2, r0
-.L_ch2_clear_bits:
+.L_0603EDF4:
     extu.b r1, r2
     mov.b @(1, r6), r0
     mov r0, r3
     and r2, r3
     mov r3, r0
-.L_ch2_store:
+.L_0603EDFE:
     mov.b r0, @(1, r6)
-.L_ch2_done:
+.L_0603EE00:
     mov #0x8, r3
     and r5, r3
     tst r3, r3
-    bf      .L_ch3_enabled
+    bf      .L_0603EE10
     mov.w   .L_wpool_0603EE76, r3
     and r5, r3
     tst r3, r3
-    bt      .L_ch3_done
-.L_ch3_enabled:
+    bt      .L_0603EE32
+.L_0603EE10:
     mov #0x8, r3
     and r4, r3
     tst r3, r3
-    bf      .L_ch3_set_bits
+    bf      .L_0603EE20
     mov.w   .L_wpool_0603EE76, r3
     and r4, r3
     tst r3, r3
-    bt      .L_ch3_clear_bits
-.L_ch3_set_bits:
+    bt      .L_0603EE2A
+.L_0603EE20:
     extu.b r7, r3
     mov.b @r6, r2
     or r3, r2
-    bra     .L_ch3_done
+    bra     .L_0603EE32
     mov.b r2, @r6
-.L_ch3_clear_bits:
+.L_0603EE2A:
     extu.b r1, r2
     mov.b @r6, r3
     and r2, r3
     mov.b r3, @r6
-.L_ch3_done:
+.L_0603EE32:
     mov #0x10, r2
     and r5, r2
     tst r2, r2
-    bt      .L_ch4_done
+    bt      .L_0603EE5A
     mov #0x10, r3
     and r4, r3
     tst r3, r3
-    bt      .L_ch4_clear_bits
+    bt      .L_0603EE4E
     extu.b r7, r3
     mov.b @(3, r6), r0
     mov r0, r2
     or r3, r2
-    bra     .L_ch4_store
+    bra     .L_0603EE58
     mov r2, r0
-.L_ch4_clear_bits:
+.L_0603EE4E:
     extu.b r1, r2
     mov.b @(3, r6), r0
     mov r0, r3
     and r2, r3
     mov r3, r0
-.L_ch4_store:
+.L_0603EE58:
     mov.b r0, @(3, r6)
-.L_ch4_done:
+.L_0603EE5A:
     mov #0x20, r3
     and r5, r3
     tst r3, r3
-    bt      .L_ch5_done
+    bt      .L_0603EE84
     mov #0x20, r3
     and r4, r3
     tst r3, r3
-    bt      .L_ch5_clear_bits
+    bt      .L_0603EE78
     extu.b r7, r3
     mov.b @(2, r6), r0
     mov r0, r2
     or r3, r2
-    bra     .L_ch5_store
+    bra     .L_0603EE82
     mov r2, r0
 .L_wpool_0603EE76:
     .2byte  0x0080
-.L_ch5_clear_bits:
+.L_0603EE78:
     extu.b r1, r2
     mov.b @(2, r6), r0
     mov r0, r3
     and r2, r3
     mov r3, r0
-.L_ch5_store:
+.L_0603EE82:
     mov.b r0, @(2, r6)
-.L_ch5_done:
+.L_0603EE84:
     mov #0x1, r3
     and r5, r3
     tst r3, r3
-    bt      .L_ch0_done
+    bt      .L_0603EEAC
     mov #0x1, r3
     and r4, r3
     tst r3, r3
-    bt      .L_ch0_clear_bits
+    bt      .L_0603EEA0
     extu.b r7, r3
     mov.b @(5, r6), r0
     mov r0, r2
     or r3, r2
-    bra     .L_ch0_store
+    bra     .L_0603EEAA
     mov r2, r0
-.L_ch0_clear_bits:
+.L_0603EEA0:
     extu.b r1, r2
     mov.b @(5, r6), r0
     mov r0, r3
     and r2, r3
     mov r3, r0
-.L_ch0_store:
+.L_0603EEAA:
     mov.b r0, @(5, r6)
-.L_ch0_done:
+.L_0603EEAC:
     mov.w   .L_wpool_0603EF2A, r3
     and r5, r3
     tst r3, r3
-    bt      .L_ch8_done
+    bt      .L_0603EED4
     mov.w   .L_wpool_0603EF2A, r3
     and r4, r3
     tst r3, r3
-    bt      .L_ch8_clear_bits
+    bt      .L_0603EEC8
     extu.b r7, r3
     mov.b @(4, r6), r0
     mov r0, r2
     or r3, r2
-    bra     .L_ch8_store
+    bra     .L_0603EED2
     mov r2, r0
-.L_ch8_clear_bits:
+.L_0603EEC8:
     extu.b r1, r2
     mov.b @(4, r6), r0
     mov r0, r3
     and r2, r3
     mov r3, r0
-.L_ch8_store:
+.L_0603EED2:
     mov.b r0, @(4, r6)
-.L_ch8_done:
+.L_0603EED4:
     mov.l   .L_pool_0603EF2C, r3
     and r5, r3
     tst r3, r3
-    bt      .L_ch16_done
+    bt      .L_0603EEFC
     mov.l   .L_pool_0603EF2C, r3
     and r4, r3
     tst r3, r3
-    bt      .L_ch16_clear_bits
+    bt      .L_0603EEF0
     extu.b r7, r3
     mov.b @(7, r6), r0
     mov r0, r2
     or r3, r2
-    bra     .L_ch16_store
+    bra     .L_0603EEFA
     mov r2, r0
-.L_ch16_clear_bits:
+.L_0603EEF0:
     extu.b r1, r2
     mov.b @(7, r6), r0
     mov r0, r3
     and r2, r3
     mov r3, r0
-.L_ch16_store:
+.L_0603EEFA:
     mov.b r0, @(7, r6)
-.L_ch16_done:
+.L_0603EEFC:
     mov.l   .L_pool_0603EF30, r3
     and r3, r5
     tst r5, r5
-    bt      .L_ch17_done
+    bt      .L_0603EF26
     mov.l   .L_pool_0603EF30, r3
     and r3, r4
     tst r4, r4
-    bt      .L_ch17_clear_bits
+    bt      .L_0603EF1A
     extu.b r7, r7
     mov.b @(6, r6), r0
     mov r0, r3
     or r7, r3
     mov r3, r0
-    bra     .L_ch17_store
+    bra     .L_0603EF24
     nop
-.L_ch17_clear_bits:
+.L_0603EF1A:
     extu.b r1, r1
     mov.b @(6, r6), r0
     mov r0, r2
     and r1, r2
     mov r2, r0
-.L_ch17_store:
+.L_0603EF24:
     mov.b r0, @(6, r6)
-.L_ch17_done:
+.L_0603EF26:
     rts
     nop
 .L_wpool_0603EF2A:

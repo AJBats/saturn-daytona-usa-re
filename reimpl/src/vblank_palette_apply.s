@@ -17,19 +17,19 @@ vblank_palette_apply:
     mov.l @(24, r14), r3
     sub r3, r5
     cmp/ge r5, r4
-    bt      .L_use_pending
-    bra     .L_batch_ready
+    bt      .L_0603FC7E
+    bra     .L_0603FC80
     mov r4, r13
-.L_use_pending:
+.L_0603FC7E:
     mov r5, r13
-.L_batch_ready:
+.L_0603FC80:
     mov.l @(48, r14), r2
     mov #0x1, r3
     cmp/gt r3, r2
-    bf      .L_batch_done
+    bf      .L_0603FCC2
     mov.l @(4, r14), r0
     tst r0, r0
-    bt      .L_query_elem_b
+    bt      .L_0603FC9E
     mov.l @(4, r14), r1
     mov.l @(28, r14), r3
     mov.l   .L_pool_0603FCB8, r2
@@ -38,7 +38,7 @@ vblank_palette_apply:
     jsr @r2
     mov.l @(48, r14), r0
     mov r0, r13
-.L_query_elem_b:
+.L_0603FC9E:
     mov.l   .L_pool_0603FCBC, r3
     jsr @r3
     mov.l @(4, r15), r4
@@ -48,8 +48,8 @@ vblank_palette_apply:
     mov.l @(48, r14), r0
     mov r0, r4
     cmp/ge r4, r13
-    bt      .L_clamp_batch
-    bra     .L_batch_done
+    bt      .L_0603FCC0
+    bra     .L_0603FCC2
     nop
 
     .global DAT_0603fcb6
@@ -59,22 +59,22 @@ DAT_0603fcb6:
     .4byte  sym_06034FFC
 .L_pool_0603FCBC:
     .4byte  sym_0603F8EE
-.L_clamp_batch:
+.L_0603FCC0:
     mov r4, r13
-.L_batch_done:
+.L_0603FCC2:
     mov.l @(4, r14), r0
     tst r0, r0
-    bf      .L_epilogue
+    bf      .L_0603FCDA
     mov r13, r5
     .byte   0xD3, 0x1A    /* mov.l .L_pool_0603FD34, r3 */
     jsr @r3
     mov.l @r15, r4
     mov.l r0, @(4, r14)
     tst r0, r0
-    bt      .L_epilogue
+    bt      .L_0603FCDA
     mov #0x0, r3
     mov.l r3, @(28, r14)
-.L_epilogue:
+.L_0603FCDA:
     add #0x8, r15
     lds.l @r15+, pr
     mov.l @r15+, r13

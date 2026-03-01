@@ -8,17 +8,17 @@ evt_boundary_check:
     sts.l pr, @-r15
     add #-0x4, r15
     mov r15, r5
-    .byte   0xD3, 0x09    /* mov.l .L_fn_mesh_boundary, r3 */
+    .byte   0xD3, 0x09    /* mov.l .L_06040FB0, r3 */
     jsr @r3
     mov #0x0, r4
     mov r15, r5
     mov r15, r4
-    .byte   0xD3, 0x07    /* mov.l .L_fn_mesh_boundary, r3 */
+    .byte   0xD3, 0x07    /* mov.l .L_06040FB0, r3 */
     mov.b @r4, r4
     jsr @r3
     extu.b r4, r4
     mov r15, r0
-    .byte   0xD3, 0x05    /* mov.l .L_mask_24bit, r3 */
+    .byte   0xD3, 0x05    /* mov.l .L_06040FB4, r3 */
     mov.l @r0, r0
     add #0x4, r15
     lds.l @r15+, pr
@@ -26,21 +26,21 @@ evt_boundary_check:
     and r3, r0
     .4byte  0x0000FFFF
     .4byte  0x00008000
-.L_fn_mesh_boundary:
+.L_06040FB0:
     .4byte  mesh_boundary_check           /* mesh boundary validator */
-.L_mask_24bit:
+.L_06040FB4:
     .4byte  0x00FFFFFF                  /* low 24-bit mask */
 
     .global sym_06040FB8
 sym_06040FB8:
-    .byte   0xD4, 0x15    /* mov.l .L_ptr_lock_state, r4 */
+    .byte   0xD4, 0x15    /* mov.l .L_06041010, r4 */
     mov.l @r4, r0
     mov.l @(48, r0), r0
     cmp/eq #0x1, r0
-    bf      .L_not_locked
+    bf      .L_06040FC6
     rts
     mov #-0x5, r0
-.L_not_locked:
+.L_06040FC6:
     mov #0x1, r3
     mov.l @r4, r2
     mov.l r3, @(48, r2)
@@ -51,11 +51,11 @@ sym_06040FB8:
     mov.l @r4, r2
     mov.l @(56, r2), r3
     cmp/pz r3
-    bt      .L_seq_nonneg
+    bt      .L_06040FE2
     mov.l @r4, r3
     mov #0x0, r2
     mov.l r2, @(56, r3)
-.L_seq_nonneg:
+.L_06040FE2:
     mov.l @r4, r0
     mov.l @(56, r0), r0
     rts
@@ -63,48 +63,48 @@ sym_06040FB8:
 
     .global sym_06040FEA
 sym_06040FEA:
-    .byte   0xD5, 0x09    /* mov.l .L_ptr_lock_state, r5 */
+    .byte   0xD5, 0x09    /* mov.l .L_06041010, r5 */
     mov.l @r5, r3
     mov.l @(48, r3), r0
     tst r0, r0
-    bf      .L_is_locked
+    bf      .L_06040FF8
     rts
     mov #-0x7, r0
-.L_is_locked:
+.L_06040FF8:
     mov.l @r5, r3
     mov.l @(56, r3), r2
     cmp/eq r4, r2
-    bt      .L_seq_match
+    bt      .L_06041004
     rts
     mov #-0x9, r0
-.L_seq_match:
+.L_06041004:
     mov #0x0, r4
     mov.l @r5, r2
     mov.l r4, @(48, r2)
     mov r4, r0
     rts
     nop
-.L_ptr_lock_state:
+.L_06041010:
     .4byte  sym_060A5400                  /* event boundary lock state */
 
     .global sym_06041014
 sym_06041014:
-    .byte   0xD5, 0x11    /* mov.l .L_ptr_lock_state, r5 */
+    .byte   0xD5, 0x11    /* mov.l .L_06041010, r5 */
     mov.l @r5, r3
     mov.l @(48, r3), r0
     tst r0, r0
-    bf      .L_check_active
+    bf      .L_06041022
     rts
     mov #0x0, r0
-.L_check_active:
+.L_06041022:
     mov.l @r5, r0
     mov.l @(56, r0), r3
     cmp/eq r4, r3
-    bf      .L_no_match
-    bra     .L_return
+    bf      .L_0604102E
+    bra     .L_06041030
     mov #0x1, r0
-.L_no_match:
+.L_0604102E:
     mov #0x0, r0
-.L_return:
+.L_06041030:
     rts
     nop

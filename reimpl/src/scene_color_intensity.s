@@ -12,44 +12,44 @@ scene_color_intensity:
     mov.l r10, @-r15
     mov.l r9, @-r15
     sts.l pr, @-r15
-    mov.l   .L_clamp_max, r9
-    mov.l   .L_fn_fpdiv, r10
+    mov.l   .L_0603881C, r9
+    mov.l   .L_06038820, r10
     mov.w   DAT_0603881a, r11
-    mov.l   .L_fp_one, r12
+    mov.l   .L_06038824, r12
     mov r4, r14
     mov r5, r13
-    mov.l   .L_cmd_slot_ptr, r0
-    bra     .L_clamp_dispatch
+    mov.l   .L_06038828, r0
+    bra     .L_060387F2
     mov.l @r0, r0
-.L_clamp_intensity_x:
+.L_060387B4:
     cmp/gt r9, r14
-    bf      .L_check_x_min
-    bra     .L_clamp_intensity_y
+    bf      .L_060387BC
+    bra     .L_060387CA
     mov r9, r14
-.L_check_x_min:
+.L_060387BC:
     cmp/ge r11, r14
-    bt      .L_check_x_zero
-    bra     .L_clamp_intensity_y
+    bt      .L_060387C4
+    bra     .L_060387CA
     mov r11, r14
-.L_check_x_zero:
+.L_060387C4:
     tst r14, r14
-    bf      .L_clamp_intensity_y
+    bf      .L_060387CA
     mov r12, r14
-.L_clamp_intensity_y:
+.L_060387CA:
     cmp/gt r9, r13
-    bf      .L_check_y_min
-    bra     .L_color_process
+    bf      .L_060387D2
+    bra     .L_060387E0
     mov r9, r13
-.L_check_y_min:
+.L_060387D2:
     cmp/ge r11, r13
-    bt      .L_check_y_zero
-    bra     .L_color_process
+    bt      .L_060387DA
+    bra     .L_060387E0
     mov r11, r13
-.L_check_y_zero:
+.L_060387DA:
     tst r13, r13
-    bf      .L_color_process
+    bf      .L_060387E0
     mov r12, r13
-.L_color_process:
+.L_060387E0:
     mov r14, r5
     jsr @r10
     mov r12, r4
@@ -57,51 +57,51 @@ scene_color_intensity:
     mov r13, r5
     jsr @r10
     mov r12, r4
-    bra     .L_store_setup
+    bra     .L_06038802
     mov r0, r13
-.L_clamp_dispatch:
+.L_060387F2:
     cmp/eq #0x1, r0
-    bt      .L_color_process
+    bt      .L_060387E0
     cmp/eq #0x2, r0
-    bt      .L_color_process
+    bt      .L_060387E0
     cmp/eq #0x4, r0
-    bt      .L_clamp_intensity_x
+    bt      .L_060387B4
     cmp/eq #0x8, r0
-    bt      .L_clamp_intensity_x
-.L_store_setup:
-    mov.l   .L_enable_flags_ptr, r6
-    mov.l   .L_scene_view_a_ptr, r5
-    mov.l   .L_scene_transform_ptr, r4
-    mov.l   .L_cmd_slot_ptr, r0
-    bra     .L_store_dispatch
+    bt      .L_060387B4
+.L_06038802:
+    mov.l   .L_0603882C, r6
+    mov.l   .L_06038830, r5
+    mov.l   .L_06038834, r4
+    mov.l   .L_06038828, r0
+    bra     .L_06038894
     mov.l @r0, r0
-.L_store_ch4:
+.L_0603880E:
     mov.l r14, @(8, r4)
-    bra     .L_epilogue
+    bra     .L_060388A4
     mov.l r13, @(12, r4)
-.L_store_ch8:
+.L_06038814:
     mov.l r14, @(24, r4)
-    bra     .L_epilogue
+    bra     .L_060388A4
     mov.l r13, @(28, r4)
 
     .global DAT_0603881a
 DAT_0603881a:
     .2byte  0x4000                              /* 0.25 in 16.16 fixed-point (clamp floor) */
-.L_clamp_max:
+.L_0603881C:
     .4byte  0x00FF0000                          /* 255.0 in 16.16 fp (clamp ceiling) */
-.L_fn_fpdiv:
+.L_06038820:
     .4byte  sym_0603C0A0                        /* fpdiv: fixed-point divide r4/r5 */
-.L_fp_one:
+.L_06038824:
     .4byte  0x00010000                          /* 1.0 (16.16 fixed-point) */
-.L_cmd_slot_ptr:
+.L_06038828:
     .4byte  sym_060635A8                        /* display cmd queue slot (channel ID) */
-.L_enable_flags_ptr:
+.L_0603882C:
     .4byte  sym_060A3E38                        /* scene enable flags (render dirty bits) */
-.L_scene_view_a_ptr:
+.L_06038830:
     .4byte  sym_060A3E68                        /* scene view struct A (viewport A) */
-.L_scene_transform_ptr:
+.L_06038834:
     .4byte  sym_060A3DF8                        /* scene transform struct (color slots) */
-.L_store_ch1:
+.L_06038838:
     mov r5, r4
     mov #0x4C, r0
     mov.l r14, @(r0, r4)
@@ -110,7 +110,7 @@ DAT_0603881a:
     mov.w @(4, r6), r0
     extu.w r0, r0
     tst #0xFF, r0
-    bt      .L_epilogue
+    bt      .L_060388A4
     mov #0x0, r6
     mov r6, r5
     mov r6, r4
@@ -120,23 +120,23 @@ DAT_0603881a:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    mov.l   .L_fn_scene_color_matrix, r3
+    mov.l   .L_060388B8, r3
     jmp @r3
     mov.l @r15+, r14
-.L_store_ch2:
+.L_06038862:
     mov #0x4C, r0
-    mov.w   .L_scene_b_offset, r4
+    mov.w   .L_060388B4, r4
     add r5, r4
     mov.l r14, @(r0, r4)
     mov #0x50, r0
     mov.l r13, @(r0, r4)
     mov.w @(4, r6), r0
-    mov.l   .L_scene_b_enable_mask, r2
+    mov.l   .L_060388BC, r2
     mov r0, r3
     extu.w r3, r3
     and r2, r3
     tst r3, r3
-    bt      .L_epilogue
+    bt      .L_060388A4
     mov #0x0, r6
     mov r6, r5
     mov r6, r4
@@ -146,19 +146,19 @@ DAT_0603881a:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    mov.l   .L_fn_scene_color_matrix, r3
+    mov.l   .L_060388B8, r3
     jmp @r3
     mov.l @r15+, r14
-.L_store_dispatch:
+.L_06038894:
     cmp/eq #0x1, r0
-    bt      .L_store_ch1
+    bt      .L_06038838
     cmp/eq #0x2, r0
-    bt      .L_store_ch2
+    bt      .L_06038862
     cmp/eq #0x4, r0
-    bt      .L_store_ch4
+    bt      .L_0603880E
     cmp/eq #0x8, r0
-    bt      .L_store_ch8
-.L_epilogue:
+    bt      .L_06038814
+.L_060388A4:
     lds.l @r15+, pr
     mov.l @r15+, r9
     mov.l @r15+, r10
@@ -167,10 +167,10 @@ DAT_0603881a:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_scene_b_offset:
+.L_060388B4:
     .2byte  0x0080                              /* 128-byte offset: scene_view_B = view_A + 0x80 */
     .2byte  0xFFFF                              /* padding (unused) */
-.L_fn_scene_color_matrix:
+.L_060388B8:
     .4byte  scene_color_matrix                  /* scene color matrix setup + render trigger */
-.L_scene_b_enable_mask:
+.L_060388BC:
     .4byte  0x0000FF00                          /* high byte mask for scene B enable bits */

@@ -13,7 +13,7 @@ car_select_state:
     extu.w r2, r2
     and r3, r2
     tst r2, r2
-    bt      .L_no_confirm
+    bt      .L_0601989C
     mov #0x0, r5
     mov.l   _pool_anim_state, r3
     mov.l r5, @r3
@@ -92,7 +92,7 @@ _pool_dlist_loader:
     .4byte  sym_06028400
 _pool_camera_finalize:
     .4byte  sym_06026CE0
-.L_no_confirm:
+.L_0601989C:
     add #0xC, r15
     lds.l @r15+, pr
     rts

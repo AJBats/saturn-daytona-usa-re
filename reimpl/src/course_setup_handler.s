@@ -8,14 +8,14 @@ course_setup_handler:
     sts.l pr, @-r15
     mov #0x0, r7
     mov #0x30, r6
-    mov.w   .L_const_color_offset, r3
+    mov.w   .L_0601B0C6, r3
     mov r6, r5
     mov.l r3, @-r15
-    mov.w   .L_const_color_component, r2
+    mov.w   .L_0601B0C8, r2
     mov.l r2, @-r15
     mov.l r3, @-r15
     mov.l r2, @-r15
-    mov.l   .L_fn_color_transform, r3
+    mov.l   .L_0601B0CC, r3
     jsr @r3
     mov r7, r4
     add #0x10, r15
@@ -39,12 +39,12 @@ loc_0601B096:
     .4byte  0x6442E606
     .4byte  0x65F0A583
     .2byte  0x7F04
-.L_const_color_offset:
+.L_0601B0C6:
     .2byte  0x0100                          /* [HIGH] color intensity / offset value (256) */
-.L_const_color_component:
+.L_0601B0C8:
     .2byte  0x0160                          /* [HIGH] color component value (352) */
     .2byte  0xFFFF                          /* alignment padding */
-.L_fn_color_transform:
+.L_0601B0CC:
     .4byte  color_transform_calc            /* [HIGH] VDP2 color transform calculator */
     .4byte  sym_0605D4F7                    /* (cross-TU pool for course_state_setup) replay/attract state byte */
     .4byte  sym_0605DD6C                    /* (cross-TU pool for course_state_setup) course data pointer table */

@@ -15,17 +15,17 @@ position_change_anim:
     sts.l pr, @-r15
     add #-0x8, r15
     mov #0x8, r8
-    mov.l   .L_fp_half, r9
-    mov.w   .L_w_anim_step, r10
-    mov.l   .L_fp_one, r11
+    mov.l   .L_06015A30, r9
+    mov.w   .L_06015A2C, r10
+    mov.l   .L_06015A34, r11
     mov #0x0, r12
-    mov.l   .L_slot_data_base, r13
+    mov.l   .L_06015A38, r13
     mov r4, r0
     mov.b r0, @(4, r15)
     extu.b r12, r3
     mov.b r3, @r15
     extu.b r12, r14
-.L_slot_loop:
+.L_0601597C:
     extu.b r14, r4
     mov #0x2, r2
     mov r4, r3
@@ -47,7 +47,7 @@ position_change_anim:
     .word 0x0129
     and r1, r0
     tst r0, r0
-    bt      .L_not_decaying
+    bt      .L_060159DE
     extu.b r14, r4
     mov r4, r3
     shll2 r4
@@ -62,7 +62,7 @@ position_change_anim:
     mov.l r2, @(44, r4)
     mov r2, r3
     cmp/pz r3
-    bt      .L_call_vtx_builder
+    bt      .L_06015A56
     extu.b r14, r3
     mov r3, r2
     shll2 r3
@@ -73,9 +73,9 @@ position_change_anim:
     exts.w r3, r3
     add r13, r3
     mov.l r12, @(44, r3)
-    bra     .L_call_vtx_builder
+    bra     .L_06015A56
     nop
-.L_not_decaying:
+.L_060159DE:
     extu.b r14, r2
     mov r2, r3
     shll2 r2
@@ -87,7 +87,7 @@ position_change_anim:
     add r13, r2
     mov.l @(44, r2), r2
     cmp/gt r9, r2
-    bf      .L_slot_at_zero
+    bf      .L_06015A3C
     extu.b r14, r4
     mov r4, r3
     shll2 r4
@@ -102,7 +102,7 @@ position_change_anim:
     mov r2, r3
     mov.l r2, @(44, r4)
     cmp/gt r11, r3
-    bf      .L_call_vtx_builder
+    bf      .L_06015A56
     extu.b r14, r3
     mov r3, r2
     shll2 r3
@@ -113,18 +113,18 @@ position_change_anim:
     exts.w r3, r3
     add r13, r3
     mov.l r11, @(44, r3)
-    bra     .L_call_vtx_builder
+    bra     .L_06015A56
     nop
-.L_w_anim_step:
+.L_06015A2C:
     .2byte  0x2000                     /* [HIGH] animation step per frame (16.16 FP) */
     .2byte  0xFFFF
-.L_fp_half:
+.L_06015A30:
     .4byte  0x00008000                 /* [HIGH] 0.5 (16.16 fixed-point) */
-.L_fp_one:
+.L_06015A34:
     .4byte  0x00010000                 /* [HIGH] 1.0 (16.16 fixed-point) */
-.L_slot_data_base:
+.L_06015A38:
     .4byte  sym_06084FC8               /* [HIGH] HUD element slot data array base */
-.L_slot_at_zero:
+.L_06015A3C:
     extu.b r14, r2
     mov r2, r3
     shll2 r2
@@ -138,18 +138,18 @@ position_change_anim:
     mov.b @r15, r2
     add #0x1, r2
     mov.b r2, @r15
-.L_call_vtx_builder:
-    mov.l   .L_track_vtx_builder, r3
+.L_06015A56:
+    mov.l   .L_06015A9C, r3
     jsr @r3
     extu.b r14, r4
     add #0x1, r14
     extu.b r14, r2
     cmp/ge r8, r2
-    bf      .L_slot_loop
+    bf      .L_0601597C
     mov.b @r15, r0
     extu.b r0, r0
     cmp/eq #0x8, r0
-    bf      .L_return_normal
+    bf      .L_06015A88
     mov.b @(4, r15), r0
     mov r0, r4
     extu.b r4, r4
@@ -161,10 +161,10 @@ position_change_anim:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    mov.l   .L_slot_reset_fn, r3
+    mov.l   .L_06015AA0, r3
     jmp @r3
     mov.l @r15+, r14
-.L_return_normal:
+.L_06015A88:
     add #0x8, r15
     lds.l @r15+, pr
     mov.l @r15+, r8
@@ -175,7 +175,7 @@ position_change_anim:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_track_vtx_builder:
+.L_06015A9C:
     .4byte  track_vtx_builder          /* [HIGH] rotated minimap vertex builder */
-.L_slot_reset_fn:
+.L_06015AA0:
     .4byte  sym_060172E4               /* [MEDIUM] VDP2 register clear / slot reset */

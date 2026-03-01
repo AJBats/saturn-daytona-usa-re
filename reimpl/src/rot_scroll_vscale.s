@@ -13,7 +13,7 @@ rot_scroll_vscale:
     exts.w r5, r5
     mov.l @r15+, r0
     exts.w r5, r5
-    mov.w   .L_w_vref_offset, r1
+    mov.w   .L_0602E524, r1
     mov.l @(r0, r1), r4
     exts.w r4, r4
     mov r5, r6
@@ -21,8 +21,8 @@ rot_scroll_vscale:
     exts.w r6, r6
     mov.l   .L_pool_0602E534, r1
     cmp/gt r1, r6
-    bt      .L_check_upper_bound
-    bra     .L_clamp_delta
+    bt      .L_0602E538
+    bra     .L_0602E53E
     nop
 
     .global DAT_0602e51a
@@ -44,7 +44,7 @@ DAT_0602e520:
     .global DAT_0602e522
 DAT_0602e522:
     sett
-.L_w_vref_offset:
+.L_0602E524:
     .2byte  0x0028                     /* [HIGH] car struct offset: vertical reference (+0x28) */
     .2byte  0x0000
     .4byte  sym_0607EAD8               /* [HIGH] race end state — used by interp TU */
@@ -52,13 +52,13 @@ DAT_0602e522:
     .4byte  atan2                      /* [HIGH] atan2 function — used by interp TU */
 .L_pool_0602E534:
     .4byte  0xFFFFFF00                 /* [HIGH] -0x100 = lower clamp bound for delta */
-.L_check_upper_bound:
+.L_0602E538:
     .byte   0xD1, 0x1C    /* mov.l .L_pool_0602E5AC, r1 */
     cmp/gt r1, r6
-    bf      .L_apply_delta
-.L_clamp_delta:
+    bf      .L_0602E540
+.L_0602E53E:
     mov r1, r6
-.L_apply_delta:
+.L_0602E540:
     mov r6, r3
     add r4, r3
     exts.w r3, r3

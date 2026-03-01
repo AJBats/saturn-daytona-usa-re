@@ -14,22 +14,22 @@ hud_utility:
     mov.l   .L_pool_0601E6DC, r13
     mov.l r4, @r15
     mov #0x0, r14
-.L_poll_loop:
+.L_0601E6B6:
     mov.l @r13, r3
     mov.l @(8, r3), r2
     jsr @r2
     mov.l @r15, r4
     mov r0, r4
     tst r4, r4
-    bf      .L_retry
-    bra     .L_epilogue
+    bf      .L_0601E6C8
+    bra     .L_0601E6D0
     mov #0x0, r0
-.L_retry:
+.L_0601E6C8:
     add #0x1, r14
     cmp/ge r12, r14
-    bf      .L_poll_loop
+    bf      .L_0601E6B6
     mov r4, r0
-.L_epilogue:
+.L_0601E6D0:
     add #0x4, r15
     lds.l @r15+, pr
     mov.l @r15+, r12

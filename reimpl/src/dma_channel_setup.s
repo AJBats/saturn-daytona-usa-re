@@ -20,12 +20,12 @@ dma_channel_setup:
     mov.l @(20, r14), r4
     mov r0, r4
     tst r4, r4
-    bt/s    .L_alloc_zero
+    bt/s    .L_060409A8
     add #0x4, r15
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-.L_alloc_zero:
+.L_060409A8:
     lds.l @r15+, pr
     mov.l   .L_pool_060409BC, r3
     jmp @r3

@@ -13,7 +13,7 @@ state_boot_init:
     jsr @r3
     nop
     mov #0x0, r6
-    mov.l   .L_fp_neg_one, r5
+    mov.l   .L_06008918, r5
     mov.l   .L_pool_0600891C, r3
     jsr @r3
     mov #0x4, r4
@@ -46,7 +46,7 @@ loc_0600890A:
     .4byte  handler_init_reset  /* init pipeline reset function */
 .L_pool_06008914:
     .4byte  render_stage_1      /* primary render stage init */
-.L_fp_neg_one:
+.L_06008918:
     .4byte  0xFFFF0000                  /* -1.0 (16.16 fixed-point) */
 .L_pool_0600891C:
     .4byte  display_channel_b   /* display channel B config function */

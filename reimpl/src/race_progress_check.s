@@ -12,9 +12,9 @@ race_progress_check:
     mov.l   _pool_countdown_ptr, r13
     mov.l   _pool_fn_sound_cmd, r14
     mov.l   _pool_snd_progress, r12
-    bra     .L_dispatch
+    bra     .L_0601276A
     mov.l @r13, r0
-.L_race_complete:
+.L_06012722:
     mov #0x1, r2
     mov.l   _pool_finish_flag_ptr, r3
     mov.b r2, @r3
@@ -24,23 +24,23 @@ race_progress_check:
     mov.l   _pool_camera_yaw_ptr, r1
     mov.l r3, @r1
     mov.l   _pool_snd_menu_select, r5
-    bra     .L_play_sound_pair
+    bra     .L_06012740
     nop
-.L_progress_80:
+.L_06012738:
     mov.l   _pool_snd_lap_progress, r5
-    bra     .L_play_sound_pair
+    bra     .L_06012740
     nop
-.L_progress_60:
+.L_0601273E:
     mov.l   _pool_snd_mid_race, r5
-.L_play_sound_pair:
+.L_06012740:
     jsr @r14
     mov #0x0, r4
     mov r12, r5
     jsr @r14
     mov #0x0, r4
-    bra     .L_post_dispatch
+    bra     .L_0601277A
     nop
-.L_progress_40:
+.L_0601274E:
     mov.l   _pool_snd_early_race, r5
     jsr @r14
     mov #0x0, r4
@@ -53,18 +53,18 @@ race_progress_check:
     mov #0x1, r2
     mov.l   _pool_race_ready_ptr, r3
     mov.b r2, @r3
-    bra     .L_post_dispatch
+    bra     .L_0601277A
     nop
-.L_dispatch:
+.L_0601276A:
     cmp/eq #0x28, r0
-    bt      .L_progress_40
+    bt      .L_0601274E
     cmp/eq #0x3C, r0
-    bt      .L_progress_60
+    bt      .L_0601273E
     cmp/eq #0x50, r0
-    bt      .L_progress_80
+    bt      .L_06012738
     cmp/eq #0x64, r0
-    bt      .L_race_complete
-.L_post_dispatch:
+    bt      .L_06012722
+.L_0601277A:
     mov.l @r13, r1
     mov.l   _pool_fn_mem_store, r2
     jsr @r2
@@ -77,11 +77,11 @@ race_progress_check:
     .word 0x0129
     and r1, r0
     tst r0, r0
-    bt      .L_exit
+    bt      .L_0601279A
     mov.l   _pool_snd_finish, r5
     jsr @r14
     mov #0x0, r4
-.L_exit:
+.L_0601279A:
     lds.l @r15+, pr
     mov.l @r15+, r12
     mov.l @r15+, r13

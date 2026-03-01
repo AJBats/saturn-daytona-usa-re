@@ -18,8 +18,8 @@ smpc_secondary_proc:
     mov #0x0, r4
     mov r0, r4
     tst r4, r4
-    bt      .L_setup_ok
-    bra     .L_epilogue
+    bt      .L_06035CEC
+    bra     .L_06035D16
     mov r4, r0
     .4byte  0x2589000C
     .4byte  0x25818028
@@ -27,32 +27,32 @@ smpc_secondary_proc:
     .4byte  0x25898000
 .L_pool_06035CE8:
     .4byte  ai_brake_zone_adjust
-.L_setup_ok:
+.L_06035CEC:
     mov r12, r4
     cmp/pl r14
-    bf/s    .L_copy_done
+    bf/s    .L_06035D00
     mov #0x0, r5
-.L_copy_loop:
+.L_06035CF4:
     mov.w @r13, r2
     add #0x1, r5
     mov.w r2, @r4
     cmp/ge r14, r5
-    bf/s    .L_copy_loop
+    bf/s    .L_06035CF4
     add #0x2, r4
-.L_copy_done:
+.L_06035D00:
     .byte   0xD3, 0x22    /* mov.l .L_pool_06035D8C, r3 */
     jsr @r3
     mov r15, r4
     mov r0, r4
     tst r4, r4
-    bf      .L_return_result
+    bf      .L_06035D14
     mov.l @r15, r3
     cmp/eq r3, r14
-    bt      .L_return_result
+    bt      .L_06035D14
     mov #-0x7, r4
-.L_return_result:
+.L_06035D14:
     mov r4, r0
-.L_epilogue:
+.L_06035D16:
     add #0x4, r15
     lds.l @r15+, pr
     mov.l @r15+, r12

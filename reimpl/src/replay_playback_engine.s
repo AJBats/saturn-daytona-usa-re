@@ -23,41 +23,41 @@ replay_playback_engine:
     mov.l @(32, r5), r2
     sub r2, r3
     cmp/pl r3
-    bf      .L_scroll_behind
+    bf      .L_0601BE1A
     mov.l @r4, r2
     add #0x2, r2
-    bra     .L_clamp_frame_counter
+    bra     .L_0601BE2A
     mov.l r2, @r4
-.L_scroll_behind:
+.L_0601BE1A:
     mov.l @r7, r2
     mov.l @(32, r5), r3
     sub r3, r2
     cmp/pz r2
-    bt      .L_clamp_frame_counter
+    bt      .L_0601BE2A
     mov.l @r4, r3
     add #-0x2, r3
     mov.l r3, @r4
-.L_clamp_frame_counter:
+.L_0601BE2A:
     mov #0x50, r3
     mov.l @r6, r2
     cmp/hi r3, r2
-    bf      .L_check_subindex_limit
+    bf      .L_0601BE38
     mov.l @r6, r3
     add #-0x50, r3
     mov.l r3, @r6
-.L_check_subindex_limit:
+.L_0601BE38:
     mov.l @r4, r2
-    mov.w   .L_w_subindex_limit, r3
+    mov.w   .L_0601BE4C, r3
     cmp/hi r3, r2
-    bf      .L_store_and_return
+    bf      .L_0601BE44
     mov #0x0, r3
     mov.l r3, @r4
-.L_store_and_return:
+.L_0601BE44:
     mov.l @(32, r5), r2
     lds.l @r15+, pr
     rts
     mov.l r2, @r7
-.L_w_subindex_limit:
+.L_0601BE4C:
     .2byte  0x00A0                         /* [HIGH] sub-index upper limit (160) */
     .2byte  0xFFFF
 .L_pool_0601BE50:

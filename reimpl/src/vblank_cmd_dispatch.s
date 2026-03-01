@@ -16,23 +16,23 @@ vblank_cmd_dispatch:
     mov.w @r0, r0
     extu.w r0, r0
     tst r0, r0
-    bt      .L_dispatch_cmd
+    bt      .L_060390A4
     mov.l   .L_pool_060390A0, r4
     mov.w @r4, r4
     extu.w r4, r0
     tst #0x2, r0
-    bt      .L_even_field
+    bt      .L_0603907A
     mov.w @r13, r0
     extu.w r0, r0
-    bra     .L_write_fbcr
+    bra     .L_06039080
     or #0xC, r0
-.L_even_field:
+.L_0603907A:
     mov.w @r13, r0
     extu.w r0, r0
     or #0x8, r0
-.L_write_fbcr:
+.L_06039080:
     extu.w r0, r0
-    bra     .L_epilogue
+    bra     .L_060390E2
     mov.w r0, @r12
     .2byte  0xFFFF
     .4byte  sym_060635B8
@@ -47,42 +47,42 @@ vblank_cmd_dispatch:
     .4byte  sym_060A4C94
 .L_pool_060390A0:
     .4byte  0x25F80004                  /* VDP2 TVSTAT — TV status */
-.L_dispatch_cmd:
+.L_060390A4:
     mov.l @r14, r0
     tst r0, r0
-    bt      .L_epilogue
+    bt      .L_060390E2
     mov.l @r14, r0
     cmp/eq #0x2, r0
-    bf      .L_not_cmd2
+    bf      .L_060390BE
     mov.l   .L_pool_060390EC, r0
     mov.l @r0, r0
     tst r0, r0
-    bt      .L_not_cmd2
+    bt      .L_060390BE
     mov.l   .L_pool_060390F0, r3
     jsr @r3
     nop
-.L_not_cmd2:
+.L_060390BE:
     mov.l @r14, r0
     cmp/eq #0x3, r0
-    bf      .L_default_fbcr_write
+    bf      .L_060390D0
     mov.l   .L_pool_060390F4, r3
     mov.w @r3, r3
     mov.l   .L_pool_060390F8, r2
     mov.w r3, @r2
-    bra     .L_clear_state
+    bra     .L_060390DA
     nop
-.L_default_fbcr_write:
+.L_060390D0:
     mov.w @r13, r0
     extu.w r0, r0
     or #0x3, r0
     extu.w r0, r0
     mov.w r0, @r12
-.L_clear_state:
+.L_060390DA:
     mov #0x0, r4
     mov.l   .L_pool_060390FC, r3
     mov.l r4, @r3
     mov.l r4, @r14
-.L_epilogue:
+.L_060390E2:
     lds.l @r15+, pr
     mov.l @r15+, r12
     mov.l @r15+, r13

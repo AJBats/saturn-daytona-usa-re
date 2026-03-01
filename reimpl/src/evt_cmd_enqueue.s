@@ -17,27 +17,27 @@ evt_cmd_enqueue:
     mov r15, r7
     mov.l @(20, r15), r6
     mov.l @(16, r14), r5
-    mov.l   .L_ptr_cmd_enqueue, r3
+    mov.l   .L_06040948, r3
     add #0x4, r7
     jsr @r3
     mov.l @(4, r14), r4
     mov r0, r4
     tst r4, r4
-    bt/s    .L_enqueue_ok
+    bt/s    .L_060408DC
     add #0x4, r15
-    bra     .L_return_early
+    bra     .L_0604093C
     mov #0x0, r0
-.L_enqueue_ok:
-    mov.l   .L_ptr_state_field_read, r3
+.L_060408DC:
+    mov.l   .L_0604094C, r3
     jsr @r3
     nop
     tst r0, r0
-    bt      .L_state_ok
-    bra     .L_return_early
+    bt      .L_060408EA
+    bra     .L_0604093C
     mov #0x0, r0
-.L_state_ok:
+.L_060408EA:
     tst r13, r13
-    bt      .L_return_result
+    bt      .L_0604093A
     mov #0x0, r12
     mov r12, r6
     mov r12, r5
@@ -50,7 +50,7 @@ evt_cmd_enqueue:
     add #0x18, r2
     mov.l r2, @-r15
     mov r15, r7
-    mov.l   .L_ptr_evt_field_extract, r3
+    mov.l   .L_06040950, r3
     add #0x18, r7
     jsr @r3
     mov.l @r14, r4
@@ -63,31 +63,31 @@ evt_cmd_enqueue:
     mov.l @r15, r2
     add r2, r5
     cmp/ge r3, r5
-    bf      .L_return_result
+    bf      .L_0604093A
     mov.l @(4, r15), r0
     tst r0, r0
-    bt      .L_return_result
+    bt      .L_0604093A
     mov.l @r15, r3
     cmp/pl r3
-    bf      .L_return_result
+    bf      .L_0604093A
     mov.l @(8, r15), r2
     mov.l @(4, r15), r3
     sub r3, r2
     mov.l @r13, r1
     sub r2, r1
     mov.l r1, @r13
-.L_return_result:
+.L_0604093A:
     mov.l @r15, r0
-.L_return_early:
+.L_0604093C:
     add #0x14, r15
     lds.l @r15+, pr
     mov.l @r15+, r12
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_ptr_cmd_enqueue:
+.L_06040948:
     .4byte  cmd_enqueue
-.L_ptr_state_field_read:
+.L_0604094C:
     .4byte  state_field_read
-.L_ptr_evt_field_extract:
+.L_06040950:
     .4byte  sym_06040220

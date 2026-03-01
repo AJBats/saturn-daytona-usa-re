@@ -13,116 +13,116 @@ system_init:
     mov #0x0, r12
     mov.l r10, @-r15
     sts.l pr, @-r15
-    mov.l   .L_bss_end_a, r10
-    mov.l   .L_bss_end_b, r11
-    mov.l   .L_smpc_sf, r13
-    mov.l   .L_fn_subsys_init, r3
+    mov.l   .L_06003150, r10
+    mov.l   .L_06003154, r11
+    mov.l   .L_06003158, r13
+    mov.l   .L_0600315C, r3
     mov.l @r3, r3
     jsr @r3
     mov r14, r4
 
-.L_smpc_wait_ready:
+.L_0600311A:
     mov.b @r13, r2
     extu.b r2, r2
     and r14, r2
     cmp/eq r14, r2
-    bt      .L_smpc_wait_ready
+    bt      .L_0600311A
     extu.b r14, r2
     mov.b r2, @r13
     mov #0x19, r3
-    mov.l   .L_smpc_comreg_ct, r2
+    mov.l   .L_06003160, r2
     mov.b r3, @r2
-.L_smpc_wait_done:
+.L_0600312E:
     mov.b @r13, r2
     extu.b r2, r2
     and r14, r2
     tst r2, r2
-    bf      .L_smpc_wait_done
+    bf      .L_0600312E
 
-    mov.l   .L_bss_start_a, r4
-    bra     .L_bss_a_test
+    mov.l   .L_06003164, r4
+    bra     .L_06003142
     mov.l @r4, r4
-.L_bss_a_store:
+.L_0600313E:
     mov.l r12, @r4
     add #0x4, r4
-.L_bss_a_test:
+.L_06003142:
     mov.l @r11, r2
     cmp/hs r2, r4
-    bf      .L_bss_a_store
+    bf      .L_0600313E
 
-    mov.l   .L_bss_start_b, r4
-    bra     .L_bss_b_test
+    mov.l   .L_06003168, r4
+    bra     .L_06003170
     mov.l @r4, r4
     .2byte  0xFFFF
 
-.L_bss_end_a:
+.L_06003150:
     .4byte  sym_06059C58
-.L_bss_end_b:
+.L_06003154:
     .4byte  sym_06059C50
-.L_smpc_sf:
+.L_06003158:
     .4byte  0x20100063
-.L_fn_subsys_init:
+.L_0600315C:
     .4byte  sym_06000320
-.L_smpc_comreg_ct:
+.L_06003160:
     .4byte  0x2010001F
-.L_bss_start_a:
+.L_06003164:
     .4byte  sym_06059C4C
-.L_bss_start_b:
+.L_06003168:
     .4byte  sym_06059C54
-.L_bss_b_store:
+.L_0600316C:
     mov.l r12, @r4
     add #0x4, r4
-.L_bss_b_test:
+.L_06003170:
     mov.l @r10, r2
     cmp/hs r2, r4
-    bf      .L_bss_b_store
+    bf      .L_0600316C
 
-    mov.l   .L_fn_bus_init, r3
+    mov.l   .L_060031E8, r3
     jsr @r3
     mov #0x0, r4
-    mov.l   .L_fn_secondary_boot, r3
+    mov.l   .L_060031EC, r3
     jsr @r3
     nop
-    mov.l   .L_fn_int_setup, r2
-    mov.w   .L_int_mask_boot, r5
+    mov.l   .L_060031F0, r2
+    mov.w   .L_060031E2, r5
     mov.l @r2, r2
     jsr @r2
     mov #-0x1, r4
-    mov.l   .L_fn_cd_init, r3
+    mov.l   .L_060031F4, r3
     jsr @r3
     nop
     bsr     vdp_init_dispatch
     nop
-    mov.l   .L_fn_engine_init, r3
+    mov.l   .L_060031F8, r3
     jsr @r3
     nop
-    mov.l   .L_fn_sound_boot, r3
+    mov.l   .L_060031FC, r3
     jsr @r3
     nop
     bsr     sound_timer_init
     nop
-    mov.l   .L_fn_race_sound, r3
+    mov.l   .L_06003200, r3
     jsr @r3
     nop
-    mov.l   .L_fn_int_setup, r2
-    mov.w   .L_int_mask_run, r4
+    mov.l   .L_060031F0, r2
+    mov.w   .L_060031E4, r4
     mov.l @r2, r2
     jsr @r2
     mov #0x0, r5
-    mov.l   .L_fn_camera_init, r3
+    mov.l   .L_06003204, r3
     jsr @r3
     nop
-    mov.l   .L_fn_display_init, r3
+    mov.l   .L_06003208, r3
     jsr @r3
     nop
-    mov.l   .L_fn_channel_cfg, r3
+    mov.l   .L_0600320C, r3
     jsr @r3
     nop
-    mov.l   .L_fn_special_init, r3
+    mov.l   .L_06003210, r3
     jsr @r3
     nop
     mov #0x2, r2
-    mov.l   .L_boot_state, r3
+    mov.l   .L_06003214, r3
     mov.l r2, @r3
     lds.l @r15+, pr
     mov.l @r15+, r10
@@ -132,47 +132,47 @@ system_init:
     rts
     mov.l @r15+, r14
 
-.L_int_mask_boot:
+.L_060031E2:
     .2byte  0x0083
-.L_int_mask_run:
+.L_060031E4:
     .2byte  0xFF7C
     .2byte  0xFFFF
 
-.L_fn_bus_init:
+.L_060031E8:
     .4byte  sym_0603BF7C
-.L_fn_secondary_boot:
+.L_060031EC:
     .4byte  sym_06034E58
-.L_fn_int_setup:
+.L_060031F0:
     .4byte  sym_06000344
-.L_fn_cd_init:
+.L_060031F4:
     .4byte  cd_progress_notify
-.L_fn_engine_init:
+.L_060031F8:
     .4byte  engine_init_global
-.L_fn_sound_boot:
+.L_060031FC:
     .4byte  sound_scsp_boot
-.L_fn_race_sound:
+.L_06003200:
     .4byte  race_sound_handler
-.L_fn_camera_init:
+.L_06003204:
     .4byte  sym_06005174
-.L_fn_display_init:
+.L_06003208:
     .4byte  sym_0601F936
-.L_fn_channel_cfg:
+.L_0600320C:
     .4byte  channel_config_a
-.L_fn_special_init:
+.L_06003210:
     .4byte  sym_060149E0
-.L_boot_state:
+.L_06003214:
     .4byte  g_game_state
 
     .global sound_timer_init
     .type sound_timer_init, @function
 sound_timer_init:
     sts.l pr, @-r15
-    mov.l   .L_fn_vector_setup, r3
-    mov.l   .L_fn_frt_handler, r5
+    mov.l   .L_060032C0, r3
+    mov.l   .L_060032C4, r5
     mov.l @r3, r3
     jsr @r3
     mov #0x65, r4
-    mov.w   .L_frt_tier, r5
+    mov.w   .L_060032B2, r5
     mov.b @r5, r4
     mov #0xF, r2
     and r2, r4
@@ -180,14 +180,14 @@ sound_timer_init:
     or #0x8, r0
     extu.b r0, r0
     mov.b r0, @r5
-    mov.w   .L_frt_ftcsr, r6
+    mov.w   .L_060032B4, r6
     mov.b @r6, r4
     mov #0x1, r5
     extu.b r4, r4
     or r5, r4
     extu.b r4, r4
     mov.b r4, @r6
-    mov.w   .L_frt_tcr, r4
+    mov.w   .L_060032B6, r4
     mov.b @r4, r3
     extu.b r3, r3
     mov #-0x4, r2
@@ -200,7 +200,7 @@ sound_timer_init:
     and r2, r3
     extu.b r3, r3
     mov.b r3, @r4
-    mov.w   .L_frt_ocra, r3
+    mov.w   .L_060032B8, r3
     mov.b r5, @r3
     mov #0x66, r2
     add #0x1, r3
@@ -218,60 +218,60 @@ sound_timer_init:
 vdp_init_dispatch:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    mov.l   .L_fn_vector_setup, r14
+    mov.l   .L_060032C0, r14
 
-    mov.l   .L_fn_vblank_in, r5
+    mov.l   .L_060032C8, r5
     mov.l @r14, r3
     jsr @r3
     mov #0x4, r4
     mov.l @r14, r2
-    mov.l   .L_fn_vblank_out, r5
+    mov.l   .L_060032CC, r5
     jsr @r2
     mov #0x6, r4
     mov.l @r14, r3
-    mov.l   .L_fn_sprite_end, r5
+    mov.l   .L_060032D0, r5
     jsr @r3
     mov #0x9, r4
 
     mov.l @r14, r2
-    mov.l   .L_fn_vblank_in, r5
-    mov.w   .L_vec_vbi_secondary, r4
+    mov.l   .L_060032C8, r5
+    mov.w   .L_060032BA, r4
     jsr @r2
     nop
     mov.l @r14, r3
-    mov.l   .L_fn_vblank_out, r5
-    mov.w   .L_vec_vbo_secondary, r4
+    mov.l   .L_060032CC, r5
+    mov.w   .L_060032BC, r4
     jsr @r3
     nop
     mov.l @r14, r2
-    mov.l   .L_fn_sprite_end, r5
-    mov.w   .L_vec_sde_secondary, r4
+    mov.l   .L_060032D0, r5
+    mov.w   .L_060032BE, r4
     lds.l @r15+, pr
     jmp @r2
     mov.l @r15+, r14
 
-.L_frt_tier:
+.L_060032B2:
     .2byte  0xFE10
-.L_frt_ftcsr:
+.L_060032B4:
     .2byte  0xFE11
-.L_frt_tcr:
+.L_060032B6:
     .2byte  0xFE16
-.L_frt_ocra:
+.L_060032B8:
     .2byte  0xFE14
-.L_vec_vbi_secondary:
+.L_060032BA:
     .2byte  0x0104
-.L_vec_vbo_secondary:
+.L_060032BC:
     .2byte  0x0106
-.L_vec_sde_secondary:
+.L_060032BE:
     .2byte  0x0109
 
-.L_fn_vector_setup:
+.L_060032C0:
     .4byte  sym_06000310
-.L_fn_frt_handler:
+.L_060032C4:
     .4byte  sym_060072E4
-.L_fn_vblank_in:
+.L_060032C8:
     .4byte  sym_06028218
-.L_fn_vblank_out:
+.L_060032CC:
     .4byte  sym_06028230
-.L_fn_sprite_end:
+.L_060032D0:
     .4byte  sym_06028248

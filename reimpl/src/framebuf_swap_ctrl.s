@@ -24,26 +24,26 @@ framebuf_swap_ctrl:
     sts.l mach, @-r15
     sts.l macl, @-r15
 
-    .byte   0xD3, 0x16    /* mov.l .L_fn_scu_int_ctrl, r3 */
-    mov.w   .L_scu_clear_mask, r5
+    .byte   0xD3, 0x16    /* mov.l .L_06007364, r3 */
+    mov.w   .L_0600735C, r5
     mov.l @r3, r3
     jsr @r3
     mov #-0x1, r4
 
-    .byte   0xD2, 0x14    /* mov.l .L_frame_tick_ctr, r2 */
-    .byte   0xD3, 0x14    /* mov.l .L_frame_tick_ctr, r3 */
+    .byte   0xD2, 0x14    /* mov.l .L_06007368, r2 */
+    .byte   0xD3, 0x14    /* mov.l .L_06007368, r3 */
     mov.l @r2, r2
     add #0x1, r2
     mov.l r2, @r3
 
-    mov.w   .L_frt_ftcsr, r5
+    mov.w   .L_0600735E, r5
     mov.b @r5, r4
     extu.b r4, r0
     and #0x87, r0
     mov.b r0, @r5
 
-    .byte   0xD3, 0x0E    /* mov.l .L_fn_scu_int_ctrl, r3 */
-    mov.w   .L_scu_req_clear, r4
+    .byte   0xD3, 0x0E    /* mov.l .L_06007364, r3 */
+    mov.w   .L_06007360, r4
     mov.l @r3, r3
     jsr @r3
     mov #0x0, r5
@@ -70,15 +70,15 @@ framebuf_swap_ctrl:
     rte
     nop
 
-.L_scu_clear_mask:
+.L_0600735C:
     .2byte  0x0083                     /* SCU interrupt clear bits */
-.L_frt_ftcsr:
+.L_0600735E:
     .2byte  0xFE11                     /* SH-2 FRT FTCSR (0xFFFFFE11) */
-.L_scu_req_clear:
+.L_06007360:
     .2byte  0xFF7C                     /* SCU interrupt request clear */
     .2byte  0xFFFF
 
-.L_fn_scu_int_ctrl:
+.L_06007364:
     .4byte  sym_06000344               /* SCU interrupt control function */
-.L_frame_tick_ctr:
+.L_06007368:
     .4byte  sym_06059F40               /* frame tick counter (incremented per OCRA match) */

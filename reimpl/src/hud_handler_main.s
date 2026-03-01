@@ -21,18 +21,18 @@ hud_handler_main:
     add #-0x8, r15
     mov.l   .L_pool_0601E904, r8
     mov.l   .L_pool_0601E908, r10
-    mov.l   .L_smpc_sf, r13
+    mov.l   .L_0601E90C, r13
     mov.w r0, @(4, r15)
     mov.l r6, @r15
     mov.l   .L_pool_0601E910, r3
     jsr @r3
     mov r9, r4
     cmp/gt r11, r0
-    bf      .L_name_ok
+    bf      .L_0601E846
     mov #0x0, r3
     mov r3, r0
     mov.b r0, @(11, r9)
-.L_name_ok:
+.L_0601E846:
     mov.b @r10, r4
     mov.l   .L_pool_0601E910, r3
     extu.b r4, r4
@@ -42,7 +42,7 @@ hud_handler_main:
     add r8, r4
     mov #0xA, r2
     cmp/gt r2, r0
-    bf      .L_entry_name_ok
+    bf      .L_0601E86A
     mov.b @r10, r2
     extu.b r2, r2
     mul.l r11, r2
@@ -51,7 +51,7 @@ hud_handler_main:
     mov #0x0, r3
     mov r3, r0
     mov.b r0, @(10, r2)
-.L_entry_name_ok:
+.L_0601E86A:
     mov.l   .L_pool_0601E914, r4
     .byte   0xB6, 0x22    /* bsr 0x0601F4B4 (geom_display_proc */
     nop
@@ -86,23 +86,23 @@ hud_handler_main:
     add r2, r3
     mov.l @r3, r1
     mov.l r1, @(28, r12)
-.L_poll_sf_set_resdisa:
+.L_0601E8AE:
     mov.b @r13, r2
     extu.b r2, r2
     and r14, r2
     cmp/eq r14, r2
-    bt      .L_poll_sf_set_resdisa
+    bt      .L_0601E8AE
     extu.b r14, r2
     mov.b r2, @r13
     mov #0x1A, r3
-    mov.l   .L_smpc_comreg_ct, r2
+    mov.l   .L_0601E928, r2
     mov.b r3, @r2
-.L_poll_sf_clear_resdisa:
+.L_0601E8C2:
     mov.b @r13, r2
     extu.b r2, r2
     and r14, r2
     tst r2, r2
-    bf      .L_poll_sf_clear_resdisa
+    bf      .L_0601E8C2
     mov #0x0, r7
     mov.l @r15, r6
     mov.l   .L_pool_0601E920, r3
@@ -122,21 +122,21 @@ hud_handler_main:
     jsr @r2
     extu.w r4, r4
     mov r0, r4
-.L_poll_sf_set_resenab:
+.L_0601E8F2:
     mov.b @r13, r2
     extu.b r2, r2
     and r14, r2
     cmp/eq r14, r2
-    bt      .L_poll_sf_set_resenab
+    bt      .L_0601E8F2
     extu.b r14, r2
     mov.b r2, @r13
-    bra     .L_issue_resenab
+    bra     .L_0601E930
     nop
 .L_pool_0601E904:
     .4byte  sym_0605E06C
 .L_pool_0601E908:
     .4byte  sym_060877D8
-.L_smpc_sf:
+.L_0601E90C:
     .4byte  0x20100063                  /* SMPC SF — status flag */
 .L_pool_0601E910:
     .4byte  sym_06035C1C
@@ -150,20 +150,20 @@ hud_handler_main:
     .4byte  sym_06000354
 .L_pool_0601E924:
     .4byte  sym_0604A5C0
-.L_smpc_comreg_ct:
+.L_0601E928:
     .4byte  0x2010001F                  /* SMPC COMREG (cache-through) */
 .L_pool_0601E92C:
     .4byte  sym_06087094
-.L_issue_resenab:
+.L_0601E930:
     mov #0x19, r3
     .byte   0xD2, 0x2F    /* mov.l .L_pool_0601E9F0, r2 (out-of-TU: SMPC COMREG 0x2010001F) */
     mov.b r3, @r2
-.L_poll_sf_clear_resenab:
+.L_0601E936:
     mov.b @r13, r2
     extu.b r2, r2
     and r14, r2
     tst r2, r2
-    bf      .L_poll_sf_clear_resenab
+    bf      .L_0601E936
     mov r4, r0
     add #0x8, r15
     lds.l @r15+, macl

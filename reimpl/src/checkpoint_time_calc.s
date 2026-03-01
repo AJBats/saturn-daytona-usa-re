@@ -7,9 +7,9 @@
 checkpoint_time_calc:
     sts.l pr, @-r15
     add #-0x10, r15
-    mov.l   .L_p_car_struct, r4
-    mov.l   .L_p_car_index, r5
-    mov.w   .L_off_timing_data, r0
+    mov.l   .L_0600DD64, r4
+    mov.l   .L_0600DD68, r5
+    mov.w   .L_0600DD62, r0
     mov.l @r4, r4
     mov.l @r5, r5
     mov.l @(r0, r4), r2
@@ -26,15 +26,15 @@ checkpoint_time_calc:
     mov.l @(16, r4), r6
     sub r6, r7
     cmp/pz r7
-    bt      .L_x_diff_positive
+    bt      .L_0600DCFE
     mov.l @r15, r2
     mov r6, r3
     sub r2, r3
-    bra     .L_x_abs_done
+    bra     .L_0600DD00
     nop
-.L_x_diff_positive:
+.L_0600DCFE:
     mov r7, r3
-.L_x_abs_done:
+.L_0600DD00:
     mov.l @(4, r5), r2
     mov.l r2, @(8, r15)
     mov.l @(24, r4), r2
@@ -43,70 +43,70 @@ checkpoint_time_calc:
     mov.l @(12, r15), r1
     sub r1, r2
     cmp/pz r2
-    bt/s    .L_z_diff_positive
+    bt/s    .L_0600DD1E
     mov.l r2, @(4, r15)
     mov.l @(12, r15), r1
     mov.l @(8, r15), r2
     sub r2, r1
-    bra     .L_z_abs_done
+    bra     .L_0600DD20
     nop
-.L_z_diff_positive:
+.L_0600DD1E:
     mov.l @(4, r15), r1
-.L_z_abs_done:
+.L_0600DD20:
     mov r3, r5
-    mov.l   .L_p_checkpoint_elapsed, r6
+    mov.l   .L_0600DD6C, r6
     add r1, r5
-    mov.l   .L_fn_hw_divide, r3
+    mov.l   .L_0600DD70, r3
     mov r5, r1
     jsr @r3
     mov.l @(12, r4), r0
     mov r0, r1
     mov.l r0, @r6
-    mov.l   .L_p_checkpoint_remaining, r4
-    mov.l   .L_p_frame_counter, r2
+    mov.l   .L_0600DD74, r4
+    mov.l   .L_0600DD78, r2
     mov.l @r2, r2
     mov r2, r3
     shll2 r2
     add r3, r2
     sub r1, r2
     mov.l r2, @r4
-    mov.l   .L_p_race_state, r0
+    mov.l   .L_0600DD7C, r0
     mov.l @r0, r0
     tst r0, r0
-    bt      .L_epilogue
-    mov.l   .L_p_prev_remaining, r5
+    bt      .L_0600DD5A
+    mov.l   .L_0600DD80, r5
     mov.l @r4, r3
     mov.l @r5, r2
     sub r2, r3
-    mov.l   .L_p_remaining_delta, r2
+    mov.l   .L_0600DD84, r2
     mov.l r3, @r2
     mov.l @r4, r3
     mov.l r3, @r5
-.L_epilogue:
+.L_0600DD5A:
     add #0x10, r15
     lds.l @r15+, pr
     rts
     nop
 
     .global DAT_0600dd62
-.L_off_timing_data:
+.L_0600DD62:
 DAT_0600dd62:
     .2byte  0x01E0
-.L_p_car_struct:
+.L_0600DD64:
     .4byte  sym_0607E940
-.L_p_car_index:
+.L_0600DD68:
     .4byte  sym_0607EA9C
-.L_p_checkpoint_elapsed:
+.L_0600DD6C:
     .4byte  sym_0607869C
-.L_fn_hw_divide:
+.L_0600DD70:
     .4byte  sym_06034FE0
-.L_p_checkpoint_remaining:
+.L_0600DD74:
     .4byte  sym_060786B0
-.L_p_frame_counter:
+.L_0600DD78:
     .4byte  sym_0607EBD0
-.L_p_race_state:
+.L_0600DD7C:
     .4byte  sym_0607EAD8
-.L_p_prev_remaining:
+.L_0600DD80:
     .4byte  sym_0605A21C
-.L_p_remaining_delta:
+.L_0600DD84:
     .4byte  sym_060786A0

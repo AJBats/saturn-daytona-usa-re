@@ -30,7 +30,7 @@ vdp2_regs_setup:
     mov r3, r0
     mov.w r0, @(14, r7)
     extu.w r4, r6
-.L_cycle_pattern_loop:
+.L_0603839E:
     extu.w r6, r3
     mov r7, r2
     extu.w r12, r1
@@ -41,7 +41,7 @@ vdp2_regs_setup:
     mov.w r1, @r3
     extu.w r6, r3
     cmp/ge r14, r3
-    bf      .L_cycle_pattern_loop
+    bf      .L_0603839E
     mov #0x20, r0
     mov.w r4, @(r0, r7)
     mov #0x22, r0
@@ -76,7 +76,7 @@ vdp2_regs_setup:
     mov r3, r0
     mov.w r0, @(22, r5)
     extu.w r4, r6
-.L_map_regs_loop:
+.L_060383F8:
     extu.w r6, r3
     mov r5, r2
     extu.w r4, r1
@@ -87,9 +87,9 @@ vdp2_regs_setup:
     mov.w r1, @r3
     extu.w r6, r3
     cmp/ge r14, r3
-    bf      .L_map_regs_loop
+    bf      .L_060383F8
     extu.w r4, r6
-.L_scroll_regs_loop:
+.L_06038410:
     extu.w r6, r3
     mov r5, r2
     extu.w r4, r1
@@ -100,7 +100,7 @@ vdp2_regs_setup:
     mov.w r1, @r3
     extu.w r6, r3
     cmp/ge r13, r3
-    bf      .L_scroll_regs_loop
+    bf      .L_06038410
     mov.l   .L_pool_060384A4, r6
     mov.l r4, @r6
     mov.l r4, @(4, r6)
@@ -150,7 +150,7 @@ vdp2_regs_setup:
     mov r6, r3
     add r4, r3
     mov.w r4, @r3
-    bra     .L_config_block_cont
+    bra     .L_060384B4
     nop
 .L_pool_0603848C:
     .4byte  0x0000FFFF                  /* low 16-bit mask / 0xFFFF cycle pattern fill */
@@ -172,7 +172,7 @@ vdp2_regs_setup:
     .4byte  sym_060A3E38                /* scene enable flags (16 bytes) */
 .L_pool_060384B0:
     .4byte  sym_060A3E48                /* scene config block (32 bytes) */
-.L_config_block_cont:
+.L_060384B4:
     extu.w r4, r0
     mov.w r0, @(2, r6)
     mov r6, r3
@@ -210,10 +210,10 @@ vdp2_regs_setup:
     mov.w @r6, r3
     extu.w r3, r3
     tst r3, r3
-    bf      .L_skip_flag_init
+    bf      .L_06038504
     mov #0x1, r3
     mov.w r3, @r6
-.L_skip_flag_init:
+.L_06038504:
     mov.l @r15+, r12
     mov.l @r15+, r13
     rts
@@ -225,10 +225,10 @@ sym_0603850C:
     mov.w @r5, r0
     extu.w r0, r0
     cmp/eq #0x1, r0
-    bf      .L_cmd_write_store
+    bf      .L_0603851A
     mov #0x0, r2
     mov.w r2, @r5
-.L_cmd_write_store:
+.L_0603851A:
     mov.l   .L_pool_06038538, r3
     rts
     mov.l r4, @r3
@@ -239,10 +239,10 @@ sym_06038520:
     mov.w @r4, r3
     extu.w r3, r3
     tst r3, r3
-    bf      .L_commit_done
+    bf      .L_0603852E
     mov #0x1, r3
     mov.w r3, @r4
-.L_commit_done:
+.L_0603852E:
     rts
     nop
     .2byte  0xFFFF

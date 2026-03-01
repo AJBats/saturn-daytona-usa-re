@@ -24,31 +24,31 @@ ranking_pts_calc:
     extu.w r4, r4
     add #-0x1F, r4
     cmp/pz r4
-    bt      .L_timer_ready
+    bt      .L_06013B2E
     mov #0x0, r4
-.L_timer_ready:
+.L_06013B2E:
     mov r4, r3
     mov #0x4, r2
     shlr2 r3
     shlr2 r3
     shlr r3
     cmp/hs r2, r3
-    bt      .L_epilogue
+    bt      .L_06013C04
     mov #0x1F, r0
     and r4, r0
     cmp/eq #0x1F, r0
-    bf      .L_epilogue
+    bf      .L_06013C04
     mov r4, r0
     shlr2 r0
     shlr2 r0
     shlr r0
     cmp/eq #0x3, r0
-    bf      .L_section_0_2
+    bf      .L_06013BD0
     mov.l   _pool_final_reveal_flag, r0
     mov.w @r0, r0
     extu.w r0, r0
     tst r0, r0
-    bt      .L_section_0_2
+    bt      .L_06013BD0
     mov.l   _pool_fn_handler_init_reset, r3
     jsr @r3
     nop
@@ -56,29 +56,29 @@ ranking_pts_calc:
     mov #0x25, r3
     mov.l @r12, r2
     cmp/hs r3, r2
-    bt      .L_check_68_cars
+    bt      .L_06013B74
     mov.l   _pool_fn_race_variant_b, r3
     jsr @r3
     nop
-    bra     .L_lookup_score
+    bra     .L_06013B8E
     mov r13, r14
-.L_check_68_cars:
+.L_06013B74:
     mov.l @r12, r2
     mov #0x44, r3
     cmp/hs r3, r2
-    bt      .L_variant_d
+    bt      .L_06013B86
     mov.l   _pool_fn_race_variant_c, r3
     jsr @r3
     nop
-    bra     .L_set_sound_base
+    bra     .L_06013B8C
     nop
-.L_variant_d:
+.L_06013B86:
     mov.l   _pool_fn_race_variant_d, r3
     jsr @r3
     nop
-.L_set_sound_base:
+.L_06013B8C:
     mov r13, r14
-.L_lookup_score:
+.L_06013B8E:
     mov.l @r12, r5
     mov.l   _pool_position_score_tbl, r3
     add #-0x1, r5
@@ -89,7 +89,7 @@ ranking_pts_calc:
     add r14, r5
     jsr @r11
     mov #0x0, r4
-    bra     .L_epilogue
+    bra     .L_06013C04
     nop
     .2byte  0xFFFF
 _pool_fn_sound_cmd:
@@ -112,14 +112,14 @@ _pool_fn_race_variant_d:
     .4byte  race_variant_d
 _pool_position_score_tbl:
     .4byte  sym_0605B294
-.L_section_0_2:
+.L_06013BD0:
     mov r4, r2
     mov #0x3, r3
     shlr2 r2
     shlr2 r2
     shlr r2
     cmp/hs r3, r2
-    bt      .L_epilogue
+    bt      .L_06013C04
     shlr2 r4
     .byte   0xDE, 0x18    /* mov.l _pool_variant_char_tbl, r14 */
     shlr2 r4
@@ -129,19 +129,19 @@ _pool_position_score_tbl:
     extu.b r14, r14
     add #-0x41, r14
     cmp/pz r14
-    bf      .L_default_sound
+    bf      .L_06013BFE
     mov r14, r5
     shll2 r5
     .byte   0xD3, 0x14    /* mov.l _pool_score_tbl, r3 */
     add r3, r5
-    bra     .L_play_sound
+    bra     .L_06013C00
     mov.l @r5, r5
-.L_default_sound:
+.L_06013BFE:
     .byte   0xD5, 0x13    /* mov.l _pool_default_sound_id, r5 */
-.L_play_sound:
+.L_06013C00:
     jsr @r11
     mov #0x0, r4
-.L_epilogue:
+.L_06013C04:
     lds.l @r15+, pr
     mov.l @r15+, r11
     mov.l @r15+, r12

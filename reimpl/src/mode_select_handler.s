@@ -29,7 +29,7 @@ mode_select_handler:
     extu.w r2, r2
     and r3, r2
     tst r2, r2
-    bt      .L_no_confirm
+    bt      .L_06019738
     mov.b @r14, r7
     shll r7
     mov.l r7, @(8, r15)
@@ -67,10 +67,10 @@ mode_select_handler:
     mov #0xC, r4
     mov.b @r14, r2
     cmp/gt r13, r2
-    bf      .L_skip_idx_reset
+    bf      .L_06019720
     exts.b r11, r2
     mov.b r2, @r14
-.L_skip_idx_reset:
+.L_06019720:
     mov.l   _pool_06059F44, r3
     mov.l r11, @r3
     extu.b r11, r2
@@ -81,16 +81,16 @@ mode_select_handler:
     exts.b r13, r3
     mov.b r3, @r10
     mov.l   _pool_06085FF5, r3
-    bra     .L_epilog_rts
+    bra     .L_060197E4
     mov.b r13, @r3
-.L_no_confirm:
+.L_06019738:
     mov.w @(2, r4), r0
     mov.w   _wpool_0x2000, r3
     mov r0, r2
     extu.w r2, r2
     and r3, r2
     tst r2, r2
-    bt/s    .L_check_up
+    bt/s    .L_06019798
     mov #0x5, r5
     mov.b r13, @r10
     extu.b r5, r5
@@ -101,9 +101,9 @@ mode_select_handler:
     mov.b @r14, r3
     mov #0x4, r2
     cmp/ge r2, r3
-    bf      .L_common_exit
+    bf      .L_060197BC
     exts.b r11, r2
-    bra     .L_common_exit
+    bra     .L_060197BC
     mov.b r2, @r14
 
     .global DAT_06019762
@@ -137,14 +137,14 @@ _pool_game_state:
     .4byte  g_game_state
 _pool_06085FF5:
     .4byte  sym_06085FF5
-.L_check_up:
+.L_06019798:
     mov.w @(2, r4), r0
     .byte   0x93, 0x63    /* mov.w @(disp,PC), r3 */
     mov r0, r2
     extu.w r2, r2
     and r3, r2
     tst r2, r2
-    bt      .L_common_exit
+    bt      .L_060197BC
     mov.b r13, @r10
     extu.b r5, r5
     mov.b r5, @r12
@@ -153,10 +153,10 @@ _pool_06085FF5:
     mov.b r2, @r14
     mov.b @r14, r3
     cmp/pz r3
-    bt      .L_common_exit
+    bt      .L_060197BC
     mov #0x3, r3
     mov.b r3, @r14
-.L_common_exit:
+.L_060197BC:
     .byte   0xD4, 0x2B    /* mov.l @(disp,PC), r4 */
     mov.b @r4, r2
     add #0x1, r2
@@ -177,7 +177,7 @@ _pool_06085FF5:
     mov.l @r15+, r13
     jmp @r2
     mov.l @r15+, r14
-.L_epilog_rts:
+.L_060197E4:
     add #0xC, r15
     lds.l @r15+, pr
     mov.l @r15+, r10

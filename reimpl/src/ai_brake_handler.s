@@ -12,13 +12,13 @@ ai_brake_handler:
     mov.l @r14, r3
     mov.l @(52, r3), r0
     tst r0, r0
-    bf      .L_brake_zone_active
+    bf      .L_06041272
     mov #-0x7, r0
     add #0xC, r15
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-.L_brake_zone_active:
+.L_06041272:
     mov.l   .L_pool_06041294, r3
     jsr @r3
     nop
@@ -26,7 +26,7 @@ ai_brake_handler:
     mov #0x0, r3
     mov.l @r14, r2
     tst r4, r4
-    bt/s    .L_brake_calc
+    bt/s    .L_06041298
     mov.l r3, @(52, r2)
     mov #-0xA, r0
     add #0xC, r15
@@ -38,7 +38,7 @@ ai_brake_handler:
     .4byte  sym_060A5400
 .L_pool_06041294:
     .4byte  ai_brake_zone_main
-.L_brake_calc:
+.L_06041298:
     .byte   0xD3, 0x1B    /* mov.l .L_pool_06041308, r3 */
     jsr @r3
     mov r15, r4

@@ -23,11 +23,11 @@ race_variant_setup_a:
     mov #0x0, r13
     mov.l   _pool_scale_factor_ptr, r2
     mov.l r2, @r15
-.L_car_loop_top:
+.L_06014190:
     mov.l   _pool_active_car_count, r3
     mov.l @r3, r3
     cmp/hs r3, r13
-    bt      .L_budget_decrement
+    bt      .L_060141F8
     mov.l   _pool_fn_pretransform_setup, r3
     jsr @r3
     nop
@@ -51,13 +51,13 @@ race_variant_setup_a:
     extu.b r4, r4
     mov r4, r0
     cmp/eq #0x2E, r0
-    bf      .L_alpha_index
-    bra     .L_index_ready
+    bf      .L_060141CC
+    bra     .L_060141D0
     mov #0x1A, r11
-.L_alpha_index:
+.L_060141CC:
     mov r4, r11
     add #-0x41, r11
-.L_index_ready:
+.L_060141D0:
     extu.b r11, r11
     mov #0x4, r5
     mov.l   _pool_chain_a_table, r4
@@ -78,10 +78,10 @@ race_variant_setup_a:
     mov.l @r12, r2
     add #-0x30, r2
     mov.l r2, @r12
-.L_budget_decrement:
+.L_060141F8:
     add #0x1, r13
     cmp/hs r9, r13
-    bf      .L_car_loop_top
+    bf      .L_06014190
     add #0x4, r15
     lds.l @r15+, pr
     mov.l @r15+, r8

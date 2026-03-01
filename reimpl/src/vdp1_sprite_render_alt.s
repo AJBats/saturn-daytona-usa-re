@@ -17,7 +17,7 @@ vdp1_sprite_render_alt:
     mov.w @r4, r0
     extu.w r0, r0
     cmp/eq #0xA, r0
-    bf      .L_skip_dma_dest
+    bf      .L_060077BA
     mov.l @r13, r2
     shll2 r2
     shll r2
@@ -26,7 +26,7 @@ vdp1_sprite_render_alt:
     add r3, r2
     mov.l   _pool_dma_dest_ptr, r1
     mov.l r2, @r1
-.L_skip_dma_dest:
+.L_060077BA:
     mov.w @(2, r4), r0
     mov r0, r7
     extu.w r7, r0
@@ -63,19 +63,19 @@ vdp1_sprite_render_alt:
     extu.w r1, r1
     mov r1, r0
     cmp/eq #0xD, r0
-    bt      .L_special_cmd_type
+    bt      .L_06007838
     mov r1, r0
     cmp/eq #0xE, r0
-    bt      .L_special_cmd_type
+    bt      .L_06007838
     mov r1, r0
     cmp/eq #0xF, r0
-    bt      .L_special_cmd_type
+    bt      .L_06007838
     mov.l @r14, r2
     shll2 r2
     shll r2
     add r12, r2
     mov r7, r0
-    bra     .L_store_attr_and_continue
+    bra     .L_06007870
     mov.w r0, @(4, r2)
     .2byte  0xFFFF                           /* alignment padding */
 _pool_slot_data_table:
@@ -90,7 +90,7 @@ _pool_dma_dest_ptr:
     .4byte  sym_06063F60                     /* DMA destination pointer */
 _pool_cmd_jump_table:
     .4byte  sym_060684EC                     /* command type -> VRAM jump table */
-.L_special_cmd_type:
+.L_06007838:
     extu.w r7, r7
     mov.l r7, @(4, r15)
     mov.w   DAT_060078ca, r3
@@ -119,7 +119,7 @@ _pool_cmd_jump_table:
     mov.l @r13, r3
     mov.l   _pool_slot_counter_shadow, r2
     mov.l r3, @r2
-.L_store_attr_and_continue:
+.L_06007870:
     mov.l @r14, r3
     extu.w r5, r5
     mov.w @(4, r4), r0

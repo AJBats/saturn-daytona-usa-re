@@ -14,39 +14,39 @@ car_init_handler:
     .byte   0xD0, 0x1E    /* mov.l _pool_car_course_index, r0 */
     mov.b @r0, r0
     cmp/eq #0x3, r0
-    bf/s    .L_not_course_3
+    bf/s    .L_0601A69A
     mov #0x6, r5
     .byte   0xD4, 0x1C    /* mov.l _pool_display_phase_ctr, r4 */
     mov #0x8, r3
     mov.b @r4, r2
     extu.b r2, r2
     cmp/ge r3, r2
-    bt/s    .L_phase_ge_8
+    bt/s    .L_0601A686
     mov #0x3, r12
-    bra     .L_slots_chosen
+    bra     .L_0601A69E
     extu.b r5, r14
-.L_phase_ge_8:
+.L_0601A686:
     mov #0x10, r3
     mov.b @r4, r2
     extu.b r2, r2
     cmp/gt r3, r2
-    bf/s    .L_phase_le_16
+    bf/s    .L_0601A696
     mov #0x7, r14
     mov #0x0, r3
     mov.b r3, @r4
-.L_phase_le_16:
-    bra     .L_slots_chosen
+.L_0601A696:
+    bra     .L_0601A69E
     nop
-.L_not_course_3:
+.L_0601A69A:
     extu.b r5, r14
     mov #0x5, r12
-.L_slots_chosen:
+.L_0601A69E:
     .byte   0xDB, 0x13    /* mov.l _pool_car_obj_table, r11 */
     .byte   0xDD, 0x13    /* mov.l _pool_dlist_loader, r13 */
     .byte   0xD2, 0x14    /* mov.l _pool_two_player_flag, r2 */
     mov.b @r2, r2
     tst r2, r2
-    bf      .L_two_player_path
+    bf      .L_0601A6F8
     extu.b r14, r7
     mov.w   DAT_0601a6de, r3
     shll8 r7
@@ -70,7 +70,7 @@ car_init_handler:
     mov.l r3, @r15
     mov.l @(4, r3), r3
     add r3, r7
-    bra     .L_load_final_dlist
+    bra     .L_0601A726
     nop
     .2byte  0x00A9
 
@@ -95,7 +95,7 @@ _pool_dlist_loader:
     .4byte  sym_06028400
 _pool_two_player_flag:
     .4byte  sym_0605D241
-.L_two_player_path:
+.L_0601A6F8:
     extu.b r12, r7
     mov.w   DAT_0601a756, r3
     shll8 r7
@@ -119,7 +119,7 @@ _pool_two_player_flag:
     mov.l r3, @r15
     mov.l @(4, r3), r3
     add r3, r7
-.L_load_final_dlist:
+.L_0601A726:
     mov.w   _wpool_final_dlist_size, r6
     mov.l @r15, r5
     mov.l @r5, r5
@@ -138,12 +138,12 @@ sym_0601A73E:
     .byte   0xD3, 0x08    /* mov.l _pool_two_player_flag_b, r3 */
     mov.b @r3, r3
     tst r3, r3
-    bf      .L_play_2p_sound
+    bf      .L_0601A74E
     .byte   0xD5, 0x07    /* mov.l _pool_snd_cmd_1p, r5 */
     .byte   0xD3, 0x07    /* mov.l _pool_fn_sound_cmd_dispatch, r3 */
     jmp @r3
     mov #0xF, r4
-.L_play_2p_sound:
+.L_0601A74E:
     .byte   0xD5, 0x07    /* mov.l _pool_snd_cmd_2p, r5 */
     .byte   0xD3, 0x05    /* mov.l _pool_fn_sound_cmd_dispatch, r3 */
     jmp @r3

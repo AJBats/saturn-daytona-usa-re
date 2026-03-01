@@ -21,7 +21,7 @@ course_state_setup:
     mov #0x0, r4
     extu.w r4, r11
     extu.w r4, r12
-.L_slot_loop:
+.L_0601B0F8:
     mov r8, r7
     mov #0x60, r6
     extu.w r12, r9
@@ -56,7 +56,7 @@ course_state_setup:
     add #0x1, r11
     extu.w r11, r3
     cmp/ge r10, r3
-    bf/s    .L_slot_loop
+    bf/s    .L_0601B0F8
     add #0x3, r12
     add #0x4, r15
     lds.l @r15+, pr

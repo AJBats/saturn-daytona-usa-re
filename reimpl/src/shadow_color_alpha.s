@@ -33,8 +33,8 @@ shadow_color_alpha:
     mov #0x0, r4
     mov r0, r4
     tst r4, r4
-    bt      .L_digital_zero
-    bra     .L_epilogue
+    bt      .L_06036B44
+    bra     .L_06036B5A
     mov r4, r0
     .2byte  0xFFFF
 .L_pool_06036B38:
@@ -43,7 +43,7 @@ shadow_color_alpha:
     .4byte  input_proc_digital
 .L_pool_06036B40:
     .4byte  0x00FFFFFF
-.L_digital_zero:
+.L_06036B44:
     mov r15, r3
     mov r13, r5
     add #0x4, r3
@@ -55,7 +55,7 @@ shadow_color_alpha:
     jsr @r3
     mov r2, r4
     mov r0, r4
-.L_epilogue:
+.L_06036B5A:
     add #0x14, r15
     lds.l @r15+, pr
     mov.l @r15+, r13

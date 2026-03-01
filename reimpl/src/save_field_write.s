@@ -21,10 +21,10 @@ save_field_write:
     add #0x40, r4
     mov r0, r12
     tst r13, r13
-    bf      .L_block_valid
-    bra     .L_epilogue
+    bf      .L_0603BA52
+    bra     .L_0603BAB6
     mov #0x0, r0
-.L_block_valid:
+.L_0603BA52:
     mov r13, r14
     mov.l @r15, r7
     mov r13, r5
@@ -33,13 +33,13 @@ save_field_write:
     mov r13, r4
     mov r0, r10
     tst r10, r10
-    bf      .L_serialize_ok
-    bra     .L_epilogue
+    bf      .L_0603BA70
+    bra     .L_0603BAB6
     mov #0x0, r0
     .4byte  sym_060A4D14
 .L_pool_0603BA6F:
     .4byte  attract_state_change
-.L_serialize_ok:
+.L_0603BA70:
     mov #-0x1, r6
     mov #0x0, r5
     .byte   0x94, 0x37    /* mov.w .L_wpool_0603BAE6, r4 */
@@ -75,7 +75,7 @@ save_field_write:
     mov.b r4, @(r0, r14)
     mov.l r12, @(8, r14)
     mov r14, r0
-.L_epilogue:
+.L_0603BAB6:
     add #0x8, r15
     lds.l @r15+, pr
     mov.l @r15+, r10

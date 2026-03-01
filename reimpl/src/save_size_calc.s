@@ -14,10 +14,10 @@ save_size_calc:
     .byte   0xBF, 0xB2    /* bsr 0x0603BB86 (external) */
     add #0x4, r4
     tst r0, r0
-    bf      .L_parse_ok
-    bra     .L_check_status
+    bf      .L_0603BC2A
+    bra     .L_0603BC3C
     mov #0x0, r14
-.L_parse_ok:
+.L_0603BC2A:
     .byte   0xBD, 0xF8    /* bsr 0x0603B81E (external) */
     nop
     mov r0, r13
@@ -27,16 +27,16 @@ save_size_calc:
     .byte   0xBE, 0xF9    /* bsr 0x0603BA2C (external) */
     mov r0, r4
     mov r0, r14
-.L_check_status:
+.L_0603BC3C:
     .byte   0xD0, 0x07    /* mov.l .L_pool_0603BC5D, r0 */
     mov.w   DAT_0603bc56, r1
     mov.l @r0, r0
     mov.l @(r0, r1), r0
     tst #0x1, r0
-    bt      .L_do_copy
+    bt      .L_0603BC60
     tst r14, r14
-    bf      .L_do_copy
-    bra     .L_return
+    bf      .L_0603BC60
+    bra     .L_0603BC7C
     mov #-0x3, r0
 
     .global DAT_0603bc50
@@ -57,7 +57,7 @@ DAT_0603bc56:
     .4byte  sym_060360FC
 .L_pool_0603BC5D:
     .4byte  sym_060A4D14
-.L_do_copy:
+.L_0603BC60:
     mov r15, r6
     mov.l @r15, r5
     .byte   0xD3, 0x1B    /* mov.l .L_pool_0603BCD4, r3 */
@@ -67,13 +67,13 @@ DAT_0603bc56:
     mov r14, r4
     mov.l r0, @r15
     tst r14, r14
-    bt      .L_skip_commit
+    bt      .L_0603BC7A
     mov r14, r5
     .byte   0xB1, 0x54    /* bsr 0x0603BF22 (external) */
     mov r13, r4
-.L_skip_commit:
+.L_0603BC7A:
     mov.l @r15, r0
-.L_return:
+.L_0603BC7C:
     add #0x10, r15
     lds.l @r15+, pr
     mov.l @r15+, r13

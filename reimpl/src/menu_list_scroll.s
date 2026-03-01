@@ -16,7 +16,7 @@ menu_list_scroll:
     mov.b @(r0, r14), r3
     extu.b r3, r3
     tst r3, r3
-    bt      .L_not_busy
+    bt      .L_0603B2B8
     mov #-0x10, r4
     add #0xC, r15
     lds.l @r15+, pr
@@ -24,7 +24,7 @@ menu_list_scroll:
     mov.l @r15+, r13
     .byte   0xA3, 0x42    /* bra 0x0603B93C (external) */
     mov.l @r15+, r14
-.L_not_busy:
+.L_0603B2B8:
     .byte   0xB3, 0x74    /* bsr 0x0603B9A4 (external) */
     mov r14, r4
     mov #0x1, r4
@@ -40,12 +40,12 @@ menu_list_scroll:
     mov.l @r15, r3
     sub r0, r4
     cmp/ge r4, r3
-    bt      .L_use_max_scroll
-    bra     .L_scroll_clamped
+    bt      .L_0603B2DC
+    bra     .L_0603B2DE
     mov.l @r15, r13
-.L_use_max_scroll:
+.L_0603B2DC:
     mov r4, r13
-.L_scroll_clamped:
+.L_0603B2DE:
     mov r13, r5
     .byte   0xB5, 0xCC    /* bsr 0x0603BE7C (external) */
     mov.l @r14, r4

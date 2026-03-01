@@ -10,86 +10,86 @@ scene_invalidate_a:
     mov.l r13, @-r15
     mov.l r12, @-r15
     sts.l pr, @-r15
-    mov.l   .L_fp_min, r3
+    mov.l   .L_0603DA60, r3
     and r14, r3
     tst r3, r3
-    bt/s    .L_sign_handled
+    bt/s    .L_0603DA04
     mov #0x0, r12
     mov #0x1, r12
     neg r14, r14
-.L_sign_handled:
-    mov.l   .L_fp_360, r0
-    mov.l   .L_fn_fixed_mod, r3
+.L_0603DA04:
+    mov.l   .L_0603DA64, r0
+    mov.l   .L_0603DA68, r3
     jsr @r3
     mov r14, r1
     mov r0, r14
-    mov.l   .L_fn_sine_core, r13
-    mov.l   .L_fp_270, r2
+    mov.l   .L_0603DA6C, r13
+    mov.l   .L_0603DA70, r2
     cmp/ge r2, r14
-    bf      .L_check_q3
-    mov.l   .L_fp_360, r4
+    bf      .L_0603DA20
+    mov.l   .L_0603DA64, r4
     jsr @r13
     sub r14, r4
-    bra     .L_apply_sign
+    bra     .L_0603DA44
     neg r0, r4
-.L_check_q3:
-    mov.l   .L_fp_180, r2
+.L_0603DA20:
+    mov.l   .L_0603DA74, r2
     cmp/ge r2, r14
-    bf      .L_check_q2
-    mov.l   .L_fp_neg180, r4
+    bf      .L_0603DA30
+    mov.l   .L_0603DA78, r4
     jsr @r13
     add r14, r4
-    bra     .L_apply_sign
+    bra     .L_0603DA44
     neg r0, r4
-.L_check_q2:
-    mov.l   .L_fp_90, r2
+.L_0603DA30:
+    mov.l   .L_0603DA7C, r2
     cmp/ge r2, r14
-    bf      .L_q1_direct
-    mov.l   .L_fp_180, r4
-    bra     .L_call_sine_core
+    bf      .L_0603DA3C
+    mov.l   .L_0603DA74, r4
+    bra     .L_0603DA3E
     sub r14, r4
-.L_q1_direct:
+.L_0603DA3C:
     mov r14, r4
-.L_call_sine_core:
+.L_0603DA3E:
     jsr @r13
     nop
     mov r0, r4
-.L_apply_sign:
-    mov.l   .L_mask_low16, r2
+.L_0603DA44:
+    mov.l   .L_0603DA80, r2
     cmp/eq r2, r4
-    bf      .L_check_negate
-    mov.l   .L_fp_one, r4
-.L_check_negate:
+    bf      .L_0603DA4C
+    mov.l   .L_0603DA84, r4
+.L_0603DA4C:
     extu.w r12, r12
     tst r12, r12
-    bt      .L_return_result
+    bt      .L_0603DA54
     neg r4, r4
-.L_return_result:
+.L_0603DA54:
     mov r4, r0
     lds.l @r15+, pr
     mov.l @r15+, r12
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_fp_min:
+.L_0603DA60:
     .4byte  0x80000000                  /* min negative / sign bit */
-.L_fp_360:
+.L_0603DA64:
     .4byte  0x01680000                  /* 360.0 (16.16 fixed-point) */
-.L_fn_fixed_mod:
+.L_0603DA68:
     .4byte  sym_06036BE4                /* ! fixed-point modulo */
-.L_fn_sine_core:
+.L_0603DA6C:
     .4byte  sym_060424A2                /* ! core sine computation */
-.L_fp_270:
+.L_0603DA70:
     .4byte  0x010E0000                  /* 270.0 (16.16 fixed-point) */
-.L_fp_180:
+.L_0603DA74:
     .4byte  0x00B40000                  /* 180.0 (16.16 fixed-point) */
-.L_fp_neg180:
+.L_0603DA78:
     .4byte  0xFF4C0000                  /* -180.0 (16.16 fixed-point) */
-.L_fp_90:
+.L_0603DA7C:
     .4byte  0x005A0000                  /* 90.0 (16.16 fixed-point) */
-.L_mask_low16:
+.L_0603DA80:
     .4byte  0x0000FFFF                  /* low 16-bit mask */
-.L_fp_one:
+.L_0603DA84:
     .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
 
     .global scene_invalidate_b
@@ -100,88 +100,88 @@ scene_invalidate_b:
     mov.l r13, @-r15
     mov.l r12, @-r15
     sts.l pr, @-r15
-    mov.l   .L_fp_min_0603DB00, r3
+    mov.l   .L_0603DB00, r3
     and r14, r3
     tst r3, r3
-    bt      .L_sign_done_b
+    bt      .L_0603DA9C
     neg r14, r14
-.L_sign_done_b:
-    mov.l   .L_fp_360_b, r0
-    mov.l   .L_fn_fixed_mod_b, r3
+.L_0603DA9C:
+    mov.l   .L_0603DB04, r0
+    mov.l   .L_0603DB08, r3
     jsr @r3
     mov r14, r1
     mov r0, r14
     tst r14, r14
-    bf      .L_nonzero_angle
-    mov.l   .L_fp_one_0603DB0C, r0
-    bra     .L_return_cos
+    bf      .L_0603DAB0
+    mov.l   .L_0603DB0C, r0
+    bra     .L_0603DAF4
     nop
-.L_nonzero_angle:
-    mov.l   .L_fn_cosine_core, r13
-    mov.l   .L_fp_270_b, r3
+.L_0603DAB0:
+    mov.l   .L_0603DB10, r13
+    mov.l   .L_0603DB14, r3
     cmp/ge r3, r14
-    bf      .L_check_q3_b
-    mov.l   .L_fp_360_b, r4
+    bf      .L_0603DAC2
+    mov.l   .L_0603DB04, r4
     jsr @r13
     sub r14, r4
-    bra     .L_store_cos
+    bra     .L_0603DAF2
     mov r0, r4
-.L_check_q3_b:
-    mov.l   .L_fp_180_b, r12
+.L_0603DAC2:
+    mov.l   .L_0603DB18, r12
     cmp/gt r12, r14
-    bf      .L_check_eq_180
-    mov.l   .L_fp_neg180_b, r4
+    bf      .L_0603DAD2
+    mov.l   .L_0603DB1C, r4
     jsr @r13
     add r14, r4
-    bra     .L_store_cos
+    bra     .L_0603DAF2
     neg r0, r4
-.L_check_eq_180:
+.L_0603DAD2:
     cmp/eq r12, r14
-    bf      .L_check_q2_b
-    mov.l   .L_fp_neg_one, r4
-    bra     .L_store_cos
+    bf      .L_0603DADC
+    mov.l   .L_0603DB20, r4
+    bra     .L_0603DAF2
     nop
-.L_check_q2_b:
-    mov.l   .L_fp_90_b, r2
+.L_0603DADC:
+    mov.l   .L_0603DB24, r2
     cmp/ge r2, r14
-    bf      .L_q1_cos_direct
+    bf      .L_0603DAEC
     mov r12, r4
     jsr @r13
     sub r14, r4
-    bra     .L_store_cos
+    bra     .L_0603DAF2
     neg r0, r4
-.L_q1_cos_direct:
+.L_0603DAEC:
     jsr @r13
     mov r14, r4
     mov r0, r4
-.L_store_cos:
+.L_0603DAF2:
     mov r4, r0
-.L_return_cos:
+.L_0603DAF4:
     lds.l @r15+, pr
     mov.l @r15+, r12
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
     .2byte  0xFFFF
-.L_fp_min_0603DB00:
+.L_0603DB00:
     .4byte  0x80000000                  /* min negative / sign bit */
-.L_fp_360_b:
+.L_0603DB04:
     .4byte  0x01680000                  /* 360.0 (16.16 fixed-point) */
-.L_fn_fixed_mod_b:
+.L_0603DB08:
     .4byte  sym_06036BE4                /* ! fixed-point modulo */
-.L_fp_one_0603DB0C:
+.L_0603DB0C:
     .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
-.L_fn_cosine_core:
+.L_0603DB10:
     .4byte  sym_0604249C                /* ! core cosine computation */
-.L_fp_270_b:
+.L_0603DB14:
     .4byte  0x010E0000                  /* 270.0 (16.16 fixed-point) */
-.L_fp_180_b:
+.L_0603DB18:
     .4byte  0x00B40000                  /* 180.0 (16.16 fixed-point) */
-.L_fp_neg180_b:
+.L_0603DB1C:
     .4byte  0xFF4C0000                  /* -180.0 (16.16 fixed-point) */
-.L_fp_neg_one:
+.L_0603DB20:
     .4byte  0xFFFF0000                  /* -1.0 (16.16 fixed-point) */
-.L_fp_90_b:
+.L_0603DB24:
     .4byte  0x005A0000                  /* 90.0 (16.16 fixed-point) */
 
     .global controller_config
@@ -197,127 +197,127 @@ controller_config:
     mov.l r8, @-r15
     sts.l pr, @-r15
     add #-0xC, r15
-    mov.l   .L_ctrl_config_state, r10
+    mov.l   .L_0603DBA0, r10
     mov.l r4, @r15
     mov.w r0, @(4, r15)
     mov r6, r0
     cmp/eq #0x1, r0
-    bt/s    .L_cfg_type_valid
+    bt/s    .L_0603DB5E
     mov #0x0, r13
     tst r6, r6
-    bt      .L_cfg_type_valid
-    mov.w   .L_ctrl_type_analog, r3
+    bt      .L_0603DB5E
+    mov.w   .L_0603DB9E, r3
     cmp/eq r3, r6
-    bf      .L_cfg_invalid_combo
+    bf      .L_0603DB5A
     mov r7, r0
     cmp/eq #0x1, r0
-    bt      .L_cfg_type_valid
-.L_cfg_invalid_combo:
-    bra     .L_cfg_return
+    bt      .L_0603DB5E
+.L_0603DB5A:
+    bra     .L_0603DDD6
     mov #0x2, r0
-.L_cfg_type_valid:
+.L_0603DB5E:
     mov r7, r0
     cmp/eq #0x1, r0
-    bt      .L_cfg_mode_valid
+    bt      .L_0603DB72
     mov r7, r0
     cmp/eq #0x2, r0
-    bt      .L_cfg_mode_valid
+    bt      .L_0603DB72
     tst r7, r7
-    bt      .L_cfg_mode_valid
-    bra     .L_cfg_return
+    bt      .L_0603DB72
+    bra     .L_0603DDD6
     mov #0x2, r0
-.L_cfg_mode_valid:
+.L_0603DB72:
     extu.b r6, r3
-    mov.l   .L_ctrl_type_port_a, r2
+    mov.l   .L_0603DBA4, r2
     extu.b r7, r1
     mov r6, r0
     mov.b r3, @r2
-    mov.l   .L_ctrl_type_port_b, r2
+    mov.l   .L_0603DBA8, r2
     cmp/eq #0x1, r0
-    bf/s    .L_cfg_check_single
+    bf/s    .L_0603DB90
     mov.b r1, @r2
     mov r7, r0
     cmp/eq #0x1, r0
-    bf      .L_cfg_check_single
+    bf      .L_0603DB90
     mov #0x2, r2
-    bra     .L_cfg_write_state
+    bra     .L_0603DBB0
     mov.w r2, @r10
-.L_cfg_check_single:
+.L_0603DB90:
     tst r6, r6
-    bf      .L_cfg_default_state
+    bf      .L_0603DBAC
     mov r7, r0
     cmp/eq #0x1, r0
-    bf      .L_cfg_default_state
-    bra     .L_cfg_single_mode
+    bf      .L_0603DBAC
+    bra     .L_0603DBAE
     mov #0x1, r2
-.L_ctrl_type_analog:
+.L_0603DB9E:
     .2byte  0x0100                      /* analog pad type ID */
-.L_ctrl_config_state:
+.L_0603DBA0:
     .4byte  sym_060A4C80                /* ! controller config state */
-.L_ctrl_type_port_a:
+.L_0603DBA4:
     .4byte  sym_060A4C58                /* ! port A controller type byte */
-.L_ctrl_type_port_b:
+.L_0603DBA8:
     .4byte  sym_060A4C59                /* ! port B controller type byte */
-.L_cfg_default_state:
+.L_0603DBAC:
     extu.w r13, r2
-.L_cfg_single_mode:
+.L_0603DBAE:
     mov.w r2, @r10
-.L_cfg_write_state:
+.L_0603DBB0:
     mov.w @r10, r3
-    mov.l   .L_menu_status_word, r2
+    mov.l   .L_0603DCBC, r2
     mov.w r3, @r2
-    mov.l   .L_view_transform_a, r4
+    mov.l   .L_0603DCC0, r4
     mov.l r13, @r4
     mov.l r13, @(4, r4)
-    mov.l   .L_view_offset_a, r5
+    mov.l   .L_0603DCC4, r5
     mov.l r13, @r5
-    mov.l   .L_view_offset_b, r4
+    mov.l   .L_0603DCC8, r4
     mov.l r13, @r4
     mov.l r13, @(4, r5)
     mov.l r13, @(4, r4)
-    mov.l   .L_projection_params_a, r4
-    mov.l   .L_screen_width_param, r0
+    mov.l   .L_0603DCCC, r4
+    mov.l   .L_0603DCD0, r0
     mov r4, r11
     mov.w @r0, r0
     add #-0x10, r15
     extu.w r0, r0
-    mov.l   .L_fn_int_to_float, r3
+    mov.l   .L_0603DCD4, r3
     shlr r0
     jsr @r3
     mov.l r15, @-r15
     mov #0x0, r2
     mov.l r2, @-r15
-    mov.l   .L_float_30, r2
+    mov.l   .L_0603DCD8, r2
     mov.l r2, @-r15
     mov r15, r3
-    mov.l   .L_fn_float_div, r2
+    mov.l   .L_0603DCDC, r2
     add #0x10, r3
     jsr @r2
     mov.l r3, @-r15
-    mov.l   .L_fn_float_to_fixed, r3
+    mov.l   .L_0603DCE0, r3
     jsr @r3
     nop
     mov.l r0, @r11
-    mov.l   .L_projection_params_b, r5
-    mov.l   .L_screen_height_param, r9
+    mov.l   .L_0603DCE4, r5
+    mov.l   .L_0603DCE8, r9
     mov r5, r12
     mov.w @r9, r0
     extu.w r0, r0
     add #-0x10, r15
     shlr r0
-    mov.l   .L_fn_int_to_float, r3
+    mov.l   .L_0603DCD4, r3
     jsr @r3
     mov.l r15, @-r15
     mov #0x0, r2
     mov.l r2, @-r15
-    mov.l   .L_float_30, r2
+    mov.l   .L_0603DCD8, r2
     mov.l r2, @-r15
     mov r15, r3
-    mov.l   .L_fn_float_div, r2
+    mov.l   .L_0603DCDC, r2
     add #0x10, r3
     jsr @r2
     mov.l r3, @-r15
-    mov.l   .L_fn_float_to_fixed, r3
+    mov.l   .L_0603DCE0, r3
     jsr @r3
     nop
     mov.l r0, @r12
@@ -326,14 +326,14 @@ controller_config:
     mov.l @r12, r3
     mov.l r3, @(4, r5)
     mov.l @r15, r2
-    mov.l   .L_saved_input_state, r3
+    mov.l   .L_0603DCEC, r3
     mov.l r2, @r3
     mov.w @(4, r15), r0
-    mov.l   .L_screen_mode_param, r3
+    mov.l   .L_0603DCF0, r3
     mov r0, r2
     mov.w r2, @r3
-    mov.l   .L_fn_scene_update, r8
-    mov.l   .L_view_matrix_base, r14
+    mov.l   .L_0603DCF4, r8
+    mov.l   .L_0603DCF8, r14
     mov.l @r11, r2
     mov.l r2, @(8, r15)
     bsr     scene_invalidate_b
@@ -382,56 +382,56 @@ controller_config:
     bsr     scene_invalidate_a
     mov r13, r4
     mov.l r0, @(24, r14)
-    mov.l   .L_fp_one_0603DCFC, r4
+    mov.l   .L_0603DCFC, r4
     mov.l r4, @(28, r14)
     mov.l r13, @(32, r14)
     mov.l r13, @(36, r14)
     mov.l r13, @(40, r14)
     mov.l r4, @(44, r14)
     mov.l r13, @(48, r14)
-    mov.l   .L_screen_width_param, r2
+    mov.l   .L_0603DCD0, r2
     mov.w @r2, r2
     extu.w r2, r2
     shlr r2
     exts.w r2, r2
-    bra     .L_cfg_setup_viewport
+    bra     .L_0603DD00
     nop
     .2byte  0xFFFF
-.L_menu_status_word:
+.L_0603DCBC:
     .4byte  sym_060A3E38                /* ! menu display status */
-.L_view_transform_a:
+.L_0603DCC0:
     .4byte  sym_060A4C70                /* ! view transform array A */
-.L_view_offset_a:
+.L_0603DCC4:
     .4byte  sym_060A4C60                /* ! view offset array A */
-.L_view_offset_b:
+.L_0603DCC8:
     .4byte  sym_060A4C68                /* ! view offset array B */
-.L_projection_params_a:
+.L_0603DCCC:
     .4byte  sym_060A53A8                /* ! projection param set A */
-.L_screen_width_param:
+.L_0603DCD0:
     .4byte  sym_060635AE                /* ! screen width (ROM) */
-.L_fn_int_to_float:
+.L_0603DCD4:
     .4byte  sym_060358EC                /* ! int-to-float conversion */
-.L_float_30:
+.L_0603DCD8:
     .4byte  0x40F00000                  /* IEEE 754 float constant */
-.L_fn_float_div:
+.L_0603DCDC:
     .4byte  sym_060359E4                /* ! float division */
-.L_fn_float_to_fixed:
+.L_0603DCE0:
     .4byte  sym_060357B8                /* ! float-to-fixed conversion */
-.L_projection_params_b:
+.L_0603DCE4:
     .4byte  sym_060A53B0                /* ! projection param set B */
-.L_screen_height_param:
+.L_0603DCE8:
     .4byte  sym_060635B0                /* ! screen height (ROM) */
-.L_saved_input_state:
+.L_0603DCEC:
     .4byte  sym_060A4C5C                /* ! saved input state */
-.L_screen_mode_param:
+.L_0603DCF0:
     .4byte  sym_060635B2                /* ! screen mode (ROM) */
-.L_fn_scene_update:
+.L_0603DCF4:
     .4byte  display_scene_update        /* ! scene update function */
-.L_view_matrix_base:
+.L_0603DCF8:
     .4byte  sym_060A3E68                /* ! view matrix array base */
-.L_fp_one_0603DCFC:
+.L_0603DCFC:
     .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
-.L_cfg_setup_viewport:
+.L_0603DD00:
     mov #0x34, r0
     mov.w r2, @(r0, r14)
     mov.w @r9, r3
@@ -440,11 +440,11 @@ controller_config:
     shlr r3
     exts.w r3, r3
     mov.w r3, @(r0, r14)
-    mov.w   .L_view_depth_default, r3
+    mov.w   .L_0603DDEA, r3
     mov #0x38, r0
     mov.w r3, @(r0, r14)
     mov #0x3C, r0
-    mov.l   .L_screen_width_param_b, r3
+    mov.l   .L_0603DDEC, r3
     mov.w @r3, r3
     extu.w r3, r3
     shlr r3
@@ -468,8 +468,8 @@ controller_config:
     mov.w @(4, r15), r0
     extu.w r0, r0
     cmp/eq #0x2, r0
-    bf      .L_cfg_calc_vram
-    mov.l   .L_split_view_matrix, r4
+    bf      .L_0603DDC0
+    mov.l   .L_0603DDF0, r4
     mov r4, r5
     add #-0x80, r5
     mov.l @r5, r2
@@ -528,19 +528,19 @@ controller_config:
     mov #0x50, r0
     mov.l @(r0, r5), r3
     mov.l r3, @(r0, r4)
-.L_cfg_calc_vram:
+.L_0603DDC0:
     mov.l @r15, r4
-    mov.l   .L_addr_align_mask, r3
+    mov.l   .L_0603DDF4, r3
     and r3, r4
     shlr r4
     mov.l @r15, r0
     and #0x3E, r0
     shlr2 r0
     add r0, r4
-    mov.l   .L_vram_write_addr, r3
+    mov.l   .L_0603DDF8, r3
     mov.l r4, @r3
     mov #0x0, r0
-.L_cfg_return:
+.L_0603DDD6:
     add #0xC, r15
     lds.l @r15+, pr
     mov.l @r15+, r8
@@ -551,15 +551,15 @@ controller_config:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_view_depth_default:
+.L_0603DDEA:
     .2byte  0x0190                      /* default view depth = 400 */
-.L_screen_width_param_b:
+.L_0603DDEC:
     .4byte  sym_060635AE                /* ! screen width (ROM) */
-.L_split_view_matrix:
+.L_0603DDF0:
     .4byte  sym_060A3EE8                /* ! split-screen view matrix */
-.L_addr_align_mask:
+.L_0603DDF4:
     .4byte  0x0007FF80                  /* VRAM address alignment mask */
-.L_vram_write_addr:
+.L_0603DDF8:
     .4byte  sym_060A3E44                /* ! VRAM write target */
 
     .global scene_color_matrix
@@ -572,34 +572,34 @@ scene_color_matrix:
     mov.l r10, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   .L_color_matrix_base, r10
-    mov.l   .L_view_offset_b_cm, r11
-    mov.l   .L_view_offset_a_cm, r12
+    mov.l   .L_0603DEB4, r10
+    mov.l   .L_0603DEB8, r11
+    mov.l   .L_0603DEBC, r12
     mov #0x0, r13
     mov.l r6, @r15
-    mov.l   .L_display_mode_state, r0
-    bra     .L_cm_dispatch
+    mov.l   .L_0603DEC0, r0
+    bra     .L_0603DE26
     mov.l @r0, r0
-.L_cm_mode_1:
-    bra     .L_cm_setup_identity
+.L_0603DE1A:
+    bra     .L_0603DE32
     extu.w r13, r14
-.L_cm_mode_2:
-    bra     .L_cm_setup_identity
+.L_0603DE1E:
+    bra     .L_0603DE32
     mov #0x1, r14
-.L_cm_mode_default:
-    bra     .L_cm_return
+.L_0603DE22:
+    bra     .L_0603E02A
     nop
-.L_cm_dispatch:
+.L_0603DE26:
     cmp/eq #0x1, r0
-    bt      .L_cm_mode_1
+    bt      .L_0603DE1A
     cmp/eq #0x2, r0
-    bt      .L_cm_mode_2
-    bra     .L_cm_mode_default
+    bt      .L_0603DE1E
+    bra     .L_0603DE22
     nop
-.L_cm_setup_identity:
+.L_0603DE32:
     exts.b r14, r6
     extu.w r14, r2
-    mov.l   .L_fp_one_0603DEC4, r7
+    mov.l   .L_0603DEC4, r7
     mov r6, r3
     shll2 r2
     shll2 r6
@@ -618,23 +618,23 @@ scene_color_matrix:
     mov.l r13, @(24, r6)
     mov.l r13, @(28, r6)
     mov.l r7, @(32, r6)
-    mov.l   .L_scene_active_flags, r3
+    mov.l   .L_0603DEC8, r3
     add r3, r2
     mov.l @r2, r0
     tst r0, r0
-    bt      .L_cm_clear_offset
+    bt      .L_0603DE74
     extu.w r14, r0
     shll2 r0
     mov.l @(r0, r12), r3
     add r4, r3
     mov.l r3, @(r0, r12)
-    bra     .L_cm_update_scroll
+    bra     .L_0603DE7A
     nop
-.L_cm_clear_offset:
+.L_0603DE74:
     extu.w r14, r0
     shll2 r0
     mov.l r13, @(r0, r12)
-.L_cm_update_scroll:
+.L_0603DE7A:
     extu.w r14, r6
     shll2 r6
     mov r6, r3
@@ -645,86 +645,86 @@ scene_color_matrix:
     mov.l r2, @r3
     mov.l @r6, r0
     tst r0, r0
-    bf      .L_cm_check_hud
+    bf      .L_0603DEDC
     tst r4, r4
-    bt      .L_cm_check_hud
-    mov.l   .L_menu_status_word_cm, r4
-    mov.l   .L_display_mode_state, r0
-    bra     .L_cm_flags_dispatch
+    bt      .L_0603DEDC
+    mov.l   .L_0603DECC, r4
+    mov.l   .L_0603DEC0, r0
+    bra     .L_0603DED4
     mov.l @r0, r0
-.L_cm_mask_high_byte:
-    mov.l   .L_mask_byte1, r2
+.L_0603DE9C:
+    mov.l   .L_0603DED0, r2
     mov.w @(4, r4), r0
     mov r0, r3
     and r2, r3
     mov r3, r0
-    bra     .L_cm_write_flags
+    bra     .L_0603DEAE
     nop
-.L_cm_mask_low_byte:
+.L_0603DEAA:
     mov.w @(4, r4), r0
     and #0xFF, r0
-.L_cm_write_flags:
-    bra     .L_cm_check_hud
+.L_0603DEAE:
+    bra     .L_0603DEDC
     mov.w r0, @(4, r4)
     .2byte  0xFFFF
-.L_color_matrix_base:
+.L_0603DEB4:
     .4byte  sym_060A53B8
-.L_view_offset_b_cm:
+.L_0603DEB8:
     .4byte  sym_060A4C68
-.L_view_offset_a_cm:
+.L_0603DEBC:
     .4byte  sym_060A4C60
-.L_display_mode_state:
+.L_0603DEC0:
     .4byte  sym_060635A8
-.L_fp_one_0603DEC4:
+.L_0603DEC4:
     .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
-.L_scene_active_flags:
+.L_0603DEC8:
     .4byte  sym_060A4C44
-.L_menu_status_word_cm:
+.L_0603DECC:
     .4byte  sym_060A3E38
-.L_mask_byte1:
+.L_0603DED0:
     .4byte  0x0000FF00                  /* byte 1 mask */
-.L_cm_flags_dispatch:
+.L_0603DED4:
     cmp/eq #0x1, r0
-    bt      .L_cm_mask_high_byte
+    bt      .L_0603DE9C
     cmp/eq #0x2, r0
-    bt      .L_cm_mask_low_byte
-.L_cm_check_hud:
+    bt      .L_0603DEAA
+.L_0603DEDC:
     mov.l @r15, r0
     tst r0, r0
-    bt      .L_cm_check_dirty
+    bt      .L_0603DEE6
     bsr     hud_update_main
     mov.l @r15, r4
-.L_cm_check_dirty:
+.L_0603DEE6:
     extu.w r14, r4
-    mov.l   .L_scene_dirty_flags, r3
+    mov.l   .L_0603DF4C, r3
     shll2 r4
     add r4, r3
     mov.l @r3, r0
     tst r0, r0
-    bt      .L_cm_load_view
-    mov.l   .L_view_transform_a_cm, r3
+    bt      .L_0603DF04
+    mov.l   .L_0603DF50, r3
     add r4, r3
     mov.l @r3, r0
     tst r0, r0
-    bt      .L_cm_load_view
+    bt      .L_0603DF04
     extu.w r14, r0
     shll2 r0
     mov.l r13, @(r0, r12)
-.L_cm_load_view:
-    mov.l   .L_view_matrix_base_cm, r5
+.L_0603DF04:
+    mov.l   .L_0603DF54, r5
     extu.w r14, r4
     shll2 r4
     mov r4, r3
     add r12, r3
     mov.l @r3, r0
     tst r0, r0
-    bf      .L_cm_apply_transform
-    mov.l   .L_view_pending_flags, r3
+    bf      .L_0603DF1E
+    mov.l   .L_0603DF58, r3
     add r4, r3
     mov.l @r3, r0
     tst r0, r0
-    bt      .L_cm_check_flags
-.L_cm_apply_transform:
+    bt      .L_0603DF5C
+.L_0603DF1E:
     exts.b r14, r6
     extu.w r14, r4
     mov r6, r3
@@ -746,37 +746,37 @@ scene_color_matrix:
     mov #0x50, r0
     mov.l @(r0, r4), r3
     mov.l r3, @(16, r6)
-    bra     .L_cm_check_scroll
+    bra     .L_0603DFB6
     nop
-.L_scene_dirty_flags:
+.L_0603DF4C:
     .4byte  sym_060A4C4C
-.L_view_transform_a_cm:
+.L_0603DF50:
     .4byte  sym_060A4C70
-.L_view_matrix_base_cm:
+.L_0603DF54:
     .4byte  sym_060A3E68
-.L_view_pending_flags:
+.L_0603DF58:
     .4byte  sym_060A4C78
-.L_cm_check_flags:
+.L_0603DF5C:
     extu.w r14, r4
     tst r4, r4
-    bf      .L_cm_check_mode2
-    mov.l   .L_menu_flags_word, r0
+    bf      .L_0603DF6C
+    mov.l   .L_0603E03C, r0
     mov.w @r0, r0
     extu.w r0, r0
     tst #0xFF, r0
-    bf      .L_cm_copy_projection
-.L_cm_check_mode2:
+    bf      .L_0603DF80
+.L_0603DF6C:
     mov r4, r0
     cmp/eq #0x1, r0
-    bf      .L_cm_check_scroll
-    mov.l   .L_menu_flags_word, r2
-    mov.l   .L_mask_byte1_0603E040, r3
+    bf      .L_0603DFB6
+    mov.l   .L_0603E03C, r2
+    mov.l   .L_0603E040, r3
     mov.w @r2, r2
     extu.w r2, r2
     and r3, r2
     tst r2, r2
-    bt      .L_cm_check_scroll
-.L_cm_copy_projection:
+    bt      .L_0603DFB6
+.L_0603DF80:
     exts.b r14, r6
     extu.w r14, r4
     mov r6, r3
@@ -804,46 +804,46 @@ scene_color_matrix:
     mov #0x50, r0
     mov.l @(r0, r4), r3
     mov.l r3, @(44, r4)
-.L_cm_check_scroll:
+.L_0603DFB6:
     extu.w r14, r0
     shll2 r0
     mov.l @(r0, r11), r3
     tst r3, r3
-    bt      .L_cm_check_pending
+    bt      .L_0603DFC8
     extu.w r14, r0
     shll2 r0
     bsr     display_channel_handler
     mov.l @(r0, r11), r4
-.L_cm_check_pending:
+.L_0603DFC8:
     extu.w r14, r4
     shll2 r4
     mov r4, r3
     add r12, r3
     mov.l @r3, r0
     tst r0, r0
-    bf      .L_cm_render_dispatch
-    mov.l   .L_view_pending_flags_cm, r3
+    bf      .L_0603DFE0
+    mov.l   .L_0603E044, r3
     add r4, r3
     mov.l @r3, r0
     tst r0, r0
-    bt      .L_cm_return
-.L_cm_render_dispatch:
+    bt      .L_0603E02A
+.L_0603DFE0:
     extu.w r14, r3
-    mov.l   .L_scene_render_flags, r2
+    mov.l   .L_0603E048, r2
     shll r3
     add r2, r3
     mov.w @r3, r3
     extu.w r3, r3
     tst r3, r3
-    bt      .L_cm_tail_sound_test
+    bt      .L_0603DFFE
     extu.w r14, r3
-    mov.l   .L_scene_dirty_flags_cm, r2
+    mov.l   .L_0603E04C, r2
     shll2 r3
     add r2, r3
     mov.l @r3, r0
     tst r0, r0
-    bt      .L_cm_tail_options
-.L_cm_tail_sound_test:
+    bt      .L_0603E014
+.L_0603DFFE:
     extu.w r14, r0
     shll2 r0
     mov.l @(r0, r12), r4
@@ -855,7 +855,7 @@ scene_color_matrix:
     mov.l @r15+, r13
     bra     sound_test_player
     mov.l @r15+, r14
-.L_cm_tail_options:
+.L_0603E014:
     extu.w r14, r0
     shll2 r0
     mov.l @(r0, r12), r4
@@ -867,7 +867,7 @@ scene_color_matrix:
     mov.l @r15+, r13
     bra     options_render
     mov.l @r15+, r14
-.L_cm_return:
+.L_0603E02A:
     add #0x4, r15
     lds.l @r15+, pr
     mov.l @r15+, r10
@@ -877,15 +877,15 @@ scene_color_matrix:
     rts
     mov.l @r15+, r14
     .2byte  0xFFFF
-.L_menu_flags_word:
+.L_0603E03C:
     .4byte  sym_060A3E3C
-.L_mask_byte1_0603E040:
+.L_0603E040:
     .4byte  0x0000FF00                  /* byte 1 mask */
-.L_view_pending_flags_cm:
+.L_0603E044:
     .4byte  sym_060A4C78
-.L_scene_render_flags:
+.L_0603E048:
     .4byte  sym_060A4C54
-.L_scene_dirty_flags_cm:
+.L_0603E04C:
     .4byte  sym_060A4C4C
 
     .global sound_test_player
@@ -901,27 +901,27 @@ sound_test_player:
     sts.l pr, @-r15
     sts.l macl, @-r15
     add #-0x38, r15
-    mov.w   .L_ctrl_type_analog_stp, r8
-    mov.l   .L_fp_four, r9
-    mov.l   .L_fp_half, r12
-    mov.l   .L_fn_scene_update_stp, r13
+    mov.w   .L_0603E0B0, r8
+    mov.l   .L_0603E0B4, r9
+    mov.l   .L_0603E0B8, r12
+    mov.l   .L_0603E0BC, r13
     mov.l r4, @(8, r15)
-    mov.l   .L_menu_status_stp, r4
-    mov.l   .L_display_mode_stp, r0
-    bra     .L_stp_dispatch
+    mov.l   .L_0603E0C0, r4
+    mov.l   .L_0603E0C4, r0
+    bra     .L_0603E0A4
     mov.l @r0, r0
-.L_stp_mode_1:
+.L_0603E076:
     mov #0x0, r14
-    mov.l   .L_mask_byte1_0603E0C8, r2
+    mov.l   .L_0603E0C8, r2
     mov.w @(4, r4), r0
     mov r0, r3
     and r2, r3
     mov r3, r0
     mov.w r0, @(4, r4)
     mov.w @(4, r4), r0
-    bra     .L_stp_write_flags
+    bra     .L_0603E09C
     or #0x3, r0
-.L_stp_mode_2:
+.L_0603E08A:
     mov #0x1, r14
     mov.w @(4, r4), r0
     and #0xFF, r0
@@ -931,38 +931,38 @@ sound_test_player:
     mov r0, r2
     or r3, r2
     mov r2, r0
-.L_stp_write_flags:
-    bra     .L_stp_calc_sincos
+.L_0603E09C:
+    bra     .L_0603E0CC
     mov.w r0, @(4, r4)
-.L_stp_mode_default:
-    bra     .L_stp_return
+.L_0603E0A0:
+    bra     .L_0603E5A6
     nop
-.L_stp_dispatch:
+.L_0603E0A4:
     cmp/eq #0x1, r0
-    bt      .L_stp_mode_1
+    bt      .L_0603E076
     cmp/eq #0x2, r0
-    bt      .L_stp_mode_2
-    bra     .L_stp_mode_default
+    bt      .L_0603E08A
+    bra     .L_0603E0A0
     nop
-.L_ctrl_type_analog_stp:
+.L_0603E0B0:
     .2byte  0x0100
 
     .global DAT_0603e0b2
 DAT_0603e0b2:
     .2byte  0x0300
-.L_fp_four:
+.L_0603E0B4:
     .4byte  0x00040000                  /* 4.0 (16.16 fixed-point) */
-.L_fp_half:
+.L_0603E0B8:
     .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
-.L_fn_scene_update_stp:
+.L_0603E0BC:
     .4byte  sym_0603C0A0                /* ! scene update dispatch */
-.L_menu_status_stp:
+.L_0603E0C0:
     .4byte  sym_060A3E38                /* ! menu display status */
-.L_display_mode_stp:
+.L_0603E0C4:
     .4byte  sym_060635A8                /* ! current display mode */
-.L_mask_byte1_0603E0C8:
+.L_0603E0C8:
     .4byte  0x0000FF00                  /* byte 1 mask */
-.L_stp_calc_sincos:
+.L_0603E0CC:
     bsr     scene_invalidate_a
     mov.l @(8, r15), r4
     mov.l r0, @r15
@@ -977,7 +977,7 @@ DAT_0603e0b2:
     shll r3
     add r3, r10
     exts.b r10, r10
-    mov.l   .L_color_matrix_base_stp, r2
+    mov.l   .L_0603E1A8, r2
     add r2, r10
     mov r10, r3
     add #0x4, r3
@@ -1009,7 +1009,7 @@ DAT_0603e0b2:
     mov.l r3, @(4, r15)
     mov.l @r3, r2
     mov.l r2, @(16, r15)
-    mov.l   .L_fn_scene_update_stp2, r11
+    mov.l   .L_0603E1AC, r11
     mov.l @(48, r15), r2
     mov.l r2, @-r15
     mov.l @(12, r15), r5
@@ -1071,13 +1071,13 @@ DAT_0603e0b2:
     mov.l @(28, r15), r4
     mov.l r0, @-r15
     mov.l @(8, r15), r5
-    bra     .L_stp_matrix_continue
+    bra     .L_0603E1B0
     mov.l @(24, r15), r4
-.L_color_matrix_base_stp:
+.L_0603E1A8:
     .4byte  sym_060A53B8
-.L_fn_scene_update_stp2:
+.L_0603E1AC:
     .4byte  display_scene_update
-.L_stp_matrix_continue:
+.L_0603E1B0:
     jsr @r11
     nop
     mov.l @r15+, r3
@@ -1103,7 +1103,7 @@ DAT_0603e0b2:
     shll2 r4
     shll2 r4
     shll r4
-    mov.l   .L_view_matrix_stp, r3
+    mov.l   .L_0603E2BC, r3
     add r3, r4
     mov.l @r10, r2
     mov.l r2, @(28, r4)
@@ -1153,20 +1153,20 @@ DAT_0603e0b2:
     mul.l r3, r1
     exts.w r0, r0
     sts macl, r1
-    mov.l   .L_fn_int_to_float_stp, r3
+    mov.l   .L_0603E2C0, r3
     add r1, r11
     jsr @r3
     mov.l r15, @-r15
     mov #0x0, r2
     mov.l r2, @-r15
-    mov.l   .L_float_30_stp, r2
+    mov.l   .L_0603E2C4, r2
     mov.l r2, @-r15
     mov r15, r3
-    mov.l   .L_fn_float_div_stp, r2
+    mov.l   .L_0603E2C8, r2
     add #0x10, r3
     jsr @r2
     mov.l r3, @-r15
-    mov.l   .L_fn_float_to_fixed_stp, r3
+    mov.l   .L_0603E2CC, r3
     jsr @r3
     nop
     add r0, r11
@@ -1176,7 +1176,7 @@ DAT_0603e0b2:
     sts macl, r6
     mov.l r3, @(12, r15)
     neg r6, r6
-    mov.l   .L_view_pending_stp, r2
+    mov.l   .L_0603E2D0, r2
     add r3, r2
     mov.l @r2, r1
     mov.l @r15, r2
@@ -1187,49 +1187,49 @@ DAT_0603e0b2:
     sub r2, r6
     mov.l r6, @(8, r15)
     mov.l @(12, r15), r2
-    mov.l   .L_view_transform_stp, r0
+    mov.l   .L_0603E2D4, r0
     mov.l @(r0, r2), r2
     tst r2, r2
-    bf      .L_stp_has_transform
-    bra     .L_stp_no_transform
+    bf      .L_0603E296
+    bra     .L_0603E3EE
     nop
-.L_stp_has_transform:
+.L_0603E296:
     extu.w r14, r10
     shll2 r10
     shll2 r10
     shll2 r10
     shll r10
-    mov.l   .L_view_matrix_stp, r3
+    mov.l   .L_0603E2BC, r3
     add r3, r10
     mov.l @(4, r10), r2
-    mov.l   .L_fp_300, r3
+    mov.l   .L_0603E2D8, r3
     add r3, r2
     mov #0x54, r0
     mov.l r2, @(r0, r10)
     extu.w r14, r4
     shll2 r4
     mov.l r4, @r15
-    mov.l   .L_view_transform_stp, r3
+    mov.l   .L_0603E2D4, r3
     add r3, r4
-    bra     .L_stp_calc_angles
+    bra     .L_0603E2DC
     nop
-.L_view_matrix_stp:
+.L_0603E2BC:
     .4byte  sym_060A3E68
-.L_fn_int_to_float_stp:
+.L_0603E2C0:
     .4byte  sym_060358EC
-.L_float_30_stp:
+.L_0603E2C4:
     .4byte  0x40F00000
-.L_fn_float_div_stp:
+.L_0603E2C8:
     .4byte  sym_060359E4
-.L_fn_float_to_fixed_stp:
+.L_0603E2CC:
     .4byte  sym_060357B8
-.L_view_pending_stp:
+.L_0603E2D0:
     .4byte  sym_060A4C78
-.L_view_transform_stp:
+.L_0603E2D4:
     .4byte  sym_060A4C70
-.L_fp_300:
+.L_0603E2D8:
     .4byte  0x012C0000                  /* 300.0 (16.16 fixed-point) */
-.L_stp_calc_angles:
+.L_0603E2DC:
     mov.l r4, @(4, r15)
     bsr     scene_invalidate_b
     mov.l @r4, r4
@@ -1244,7 +1244,7 @@ DAT_0603e0b2:
     mov #0x0, r10
     mov.l r0, @r1
     mov.l @r15, r3
-    mov.l   .L_render_slot_flags, r2
+    mov.l   .L_0603E3C0, r2
     mov.w   DAT_0603e3b6, r1
     add r2, r3
     mov.l r1, @r3
@@ -1263,24 +1263,24 @@ DAT_0603e0b2:
     add r0, r1
     shll2 r3
     exts.b r1, r1
-    mov.l   .L_color_matrix_base_stp2, r0
+    mov.l   .L_0603E3C4, r0
     shll2 r3
     add r0, r1
     add #0x1C, r1
     mov.l r1, @(16, r15)
     shll r3
-    mov.l   .L_view_matrix_stp2, r0
+    mov.l   .L_0603E3C8, r0
     add r0, r3
     mov.l r3, @(20, r15)
     mov.w   DAT_0603e3b8, r2
     muls.w r2, r14
     sts macl, r2
     exts.w r2, r2
-    mov.l   .L_color_palette_table, r0
+    mov.l   .L_0603E3CC, r0
     add r0, r2
-    bra     .L_stp_palette_check
+    bra     .L_0603E3E2
     mov.l r2, @(4, r15)
-.L_stp_palette_loop:
+.L_0603E340:
     mov.l @(16, r15), r2
     mov #0x36, r0
     mov r10, r1
@@ -1295,31 +1295,31 @@ DAT_0603e0b2:
     sts macl, r1
     add r3, r1
     mov.l r1, @r15
-    mov.l   .L_fn_visibility_check, r2
+    mov.l   .L_0603E3D0, r2
     jsr @r2
     mov r8, r0
     tst r0, r0
-    bt      .L_stp_not_visible
+    bt      .L_0603E3D4
     mov.l @r15, r5
     jsr @r13
     mov r11, r4
     neg r0, r0
     cmp/gt r9, r0
-    bt      .L_stp_out_of_range
+    bt      .L_0603E37E
     mov.l @r15, r5
     jsr @r13
     mov r11, r4
     neg r0, r0
     cmp/pz r0
-    bt      .L_stp_calc_color
-.L_stp_out_of_range:
+    bt      .L_0603E38A
+.L_0603E37E:
     mov r10, r0
     shll r0
     mov.l @(4, r15), r3
     add r3, r0
-    bra     .L_stp_write_default
+    bra     .L_0603E3DC
     nop
-.L_stp_calc_color:
+.L_0603E38A:
     mov r10, r0
     mov.l @(4, r15), r3
     shll r0
@@ -1340,7 +1340,7 @@ DAT_0603e0b2:
     and r3, r0
     extu.w r0, r0
     mov.l @r15+, r2
-    bra     .L_stp_next_entry
+    bra     .L_0603E3E0
     mov.w r0, @r2
 
     .global DAT_0603e3b6
@@ -1359,46 +1359,46 @@ DAT_0603e3ba:
 DAT_0603e3bc:
     .2byte  0x7FFF
     .2byte  0xFFFF
-.L_render_slot_flags:
+.L_0603E3C0:
     .4byte  sym_060A4C38
-.L_color_matrix_base_stp2:
+.L_0603E3C4:
     .4byte  sym_060A53B8
-.L_view_matrix_stp2:
+.L_0603E3C8:
     .4byte  sym_060A3E68
-.L_color_palette_table:
+.L_0603E3CC:
     .4byte  sym_060A3F68
-.L_fn_visibility_check:
+.L_0603E3D0:
     .4byte  sym_06034FFC
-.L_stp_not_visible:
+.L_0603E3D4:
     mov r10, r0
     shll r0
     mov.l @(4, r15), r3
     add r3, r0
-.L_stp_write_default:
+.L_0603E3DC:
     extu.w r12, r2
     mov.w r2, @r0
-.L_stp_next_entry:
+.L_0603E3E0:
     add #0x1, r10
-.L_stp_palette_check:
+.L_0603E3E2:
     mov.l @(12, r15), r3
     mov.l @r3, r3
     cmp/hs r3, r10
-    bf      .L_stp_palette_loop
-    bra     .L_stp_mark_ready
+    bf      .L_0603E340
+    bra     .L_0603E59A
     nop
-.L_stp_no_transform:
+.L_0603E3EE:
     extu.w r14, r0
-    mov.l   .L_scene_dirty_stp, r5
+    mov.l   .L_0603E448, r5
     shll2 r0
     mov.l @(r0, r5), r4
     mov r4, r0
     cmp/eq #-0x1, r0
-    bt      .L_stp_use_default_pos
+    bt      .L_0603E460
     tst r4, r4
-    bt      .L_stp_use_default_pos
+    bt      .L_0603E460
     extu.w r14, r4
     extu.w r14, r0
-    mov.l   .L_view_matrix_stp3, r3
+    mov.l   .L_0603E44C, r3
     shll2 r4
     shll2 r0
     shll2 r4
@@ -1406,7 +1406,7 @@ DAT_0603e3bc:
     shll2 r4
     add #-0x10, r15
     shll r4
-    mov.l   .L_fn_int_to_float_stp2, r2
+    mov.l   .L_0603E450, r2
     add r3, r4
     mov #0x0, r3
     cmp/gt r0, r3
@@ -1415,49 +1415,49 @@ DAT_0603e3bc:
     jsr @r2
     mov.l r15, @-r15
     mov.l r3, @-r15
-    mov.l   .L_float_30_stp2, r3
+    mov.l   .L_0603E454, r3
     mov.l r3, @-r15
     mov r15, r2
-    mov.l   .L_fn_float_div_stp2, r3
+    mov.l   .L_0603E458, r3
     add #0x10, r2
     jsr @r3
     mov.l r2, @-r15
-    mov.l   .L_fn_float_to_fixed_stp2, r2
+    mov.l   .L_0603E45C, r2
     jsr @r2
     nop
     mov.l @(4, r4), r3
     add r3, r0
     mov #0x54, r1
     add r4, r1
-    bra     .L_stp_setup_palette_b
+    bra     .L_0603E474
     mov.l r0, @r1
     .2byte  0xFFFF
-.L_scene_dirty_stp:
+.L_0603E448:
     .4byte  sym_060A4C4C
-.L_view_matrix_stp3:
+.L_0603E44C:
     .4byte  sym_060A3E68
-.L_fn_int_to_float_stp2:
+.L_0603E450:
     .4byte  sym_060358EC
-.L_float_30_stp2:
+.L_0603E454:
     .4byte  0x40F00000
-.L_fn_float_div_stp2:
+.L_0603E458:
     .4byte  sym_060359E4
-.L_fn_float_to_fixed_stp2:
+.L_0603E45C:
     .4byte  sym_060357B8
-.L_stp_use_default_pos:
+.L_0603E460:
     extu.w r14, r4
     shll2 r4
     shll2 r4
     shll2 r4
     shll r4
-    mov.l   .L_view_matrix_stp4, r3
+    mov.l   .L_0603E540, r3
     add r3, r4
     mov.l @(4, r4), r2
     mov #0x54, r0
     mov.l r2, @(r0, r4)
-.L_stp_setup_palette_b:
+.L_0603E474:
     extu.w r14, r3
-    mov.l   .L_view_matrix_stp4, r2
+    mov.l   .L_0603E540, r2
     shll2 r3
     shll2 r3
     shll2 r3
@@ -1482,8 +1482,8 @@ DAT_0603e3bc:
     mov.l @r15+, r2
     shll2 r3
     mov.l r0, @r2
-    mov.l   .L_render_slot_flags_stp, r2
-    mov.l   .L_screen_height_stp, r1
+    mov.l   .L_0603E544, r2
+    mov.l   .L_0603E548, r1
     add r2, r3
     mov.w @r1, r1
     extu.w r1, r1
@@ -1501,7 +1501,7 @@ DAT_0603e3bc:
     shll r0
     add r0, r1
     exts.b r1, r1
-    mov.l   .L_color_matrix_stp, r0
+    mov.l   .L_0603E54C, r0
     add r0, r1
     add #0x1C, r1
     mov.l r1, @(12, r15)
@@ -1510,18 +1510,18 @@ DAT_0603e3bc:
     shll2 r3
     shll2 r3
     shll r3
-    mov.l   .L_view_matrix_stp4, r0
+    mov.l   .L_0603E540, r0
     add r0, r3
     mov.l r3, @(20, r15)
-    mov.w   .L_palette_stride, r2
+    mov.w   .L_0603E53C, r2
     muls.w r2, r14
     sts macl, r2
     exts.w r2, r2
-    mov.l   .L_palette_table_stp, r0
+    mov.l   .L_0603E550, r0
     add r0, r2
-    bra     .L_stp_palette_check_b
+    bra     .L_0603E592
     mov.l r2, @(4, r15)
-.L_stp_palette_loop_b:
+.L_0603E4F6:
     mov #0x36, r0
     mov r10, r1
     mov.l @(12, r15), r2
@@ -1534,46 +1534,46 @@ DAT_0603e3bc:
     sts macl, r1
     add r2, r1
     mov.l r1, @r15
-    mov.l   .L_fn_visibility_stp, r3
+    mov.l   .L_0603E554, r3
     jsr @r3
     mov r8, r0
     tst r0, r0
-    bt      .L_stp_not_visible_b
+    bt      .L_0603E584
     mov.l @r15, r5
     jsr @r13
     mov r11, r4
     neg r0, r0
     cmp/gt r9, r0
-    bt      .L_stp_out_of_range_b
+    bt      .L_0603E530
     mov.l @r15, r5
     jsr @r13
     mov r11, r4
     neg r0, r0
     cmp/pz r0
-    bt      .L_stp_calc_color_b
-.L_stp_out_of_range_b:
+    bt      .L_0603E558
+.L_0603E530:
     mov r10, r0
     shll r0
     mov.l @(4, r15), r3
     add r3, r0
-    bra     .L_stp_write_default_b
+    bra     .L_0603E58C
     nop
-.L_palette_stride:
+.L_0603E53C:
     .2byte  0x0668
     .2byte  0xFFFF
-.L_view_matrix_stp4:
+.L_0603E540:
     .4byte  sym_060A3E68
-.L_render_slot_flags_stp:
+.L_0603E544:
     .4byte  sym_060A4C38
-.L_screen_height_stp:
+.L_0603E548:
     .4byte  sym_060635B0
-.L_color_matrix_stp:
+.L_0603E54C:
     .4byte  sym_060A53B8
-.L_palette_table_stp:
+.L_0603E550:
     .4byte  sym_060A3F68
-.L_fn_visibility_stp:
+.L_0603E554:
     .4byte  sym_06034FFC
-.L_stp_calc_color_b:
+.L_0603E558:
     mov r10, r0
     mov.l @(4, r15), r3
     shll r0
@@ -1594,31 +1594,31 @@ DAT_0603e3bc:
     and r3, r0
     extu.w r0, r0
     mov.l @r15+, r2
-    bra     .L_stp_next_entry_b
+    bra     .L_0603E590
     mov.w r0, @r2
-.L_stp_not_visible_b:
+.L_0603E584:
     mov r10, r0
     shll r0
     mov.l @(4, r15), r3
     add r3, r0
-.L_stp_write_default_b:
+.L_0603E58C:
     extu.w r12, r2
     mov.w r2, @r0
-.L_stp_next_entry_b:
+.L_0603E590:
     add #0x1, r10
-.L_stp_palette_check_b:
+.L_0603E592:
     mov.l @(16, r15), r3
     mov.l @r3, r3
     cmp/hs r3, r10
-    bf      .L_stp_palette_loop_b
-.L_stp_mark_ready:
+    bf      .L_0603E4F6
+.L_0603E59A:
     extu.w r14, r14
     shll r14
-    mov.l   .L_scene_ready_flags, r3
+    mov.l   .L_0603E624, r3
     add r3, r14
     mov #0x1, r2
     mov.w r2, @r14
-.L_stp_return:
+.L_0603E5A6:
     add #0x38, r15
     lds.l @r15+, macl
     lds.l @r15+, pr
@@ -1644,70 +1644,70 @@ options_render:
     sts.l pr, @-r15
     sts.l macl, @-r15
     add #-0x34, r15
-    mov.l   .L_fp_four_0603E628, r8
+    mov.l   .L_0603E628, r8
     mov.w   DAT_0603e61e, r9
     mov r9, r12
     add #0x1, r12
-    mov.l   .L_fn_scene_update_opt, r14
+    mov.l   .L_0603E62C, r14
     mov.l r4, @(8, r15)
-    mov.l   .L_menu_status_opt, r4
-    mov.l   .L_display_mode_opt, r0
-    bra     .L_opt_dispatch
+    mov.l   .L_0603E630, r4
+    mov.l   .L_0603E634, r0
+    bra     .L_0603E612
     mov.l @r0, r0
-.L_opt_mode_1:
+.L_0603E5E4:
     mov #0x0, r13
-    mov.l   .L_mask_byte1_0603E638, r2
+    mov.l   .L_0603E638, r2
     mov.w @(4, r4), r0
     mov r0, r3
     and r2, r3
     mov r3, r0
     mov.w r0, @(4, r4)
     mov.w @(4, r4), r0
-    bra     .L_opt_write_flags
+    bra     .L_0603E60A
     or #0x3, r0
-.L_opt_mode_2:
+.L_0603E5F8:
     mov #0x1, r13
     mov.w @(4, r4), r0
     and #0xFF, r0
     mov.w r0, @(4, r4)
-    mov.w   .L_display_flags_opt, r3
+    mov.w   .L_0603E620, r3
     mov.w @(4, r4), r0
     mov r0, r2
     or r3, r2
     mov r2, r0
-.L_opt_write_flags:
-    bra     .L_opt_calc_sincos
+.L_0603E60A:
+    bra     .L_0603E63C
     mov.w r0, @(4, r4)
-.L_opt_mode_default:
-    bra     .L_opt_return
+.L_0603E60E:
+    bra     .L_0603EAB6
     nop
-.L_opt_dispatch:
+.L_0603E612:
     cmp/eq #0x1, r0
-    bt      .L_opt_mode_1
+    bt      .L_0603E5E4
     cmp/eq #0x2, r0
-    bt      .L_opt_mode_2
-    bra     .L_opt_mode_default
+    bt      .L_0603E5F8
+    bra     .L_0603E60E
     nop
 
     .global DAT_0603e61e
 DAT_0603e61e:
     .2byte  0x7FFF
-.L_display_flags_opt:
+.L_0603E620:
     .2byte  0x0300
     .2byte  0xFFFF
-.L_scene_ready_flags:
+.L_0603E624:
     .4byte  sym_060A4C40
-.L_fp_four_0603E628:
+.L_0603E628:
     .4byte  0x00040000                  /* 4.0 (16.16 fixed-point) */
-.L_fn_scene_update_opt:
+.L_0603E62C:
     .4byte  sym_0603C0A0
-.L_menu_status_opt:
+.L_0603E630:
     .4byte  sym_060A3E38
-.L_display_mode_opt:
+.L_0603E634:
     .4byte  sym_060635A8
-.L_mask_byte1_0603E638:
+.L_0603E638:
     .4byte  0x0000FF00                  /* byte 1 mask */
-.L_opt_calc_sincos:
+.L_0603E63C:
     bsr     scene_invalidate_a
     mov.l @(8, r15), r4
     mov.l r0, @r15
@@ -1722,7 +1722,7 @@ DAT_0603e61e:
     shll r3
     add r3, r10
     exts.b r10, r10
-    mov.l   .L_color_matrix_opt, r2
+    mov.l   .L_0603E71C, r2
     add r2, r10
     mov.l @r10, r3
     mov.l r3, @(40, r15)
@@ -1751,7 +1751,7 @@ DAT_0603e61e:
     mov.l r1, @(4, r15)
     mov.l @r1, r2
     mov.l r2, @(36, r15)
-    mov.l   .L_fn_scene_update_opt2, r11
+    mov.l   .L_0603E720, r11
     mov.l @(8, r15), r5
     jsr @r11
     mov.l @(40, r15), r4
@@ -1817,14 +1817,14 @@ DAT_0603e61e:
     mov.l @(4, r15), r3
     mov.l r3, @-r15
     mov.l @(4, r15), r5
-    bra     .L_opt_matrix_continue
+    bra     .L_0603E724
     mov.l @(52, r15), r4
     .2byte  0xFFFF
-.L_color_matrix_opt:
+.L_0603E71C:
     .4byte  sym_060A53B8
-.L_fn_scene_update_opt2:
+.L_0603E720:
     .4byte  display_scene_update
-.L_opt_matrix_continue:
+.L_0603E724:
     jsr @r11
     nop
     mov.l r0, @-r15
@@ -1840,7 +1840,7 @@ DAT_0603e61e:
     shll2 r4
     shll2 r4
     shll r4
-    mov.l   .L_view_matrix_opt, r3
+    mov.l   .L_0603E838, r3
     add r3, r4
     mov.l @r10, r2
     mov.l r2, @(28, r4)
@@ -1894,24 +1894,24 @@ DAT_0603e61e:
     add #-0x8, r15
     mov.w @(20, r15), r0
     add #-0x8, r15
-    mov.l   .L_fn_int_to_float_opt, r2
+    mov.l   .L_0603E83C, r2
     jsr @r2
     mov.l r15, @-r15
     mov #0x0, r3
     mov.l r3, @-r15
-    mov.l   .L_float_30_opt, r3
+    mov.l   .L_0603E840, r3
     mov.l r3, @-r15
     mov r15, r2
-    mov.l   .L_fn_float_div_opt, r3
+    mov.l   .L_0603E844, r3
     add #0x10, r2
     jsr @r3
     mov.l r2, @-r15
-    mov.l   .L_fn_float_to_fixed_opt, r2
+    mov.l   .L_0603E848, r2
     jsr @r2
     nop
     add r0, r11
     extu.w r13, r5
-    mov.l   .L_view_pending_opt, r3
+    mov.l   .L_0603E84C, r3
     shll2 r5
     add r5, r3
     mov.l @r3, r2
@@ -1925,16 +1925,16 @@ DAT_0603e61e:
     sts macl, r7
     sub r7, r3
     mov.l r3, @(8, r15)
-    mov.l   .L_view_transform_opt, r1
+    mov.l   .L_0603E850, r1
     add r1, r5
     mov.l @r5, r0
     tst r0, r0
-    bf      .L_opt_has_transform
-    bra     .L_opt_no_transform
+    bf      .L_0603E7FA
+    bra     .L_0603E976
     nop
-.L_opt_has_transform:
+.L_0603E7FA:
     extu.w r13, r10
-    mov.l   .L_view_matrix_opt, r3
+    mov.l   .L_0603E838, r3
     mov #0x54, r0
     extu.w r13, r4
     shll2 r10
@@ -1944,15 +1944,15 @@ DAT_0603e61e:
     shll r10
     add r3, r10
     mov.l @r10, r2
-    mov.l   .L_fp_300_opt, r3
+    mov.l   .L_0603E854, r3
     add r3, r2
     mov.l r2, @(r0, r10)
     mov.l r4, @(4, r15)
-    mov.l   .L_view_transform_opt, r3
+    mov.l   .L_0603E850, r3
     add r3, r4
     mov.l r4, @r15
     mov.l @r4, r4
-    mov.l   .L_fp_90_opt, r2
+    mov.l   .L_0603E858, r2
     add r2, r4
     bsr     scene_invalidate_b
     nop
@@ -1961,29 +1961,29 @@ DAT_0603e61e:
     mov.l r0, @r1
     mov.l @r15, r4
     mov.l @r4, r4
-    bra     .L_opt_calc_angles
+    bra     .L_0603E85C
     nop
     .2byte  0xFFFF
-.L_view_matrix_opt:
+.L_0603E838:
     .4byte  sym_060A3E68
-.L_fn_int_to_float_opt:
+.L_0603E83C:
     .4byte  sym_060358EC
-.L_float_30_opt:
+.L_0603E840:
     .4byte  0x40F00000
-.L_fn_float_div_opt:
+.L_0603E844:
     .4byte  sym_060359E4
-.L_fn_float_to_fixed_opt:
+.L_0603E848:
     .4byte  sym_060357B8
-.L_view_pending_opt:
+.L_0603E84C:
     .4byte  sym_060A4C78
-.L_view_transform_opt:
+.L_0603E850:
     .4byte  sym_060A4C70
-.L_fp_300_opt:
+.L_0603E854:
     .4byte  0x012C0000                  /* 300.0 (16.16 fixed-point) */
-.L_fp_90_opt:
+.L_0603E858:
     .4byte  0x005A0000                  /* 90.0 (16.16 fixed-point) */
-.L_opt_calc_angles:
-    mov.l   .L_fp_90_opt2, r3
+.L_0603E85C:
+    mov.l   .L_0603E944, r3
     add r3, r4
     bsr     scene_invalidate_a
     nop
@@ -1992,7 +1992,7 @@ DAT_0603e61e:
     mov.l r0, @r1
     mov #0x0, r10
     mov.l @(4, r15), r3
-    mov.l   .L_render_slot_opt, r2
+    mov.l   .L_0603E948, r2
     mov.w   DAT_0603e93a, r1
     add r2, r3
     mov.l r1, @r3
@@ -2011,24 +2011,24 @@ DAT_0603e61e:
     add r0, r1
     shll2 r3
     exts.b r1, r1
-    mov.l   .L_color_matrix_opt2, r0
+    mov.l   .L_0603E94C, r0
     shll2 r3
     add r0, r1
     add #0x18, r1
     mov.l r1, @(16, r15)
     shll r3
-    mov.l   .L_view_matrix_opt2, r0
+    mov.l   .L_0603E950, r0
     add r0, r3
     mov.l r3, @(12, r15)
     mov.w   DAT_0603e93c, r2
     muls.w r2, r13
     sts macl, r2
     exts.w r2, r2
-    mov.l   .L_palette_table_opt, r0
+    mov.l   .L_0603E954, r0
     add r0, r2
-    bra     .L_opt_palette_check
+    bra     .L_0603E96A
     mov.l r2, @(4, r15)
-.L_opt_palette_loop:
+.L_0603E8B6:
     mov #0x34, r0
     mov r10, r1
     mov.l @(16, r15), r2
@@ -2043,12 +2043,12 @@ DAT_0603e61e:
     sts macl, r1
     add r3, r1
     mov.l r1, @r15
-    mov.w   .L_ctrl_type_analog_opt, r0
-    mov.l   .L_fn_visibility_opt, r2
+    mov.w   .L_0603E940, r0
+    mov.l   .L_0603E958, r2
     jsr @r2
     nop
     tst r0, r0
-    bt      .L_opt_not_visible
+    bt      .L_0603E95C
     mov.l @r15, r5
     jsr @r14
     mov r11, r4
@@ -2066,14 +2066,14 @@ DAT_0603e61e:
     mov.l @r15+, r3
     or r3, r0
     tst r0, r0
-    bt      .L_opt_calc_color
+    bt      .L_0603E90E
     mov r10, r0
     shll r0
     mov.l @(4, r15), r3
     add r3, r0
-    bra     .L_opt_write_default
+    bra     .L_0603E964
     nop
-.L_opt_calc_color:
+.L_0603E90E:
     mov r10, r0
     mov.l @(4, r15), r3
     shll r0
@@ -2094,7 +2094,7 @@ DAT_0603e61e:
     extu.w r0, r0
     mov.l @r15+, r3
     mov.w r0, @r3
-    bra     .L_opt_next_entry
+    bra     .L_0603E968
     nop
 
     .global DAT_0603e93a
@@ -2108,43 +2108,43 @@ DAT_0603e93c:
     .global DAT_0603e93e
 DAT_0603e93e:
     .2byte  0xFED4
-.L_ctrl_type_analog_opt:
+.L_0603E940:
     .2byte  0x0100
     .2byte  0xFFFF
-.L_fp_90_opt2:
+.L_0603E944:
     .4byte  0x005A0000                  /* 90.0 (16.16 fixed-point) */
-.L_render_slot_opt:
+.L_0603E948:
     .4byte  sym_060A4C38
-.L_color_matrix_opt2:
+.L_0603E94C:
     .4byte  sym_060A53B8
-.L_view_matrix_opt2:
+.L_0603E950:
     .4byte  sym_060A3E68
-.L_palette_table_opt:
+.L_0603E954:
     .4byte  sym_060A3F68
-.L_fn_visibility_opt:
+.L_0603E958:
     .4byte  sym_06034FFC
-.L_opt_not_visible:
+.L_0603E95C:
     mov r10, r0
     shll r0
     mov.l @(4, r15), r3
     add r3, r0
-.L_opt_write_default:
+.L_0603E964:
     extu.w r12, r2
     mov.w r2, @r0
-.L_opt_next_entry:
+.L_0603E968:
     add #0x1, r10
-.L_opt_palette_check:
+.L_0603E96A:
     mov.l @(20, r15), r3
     mov.l @r3, r3
     cmp/hs r3, r10
-    bf      .L_opt_palette_loop
-    bra     .L_opt_mark_ready
+    bf      .L_0603E8B6
+    bra     .L_0603EAAA
     nop
-.L_opt_no_transform:
+.L_0603E976:
     extu.w r13, r10
-    mov.l   .L_view_matrix_opt3, r3
+    mov.l   .L_0603EA4C, r3
     mov #0x54, r0
-    mov.l   .L_fp_90_opt3, r4
+    mov.l   .L_0603EA50, r4
     shll2 r10
     shll2 r10
     shll2 r10
@@ -2154,7 +2154,7 @@ DAT_0603e93e:
     bsr     scene_invalidate_b
     mov.l r2, @(r0, r10)
     mov #0x58, r1
-    mov.l   .L_fp_90_opt3, r4
+    mov.l   .L_0603EA50, r4
     add r10, r1
     bsr     scene_invalidate_a
     mov.l r0, @r1
@@ -2164,8 +2164,8 @@ DAT_0603e93e:
     shll2 r3
     mov.l r0, @r1
     mov #0x0, r10
-    mov.l   .L_render_slot_opt2, r2
-    mov.l   .L_screen_width_opt, r1
+    mov.l   .L_0603EA54, r2
+    mov.l   .L_0603EA58, r1
     add r2, r3
     mov.w @r1, r1
     extu.w r1, r1
@@ -2183,7 +2183,7 @@ DAT_0603e93e:
     shll r0
     add r0, r1
     exts.b r1, r1
-    mov.l   .L_color_matrix_opt3, r0
+    mov.l   .L_0603EA5C, r0
     add r0, r1
     add #0x18, r1
     mov.l r1, @(16, r15)
@@ -2192,18 +2192,18 @@ DAT_0603e93e:
     shll2 r3
     shll2 r3
     shll r3
-    mov.l   .L_view_matrix_opt3, r0
+    mov.l   .L_0603EA4C, r0
     add r0, r3
     mov.l r3, @(12, r15)
     mov.w   DAT_0603ea46, r2
     muls.w r2, r13
     sts macl, r2
     exts.w r2, r2
-    mov.l   .L_palette_table_opt2, r0
+    mov.l   .L_0603EA60, r0
     add r0, r2
-    bra     .L_opt_palette_check_b
+    bra     .L_0603EAA2
     mov.l r2, @(4, r15)
-.L_opt_palette_loop_b:
+.L_0603E9F2:
     mov #0x34, r0
     mov r10, r1
     mov.l @(16, r15), r2
@@ -2216,12 +2216,12 @@ DAT_0603e93e:
     sts macl, r1
     add r2, r1
     mov.l r1, @r15
-    mov.w   .L_ctrl_type_analog_opt2, r0
-    mov.l   .L_fn_visibility_opt2, r3
+    mov.w   .L_0603EA48, r0
+    mov.l   .L_0603EA64, r3
     jsr @r3
     nop
     tst r0, r0
-    bt      .L_opt_not_visible_b
+    bt      .L_0603EA94
     mov.l @r15, r5
     jsr @r14
     mov r11, r4
@@ -2239,35 +2239,35 @@ DAT_0603e93e:
     mov.l @r15+, r3
     or r3, r0
     tst r0, r0
-    bt      .L_opt_calc_color_b
+    bt      .L_0603EA68
     mov r10, r0
     shll r0
     mov.l @(4, r15), r3
     add r3, r0
-    bra     .L_opt_write_default_b
+    bra     .L_0603EA9C
     nop
 
     .global DAT_0603ea46
 DAT_0603ea46:
     .2byte  0x0668
-.L_ctrl_type_analog_opt2:
+.L_0603EA48:
     .2byte  0x0100
     .2byte  0xFFFF
-.L_view_matrix_opt3:
+.L_0603EA4C:
     .4byte  sym_060A3E68
-.L_fp_90_opt3:
+.L_0603EA50:
     .4byte  0x005A0000                  /* 90.0 (16.16 fixed-point) */
-.L_render_slot_opt2:
+.L_0603EA54:
     .4byte  sym_060A4C38
-.L_screen_width_opt:
+.L_0603EA58:
     .4byte  sym_060635AE
-.L_color_matrix_opt3:
+.L_0603EA5C:
     .4byte  sym_060A53B8
-.L_palette_table_opt2:
+.L_0603EA60:
     .4byte  sym_060A3F68
-.L_fn_visibility_opt2:
+.L_0603EA64:
     .4byte  sym_06034FFC
-.L_opt_calc_color_b:
+.L_0603EA68:
     mov r10, r0
     mov.l @(4, r15), r3
     shll r0
@@ -2288,31 +2288,31 @@ DAT_0603ea46:
     extu.w r0, r0
     mov.l @r15+, r3
     mov.w r0, @r3
-    bra     .L_opt_next_entry_b
+    bra     .L_0603EAA0
     nop
-.L_opt_not_visible_b:
+.L_0603EA94:
     mov r10, r0
     shll r0
     mov.l @(4, r15), r3
     add r3, r0
-.L_opt_write_default_b:
+.L_0603EA9C:
     extu.w r12, r2
     mov.w r2, @r0
-.L_opt_next_entry_b:
+.L_0603EAA0:
     add #0x1, r10
-.L_opt_palette_check_b:
+.L_0603EAA2:
     mov.l @(20, r15), r3
     mov.l @r3, r3
     cmp/hs r3, r10
-    bf      .L_opt_palette_loop_b
-.L_opt_mark_ready:
+    bf      .L_0603E9F2
+.L_0603EAAA:
     extu.w r13, r13
     shll r13
-    mov.l   .L_scene_ready_opt, r3
+    mov.l   .L_0603EB00, r3
     add r3, r13
     mov #0x1, r2
     mov.w r2, @r13
-.L_opt_return:
+.L_0603EAB6:
     add #0x34, r15
     lds.l @r15+, macl
     lds.l @r15+, pr
@@ -2338,36 +2338,36 @@ display_channel_handler:
     sts.l pr, @-r15
     add #-0x24, r15
     mov.l r4, @r15
-    mov.l   .L_display_mode_dch, r0
-    bra     .L_dch_dispatch
+    mov.l   .L_0603EB04, r0
+    bra     .L_0603EAF2
     mov.l @r0, r0
-.L_dch_mode_1:
-    bra     .L_dch_build_matrix
+.L_0603EAE6:
+    bra     .L_0603EB08
     mov #0x0, r10
-.L_dch_mode_2:
-    bra     .L_dch_build_matrix
+.L_0603EAEA:
+    bra     .L_0603EB08
     mov #0x1, r10
-.L_dch_mode_default:
-    bra     .L_dch_return
+.L_0603EAEE:
+    bra     .L_0603EC18
     nop
-.L_dch_dispatch:
+.L_0603EAF2:
     cmp/eq #0x1, r0
-    bt      .L_dch_mode_1
+    bt      .L_0603EAE6
     cmp/eq #0x2, r0
-    bt      .L_dch_mode_2
-    bra     .L_dch_mode_default
+    bt      .L_0603EAEA
+    bra     .L_0603EAEE
     nop
     .2byte  0xFFFF
-.L_scene_ready_opt:
+.L_0603EB00:
     .4byte  sym_060A4C40
-.L_display_mode_dch:
+.L_0603EB04:
     .4byte  sym_060635A8
-.L_dch_build_matrix:
-    mov.l   .L_fn_scene_inv_a, r3
+.L_0603EB08:
+    mov.l   .L_0603EC2C, r3
     jsr @r3
     mov.l @r15, r4
     mov r0, r13
-    mov.l   .L_fn_scene_inv_b, r3
+    mov.l   .L_0603EC30, r3
     jsr @r3
     mov.l @r15, r4
     mov r0, r11
@@ -2379,7 +2379,7 @@ display_channel_handler:
     shll r3
     add r3, r12
     exts.b r12, r12
-    mov.l   .L_color_matrix_dch, r2
+    mov.l   .L_0603EC34, r2
     add r2, r12
     mov.l @r12, r9
     mov r12, r8
@@ -2407,7 +2407,7 @@ display_channel_handler:
     mov.l r3, @(28, r15)
     mov.l @r3, r1
     mov.l r1, @(4, r15)
-    mov.l   .L_fn_scene_update_dch, r14
+    mov.l   .L_0603EC38, r14
     jsr @r14
     mov r9, r4
     mov.l r0, @-r15
@@ -2487,7 +2487,7 @@ display_channel_handler:
     shll2 r4
     shll2 r4
     shll r4
-    mov.l   .L_view_matrix_dch, r3
+    mov.l   .L_0603EC3C, r3
     add r3, r4
     mov.l @r12, r2
     mov.l r2, @(28, r4)
@@ -2499,7 +2499,7 @@ display_channel_handler:
     mov.l @(16, r15), r2
     mov.l @r2, r3
     mov.l r3, @(44, r4)
-.L_dch_return:
+.L_0603EC18:
     add #0x24, r15
     lds.l @r15+, pr
     mov.l @r15+, r8
@@ -2510,15 +2510,15 @@ display_channel_handler:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_fn_scene_inv_a:
+.L_0603EC2C:
     .4byte  scene_invalidate_a
-.L_fn_scene_inv_b:
+.L_0603EC30:
     .4byte  scene_invalidate_b
-.L_color_matrix_dch:
+.L_0603EC34:
     .4byte  sym_060A53B8
-.L_fn_scene_update_dch:
+.L_0603EC38:
     .4byte  display_scene_update
-.L_view_matrix_dch:
+.L_0603EC3C:
     .4byte  sym_060A3E68
 
     .global hud_update_main
@@ -2534,61 +2534,61 @@ hud_update_main:
     sts.l pr, @-r15
     add #-0xC, r15
     mov #0x0, r8
-    mov.l   .L_view_transform_hud, r11
-    mov.l   .L_display_mode_hud, r0
-    bra     .L_hud_dispatch
+    mov.l   .L_0603ECA0, r11
+    mov.l   .L_0603ECA4, r0
+    bra     .L_0603EC68
     mov.l @r0, r0
-.L_hud_mode_1:
-    bra     .L_hud_check_active
+.L_0603EC5C:
+    bra     .L_0603EC74
     extu.w r8, r14
-.L_hud_mode_2:
-    bra     .L_hud_check_active
+.L_0603EC60:
+    bra     .L_0603EC74
     mov #0x1, r14
-.L_hud_mode_default:
-    bra     .L_hud_return
+.L_0603EC64:
+    bra     .L_0603ED94
     nop
-.L_hud_dispatch:
+.L_0603EC68:
     cmp/eq #0x1, r0
-    bt      .L_hud_mode_1
+    bt      .L_0603EC5C
     cmp/eq #0x2, r0
-    bt      .L_hud_mode_2
-    bra     .L_hud_mode_default
+    bt      .L_0603EC60
+    bra     .L_0603EC64
     nop
-.L_hud_check_active:
+.L_0603EC74:
     extu.w r14, r5
-    mov.l   .L_scene_dirty_hud, r3
+    mov.l   .L_0603ECA8, r3
     shll2 r5
     add r5, r3
     mov.l @r3, r0
     tst r0, r0
-    bt      .L_hud_add_rotation
-    mov.l   .L_view_offset_hud, r3
+    bt      .L_0603ECB4
+    mov.l   .L_0603ECAC, r3
     add r5, r3
     mov.l @r3, r0
     tst r0, r0
-    bf      .L_hud_clear_transform
-    mov.l   .L_view_pending_hud, r3
+    bf      .L_0603EC96
+    mov.l   .L_0603ECB0, r3
     add r5, r3
     mov.l @r3, r0
     tst r0, r0
-    bt      .L_hud_add_rotation
-.L_hud_clear_transform:
+    bt      .L_0603ECB4
+.L_0603EC96:
     extu.w r14, r0
     shll2 r0
-    bra     .L_hud_return
+    bra     .L_0603ED94
     mov.l r8, @(r0, r11)
     .2byte  0xFFFF
-.L_view_transform_hud:
+.L_0603ECA0:
     .4byte  sym_060A4C70
-.L_display_mode_hud:
+.L_0603ECA4:
     .4byte  sym_060635A8
-.L_scene_dirty_hud:
+.L_0603ECA8:
     .4byte  sym_060A4C4C
-.L_view_offset_hud:
+.L_0603ECAC:
     .4byte  sym_060A4C60
-.L_view_pending_hud:
+.L_0603ECB0:
     .4byte  sym_060A4C78
-.L_hud_add_rotation:
+.L_0603ECB4:
     extu.w r14, r5
     shll2 r5
     add r11, r5
@@ -2596,32 +2596,32 @@ hud_update_main:
     add r4, r3
     mov r3, r2
     mov.l r3, @r5
-    mov.l   .L_fp_360_hud, r3
+    mov.l   .L_0603EDA8, r3
     cmp/ge r3, r2
-    bf      .L_hud_check_negative
+    bf      .L_0603ECD4
     extu.w r14, r0
     shll2 r0
-    mov.l   .L_fp_360_hud, r3
+    mov.l   .L_0603EDA8, r3
     mov.l @(r0, r11), r2
     sub r3, r2
     mov.l r2, @(r0, r11)
-.L_hud_check_negative:
+.L_0603ECD4:
     extu.w r14, r0
     shll2 r0
     mov.l @(r0, r11), r3
     cmp/pz r3
-    bt      .L_hud_build_matrix
+    bt      .L_0603ECEA
     extu.w r14, r0
     shll2 r0
-    mov.l   .L_fp_360_hud, r3
+    mov.l   .L_0603EDA8, r3
     mov.l @(r0, r11), r2
     add r3, r2
     mov.l r2, @(r0, r11)
-.L_hud_build_matrix:
+.L_0603ECEA:
     extu.w r14, r12
-    mov.l   .L_view_matrix_hud, r3
+    mov.l   .L_0603EDB0, r3
     extu.w r14, r9
-    mov.l   .L_fn_scene_update_hud, r10
+    mov.l   .L_0603EDAC, r10
     shll2 r12
     shll2 r9
     shll2 r12
@@ -2630,12 +2630,12 @@ hud_update_main:
     add r11, r13
     shll r12
     add r3, r12
-    mov.l   .L_projection_params_hud, r3
+    mov.l   .L_0603EDB4, r3
     add r9, r3
     mov.l r3, @(4, r15)
     mov.l @r3, r2
     mov.l r2, @(8, r15)
-    mov.l   .L_fn_scene_inv_b_hud, r2
+    mov.l   .L_0603EDB8, r2
     jsr @r2
     mov.l @r13, r4
     mov r0, r4
@@ -2644,12 +2644,12 @@ hud_update_main:
     mov.l @(8, r15), r3
     sub r0, r3
     mov.l r3, @-r15
-    mov.l   .L_projection_params_hud2, r3
+    mov.l   .L_0603EDBC, r3
     add r9, r3
     mov.l r3, @(4, r15)
     mov.l @r3, r1
     mov.l r1, @-r15
-    mov.l   .L_fn_scene_inv_a_hud, r2
+    mov.l   .L_0603EDC0, r2
     jsr @r2
     mov.l @r13, r4
     neg r0, r4
@@ -2664,7 +2664,7 @@ hud_update_main:
     mov.l @(8, r15), r5
     mov.l @r5, r1
     mov.l r1, @-r15
-    mov.l   .L_fn_scene_inv_a_hud, r3
+    mov.l   .L_0603EDC0, r3
     jsr @r3
     mov.l @r13, r4
     mov r0, r4
@@ -2676,7 +2676,7 @@ hud_update_main:
     mov.l @(4, r15), r5
     mov.l @r5, r1
     mov.l r1, @-r15
-    mov.l   .L_fn_scene_inv_b_hud, r3
+    mov.l   .L_0603EDB8, r3
     jsr @r3
     mov.l @r13, r4
     mov r0, r4
@@ -2686,24 +2686,24 @@ hud_update_main:
     sub r0, r3
     mov.l r3, @(4, r12)
     mov.l r8, @(8, r12)
-    mov.l   .L_fn_scene_inv_a_hud, r3
+    mov.l   .L_0603EDC0, r3
     jsr @r3
     mov.l @r13, r4
     neg r0, r0
     mov.l r0, @(12, r12)
-    mov.l   .L_fn_scene_inv_b_hud, r3
+    mov.l   .L_0603EDB8, r3
     jsr @r3
     mov.l @r13, r4
     mov.l r0, @(16, r12)
-    mov.l   .L_fn_scene_inv_b_hud, r3
+    mov.l   .L_0603EDB8, r3
     jsr @r3
     mov.l @r13, r4
     mov.l r0, @(20, r12)
-    mov.l   .L_fn_scene_inv_a_hud, r3
+    mov.l   .L_0603EDC0, r3
     jsr @r3
     mov.l @r13, r4
     mov.l r0, @(24, r12)
-.L_hud_return:
+.L_0603ED94:
     add #0xC, r15
     lds.l @r15+, pr
     mov.l @r15+, r8
@@ -2714,17 +2714,17 @@ hud_update_main:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_fp_360_hud:
+.L_0603EDA8:
     .4byte  0x01680000                  /* 360.0 (16.16 fixed-point) */
-.L_fn_scene_update_hud:
+.L_0603EDAC:
     .4byte  display_scene_update
-.L_view_matrix_hud:
+.L_0603EDB0:
     .4byte  sym_060A3E68
-.L_projection_params_hud:
+.L_0603EDB4:
     .4byte  sym_060A53A8
-.L_fn_scene_inv_b_hud:
+.L_0603EDB8:
     .4byte  scene_invalidate_b
-.L_projection_params_hud2:
+.L_0603EDBC:
     .4byte  sym_060A53B0
-.L_fn_scene_inv_a_hud:
+.L_0603EDC0:
     .4byte  scene_invalidate_a

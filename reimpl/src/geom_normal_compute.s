@@ -19,28 +19,28 @@ geom_normal_compute:
     mov.b @r0, r0
     extu.b r0, r0
     tst r0, r0
-    bt/s    .L_flag_clear
+    bt/s    .L_0601EB94
     mov #0x0, r5
-    bra     .L_epilogue
+    bra     .L_0601EBD0
     nop
-.L_flag_clear:
-    bra     .L_zero_fill_test
+.L_0601EB94:
+    bra     .L_0601EBA2
     mov r5, r4
-.L_zero_fill_body:
+.L_0601EB98:
     mov.l @r13, r2
     add r4, r2
     extu.b r5, r3
     mov.b r3, @r2
     add #0x1, r4
-.L_zero_fill_test:
+.L_0601EBA2:
     mov.b @r12, r0
     extu.b r0, r0
     shll2 r0
     mov.l @(r0, r11), r3
     cmp/hs r3, r4
-    bf      .L_zero_fill_body
+    bf      .L_0601EB98
     mov r5, r4
-.L_ref_copy_body:
+.L_0601EBB0:
     mov.l @r6, r3
     mov r4, r2
     add r4, r3
@@ -56,8 +56,8 @@ geom_normal_compute:
     mov.b r1, @r3
     add #0x1, r4
     cmp/ge r14, r4
-    bf      .L_ref_copy_body
-.L_epilogue:
+    bf      .L_0601EBB0
+.L_0601EBD0:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13

@@ -11,33 +11,33 @@ game_state_dispatch:
     mov.l r12, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   .L_ptr_game_state, r14
+    mov.l   .L_0600F484, r14
     mov.b @r14, r4
     extu.b r4, r4
     cmp/gt r3, r4
-    bf      .L_state_le_4
+    bf      .L_0600F440
     mov r4, r0
     cmp/eq #0x9, r0
-    bf      .L_check_input_poll
-.L_state_le_4:
+    bf      .L_0600F4BA
+.L_0600F440:
     mov.b @r14, r0
     extu.b r0, r0
     cmp/eq #0x9, r0
-    bf      .L_state_not_9
-    mov.l   .L_ptr_attract_countdown, r1
-    mov.l   .L_fn_model_data_lookup, r2
+    bf      .L_0600F4A4
+    mov.l   .L_0600F498, r1
+    mov.l   .L_0600F49C, r2
     mov.l @r1, r1
     jsr @r2
     mov #0x3C, r0
     mov r0, r7
     mov #0x18, r6
-    mov.w   .L_const_palette_size, r5
-    mov.l   .L_fn_display_layer_init, r3
+    mov.w   .L_0600F462, r5
+    mov.l   .L_0600F4A0, r3
     jsr @r3
     mov #0xC, r4
-    bra     .L_check_input_poll
+    bra     .L_0600F4BA
     nop
-.L_const_palette_size:
+.L_0600F462:
     .2byte  0x0148
     .4byte  0x25F00720
     .4byte  sym_060487CC
@@ -47,138 +47,138 @@ game_state_dispatch:
     .4byte  0x25F000C0
     .4byte  0x25F006C0
     .4byte  sym_0605AAA0
-.L_ptr_game_state:
+.L_0600F484:
     .4byte  sym_0607887F
     .4byte  sym_0605B6D8
     .4byte  0x40000000
     .4byte  sym_06026CE0
     .4byte  sym_06059F44
-.L_ptr_attract_countdown:
+.L_0600F498:
     .4byte  sym_0607EBCC
-.L_fn_model_data_lookup:
+.L_0600F49C:
     .4byte  sym_06034FE0
-.L_fn_display_layer_init:
+.L_0600F4A0:
     .4byte  sym_06028430
-.L_state_not_9:
-    mov.l   .L_ptr_attract_countdown_b, r1
-    mov.l   .L_fn_model_data_lookup_b, r2
+.L_0600F4A4:
+    mov.l   .L_0600F524, r1
+    mov.l   .L_0600F528, r2
     mov.l @r1, r1
     jsr @r2
     mov #0x3C, r0
     mov r0, r7
     mov #0x18, r6
-    mov.w   .L_const_palette_size_b, r5
-    mov.l   .L_fn_display_layer_init_b, r3
+    mov.w   .L_0600F520, r5
+    mov.l   .L_0600F52C, r3
     jsr @r3
     mov #0x8, r4
-.L_check_input_poll:
+.L_0600F4BA:
     mov #0xA, r3
     mov.b @r14, r2
     extu.b r2, r2
     cmp/ge r3, r2
-    bf      .L_check_hud_tile_dma
-    mov.l   .L_ptr_timer_half_word, r3
-    mov.l   .L_fp_half, r2
+    bf      .L_0600F562
+    mov.l   .L_0600F530, r3
+    mov.l   .L_0600F534, r2
     mov.w @r3, r3
     extu.w r3, r3
     cmp/eq r2, r3
-    bf      .L_check_hud_tile_dma
-    mov.l   .L_ptr_input_lock_flag, r0
+    bf      .L_0600F562
+    mov.l   .L_0600F538, r0
     mov.b @r0, r0
     tst r0, r0
-    bf      .L_check_hud_tile_dma
-    mov.l   .L_ptr_button_state, r4
-    mov.l   .L_ptr_mode_select_result, r5
-    mov.l   .L_ptr_btn_mask_a, r2
+    bf      .L_0600F562
+    mov.l   .L_0600F53C, r4
+    mov.l   .L_0600F540, r5
+    mov.l   .L_0600F544, r2
     mov.w @r4, r4
     mov.w @r2, r2
     exts.w r4, r3
     extu.w r2, r2
     and r2, r3
     tst r3, r3
-    bt      .L_check_btn_mask_b
+    bt      .L_0600F4F4
     mov #0x0, r3
     mov.b r3, @r5
-    bra     .L_check_hud_tile_dma
+    bra     .L_0600F562
     nop
-.L_check_btn_mask_b:
+.L_0600F4F4:
     exts.w r4, r2
-    mov.l   .L_ptr_btn_mask_b, r3
+    mov.l   .L_0600F548, r3
     mov.w @r3, r3
     extu.w r3, r3
     and r3, r2
     tst r2, r2
-    bt      .L_check_btn_mask_c
+    bt      .L_0600F50A
     mov #0x1, r3
     mov.b r3, @r5
-    bra     .L_check_hud_tile_dma
+    bra     .L_0600F562
     nop
-.L_check_btn_mask_c:
+.L_0600F50A:
     exts.w r4, r2
-    mov.l   .L_ptr_btn_mask_c, r3
+    mov.l   .L_0600F54C, r3
     mov.w @r3, r3
     extu.w r3, r3
     and r3, r2
     tst r2, r2
-    bt      .L_check_btn_mask_d
+    bt      .L_0600F550
     mov #0x2, r3
     mov.b r3, @r5
-    bra     .L_check_hud_tile_dma
+    bra     .L_0600F562
     nop
-.L_const_palette_size_b:
+.L_0600F520:
     .2byte  0x0148
     .2byte  0xFFFF
-.L_ptr_attract_countdown_b:
+.L_0600F524:
     .4byte  sym_0607EBCC
-.L_fn_model_data_lookup_b:
+.L_0600F528:
     .4byte  sym_06034FE0
-.L_fn_display_layer_init_b:
+.L_0600F52C:
     .4byte  sym_06028430
-.L_ptr_timer_half_word:
+.L_0600F530:
     .4byte  sym_0607865E
-.L_fp_half:
+.L_0600F534:
     .4byte  0x00008000
-.L_ptr_input_lock_flag:
+.L_0600F538:
     .4byte  sym_0605AB18
-.L_ptr_button_state:
+.L_0600F53C:
     .4byte  g_pad_state
-.L_ptr_mode_select_result:
+.L_0600F540:
     .4byte  sym_06078648
-.L_ptr_btn_mask_a:
+.L_0600F544:
     .4byte  sym_06078656
-.L_ptr_btn_mask_b:
+.L_0600F548:
     .4byte  sym_06078658
-.L_ptr_btn_mask_c:
+.L_0600F54C:
     .4byte  sym_0607865A
-.L_check_btn_mask_d:
+.L_0600F550:
     exts.w r4, r4
-    mov.l   .L_ptr_btn_mask_d, r2
+    mov.l   .L_0600F61C, r2
     mov.w @r2, r2
     extu.w r2, r2
     and r2, r4
     tst r4, r4
-    bt      .L_check_hud_tile_dma
+    bt      .L_0600F562
     mov #0x3, r3
     mov.b r3, @r5
-.L_check_hud_tile_dma:
+.L_0600F562:
     mov #0xC, r2
     mov.b @r14, r4
     extu.b r4, r4
     cmp/ge r2, r4
-    bt      .L_dispatch_state_handler
+    bt      .L_0600F5E2
     mov #0x8, r2
     cmp/gt r2, r4
-    bf      .L_dispatch_state_handler
+    bf      .L_0600F5E2
     mov.w   DAT_0600f612, r13
-    mov.l   .L_ptr_attract_timer, r0
+    mov.l   .L_0600F620, r0
     mov.l @r0, r0
     tst r0, r0
-    bt      .L_tile_dma_split
-    mov.l   .L_ptr_display_mode, r0
+    bt      .L_0600F5BC
+    mov.l   .L_0600F624, r0
     mov.l @r0, r0
     cmp/eq #0x1, r0
-    bf      .L_tile_dma_mode_b
-    mov.l   .L_ptr_tile_data_src_a, r2
+    bf      .L_0600F5A0
+    mov.l   .L_0600F628, r2
     mov r13, r6
     mov.l r2, @r15
     mov r2, r7
@@ -187,13 +187,13 @@ game_state_dispatch:
     mov.l @(4, r7), r7
     mov.l @r5, r5
     add r3, r7
-    mov.l   .L_fn_display_list_load, r3
+    mov.l   .L_0600F62C, r3
     jsr @r3
     mov #0xC, r4
-    bra     .L_dispatch_state_handler
+    bra     .L_0600F5E2
     nop
-.L_tile_dma_mode_b:
-    mov.l   .L_ptr_tile_data_src_b, r2
+.L_0600F5A0:
+    mov.l   .L_0600F630, r2
     mov r13, r6
     mov.l r2, @r15
     mov r2, r7
@@ -202,37 +202,37 @@ game_state_dispatch:
     mov.l @(4, r7), r7
     mov.l @r5, r5
     add r3, r7
-    mov.l   .L_fn_display_list_load, r3
+    mov.l   .L_0600F62C, r3
     jsr @r3
     mov #0xC, r4
-    bra     .L_dispatch_state_handler
+    bra     .L_0600F5E2
     nop
-.L_tile_dma_split:
-    mov.l   .L_ptr_split_tile_data, r12
+.L_0600F5BC:
+    mov.l   .L_0600F634, r12
     mov r13, r5
-    mov.l   .L_fn_geom_dispatch_final, r3
-    mov.w   .L_const_tile_offset, r6
+    mov.l   .L_0600F638, r3
+    mov.w   .L_0600F616, r6
     mov r12, r7
     jsr @r3
     mov #0xC, r4
     mov r12, r7
-    mov.w   .L_const_tile_offset, r6
+    mov.w   .L_0600F616, r6
     mov.w   DAT_0600f618, r5
-    mov.l   .L_fn_geom_dispatch_final, r3
+    mov.l   .L_0600F638, r3
     jsr @r3
     mov #0xC, r4
     mov r12, r7
     mov #0x0, r6
     mov.w   DAT_0600f61a, r5
-    mov.l   .L_fn_geom_render_dispatch, r3
+    mov.l   .L_0600F63C, r3
     jsr @r3
     mov #0xC, r4
-.L_dispatch_state_handler:
-    mov.l   .L_fn_pre_transform_setup, r3
+.L_0600F5E2:
+    mov.l   .L_0600F640, r3
     jsr @r3
     nop
     mov.b @r14, r2
-    mov.l   .L_ptr_state_handler_table, r3
+    mov.l   .L_0600F644, r3
     extu.b r2, r2
     shll2 r2
     add r3, r2
@@ -241,7 +241,7 @@ game_state_dispatch:
     nop
     .byte   0xB4, 0xEA                   /* bsr 0x0600FFD0 (external post-state helper) */
     nop
-    mov.l   .L_ptr_frame_budget, r4
+    mov.l   .L_0600F648, r4
     mov.l @r4, r2
     add #-0x30, r2
     mov.l r2, @r4
@@ -249,7 +249,7 @@ game_state_dispatch:
     lds.l @r15+, pr
     mov.l @r15+, r12
     mov.l @r15+, r13
-    mov.l   .L_fn_frame_end_commit, r3
+    mov.l   .L_0600F64C, r3
     jmp @r3
     mov.l @r15+, r14
 
@@ -260,7 +260,7 @@ DAT_0600f612:
     .global DAT_0600f614
 DAT_0600f614:
     .2byte  0x5000
-.L_const_tile_offset:
+.L_0600F616:
     .2byte  0x0090
 
     .global DAT_0600f618
@@ -270,29 +270,29 @@ DAT_0600f618:
     .global DAT_0600f61a
 DAT_0600f61a:
     .2byte  0x0AA4
-.L_ptr_btn_mask_d:
+.L_0600F61C:
     .4byte  sym_0607865C
-.L_ptr_attract_timer:
+.L_0600F620:
     .4byte  sym_0607EAE0
-.L_ptr_display_mode:
+.L_0600F624:
     .4byte  sym_06078644
-.L_ptr_tile_data_src_a:
+.L_0600F628:
     .4byte  sym_06063848
-.L_fn_display_list_load:
+.L_0600F62C:
     .4byte  sym_06028400
-.L_ptr_tile_data_src_b:
+.L_0600F630:
     .4byte  sym_06063850
-.L_ptr_split_tile_data:
+.L_0600F634:
     .4byte  sym_0605ACE4
-.L_fn_geom_dispatch_final:
+.L_0600F638:
     .4byte  sym_060284AE
-.L_fn_geom_render_dispatch:
+.L_0600F63C:
     .4byte  sym_060283E0
-.L_fn_pre_transform_setup:
+.L_0600F640:
     .4byte  sym_06026DBC
-.L_ptr_state_handler_table:
+.L_0600F644:
     .4byte  sym_0605AC2C
-.L_ptr_frame_budget:
+.L_0600F648:
     .4byte  sym_06089EDC
-.L_fn_frame_end_commit:
+.L_0600F64C:
     .4byte  frame_end_commit

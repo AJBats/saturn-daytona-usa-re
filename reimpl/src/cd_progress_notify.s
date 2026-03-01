@@ -31,7 +31,7 @@ cd_progress_notify:
     mov #0x50, r3
     mov.l r3, @(4, r2)
     mov.l   .L_pool_06012D70, r11
-.L_poll_loop:
+.L_06012D28:
     mov.l   .L_pool_06012D68, r6
     mov r11, r5
     jsr @r9
@@ -39,14 +39,14 @@ cd_progress_notify:
     add #0x1, r10
     mov #0x5, r2
     cmp/ge r2, r10
-    bf/s    .L_check_result
+    bf/s    .L_06012D40
     mov r0, r12
     mov.l @r13, r2
     jsr @r2
     nop
-.L_check_result:
+.L_06012D40:
     cmp/gt r14, r12
-    bf      .L_poll_loop
+    bf      .L_06012D28
     add #0x4, r15
     lds.l @r15+, pr
     mov.l @r15+, r9

@@ -86,21 +86,21 @@ scene_post_render:
     mov #0x1, r3
     mov.l r3, @(12, r15)
     cmp/eq #0x3F, r0
-    bf/s    .L_check_end_col_zero
+    bf/s    .L_06006914
     mov #-0x40, r6
     mov #0x0, r2
-    bra     .L_check_start_col
+    bra     .L_0600691A
     mov.l r2, @(36, r15)
-.L_check_end_col_zero:
+.L_06006914:
     tst r5, r5
-    bf      .L_check_start_col
+    bf      .L_0600691A
     mov #0x0, r6
-.L_check_start_col:
+.L_0600691A:
     mov r4, r0
     cmp/eq #0x3F, r0
-    bf      .L_check_start_zero
+    bf      .L_06006944
     mov #0x0, r2
-    bra     .L_load_render_param
+    bra     .L_0600694C
     mov.l r2, @(12, r15)
     .2byte  0xFFFF
 _pool_player_mode_ptr:
@@ -117,25 +117,25 @@ _pool_cam_orient_data:
     .4byte  sym_06063DF8
 _pool_column_rounding:
     .4byte  0x04000000
-.L_check_start_zero:
+.L_06006944:
     tst r4, r4
-    bf      .L_load_render_param
+    bf      .L_0600694C
     mov #0x0, r3
     mov.l r3, @(40, r15)
-.L_load_render_param:
+.L_0600694C:
     mov.l   _pool_render_param_ptr, r10
-    bra     .L_outer_loop_test
+    bra     .L_06006A14
     mov.l r6, @r15
-.L_outer_loop_body:
+.L_06006952:
     mov.l @(40, r15), r12
     mov.l @r15, r9
     mov.l @(32, r15), r3
     mov.l @(12, r15), r2
     add r12, r9
     cmp/gt r2, r12
-    bt/s    .L_advance_outer
+    bt/s    .L_06006A0E
     add r3, r9
-.L_inner_loop_body:
+.L_06006962:
     mov r9, r11
     mov r9, r4
     mov.l @(16, r15), r7
@@ -146,7 +146,7 @@ _pool_column_rounding:
     mov.w @r7, r7
     exts.w r7, r2
     cmp/pl r2
-    bf/s    .L_check_pass_b
+    bf/s    .L_060069AE
     mov.w @r4, r13
     mov r11, r0
     mov.l @(28, r15), r2
@@ -161,24 +161,24 @@ _pool_column_rounding:
     add r0, r8
     mov.l @r14, r0
     cmp/eq #0x2, r0
-    bt      .L_pass_a_mode_2
+    bt      .L_060069A4
     mov.w @r10, r6
     mov.l @(4, r15), r5
     mov.l   _pool_fn_vtx_xform_a, r3
     jsr @r3
     mov r8, r4
-    bra     .L_check_pass_b
+    bra     .L_060069AE
     nop
-.L_pass_a_mode_2:
+.L_060069A4:
     mov.w @r10, r6
     mov.l @(4, r15), r5
     mov.l   _pool_fn_face_proj_a, r3
     jsr @r3
     mov r8, r4
-.L_check_pass_b:
+.L_060069AE:
     exts.w r13, r2
     cmp/pl r2
-    bf      .L_next_inner
+    bf      .L_06006A04
     mov r11, r0
     mov.l @(20, r15), r1
     mov.l @r14, r2
@@ -192,7 +192,7 @@ _pool_column_rounding:
     mov.l @(r0, r1), r2
     mov.l @r14, r0
     cmp/eq #0x2, r0
-    bt/s    .L_pass_b_mode_2
+    bt/s    .L_060069F8
     add r2, r11
     mov r13, r7
     mov.w @r10, r6
@@ -200,7 +200,7 @@ _pool_column_rounding:
     mov.l   _pool_fn_vtx_xform_b, r3
     jsr @r3
     mov r11, r4
-    bra     .L_next_inner
+    bra     .L_06006A04
     nop
     .2byte  0xFFFF
 _pool_render_param_ptr:
@@ -213,62 +213,62 @@ _pool_fn_face_proj_a:
     .4byte  sym_0602B328
 _pool_fn_vtx_xform_b:
     .4byte  sym_0602A834
-.L_pass_b_mode_2:
+.L_060069F8:
     mov r13, r7
     mov.w @r10, r6
     mov.l @(8, r15), r5
     mov.l   _pool_fn_frustum_cull_b, r3
     jsr @r3
     mov r11, r4
-.L_next_inner:
+.L_06006A04:
     add #0x1, r12
     mov.l @(12, r15), r2
     cmp/gt r2, r12
-    bf/s    .L_inner_loop_body
+    bf/s    .L_06006962
     add #0x1, r9
-.L_advance_outer:
+.L_06006A0E:
     mov.l @r15, r2
     add #0x40, r2
     mov.l r2, @r15
-.L_outer_loop_test:
+.L_06006A14:
     mov.l @r15, r3
     mov.l @(36, r15), r2
     cmp/gt r2, r3
-    bf      .L_outer_loop_body
+    bf      .L_06006952
     mov.l   _pool_game_state_flags, r2
     mov.l   _pool_state_check_mask, r3
     mov.l @r2, r2
     and r3, r2
     tst r2, r2
-    bf      .L_epilogue_rts
-    bra     .L_mode_dispatch
+    bf      .L_06006A6C
+    bra     .L_06006A4A
     mov.l @r14, r0
-.L_mode_0_dispatch:
+.L_06006A2C:
     mov.l   _pool_fn_track_geom, r3
     jsr @r3
     nop
-    bra     .L_epilogue_tailcall
+    bra     .L_06006A56
     nop
-.L_mode_1_dispatch:
+.L_06006A36:
     mov.l   _pool_fn_track_state, r3
     jsr @r3
     nop
-    bra     .L_epilogue_tailcall
+    bra     .L_06006A56
     nop
-.L_mode_2_dispatch:
+.L_06006A40:
     mov.l   _pool_fn_geom_math, r3
     jsr @r3
     nop
-    bra     .L_epilogue_tailcall
+    bra     .L_06006A56
     nop
-.L_mode_dispatch:
+.L_06006A4A:
     cmp/eq #0x0, r0
-    bt      .L_mode_0_dispatch
+    bt      .L_06006A2C
     cmp/eq #0x1, r0
-    bt      .L_mode_1_dispatch
+    bt      .L_06006A36
     cmp/eq #0x2, r0
-    bt      .L_mode_2_dispatch
-.L_epilogue_tailcall:
+    bt      .L_06006A40
+.L_06006A56:
     add #0x2C, r15
     lds.l @r15+, pr
     mov.l @r15+, r8
@@ -280,7 +280,7 @@ _pool_fn_vtx_xform_b:
     mov.l   _pool_fn_scene_entity, r3
     jmp @r3
     mov.l @r15+, r14
-.L_epilogue_rts:
+.L_06006A6C:
     add #0x2C, r15
     lds.l @r15+, pr
     mov.l @r15+, r8

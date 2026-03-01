@@ -13,40 +13,40 @@ pre_race_camera:
     mov.w @r13, r0
     extu.w r0, r0
     tst #0x1, r0
-    bt/s    .L_wide_range
+    bt/s    .L_06019F08
     mov #0x0, r12
-    bra     .L_check_new_up
+    bra     .L_06019F0A
     mov #0x6, r5
-.L_wide_range:
+.L_06019F08:
     mov #0x19, r5
-.L_check_new_up:
-    mov.l   .L_fp_half, r7
+.L_06019F0A:
+    mov.l   .L_06019F54, r7
     mov.l   .L_pool_06019F58, r4
     mov.w @(2, r13), r0
     mov r0, r2
     extu.w r2, r2
     and r7, r2
     tst r2, r2
-    bt      .L_check_new_down
+    bt      .L_06019F26
     mov.l @r14, r3
     add #0x1, r3
     mov.l r3, @r14
     exts.b r12, r2
-    bra     .L_clamp_upper
+    bra     .L_06019F96
     mov.b r2, @r4
-.L_check_new_down:
+.L_06019F26:
     mov.w   .L_wpool_06019F40, r6
     mov.w @(2, r13), r0
     mov r0, r2
     extu.w r2, r2
     and r6, r2
     tst r2, r2
-    bt      .L_check_held_up
+    bt      .L_06019F5C
     mov.l @r14, r3
     add #-0x1, r3
     mov.l r3, @r14
     exts.b r12, r2
-    bra     .L_clamp_upper
+    bra     .L_06019F96
     mov.b r2, @r4
 .L_wpool_06019F40:
     .2byte  0x4000                  /* Down button mask (16-bit) */
@@ -57,54 +57,54 @@ pre_race_camera:
     .4byte  g_pad_state            /* &input_state struct (word[0]=held, word[+2]=new_press) */
 .L_pool_06019F50:
     .4byte  sym_0605AD0C            /* &camera_angle_index for course 1 (32-bit) */
-.L_fp_half:
+.L_06019F54:
     .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_06019F58:
     .4byte  sym_0605D243            /* &anim_timer / mode variant byte (reset on angle change) */
-.L_check_held_up:
+.L_06019F5C:
     mov.w @r13, r2
     extu.w r2, r2
     and r7, r2
     tst r2, r2
-    bt      .L_check_held_down
+    bt      .L_06019F7A
     mov.b @r4, r3
     extu.b r5, r5
     cmp/eq r5, r3
-    bf      .L_clamp_upper
+    bf      .L_06019F96
     mov.l @r14, r3
     add #0x1, r3
     mov.l r3, @r14
     exts.b r12, r2
-    bra     .L_clamp_upper
+    bra     .L_06019F96
     mov.b r2, @r4
-.L_check_held_down:
+.L_06019F7A:
     mov.w @r13, r2
     extu.w r2, r2
     and r6, r2
     tst r2, r2
-    bt      .L_clamp_upper
+    bt      .L_06019F96
     extu.b r5, r5
     mov.b @r4, r3
     cmp/eq r5, r3
-    bf      .L_clamp_upper
+    bf      .L_06019F96
     mov.l @r14, r3
     add #-0x1, r3
     mov.l r3, @r14
     exts.b r12, r2
     mov.b r2, @r4
-.L_clamp_upper:
+.L_06019F96:
     mov #0x5, r2
     mov.l @r14, r3
     cmp/ge r2, r3
-    bf      .L_clamp_lower
+    bf      .L_06019FA2
     mov #0x4, r2
     mov.l r2, @r14
-.L_clamp_lower:
+.L_06019FA2:
     mov.l @r14, r3
     cmp/pz r3
-    bt      .L_done
+    bt      .L_06019FAA
     mov.l r12, @r14
-.L_done:
+.L_06019FAA:
     mov.l @r15+, r12
     mov.l @r15+, r13
     .byte   0xAF, 0x03    /* bra 0x06019DB8 (external) */

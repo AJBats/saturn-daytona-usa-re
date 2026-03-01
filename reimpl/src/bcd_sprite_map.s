@@ -8,7 +8,7 @@ bcd_sprite_map:
     sts.l pr, @-r15
     mov.l   .L_pool_06016A10, r13
     cmp/ge r2, r3
-    bt/s    .L_accum_with_project
+    bt/s    .L_0601699C
     mov #0x4, r5
 
 
@@ -31,7 +31,7 @@ bcd_sprite_map:
     mov r3, r2
     mov.l @(56, r4), r3
     cmp/gt r3, r2
-    bt      .L_commit_sprites
+    bt      .L_060169E0
 
     extu.b r14, r4
     mov r4, r3
@@ -44,10 +44,10 @@ bcd_sprite_map:
     add r13, r4
     mov.l @(56, r4), r2
     mov.l r2, @(48, r4)
-    bra     .L_commit_sprites
+    bra     .L_060169E0
     mov #0x1, r11
 
-.L_accum_with_project:
+.L_0601699C:
 
     extu.b r14, r12
     mov.l   .L_pool_06016A14, r2
@@ -70,7 +70,7 @@ bcd_sprite_map:
     mov.l @(48, r12), r2
     mov.l @(56, r12), r3
     cmp/ge r3, r2
-    bf      .L_commit_sprites
+    bf      .L_060169E0
 
     extu.b r14, r4
     mov r4, r3
@@ -85,13 +85,13 @@ bcd_sprite_map:
     mov.l r2, @(48, r4)
     mov #0x1, r11
 
-.L_commit_sprites:
+.L_060169E0:
 
     .byte   0xB1, 0xFA    /* bsr 0x06016DD8 (external: hud_sprite_vertex_project) */
     extu.b r14, r4
     extu.b r11, r11
     tst r11, r11
-    bt      .L_epilogue
+    bt      .L_06016A02
 
     extu.b r14, r14
     mov r14, r3
@@ -106,7 +106,7 @@ bcd_sprite_map:
     mov r2, r0
     mov.b r0, @(2, r14)
 
-.L_epilogue:
+.L_06016A02:
     lds.l @r15+, pr
     mov.l @r15+, r11
     mov.l @r15+, r12

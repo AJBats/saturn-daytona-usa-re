@@ -18,7 +18,7 @@ scene_finalize_a:
     mov #0xA, r7
     mov #0x0, r4
     extu.w r4, r5
-.L_init_slot_loop:
+.L_0602508A:
     extu.w r5, r6
     extu.w r4, r0
     extu.b r5, r3
@@ -42,10 +42,10 @@ scene_finalize_a:
     mov.w r2, @r3
     extu.w r5, r3
     cmp/ge r7, r3
-    bf      .L_init_slot_loop
-    bra     .L_outer_loop_test
+    bf      .L_0602508A
+    bra     .L_0602511E
     extu.w r4, r13
-.L_outer_loop_body:
+.L_060250BE:
     extu.w r4, r5
     extu.w r13, r8
     extu.b r13, r14
@@ -60,7 +60,7 @@ scene_finalize_a:
     add r2, r14
     extu.b r14, r14
     add r10, r14
-.L_inner_slot_loop:
+.L_060250DA:
     extu.w r5, r0
     mov.l @r8, r2
     shll r0
@@ -70,7 +70,7 @@ scene_finalize_a:
     extu.w r3, r3
     and r1, r3
     tst r3, r3
-    bt      .L_skip_slot
+    bt      .L_06025114
     extu.w r5, r6
     extu.w r5, r9
     mov.l @(4, r14), r3
@@ -90,17 +90,17 @@ scene_finalize_a:
     mov.w @r3, r1
     or r2, r1
     mov.w r1, @r3
-.L_skip_slot:
+.L_06025114:
     add #0x1, r5
     extu.w r5, r3
     cmp/ge r7, r3
-    bf      .L_inner_slot_loop
+    bf      .L_060250DA
     add #0x1, r13
-.L_outer_loop_test:
+.L_0602511E:
     extu.w r13, r3
     mov #0xE, r2
     cmp/ge r2, r3
-    bf      .L_outer_loop_body
+    bf      .L_060250BE
     mov.l @r15+, r8
     mov.l @r15+, r9
     mov.l @r15+, r10

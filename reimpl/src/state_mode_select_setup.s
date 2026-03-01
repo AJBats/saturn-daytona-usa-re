@@ -47,14 +47,14 @@ state_mode_select_setup:
     mov.b @r0, r0
     extu.b r0, r0
     cmp/eq #0x1, r0
-    bf      .L_exit
+    bf      .L_06008D32
     mov.l   _pool_fn_race_state_pair, r3
     jsr @r3
     nop
     extu.b r14, r14
     mov.l   _pool_demo_flag_b_ptr, r3
     mov.b r14, @r3
-.L_exit:
+.L_06008D32:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14

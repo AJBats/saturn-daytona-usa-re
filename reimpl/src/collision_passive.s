@@ -19,7 +19,7 @@ collision_passive:
     mov.w   .L_wpool_0600D194, r0
     mov.l @(r0, r5), r14
     tst r14, r14
-    bt      .L_no_partner_b
+    bt      .L_0600D176
     mov.l @(16, r14), r7
     mov.l @(16, r5), r3
     mov.l @(24, r14), r2
@@ -29,11 +29,11 @@ collision_passive:
     mov.l   .L_pool_0600D1A0, r2
     sub r3, r7
     cmp/ge r2, r7
-    bt      .L_partner_b_far_enough
+    bt      .L_0600D15A
     mov r14, r4
-    bra     .L_apply_push
+    bra     .L_0600D1A4
     mov.l @r15+, r14
-.L_partner_b_far_enough:
+.L_0600D15A:
     mov.l @(16, r4), r2
     mov.l @(16, r5), r3
     mov.l @(24, r4), r1
@@ -43,13 +43,13 @@ collision_passive:
     mov r2, r5
     sub r3, r5
     cmp/ge r6, r5
-    bt      .L_cars_separated
-    bra     .L_apply_push
+    bt      .L_0600D172
+    bra     .L_0600D1A4
     mov.l @r15+, r14
-.L_cars_separated:
-    bra     .L_return_no_push
+.L_0600D172:
+    bra     .L_0600D18E
     nop
-.L_no_partner_b:
+.L_0600D176:
     mov.l @(16, r4), r2
     mov.l @(16, r5), r3
     mov.l @(24, r4), r1
@@ -59,10 +59,10 @@ collision_passive:
     mov r2, r5
     sub r3, r5
     cmp/ge r6, r5
-    bt      .L_return_no_push
-    bra     .L_apply_push
+    bt      .L_0600D18E
+    bra     .L_0600D1A4
     mov.l @r15+, r14
-.L_return_no_push:
+.L_0600D18E:
     rts
     mov.l @r15+, r14
 
@@ -78,7 +78,7 @@ DAT_0600d192:
     .4byte  0x000F0000                  /* 15.0 in 16.16 fixed-point — diagonal separation threshold */
 .L_pool_0600D1A0:
     .4byte  0x00080000                  /* 8.0 in 16.16 fixed-point — close proximity threshold */
-.L_apply_push:
+.L_0600D1A4:
     mov.l   .L_pool_0600D20C, r6
     mov.w   DAT_0600d1fa, r0
     mov.l @r6, r6
@@ -88,44 +88,44 @@ DAT_0600d192:
     sub r3, r7
     mov.w   DAT_0600d1fc, r3
     cmp/ge r3, r7
-    bf      .L_push_exit
+    bf      .L_0600D1F6
     mov.w   DAT_0600d1fe, r3
     cmp/gt r3, r7
-    bt      .L_push_exit
+    bt      .L_0600D1F6
     mov.w   DAT_0600d1fe, r7
     mov.w   DAT_0600d200, r3
     cmp/gt r3, r5
-    bt      .L_push_subtract
-    bra     .L_push_clamp
+    bt      .L_0600D1CA
+    bra     .L_0600D1CC
     add r7, r5
-.L_push_subtract:
+.L_0600D1CA:
     sub r7, r5
-.L_push_clamp:
+.L_0600D1CC:
     cmp/pz r5
-    bt      .L_push_check_max
+    bt      .L_0600D1D8
     mov #0x0, r3
     mov.w   DAT_0600d202, r0
-    bra     .L_push_set_timer
+    bra     .L_0600D1EC
     mov.l r3, @(r0, r6)
-.L_push_check_max:
+.L_0600D1D8:
     mov.w   DAT_0600d204, r3
     cmp/gt r3, r5
-    bf      .L_push_store_result
+    bf      .L_0600D1E8
     mov.w   DAT_0600d204, r3
     mov.w   DAT_0600d202, r0
     mov.l r3, @(r0, r6)
-    bra     .L_push_set_timer
+    bra     .L_0600D1EC
     nop
-.L_push_store_result:
+.L_0600D1E8:
     mov.w   DAT_0600d202, r0
     mov.l r5, @(r0, r6)
-.L_push_set_timer:
+.L_0600D1EC:
     mov.w   .L_wpool_0600D206, r3
     mov.w   .L_wpool_0600D208, r0
     mov.l r3, @(r0, r6)
     add #0x30, r0
     mov.l r4, @(r0, r6)
-.L_push_exit:
+.L_0600D1F6:
     rts
     nop
 
@@ -220,29 +220,29 @@ sym_0600D280:
     mov.l   .L_pool_0600D30C, r5
     mov #0x0, r4
     mov.l   .L_pool_0600D310, r6
-    bra     .L_clear_list_a_test
+    bra     .L_0600D29E
     mov r4, r0
-.L_clear_list_a_body:
+.L_0600D294:
     mov.l r4, @r6
     add #0x4, r6
     mov.l r4, @r6
     add #0x2, r0
     add #0x4, r6
-.L_clear_list_a_test:
+.L_0600D29E:
     cmp/hs r7, r0
-    bf      .L_clear_list_a_body
+    bf      .L_0600D294
     mov.l   .L_pool_0600D314, r6
-    bra     .L_clear_list_b_test
+    bra     .L_0600D2B2
     mov r4, r0
-.L_clear_list_b_body:
+.L_0600D2A8:
     mov.l r4, @r6
     add #0x4, r6
     mov.l r4, @r6
     add #0x2, r0
     add #0x4, r6
-.L_clear_list_b_test:
+.L_0600D2B2:
     cmp/hs r7, r0
-    bf      .L_clear_list_b_body
+    bf      .L_0600D2A8
     mov.l   .L_pool_0600D318, r6
     mov.l r4, @r6
     add #0x4, r6
@@ -250,9 +250,9 @@ sym_0600D280:
     add #0x4, r6
     mov.l r4, @r6
     mov.l   .L_pool_0600D310, r0
-    bra     .L_fill_list_a_test
+    bra     .L_0600D2DA
     mov #0x1, r6
-.L_fill_list_a_body:
+.L_0600D2C8:
     mov r0, r2
     add #0x4, r0
     mov.l @r5, r3
@@ -262,14 +262,14 @@ sym_0600D280:
     add r12, r3
     mov.l r3, @r2
     add #0x1, r6
-.L_fill_list_a_test:
+.L_0600D2DA:
     mov.l @r5, r2
     cmp/hi r2, r6
-    bf      .L_fill_list_a_body
+    bf      .L_0600D2C8
     mov.l   .L_pool_0600D314, r0
-    bra     .L_fill_list_b_test
+    bra     .L_0600D2F8
     mov #0x1, r6
-.L_fill_list_b_body:
+.L_0600D2E6:
     mov r0, r2
     add #0x4, r0
     mov.l @r5, r3
@@ -279,10 +279,10 @@ sym_0600D280:
     add r12, r3
     mov.l r3, @r2
     add #0x1, r6
-.L_fill_list_b_test:
+.L_0600D2F8:
     mov.l @r5, r2
     cmp/hi r2, r6
-    bf      .L_fill_list_b_body
+    bf      .L_0600D2E6
     lds.l @r15+, macl
     rts
     mov.l @r15+, r12

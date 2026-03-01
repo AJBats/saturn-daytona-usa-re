@@ -20,30 +20,30 @@ transform_heading_apply:
     mov.w r3, @r13
     extu.w r0, r2
     mov.w r2, @r14
-    bra     .L_loop_check
+    bra     .L_06026352
     extu.w r0, r5
-.L_loop_body:
+.L_060262E2:
     extu.w r5, r2
     cmp/eq r4, r2
-    bf      .L_not_skip_slot
-    bra     .L_loop_next
+    bf      .L_060262EC
+    bra     .L_06026350
     nop
-.L_not_skip_slot:
+.L_060262EC:
     extu.w r5, r0
     shll2 r0
     shll r0
     add r10, r0
     mov.w @(6, r0), r0
-    bra     .L_dispatch_heading
+    bra     .L_06026320
     extu.w r0, r0
     .2byte  0xA001                          /* bra .L_case_23_store_id_b: store then bra loop */
     .4byte  0x627D626D                      /* extu.w r7,r2 / extu.w r6,r2 */
-    .4byte  0xA0262D21                      /* bra .L_loop_next / mov.w r2,@r13 [delay] */
+    .4byte  0xA0262D21                      /* bra .L_06026350 / mov.w r2,@r13 [delay] */
     .4byte  0xA001627D                      /* bra .L_case_811_store_id_b: bra / extu.w r7,r2 [delay] */
-    .4byte  0x626DA021                      /* extu.w r6,r2 / bra .L_loop_next */
+    .4byte  0x626DA021                      /* extu.w r6,r2 / bra .L_06026350 */
     .2byte  0x2E21                          /* mov.w r2,@r14 [delay: store r2 to course_id_b] */
-.L_out_of_range:
-    bra     .L_loop_next
+.L_0602630E:
+    bra     .L_06026350
     nop
     .2byte  0xFFFF                          /* alignment padding */
 .L_pool_06026314:
@@ -52,12 +52,12 @@ transform_heading_apply:
     .4byte  sym_06089ED6                    /* [HIGH] &course_id_a (word) */
 .L_pool_0602631C:
     .4byte  sym_06089ED4                    /* [HIGH] &course_id_b (word) */
-.L_dispatch_heading:
+.L_06026320:
     mov.w   .L_wpool_06026336, r1
     sub r1, r0
     mov #0xC, r1
     cmp/hs r1, r0
-    bt      .L_out_of_range
+    bt      .L_0602630E
     shll r0
     mov r0, r1
     .word 0xC702
@@ -72,12 +72,12 @@ transform_heading_apply:
     .4byte  0xFFC8FFC8                      /* jump offsets: index 6 (-56), index 7 (-56) -> course_id_a=2 */
     .4byte  0xFFD2FFD2                      /* jump offsets: index 8 (-46), index 9 (-46) -> course_id_b=2 */
     .4byte  0xFFD2FFD2                      /* jump offsets: index 10 (-46), index 11 (-46) -> course_id_b=2 */
-.L_loop_next:
+.L_06026350:
     add #0x1, r5
-.L_loop_check:
+.L_06026352:
     extu.w r5, r2
     cmp/ge r12, r2
-    bf      .L_loop_body
+    bf      .L_060262E2
     mov.l @r15+, r10
     mov.l @r15+, r12
     mov.l @r15+, r13

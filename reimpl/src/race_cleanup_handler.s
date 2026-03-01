@@ -16,7 +16,7 @@ race_cleanup_handler:
     mov.l r3, @r14
     mov #0x14, r3
     cmp/ge r3, r2
-    bt      .L_check_transition
+    bt      .L_060121DC
     mov.l   .L_pool_06012228, r3
     mov.l r3, @r15
     mov r3, r7
@@ -31,10 +31,10 @@ race_cleanup_handler:
     mov #0x8, r4
     .byte   0xB1, 0xFA    /* bsr 0x060125D0 (external) */
     nop
-.L_check_transition:
+.L_060121DC:
     mov.l @r14, r0
     cmp/eq #0x14, r0
-    bf      .L_not_transition_frame
+    bf      .L_0601224C
     mov.l   .L_pool_06012234, r5
     mov.l   .L_pool_06012238, r3
     jsr @r3
@@ -53,7 +53,7 @@ race_cleanup_handler:
     jsr @r3
     mov #0x8, r4
     mov r13, r7
-    mov.l   .L_mask_0xE000, r6
+    mov.l   .L_06012244, r6
     mov.w   .L_wpool_0601221E, r5
     mov #0x8, r4
     add #0x4, r15
@@ -87,15 +87,15 @@ race_cleanup_handler:
     .4byte  sym_0605ACF0                    /* HUD text string source data */
 .L_pool_06012240:
     .4byte  sym_060284AE                    /* VDP number/text renderer */
-.L_mask_0xE000:
+.L_06012244:
     .4byte  0x0000E000                      /* priority bits mask (bits 15:13) */
 .L_pool_06012248:
     .4byte  sym_060283E0                    /* VDP text dispatch (tail call target) */
-.L_not_transition_frame:
+.L_0601224C:
     mov.l @r14, r2
     mov #0x28, r3
     cmp/gt r3, r2
-    bf      .L_check_phase3
+    bf      .L_0601226A
     mov #0x0, r3
     .byte   0xD2, 0x1D    /* mov.l .L_pool_060122CC, r2 */
     mov.b r3, @r2
@@ -107,11 +107,11 @@ race_cleanup_handler:
     .byte   0xD3, 0x1B    /* mov.l .L_pool_060122D4, r3 */
     jmp @r3
     mov.l @r15+, r14
-.L_check_phase3:
+.L_0601226A:
     mov #0x14, r3
     mov.l @r14, r2
     cmp/gt r3, r2
-    bf      .L_exit
+    bf      .L_06012280
     .byte   0xB0, 0x67    /* bsr 0x06012344 (external) */
     nop
     add #0x4, r15
@@ -119,7 +119,7 @@ race_cleanup_handler:
     mov.l @r15+, r13
     .byte   0xA0, 0xC0    /* bra 0x06012400 (external) */
     mov.l @r15+, r14
-.L_exit:
+.L_06012280:
     add #0x4, r15
     lds.l @r15+, pr
     mov.l @r15+, r13

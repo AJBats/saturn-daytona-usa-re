@@ -16,11 +16,11 @@ course_selector_hl:
     .byte   0xD3, 0x4E    /* mov.l .L_pool_06033884, r3 */
     mov.b @r3, r3
     cmp/pl r3
-    bf      .L_normal_direction
+    bf      .L_06033756
     neg r12, r12
     neg r14, r14
     .byte   0xD4, 0x23    /* mov.l .L_pool_060337E4, r4 */
-.L_normal_direction:
+.L_06033756:
     .byte   0xD0, 0x20    /* mov.l .L_pool_060337D8, r0 */
     add r1, r0
     mov.w @r0+, r1
@@ -30,12 +30,12 @@ course_selector_hl:
     mov r1, r14
     mov r2, r13
     cmp/pl r3
-    bf      .L_skip_mirror_adjust
+    bf      .L_06033772
     mov.w @r0+, r1
     mov.w @r0, r2
     add r1, r14
     add r2, r13
-.L_skip_mirror_adjust:
+.L_06033772:
     add r4, r12
     .byte   0xD0, 0x1C    /* mov.l .L_pool_060337E8, r0 */
     and r0, r12

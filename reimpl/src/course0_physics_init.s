@@ -23,17 +23,17 @@ course0_physics_init:
     mov.l   .L_pool_06019C18, r3
     mov.b @r3, r3
     tst r3, r3
-    bt/s    .L_is_course0
+    bt/s    .L_06019C74
     mov #0x3, r14
 
     mov #0x0, r13
-.L_not_c0_loop_top:
+.L_06019BEE:
     extu.b r13, r3
     mov.l   .L_pool_06019C1C, r2
     mov.l @r2, r2
     cmp/eq r2, r3
-    bf      .L_not_c0_not_player
-    bra     .L_not_c0_slot_chosen
+    bf      .L_06019C20
+    bra     .L_06019C22
     extu.b r11, r10
 
     .global DAT_06019bfc
@@ -54,10 +54,10 @@ DAT_06019bfc:
 .L_pool_06019C1C:
     .4byte  sym_0605AD00
 
-.L_not_c0_not_player:
+.L_06019C20:
     mov #0x5, r10
 
-.L_not_c0_slot_chosen:
+.L_06019C22:
     extu.b r10, r7
     extu.b r13, r0
     shll8 r7
@@ -97,44 +97,44 @@ DAT_06019bfc:
     add #0x1, r13
     extu.b r13, r3
     cmp/ge r14, r3
-    bf      .L_not_c0_loop_top
-    bra     .L_epilogue
+    bf      .L_06019BEE
+    bra     .L_06019CF2
     nop
 
-.L_is_course0:
+.L_06019C74:
     mov #0x0, r13
-.L_c0_loop_top:
+.L_06019C76:
     extu.b r13, r2
     mov.l   .L_pool_06019D10, r3
     mov.l @r3, r3
     cmp/eq r3, r2
-    bf      .L_c0_not_player
+    bf      .L_06019CA2
 
     mov #0x8, r2
     mov.b @r12, r3
     extu.b r3, r3
     cmp/ge r2, r3
-    bt      .L_c0_phase_ge_8
-    bra     .L_c0_player_slot_chosen
+    bt      .L_06019C8E
+    bra     .L_06019CA4
     extu.b r11, r10
 
-.L_c0_phase_ge_8:
+.L_06019C8E:
     mov #0x10, r3
     mov.b @r12, r2
     extu.b r2, r2
     cmp/gt r3, r2
-    bf/s    .L_c0_phase_le_16
+    bf/s    .L_06019C9E
     mov #0x7, r10
     mov #0x0, r3
     mov.b r3, @r12
-.L_c0_phase_le_16:
-    bra     .L_c0_player_slot_chosen
+.L_06019C9E:
+    bra     .L_06019CA4
     nop
 
-.L_c0_not_player:
+.L_06019CA2:
     extu.b r14, r10
 
-.L_c0_player_slot_chosen:
+.L_06019CA4:
     extu.b r10, r7
     extu.b r13, r0
     shll8 r7
@@ -174,9 +174,9 @@ DAT_06019bfc:
     add #0x1, r13
     extu.b r13, r3
     cmp/ge r14, r3
-    bf      .L_c0_loop_top
+    bf      .L_06019C76
 
-.L_epilogue:
+.L_06019CF2:
     add #0xC, r15
     lds.l @r15+, pr
     mov.l @r15+, r8

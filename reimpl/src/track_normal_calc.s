@@ -7,9 +7,9 @@
 track_normal_calc:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    mov.l   .L_ptr_car_slot_idx, r14
-    mov.l   .L_ptr_input_state, r4
-    mov.l   .L_mask_low16, r3
+    mov.l   .L_060144E8, r14
+    mov.l   .L_060144EC, r4
+    mov.l   .L_060144F0, r3
     mov.w @(4, r4), r0
     extu.w r0, r0
     xor r3, r0
@@ -20,44 +20,44 @@ track_normal_calc:
     extu.w r0, r4
     extu.w r4, r2
     cmp/gt r5, r2
-    bf      .L_clamp_done
+    bf      .L_0601448A
     extu.w r5, r4
-.L_clamp_done:
+.L_0601448A:
     mov.l @r14, r2
-    mov.l   .L_ptr_prev_slot_idx, r3
+    mov.l   .L_060144F4, r3
     mov.l r2, @r3
     extu.w r4, r2
     mov.l r2, @r14
-    mov.l   .L_ptr_car_count, r3
+    mov.l   .L_060144F8, r3
     mov #0x3, r2
     mov.l @r3, r3
     cmp/hs r2, r3
-    bf      .L_check_changed
+    bf      .L_060144B2
     extu.w r4, r4
     mov #0xF, r2
     cmp/ge r2, r4
-    bt      .L_force_high
+    bt      .L_060144AE
     mov #0x1B, r2
     mov.l r2, @r14
-    bra     .L_check_changed
+    bra     .L_060144B2
     nop
-.L_force_high:
+.L_060144AE:
     mov #0x1C, r3
     mov.l r3, @r14
-.L_check_changed:
+.L_060144B2:
     mov.l @r14, r3
-    mov.l   .L_ptr_prev_slot_idx, r2
+    mov.l   .L_060144F4, r2
     mov.l @r2, r2
     cmp/eq r2, r3
-    bt      .L_no_sound
-    mov.l   .L_snd_slot_change, r5
-    mov.l   .L_ptr_sound_dispatch, r3
+    bt      .L_060144C4
+    mov.l   .L_060144FC, r5
+    mov.l   .L_06014500, r3
     jsr @r3
     mov #0x0, r4
-.L_no_sound:
+.L_060144C4:
     mov.l @r14, r2
-    mov.l   .L_ptr_variant_table, r3
-    mov.l   .L_ptr_variant_code, r1
+    mov.l   .L_06014504, r3
+    mov.l   .L_06014508, r1
     add r3, r2
     mov.b @r2, r2
     extu.b r2, r2
@@ -69,21 +69,21 @@ track_normal_calc:
     .4byte  sym_06084AF0
     .4byte  sym_06034FE0
     .4byte  sym_06028430
-.L_ptr_car_slot_idx:
+.L_060144E8:
     .4byte  sym_06084B08                /* &car_slot_index (32-bit) */
-.L_ptr_input_state:
+.L_060144EC:
     .4byte  g_pad_state                /* &input_state struct (+4 = button flags) */
-.L_mask_low16:
+.L_060144F0:
     .4byte  0x0000FFFF                  /* low 16-bit mask */
-.L_ptr_prev_slot_idx:
+.L_060144F4:
     .4byte  sym_06084B0C                /* &prev_slot_index (32-bit) */
-.L_ptr_car_count:
+.L_060144F8:
     .4byte  sym_06084B18                /* &active_car_count (32-bit, max 3) */
-.L_snd_slot_change:
+.L_060144FC:
     .4byte  0xAB111DFF                  /* slot change notification sound */
-.L_ptr_sound_dispatch:
+.L_06014500:
     .4byte  sound_cmd_dispatch          /* sound command dispatch function */
-.L_ptr_variant_table:
+.L_06014504:
     .4byte  sym_0605AD2C                /* variant code lookup table (byte array) */
-.L_ptr_variant_code:
+.L_06014508:
     .4byte  sym_06084B20                /* &current_variant_code (32-bit) */

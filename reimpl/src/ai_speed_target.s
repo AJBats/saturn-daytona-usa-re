@@ -26,28 +26,28 @@ ai_speed_target:
     sub r3, r4
     exts.w r4, r4
     cmp/gt r6, r4
-    bf      .L_check_neg_clamp
+    bf      .L_0600C90A
     mov.l @(40, r14), r3
     extu.w r3, r3
     add r6, r3
     exts.w r3, r3
     mov.l r3, @(40, r14)
-    bra     .L_done
+    bra     .L_0600C920
     nop
-.L_check_neg_clamp:
+.L_0600C90A:
     mov.w   DAT_0600c964, r2
     cmp/ge r2, r4
-    bt      .L_store_direct
+    bt      .L_0600C91E
     mov.l @(40, r14), r2
     extu.w r2, r2
     mov.l   .L_pool_0600C96C, r3
     add r3, r2
     exts.w r2, r2
-    bra     .L_done
+    bra     .L_0600C920
     mov.l r2, @(40, r14)
-.L_store_direct:
+.L_0600C91E:
     mov.l r5, @(40, r14)
-.L_done:
+.L_0600C920:
     add #0x4, r15
     lds.l @r15+, pr
     rts

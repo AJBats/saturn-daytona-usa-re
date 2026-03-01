@@ -20,7 +20,7 @@ vdp2_util_loop:
     jsr @r3
     mov #0x58, r0
     mov #0x0, r14
-.L_slot_loop:
+.L_0601714A:
     extu.b r14, r2
     mov r2, r3
     shll2 r2
@@ -33,7 +33,7 @@ vdp2_util_loop:
     mov.b @r2, r2
     extu.b r2, r2
     tst r2, r2
-    bt      .L_skip_slot
+    bt      .L_06017182
     extu.b r14, r0
     mov r0, r3
     shll2 r0
@@ -49,11 +49,11 @@ vdp2_util_loop:
     mov.l @(r0, r12), r3
     jsr @r3
     mov r14, r4
-.L_skip_slot:
+.L_06017182:
     add #0x1, r14
     extu.b r14, r2
     cmp/ge r11, r2
-    bf      .L_slot_loop
+    bf      .L_0601714A
     add #0x58, r15
     lds.l @r15+, pr
     mov.l @r15+, r11

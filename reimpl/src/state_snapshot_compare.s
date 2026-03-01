@@ -20,14 +20,14 @@ state_snapshot_compare:
     mov.l   .L_pool_060190A0, r0
     mov.l @r0, r0
     tst r0, r0
-    bf      .L_skip_sound_load
+    bf      .L_06019088
     mov.l   .L_pool_060190AC, r3
     jsr @r3
     nop
     mov #0x0, r2
     mov.l   .L_pool_060190B0, r3
     mov.w r2, @r3
-.L_skip_sound_load:
+.L_06019088:
     mov.l   .L_pool_060190A4, r5
     jsr @r14
     mov #0xF, r4

@@ -17,7 +17,7 @@ time_digit_update:
     mov.b r4, @r15
     extu.b r14, r6
     extu.b r14, r4
-.L_digit_loop:
+.L_06015CC4:
     extu.b r4, r5
     mov r5, r3
     shll2 r5
@@ -32,7 +32,7 @@ time_digit_update:
     mov r2, r3
     mov.l r2, @(48, r5)
     cmp/pz r3
-    bf      .L_digit_not_done
+    bf      .L_06015CF8
     extu.b r4, r3
     mov r3, r2
     shll2 r3
@@ -44,14 +44,14 @@ time_digit_update:
     add r13, r3
     mov.l r14, @(48, r3)
     add #0x1, r6
-.L_digit_not_done:
+.L_06015CF8:
     add #0x1, r4
     extu.b r4, r3
     cmp/ge r12, r3
-    bf      .L_digit_loop
+    bf      .L_06015CC4
     extu.b r6, r0
     cmp/eq #0x8, r0
-    bf      .L_not_all_done
+    bf      .L_06015D18
     mov.b @r15, r4
     extu.b r4, r4
     add #0x4, r15
@@ -61,7 +61,7 @@ time_digit_update:
     mov.l   .L_pool_06015D2C, r3
     jmp @r3
     mov.l @r15+, r14
-.L_not_all_done:
+.L_06015D18:
     add #0x4, r15
     mov.l @r15+, r11
     mov.l @r15+, r12

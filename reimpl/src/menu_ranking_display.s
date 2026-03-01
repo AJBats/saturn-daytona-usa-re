@@ -14,26 +14,26 @@ menu_ranking_display:
     mov.l @r14, r3
     mov.l @(r0, r3), r0
     tst r0, r0
-    bt      .L_error_return
+    bt      .L_0603B6CA
     cmp/pz r4
-    bf      .L_error_return
+    bf      .L_0603B6CA
     mov.l @r14, r2
     mov.w   .L_wpool_0603B71E, r0
     mov.l @(r0, r2), r3
     cmp/ge r3, r4
-    bf      .L_check_mode
-.L_error_return:
+    bf      .L_0603B6D4
+.L_0603B6CA:
     mov #-0xA, r0
     add #0x4, r15
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-.L_check_mode:
+.L_0603B6D4:
     mov.l @r14, r0
     mov.w   .L_wpool_0603B720, r1
     mov.l @(r0, r1), r0
     cmp/eq #0x1, r0
-    bf      .L_narrow_mode
+    bf      .L_0603B6F6
     mov.l @r14, r5
     mov.w   .L_wpool_0603B71C, r0
     mov.l   .L_pool_0603B728, r3
@@ -44,9 +44,9 @@ menu_ranking_display:
     mov.l   .L_pool_0603B72C, r3
     jsr @r3
     mov.l @r15, r4
-    bra     .L_tail_call_result
+    bra     .L_0603B70A
     nop
-.L_narrow_mode:
+.L_0603B6F6:
     mov.l @r14, r5
     mov.w   .L_wpool_0603B71C, r0
     mov.l   .L_pool_0603B730, r3
@@ -57,7 +57,7 @@ menu_ranking_display:
     mov.l   .L_pool_0603B72C, r3
     jsr @r3
     mov.l @r15, r4
-.L_tail_call_result:
+.L_0603B70A:
     mov #0x0, r4
     add #0x4, r15
     lds.l @r15+, pr

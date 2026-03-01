@@ -22,31 +22,31 @@ ai_orchestrator:
     mov.w   DAT_0600c7be, r0
     mov.l @(r0, r14), r4
     cmp/gt r3, r4
-    bf      .L_no_speed_zone
+    bf      .L_0600C77A
     mov #0x3C, r3
     cmp/ge r3, r4
-    bt      .L_no_speed_zone
+    bt      .L_0600C77A
     mov.w   DAT_0600c7c0, r3
     mov.l r3, @(40, r14)
-    bra     .L_after_speed
+    bra     .L_0600C780
     nop
 
-.L_no_speed_zone:
+.L_0600C77A:
     mov r13, r5
     .byte   0xB0, 0xA6    /* bsr 0x0600C8CC (external) */
     mov r14, r4
 
-.L_after_speed:
+.L_0600C780:
     mov.l @(40, r14), r2
     mov.l r2, @(32, r14)
 
     mov.l @(4, r14), r0
     tst r0, r0
-    bf      .L_skip_speed_boost
+    bf      .L_0600C78E
     .byte   0xB0, 0xF1    /* bsr 0x0600C970 (external) */
     mov r14, r4
 
-.L_skip_speed_boost:
+.L_0600C78E:
     .byte   0xB0, 0xCB    /* bsr 0x0600C928 (external) */
     mov r14, r4
 

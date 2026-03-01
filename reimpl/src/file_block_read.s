@@ -10,7 +10,7 @@ file_block_read:
     mov.b @r3, r3
     extu.b r3, r3
     tst r3, r3
-    bf      .L_skip_init
+    bf      .L_0601241A
     mov.l   _pool_sfx_file_init, r5
     mov.l   _pool_fn_sound_dispatch, r3
     jsr @r3
@@ -18,7 +18,7 @@ file_block_read:
     mov #0x1, r2
     mov.l   _pool_read_init_flag, r3
     mov.b r2, @r3
-.L_skip_init:
+.L_0601241A:
     mov.l   _pool_position_vec_b, r4
     .byte   0xB0, 0x18    /* bsr 0x06012450 (external) */
     mov #0x0, r5

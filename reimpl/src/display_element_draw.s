@@ -7,11 +7,11 @@
 display_element_draw:
     sts.l pr, @-r15
     mov #0x1, r6
-    mov.l   .L_mask_clear_bit0, r7
-    mov.l   .L_ptr_config_base, r5
-    mov.l   .L_ptr_elem_base, r4
-    mov.w   .L_chan5_id, r1
-    mov.l   .L_fn_bitfield_commit, r3
+    mov.l   .L_0603D6E0, r7
+    mov.l   .L_0603D6E4, r5
+    mov.l   .L_0603D6E8, r4
+    mov.w   .L_0603D6DC, r1
+    mov.l   .L_0603D6EC, r3
     mov r6, r0
     jsr @r3
     mov r5, r2
@@ -20,68 +20,68 @@ display_element_draw:
     extu.w r2, r2
     and r7, r2
     mov.w r2, @r4
-    mov.w   .L_chan5_id, r1
-    mov.l   .L_fn_bitfield_commit, r3
+    mov.w   .L_0603D6DC, r1
+    mov.l   .L_0603D6EC, r3
     jsr @r3
     mov r5, r2
     mov r6, r0
     mov.w @r4, r2
-    mov.l   .L_mask_clear_bit1, r3
+    mov.l   .L_0603D6F0, r3
     extu.w r2, r2
     and r3, r2
     mov.w r2, @r4
-    mov.w   .L_chan5_id, r1
-    mov.l   .L_fn_bitfield_commit, r3
+    mov.w   .L_0603D6DC, r1
+    mov.l   .L_0603D6EC, r3
     jsr @r3
     mov r5, r2
     mov r6, r0
     mov.w @r4, r2
-    mov.l   .L_mask_clear_bit2, r3
+    mov.l   .L_0603D6F4, r3
     extu.w r2, r2
     and r3, r2
     mov.w r2, @r4
-    mov.w   .L_chan5_id, r1
-    mov.l   .L_fn_bitfield_commit, r3
+    mov.w   .L_0603D6DC, r1
+    mov.l   .L_0603D6EC, r3
     jsr @r3
     mov r5, r2
     mov r6, r0
     mov.w @r4, r2
-    mov.l   .L_mask_clear_bit3, r3
+    mov.l   .L_0603D6F8, r3
     extu.w r2, r2
     and r3, r2
     mov.w r2, @r4
-    mov.w   .L_chan5_id, r1
-    mov.l   .L_fn_bitfield_commit, r3
+    mov.w   .L_0603D6DC, r1
+    mov.l   .L_0603D6EC, r3
     jsr @r3
     mov r5, r2
     mov r6, r0
     mov.w @r4, r2
-    mov.l   .L_mask_clear_bit4, r3
+    mov.l   .L_0603D6FC, r3
     extu.w r2, r2
     and r3, r2
     mov.w r2, @r4
-    mov.w   .L_chan5_id, r1
-    mov.l   .L_fn_bitfield_commit, r3
+    mov.w   .L_0603D6DC, r1
+    mov.l   .L_0603D6EC, r3
     jsr @r3
     mov r5, r2
     mov r6, r0
     mov.w @r4, r2
-    mov.l   .L_mask_clear_bit5, r3
+    mov.l   .L_0603D700, r3
     extu.w r2, r2
     and r3, r2
     mov.w r2, @r4
-    mov.w   .L_chan5_id, r1
-    mov.l   .L_fn_bitfield_commit, r3
+    mov.w   .L_0603D6DC, r1
+    mov.l   .L_0603D6EC, r3
     jsr @r3
     mov r5, r2
     mov r6, r0
     mov.w @r4, r2
-    mov.l   .L_mask_clear_bit6, r3
+    mov.l   .L_0603D704, r3
     extu.w r2, r2
     and r3, r2
     mov.w r2, @r4
-    mov.w   .L_chan5_id, r1
-    mov.l   .L_fn_bitfield_commit, r3
+    mov.w   .L_0603D6DC, r1
+    mov.l   .L_0603D6EC, r3
     jsr @r3
     mov r5, r2
     mov.w @(2, r4), r0
@@ -91,160 +91,160 @@ display_element_draw:
     extu.w r2, r0
     mov.w r0, @(2, r4)
     mov r6, r0
-    mov.w   .L_chan5_id, r1
-    mov.l   .L_fn_bitfield_commit, r3
+    mov.w   .L_0603D6DC, r1
+    mov.l   .L_0603D6EC, r3
     jsr @r3
     mov r5, r2
     mov.w @(2, r4), r0
-    mov.l   .L_mask_clear_bit1, r3
+    mov.l   .L_0603D6F0, r3
     mov r0, r2
     extu.w r2, r2
     and r3, r2
     extu.w r2, r0
     mov.w r0, @(2, r4)
     mov r6, r0
-    mov.w   .L_chan5_id, r1
-    mov.l   .L_fn_bitfield_commit, r3
+    mov.w   .L_0603D6DC, r1
+    mov.l   .L_0603D6EC, r3
     jsr @r3
     mov r5, r2
     mov.w @(2, r4), r0
-    mov.l   .L_mask_clear_bit2, r3
+    mov.l   .L_0603D6F4, r3
     mov r0, r2
     extu.w r2, r2
     and r3, r2
     extu.w r2, r0
     mov.w r0, @(2, r4)
     mov r6, r0
-    mov.w   .L_chan5_id, r1
-    mov.l   .L_fn_bitfield_commit, r3
+    mov.w   .L_0603D6DC, r1
+    mov.l   .L_0603D6EC, r3
     jsr @r3
     mov r5, r2
     mov.w @(2, r4), r0
-    mov.l   .L_mask_clear_bit3, r3
+    mov.l   .L_0603D6F8, r3
     mov r0, r2
     extu.w r2, r2
     and r3, r2
     extu.w r2, r0
     mov.w r0, @(2, r4)
     mov r6, r0
-    mov.w   .L_chan5_id, r1
-    mov.l   .L_fn_bitfield_commit, r3
+    mov.w   .L_0603D6DC, r1
+    mov.l   .L_0603D6EC, r3
     jsr @r3
     mov r5, r2
     mov.w @(2, r4), r0
     mov r0, r2
     extu.w r2, r2
-    mov.l   .L_mask_clear_bit4, r3
+    mov.l   .L_0603D6FC, r3
     and r3, r2
     extu.w r2, r0
-    bra     .L_clear_flags_b
+    bra     .L_0603D708
     nop
-.L_chan5_id:
+.L_0603D6DC:
     .2byte  0x0501
     .2byte  0xFFFF
-.L_mask_clear_bit0:
+.L_0603D6E0:
     .4byte  0x0000FFFE
-.L_ptr_config_base:
+.L_0603D6E4:
     .4byte  sym_060A4D58
-.L_ptr_elem_base:
+.L_0603D6E8:
     .4byte  sym_060A4D46
-.L_fn_bitfield_commit:
+.L_0603D6EC:
     .4byte  sym_06034F78
-.L_mask_clear_bit1:
+.L_0603D6F0:
     .4byte  0x0000FFFD
-.L_mask_clear_bit2:
+.L_0603D6F4:
     .4byte  0x0000FFFB
-.L_mask_clear_bit3:
+.L_0603D6F8:
     .4byte  0x0000FFF7
-.L_mask_clear_bit4:
+.L_0603D6FC:
     .4byte  0x0000FFEF
-.L_mask_clear_bit5:
+.L_0603D700:
     .4byte  0x0000FFDF
-.L_mask_clear_bit6:
+.L_0603D704:
     .4byte  0x0000FFBF
-.L_clear_flags_b:
+.L_0603D708:
     mov.w r0, @(2, r4)
     mov r6, r0
-    mov.w   .L_chan5_id_b, r1
-    mov.l   .L_fn_bitfield_commit_b, r3
+    mov.w   .L_0603D7A0, r1
+    mov.l   .L_0603D7A4, r3
     jsr @r3
     mov r5, r2
     mov.w @(2, r4), r0
-    mov.l   .L_mask_clear_bit5_b, r3
+    mov.l   .L_0603D7A8, r3
     mov r0, r2
     extu.w r2, r2
     and r3, r2
     extu.w r2, r0
     mov.w r0, @(2, r4)
     mov r6, r0
-    mov.w   .L_chan5_id_b, r1
-    mov.l   .L_fn_bitfield_commit_b, r3
+    mov.w   .L_0603D7A0, r1
+    mov.l   .L_0603D7A4, r3
     jsr @r3
     mov r5, r2
     mov.w @(2, r4), r0
     mov #0x0, r7
-    mov.l   .L_mask_clear_bit6_b, r3
+    mov.l   .L_0603D7AC, r3
     mov r0, r2
     extu.w r2, r2
     and r3, r2
     extu.w r2, r0
     mov.w r0, @(2, r4)
     mov r6, r0
-    mov.w   .L_chan5_id_b, r1
-    mov.l   .L_fn_bitfield_commit_b, r3
+    mov.w   .L_0603D7A0, r1
+    mov.l   .L_0603D7A4, r3
     jsr @r3
     mov r5, r2
     extu.w r7, r0
     mov.w r0, @(4, r4)
     mov r6, r0
-    mov.w   .L_chan5_id_b, r1
-    mov.l   .L_fn_bitfield_commit_b, r3
+    mov.w   .L_0603D7A0, r1
+    mov.l   .L_0603D7A4, r3
     jsr @r3
     mov r5, r2
     extu.w r7, r0
     mov.w r0, @(6, r4)
     mov r6, r0
-    mov.w   .L_chan5_id_b, r1
-    mov.l   .L_fn_bitfield_commit_b, r3
+    mov.w   .L_0603D7A0, r1
+    mov.l   .L_0603D7A4, r3
     jsr @r3
     mov r5, r2
     extu.w r7, r0
     mov.w r0, @(8, r4)
     mov r6, r0
-    mov.w   .L_chan5_id_b, r1
-    mov.l   .L_fn_bitfield_commit_b, r3
+    mov.w   .L_0603D7A0, r1
+    mov.l   .L_0603D7A4, r3
     jsr @r3
     mov r5, r2
     extu.w r7, r0
     mov.w r0, @(10, r4)
     mov r6, r0
-    mov.w   .L_chan5_id_b, r1
-    mov.l   .L_fn_bitfield_commit_b, r3
+    mov.w   .L_0603D7A0, r1
+    mov.l   .L_0603D7A4, r3
     jsr @r3
     mov r5, r2
     extu.w r7, r0
     mov.w r0, @(12, r4)
     mov r6, r0
-    mov.w   .L_chan5_id_b, r1
-    mov.l   .L_fn_bitfield_commit_b, r3
+    mov.w   .L_0603D7A0, r1
+    mov.l   .L_0603D7A4, r3
     jsr @r3
     mov r5, r2
     extu.w r7, r0
     mov.w r0, @(14, r4)
     mov r6, r0
-    mov.w   .L_chan5_id_b, r1
-    mov.l   .L_fn_bitfield_commit_b, r3
+    mov.w   .L_0603D7A0, r1
+    mov.l   .L_0603D7A4, r3
     jsr @r3
     mov r5, r2
     lds.l @r15+, pr
     rts
     nop
-.L_chan5_id_b:
+.L_0603D7A0:
     .2byte  0x0501
     .2byte  0xFFFF
-.L_fn_bitfield_commit_b:
+.L_0603D7A4:
     .4byte  sym_06034F78
-.L_mask_clear_bit5_b:
+.L_0603D7A8:
     .4byte  0x0000FFDF
-.L_mask_clear_bit6_b:
+.L_0603D7AC:
     .4byte  0x0000FFBF

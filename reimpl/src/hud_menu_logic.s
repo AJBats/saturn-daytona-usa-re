@@ -14,37 +14,37 @@ hud_menu_logic:
     mov.l r8, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   .L_ptr_scroll_offset, r4
+    mov.l   .L_06012894, r4
     mov.l @r4, r3
-    mov.l   .L_ptr_prev_scroll, r2
+    mov.l   .L_06012898, r2
     mov.l r3, @r2
-    mov.l   .L_ptr_render_flags, r5
+    mov.l   .L_0601289C, r5
     mov.l @r5, r0
     or #0x80, r0
     mov.l r0, @r5
-    mov.l   .L_scroll_speed_delta, r3
+    mov.l   .L_060128A0, r3
     mov.l @r4, r2
     add r3, r2
     mov.l r2, @r4
-    mov.l   .L_ptr_car_array_base, r4
+    mov.l   .L_060128A4, r4
     mov.l @r4, r4
     mov.w   DAT_06012884, r0
     mov.l @(r0, r4), r4
-    mov.l   .L_fn_disp_cmd_write, r8
-    mov.l   .L_fn_sound_cmd, r9
-    mov.w   .L_menu_elem_stride, r10
-    mov.l   .L_ptr_menu_elem_data, r11
-    mov.l   .L_fn_disp_list_load, r12
-    mov.l   .L_ptr_replay_struct, r13
-    mov.l   .L_ptr_menu_state_ctr, r14
-    bra     .L_state_dispatch
+    mov.l   .L_060128A8, r8
+    mov.l   .L_060128AC, r9
+    mov.w   .L_06012886, r10
+    mov.l   .L_060128B0, r11
+    mov.l   .L_060128B4, r12
+    mov.l   .L_060128B8, r13
+    mov.l   .L_060128BC, r14
+    bra     .L_06012A52
     mov.l @r14, r0
-.L_state0_draw_items:
+.L_06012824:
     mov.w   DAT_06012888, r7
     add r13, r7
     mov.l r7, @r15
     mov.l @(4, r7), r7
-    mov.w   .L_disp_cmd_id_a, r6
+    mov.w   .L_0601288A, r6
     mov.l @r15, r5
     mov.l @r5, r5
     jsr @r12
@@ -61,46 +61,46 @@ hud_menu_logic:
     mov.l @r14, r3
     add #0x1, r3
     mov.l r3, @r14
-    bra     .L_epilogue
+    bra     .L_06012A7E
     nop
-.L_state1_check_input:
+.L_06012852:
     mov r4, r0
     cmp/eq #0x52, r0
-    bt      .L_handle_confirm_sel
-    mov.l   .L_ptr_game_status, r3
+    bt      .L_060128E6
+    mov.l   .L_060128C0, r3
     mov.w @r3, r2
     extu.w r2, r2
-    mov.l   .L_ptr_status_mask, r3
+    mov.l   .L_060128C4, r3
     mov.w @r3, r3
     extu.w r3, r3
     and r3, r2
     tst r2, r2
-    bf      .L_draw_highlight_sel
-    mov.l   .L_ptr_render_enable, r0
+    bf      .L_06012874
+    mov.l   .L_060128C8, r0
     mov.w @r0, r0
     extu.w r0, r0
     tst r0, r0
-    bt      .L_draw_default_item
-.L_draw_highlight_sel:
+    bt      .L_060128CC
+.L_06012874:
     mov r13, r7
     add r10, r7
     mov.l r7, @r15
     mov.l @(4, r7), r7
     mov.w   DAT_06012890, r3
     add r3, r7
-    bra     .L_issue_sel_disp_cmd
+    bra     .L_060128D8
     nop
 
     .global DAT_06012884
 DAT_06012884:
     .2byte  0x01EC                          /* car_array offset to input cmd field */
-.L_menu_elem_stride:
+.L_06012886:
     .2byte  0x0090                          /* menu element struct stride */
 
     .global DAT_06012888
 DAT_06012888:
     .2byte  0x0098                          /* replay_struct offset: first display list */
-.L_disp_cmd_id_a:
+.L_0601288A:
     .2byte  0x0880                          /* display command ID: menu item A */
 
     .global DAT_0601288c
@@ -115,65 +115,65 @@ DAT_0601288e:
 DAT_06012890:
     .2byte  0x4000                          /* highlight display data offset */
     .2byte  0xFFFF                          /* alignment padding */
-.L_ptr_scroll_offset:
+.L_06012894:
     .4byte  sym_060788F8                    /* menu scroll position (32-bit) */
-.L_ptr_prev_scroll:
+.L_06012898:
     .4byte  sym_0605B714                    /* previous scroll position backup */
-.L_ptr_render_flags:
+.L_0601289C:
     .4byte  sym_0605B6D8                    /* render mode flags (32-bit bitmask) */
-.L_scroll_speed_delta:
+.L_060128A0:
     .4byte  0x0004CCCC                      /* 16.16 fixed-point scroll speed */
-.L_ptr_car_array_base:
+.L_060128A4:
     .4byte  sym_0607E944                    /* car array base pointer */
-.L_fn_disp_cmd_write:
+.L_060128A8:
     .4byte  sym_060283E0                    /* display command writer function */
-.L_fn_sound_cmd:
+.L_060128AC:
     .4byte  sound_cmd_dispatch              /* sound command dispatch function */
-.L_ptr_menu_elem_data:
+.L_060128B0:
     .4byte  sym_0605ACDD                    /* menu element data base */
-.L_fn_disp_list_load:
+.L_060128B4:
     .4byte  sym_06028400                    /* display list loader function */
-.L_ptr_replay_struct:
+.L_060128B8:
     .4byte  sym_06063750                    /* replay/display struct base */
-.L_ptr_menu_state_ctr:
+.L_060128BC:
     .4byte  sym_060788F4                    /* menu state counter (32-bit) */
-.L_ptr_game_status:
+.L_060128C0:
     .4byte  g_pad_state                    /* game status word (16-bit) */
-.L_ptr_status_mask:
+.L_060128C4:
     .4byte  sym_0608188C                    /* status mask for input filtering */
-.L_ptr_render_enable:
+.L_060128C8:
     .4byte  sym_0607ED8C                    /* special render enable (16-bit) */
-.L_draw_default_item:
+.L_060128CC:
     mov.w   DAT_0601299a, r7
     add r13, r7
     mov.l r7, @r15
     mov.l @(4, r7), r7
     mov.w   DAT_0601299c, r3
     add r3, r7
-.L_issue_sel_disp_cmd:
+.L_060128D8:
     mov.w   DAT_0601299e, r6
     mov.l @r15, r5
     mov.l @r5, r5
     jsr @r12
     mov #0x8, r4
-    bra     .L_epilogue
+    bra     .L_06012A7E
     nop
-.L_handle_confirm_sel:
+.L_060128E6:
     mov r11, r7
     mov.l @r14, r2
     add #0x1, r2
     mov.l r2, @r14
-    mov.l   .L_mask_nibble3, r6
+    mov.l   .L_060129A8, r6
     mov.w   DAT_0601299e, r5
     jsr @r8
     mov #0x8, r4
     mov r11, r7
-    mov.l   .L_mask_nibble3, r6
+    mov.l   .L_060129A8, r6
     mov.w   DAT_060129a0, r5
     jsr @r8
     mov #0x8, r4
     mov r11, r7
-    mov.l   .L_mask_nibble3, r6
+    mov.l   .L_060129A8, r6
     mov.w   DAT_060129a2, r5
     jsr @r8
     mov #0x8, r4
@@ -188,18 +188,18 @@ DAT_06012890:
     mov.l @r5, r5
     jsr @r12
     mov #0x8, r4
-    mov.l   .L_snd_cmd_menu_select, r5
+    mov.l   .L_060129AC, r5
     jsr @r9
     mov #0x0, r4
-    bra     .L_epilogue
+    bra     .L_06012A7E
     nop
-.L_state2_check_mode:
+.L_0601292A:
     mov r4, r0
     cmp/eq #0x58, r0
-    bt      .L_handle_mode_confirm
-    bra     .L_epilogue
+    bt      .L_06012934
+    bra     .L_06012A7E
     nop
-.L_handle_mode_confirm:
+.L_06012934:
     mov.l @r14, r3
     mov r13, r7
     add #0x1, r3
@@ -215,25 +215,25 @@ DAT_06012890:
     jsr @r12
     mov #0x8, r4
     mov #0x1, r3
-    mov.l   .L_ptr_lap_count, r2
+    mov.l   .L_060129B0, r2
     mov.b r3, @r2
-    mov.l   .L_ptr_car_array_base_b, r3
-    mov.l   .L_ptr_yaw_angle_store, r1
+    mov.l   .L_060129B4, r3
+    mov.l   .L_060129B8, r1
     mov.l @r3, r3
     mov.l @(48, r3), r2
     mov.l r2, @r1
-    mov.l   .L_snd_cmd_mode_confirm, r5
+    mov.l   .L_060129BC, r5
     jsr @r9
     mov #0x0, r4
-    bra     .L_epilogue
+    bra     .L_06012A7E
     nop
-.L_state3_check_course:
+.L_0601296A:
     mov r4, r0
     cmp/eq #0x5D, r0
-    bt      .L_handle_course_confirm
-    bra     .L_epilogue
+    bt      .L_06012974
+    bra     .L_06012A7E
     nop
-.L_handle_course_confirm:
+.L_06012974:
     mov.l @r14, r3
     mov r13, r7
     add #0x1, r3
@@ -248,10 +248,10 @@ DAT_06012890:
     mov.l @r5, r5
     jsr @r12
     mov #0x8, r4
-    mov.l   .L_snd_cmd_course_confirm, r5
+    mov.l   .L_060129C0, r5
     jsr @r9
     mov #0x0, r4
-    bra     .L_epilogue
+    bra     .L_06012A7E
     nop
 
     .global DAT_0601299a
@@ -281,24 +281,24 @@ DAT_060129a4:
     .global DAT_060129a6
 DAT_060129a6:
     .2byte  0x0626                          /* display cmd: overlay layer */
-.L_mask_nibble3:
+.L_060129A8:
     .4byte  0x0000F000                      /* nibble 3 mask for display element */
-.L_snd_cmd_menu_select:
+.L_060129AC:
     .4byte  0xAE1122FF                      /* sound cmd: menu selection confirm */
-.L_ptr_lap_count:
+.L_060129B0:
     .4byte  sym_06078654                    /* lap count (byte) */
-.L_ptr_car_array_base_b:
+.L_060129B4:
     .4byte  sym_0607E944                    /* car array base pointer (dup) */
-.L_ptr_yaw_angle_store:
+.L_060129B8:
     .4byte  sym_06063EF0                    /* camera yaw angle storage */
-.L_snd_cmd_mode_confirm:
+.L_060129BC:
     .4byte  0xAE1123FF                      /* sound cmd: mode selection confirm */
-.L_snd_cmd_course_confirm:
+.L_060129C0:
     .4byte  0xAE1124FF                      /* sound cmd: course selection confirm */
-.L_state4_race_start:
+.L_060129C4:
     mov r4, r0
     cmp/eq #0x61, r0
-    bf      .L_epilogue
+    bf      .L_06012A7E
     mov.l @r14, r3
     add #0x1, r3
     mov.l r3, @r14
@@ -307,96 +307,96 @@ DAT_060129a6:
     mov.l r7, @r15
     mov.l @(4, r7), r7
     mov.w   DAT_06012a94, r3
-    mov.w   .L_disp_cmd_elem_a, r6
+    mov.w   .L_06012A96, r6
     mov.l @r15, r5
     add r3, r7
     mov.l @r5, r5
     jsr @r12
     mov #0x8, r4
-    mov.l   .L_snd_cmd_race_start, r5
+    mov.l   .L_06012AA4, r5
     jsr @r9
     mov #0x0, r4
     mov #0x14, r3
-    mov.l   .L_ptr_countdown_timer, r2
+    mov.l   .L_06012AA8, r2
     mov.w r3, @r2
     mov #0x1, r3
-    mov.l   .L_ptr_race_ready_flag, r2
+    mov.l   .L_06012AAC, r2
     mov.b r3, @r2
-    bra     .L_epilogue
+    bra     .L_06012A7E
     nop
-.L_state19_cleanup:
-    mov.l   .L_fn_disp_elem_render, r14
+.L_060129FC:
+    mov.l   .L_06012AB0, r14
     mov r11, r7
     mov r10, r6
-    mov.w   .L_disp_cmd_elem_a, r5
+    mov.w   .L_06012A96, r5
     jsr @r14
     mov #0x8, r4
     mov r11, r7
     mov r10, r6
-    mov.w   .L_disp_cmd_elem_b, r5
+    mov.w   .L_06012A98, r5
     jsr @r14
     mov #0x8, r4
     mov r11, r7
     mov r10, r6
-    mov.w   .L_disp_cmd_elem_c, r5
+    mov.w   .L_06012A9A, r5
     jsr @r14
     mov #0x8, r4
     mov r11, r7
-    mov.l   .L_mask_nibble3_b, r6
-    mov.w   .L_disp_cmd_elem_d, r5
+    mov.l   .L_06012AB4, r6
+    mov.w   .L_06012A9C, r5
     jsr @r8
     mov #0x8, r4
     mov r10, r6
-    mov.w   .L_disp_cmd_elem_e, r5
-    mov.l   .L_ptr_text_sprite_data, r7
+    mov.w   .L_06012A9E, r5
+    mov.l   .L_06012AB8, r7
     jsr @r14
     mov #0xC, r4
-    mov.l   .L_ptr_text_sprite_data, r7
+    mov.l   .L_06012AB8, r7
     mov r10, r6
-    mov.w   .L_disp_cmd_elem_f, r5
+    mov.w   .L_06012AA0, r5
     jsr @r14
     mov #0xC, r4
     mov #0x0, r4
-    mov.l   .L_ptr_prev_scroll_b, r3
+    mov.l   .L_06012ABC, r3
     mov.l r4, @r3
     exts.b r4, r4
-    mov.l   .L_ptr_replay_mode_flag, r3
+    mov.l   .L_06012AC0, r3
     mov.b r4, @r3
-    bra     .L_epilogue
+    bra     .L_06012A7E
     nop
-.L_default_inc_counter:
+.L_06012A4A:
     mov.l @r14, r2
     add #0x1, r2
-    bra     .L_epilogue
+    bra     .L_06012A7E
     mov.l r2, @r14
-.L_state_dispatch:
+.L_06012A52:
     cmp/eq #0x0, r0
-    bf      .L_chk_state1
-    bra     .L_state0_draw_items
+    bf      .L_06012A5A
+    bra     .L_06012824
     nop
-.L_chk_state1:
+.L_06012A5A:
     cmp/eq #0x1, r0
-    bf      .L_chk_state2
-    bra     .L_state1_check_input
+    bf      .L_06012A62
+    bra     .L_06012852
     nop
-.L_chk_state2:
+.L_06012A62:
     cmp/eq #0x2, r0
-    bf      .L_chk_state3
-    bra     .L_state2_check_mode
+    bf      .L_06012A6A
+    bra     .L_0601292A
     nop
-.L_chk_state3:
+.L_06012A6A:
     cmp/eq #0x3, r0
-    bf      .L_chk_state4_or_19
-    bra     .L_state3_check_course
+    bf      .L_06012A72
+    bra     .L_0601296A
     nop
-.L_chk_state4_or_19:
+.L_06012A72:
     cmp/eq #0x4, r0
-    bt      .L_state4_race_start
+    bt      .L_060129C4
     cmp/eq #0x13, r0
-    bt      .L_state19_cleanup
-    bra     .L_default_inc_counter
+    bt      .L_060129FC
+    bra     .L_06012A4A
     nop
-.L_epilogue:
+.L_06012A7E:
     add #0x4, r15
     lds.l @r15+, pr
     mov.l @r15+, r8
@@ -415,32 +415,32 @@ DAT_06012a92:
     .global DAT_06012a94
 DAT_06012a94:
     .2byte  0x3000                          /* overlay base offset */
-.L_disp_cmd_elem_a:
+.L_06012A96:
     .2byte  0x0520                          /* display cmd: cleanup elem A */
-.L_disp_cmd_elem_b:
+.L_06012A98:
     .2byte  0x0620                          /* display cmd: cleanup elem B */
-.L_disp_cmd_elem_c:
+.L_06012A9A:
     .2byte  0x0720                          /* display cmd: cleanup elem C */
-.L_disp_cmd_elem_d:
+.L_06012A9C:
     .2byte  0x0820                          /* display cmd: cleanup elem D (masked) */
-.L_disp_cmd_elem_e:
+.L_06012A9E:
     .2byte  0x0880                          /* display cmd: cleanup text elem E */
-.L_disp_cmd_elem_f:
+.L_06012AA0:
     .2byte  0x0980                          /* display cmd: cleanup text elem F */
     .2byte  0xFFFF                          /* alignment padding */
-.L_snd_cmd_race_start:
+.L_06012AA4:
     .4byte  0xAE1125FF                      /* sound cmd: race start */
-.L_ptr_countdown_timer:
+.L_06012AA8:
     .4byte  sym_06086056                    /* countdown timer (16-bit) */
-.L_ptr_race_ready_flag:
+.L_06012AAC:
     .4byte  sym_0608605A                    /* race ready flag (byte) */
-.L_fn_disp_elem_render:
+.L_06012AB0:
     .4byte  sym_060284AE                    /* display element render function */
-.L_mask_nibble3_b:
+.L_06012AB4:
     .4byte  0x0000F000                      /* nibble 3 mask (dup for pool reach) */
-.L_ptr_text_sprite_data:
+.L_06012AB8:
     .4byte  sym_0605AC9C                    /* text/sprite data base */
-.L_ptr_prev_scroll_b:
+.L_06012ABC:
     .4byte  sym_0605B714                    /* previous scroll position (dup) */
-.L_ptr_replay_mode_flag:
+.L_06012AC0:
     .4byte  sym_06078636                    /* replay mode flag (byte) */

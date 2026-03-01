@@ -13,14 +13,14 @@ hud_main_draw:
     mov.w r0, @(8, r15)
     add #0x4, r6
     mov.w @(8, r15), r0
-    mov.l   .L_fn_sincos, r3
+    mov.l   .L_060117DC, r3
     jsr @r3
     mov r0, r4
 
-    mov.l   .L_hud_record_base, r11
-    mov.l   .L_hud_record_count, r12
-    mov.l   .L_fn_swap_sign_ext, r13
-    mov.l   .L_fn_fpmul, r14
+    mov.l   .L_060117E0, r11
+    mov.l   .L_060117E4, r12
+    mov.l   .L_060117E8, r13
+    mov.l   .L_060117EC, r14
 
     mov.w @r12, r2
     mov r2, r3
@@ -34,11 +34,11 @@ hud_main_draw:
     add r11, r2
     add r2, r3
     mov.l r3, @-r15
-    mov.l   .L_fp_neg56, r4
+    mov.l   .L_060117F0, r4
     jsr @r14
     mov.l @(8, r15), r5
     mov.l r0, @-r15
-    mov.l   .L_fp_plus30, r4
+    mov.l   .L_060117F4, r4
     jsr @r14
     mov.l @(8, r15), r5
     mov.l @r15+, r4
@@ -68,11 +68,11 @@ hud_main_draw:
     add r11, r3
     add r3, r2
     mov.l r2, @-r15
-    mov.l   .L_fp_neg56, r4
+    mov.l   .L_060117F0, r4
     jsr @r14
     mov.l @(4, r15), r5
     mov.l r0, @-r15
-    mov.l   .L_fp_plus30, r4
+    mov.l   .L_060117F4, r4
     jsr @r14
     mov.l @(12, r15), r5
     mov.l @r15+, r4
@@ -102,11 +102,11 @@ hud_main_draw:
     add r11, r2
     add r2, r3
     mov.l r3, @-r15
-    mov.l   .L_fp_plus56, r4
+    mov.l   .L_060117F8, r4
     jsr @r14
     mov.l @(8, r15), r5
     mov.l r0, @-r15
-    mov.l   .L_fp_plus30, r4
+    mov.l   .L_060117F4, r4
     jsr @r14
     mov.l @(8, r15), r5
     mov.l @r15+, r4
@@ -136,11 +136,11 @@ hud_main_draw:
     add r11, r3
     add r3, r2
     mov.l r2, @-r15
-    mov.l   .L_fp_plus56, r4
+    mov.l   .L_060117F8, r4
     jsr @r14
     mov.l @(4, r15), r5
     mov.l r0, @-r15
-    mov.l   .L_fp_plus30, r4
+    mov.l   .L_060117F4, r4
     jsr @r14
     mov.l @(12, r15), r5
     mov.l @r15+, r4
@@ -152,27 +152,27 @@ hud_main_draw:
     mov.l r0, @-r15
     jsr @r13
     mov r9, r4
-    bra     .L_after_pool1
+    bra     .L_060117FC
     nop
 
-.L_fn_sincos:
+.L_060117DC:
     .4byte  sincos_pair                 /* sin/cos lookup function */
-.L_hud_record_base:
+.L_060117E0:
     .4byte  sym_060786CC                /* HUD record array base address */
-.L_hud_record_count:
+.L_060117E4:
     .4byte  sym_0605AAA0                /* HUD record count/index (16-bit) */
-.L_fn_swap_sign_ext:
+.L_060117E8:
     .4byte  swap_sign_ext               /* extract int16 from 16.16 fixed-point */
-.L_fn_fpmul:
+.L_060117EC:
     .4byte  fpmul                       /* 16.16 fixed-point multiply */
-.L_fp_neg56:
+.L_060117F0:
     .4byte  0xFFC80000                  /* -56.0 in 16.16 fixed-point */
-.L_fp_plus30:
+.L_060117F4:
     .4byte  0x001E0000                  /* +30.0 in 16.16 fixed-point */
-.L_fp_plus56:
+.L_060117F8:
     .4byte  0x00380000                  /* +56.0 in 16.16 fixed-point */
 
-.L_after_pool1:
+.L_060117FC:
     mov.l @r15+, r3
     add r3, r0
     exts.w r0, r0
@@ -191,11 +191,11 @@ hud_main_draw:
     add r11, r2
     add r2, r3
     mov.l r3, @-r15
-    mov.l   .L_fp_plus56_b, r4
+    mov.l   .L_0601196C, r4
     jsr @r14
     mov.l @(8, r15), r5
     mov.l r0, @-r15
-    mov.l   .L_fp_neg30, r4
+    mov.l   .L_06011970, r4
     jsr @r14
     mov.l @(8, r15), r5
     mov.l @r15+, r4
@@ -225,11 +225,11 @@ hud_main_draw:
     add r11, r3
     add r3, r2
     mov.l r2, @-r15
-    mov.l   .L_fp_plus56_b, r4
+    mov.l   .L_0601196C, r4
     jsr @r14
     mov.l @(4, r15), r5
     mov.l r0, @-r15
-    mov.l   .L_fp_neg30, r4
+    mov.l   .L_06011970, r4
     jsr @r14
     mov.l @(12, r15), r5
     mov.l @r15+, r4
@@ -259,11 +259,11 @@ hud_main_draw:
     add r11, r2
     add r2, r3
     mov.l r3, @-r15
-    mov.l   .L_fp_neg56_b, r4
+    mov.l   .L_06011974, r4
     jsr @r14
     mov.l @(8, r15), r5
     mov.l r0, @-r15
-    mov.l   .L_fp_neg30, r4
+    mov.l   .L_06011970, r4
     jsr @r14
     mov.l @(8, r15), r5
     mov.l @r15+, r4
@@ -293,11 +293,11 @@ hud_main_draw:
     add r11, r3
     add r3, r2
     mov.l r2, @-r15
-    mov.l   .L_fp_neg56_b, r4
+    mov.l   .L_06011974, r4
     jsr @r14
     mov.l @(4, r15), r5
     mov.l r0, @-r15
-    mov.l   .L_fp_neg30, r4
+    mov.l   .L_06011970, r4
     jsr @r14
     mov.l @(12, r15), r5
     mov.l @r15+, r4
@@ -367,9 +367,9 @@ hud_main_draw:
     rts
     mov.l @r15+, r14
 
-.L_fp_plus56_b:
+.L_0601196C:
     .4byte  0x00380000                  /* +56.0 in 16.16 fixed-point */
-.L_fp_neg30:
+.L_06011970:
     .4byte  0xFFE20000                  /* -30.0 in 16.16 fixed-point */
-.L_fp_neg56_b:
+.L_06011974:
     .4byte  0xFFC80000                  /* -56.0 in 16.16 fixed-point */

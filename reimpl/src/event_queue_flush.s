@@ -14,10 +14,10 @@ event_queue_flush:
     mov r15, r4
     mov r14, r0
     cmp/eq #-0x1, r0
-    bf      .L_dispatch
+    bf      .L_06040C78
     mov.l @(4, r15), r14
     mov.l @(12, r14), r14
-.L_dispatch:
+.L_06040C78:
     mov #0x1, r6
     mov r14, r5
     .byte   0xBE, 0xB3    /* bsr 0x060409E6 (external) */

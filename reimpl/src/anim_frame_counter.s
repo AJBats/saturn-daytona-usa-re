@@ -14,7 +14,7 @@ anim_frame_counter:
     mov.l   _pool_anim_countdown, r5
     mov.l @r5, r3
     cmp/pl r3
-    bf/s    .L_early_exit
+    bf/s    .L_06005A18
     mov.l @r4, r4
     mov.l @r5, r3
     add #-0x1, r3
@@ -22,25 +22,25 @@ anim_frame_counter:
     mov.w   DAT_060059dc, r0
     mov.l @(r0, r4), r0
     tst r0, r0
-    bt      .L_early_exit
+    bt      .L_06005A18
     mov.l   _pool_race_event_bits, r0
     mov.l @r0, r0
     tst r0, r0
-    bf      .L_early_exit
+    bf      .L_06005A18
     mov.l @r5, r0
     tst #0x2, r0
-    bt      .L_static_path
+    bt      .L_060059BA
     mov.w   DAT_060059de, r0
     mov.l   _pool_frame_index_max, r5
     mov.l @(r0, r4), r14
     cmp/gt r5, r14
-    bf      .L_frame_clamped
+    bf      .L_06005966
     mov r5, r14
-.L_frame_clamped:
+.L_06005966:
     mov.w   DAT_060059e0, r0
     mov.l @(r0, r4), r2
     cmp/eq r2, r14
-    bf      .L_use_entry_b
+    bf      .L_0600598A
     mov.l   _pool_dlist_entry_a, r2
     mov r13, r6
     mov.l r2, @r15
@@ -53,9 +53,9 @@ anim_frame_counter:
     mov.l   _pool_dlist_loader, r3
     jsr @r3
     mov #0x8, r4
-    bra     .L_after_dlist_load
+    bra     .L_060059A2
     nop
-.L_use_entry_b:
+.L_0600598A:
     mov r13, r6
     mov.l   _pool_dlist_entry_b, r2
     mov.l r2, @r15
@@ -68,7 +68,7 @@ anim_frame_counter:
     mov.l   _pool_dlist_loader, r3
     jsr @r3
     mov #0x8, r4
-.L_after_dlist_load:
+.L_060059A2:
     .byte   0xB2, 0x17    /* bsr 0x06005DD4 (anim_frame_transform) */
     mov r14, r4
     mov r0, r7
@@ -81,7 +81,7 @@ anim_frame_counter:
     mov.l   _pool_geom_dispatch_final, r3
     jmp @r3
     mov.l @r15+, r14
-.L_static_path:
+.L_060059BA:
     mov r13, r5
     mov.l   _pool_geom_render_dispatch, r3
     mov.l   _pool_static_data_b, r7
@@ -156,7 +156,7 @@ _pool_static_data_a:
     .4byte  sym_0605ACDD                    /* static rendering data A */
 
 
-.L_early_exit:
+.L_06005A18:
     add #0x4, r15
     lds.l @r15+, pr
     mov.l @r15+, r13

@@ -9,7 +9,7 @@ course_data_access_f:
     mov r5, r13
     add #-0x10, r15
     mov r15, r4
-    mov.l   .L_fn_input_proc_analog, r3
+    mov.l   .L_060365BC, r3
     jsr @r3
     add #0x8, r4
     mov r15, r2
@@ -24,7 +24,7 @@ course_data_access_f:
     mov r15, r2
     add #0x8, r2
     mov.b r0, @(4, r2)
-    mov.l   .L_fn_input_proc_digital, r3
+    mov.l   .L_060365C0, r3
     jsr @r3
     mov #0x0, r4
     mov r0, r4
@@ -39,7 +39,7 @@ course_data_access_f:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_fn_input_proc_analog:
+.L_060365BC:
     .4byte  input_proc_analog
-.L_fn_input_proc_digital:
+.L_060365C0:
     .4byte  input_proc_digital

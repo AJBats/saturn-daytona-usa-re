@@ -25,13 +25,13 @@ high_score_mgr:
     jsr @r3
     nop
     extu.b r14, r4
-.L_clear_loop:
+.L_0603C134:
     extu.b r4, r0
     shll2 r0
     add #0x1, r4
     extu.b r4, r3
     cmp/ge r13, r3
-    bf/s    .L_clear_loop
+    bf/s    .L_0603C134
     mov.l r14, @(r0, r12)
     mov #0x0, r2
     mov.l   .L_pool_0603C194, r3

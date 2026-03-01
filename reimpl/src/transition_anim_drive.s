@@ -20,14 +20,14 @@ transition_anim_drive:
     mov.l   .L_pool_06019134, r0
     mov.l @r0, r0
     tst r0, r0
-    bf      .L_timeout_skip
+    bf      .L_06019124
     mov.l   .L_pool_06019148, r3
     jsr @r3
     nop
     mov #0x0, r2
     mov.l   .L_pool_06019144, r3
     mov.w r2, @r3
-.L_timeout_skip:
+.L_06019124:
     mov.l   .L_pool_06019138, r5
     jsr @r14
     mov #0xF, r4

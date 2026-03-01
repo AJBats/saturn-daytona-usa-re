@@ -20,14 +20,14 @@ transition_sound_trigger:
     mov.l   .L_pool_060191C8, r0
     mov.l @r0, r0
     tst r0, r0
-    bf      .L_skip_music_load
+    bf      .L_060191B8
     mov.l   .L_pool_060191DC, r3
     jsr @r3
     nop
     mov #0x0, r2
     mov.l   .L_pool_060191D8, r3
     mov.w r2, @r3
-.L_skip_music_load:
+.L_060191B8:
     mov.l   .L_pool_060191CC, r5
     jsr @r14
     mov #0xF, r4

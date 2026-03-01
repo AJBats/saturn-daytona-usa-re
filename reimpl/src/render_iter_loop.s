@@ -10,7 +10,7 @@ render_iter_loop:
     mov.l   _pool_obj_count_ptr, r4
     mov.l @r4, r3
     cmp/hi r2, r3
-    bt      .L_exit
+    bt      .L_0601412E
     mov.l @r4, r2
     mov.l   _pool_obj_ptr_table, r3
     shll2 r2
@@ -56,7 +56,7 @@ render_iter_loop:
     mov.l @r4, r3
     add #-0x30, r3
     mov.l r3, @r4
-.L_exit:
+.L_0601412E:
     add #0x4, r15
     lds.l @r15+, pr
     rts

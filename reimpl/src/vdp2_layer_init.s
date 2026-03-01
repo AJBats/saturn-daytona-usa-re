@@ -44,9 +44,9 @@ vdp2_layer_init:
     mov.l   .L_pool_06015FA4, r3
     jsr @r3
     mov.l @(16, r12), r4
-    mov.l   .L_fp_sixteen, r2
+    mov.l   .L_06015FA8, r2
     cmp/eq r2, r0
-    bf      .L_skip_vel_flag
+    bf      .L_06015F22
     extu.b r14, r2
     mov r2, r3
     shll2 r2
@@ -58,7 +58,7 @@ vdp2_layer_init:
     add r13, r2
     mov #0x1, r1
     mov.l r1, @(28, r2)
-.L_skip_vel_flag:
+.L_06015F22:
     extu.b r14, r5
     extu.b r11, r4
     mov r5, r3
@@ -78,7 +78,7 @@ vdp2_layer_init:
     mov.l   .L_pool_06015FAC, r0
     mov.b @r0, r0
     tst r0, r0
-    bt      .L_skip_alt_config
+    bt      .L_06015F70
     extu.b r14, r4
     mov r4, r3
     shll2 r4
@@ -98,7 +98,7 @@ vdp2_layer_init:
     mov.l r3, @(48, r4)
     mov.l @r5, r2
     mov.l r2, @(4, r4)
-.L_skip_alt_config:
+.L_06015F70:
     extu.b r14, r14
     mov r14, r3
     shll2 r14
@@ -127,7 +127,7 @@ vdp2_layer_init:
     .4byte  sym_06084FC8                    /* slot data array base (68-byte structs) */
 .L_pool_06015FA4:
     .4byte  sym_06035438                    /* int_abs: r0 = |r4| */
-.L_fp_sixteen:
+.L_06015FA8:
     .4byte  0x00100000                      /* 16.0 (16.16 fixed-point) */
 .L_pool_06015FAC:
     .4byte  sym_06085F89                    /* bonus mode flag (byte) */

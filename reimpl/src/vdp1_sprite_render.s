@@ -17,7 +17,7 @@ vdp1_sprite_render:
     mov.l   _pool_sprite_index_ptr, r14
     mov.l r7, @(4, r15)
     cmp/eq #0xA, r0
-    bf      .L_skip_vram_calc
+    bf      .L_06007682
     mov.l @r13, r2
     shll2 r2
     shll r2
@@ -26,7 +26,7 @@ vdp1_sprite_render:
     add r3, r2
     mov.l   _pool_vram_addr_store, r1
     mov.l r2, @r1
-.L_skip_vram_calc:
+.L_06007682:
     extu.w r5, r0
     extu.w r4, r2
     mov.l r0, @r15
@@ -61,19 +61,19 @@ vdp1_sprite_render:
     extu.w r4, r1
     mov r1, r0
     cmp/eq #0xD, r0
-    bt      .L_color_mode_lookup
+    bt      .L_060076FC
     mov r1, r0
     cmp/eq #0xE, r0
-    bt      .L_color_mode_lookup
+    bt      .L_060076FC
     mov r1, r0
     cmp/eq #0xF, r0
-    bt      .L_color_mode_lookup
+    bt      .L_060076FC
     mov.l @r14, r2
     shll2 r2
     shll r2
     add r12, r2
     mov r5, r0
-    bra     .L_store_flags
+    bra     .L_06007732
     mov.w r0, @(4, r2)
 
     .global DAT_060076e2
@@ -92,7 +92,7 @@ _pool_vram_addr_store:
     .4byte  sym_06063F60
 _pool_slot_index_table:
     .4byte  sym_060684EC
-.L_color_mode_lookup:
+.L_060076FC:
     extu.w r5, r4
     mov #0x3, r0
     mov.w   _wpool_color_hi_mask, r2
@@ -120,7 +120,7 @@ _pool_slot_index_table:
     mov.l @r13, r3
     mov.l   _pool_saved_index_store, r2
     mov.l r3, @r2
-.L_store_flags:
+.L_06007732:
     mov r6, r0
     mov.l @r14, r3
     shll2 r3

@@ -16,71 +16,71 @@ trans_select_at_mt:
     extu.w r3, r3
     and r6, r3
     tst r3, r3
-    bt/s    .L_check_down_new
+    bt/s    .L_06019D3A
     mov #0x0, r13
     mov.l @r14, r3
     add #0x1, r3
     mov.l r3, @r14
     exts.b r13, r2
-    bra     .L_clamp_check
+    bra     .L_06019D8C
     mov.b r2, @r4
-.L_check_down_new:
+.L_06019D3A:
     mov.w   .L_wpool_06019DA6, r7
     mov.w @(2, r5), r0
     mov r0, r2
     extu.w r2, r2
     and r7, r2
     tst r2, r2
-    bt      .L_check_up_held
+    bt      .L_06019D54
     mov.l @r14, r3
     add #-0x1, r3
     mov.l r3, @r14
     exts.b r13, r2
-    bra     .L_clamp_check
+    bra     .L_06019D8C
     mov.b r2, @r4
-.L_check_up_held:
+.L_06019D54:
     mov.w @r5, r2
     extu.w r2, r2
     and r6, r2
     tst r2, r2
-    bt      .L_check_down_held
+    bt      .L_06019D72
     mov.b @r4, r0
     cmp/eq #0x19, r0
-    bf      .L_clamp_check
+    bf      .L_06019D8C
     mov.l @r14, r2
     add #0x1, r2
     mov.l r2, @r14
     exts.b r13, r3
     mov.b r3, @r4
-    bra     .L_clamp_check
+    bra     .L_06019D8C
     nop
-.L_check_down_held:
+.L_06019D72:
     mov.w @r5, r2
     extu.w r2, r2
     and r7, r2
     tst r2, r2
-    bt      .L_clamp_check
+    bt      .L_06019D8C
     mov.b @r4, r0
     cmp/eq #0x19, r0
-    bf      .L_clamp_check
+    bf      .L_06019D8C
     mov.l @r14, r2
     add #-0x1, r2
     mov.l r2, @r14
     exts.b r13, r3
     mov.b r3, @r4
-.L_clamp_check:
+.L_06019D8C:
     mov.l @r14, r2
     mov #0x2, r3
     cmp/gt r3, r2
-    bf      .L_clamp_lo
+    bf      .L_06019D96
     mov.l r13, @r14
-.L_clamp_lo:
+.L_06019D96:
     mov.l @r14, r3
     cmp/pz r3
-    bt      .L_done
+    bt      .L_06019DA0
     mov #0x2, r3
     mov.l r3, @r14
-.L_done:
+.L_06019DA0:
     mov.l @r15+, r13
     .byte   0xAF, 0x11    /* bra 0x06019BC8 (external) */
     mov.l @r15+, r14

@@ -11,30 +11,30 @@ render_setup_dispatch:
     mov.l   _pool_dma_pending_flag, r0
     mov.l @r0, r0
     tst r0, r0
-    bf      .L_tail_dispatch
+    bf      .L_0601D430
     mov.l   _pool_button_state_ptr, r3
     mov.w @r3, r2
     mov.w   DAT_0601d444, r3
     extu.w r2, r2
     and r3, r2
     tst r2, r2
-    bt      .L_tail_dispatch
+    bt      .L_0601D430
     mov.l   _pool_input_struct_ptr, r3
     mov.w @r3, r2
     mov.l   _pool_combo_value_a, r3
     extu.w r2, r2
     cmp/eq r3, r2
-    bf      .L_check_combo_b
+    bf      .L_0601D3EE
     mov.b @r14, r0
     or #0x7, r0
     mov.b r0, @r14
-.L_check_combo_b:
+.L_0601D3EE:
     mov.l   _pool_input_struct_ptr, r3
     mov.w @r3, r2
     extu.w r2, r2
     mov.w   DAT_0601d446, r3
     cmp/eq r3, r2
-    bf      .L_setup_display
+    bf      .L_0601D408
     mov.b @r14, r0
     or #0x7, r0
     mov.b r0, @r14
@@ -42,7 +42,7 @@ render_setup_dispatch:
     mov.b @r4, r0
     or #0x7, r0
     mov.b r0, @r4
-.L_setup_display:
+.L_0601D408:
     mov #0x0, r6
     mov.l   _pool_fn_display_channel_b, r3
     mov r6, r5
@@ -63,7 +63,7 @@ render_setup_dispatch:
     mov #0x1, r2
     mov.l   _pool_dma_pending_flag, r3
     mov.l r2, @r3
-.L_tail_dispatch:
+.L_0601D430:
     mov.l   _pool_game_state_ptr, r2
     mov.b @r2, r2
     extu.b r2, r2

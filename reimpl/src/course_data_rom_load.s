@@ -20,43 +20,43 @@ course_data_rom_load:
     extu.w r3, r3
     and r6, r3
     tst r3, r3
-    bt/s    .L_check_dpad_left_edge
+    bt/s    .L_0601A83A
     mov #0x0, r12
     mov.l @r14, r3
     add #0x1, r3
     mov.l r3, @r14
     exts.b r12, r2
-    bra     .L_clamp_and_dispatch
+    bra     .L_0601A89E
     mov.b r2, @r4
-.L_check_dpad_left_edge:
+.L_0601A83A:
     mov.w   DAT_0601a872, r5
     mov.w @(2, r13), r0
     mov r0, r2
     extu.w r2, r2
     and r5, r2
     tst r2, r2
-    bt      .L_check_held_right
+    bt      .L_0601A854
     mov.l @r14, r3
     add #-0x1, r3
     mov.l r3, @r14
     exts.b r12, r2
-    bra     .L_clamp_and_dispatch
+    bra     .L_0601A89E
     mov.b r2, @r4
-.L_check_held_right:
+.L_0601A854:
     mov.w @r13, r2
     extu.w r2, r2
     and r6, r2
     tst r2, r2
-    bt      .L_check_held_left
+    bt      .L_0601A884
     mov.b @r4, r0
     cmp/eq #0x14, r0
-    bf      .L_clamp_and_dispatch
+    bf      .L_0601A89E
     mov.l @r14, r2
     add #0x1, r2
     mov.l r2, @r14
     exts.b r12, r3
     mov.b r3, @r4
-    bra     .L_clamp_and_dispatch
+    bra     .L_0601A89E
     nop
 
     .global DAT_0601a872
@@ -70,46 +70,46 @@ DAT_0601a872:
     .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_0601A880:
     .4byte  sym_0605D243
-.L_check_held_left:
+.L_0601A884:
     mov.w @r13, r2
     extu.w r2, r2
     and r5, r2
     tst r2, r2
-    bt      .L_clamp_and_dispatch
+    bt      .L_0601A89E
     mov.b @r4, r0
     cmp/eq #0x14, r0
-    bf      .L_clamp_and_dispatch
+    bf      .L_0601A89E
     mov.l @r14, r2
     add #-0x1, r2
     mov.l r2, @r14
     exts.b r12, r3
     mov.b r3, @r4
-.L_clamp_and_dispatch:
+.L_0601A89E:
     mov.w @(2, r13), r0
     extu.w r0, r0
     tst #0xF8, r0
-    bt      .L_skip_action_reset
+    bt      .L_0601A8A8
     mov.l r12, @r14
-.L_skip_action_reset:
+.L_0601A8A8:
     mov.l @r14, r3
     mov #0x15, r2
     cmp/ge r2, r3
-    bf      .L_skip_upper_clamp
+    bf      .L_0601A8B2
     mov.l r12, @r14
-.L_skip_upper_clamp:
+.L_0601A8B2:
     mov.l @r14, r2
     cmp/pz r2
-    bt      .L_skip_lower_clamp
+    bt      .L_0601A8BC
     mov #0x14, r2
     mov.l r2, @r14
-.L_skip_lower_clamp:
+.L_0601A8BC:
     mov.w @(2, r13), r0
     mov.w   DAT_0601a926, r2
     mov r0, r3
     extu.w r3, r3
     and r2, r3
     tst r3, r3
-    bt      .L_render_scroll_layers
+    bt      .L_0601A8D8
     mov #0x0, r6
     mov.l @r14, r5
     add #0x2, r5
@@ -117,7 +117,7 @@ DAT_0601a872:
     mov.l   .L_pool_0601A92C, r3
     jsr @r3
     mov r5, r4
-.L_render_scroll_layers:
+.L_0601A8D8:
     mov.l   .L_pool_0601A930, r11
     mov #0x0, r6
     mov.w   DAT_0601a928, r5

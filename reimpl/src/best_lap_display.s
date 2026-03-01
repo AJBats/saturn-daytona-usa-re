@@ -34,7 +34,7 @@ best_lap_display:
     add r3, r12
     exts.w r12, r12
     add r5, r12
-.L_slot_loop:
+.L_06015ADE:
     extu.b r6, r2
     mov #0x40, r0
     mov r2, r3
@@ -49,7 +49,7 @@ best_lap_display:
     mov.b @(r0, r12), r0
     extu.b r0, r0
     cmp/eq #0x1, r0
-    bf      .L_skip_phase_set
+    bf      .L_06015B14
     extu.b r6, r2
     mov r2, r3
     shll2 r2
@@ -62,11 +62,11 @@ best_lap_display:
     extu.b r7, r1
     mov r1, r0
     mov.b r0, @(2, r2)
-.L_skip_phase_set:
+.L_06015B14:
     add #0x1, r6
     extu.b r6, r3
     cmp/ge r13, r3
-    bf      .L_slot_loop
+    bf      .L_06015ADE
     extu.b r4, r4
     mov r4, r3
     shll2 r4

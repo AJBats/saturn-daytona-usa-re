@@ -8,9 +8,9 @@
 hud_layer_composite:
     sts.l pr, @-r15
     shll2 r0
-    mov.l   .L_ptr_current_pos, r14
-    mov.l   .L_ptr_target_table, r3
-    mov.l   .L_ptr_anim_frame_index, r2
+    mov.l   .L_06011504, r14
+    mov.l   .L_060114FC, r3
+    mov.l   .L_06011500, r2
     shll2 r0
     mov.l @r2, r2
     add r3, r0
@@ -24,35 +24,35 @@ hud_layer_composite:
     shar r1
     add r1, r2
     mov.l r2, @r14
-    mov.l   .L_ptr_game_state, r4
+    mov.l   .L_06011508, r4
     mov.b @r4, r4
     extu.b r4, r4
     mov r4, r0
     cmp/eq #0x3, r0
-    bt      .L_check_suppress_flag
+    bt      .L_060114EE
     mov r4, r0
     cmp/eq #0xB, r0
-    bf      .L_do_render
-.L_check_suppress_flag:
-    mov.l   .L_ptr_mode_config_flags, r0
+    bf      .L_06011510
+.L_060114EE:
+    mov.l   .L_0601150C, r0
     mov.l @r0, r0
     tst #0x1, r0
-    bt      .L_do_render
-    bra     .L_early_return
+    bt      .L_06011510
+    bra     .L_06011552
     nop
     .2byte  0xFFFF
-.L_ptr_target_table:
+.L_060114FC:
     .4byte  sym_060447A8                    /* target position table (8 dwords) */
-.L_ptr_anim_frame_index:
+.L_06011500:
     .4byte  sym_0607EADC                    /* animation frame index (dword) */
-.L_ptr_current_pos:
+.L_06011504:
     .4byte  sym_06078860                    /* current interpolated position (dword) */
-.L_ptr_game_state:
+.L_06011508:
     .4byte  sym_0607887F                    /* game state byte (0x3=race, 0xB=replay) */
-.L_ptr_mode_config_flags:
+.L_0601150C:
     .4byte  sym_0607EBC8                    /* mode config flags (bit 0 = suppress HUD) */
 
-.L_do_render:
+.L_06011510:
     extu.w r13, r12
     extu.w r13, r11
     .byte   0xD3, 0x2C    /* mov.l @(+0x02 cross-TU pool), r3 */
@@ -87,7 +87,7 @@ hud_layer_composite:
     .byte   0xA2, 0x13    /* bra 0x06011978 (external) */
     mov.l @r15+, r14
 
-.L_early_return:
+.L_06011552:
     lds.l @r15+, pr
     mov.l @r15+, r11
     mov.l @r15+, r12

@@ -16,7 +16,7 @@ lap_progress_bar:
     mov #0x9, r14
     mov.b r4, @r15
     mov #0x0, r4
-.L_init_loop:
+.L_06015DAA:
     extu.b r4, r5
     extu.b r14, r0
     mov r5, r3
@@ -32,7 +32,7 @@ lap_progress_bar:
     mov.b r0, @(2, r5)
     mov #0x41, r0
     cmp/ge r12, r3
-    bf/s    .L_init_loop
+    bf/s    .L_06015DAA
     mov.b r13, @(r0, r5)
     mov.b @r15, r4
     extu.b r4, r4

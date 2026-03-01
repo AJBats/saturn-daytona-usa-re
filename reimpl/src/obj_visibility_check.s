@@ -8,7 +8,7 @@ obj_visibility_check:
     sts.l pr, @-r15
     mov r4, r12
     add #-0x8, r15
-    mov.l   .L_fn_input_proc_analog, r3
+    mov.l   .L_060368D4, r3
     jsr @r3
     mov r15, r4
     mov r15, r2
@@ -26,8 +26,8 @@ obj_visibility_check:
     mov r15, r3
     mov r13, r0
     mov.w r0, @(6, r3)
-    mov.w   .L_periph_port_mask, r4
-    mov.l   .L_fn_input_proc_buttons, r3
+    mov.w   .L_060368D0, r4
+    mov.l   .L_060368D8, r3
     jsr @r3
     mov r15, r5
     mov r0, r4
@@ -37,10 +37,10 @@ obj_visibility_check:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_periph_port_mask:
+.L_060368D0:
     .2byte  0x0080                      /* [MEDIUM] peripheral port mask — 0x80 = port B analog? (cf. 0x0200 in ai_master_update) */
     .2byte  0xFFFF                      /* padding */
-.L_fn_input_proc_analog:
+.L_060368D4:
     .4byte  input_proc_analog           /* [HIGH] fn ptr: SMPC analog axis reader */
-.L_fn_input_proc_buttons:
+.L_060368D8:
     .4byte  input_proc_buttons          /* [HIGH] fn ptr: SMPC digital button reader */

@@ -20,10 +20,10 @@ rot_scroll_hscale:
     exts.w r3, r3
     mov.l   _pool_hscale_range_lo, r1
     cmp/ge r1, r3
-    bf      .L_out_of_range
+    bf      .L_0602E5D4
     mov.l   _pool_hscale_range_hi, r6
     cmp/gt r6, r3
-    bt      .L_out_of_range
+    bt      .L_0602E5D4
     rts
     nop
 
@@ -51,7 +51,7 @@ _pool_hscale_range_lo:
     .4byte  0x00000000                     /* lower bound (0) */
 _pool_hscale_range_hi:
     .4byte  0x00007FFF                     /* upper bound (full range) */
-.L_out_of_range:
+.L_0602E5D4:
     mov.l   _pool_clamp_count_offset, r1
     mov.l @(r0, r1), r3
     add #0x1, r3

@@ -15,17 +15,17 @@ obj_coord_setter:
     add #-0x4, r15
     mov.l r5, @r15
     tst r6, r6
-    bt/s    .L_no_data_copy
+    bt/s    .L_060050EC
     mov r4, r13
     mov r13, r4
     mov r13, r5
-    mov.l   .L_heap_cursor_ptr, r11
+    mov.l   .L_060050E4, r11
     mov.w @(2, r4), r0
     mov.w @r4, r3
     mov.l @r11, r14
     mov r0, r12
     mulu.w r3, r12
-    mov.l   .L_fn_memcpy_word, r3
+    mov.l   .L_060050E0, r3
     sts macl, r12
     add #0x2, r12
     shll r12
@@ -37,23 +37,23 @@ obj_coord_setter:
     mov.l @r11, r2
     add r5, r2
     mov.l r2, @r11
-    mov.l   .L_heap_cursor_b_ptr, r4
+    mov.l   .L_060050E8, r4
     mov.l @r4, r3
     add r5, r3
     mov.l r3, @r4
-    bra     .L_write_cmd_entry
+    bra     .L_060050EE
     nop
     .4byte  0x25E20000                       /* VDP2 VRAM +0x20000 (cache-through) */
     .4byte  dma_memory_transfer              /* DMA transfer function */
-.L_fn_memcpy_word:
+.L_060050E0:
     .4byte  memcpy_word_idx                  /* CPU word-copy function */
-.L_heap_cursor_ptr:
+.L_060050E4:
     .4byte  sym_06063D90                     /* heap write cursor */
-.L_heap_cursor_b_ptr:
+.L_060050E8:
     .4byte  sym_06063D94                     /* secondary heap cursor */
-.L_no_data_copy:
+.L_060050EC:
     mov r13, r14
-.L_write_cmd_entry:
+.L_060050EE:
     .byte   0xD5, 0x1B    /* mov.l .L_pool_0600515C, r5 */
     .byte   0xD4, 0x1B    /* mov.l .L_pool_06005160, r4 */
     mov.l @r15, r3

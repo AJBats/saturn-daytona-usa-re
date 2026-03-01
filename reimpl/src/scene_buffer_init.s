@@ -30,9 +30,9 @@ scene_buffer_init:
     xor #0x1, r0
     and r1, r0
     tst r0, r0
-    bt/s    .L_mode_accepted
+    bt/s    .L_0603816C
     extu.w r13, r14
-    bra     .L_epilogue
+    bra     .L_060382E2
     nop
 .L_wpool_0603815A:
     .2byte  0x0200                      /* 512 = max entries for scene A loop */
@@ -44,7 +44,7 @@ scene_buffer_init:
     .4byte  sym_060A2470                /* scene buffer A output (for loop 1) */
 .L_pool_06038168:
     .4byte  sym_060635A8                /* scene mode / command slot selector */
-.L_mode_accepted:
+.L_0603816C:
     mov.b @(3, r4), r0
     extu.b r0, r0
     and #0x1, r0
@@ -77,16 +77,16 @@ scene_buffer_init:
     mov.l r3, @r15
     mov.l @r8, r0
     cmp/eq #0x8, r0
-    bf/s    .L_mode_is_4
+    bf/s    .L_060381BE
     add #0x30, r7
     extu.w r5, r3
     shll8 r3
-    mov.l   .L_mask_byte1, r2
+    mov.l   .L_060382A0, r2
     and r2, r3
     extu.w r3, r5
     mov r11, r7
     add #0x34, r7
-.L_mode_is_4:
+.L_060381BE:
     mov #0x2A, r0
     mov r6, r2
     mov.w r5, @(r0, r11)
@@ -113,34 +113,34 @@ scene_buffer_init:
     mov r0, r2
     extu.b r2, r2
     tst r2, r2
-    bf      .L_check_mode_1
+    bf      .L_060381F6
     mov #0x1, r14
-.L_check_mode_1:
+.L_060381F6:
     mov.b @(4, r4), r0
     extu.b r0, r0
     cmp/eq #0x1, r0
-    bf      .L_check_mode_2
+    bf      .L_06038200
     mov #0x2, r14
-.L_check_mode_2:
+.L_06038200:
     mov.b @(4, r4), r0
     extu.b r0, r0
     cmp/eq #0x2, r0
-    bf      .L_check_mode_3
+    bf      .L_0603820A
     mov #0x4, r14
-.L_check_mode_3:
+.L_0603820A:
     mov.b @(4, r4), r0
     extu.b r0, r0
     cmp/eq #0x3, r0
-    bf      .L_loop1_setup
+    bf      .L_06038214
     mov #0x8, r14
-.L_loop1_setup:
+.L_06038214:
     extu.w r13, r7
     extu.w r13, r5
-.L_loop1_top:
+.L_06038218:
     mov.b @(2, r4), r0
     extu.b r0, r0
     tst r0, r0
-    bt      .L_loop1_skip_y
+    bt      .L_0603823E
     extu.w r7, r0
     mov r5, r3
     mov r5, r2
@@ -156,11 +156,11 @@ scene_buffer_init:
     add r1, r3
     mov.l @r3, r3
     mov.l r3, @(r0, r6)
-.L_loop1_skip_y:
+.L_0603823E:
     mov.b @(1, r4), r0
     extu.b r0, r0
     tst r0, r0
-    bt      .L_loop1_skip_x
+    bt      .L_06038264
     extu.w r7, r0
     mov r5, r3
     mov r5, r2
@@ -176,11 +176,11 @@ scene_buffer_init:
     add r1, r3
     mov.l @(4, r3), r3
     mov.l r3, @(r0, r6)
-.L_loop1_skip_x:
+.L_06038264:
     mov.b @r4, r0
     extu.b r0, r0
     tst r0, r0
-    bt      .L_loop1_skip_z
+    bt      .L_0603828A
     extu.w r7, r0
     mov r5, r3
     mov r5, r2
@@ -196,20 +196,20 @@ scene_buffer_init:
     add r1, r3
     mov.l @(8, r3), r3
     mov.l r3, @(r0, r6)
-.L_loop1_skip_z:
+.L_0603828A:
     extu.w r14, r2
     add r2, r5
     extu.w r5, r3
     cmp/ge r10, r3
-    bf      .L_loop1_top
+    bf      .L_06038218
     mov.l   .L_pool_060382B0, r3
     mov.w r7, @r3
     extu.w r13, r7
     extu.w r13, r5
-.L_loop2_pre:
-    bra     .L_loop2_top
+.L_0603829C:
+    bra     .L_060382B4
     nop
-.L_mask_byte1:
+.L_060382A0:
     .4byte  0x0000FF00                  /* byte 1 mask (for mode 8 bitmask shift) */
 .L_pool_060382A4:
     .4byte  sym_060A3D70                /* scene A config: size + dest pointer pair */
@@ -219,11 +219,11 @@ scene_buffer_init:
     .4byte  0x0007FFFF                  /* 19-bit mask for half-size viewport dimension */
 .L_pool_060382B0:
     .4byte  sym_060635A0                /* scene A entry count (word) */
-.L_loop2_top:
+.L_060382B4:
     mov.b @(3, r4), r0
     extu.b r0, r0
     tst r0, r0
-    bt      .L_loop2_skip
+    bt      .L_060382D0
     extu.w r7, r0
     shll2 r0
     add #0x1, r7
@@ -234,17 +234,17 @@ scene_buffer_init:
     add r2, r3
     mov.l @r3, r3
     mov.l r3, @(r0, r12)
-.L_loop2_skip:
+.L_060382D0:
     add #0x1, r5
     extu.w r5, r2
     cmp/ge r9, r2
-    bf      .L_loop2_pre
+    bf      .L_0603829C
     mov.l   .L_pool_060382F8, r3
     mov.w r7, @r3
     mov #0x2, r2
     mov.l   .L_pool_060382FC, r3
     mov.w r2, @r3
-.L_epilogue:
+.L_060382E2:
     add #0x4, r15
     mov.l @r15+, r8
     mov.l @r15+, r9

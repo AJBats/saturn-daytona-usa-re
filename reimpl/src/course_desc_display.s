@@ -39,11 +39,11 @@ sym_0603363C:
     .byte   0xB0, 0x51    /* bsr 0x060336F2 (external) */
     nop
     lds.l @r15+, pr
-    bf      .L_not_special_mode
+    bf      .L_0603365A
     mov.l @r15+, r0
-    bra     .L_check_element
+    bra     .L_0603366C
     mov #0x1, r6
-.L_not_special_mode:
+.L_0603365A:
     .byte   0xD0, 0x82    /* mov.l .L_pool_06033864, r0 */
     mov.l @r0, r0
     cmp/pl r0
@@ -53,7 +53,7 @@ sym_0603363C:
     mov.l @r6, r6
     mov.l @r6, r6
     add #-0x1, r6
-.L_check_element:
+.L_0603366C:
     mov.l r0, @-r15
     .byte   0xD2, 0x14    /* mov.l .L_pool_060336C0, r2 */
     mov.l @(r0, r2), r3

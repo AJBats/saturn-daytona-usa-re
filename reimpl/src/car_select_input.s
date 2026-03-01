@@ -25,11 +25,11 @@ car_select_input:
     mov.b @r3, r3
     extu.b r3, r3
     tst r3, r3
-    bt/s    .L_not_locked
+    bt/s    .L_06019A6E
     mov #0x1, r10
-    bra     .L_epilogue
+    bra     .L_06019B9A
     nop
-.L_not_locked:
+.L_06019A6E:
     mov.l   _pool_input_state_ptr, r4
     mov.l   _pool_display_renderer, r8
     mov.w   _wpool_dpad_updown_mask, r9
@@ -41,7 +41,7 @@ car_select_input:
     extu.w r3, r3
     and r2, r3
     tst r3, r3
-    bt/s    .L_no_confirm
+    bt/s    .L_06019AD6
     mov #0x7, r13
     mov.l   _pool_car_display_data, r7
     mov r9, r6
@@ -65,12 +65,12 @@ car_select_input:
     mov #0xC, r4
     mov.b @r14, r0
     cmp/eq #0x7, r0
-    bf      .L_confirm_normal
+    bf      .L_06019ABE
     mov.l   _pool_game_state_val, r3
     mov.l r13, @r3
-    bra     .L_epilogue
+    bra     .L_06019B9A
     nop
-.L_confirm_normal:
+.L_06019ABE:
     exts.b r13, r13
     exts.b r10, r2
     mov #0x0, r3
@@ -81,16 +81,16 @@ car_select_input:
     mov.l   _pool_camera_finalize, r3
     jsr @r3
     nop
-    bra     .L_epilogue
+    bra     .L_06019B9A
     nop
-.L_no_confirm:
+.L_06019AD6:
     mov.w @(2, r4), r0
     mov.w   _wpool_dpad_right_mask, r3
     mov r0, r2
     extu.w r2, r2
     and r3, r2
     tst r2, r2
-    bt      .L_no_right
+    bt      .L_06019B50
     mov r9, r6
     mov.b @r14, r5
     mov.l   _pool_car_display_data, r7
@@ -117,11 +117,11 @@ car_select_input:
     mov.b @r14, r3
     mov #0x8, r2
     cmp/ge r2, r3
-    bf      .L_right_no_wrap
+    bf      .L_06019B1E
     mov #0x0, r2
     mov.b r2, @r14
-.L_right_no_wrap:
-    bra     .L_epilogue
+.L_06019B1E:
+    bra     .L_06019B9A
     mov.b r10, @r12
 _wpool_dpad_updown_mask:
     .2byte  0x0090
@@ -148,14 +148,14 @@ _pool_anim_state:
     .4byte  sym_06059F44
 _pool_camera_finalize:
     .4byte  sym_06026CE0
-.L_no_right:
+.L_06019B50:
     mov.w @(2, r4), r0
     .byte   0x93, 0x53    /* mov.w _wpool_dpad_left_mask, r3 */
     mov r0, r2
     extu.w r2, r2
     and r3, r2
     tst r2, r2
-    bt      .L_epilogue
+    bt      .L_06019B9A
     .byte   0xD7, 0x28    /* mov.l _pool_car_display_data_far, r7 */
     mov r9, r6
     mov.b @r14, r5
@@ -181,13 +181,13 @@ _pool_camera_finalize:
     mov.b r2, @r14
     mov.b @r14, r3
     cmp/pz r3
-    bt      .L_left_no_wrap
+    bt      .L_06019B96
     exts.b r13, r13
     mov.b r13, @r14
-.L_left_no_wrap:
+.L_06019B96:
     exts.b r10, r3
     mov.b r3, @r12
-.L_epilogue:
+.L_06019B9A:
     .byte   0xD4, 0x1A    /* mov.l _pool_frame_counter_a, r4 */
     mov.b @r4, r2
     add #0x1, r2

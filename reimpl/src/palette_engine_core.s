@@ -15,26 +15,26 @@ palette_engine_core:
     mov.l @(36, r4), r3
     and r6, r3
     cmp/eq r6, r3
-    bf      .L_skip_slot1
+    bf      .L_06042AEC
     mov r5, r3
     shll2 r3
     shll2 r3
     add #-0x7C, r3
     mov.l @(4, r4), r2
     mov.l r2, @r3
-.L_skip_slot1:
+.L_06042AEC:
     mov #0x2, r6
     mov.l @(36, r4), r3
     and r6, r3
     cmp/eq r6, r3
-    bf      .L_skip_slot2
+    bf      .L_06042B02
     mov r5, r3
     shll2 r3
     shll2 r3
     add #-0x78, r3
     mov.l @(8, r4), r2
     mov.l r2, @r3
-.L_skip_slot2:
+.L_06042B02:
     mov r5, r7
     mov.l @(36, r4), r0
     shll2 r7
@@ -42,7 +42,7 @@ palette_engine_core:
     shll2 r7
     add #-0x74, r7
     cmp/eq #0x4, r0
-    bf/s    .L_skip_color_bank
+    bf/s    .L_06042B24
     mov.l @r7, r6
     .byte   0xD2, 0x24    /* mov.l .L_pool_06042BA9, r2 */
     and r2, r6
@@ -52,11 +52,11 @@ palette_engine_core:
     shll2 r3
     shll2 r3
     or r3, r6
-.L_skip_color_bank:
+.L_06042B24:
     mov.l @(36, r4), r0
     and #0x8, r0
     cmp/eq #0x8, r0
-    bf      .L_skip_palette_num
+    bf      .L_06042B3A
     mov.w   .L_wpool_06042B9D, r3
     and r3, r6
     mov.l @(16, r4), r2
@@ -64,59 +64,59 @@ palette_engine_core:
     shll2 r2
     shll2 r2
     or r2, r6
-.L_skip_palette_num:
+.L_06042B3A:
     mov.l @(36, r4), r0
     and #0x10, r0
     cmp/eq #0x10, r0
-    bf      .L_skip_color_offset
+    bf      .L_06042B4A
     mov.w   .L_wpool_06042B9F, r2
     and r2, r6
     mov.l @(20, r4), r3
     or r3, r6
-.L_skip_color_offset:
+.L_06042B4A:
     mov.l @(36, r4), r0
     and #0x20, r0
     cmp/eq #0x20, r0
-    bf      .L_skip_special_pri
+    bf      .L_06042B5A
     mov.w   .L_wpool_06042BA1, r3
     and r3, r6
     mov.l @(24, r4), r2
     or r2, r6
-.L_skip_special_pri:
+.L_06042B5A:
     mov #-0x11, r3
     mov #-0x9, r2
     mov.l @(36, r4), r0
     and r3, r6
     and #0x40, r0
     cmp/eq #0x40, r0
-    bf/s    .L_skip_func_bits
+    bf/s    .L_06042B72
     and r2, r6
     mov #-0x5, r2
     and r2, r6
     mov.l @(28, r4), r3
     or r3, r6
-.L_skip_func_bits:
+.L_06042B72:
     mov.l @(36, r4), r2
     mov.w   .L_wpool_06042BA3, r3
     and r3, r2
     mov r3, r1
     cmp/eq r1, r2
-    bf      .L_skip_clear_bit1
+    bf      .L_06042B82
     mov #-0x3, r2
     and r2, r6
-.L_skip_clear_bit1:
+.L_06042B82:
     mov.l r6, @r7
     mov.w   .L_wpool_06042BA5, r6
     mov.l @(36, r4), r3
     and r6, r3
     cmp/eq r6, r3
-    bf      .L_done
+    bf      .L_06042B98
     mov.w   DAT_06042ba6, r3
     add r3, r5
     mov.l @(32, r4), r2
     extu.b r2, r2
     mov.b r2, @r5
-.L_done:
+.L_06042B98:
     rts
     nop
 .L_wpool_06042B9D:

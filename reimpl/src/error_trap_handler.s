@@ -15,33 +15,33 @@ error_trap_handler:
     add r4, r3
     mov.b @r3, r3
     tst r3, r3
-    bt      .L_slot_inactive
+    bt      .L_060413A2
     mov.l @(4, r15), r3
     add r5, r3
     mov.b @r3, r3
     tst r3, r3
-    bf      .L_both_slots_active
-.L_slot_inactive:
+    bf      .L_060413AC
+.L_060413A2:
     mov #-0x7, r0
     add #0x8, r15
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-.L_both_slots_active:
+.L_060413AC:
     mov.l @r14, r3
-    mov.w   .L_evt_channel_flag_offset, r0
+    mov.w   .L_060413EE, r0
     mov.l @(r0, r3), r0
     tst r0, r0
-    bt      .L_channel_free
+    bt      .L_060413C0
     mov #-0x1, r0
     add #0x8, r15
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-.L_channel_free:
+.L_060413C0:
     mov.l @r14, r3
     mov #0x1, r2
-    mov.w   .L_evt_channel_flag_offset, r0
+    mov.w   .L_060413EE, r0
     mov.l r2, @(r0, r3)
     mov.l @r14, r3
     add #0x4, r0
@@ -62,7 +62,7 @@ error_trap_handler:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-.L_evt_channel_flag_offset:
+.L_060413EE:
     .2byte  0x0348                                         /* [HIGH] offset to event channel active flag in state struct */
     .4byte  ai_recovery_handler
 .L_pool_060413F5:

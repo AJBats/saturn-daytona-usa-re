@@ -23,12 +23,12 @@ sym_06033354:
     mov.l @r0, r0
     mov.l @r0, r0
     cmp/pl r0
-    bf      .L_use_default_chars
+    bf      .L_06033362
     .byte   0xD5, 0x16    /* mov.l .L_pool_060333BC, r5 */
-.L_use_default_chars:
+.L_06033362:
     .byte   0xD4, 0x17    /* mov.l .L_pool_060333C0, r4 */
     mov #0x6, r1
-.L_copy_char_loop:
+.L_06033366:
     mov.b @r5+, r0
     mov.b r0, @r4
     add #0x1, r4
@@ -38,7 +38,7 @@ sym_06033354:
     add #-0x1, r1
     mov #0x0, r0
     cmp/eq r0, r1
-    bf      .L_copy_char_loop
+    bf      .L_06033366
     mov #0x6, r7
     .byte   0xD8, 0x11    /* mov.l .L_pool_060333C4, r8 */
     .byte   0xD9, 0x12    /* mov.l .L_pool_060333C8, r9 */

@@ -8,22 +8,22 @@ finish_proximity:
     mov.l r14, @-r15
     sts.l pr, @-r15
     add #-0x8, r15
-    mov.l   .L_car_obj_ptr, r4
-    mov.l   .L_prox_flag_ptr, r14
-    mov.l   .L_prox_counter_ptr, r5
+    mov.l   .L_0600DB48, r4
+    mov.l   .L_0600DB4C, r14
+    mov.l   .L_0600DB50, r5
     mov.w   DAT_0600db40, r0
     mov.l @r4, r4
     mov.l @(r0, r4), r0
     tst r0, r0
-    bt/s    .L_compute_from_geometry
+    bt/s    .L_0600DAB4
     mov #0x1, r6
     mov.w @r14, r0
     extu.w r0, r0
     tst r0, r0
-    bt      .L_exit_early
+    bt      .L_0600DB5C
     mov r6, r0
-    mov.w   .L_param_1C01, r1
-    mov.l   .L_fn_bitfield_write, r3
+    mov.w   .L_0600DB42, r1
+    mov.l   .L_0600DB54, r3
     jsr @r3
     mov r4, r2
     mov.w @r5, r2
@@ -33,7 +33,7 @@ finish_proximity:
     lds.l @r15+, pr
     bra     car_update_post
     mov.l @r15+, r14
-.L_compute_from_geometry:
+.L_0600DAB4:
     mov.w   DAT_0600db44, r0
     mov.l @(r0, r4), r7
     add #-0x4, r0
@@ -63,24 +63,24 @@ finish_proximity:
     mov.l r2, @r15
     mov.w   DAT_0600db46, r1
     cmp/ge r1, r2
-    bf/s    .L_out_of_range
+    bf/s    .L_0600DB0A
     extu.w r7, r7
     mov.l @r15, r3
-    mov.l   .L_mask_0xC000, r2
+    mov.l   .L_0600DB58, r2
     cmp/gt r2, r3
-    bt      .L_out_of_range
+    bt      .L_0600DB0A
     extu.w r7, r2
     mov.w   DAT_0600db46, r3
     cmp/ge r3, r2
-    bf      .L_out_of_range
+    bf      .L_0600DB0A
     extu.w r7, r3
-    mov.l   .L_mask_0xC000, r2
+    mov.l   .L_0600DB58, r2
     cmp/gt r2, r3
-    bf      .L_within_range
-.L_out_of_range:
+    bf      .L_0600DB24
+.L_0600DB0A:
     mov #0x0, r6
-    mov.w   .L_param_1C01, r1
-    mov.l   .L_fn_bitfield_write, r3
+    mov.w   .L_0600DB42, r1
+    mov.l   .L_0600DB54, r3
     mov r6, r0
     jsr @r3
     mov r4, r2
@@ -91,10 +91,10 @@ finish_proximity:
     lds.l @r15+, pr
     bra     checkpoint_sound_trigger
     mov.l @r15+, r14
-.L_within_range:
+.L_0600DB24:
     mov r6, r0
-    mov.w   .L_param_1C01, r1
-    mov.l   .L_fn_bitfield_write, r3
+    mov.w   .L_0600DB42, r1
+    mov.l   .L_0600DB54, r3
     jsr @r3
     mov r4, r2
     mov.w @r5, r2
@@ -110,7 +110,7 @@ finish_proximity:
     .global DAT_0600db40
 DAT_0600db40:
     .2byte  0x00B8                      /* car struct offset: proximity state */
-.L_param_1C01:
+.L_0600DB42:
     .2byte  0x1C01                      /* bitfield param: bit_pos=28, count=1 -> bit 3 (proximity) */
 
     .global DAT_0600db44
@@ -120,17 +120,17 @@ DAT_0600db44:
     .global DAT_0600db46
 DAT_0600db46:
     .2byte  0x4000                      /* angular distance lower threshold */
-.L_car_obj_ptr:
+.L_0600DB48:
     .4byte  sym_0607E940                /* -> car object pointer */
-.L_prox_flag_ptr:
+.L_0600DB4C:
     .4byte  sym_0607869A                /* -> proximity flag word */
-.L_prox_counter_ptr:
+.L_0600DB50:
     .4byte  sym_06078698                /* -> proximity counter */
-.L_fn_bitfield_write:
+.L_0600DB54:
     .4byte  sym_06034F78                /* -> bitfield write utility */
-.L_mask_0xC000:
+.L_0600DB58:
     .4byte  0x0000C000                  /* angular distance upper threshold */
-.L_exit_early:
+.L_0600DB5C:
     add #0x8, r15
     lds.l @r15+, pr
     rts
@@ -138,12 +138,12 @@ DAT_0600db46:
 
     .global sym_0600DB64
 sym_0600DB64:
-    mov.l   .L_lap_car_obj_ptr, r4
+    mov.l   .L_0600DBE0, r4
     mov.l @r4, r4
     mov r4, r0
     mov.b @(2, r0), r0
     tst #0x4, r0
-    bt      .L_no_lap_flag
+    bt      .L_0600DB9A
     mov r4, r3
     add #0x2, r3
     mov.b @r3, r0
@@ -155,17 +155,17 @@ sym_0600DB64:
     add #0x1, r2
     mov.l r2, @(r0, r4)
     mov #0x28, r3
-    mov.l   .L_lap_disp_timer, r2
+    mov.l   .L_0600DBE4, r2
     mov.l r3, @r2
-    mov.l   .L_accum_time_ptr, r4
-    mov.l   .L_lap_delta_ptr, r3
+    mov.l   .L_0600DBE8, r4
+    mov.l   .L_0600DBEC, r3
     mov.l @r3, r3
     mov.l @r4, r2
     add r3, r2
-    mov.l   .L_fn_sound_notify, r3
+    mov.l   .L_0600DBF0, r3
     jmp @r3
     mov.l r2, @r4
-.L_no_lap_flag:
+.L_0600DB9A:
     rts
     nop
 
@@ -181,30 +181,30 @@ finish_display:
     mov.l r13, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   .L_anim_counter_ptr, r14
-    mov.l   .L_disp_prox_counter, r0
+    mov.l   .L_0600DBF4, r14
+    mov.l   .L_0600DBF8, r0
     mov.w @r0, r0
     extu.w r0, r0
     and #0x7, r0
     cmp/ge r3, r0
-    bt      .L_threshold_reached
-    mov.l   .L_course_type_ptr, r0
+    bt      .L_0600DC24
+    mov.l   .L_0600DBFC, r0
     mov.l @r0, r0
     cmp/eq #0x1, r0
-    bf      .L_other_course
-    mov.l   .L_overlay_data_course1, r2
+    bf      .L_0600DC08
+    mov.l   .L_0600DC00, r2
     mov.l r2, @r15
     mov r2, r7
     mov r2, r5
     mov.w   DAT_0600dbdc, r3
-    mov.w   .L_screen_pos_y_course1, r6
+    mov.w   .L_0600DBDE, r6
     mov.l @(4, r7), r7
     mov.l @r5, r5
     add r3, r7
-    mov.l   .L_fn_overlay_render, r3
+    mov.l   .L_0600DC04, r3
     jsr @r3
     mov #0x8, r4
-    bra     .L_after_overlay
+    bra     .L_0600DC28
     nop
 
     .global DAT_0600dbda
@@ -214,30 +214,30 @@ DAT_0600dbda:
     .global DAT_0600dbdc
 DAT_0600dbdc:
     .2byte  0x4000                      /* VDP Y offset for overlay */
-.L_screen_pos_y_course1:
+.L_0600DBDE:
     .2byte  0x0AC0                      /* screen position Y (course 1) */
-.L_lap_car_obj_ptr:
+.L_0600DBE0:
     .4byte  sym_0607E940                /* -> car object pointer */
-.L_lap_disp_timer:
+.L_0600DBE4:
     .4byte  sym_0607EABC                /* -> lap display timer (frames) */
-.L_accum_time_ptr:
+.L_0600DBE8:
     .4byte  sym_0607EAAC                /* -> accumulated race time */
-.L_lap_delta_ptr:
+.L_0600DBEC:
     .4byte  sym_0607EAA0                /* -> current lap time delta */
-.L_fn_sound_notify:
+.L_0600DBF0:
     .4byte  sound_notify_handler        /* -> lap complete sound handler */
-.L_anim_counter_ptr:
+.L_0600DBF4:
     .4byte  sym_060786A8                /* -> animation frame counter */
-.L_disp_prox_counter:
+.L_0600DBF8:
     .4byte  sym_06078698                /* -> proximity counter (word) */
-.L_course_type_ptr:
+.L_0600DBFC:
     .4byte  sym_06078644                /* -> course type selector */
-.L_overlay_data_course1:
+.L_0600DC00:
     .4byte  sym_060637F8                /* -> overlay sprite data (course 1) */
-.L_fn_overlay_render:
+.L_0600DC04:
     .4byte  sym_06028400                /* -> overlay rendering function */
-.L_other_course:
-    mov.l   .L_overlay_data_other, r2
+.L_0600DC08:
+    mov.l   .L_0600DCA0, r2
     mov.l r2, @r15
     mov r2, r7
     mov r2, r5
@@ -246,52 +246,52 @@ DAT_0600dbdc:
     mov.l @(4, r7), r7
     mov.l @r5, r5
     add r3, r7
-    mov.l   .L_fn_overlay_render_2, r3
+    mov.l   .L_0600DCA4, r3
     jsr @r3
     mov #0x8, r4
-    bra     .L_after_overlay
+    bra     .L_0600DC28
     nop
-.L_threshold_reached:
+.L_0600DC24:
     bsr     checkpoint_sound_trigger
     nop
-.L_after_overlay:
-    mov.l   .L_frame_counter_ptr, r0
+.L_0600DC28:
+    mov.l   .L_0600DCA8, r0
     mov.w @r0, r0
     extu.w r0, r0
     tst #0x3F, r0
-    bf      .L_disp_epilogue
+    bf      .L_0600DC6A
     mov.l @r14, r3
     add #0x1, r3
     mov.l r3, @r14
     mov r3, r2
-    mov.l   .L_fn_sound_cmd, r13
+    mov.l   .L_0600DCAC, r13
     mov #0x7, r3
     cmp/hs r3, r2
-    bt      .L_counter_ge_7
-    mov.l   .L_sfx_standard_lap, r5
+    bt      .L_0600DC4C
+    mov.l   .L_0600DCB0, r5
     jsr @r13
     mov #0x0, r4
-    bra     .L_disp_epilogue
+    bra     .L_0600DC6A
     nop
-.L_counter_ge_7:
-    mov.l   .L_course_type_ptr_2, r0
+.L_0600DC4C:
+    mov.l   .L_0600DCB4, r0
     mov.l @r0, r0
     cmp/eq #0x1, r0
-    bf      .L_use_standard_sfx
-    mov.l   .L_sfx_course1_variant, r5
-    bra     .L_play_sfx
+    bf      .L_0600DC5A
+    mov.l   .L_0600DCB8, r5
+    bra     .L_0600DC5C
     nop
-.L_use_standard_sfx:
-    mov.l   .L_sfx_standard_lap, r5
-.L_play_sfx:
+.L_0600DC5A:
+    mov.l   .L_0600DCB0, r5
+.L_0600DC5C:
     jsr @r13
     mov #0x0, r4
     mov #0x28, r2
-    mov.l   .L_sound_timer_ptr, r3
+    mov.l   .L_0600DCBC, r3
     mov.w r2, @r3
     mov #0x0, r2
     mov.l r2, @r14
-.L_disp_epilogue:
+.L_0600DC6A:
     add #0x4, r15
     lds.l @r15+, pr
     mov.l @r15+, r13
@@ -304,11 +304,11 @@ checkpoint_sound_trigger:
     sts.l pr, @-r15
     mov #0x60, r6
     add #-0x4, r15
-    mov.l   .L_chkpt_sfx_data, r3
+    mov.l   .L_0600DCC0, r3
     mov.l r3, @r15
     mov r3, r7
     mov.w   DAT_0600dc9c, r5
-    mov.l   .L_fn_vdp_num_text, r3
+    mov.l   .L_0600DCC4, r3
     jsr @r3
     mov #0x8, r4
     mov.l @r15, r7
@@ -316,7 +316,7 @@ checkpoint_sound_trigger:
     mov.w   DAT_0600dc9e, r5
     mov #0x8, r4
     add #0x4, r15
-    mov.l   .L_fn_vdp_num_text, r3
+    mov.l   .L_0600DCC4, r3
     jmp @r3
     lds.l @r15+, pr
 
@@ -335,23 +335,23 @@ DAT_0600dc9c:
     .global DAT_0600dc9e
 DAT_0600dc9e:
     .2byte  0x0BBC                      /* checkpoint sound screen position 2 */
-.L_overlay_data_other:
+.L_0600DCA0:
     .4byte  sym_06063808                /* -> overlay sprite data (other courses) */
-.L_fn_overlay_render_2:
+.L_0600DCA4:
     .4byte  sym_06028400                /* -> overlay rendering function */
-.L_frame_counter_ptr:
+.L_0600DCA8:
     .4byte  sym_06078698                /* -> proximity counter (word) */
-.L_fn_sound_cmd:
+.L_0600DCAC:
     .4byte  sound_cmd_dispatch          /* -> sound command dispatcher */
-.L_sfx_standard_lap:
+.L_0600DCB0:
     .4byte  0xAE1138FF                  /* standard lap/countdown SFX data */
-.L_course_type_ptr_2:
+.L_0600DCB4:
     .4byte  sym_06078644                /* -> course type selector */
-.L_sfx_course1_variant:
+.L_0600DCB8:
     .4byte  0xAE1139FF                  /* course 1 specific SFX variant */
-.L_sound_timer_ptr:
+.L_0600DCBC:
     .4byte  sym_06086054                /* -> sound/display timer */
-.L_chkpt_sfx_data:
+.L_0600DCC0:
     .4byte  sym_0605ACE8                /* -> checkpoint SFX data block */
-.L_fn_vdp_num_text:
+.L_0600DCC4:
     .4byte  sym_060284AE                /* -> VDP number+text renderer */

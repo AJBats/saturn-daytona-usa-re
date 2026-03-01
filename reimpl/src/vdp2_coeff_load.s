@@ -13,17 +13,17 @@ vdp2_coeff_load:
     mov #0x7F, r4
     mov #0x1, r3
     cmp/gt r3, r0
-    bt      .L_check_upper
+    bt      .L_0602E300
     mov r3, r0
-    bra     .L_clamped
+    bra     .L_0602E306
     nop
     .4byte  0x14B40000
     .4byte  sym_0602ECCC
-.L_check_upper:
+.L_0602E300:
     cmp/gt r0, r4
-    bt      .L_clamped
+    bt      .L_0602E306
     mov r4, r0
-.L_clamped:
+.L_0602E306:
     mov r0, r5
     mov #0x1, r4
     .byte   0xDC, 0x1C    /* mov.l .L_pool_0602E37C, r12 */

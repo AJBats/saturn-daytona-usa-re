@@ -20,9 +20,9 @@ track_poly_build:
     sub r12, r11
     mov.l   .L_pool_0602F580, r10
     tst r10, r11
-    bt      .L_angle_positive
+    bt      .L_0602F588
     mov.l   .L_pool_0602F584, r10
-    bra     .L_check_abs_angle
+    bra     .L_0602F58C
     or r10, r11
     .2byte  0x0000
     .4byte  0x001E0000
@@ -31,31 +31,31 @@ track_poly_build:
     .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) / bit 15 mask */
 .L_pool_0602F584:
     .4byte  0xFFFF0000                  /* -1.0 (16.16 fixed-point) / sign extend */
-.L_angle_positive:
+.L_0602F588:
     mov.l   .L_pool_0602F5A0, r10
     and r10, r11
-.L_check_abs_angle:
+.L_0602F58C:
     cmp/pz r11
-    bt      .L_already_positive
+    bt      .L_0602F592
     neg r11, r11
-.L_already_positive:
+.L_0602F592:
     mov.l   .L_pool_0602F5A4, r10
     cmp/ge r10, r11
-    bt      .L_skip_segment
+    bt      .L_0602F5A8
     mov #0x14, r12
-    bra     .L_done
+    bra     .L_0602F5B0
     mov.w r12, @(r0, r1)
     .2byte  0x0000
 .L_pool_0602F5A0:
     .4byte  0x0000FFFF                  /* low 16-bit mask */
 .L_pool_0602F5A4:
     .4byte  0x0000071C                  /* angle threshold ~10 degrees (16-bit angle) */
-.L_skip_segment:
+.L_0602F5A8:
     mov.w   DAT_0602f5b4, r11
     add r11, r6
     dt r5
     .byte   0x8B, 0x99    /* bf 0x0602F4E4 (external) */
-.L_done:
+.L_0602F5B0:
     rts
     nop
 

@@ -9,35 +9,35 @@ attract_init_setup:
     add #-0x4, r15
     mov.l @(16, r4), r7
     mov.l @(20, r4), r3
-    mov.l   .L_sentinel_mask, r2
+    mov.l   .L_0603EF8C, r2
     sub r3, r7
     cmp/eq r2, r5
-    bf      .L_sentinel_skip
-    mov.l   .L_max_positive, r5
-.L_sentinel_skip:
+    bf      .L_0603EF76
+    mov.l   .L_0603EF90, r5
+.L_0603EF76:
     mov.w   DAT_0603ef8a, r2
     add r7, r2
     shlr8 r2
     shlr2 r2
     shlr r2
     cmp/hs r2, r5
-    bt/s    .L_clamp_to_max
+    bt/s    .L_0603EF94
     mov.l r2, @r15
-    bra     .L_after_clamp
+    bra     .L_0603EF96
     nop
 
     .global DAT_0603ef8a
 DAT_0603ef8a:
     .2byte  0x07FF
-.L_sentinel_mask:
+.L_0603EF8C:
     .4byte  0x0000FFFF                  /* low 16-bit mask (sentinel compare) */
-.L_max_positive:
+.L_0603EF90:
     .4byte  0x7FFFFFFF                  /* max positive 16.16 fixed-point */
-.L_clamp_to_max:
+.L_0603EF94:
     mov.l @r15, r5
-.L_after_clamp:
+.L_0603EF96:
     tst r6, r6
-    bt      .L_epilogue
+    bt      .L_0603EFCC
     mov r5, r3
     shll8 r3
     shll2 r3
@@ -47,23 +47,23 @@ DAT_0603ef8a:
     mov.l @(16, r4), r1
     add r3, r2
     cmp/gt r1, r2
-    bf      .L_epilogue
+    bf      .L_0603EFCC
     mov.w   DAT_0603eff4, r0
-    mov.l   .L_fn_signed_mod, r2
+    mov.l   .L_0603EFF8, r2
     jsr @r2
     mov r7, r1
     mov r0, r4
     mov.l @r6, r0
     tst r0, r0
-    bt      .L_epilogue
+    bt      .L_0603EFCC
     tst r4, r4
-    bt      .L_epilogue
+    bt      .L_0603EFCC
     mov.w   DAT_0603eff4, r3
     sub r4, r3
     mov.l @r6, r2
     sub r3, r2
     mov.l r2, @r6
-.L_epilogue:
+.L_0603EFCC:
     add #0x4, r15
     lds.l @r15+, pr
     rts
@@ -83,10 +83,10 @@ sym_0603EFD4:
 
     .global sym_0603EFE6
 sym_0603EFE6:
-    mov.l   .L_state_block_a, r3
+    mov.l   .L_0603EFFC, r3
     mov.l @(32, r3), r0
     tst r0, r0
-    bt/s    .L_slot_a_setup
+    bt/s    .L_0603F000
     mov #0x1, r7
     rts
     mov #0x0, r0
@@ -95,12 +95,12 @@ sym_0603EFE6:
 DAT_0603eff4:
     .2byte  0x0800
     .2byte  0xFFFF
-.L_fn_signed_mod:
+.L_0603EFF8:
     .4byte  sym_06036BE4
-.L_state_block_a:
+.L_0603EFFC:
     .4byte  sym_06063624
-.L_slot_a_setup:
-    mov.l   .L_state_block_a2, r6
+.L_0603F000:
+    mov.l   .L_0603F06C, r6
     mov.l @(4, r4), r3
     mov.l @(20, r4), r2
     add r2, r3
@@ -116,14 +116,14 @@ DAT_0603eff4:
     mov.l @(8, r6), r1
     sub r3, r2
     cmp/gt r2, r1
-    bf      .L_slot_a_no_clamp
+    bf      .L_0603F02A
     mov.l @(16, r4), r2
     mov.l @(20, r4), r3
     sub r3, r2
     mov.l r2, @(8, r6)
-.L_slot_a_no_clamp:
+.L_0603F02A:
     mov.l r5, @(12, r6)
-    mov.l   .L_state_block_a2, r2
+    mov.l   .L_0603F06C, r2
     mov.l r7, @(32, r2)
     mov r6, r0
     rts
@@ -131,14 +131,14 @@ DAT_0603eff4:
 
     .global sym_0603F036
 sym_0603F036:
-    mov.l   .L_state_block_a2, r3
+    mov.l   .L_0603F06C, r3
     mov.l @(36, r3), r0
     tst r0, r0
-    bt      .L_slot_b_setup
+    bt      .L_0603F042
     rts
     mov #0x0, r0
-.L_slot_b_setup:
-    mov.l   .L_state_block_a2, r6
+.L_0603F042:
+    mov.l   .L_0603F06C, r6
     mov.l @(4, r4), r3
     mov.l @(16, r4), r2
     add #0x10, r6
@@ -147,56 +147,56 @@ sym_0603F036:
     mov.l r3, @r6
     mov.l r4, @(4, r6)
     mov.l r5, @(8, r6)
-    mov.w   .L_round_bias_b, r3
+    mov.w   .L_0603F06A, r3
     add r3, r5
     shlr8 r5
     shlr2 r5
     shlr r5
     mov.l r5, @(12, r6)
-    mov.l   .L_state_block_a2, r2
+    mov.l   .L_0603F06C, r2
     mov.l r4, @(36, r2)
     mov r6, r0
     rts
     nop
-.L_round_bias_b:
+.L_0603F06A:
     .2byte  0x07FF
-.L_state_block_a2:
+.L_0603F06C:
     .4byte  sym_06063624
 
     .global sym_0603F070
 sym_0603F070:
-    mov.l   .L_state_block_apply, r3
+    mov.l   .L_0603F0D8, r3
     cmp/eq r3, r5
-    bf/s    .L_check_slot_b
+    bf/s    .L_0603F08E
     mov #0x0, r7
     mov r6, r0
     cmp/eq #-0x1, r0
-    bf      .L_apply_slot_a
+    bf      .L_0603F080
     mov.l @(8, r5), r6
-.L_apply_slot_a:
+.L_0603F080:
     mov.l @(20, r4), r2
     add r6, r2
     mov.l r2, @(20, r4)
-    mov.l   .L_state_block_apply, r3
+    mov.l   .L_0603F0D8, r3
     mov.l r7, @(32, r3)
-    bra     .L_apply_done
+    bra     .L_0603F0A8
     nop
-.L_check_slot_b:
-    mov.l   .L_state_block_apply, r3
+.L_0603F08E:
+    mov.l   .L_0603F0D8, r3
     add #0x10, r3
     cmp/eq r3, r5
-    bf      .L_apply_done
+    bf      .L_0603F0A8
     mov r6, r0
     cmp/eq #-0x1, r0
-    bf      .L_apply_slot_b
+    bf      .L_0603F09E
     mov.l @(8, r5), r6
-.L_apply_slot_b:
+.L_0603F09E:
     mov.l @(16, r4), r2
     add r6, r2
     mov.l r2, @(16, r4)
-    mov.l   .L_state_block_apply, r3
+    mov.l   .L_0603F0D8, r3
     mov.l r7, @(36, r3)
-.L_apply_done:
+.L_0603F0A8:
     rts
     nop
     .4byte  0x66425664
@@ -210,7 +210,7 @@ sym_0603F070:
     .4byte  0x8B015345
     .4byte  0x1434000B
     .4byte  0x6053FFFF
-.L_state_block_apply:
+.L_0603F0D8:
     .4byte  sym_06063624
     .4byte  0x5045930B
     .4byte  0x303C4019

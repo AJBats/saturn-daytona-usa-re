@@ -11,115 +11,115 @@ scene_render_coord:
     mov.l r11, @-r15
     sts.l pr, @-r15
     add #-0x8, r15
-    mov.l   .L_ptr_camera_state, r11
+    mov.l   .L_0600B378, r11
     mov.l @r11, r11
-    mov.l   .L_ptr_car_array_base, r14
+    mov.l   .L_0600B37C, r14
     mov.l @r14, r14
-    mov.l   .L_ptr_cur_car_struct, r3
+    mov.l   .L_0600B380, r3
     mov.l r14, @r3
-    mov.l   .L_ptr_course_index, r0
-    bra     .L_course_dispatch
+    mov.l   .L_0600B384, r0
+    bra     .L_0600B3A0
     mov.l @r0, r0
-.L_course_0:
-    mov.l   .L_ptr_cs0_dist_tbl, r13
-    mov.l   .L_ptr_cs0_render_tbl, r12
-    bra     .L_tables_selected
+.L_0600B35E:
+    mov.l   .L_0600B388, r13
+    mov.l   .L_0600B38C, r12
+    bra     .L_0600B3AC
     nop
-.L_course_1:
-    mov.l   .L_ptr_cs1_dist_tbl, r13
-    mov.l   .L_ptr_cs1_render_tbl, r12
-    bra     .L_tables_selected
+.L_0600B366:
+    mov.l   .L_0600B390, r13
+    mov.l   .L_0600B394, r12
+    bra     .L_0600B3AC
     nop
-.L_course_2:
-    mov.l   .L_ptr_cs2_dist_tbl, r13
-    mov.l   .L_ptr_cs2_render_tbl, r12
-    bra     .L_tables_selected
+.L_0600B36E:
+    mov.l   .L_0600B398, r13
+    mov.l   .L_0600B39C, r12
+    bra     .L_0600B3AC
     nop
     .2byte  0xFFFF
-.L_ptr_camera_state:
+.L_0600B378:
     .4byte  sym_0607EB8C
-.L_ptr_car_array_base:
+.L_0600B37C:
     .4byte  sym_0607E944
-.L_ptr_cur_car_struct:
+.L_0600B380:
     .4byte  sym_0607E940
-.L_ptr_course_index:
+.L_0600B384:
     .4byte  sym_0607EAD8
-.L_ptr_cs0_dist_tbl:
+.L_0600B388:
     .4byte  sym_06063488
-.L_ptr_cs0_render_tbl:
+.L_0600B38C:
     .4byte  sym_06063434
-.L_ptr_cs1_dist_tbl:
+.L_0600B390:
     .4byte  sym_060634A4
-.L_ptr_cs1_render_tbl:
+.L_0600B394:
     .4byte  sym_06063450
-.L_ptr_cs2_dist_tbl:
+.L_0600B398:
     .4byte  sym_060634C0
-.L_ptr_cs2_render_tbl:
+.L_0600B39C:
     .4byte  sym_0606346C
-.L_course_dispatch:
+.L_0600B3A0:
     cmp/eq #0x0, r0
-    bt      .L_course_0
+    bt      .L_0600B35E
     cmp/eq #0x1, r0
-    bt      .L_course_1
+    bt      .L_0600B366
     cmp/eq #0x2, r0
-    bt      .L_course_2
-.L_tables_selected:
-    mov.l   .L_fn_transform_init, r3
+    bt      .L_0600B36E
+.L_0600B3AC:
+    mov.l   .L_0600B484, r3
     jsr @r3
     nop
     mov.l @(24, r14), r6
     mov.l @(20, r14), r5
-    mov.l   .L_fn_set_position, r3
+    mov.l   .L_0600B488, r3
     jsr @r3
     mov.l @(16, r14), r4
-    mov.l   .L_fn_rot_xy, r3
+    mov.l   .L_0600B48C, r3
     jsr @r3
     mov.l @(32, r14), r4
-    mov.l   .L_fn_rot_yz, r3
+    mov.l   .L_0600B490, r3
     jsr @r3
     mov.l @(36, r14), r4
-    mov.l   .L_fn_rot_xz, r3
+    mov.l   .L_0600B494, r3
     jsr @r3
     mov.l @(28, r14), r4
     mov.w   DAT_0600b47a, r0
-    mov.l   .L_fn_rot_xy, r3
+    mov.l   .L_0600B48C, r3
     mov.l @(r0, r14), r4
     add #-0xC, r0
     mov.l @(r0, r14), r2
     jsr @r3
     add r2, r4
-    mov.l   .L_ptr_secondary_flag, r0
+    mov.l   .L_0600B498, r0
     mov.l @r0, r0
     tst r0, r0
-    bt      .L_decrement_budget
-    mov.l   .L_ptr_lod_dist_param, r5
-    mov.l   .L_fn_dist_check, r3
+    bt      .L_0600B45A
+    mov.l   .L_0600B49C, r5
+    mov.l   .L_0600B4A0, r3
     mov.l @r5, r5
     jsr @r3
     mov.l @(24, r13), r4
-    mov.l   .L_ptr_lod_scale_param, r6
-    mov.l   .L_ptr_sprite_index_tbl, r2
+    mov.l   .L_0600B4A4, r6
+    mov.l   .L_0600B4A8, r2
     mov.l @r6, r6
     mov r2, r5
     mov.l r2, @(4, r15)
     mov.w @r5, r5
-    mov.l   .L_fn_render_submit, r3
+    mov.l   .L_0600B4AC, r3
     extu.w r5, r5
     jsr @r3
     mov.l @(24, r12), r4
     mov #0x0, r6
     mov.w   DAT_0600b47c, r0
-    mov.l   .L_fn_set_position, r3
+    mov.l   .L_0600B488, r3
     mov.l @(r0, r14), r5
     jsr @r3
     mov r6, r4
     mov.w   DAT_0600b47e, r0
-    mov.l   .L_fn_rot_yz, r3
+    mov.l   .L_0600B490, r3
     jsr @r3
     mov.l @(r0, r14), r4
-    mov.w   .L_off_cam_pitch_b, r0
-    mov.l   .L_ptr_height_offset, r2
-    mov.l   .L_fn_rot_xz, r3
+    mov.w   .L_0600B480, r0
+    mov.l   .L_0600B4B0, r2
+    mov.l   .L_0600B494, r3
     mov.l @(r0, r14), r4
     mov.l @r2, r2
     jsr @r3
@@ -127,9 +127,9 @@ scene_render_coord:
     mov.l @(12, r11), r5
     shll2 r5
     mov.l r5, @r15
-    mov.l   .L_ptr_dist_tbl_indexed, r3
+    mov.l   .L_0600B4B4, r3
     mov.l @r15, r4
-    mov.l   .L_fn_dist_check, r2
+    mov.l   .L_0600B4A0, r2
     add r3, r5
     add r13, r4
     mov.l @r5, r5
@@ -138,10 +138,10 @@ scene_render_coord:
     mov.l @(12, r11), r6
     shll2 r6
     mov.l r6, @r15
-    mov.l   .L_ptr_render_tbl_indexed, r3
+    mov.l   .L_0600B4B8, r3
     mov.l @(4, r15), r5
     mov.l @r15, r4
-    mov.l   .L_fn_render_submit, r2
+    mov.l   .L_0600B4AC, r2
     add r3, r6
     mov.w @r5, r5
     add r12, r4
@@ -151,16 +151,16 @@ scene_render_coord:
     mov.l @r4, r4
     .byte   0xB9, 0x89    /* bsr 0x0600A76C (secondary_geom_proc) */
     nop
-.L_decrement_budget:
-    mov.l   .L_ptr_render_budget, r4
+.L_0600B45A:
+    mov.l   .L_0600B4BC, r4
     mov.l @r4, r2
     add #-0x30, r2
     mov.l r2, @r4
-    mov.l   .L_ptr_early_exit_flag, r0
+    mov.l   .L_0600B4C0, r0
     mov.b @r0, r0
     extu.b r0, r0
     tst r0, r0
-    bt      .L_normal_return
+    bt      .L_0600B4C4
     add #0x8, r15
     lds.l @r15+, pr
     mov.l @r15+, r11
@@ -180,42 +180,42 @@ DAT_0600b47c:
     .global DAT_0600b47e
 DAT_0600b47e:
     .2byte  0x01D0
-.L_off_cam_pitch_b:
+.L_0600B480:
     .2byte  0x01C8
     .2byte  0xFFFF
-.L_fn_transform_init:
+.L_0600B484:
     .4byte  sym_06027080
-.L_fn_set_position:
+.L_0600B488:
     .4byte  sym_060270F2
-.L_fn_rot_xy:
+.L_0600B48C:
     .4byte  mat_rot_xy_b
-.L_fn_rot_yz:
+.L_0600B490:
     .4byte  mat_rot_yz_b
-.L_fn_rot_xz:
+.L_0600B494:
     .4byte  mat_rot_xz_b
-.L_ptr_secondary_flag:
+.L_0600B498:
     .4byte  sym_06059F30
-.L_ptr_lod_dist_param:
+.L_0600B49C:
     .4byte  sym_06063510
-.L_fn_dist_check:
+.L_0600B4A0:
     .4byte  sym_06032158
-.L_ptr_lod_scale_param:
+.L_0600B4A4:
     .4byte  sym_060634F4
-.L_ptr_sprite_index_tbl:
+.L_0600B4A8:
     .4byte  sym_06089E98
-.L_fn_render_submit:
+.L_0600B4AC:
     .4byte  sym_06031DF4
-.L_ptr_height_offset:
+.L_0600B4B0:
     .4byte  sym_06083258
-.L_ptr_dist_tbl_indexed:
+.L_0600B4B4:
     .4byte  sym_060634F8
-.L_ptr_render_tbl_indexed:
+.L_0600B4B8:
     .4byte  sym_060634DC
-.L_ptr_render_budget:
+.L_0600B4BC:
     .4byte  sym_0608A52C
-.L_ptr_early_exit_flag:
+.L_0600B4C0:
     .4byte  sym_0607867C
-.L_normal_return:
+.L_0600B4C4:
     add #0x8, r15
     lds.l @r15+, pr
     mov.l @r15+, r11

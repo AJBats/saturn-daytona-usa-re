@@ -6,7 +6,7 @@
     .type split_position_disp, @function
 split_position_disp:
     sts.l pr, @-r15
-    bsr     .L_advance_disp_slot
+    bsr     .L_06033504
     nop
     lds.l @r15+, pr
     rts
@@ -19,7 +19,7 @@ split_position_disp:
     .4byte  sym_06033884
     .4byte  sym_060785FC
     .4byte  sym_060280F8
-.L_advance_disp_slot:
+.L_06033504:
     .byte   0xD0, 0x04    /* mov.l .L_pool_0603351A, r0 */
     mov.l @r0, r1
     add #0x1, r1

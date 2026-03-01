@@ -7,24 +7,24 @@
 vdp2_course2_init:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    mov.w   .L_pal_copy_size, r6
-    mov.l   .L_vdp2_cram_0x940, r5
-    mov.l   .L_vdp2_cram_0x200, r4
-    mov.l   .L_fn_memcpy_word_idx, r3
+    mov.w   .L_06003540, r6
+    mov.l   .L_06003568, r5
+    mov.l   .L_06003548, r4
+    mov.l   .L_0600354C, r3
     jsr @r3
     nop
-    mov.l   .L_fn_dma_memory_transfer, r14
-    mov.l   .L_vdp2_vram_0x34000, r5
-    mov.l   .L_vdp2_vram_0x4EFEC, r4
+    mov.l   .L_06003550, r14
+    mov.l   .L_06003554, r5
+    mov.l   .L_0600356C, r4
     jsr @r14
     nop
-    mov.l   .L_ptr_course2_tile_data, r5
-    mov.l   .L_vdp2_vram_0x42300, r4
+    mov.l   .L_0600355C, r5
+    mov.l   .L_06003570, r4
     jsr @r14
     mov.l @r5, r5
-    mov.l   .L_ptr_course2_tile_data, r5
-    mov.w   .L_pattern_blk2_offset, r2
-    mov.l   .L_vdp2_vram_0x42C78, r4
+    mov.l   .L_0600355C, r5
+    mov.w   .L_0600353E, r2
+    mov.l   .L_06003574, r4
     mov.l @r5, r5
     jsr @r14
     add r2, r5
@@ -32,30 +32,30 @@ vdp2_course2_init:
     rts
     mov.l @r15+, r14
     .2byte  0x00E0
-.L_pattern_blk2_offset:
+.L_0600353E:
     .2byte  0x2000                          /* [HIGH] pattern block 2 offset into ROM data */
-.L_pal_copy_size:
+.L_06003540:
     .2byte  0x0100                          /* [HIGH] palette copy size: 0x100 words (512 bytes) */
     .2byte  0xFFFF
     .4byte  0x25F00860
-.L_vdp2_cram_0x200:
+.L_06003548:
     .4byte  0x25F00200                      /* VDP2 color RAM +0x200 — palette dest */
-.L_fn_memcpy_word_idx:
+.L_0600354C:
     .4byte  memcpy_word_idx                 /* word-indexed memory copy function */
-.L_fn_dma_memory_transfer:
+.L_06003550:
     .4byte  dma_memory_transfer             /* DMA block transfer function */
-.L_vdp2_vram_0x34000:
+.L_06003554:
     .4byte  0x25E34000                      /* VDP2 VRAM +0x34000 — bg tile dest */
     .4byte  0x25E497E4                      /* (unused pool entry — VDP2 VRAM +0x497E4) */
-.L_ptr_course2_tile_data:
+.L_0600355C:
     .4byte  sym_060612AC                    /* pointer to course 2 tile/pattern source data */
     .4byte  0x25E4108C                      /* (unused pool entry — VDP2 VRAM +0x4108C) */
     .4byte  0x25E41A24                      /* (unused pool entry — VDP2 VRAM +0x41A24) */
-.L_vdp2_cram_0x940:
+.L_06003568:
     .4byte  0x25F00940                      /* VDP2 color RAM +0x940 — palette source */
-.L_vdp2_vram_0x4EFEC:
+.L_0600356C:
     .4byte  0x25E4EFEC                      /* VDP2 VRAM +0x4EFEC — bg tile source */
-.L_vdp2_vram_0x42300:
+.L_06003570:
     .4byte  0x25E42300                      /* VDP2 VRAM +0x42300 — pattern dest block 1 */
-.L_vdp2_vram_0x42C78:
+.L_06003574:
     .4byte  0x25E42C78                      /* VDP2 VRAM +0x42C78 — pattern dest block 2 */

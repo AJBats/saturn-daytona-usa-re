@@ -6,16 +6,16 @@
     .type race_utility_calc, @function
 race_utility_calc:
     sts.l pr, @-r15
-    mov.l   .L_ptr_render_finalize, r3
+    mov.l   .L_0600C1B0, r3
     jsr @r3
     nop
-    mov.l   .L_ptr_race_active_flag, r0
+    mov.l   .L_0600C1B4, r0
     mov.b @r0, r0
     tst r0, r0
-    bt      .L_track_camera_path
+    bt      .L_0600C1B8
     .byte   0xB8, 0xDE    /* bsr 0x0600B340 (external) */
     nop
-    bra     .L_camera_done
+    bra     .L_0600C1BE
     nop
     .4byte  race_utility_calc
     .4byte  sym_06063574
@@ -27,59 +27,59 @@ race_utility_calc:
     .4byte  0x02000000
     .4byte  replay_playback_engine
     .4byte  sym_0607EA98
-.L_ptr_render_finalize:
+.L_0600C1B0:
     .4byte  sym_0603C000
-.L_ptr_race_active_flag:
+.L_0600C1B4:
     .4byte  sym_06083255
-.L_track_camera_path:
-    mov.l   .L_ptr_camera_track_setup, r3
+.L_0600C1B8:
+    mov.l   .L_0600C1F4, r3
     jsr @r3
     nop
-.L_camera_done:
+.L_0600C1BE:
     .byte   0xBB, 0xA9    /* bsr 0x0600B914 (external) */
     nop
-    mov.l   .L_ptr_grid_param_a, r0
-    mov.l   .L_ptr_grid_param_b, r3
+    mov.l   .L_0600C1F8, r0
+    mov.l   .L_0600C1FC, r3
     mov.l @r0, r0
     mov.l @r3, r3
     add r3, r0
     cmp/eq #0x8, r0
-    bf      .L_use_path_b
-    mov.l   .L_ptr_scene_path_a, r3
+    bf      .L_0600C1DA
+    mov.l   .L_0600C200, r3
     jsr @r3
     nop
-    bra     .L_grid_dispatch_done
+    bra     .L_0600C1E0
     nop
-.L_use_path_b:
-    mov.l   .L_ptr_scene_path_b, r3
+.L_0600C1DA:
+    mov.l   .L_0600C204, r3
     jsr @r3
     nop
-.L_grid_dispatch_done:
-    mov.l   .L_ptr_frame_tick, r2
-    mov.l   .L_ptr_frame_tick_snapshot, r3
+.L_0600C1E0:
+    mov.l   .L_0600C208, r2
+    mov.l   .L_0600C20C, r3
     mov.l @r2, r2
     mov.l r2, @r3
-    mov.l   .L_mask_low16, r2
-    mov.l   .L_ptr_vdp2_special_fn_reg, r3
+    mov.l   .L_0600C210, r2
+    mov.l   .L_0600C214, r3
     lds.l @r15+, pr
     rts
     mov.w r2, @r3
     .2byte  0xFFFF
-.L_ptr_camera_track_setup:
+.L_0600C1F4:
     .4byte  camera_track_setup
-.L_ptr_grid_param_a:
+.L_0600C1F8:
     .4byte  sym_06063E1C
-.L_ptr_grid_param_b:
+.L_0600C1FC:
     .4byte  sym_06063E20
-.L_ptr_scene_path_a:
+.L_0600C200:
     .4byte  scene_path_a
-.L_ptr_scene_path_b:
+.L_0600C204:
     .4byte  scene_path_b
-.L_ptr_frame_tick:
+.L_0600C208:
     .4byte  sym_06059F40
-.L_ptr_frame_tick_snapshot:
+.L_0600C20C:
     .4byte  sym_06059F4C
-.L_mask_low16:
+.L_0600C210:
     .4byte  0x0000FFFF
-.L_ptr_vdp2_special_fn_reg:
+.L_0600C214:
     .4byte  0x21800000

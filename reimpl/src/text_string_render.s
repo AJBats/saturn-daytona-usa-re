@@ -10,7 +10,7 @@ text_string_render:
     mov.l r13, @-r15
     extu.b r14, r3
     mov.l   .L_pool_06016AD8, r13
-    mov.l   .L_fp_one, r5
+    mov.l   .L_06016AE8, r5
     mov r3, r2
     shll2 r3
     shll2 r2
@@ -21,7 +21,7 @@ text_string_render:
     add r13, r3
     mov.l @(12, r3), r3
     cmp/gt r5, r3
-    bf      .L_not_yet_scrolling
+    bf      .L_06016B64
     extu.b r14, r4
     mov r4, r3
     shll2 r4
@@ -38,7 +38,7 @@ text_string_render:
     extu.b r14, r2
     mov #0x4, r3
     cmp/ge r3, r2
-    bt      .L_check_accum_high
+    bt      .L_06016AEC
     extu.b r14, r4
     mov r4, r3
     shll2 r4
@@ -51,7 +51,7 @@ text_string_render:
     mov.l @(4, r4), r2
     mov.l @(52, r4), r3
     cmp/ge r3, r2
-    bf      .L_apply_accum_clamp
+    bf      .L_06016B1C
     extu.b r14, r4
     mov r4, r3
     shll2 r4
@@ -62,7 +62,7 @@ text_string_render:
     exts.w r4, r4
     add r13, r4
     mov.l @(52, r4), r2
-    bra     .L_apply_accum_clamp
+    bra     .L_06016B1C
     mov.l r2, @(4, r4)
     .2byte  0xFFFF
 .L_pool_06016AD8:
@@ -70,9 +70,9 @@ text_string_render:
     .4byte  0x000B0000                  /* 11.0 (16.16 fixed-point) */
     .4byte  0x00040000                  /* 4.0 (16.16 fixed-point) */
     .4byte  0x0000C000                  /* 0.75 (16.16 fixed-point) */
-.L_fp_one:
+.L_06016AE8:
     .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
-.L_check_accum_high:
+.L_06016AEC:
     extu.b r14, r4
     mov r4, r3
     shll2 r4
@@ -85,7 +85,7 @@ text_string_render:
     mov.l @(4, r4), r2
     mov.l @(52, r4), r3
     cmp/gt r3, r2
-    bt      .L_apply_accum_clamp
+    bt      .L_06016B1C
     extu.b r14, r4
     mov r4, r3
     shll2 r4
@@ -97,7 +97,7 @@ text_string_render:
     add r13, r4
     mov.l @(52, r4), r2
     mov.l r2, @(4, r4)
-.L_apply_accum_clamp:
+.L_06016B1C:
     extu.b r14, r4
     mov r4, r3
     shll2 r4
@@ -116,9 +116,9 @@ text_string_render:
     sub r2, r3
     mov.l r3, @(24, r4)
     mov r3, r2
-    mov.l   .L_fp_two, r3
+    mov.l   .L_06016B94, r3
     cmp/gt r3, r2
-    bt      .L_done_update
+    bt      .L_06016B86
     extu.b r14, r4
     mov r4, r3
     shll2 r4
@@ -132,9 +132,9 @@ text_string_render:
     mov.l r2, @(24, r4)
     mov #0x0, r3
     mov.l r3, @(16, r4)
-    bra     .L_done_update
+    bra     .L_06016B86
     nop
-.L_not_yet_scrolling:
+.L_06016B64:
     extu.b r14, r4
     mov r4, r3
     shll2 r4
@@ -152,7 +152,7 @@ text_string_render:
     mov #0x2, r2
     mov r2, r0
     mov.b r0, @(2, r4)
-.L_done_update:
+.L_06016B86:
     extu.b r14, r4
     mov.l @r15+, r13
     .byte   0xA1, 0x25    /* bra 0x06016DD8 (external) */
@@ -164,7 +164,7 @@ loc_06016B8E:
     nop
 .L_wpool_06016B92:
     .2byte  0x0600                      /* [MEDIUM] base scroll step value for text animation reset */
-.L_fp_two:
+.L_06016B94:
     .4byte  0x00020000                  /* 2.0 (16.16 fixed-point) */
 
     .global loc_06016B98
@@ -186,7 +186,7 @@ loc_06016B98:
     mov.b @(r0, r5), r3
     extu.b r3, r3
     tst r3, r3
-    bf      .L_active_count_nonzero
+    bf      .L_06016BD4
     extu.b r4, r4
     mov r4, r3
     shll2 r4
@@ -199,7 +199,7 @@ loc_06016B98:
     mov #0x7, r2
     mov r2, r0
     mov.b r0, @(2, r4)
-.L_active_count_nonzero:
+.L_06016BD4:
     rts
     nop
 

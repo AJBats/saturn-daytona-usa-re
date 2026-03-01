@@ -12,11 +12,11 @@ scene_data_block_copy:
     mov.w @r13, r0
     extu.w r0, r0
     tst r0, r0
-    bt      .L_check_scene_b
+    bt      .L_060388EA
     mov.l   _pool_scene_a_src_ptr, r3
     mov.l @r3, r0
     tst r0, r0
-    bt      .L_check_scene_b
+    bt      .L_060388EA
     mov.l   _pool_scene_a_size, r6
     mov.l   _pool_scene_a_dst, r5
     mov.l   _pool_scene_a_src_ptr, r4
@@ -26,15 +26,15 @@ scene_data_block_copy:
     mov.l @r4, r4
     mov #0x0, r2
     mov.w r2, @r13
-.L_check_scene_b:
+.L_060388EA:
     mov.w @(2, r13), r0
     extu.w r0, r0
     tst r0, r0
-    bt      .L_check_channel
+    bt      .L_0603890E
     mov.l   _pool_scene_b_src_ptr, r3
     mov.l @r3, r0
     tst r0, r0
-    bt      .L_check_channel
+    bt      .L_0603890E
     mov.l   _pool_scene_b_size, r6
     mov.l   _pool_scene_b_dst, r5
     mov.l   _pool_scene_b_src_ptr, r4
@@ -45,26 +45,26 @@ scene_data_block_copy:
     mov #0x0, r2
     mov r2, r0
     mov.w r0, @(2, r13)
-.L_check_channel:
+.L_0603890E:
     mov.l   _pool_screen_mode, r0
     mov.w @r0, r0
-    bra     .L_channel_dispatch
+    bra     .L_06038960
     extu.w r0, r0
-.L_channel_2:
+.L_06038916:
     mov.w   _wpool_chan2_size, r6
     mov.l   _pool_scene_view_dst, r5
     mov.l   _pool_channel_src, r4
     .byte   0xB0, 0x94    /* bsr 0x06038A48 (word-copy helper) */
     mov.l @r4, r4
-    bra     .L_fixed_copies
+    bra     .L_06038968
     nop
-.L_channel_1:
+.L_06038924:
     mov.w   _wpool_chan1_size, r6
     mov.l   _pool_scene_view_dst, r5
     mov.l   _pool_channel_src, r4
     .byte   0xB0, 0x8D    /* bsr 0x06038A48 (word-copy helper) */
     mov.l @r4, r4
-    bra     .L_fixed_copies
+    bra     .L_06038968
     nop
 _wpool_chan2_size:
     .2byte  0x0100
@@ -91,12 +91,12 @@ _pool_scene_view_dst:
     .4byte  sym_060A3E68
 _pool_channel_src:
     .4byte  sym_060A4C5C
-.L_channel_dispatch:
+.L_06038960:
     cmp/eq #0x1, r0
-    bt      .L_channel_1
+    bt      .L_06038924
     cmp/eq #0x2, r0
-    bt      .L_channel_2
-.L_fixed_copies:
+    bt      .L_06038916
+.L_06038968:
     .byte   0xDE, 0x22    /* mov.l _pool_staging_ptr, r14 */
     mov #0x28, r6
     .byte   0xD5, 0x22    /* mov.l _pool_pipe_buf_0, r5 */

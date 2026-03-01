@@ -14,7 +14,7 @@ time_delta_format:
     mov #0x8, r14
     mov.b r4, @r15
     mov #0x0, r4
-.L_slot_init_loop:
+.L_06015C70:
     extu.b r4, r3
     mov r3, r2
     add #0x1, r4
@@ -28,7 +28,7 @@ time_delta_format:
     mov.l r13, @(48, r3)
     extu.b r4, r3
     cmp/ge r14, r3
-    bf      .L_slot_init_loop
+    bf      .L_06015C70
     mov.b @r15, r4
     extu.b r4, r4
     add #0x4, r15

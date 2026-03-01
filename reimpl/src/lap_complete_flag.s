@@ -10,20 +10,20 @@ lap_complete_flag:
     mov.l   .L_pool_0600DA58, r14
     mov.l   .L_pool_0600DA5C, r5
     tst r4, r4
-    bf/s    .L_phase2_bitmask
+    bf/s    .L_0600DA04
     mov.l @r5, r5
     mov.l   .L_pool_0600DA60, r3
     mov.l   .L_pool_0600DA58, r2
     mov.l @r3, r3
     mov.l @r2, r2
     cmp/eq r2, r3
-    bf      .L_phase2_bitmask
+    bf      .L_0600DA04
     mov.w   .L_wpool_0600DA50, r0
     mov.l   .L_pool_0600DA64, r3
     mov.l @(r0, r5), r2
     mov.l @r3, r3
     cmp/eq r3, r2
-    bt      .L_phase2_bitmask
+    bt      .L_0600DA04
     mov.w   .L_wpool_0600DA50, r0
     mov.l   .L_pool_0600DA64, r2
     mov.l @(r0, r5), r3
@@ -38,10 +38,10 @@ lap_complete_flag:
     mov.l   .L_pool_0600DA6C, r2
     mov.l @r2, r2
     cmp/hs r2, r3
-    bt      .L_phase2_bitmask
+    bt      .L_0600DA04
     mov #0x0, r2
     mov.l r2, @r14
-.L_phase2_bitmask:
+.L_0600DA04:
     mov #0x1, r7
     mov.l   .L_pool_0600DA70, r3
     mov r7, r0
@@ -51,7 +51,7 @@ lap_complete_flag:
     mov.l @r14, r2
     and r6, r2
     tst r2, r2
-    bf      .L_exit
+    bf      .L_0600DA4A
     mov r7, r0
     mov.l @r14, r3
     or r6, r3
@@ -67,17 +67,17 @@ lap_complete_flag:
     mov.l   .L_pool_0600DA78, r0
     mov.l @r0, r0
     tst r0, r0
-    bt      .L_exit
+    bt      .L_0600DA4A
     tst r4, r4
-    bt      .L_exit
+    bt      .L_0600DA4A
     mov r5, r0
     mov.b @(3, r0), r0
     tst #0x8, r0
-    bf      .L_exit
+    bf      .L_0600DA4A
     lds.l @r15+, pr
     .byte   0xA1, 0x9F    /* bra 0x0600DD88 (external) */
     mov.l @r15+, r14
-.L_exit:
+.L_0600DA4A:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14

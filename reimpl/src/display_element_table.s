@@ -18,12 +18,12 @@ display_element_table:
     add r14, r1
     mov.l r7, @-r15
     .byte   0xD6, 0x14    /* mov.l .L_pool_06032258, r6 */
-.L_copy_loop:
+.L_06032208:
     mov.b @r2+, r7
     mov.b r7, @r1
     add #0x1, r1
     dt r6
-    bf      .L_copy_loop
+    bf      .L_06032208
     mov.l @r15+, r7
     add #0x1, r7
     .byte   0xD0, 0x11    /* mov.l .L_pool_0603225C, r0 */

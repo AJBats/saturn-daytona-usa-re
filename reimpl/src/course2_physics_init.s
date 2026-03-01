@@ -22,17 +22,17 @@ course2_physics_init:
     .byte   0xD0, 0x09    /* mov.l .L_pool_06019FF9, r0 */
     mov.b @r0, r0
     cmp/eq #0x2, r0
-    bt/s    .L_expert_path
+    bt/s    .L_0601A050
     mov #0x5, r14
 
     mov #0x0, r13
-.L_normal_loop:
+.L_06019FD8:
     extu.b r13, r2
     .byte   0xD3, 0x07    /* mov.l .L_pool_06019FFD, r3 */
     mov.l @r3, r3
     cmp/eq r3, r2
-    bf      .L_normal_not_player
-    bra     .L_normal_apply_index
+    bf      .L_06019FFC
+    bra     .L_06019FFE
     extu.b r11, r10
     .2byte  0xFFFF
 
@@ -47,10 +47,10 @@ course2_physics_init:
 .L_pool_06019FFD:
     .4byte  sym_0605AD04        /* player car index (long) for course 2 */
 
-.L_normal_not_player:
+.L_06019FFC:
     extu.b r14, r10
 
-.L_normal_apply_index:
+.L_06019FFE:
     extu.b r10, r7
     extu.b r13, r0
     shll8 r7
@@ -90,45 +90,45 @@ course2_physics_init:
     add #0x1, r13
     extu.b r13, r3
     cmp/ge r14, r3
-    bf      .L_normal_loop
-    bra     .L_epilogue
+    bf      .L_06019FD8
+    bra     .L_0601A0CE
     nop
 
-.L_expert_path:
+.L_0601A050:
     mov #0x0, r13
-.L_expert_loop:
+.L_0601A052:
     extu.b r13, r2
     .byte   0xD3, 0x25    /* mov.l .L_pool_0601A0F6, r3 */
     mov.l @r3, r3
     cmp/eq r3, r2
-    bf      .L_expert_not_player
+    bf      .L_0601A07E
 
     mov #0x8, r2
     mov.b @r12, r3
     extu.b r3, r3
     cmp/ge r2, r3
-    bt      .L_expert_counter_high
-    bra     .L_expert_apply_index
+    bt      .L_0601A06A
+    bra     .L_0601A080
     extu.b r11, r10
 
-.L_expert_counter_high:
+.L_0601A06A:
     mov #0x10, r3
     mov.b @r12, r2
     extu.b r2, r2
     cmp/gt r3, r2
-    bf/s    .L_expert_use_index_7
+    bf/s    .L_0601A07A
     mov #0x7, r10
     mov #0x0, r3
     mov.b r3, @r12
 
-.L_expert_use_index_7:
-    bra     .L_expert_apply_index
+.L_0601A07A:
+    bra     .L_0601A080
     nop
 
-.L_expert_not_player:
+.L_0601A07E:
     mov #0x3, r10
 
-.L_expert_apply_index:
+.L_0601A080:
     extu.b r10, r7
     extu.b r13, r0
     shll8 r7
@@ -168,9 +168,9 @@ course2_physics_init:
     add #0x1, r13
     extu.b r13, r3
     cmp/ge r14, r3
-    bf      .L_expert_loop
+    bf      .L_0601A052
 
-.L_epilogue:
+.L_0601A0CE:
     add #0xC, r15
     lds.l @r15+, pr
     mov.l @r15+, r8

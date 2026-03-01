@@ -12,14 +12,14 @@ obj_state_writer:
     mov.l   _pool_cam_dir_flip, r0
     mov.b @r0, r0
     tst r0, r0
-    bt/s    .L_skip_y_flip
+    bt/s    .L_060054B0
     mov r5, r13
     mov.l   _pool_fp_one, r6
     mov.l   _pool_fp_neg_one, r4
     mov.l   _pool_fn_mat_scale_columns, r3
     jsr @r3
     mov r6, r5
-.L_skip_y_flip:
+.L_060054B0:
     mov.l @(8, r13), r4
     mov.l   _pool_fn_mat_rot_z, r3
     jsr @r3

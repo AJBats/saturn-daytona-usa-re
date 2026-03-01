@@ -10,14 +10,14 @@ display_param_set:
     mov.l r13, @-r15
     mov #0x3, r13
     mov.l r11, @-r15
-    mov.l   .L_ptr_display_mode, r11
-    mov.l   .L_ptr_fbcr_shadow, r14
-    mov.l   .L_vdp1_fbcr, r7
-    mov.l   .L_ptr_fb_mode_sel, r5
-    mov.l   .L_ptr_swap_enable, r1
-    mov.l   .L_mask_low16, r2
+    mov.l   .L_06038F00, r11
+    mov.l   .L_06038F04, r14
+    mov.l   .L_06038F08, r7
+    mov.l   .L_06038F0C, r5
+    mov.l   .L_06038F10, r1
+    mov.l   .L_06038F14, r2
     cmp/eq r2, r3
-    bf/s    .L_not_all_on
+    bf/s    .L_06038E86
     mov #0x0, r6
 
     mov #0x2, r2
@@ -29,14 +29,14 @@ display_param_set:
     extu.w r3, r3
     mov.w r3, @r7
     extu.w r4, r4
-    bra     .L_epilogue
+    bra     .L_06038EF2
     mov.l r4, @r11
 
-.L_not_all_on:
+.L_06038E86:
     extu.w r4, r2
-    mov.l   .L_const_fffe, r3
+    mov.l   .L_06038F18, r3
     cmp/eq r3, r2
-    bf      .L_not_partial_on
+    bf      .L_06038EA4
 
     extu.w r13, r3
     mov.w r3, @r5
@@ -47,67 +47,67 @@ display_param_set:
     extu.w r2, r2
     mov.w r2, @r7
     extu.w r4, r4
-    bra     .L_epilogue
+    bra     .L_06038EF2
     mov.l r4, @r11
 
-.L_not_partial_on:
+.L_06038EA4:
     extu.w r4, r2
     mov.w   DAT_06038efa, r3
     and r3, r2
     tst r2, r2
-    bt      .L_swap_enable_set
-    bra     .L_swap_done
+    bt      .L_06038EB2
+    bra     .L_06038EB6
     mov.l r6, @r1
 
-.L_swap_enable_set:
+.L_06038EB2:
     mov #0x1, r2
     mov.l r2, @r1
 
-.L_swap_done:
+.L_06038EB6:
     mov.w   DAT_06038efc, r3
     and r3, r4
     extu.w r4, r4
     tst r4, r4
-    bt      .L_fb_mode_zero
+    bt      .L_06038ED0
 
     extu.w r4, r0
     cmp/eq #0x1, r0
-    bf      .L_fb_mode_not_one
-    bra     .L_write_fb_mode_sel
+    bf      .L_06038ECA
+    bra     .L_06038ECC
     extu.w r6, r2
 
-.L_fb_mode_not_one:
+.L_06038ECA:
     mov #0x1, r2
 
-.L_write_fb_mode_sel:
-    bra     .L_store_mode_and_check
+.L_06038ECC:
+    bra     .L_06038ED4
     mov.w r2, @r5
 
-.L_fb_mode_zero:
+.L_06038ED0:
     extu.w r6, r2
     mov.w r2, @r5
 
-.L_store_mode_and_check:
+.L_06038ED4:
     extu.w r4, r4
     mov.l r4, @r11
     mov.w @r5, r3
     extu.w r3, r3
     tst r3, r3
-    bf      .L_fbcr_set_manual
+    bf      .L_06038EE8
 
     mov.w @r14, r3
     mov.w r3, @r7
-    bra     .L_epilogue
+    bra     .L_06038EF2
     nop
 
-.L_fbcr_set_manual:
+.L_06038EE8:
     mov.w @r14, r2
     extu.w r2, r2
     or r13, r2
     extu.w r2, r2
     mov.w r2, @r7
 
-.L_epilogue:
+.L_06038EF2:
     mov.l @r15+, r11
     mov.l @r15+, r13
     rts
@@ -121,19 +121,19 @@ DAT_06038efa:
 DAT_06038efc:
     .2byte  0x7FFF
     .2byte  0xFFFF
-.L_ptr_display_mode:
+.L_06038F00:
     .4byte  sym_060635BC
-.L_ptr_fbcr_shadow:
+.L_06038F04:
     .4byte  sym_060A4C92
-.L_vdp1_fbcr:
+.L_06038F08:
     .4byte  0x25D00002                  /* VDP1 FBCR — framebuffer control */
-.L_ptr_fb_mode_sel:
+.L_06038F0C:
     .4byte  sym_060635B4
-.L_ptr_swap_enable:
+.L_06038F10:
     .4byte  sym_060635B8
-.L_mask_low16:
+.L_06038F14:
     .4byte  0x0000FFFF                  /* low 16-bit mask */
-.L_const_fffe:
+.L_06038F18:
     .4byte  0x0000FFFE
     .4byte  0xD40DD00E
     .4byte  0x60022008
@@ -146,29 +146,29 @@ DAT_06038efc:
 sym_06038F34:
     mov #0x0, r4
     mov #0x1, r1
-    mov.l   .L_rst_fb_mode_sel, r2
+    mov.l   .L_06038F5C, r2
     mov.w r4, @r2
-    mov.l   .L_rst_swap_enable, r2
+    mov.l   .L_06038F60, r2
     mov.l r1, @r2
-    mov.l   .L_rst_display_mode, r2
+    mov.l   .L_06038F58, r2
     mov.l r4, @r2
-    mov.l   .L_rst_frame_counter, r2
+    mov.l   .L_06038F64, r2
     mov.l r4, @r2
-    mov.l   .L_rst_game_state, r2
+    mov.l   .L_06038F54, r2
     mov.l r4, @r2
-    mov.l   .L_rst_display_ext, r2
+    mov.l   .L_06038F68, r2
     rts
     mov.l r4, @r2
     .2byte  0xFFFF
-.L_rst_game_state:
+.L_06038F54:
     .4byte  sym_060635C4
-.L_rst_display_mode:
+.L_06038F58:
     .4byte  sym_060635BC
-.L_rst_fb_mode_sel:
+.L_06038F5C:
     .4byte  sym_060635B4
-.L_rst_swap_enable:
+.L_06038F60:
     .4byte  sym_060635B8
-.L_rst_frame_counter:
+.L_06038F64:
     .4byte  sym_060635C0
-.L_rst_display_ext:
+.L_06038F68:
     .4byte  sym_060635C8

@@ -14,10 +14,10 @@ scene_path_a:
     mov.l r8, @-r15
     sts.l pr, @-r15
     add #-0x30, r15
-    mov.l   .L_render_state_base, r8
-    mov.l   .L_render_params, r9
-    mov.l   .L_scene_mode_ptr, r14
-    mov.l   .L_table_a_base, r4
+    mov.l   .L_06006B5C, r8
+    mov.l   .L_06006B60, r9
+    mov.l   .L_06006B64, r14
+    mov.l   .L_06006B68, r4
     mov.l @r14, r0
     shll2 r0
     shll r0
@@ -29,7 +29,7 @@ scene_path_a:
     shll2 r0
     mov.l @(r0, r4), r2
     mov.l r2, @(4, r15)
-    mov.l   .L_table_b_base, r4
+    mov.l   .L_06006B6C, r4
     mov.l @r14, r0
     shll2 r0
     shll2 r0
@@ -52,8 +52,8 @@ scene_path_a:
     shll2 r0
     mov.l @(r0, r4), r1
     mov.l r1, @(24, r15)
-    mov.l   .L_camera_state, r5
-    mov.l   .L_grid_bias, r3
+    mov.l   .L_06006B70, r5
+    mov.l   .L_06006B74, r3
     mov.l @r5, r4
     add r3, r4
     shlr16 r4
@@ -83,47 +83,47 @@ scene_path_a:
     mov.l r3, @(40, r15)
     mov #0x3E, r3
     cmp/hs r3, r5
-    bf      .L_check_row_near_edge
+    bf      .L_06006B44
     mov #0x3F, r3
     sub r5, r3
     mov.l r3, @(16, r15)
-    bra     .L_check_col_far_edge
+    bra     .L_06006B4C
     nop
-.L_check_row_near_edge:
+.L_06006B44:
     mov #0x1, r2
     cmp/hi r2, r5
-    bt      .L_check_col_far_edge
+    bt      .L_06006B4C
     neg r5, r6
-.L_check_col_far_edge:
+.L_06006B4C:
     mov #0x3E, r2
     cmp/hs r2, r4
-    bf      .L_check_col_near_edge
+    bf      .L_06006B78
     mov #0x3F, r2
     sub r4, r2
-    bra     .L_scale_loop_bounds
+    bra     .L_06006B82
     mov.l r2, @(40, r15)
     .2byte  0xFFFF
-.L_render_state_base:
+.L_06006B5C:
     .4byte  sym_060620D4
-.L_render_params:
+.L_06006B60:
     .4byte  sym_06089E44
-.L_scene_mode_ptr:
+.L_06006B64:
     .4byte  sym_0607EAD8
-.L_table_a_base:
+.L_06006B68:
     .4byte  sym_06062248
-.L_table_b_base:
+.L_06006B6C:
     .4byte  sym_06062260
-.L_camera_state:
+.L_06006B70:
     .4byte  sym_06063DF8
-.L_grid_bias:
+.L_06006B74:
     .4byte  0x04000000
-.L_check_col_near_edge:
+.L_06006B78:
     mov #0x1, r2
     cmp/hi r2, r4
-    bt      .L_scale_loop_bounds
+    bt      .L_06006B82
     neg r4, r4
     mov.l r4, @(44, r15)
-.L_scale_loop_bounds:
+.L_06006B82:
     shll2 r6
     shll2 r6
     shll2 r6
@@ -132,27 +132,27 @@ scene_path_a:
     shll2 r3
     shll2 r3
     mov.l r3, @(16, r15)
-    bra     .L_outer_loop_test
+    bra     .L_06006CAC
     mov r6, r10
-.L_outer_loop_body:
-    bra     .L_inner_loop_test
+.L_06006B96:
+    bra     .L_06006CA0
     mov.l @(44, r15), r12
-.L_inner_loop_body:
+.L_06006B9A:
     mov r10, r0
     cmp/eq #-0x80, r0
-    bt      .L_process_cell
+    bt      .L_06006BB6
     mov.w   DAT_06006c1e, r3
     cmp/eq r3, r10
-    bt      .L_process_cell
+    bt      .L_06006BB6
     mov r12, r0
     cmp/eq #-0x2, r0
-    bt      .L_process_cell
+    bt      .L_06006BB6
     mov r12, r0
     cmp/eq #0x2, r0
-    bf      .L_inner_loop_next
-    bra     .L_process_cell
+    bf      .L_06006C9E
+    bra     .L_06006BB6
     nop
-.L_process_cell:
+.L_06006BB6:
     mov r10, r2
     mov.l @(28, r15), r3
     add r12, r2
@@ -167,10 +167,10 @@ scene_path_a:
     mov.w @r13, r13
     exts.w r13, r2
     cmp/pl r2
-    bf/s    .L_check_seg_b
+    bf/s    .L_06006C3E
     mov.w @r4, r11
     mov.l @r14, r3
-    mov.l   .L_seg_offset_table, r2
+    mov.l   .L_06006C24, r2
     mov.l @r15, r0
     mov.l @(36, r15), r1
     shll2 r3
@@ -184,56 +184,56 @@ scene_path_a:
     mov.l r3, @(8, r15)
     mov.l @r8, r0
     add r0, r2
-    mov.w   .L_max_distance, r0
+    mov.w   .L_06006C20, r0
     cmp/hs r0, r2
-    bf      .L_dispatch_render_a
-    mov.w   .L_max_distance, r13
+    bf      .L_06006C02
+    mov.w   .L_06006C20, r13
     mov.l @r8, r3
     sub r3, r13
     exts.w r13, r13
-.L_dispatch_render_a:
+.L_06006C02:
     mov.l @r14, r0
     cmp/eq #0x2, r0
-    bt      .L_render_a_mode2
+    bt      .L_06006C2C
     exts.w r13, r7
     mov r9, r6
     mov.l @(12, r15), r5
-    mov.l   .L_render_poly_a, r3
+    mov.l   .L_06006C28, r3
     add #0x52, r6
     mov.w @r6, r6
     extu.w r6, r6
     jsr @r3
     mov.l @(8, r15), r4
-    bra     .L_check_seg_b
+    bra     .L_06006C3E
     nop
 
     .global DAT_06006c1e
 DAT_06006c1e:
     .2byte  0x0080
-.L_max_distance:
+.L_06006C20:
     .2byte  0x0640
     .2byte  0xFFFF
-.L_seg_offset_table:
+.L_06006C24:
     .4byte  sym_06062230
-.L_render_poly_a:
+.L_06006C28:
     .4byte  sym_0602A214
-.L_render_a_mode2:
+.L_06006C2C:
     exts.w r13, r7
     mov r9, r6
     mov.l @(12, r15), r5
-    mov.l   .L_vdp1_finalize_fn, r3
+    mov.l   .L_06006CCC, r3
     add #0x52, r6
     mov.w @r6, r6
     extu.w r6, r6
     jsr @r3
     mov.l @(8, r15), r4
-.L_check_seg_b:
+.L_06006C3E:
     exts.w r11, r2
     cmp/pl r2
-    bf      .L_inner_loop_next
+    bf      .L_06006C9E
     exts.w r11, r1
     mov.l @r14, r13
-    mov.l   .L_seg_offset_table_b, r3
+    mov.l   .L_06006CD0, r3
     mov.l @r15, r0
     mov.l @(24, r15), r2
     shll r13
@@ -248,53 +248,53 @@ DAT_06006c1e:
     add r0, r1
     mov.w   DAT_06006cca, r0
     cmp/hs r0, r1
-    bf      .L_dispatch_render_b
+    bf      .L_06006C70
     mov.w   DAT_06006cca, r11
     mov.l @r8, r3
     sub r3, r11
     exts.w r11, r11
-.L_dispatch_render_b:
+.L_06006C70:
     mov.l @r14, r0
     cmp/eq #0x2, r0
-    bt      .L_render_b_mode2
+    bt      .L_06006C8C
     exts.w r11, r7
     mov r9, r6
     mov.l @(4, r15), r5
-    mov.l   .L_render_poly_b, r3
+    mov.l   .L_06006CD4, r3
     add #0x52, r6
     mov.w @r6, r6
     extu.w r6, r6
     jsr @r3
     mov r13, r4
-    bra     .L_inner_loop_next
+    bra     .L_06006C9E
     nop
-.L_render_b_mode2:
+.L_06006C8C:
     exts.w r11, r7
     mov r9, r6
     mov.l @(4, r15), r5
-    mov.l   .L_render_poly_b_alt, r3
+    mov.l   .L_06006CD8, r3
     add #0x52, r6
     mov.w @r6, r6
     extu.w r6, r6
     jsr @r3
     mov r13, r4
-.L_inner_loop_next:
+.L_06006C9E:
     add #0x1, r12
-.L_inner_loop_test:
+.L_06006CA0:
     mov.l @(40, r15), r2
     cmp/ge r2, r12
-    bt      .L_outer_loop_next
-    bra     .L_inner_loop_body
+    bt      .L_06006CAA
+    bra     .L_06006B9A
     nop
-.L_outer_loop_next:
+.L_06006CAA:
     add #0x40, r10
-.L_outer_loop_test:
+.L_06006CAC:
     mov.l @(16, r15), r2
     cmp/ge r2, r10
-    bt      .L_epilogue
-    bra     .L_outer_loop_body
+    bt      .L_06006CB6
+    bra     .L_06006B96
     nop
-.L_epilogue:
+.L_06006CB6:
     add #0x30, r15
     lds.l @r15+, pr
     mov.l @r15+, r8
@@ -309,11 +309,11 @@ DAT_06006c1e:
     .global DAT_06006cca
 DAT_06006cca:
     .2byte  0x0640
-.L_vdp1_finalize_fn:
+.L_06006CCC:
     .4byte  vdp1_list_finalize
-.L_seg_offset_table_b:
+.L_06006CD0:
     .4byte  sym_06062230
-.L_render_poly_b:
+.L_06006CD4:
     .4byte  sym_0602ABB8
-.L_render_poly_b_alt:
+.L_06006CD8:
     .4byte  sym_0602B9E0

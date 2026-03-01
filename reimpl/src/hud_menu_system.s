@@ -17,18 +17,18 @@ hud_menu_system:
     mov #0x40, r9
     mov.l r8, @-r15
     sts.l pr, @-r15
-    mov.l   .L_mask_byte1, r8
-    mov.l   .L_scroll_cfg_a, r10
-    mov.l   .L_mask_clear_bit6, r12
-    mov.l   .L_scroll_cfg_b, r13
-    mov.l   .L_config_byte_ptr, r14
-    mov.l   .L_reg_block_base, r6
-    mov.l   .L_fn_channel_commit_a, r3
+    mov.l   .L_0603C244, r8
+    mov.l   .L_0603C248, r10
+    mov.l   .L_0603C24C, r12
+    mov.l   .L_0603C250, r13
+    mov.l   .L_0603C254, r14
+    mov.l   .L_0603C258, r6
+    mov.l   .L_0603C25C, r3
     mov r14, r2
     jsr @r3
     mov r7, r1
     mov.w @(12, r6), r0
-    mov.l   .L_mask_clear_bit9, r3
+    mov.l   .L_0603C260, r3
     mov r0, r2
     extu.w r2, r2
     and r3, r2
@@ -36,27 +36,27 @@ hud_menu_system:
     mov.w r0, @(12, r6)
     mov r14, r2
     mov r7, r0
-    mov.l   .L_fn_channel_commit_a, r3
+    mov.l   .L_0603C25C, r3
     jsr @r3
     mov r7, r1
     mov.w @(12, r6), r0
-    mov.l   .L_mask_clear_bit8, r3
+    mov.l   .L_0603C264, r3
     mov r0, r2
     extu.w r2, r2
     and r3, r2
     extu.w r2, r2
     mov r2, r0
     mov.w r0, @(12, r6)
-    mov.w   .L_chan_mask_bit8, r3
+    mov.w   .L_0603C23C, r3
     and r4, r3
     tst r3, r3
-    bt      .L_check_ch1
+    bt      .L_0603C280
     extu.b r5, r3
     cmp/ge r11, r3
-    bt      .L_ch0_disable
+    bt      .L_0603C268
     mov r7, r0
     mov r14, r2
-    mov.l   .L_fn_channel_commit_a, r3
+    mov.l   .L_0603C25C, r3
     jsr @r3
     mov #0x1, r1
     mov.w @(12, r6), r0
@@ -67,8 +67,8 @@ hud_menu_system:
     extu.w r2, r0
     mov.w r0, @(12, r6)
     mov r7, r0
-    mov.w   .L_chan_id_0301_a, r1
-    mov.l   .L_fn_channel_commit_a, r3
+    mov.w   .L_0603C23E, r1
+    mov.l   .L_0603C25C, r3
     jsr @r3
     mov r14, r2
     mov.w @r13, r2
@@ -77,35 +77,35 @@ hud_menu_system:
     extu.b r5, r3
     or r3, r2
     extu.w r2, r2
-    bra     .L_check_ch1
+    bra     .L_0603C280
     mov.w r2, @r13
-.L_chan_mask_bit8:
+.L_0603C23C:
     .2byte  0x0100
-.L_chan_id_0301_a:
+.L_0603C23E:
     .2byte  0x0301
     .4byte  sym_060A4DA6
-.L_mask_byte1:
+.L_0603C244:
     .4byte  0x0000FF00                  /* byte 1 mask */
-.L_scroll_cfg_a:
+.L_0603C248:
     .4byte  sym_060A4D3E
-.L_mask_clear_bit6:
+.L_0603C24C:
     .4byte  0x0000FFBF
-.L_scroll_cfg_b:
+.L_0603C250:
     .4byte  sym_060A4D36
-.L_config_byte_ptr:
+.L_0603C254:
     .4byte  sym_060A4D58
-.L_reg_block_base:
+.L_0603C258:
     .4byte  sym_060A4D18
-.L_fn_channel_commit_a:
+.L_0603C25C:
     .4byte  sym_06034F78
-.L_mask_clear_bit9:
+.L_0603C260:
     .4byte  0x0000FDFF
-.L_mask_clear_bit8:
+.L_0603C264:
     .4byte  0x0000FEFF
-.L_ch0_disable:
+.L_0603C268:
     mov r7, r0
     mov r14, r2
-    mov.l   .L_fn_channel_commit_b, r3
+    mov.l   .L_0603C380, r3
     jsr @r3
     mov #0x1, r1
     mov.w @(12, r6), r0
@@ -115,17 +115,17 @@ hud_menu_system:
     extu.w r2, r2
     mov r2, r0
     mov.w r0, @(12, r6)
-.L_check_ch1:
-    mov.w   .L_chan_mask_bit9, r3
+.L_0603C280:
+    mov.w   .L_0603C378, r3
     and r4, r3
     tst r3, r3
-    bt      .L_check_ch2
+    bt      .L_0603C2DA
     extu.b r5, r3
     cmp/ge r11, r3
-    bt      .L_ch1_disable
+    bt      .L_0603C2C2
     mov r7, r0
     mov r14, r2
-    mov.l   .L_fn_channel_commit_b, r3
+    mov.l   .L_0603C380, r3
     jsr @r3
     mov #0x1, r1
     mov.w @(12, r6), r0
@@ -136,8 +136,8 @@ hud_menu_system:
     extu.w r2, r0
     mov.w r0, @(12, r6)
     mov r7, r0
-    mov.w   .L_chan_id_0301_b, r1
-    mov.l   .L_fn_channel_commit_b, r3
+    mov.w   .L_0603C37A, r1
+    mov.l   .L_0603C380, r3
     jsr @r3
     mov r14, r2
     mov.w @r13, r0
@@ -147,12 +147,12 @@ hud_menu_system:
     shll8 r3
     or r3, r0
     extu.w r0, r0
-    bra     .L_check_ch2
+    bra     .L_0603C2DA
     mov.w r0, @r13
-.L_ch1_disable:
+.L_0603C2C2:
     mov r7, r0
     mov r14, r2
-    mov.l   .L_fn_channel_commit_b, r3
+    mov.l   .L_0603C380, r3
     jsr @r3
     mov #0x1, r1
     mov.w @(12, r6), r0
@@ -162,17 +162,17 @@ hud_menu_system:
     extu.w r2, r2
     mov r2, r0
     mov.w r0, @(12, r6)
-.L_check_ch2:
-    mov.w   .L_chan_mask_bit10, r3
+.L_0603C2DA:
+    mov.w   .L_0603C37C, r3
     and r4, r3
     tst r3, r3
-    bt      .L_check_ch3
+    bt      .L_0603C336
     extu.b r5, r3
     cmp/ge r11, r3
-    bt      .L_ch2_disable
+    bt      .L_0603C31E
     mov r7, r0
     mov r14, r2
-    mov.l   .L_fn_channel_commit_b, r3
+    mov.l   .L_0603C380, r3
     jsr @r3
     mov #0x1, r1
     mov.w @(12, r6), r0
@@ -183,8 +183,8 @@ hud_menu_system:
     extu.w r2, r0
     mov.w r0, @(12, r6)
     mov r7, r0
-    mov.w   .L_chan_id_0301_b, r1
-    mov.l   .L_fn_channel_commit_b, r3
+    mov.w   .L_0603C37A, r1
+    mov.l   .L_0603C380, r3
     jsr @r3
     mov r14, r2
     mov.w @(2, r13), r0
@@ -195,12 +195,12 @@ hud_menu_system:
     or r3, r2
     extu.w r2, r2
     mov r2, r0
-    bra     .L_check_ch3
+    bra     .L_0603C336
     mov.w r0, @(2, r13)
-.L_ch2_disable:
+.L_0603C31E:
     mov r7, r0
     mov r14, r2
-    mov.l   .L_fn_channel_commit_b, r3
+    mov.l   .L_0603C380, r3
     jsr @r3
     mov #0x1, r1
     mov.w @(12, r6), r0
@@ -210,17 +210,17 @@ hud_menu_system:
     extu.w r2, r2
     mov r2, r0
     mov.w r0, @(12, r6)
-.L_check_ch3:
-    mov.w   .L_chan_mask_bit11, r3
+.L_0603C336:
+    mov.w   .L_0603C37E, r3
     and r4, r3
     tst r3, r3
-    bt      .L_check_ch4
+    bt      .L_0603C39C
     extu.b r5, r3
     cmp/ge r11, r3
-    bt      .L_ch3_disable
+    bt      .L_0603C384
     mov r7, r0
     mov r14, r2
-    mov.l   .L_fn_channel_commit_b, r3
+    mov.l   .L_0603C380, r3
     jsr @r3
     mov #0x1, r1
     mov.w @(12, r6), r0
@@ -231,8 +231,8 @@ hud_menu_system:
     extu.w r2, r0
     mov.w r0, @(12, r6)
     mov r7, r0
-    mov.w   .L_chan_id_0301_b, r1
-    mov.l   .L_fn_channel_commit_b, r3
+    mov.w   .L_0603C37A, r1
+    mov.l   .L_0603C380, r3
     jsr @r3
     mov r14, r2
     mov.w @(2, r13), r0
@@ -242,22 +242,22 @@ hud_menu_system:
     shll8 r3
     or r3, r0
     extu.w r0, r0
-    bra     .L_check_ch4
+    bra     .L_0603C39C
     mov.w r0, @(2, r13)
-.L_chan_mask_bit9:
+.L_0603C378:
     .2byte  0x0200
-.L_chan_id_0301_b:
+.L_0603C37A:
     .2byte  0x0301
-.L_chan_mask_bit10:
+.L_0603C37C:
     .2byte  0x0400
-.L_chan_mask_bit11:
+.L_0603C37E:
     .2byte  0x0800
-.L_fn_channel_commit_b:
+.L_0603C380:
     .4byte  sym_06034F78
-.L_ch3_disable:
+.L_0603C384:
     mov r7, r0
     mov r14, r2
-    mov.l   .L_fn_channel_commit_c, r3
+    mov.l   .L_0603C4A0, r3
     jsr @r3
     mov #0x1, r1
     mov.w @(12, r6), r0
@@ -267,17 +267,17 @@ hud_menu_system:
     extu.w r2, r2
     mov r2, r0
     mov.w r0, @(12, r6)
-.L_check_ch4:
+.L_0603C39C:
     mov.w   DAT_0603c496, r3
     and r4, r3
     tst r3, r3
-    bt      .L_check_ch5
+    bt      .L_0603C3F8
     extu.b r5, r3
     cmp/ge r11, r3
-    bt      .L_ch4_disable
+    bt      .L_0603C3E0
     mov r7, r0
     mov r14, r2
-    mov.l   .L_fn_channel_commit_c, r3
+    mov.l   .L_0603C4A0, r3
     jsr @r3
     mov #0x1, r1
     mov.w @(12, r6), r0
@@ -288,8 +288,8 @@ hud_menu_system:
     extu.w r2, r0
     mov.w r0, @(12, r6)
     mov r7, r0
-    mov.w   .L_chan_id_0301_c, r1
-    mov.l   .L_fn_channel_commit_c, r3
+    mov.w   .L_0603C498, r1
+    mov.l   .L_0603C4A0, r3
     jsr @r3
     mov r14, r2
     mov.w @(4, r13), r0
@@ -300,12 +300,12 @@ hud_menu_system:
     or r3, r2
     extu.w r2, r2
     mov r2, r0
-    bra     .L_check_ch5
+    bra     .L_0603C3F8
     mov.w r0, @(4, r13)
-.L_ch4_disable:
+.L_0603C3E0:
     mov r7, r0
     mov r14, r2
-    mov.l   .L_fn_channel_commit_c, r3
+    mov.l   .L_0603C4A0, r3
     jsr @r3
     mov #0x1, r1
     mov.w @(12, r6), r0
@@ -315,17 +315,17 @@ hud_menu_system:
     extu.w r2, r2
     mov r2, r0
     mov.w r0, @(12, r6)
-.L_check_ch5:
+.L_0603C3F8:
     mov.w   DAT_0603c49a, r3
     and r4, r3
     tst r3, r3
-    bt      .L_check_ch6
+    bt      .L_0603C452
     extu.b r5, r3
     cmp/ge r11, r3
-    bt      .L_ch5_disable
+    bt      .L_0603C43A
     mov r7, r0
     mov r14, r2
-    mov.l   .L_fn_channel_commit_c, r3
+    mov.l   .L_0603C4A0, r3
     jsr @r3
     mov #0x1, r1
     mov.w @(12, r6), r0
@@ -336,8 +336,8 @@ hud_menu_system:
     extu.w r2, r0
     mov.w r0, @(12, r6)
     mov r7, r0
-    mov.w   .L_chan_id_0301_c, r1
-    mov.l   .L_fn_channel_commit_c, r3
+    mov.w   .L_0603C498, r1
+    mov.l   .L_0603C4A0, r3
     jsr @r3
     mov r14, r2
     mov.w @(4, r13), r0
@@ -347,12 +347,12 @@ hud_menu_system:
     shll8 r3
     or r3, r0
     extu.w r0, r0
-    bra     .L_check_ch6
+    bra     .L_0603C452
     mov.w r0, @(4, r13)
-.L_ch5_disable:
+.L_0603C43A:
     mov r7, r0
     mov r14, r2
-    mov.l   .L_fn_channel_commit_c, r3
+    mov.l   .L_0603C4A0, r3
     jsr @r3
     mov #0x1, r1
     mov.w @(12, r6), r0
@@ -362,17 +362,17 @@ hud_menu_system:
     extu.w r2, r2
     mov r2, r0
     mov.w r0, @(12, r6)
-.L_check_ch6:
+.L_0603C452:
     mov.w   DAT_0603c49c, r3
     and r4, r3
     tst r3, r3
-    bt      .L_check_ch7
+    bt      .L_0603C4BC
     extu.b r5, r3
     cmp/ge r11, r3
-    bt      .L_ch6_disable
+    bt      .L_0603C4A4
     mov r7, r0
     mov r14, r2
-    mov.l   .L_fn_channel_commit_c, r3
+    mov.l   .L_0603C4A0, r3
     jsr @r3
     mov #0x1, r1
     mov.w @(12, r6), r0
@@ -383,8 +383,8 @@ hud_menu_system:
     extu.w r2, r0
     mov.w r0, @(12, r6)
     mov r7, r0
-    mov.w   .L_chan_id_0301_c, r1
-    mov.l   .L_fn_channel_commit_c, r3
+    mov.w   .L_0603C498, r1
+    mov.l   .L_0603C4A0, r3
     jsr @r3
     mov r14, r2
     mov.w @(6, r13), r0
@@ -395,13 +395,13 @@ hud_menu_system:
     or r3, r2
     extu.w r2, r2
     mov r2, r0
-    bra     .L_check_ch7
+    bra     .L_0603C4BC
     mov.w r0, @(6, r13)
 
     .global DAT_0603c496
 DAT_0603c496:
     .2byte  0x1000
-.L_chan_id_0301_c:
+.L_0603C498:
     .2byte  0x0301
 
     .global DAT_0603c49a
@@ -412,12 +412,12 @@ DAT_0603c49a:
 DAT_0603c49c:
     .2byte  0x4000
     .2byte  0xFFFF
-.L_fn_channel_commit_c:
+.L_0603C4A0:
     .4byte  sym_06034F78
-.L_ch6_disable:
+.L_0603C4A4:
     mov r7, r0
     mov r14, r2
-    mov.l   .L_fn_channel_commit_d, r3
+    mov.l   .L_0603C564, r3
     jsr @r3
     mov #0x1, r1
     mov.w @(12, r6), r0
@@ -427,17 +427,17 @@ DAT_0603c49c:
     extu.w r2, r2
     mov r2, r0
     mov.w r0, @(12, r6)
-.L_check_ch7:
-    mov.l   .L_fp_half, r3
+.L_0603C4BC:
+    mov.l   .L_0603C568, r3
     and r4, r3
     tst r3, r3
-    bt      .L_check_scroll_ab
+    bt      .L_0603C516
     extu.b r5, r3
     cmp/ge r11, r3
-    bt      .L_ch7_disable
+    bt      .L_0603C4FE
     mov r7, r0
     mov r14, r2
-    mov.l   .L_fn_channel_commit_d, r3
+    mov.l   .L_0603C564, r3
     jsr @r3
     mov #0x1, r1
     mov.w @(12, r6), r0
@@ -448,8 +448,8 @@ DAT_0603c49c:
     extu.w r2, r0
     mov.w r0, @(12, r6)
     mov r7, r0
-    mov.w   .L_chan_id_0301_d, r1
-    mov.l   .L_fn_channel_commit_d, r3
+    mov.w   .L_0603C560, r1
+    mov.l   .L_0603C564, r3
     jsr @r3
     mov r14, r2
     mov.w @(6, r13), r0
@@ -459,12 +459,12 @@ DAT_0603c49c:
     shll8 r3
     or r3, r0
     extu.w r0, r0
-    bra     .L_check_scroll_ab
+    bra     .L_0603C516
     mov.w r0, @(6, r13)
-.L_ch7_disable:
+.L_0603C4FE:
     mov r7, r0
     mov r14, r2
-    mov.l   .L_fn_channel_commit_d, r3
+    mov.l   .L_0603C564, r3
     jsr @r3
     mov #0x1, r1
     mov.w @(12, r6), r0
@@ -474,26 +474,26 @@ DAT_0603c49c:
     extu.w r2, r2
     mov r2, r0
     mov.w r0, @(12, r6)
-.L_check_scroll_ab:
+.L_0603C516:
     mov #0x4, r3
     and r4, r3
     tst r3, r3
-    bf      .L_scroll_ab_enable
+    bf      .L_0603C526
     mov #0x2, r3
     and r4, r3
     tst r3, r3
-    bt      .L_check_scroll_cd
-.L_scroll_ab_enable:
+    bt      .L_0603C58A
+.L_0603C526:
     extu.b r5, r3
     cmp/ge r11, r3
-    bt      .L_scroll_ab_disable
+    bt      .L_0603C570
     mov r7, r0
     mov r14, r2
-    mov.l   .L_fn_channel_commit_d, r3
+    mov.l   .L_0603C564, r3
     jsr @r3
     mov #0x1, r1
     mov.w @(12, r6), r0
-    mov.l   .L_mask_clear_bit0, r3
+    mov.l   .L_0603C56C, r3
     mov r0, r2
     extu.w r2, r2
     and r3, r2
@@ -501,8 +501,8 @@ DAT_0603c49c:
     extu.w r2, r0
     mov.w r0, @(12, r6)
     mov r7, r0
-    mov.w   .L_chan_id_0401_a, r1
-    mov.l   .L_fn_channel_commit_d, r3
+    mov.w   .L_0603C562, r1
+    mov.l   .L_0603C564, r3
     jsr @r3
     mov r14, r2
     mov.w @r10, r2
@@ -511,59 +511,59 @@ DAT_0603c49c:
     extu.b r5, r3
     or r3, r2
     extu.w r2, r2
-    bra     .L_check_scroll_cd
+    bra     .L_0603C58A
     mov.w r2, @r10
-.L_chan_id_0301_d:
+.L_0603C560:
     .2byte  0x0301
-.L_chan_id_0401_a:
+.L_0603C562:
     .2byte  0x0401
-.L_fn_channel_commit_d:
+.L_0603C564:
     .4byte  sym_06034F78
-.L_fp_half:
+.L_0603C568:
     .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
-.L_mask_clear_bit0:
+.L_0603C56C:
     .4byte  0x0000FFFE
-.L_scroll_ab_disable:
+.L_0603C570:
     mov r7, r0
     mov r14, r2
-    mov.l   .L_fn_channel_commit_e, r3
+    mov.l   .L_0603C634, r3
     jsr @r3
     mov #0x1, r1
     mov.w @(12, r6), r0
     mov r0, r2
     extu.w r2, r2
-    mov.l   .L_mask_clear_bit0_b, r3
+    mov.l   .L_0603C638, r3
     and r3, r2
     extu.w r2, r2
     mov r2, r0
     mov.w r0, @(12, r6)
-.L_check_scroll_cd:
+.L_0603C58A:
     mov #0x8, r3
     and r4, r3
     tst r3, r3
-    bf      .L_scroll_cd_enable
-    mov.w   .L_chan_mask_bit7, r3
+    bf      .L_0603C59A
+    mov.w   .L_0603C62E, r3
     and r4, r3
     tst r3, r3
-    bt      .L_check_priority
-.L_scroll_cd_enable:
+    bt      .L_0603C5EC
+.L_0603C59A:
     extu.b r5, r3
     cmp/ge r11, r3
-    bt      .L_scroll_cd_disable
+    bt      .L_0603C5D2
     mov r7, r0
     mov r14, r2
-    mov.l   .L_fn_channel_commit_e, r3
+    mov.l   .L_0603C634, r3
     jsr @r3
     mov #0x1, r1
     mov.w @(12, r6), r0
-    mov.l   .L_mask_clear_bit1, r3
+    mov.l   .L_0603C63C, r3
     extu.w r0, r0
     and r3, r0
     or #0x2, r0
     mov.w r0, @(12, r6)
     mov r7, r0
-    mov.w   .L_chan_id_0401_b, r1
-    mov.l   .L_fn_channel_commit_e, r3
+    mov.w   .L_0603C630, r1
+    mov.l   .L_0603C634, r3
     jsr @r3
     mov r14, r2
     mov.w @r10, r0
@@ -573,44 +573,44 @@ DAT_0603c49c:
     shll8 r3
     or r3, r0
     extu.w r0, r0
-    bra     .L_check_priority
+    bra     .L_0603C5EC
     mov.w r0, @r10
-.L_scroll_cd_disable:
+.L_0603C5D2:
     mov r7, r0
     mov r14, r2
-    mov.l   .L_fn_channel_commit_e, r3
+    mov.l   .L_0603C634, r3
     jsr @r3
     mov #0x1, r1
     mov.w @(12, r6), r0
     mov r0, r2
     extu.w r2, r2
-    mov.l   .L_mask_clear_bit1, r3
+    mov.l   .L_0603C63C, r3
     and r3, r2
     extu.w r2, r2
     mov r2, r0
     mov.w r0, @(12, r6)
-.L_check_priority:
+.L_0603C5EC:
     mov #0x10, r3
     and r4, r3
     tst r3, r3
-    bt      .L_check_colorcalc
+    bt      .L_0603C65E
     extu.b r5, r3
     cmp/ge r11, r3
-    bt      .L_priority_disable
+    bt      .L_0603C644
     mov r7, r0
     mov r14, r2
-    mov.l   .L_fn_channel_commit_e, r3
+    mov.l   .L_0603C634, r3
     jsr @r3
     mov #0x1, r1
     mov.w @(12, r6), r0
-    mov.l   .L_mask_clear_bit2, r3
+    mov.l   .L_0603C640, r3
     extu.w r0, r0
     and r3, r0
     or #0x4, r0
     mov.w r0, @(12, r6)
     mov r7, r0
-    mov.w   .L_chan_id_0401_b, r1
-    mov.l   .L_fn_channel_commit_e, r3
+    mov.w   .L_0603C630, r1
+    mov.l   .L_0603C634, r3
     jsr @r3
     mov r14, r2
     mov.w @(2, r10), r0
@@ -621,57 +621,57 @@ DAT_0603c49c:
     or r3, r2
     extu.w r2, r2
     mov r2, r0
-    bra     .L_check_colorcalc
+    bra     .L_0603C65E
     mov.w r0, @(2, r10)
-.L_chan_mask_bit7:
+.L_0603C62E:
     .2byte  0x0080
-.L_chan_id_0401_b:
+.L_0603C630:
     .2byte  0x0401
     .2byte  0xFFFF
-.L_fn_channel_commit_e:
+.L_0603C634:
     .4byte  sym_06034F78
-.L_mask_clear_bit0_b:
+.L_0603C638:
     .4byte  0x0000FFFE
-.L_mask_clear_bit1:
+.L_0603C63C:
     .4byte  0x0000FFFD
-.L_mask_clear_bit2:
+.L_0603C640:
     .4byte  0x0000FFFB
-.L_priority_disable:
+.L_0603C644:
     mov r7, r0
     mov r14, r2
-    mov.l   .L_fn_channel_commit_f, r3
+    mov.l   .L_0603C718, r3
     jsr @r3
     mov #0x1, r1
     mov.w @(12, r6), r0
     mov r0, r2
     extu.w r2, r2
-    mov.l   .L_mask_clear_bit2_b, r3
+    mov.l   .L_0603C71C, r3
     and r3, r2
     extu.w r2, r2
     mov r2, r0
     mov.w r0, @(12, r6)
-.L_check_colorcalc:
+.L_0603C65E:
     mov r4, r3
     and r11, r3
     tst r3, r3
-    bt      .L_check_special_fn
+    bt      .L_0603C6B8
     extu.b r5, r3
     cmp/ge r11, r3
-    bt      .L_colorcalc_disable
+    bt      .L_0603C69E
     mov r7, r0
     mov r14, r2
-    mov.l   .L_fn_channel_commit_f, r3
+    mov.l   .L_0603C718, r3
     jsr @r3
     mov #0x1, r1
     mov.w @(12, r6), r0
-    mov.l   .L_mask_clear_bit3, r3
+    mov.l   .L_0603C720, r3
     extu.w r0, r0
     and r3, r0
     or #0x8, r0
     mov.w r0, @(12, r6)
     mov r7, r0
-    mov.w   .L_chan_id_0401_c, r1
-    mov.l   .L_fn_channel_commit_f, r3
+    mov.w   .L_0603C716, r1
+    mov.l   .L_0603C718, r3
     jsr @r3
     mov r14, r2
     mov.w @(2, r10), r0
@@ -681,33 +681,33 @@ DAT_0603c49c:
     shll8 r3
     or r3, r0
     extu.w r0, r0
-    bra     .L_check_special_fn
+    bra     .L_0603C6B8
     mov.w r0, @(2, r10)
-.L_colorcalc_disable:
+.L_0603C69E:
     mov r7, r0
     mov r14, r2
-    mov.l   .L_fn_channel_commit_f, r3
+    mov.l   .L_0603C718, r3
     jsr @r3
     mov #0x1, r1
     mov.w @(12, r6), r0
     mov r0, r2
     extu.w r2, r2
-    mov.l   .L_mask_clear_bit3, r3
+    mov.l   .L_0603C720, r3
     and r3, r2
     extu.w r2, r2
     mov r2, r0
     mov.w r0, @(12, r6)
-.L_check_special_fn:
+.L_0603C6B8:
     and r7, r4
     tst r4, r4
-    bt      .L_menu_cfg_return
-    mov.l   .L_mask_clear_bit4, r4
+    bt      .L_0603C704
+    mov.l   .L_0603C724, r4
     extu.b r5, r3
     cmp/ge r11, r3
-    bt      .L_special_fn_disable
+    bt      .L_0603C6EC
     mov r7, r0
     mov r14, r2
-    mov.l   .L_fn_channel_commit_f, r3
+    mov.l   .L_0603C718, r3
     jsr @r3
     mov #0x1, r1
     mov.w @(12, r6), r0
@@ -716,18 +716,18 @@ DAT_0603c49c:
     or #0x10, r0
     mov.w r0, @(12, r6)
     mov r7, r0
-    mov.w   .L_chan_id_0401_c, r1
-    mov.l   .L_fn_channel_commit_f, r3
+    mov.w   .L_0603C716, r1
+    mov.l   .L_0603C718, r3
     jsr @r3
     mov r14, r2
     extu.b r5, r5
     mov r5, r0
-    bra     .L_menu_cfg_return
+    bra     .L_0603C704
     mov.w r0, @(4, r10)
-.L_special_fn_disable:
+.L_0603C6EC:
     mov r7, r0
     mov r14, r2
-    mov.l   .L_fn_channel_commit_f, r3
+    mov.l   .L_0603C718, r3
     jsr @r3
     mov #0x1, r1
     mov.w @(12, r6), r0
@@ -737,7 +737,7 @@ DAT_0603c49c:
     extu.w r2, r2
     mov r2, r0
     mov.w r0, @(12, r6)
-.L_menu_cfg_return:
+.L_0603C704:
     lds.l @r15+, pr
     mov.l @r15+, r8
     mov.l @r15+, r9
@@ -747,15 +747,15 @@ DAT_0603c49c:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_chan_id_0401_c:
+.L_0603C716:
     .2byte  0x0401
-.L_fn_channel_commit_f:
+.L_0603C718:
     .4byte  sym_06034F78
-.L_mask_clear_bit2_b:
+.L_0603C71C:
     .4byte  0x0000FFFB
-.L_mask_clear_bit3:
+.L_0603C720:
     .4byte  0x0000FFF7
-.L_mask_clear_bit4:
+.L_0603C724:
     .4byte  0x0000FFEF
 
     .global hud_display_ext
@@ -771,40 +771,40 @@ hud_display_ext:
     sts.l pr, @-r15
     add #-0x20, r15
     mov #0x0, r8
-    mov.l   .L_dirty_flag_ptr, r9
-    mov.l   .L_transition_ctr, r10
-    mov.w   .L_field_stride_5, r11
-    mov.w   .L_field_stride_3, r12
+    mov.l   .L_0603C7F0, r9
+    mov.l   .L_0603C7F4, r10
+    mov.w   .L_0603C7E6, r11
+    mov.w   .L_0603C7E8, r12
     mov #0x1, r13
     mov.w   DAT_0603c7ea, r14
     mov r15, r3
     add #0x1C, r3
     mov.l r3, @(4, r15)
-    mov.l   .L_state_ptr, r4
+    mov.l   .L_0603C7F8, r4
     mov.b @r9, r0
-    bra     .L_state_dispatch
+    bra     .L_0603CC44
     extu.b r0, r0
-.L_state1_entry:
+.L_0603C756:
     mov.l @r4, r2
-    mov.l   .L_max_frame_ptr, r3
+    mov.l   .L_0603C7FC, r3
     mov.l @r3, r3
     cmp/hi r3, r2
-    bf      .L_state1_begin
-    mov.l   .L_max_frame_ptr, r3
+    bf      .L_0603C76E
+    mov.l   .L_0603C7FC, r3
     mov.l @r3, r3
     add #0x1, r3
-    mov.l   .L_max_frame_ptr, r2
+    mov.l   .L_0603C7FC, r2
     mov.l r3, @r2
-    bra     .L_ext_return
+    bra     .L_0603CC5C
     nop
-.L_state1_begin:
+.L_0603C76E:
     mov.b r8, @r9
     mov r8, r4
-    mov.l   .L_chan_data_array, r2
+    mov.l   .L_0603C800, r2
     mov r2, r5
-    bra     .L_interp_loop_check
+    bra     .L_0603C874
     mov.l r5, @r15
-.L_interp_loop_body:
+.L_0603C77A:
     mov.l @r15, r5
     add r4, r5
     mov r5, r2
@@ -814,16 +814,16 @@ hud_display_ext:
     mov.b @r2, r1
     extu.b r1, r1
     cmp/gt r1, r3
-    bf      .L_field3_check_dec
+    bf      .L_0603C79E
     mov.l @r15, r0
     add r4, r0
     mov.b @(r0, r12), r3
     add #0x1, r3
     mov.b r3, @(r0, r12)
     extu.b r13, r2
-    bra     .L_check_field1
+    bra     .L_0603C7C0
     mov.b r2, @r9
-.L_field3_check_dec:
+.L_0603C79E:
     mov.l @r15, r5
     add r4, r5
     mov r5, r2
@@ -833,7 +833,7 @@ hud_display_ext:
     mov.b @r2, r1
     extu.b r1, r1
     cmp/ge r1, r3
-    bt      .L_check_field1
+    bt      .L_0603C7C0
     mov.l @r15, r0
     add r4, r0
     mov.b @(r0, r12), r3
@@ -841,9 +841,9 @@ hud_display_ext:
     mov.b r3, @(r0, r12)
     extu.b r13, r2
     mov.b r2, @r9
-.L_check_field1:
+.L_0603C7C0:
     mov.l @r15, r5
-    mov.w   .L_field_stride_1, r0
+    mov.w   .L_0603C7EC, r0
     add r4, r5
     mov r5, r2
     mov.b @(r0, r5), r3
@@ -852,39 +852,39 @@ hud_display_ext:
     mov.b @r2, r1
     extu.b r1, r1
     cmp/gt r1, r3
-    bf      .L_field1_check_dec
+    bf      .L_0603C804
     mov.l @r15, r0
     add r4, r0
     mov.b @(r0, r14), r3
     add #0x1, r3
     mov.b r3, @(r0, r14)
     extu.b r13, r2
-    bra     .L_check_field5
+    bra     .L_0603C828
     mov.b r2, @r9
-.L_field_stride_5:
+.L_0603C7E6:
     .2byte  0x0500
-.L_field_stride_3:
+.L_0603C7E8:
     .2byte  0x0300
 
     .global DAT_0603c7ea
 DAT_0603c7ea:
     .2byte  0x0400
-.L_field_stride_1:
+.L_0603C7EC:
     .2byte  0x0100
     .2byte  0xFFFF
-.L_dirty_flag_ptr:
+.L_0603C7F0:
     .4byte  sym_060A4DA6
-.L_transition_ctr:
+.L_0603C7F4:
     .4byte  sym_060A4DA4
-.L_state_ptr:
+.L_0603C7F8:
     .4byte  sym_060A4D88
-.L_max_frame_ptr:
+.L_0603C7FC:
     .4byte  sym_060A4D8C
-.L_chan_data_array:
+.L_0603C800:
     .4byte  sym_060A4DA8
-.L_field1_check_dec:
+.L_0603C804:
     mov.l @r15, r5
-    mov.w   .L_field_stride_1b, r0
+    mov.w   .L_0603C8D0, r0
     add r4, r5
     mov r5, r2
     mov.b @(r0, r5), r3
@@ -893,7 +893,7 @@ DAT_0603c7ea:
     mov.b @r2, r1
     extu.b r1, r1
     cmp/ge r1, r3
-    bt      .L_check_field5
+    bt      .L_0603C828
     mov.l @r15, r0
     add r4, r0
     mov.b @(r0, r14), r3
@@ -901,9 +901,9 @@ DAT_0603c7ea:
     mov.b r3, @(r0, r14)
     extu.b r13, r2
     mov.b r2, @r9
-.L_check_field5:
+.L_0603C828:
     mov.l @r15, r5
-    mov.w   .L_field_stride_2, r0
+    mov.w   .L_0603C8D2, r0
     add r4, r5
     mov r5, r2
     mov.b @(r0, r5), r3
@@ -912,18 +912,18 @@ DAT_0603c7ea:
     mov.b @r2, r1
     extu.b r1, r1
     cmp/gt r1, r3
-    bf      .L_field5_check_dec
+    bf      .L_0603C84E
     mov.l @r15, r0
     add r4, r0
     mov.b @(r0, r11), r3
     add #0x1, r3
     mov.b r3, @(r0, r11)
     extu.b r13, r2
-    bra     .L_interp_next_chan
+    bra     .L_0603C872
     mov.b r2, @r9
-.L_field5_check_dec:
+.L_0603C84E:
     mov.l @r15, r5
-    mov.w   .L_field_stride_2, r0
+    mov.w   .L_0603C8D2, r0
     add r4, r5
     mov.b @(r0, r5), r3
     mov r5, r2
@@ -932,7 +932,7 @@ DAT_0603c7ea:
     mov.b @r2, r1
     extu.b r1, r1
     cmp/ge r1, r3
-    bt      .L_interp_next_chan
+    bt      .L_0603C872
     mov.l @r15, r0
     add r4, r0
     mov.b @(r0, r11), r3
@@ -940,19 +940,19 @@ DAT_0603c7ea:
     mov.b r3, @(r0, r11)
     extu.b r13, r2
     mov.b r2, @r9
-.L_interp_next_chan:
+.L_0603C872:
     add #0x1, r4
-.L_interp_loop_check:
-    mov.l   .L_num_channels_ptr, r3
+.L_0603C874:
+    mov.l   .L_0603C8D8, r3
     mov.l @r3, r3
     cmp/hs r3, r4
-    bt      .L_interp_done
-    bra     .L_interp_loop_body
+    bt      .L_0603C880
+    bra     .L_0603C77A
     nop
-.L_interp_done:
-    mov.l   .L_max_frame_reset, r3
+.L_0603C880:
+    mov.l   .L_0603C8DC, r3
     mov.l r8, @r3
-    mov.l   .L_display_mode_reg, r4
+    mov.l   .L_0603C8E0, r4
     mov.w   DAT_0603c8d4, r3
     mov.w @r4, r4
     extu.w r4, r4
@@ -971,13 +971,13 @@ DAT_0603c7ea:
     shar r4
     mov r4, r0
     cmp/eq #0x2, r0
-    bf      .L_mode_not2_pack
+    bf      .L_0603C936
     mov.l r8, @r15
     mov.l @(4, r15), r4
     mov r4, r3
     add #0x1, r3
     mov.l r3, @(20, r15)
-    mov.l   .L_chan_data_array_b, r2
+    mov.l   .L_0603C8E4, r2
     mov.l r2, @(24, r15)
     mov r4, r2
     add #0x2, r2
@@ -988,26 +988,26 @@ DAT_0603c7ea:
     mov r15, r3
     add #0x1C, r3
     add r8, r3
-    bra     .L_mode2_copy_check
+    bra     .L_0603C928
     mov.l r3, @(12, r15)
-.L_field_stride_1b:
+.L_0603C8D0:
     .2byte  0x0100
-.L_field_stride_2:
+.L_0603C8D2:
     .2byte  0x0200
 
     .global DAT_0603c8d4
 DAT_0603c8d4:
     .2byte  0x3000
     .2byte  0xFFFF
-.L_num_channels_ptr:
+.L_0603C8D8:
     .4byte  sym_060A4D94
-.L_max_frame_reset:
+.L_0603C8DC:
     .4byte  sym_060A4D8C
-.L_display_mode_reg:
+.L_0603C8E0:
     .4byte  sym_060A3D96
-.L_chan_data_array_b:
+.L_0603C8E4:
     .4byte  sym_060A4DA8
-.L_mode2_copy_loop:
+.L_0603C8E8:
     mov.l @(4, r15), r3
     mov #0x1, r6
     mov.b r8, @r3
@@ -1029,10 +1029,10 @@ DAT_0603c8d4:
     mov.b @r4, r2
     mov.b r2, @r3
     mov.l @(12, r15), r7
-    mov.l   .L_palette_src_ptr, r5
+    mov.l   .L_0603C9B0, r5
     mov.l @r15, r3
-    mov.l   .L_palette_mask_ptr, r4
-    mov.l   .L_fn_palette_effect, r2
+    mov.l   .L_0603C9B4, r4
+    mov.l   .L_0603C9B8, r2
     mov.l @r5, r5
     add r3, r5
     jsr @r2
@@ -1040,25 +1040,25 @@ DAT_0603c8d4:
     mov.l @r15, r3
     add #0x1, r3
     mov.l r3, @r15
-.L_mode2_copy_check:
+.L_0603C928:
     mov.l @r15, r3
-    mov.l   .L_num_channels_ptr_b, r2
+    mov.l   .L_0603C9BC, r2
     mov.l @r2, r2
     cmp/hs r2, r3
-    bf      .L_mode2_copy_loop
-    bra     .L_state1_exit
+    bf      .L_0603C8E8
+    bra     .L_0603C9AC
     nop
-.L_mode_not2_pack:
+.L_0603C936:
     mov.l r8, @(4, r15)
     mov r15, r3
     add #0x1C, r3
     add r8, r3
     mov.l r3, @r15
-    mov.l   .L_chan_data_array_c, r2
+    mov.l   .L_0603C9C0, r2
     mov.l r2, @(8, r15)
-    bra     .L_pack_loop_check
+    bra     .L_0603C9A2
     nop
-.L_pack_loop_body:
+.L_0603C948:
     mov.l @r15, r3
     mov.l @(8, r15), r4
     mov.l @(4, r15), r2
@@ -1093,10 +1093,10 @@ DAT_0603c8d4:
     mov.l r2, @r3
     mov #0x1, r6
     mov.l @r15, r7
-    mov.l   .L_palette_src_ptr, r5
+    mov.l   .L_0603C9B0, r5
     mov.l @(4, r15), r3
-    mov.l   .L_palette_mask_ptr, r4
-    mov.l   .L_fn_palette_effect, r2
+    mov.l   .L_0603C9B4, r4
+    mov.l   .L_0603C9B8, r2
     mov.l @r5, r5
     add r3, r5
     jsr @r2
@@ -1104,45 +1104,45 @@ DAT_0603c8d4:
     mov.l @(4, r15), r3
     add #0x1, r3
     mov.l r3, @(4, r15)
-.L_pack_loop_check:
+.L_0603C9A2:
     mov.l @(4, r15), r3
-    mov.l   .L_num_channels_ptr_b, r2
+    mov.l   .L_0603C9BC, r2
     mov.l @r2, r2
     cmp/hs r2, r3
-    bf      .L_pack_loop_body
-.L_state1_exit:
-    bra     .L_ext_return
+    bf      .L_0603C948
+.L_0603C9AC:
+    bra     .L_0603CC5C
     nop
-.L_palette_src_ptr:
+.L_0603C9B0:
     .4byte  sym_060A4D90
-.L_palette_mask_ptr:
+.L_0603C9B4:
     .4byte  sym_060A4D84
-.L_fn_palette_effect:
+.L_0603C9B8:
     .4byte  color_palette_effect
-.L_num_channels_ptr_b:
+.L_0603C9BC:
     .4byte  sym_060A4D94
-.L_chan_data_array_c:
+.L_0603C9C0:
     .4byte  sym_060A4DA8
-.L_state2_entry:
+.L_0603C9C4:
     mov.l @r4, r2
-    mov.l   .L_max_frame_ptr_b, r3
+    mov.l   .L_0603CA04, r3
     mov.l @r3, r3
     cmp/hi r3, r2
-    bf      .L_state2_begin
-    mov.l   .L_max_frame_ptr_b, r3
+    bf      .L_0603C9DC
+    mov.l   .L_0603CA04, r3
     mov.l @r3, r3
     add #0x1, r3
-    mov.l   .L_max_frame_ptr_b, r2
+    mov.l   .L_0603CA04, r2
     mov.l r3, @r2
-    bra     .L_ext_return
+    bra     .L_0603CC5C
     nop
-.L_state2_begin:
-    mov.l   .L_anim_limit_ptr, r4
-    mov.l   .L_anim_dir_flag, r0
+.L_0603C9DC:
+    mov.l   .L_0603CA08, r4
+    mov.l   .L_0603CA0C, r0
     mov.b @r0, r0
     extu.b r0, r0
     tst r0, r0
-    bt      .L_anim_decrement
+    bt      .L_0603CA10
     mov.b @r10, r3
     add #0x1, r3
     mov.b r3, @r10
@@ -1151,19 +1151,19 @@ DAT_0603c8d4:
     extu.b r2, r2
     extu.b r3, r3
     cmp/ge r3, r2
-    bf      .L_dispatch_channels
+    bf      .L_0603CA2A
     mov.b @r4, r3
     mov.b r3, @r10
     extu.b r8, r2
-    bra     .L_dispatch_channels
+    bra     .L_0603CA2A
     mov.b r2, @r9
-.L_max_frame_ptr_b:
+.L_0603CA04:
     .4byte  sym_060A4D8C
-.L_anim_limit_ptr:
+.L_0603CA08:
     .4byte  sym_060A4DA5
-.L_anim_dir_flag:
+.L_0603CA0C:
     .4byte  sym_060A4DA7
-.L_anim_decrement:
+.L_0603CA10:
     mov.b @r10, r2
     add #-0x1, r2
     mov.b r2, @r10
@@ -1172,114 +1172,114 @@ DAT_0603c8d4:
     extu.b r3, r3
     extu.b r2, r2
     cmp/gt r2, r3
-    bt      .L_dispatch_channels
+    bt      .L_0603CA2A
     mov.b @r4, r2
     mov.b r2, @r10
     extu.b r8, r3
     mov.b r3, @r9
-.L_dispatch_channels:
-    mov.l   .L_chan_enable_mask, r2
-    mov.w   .L_chan_mask_0100, r3
+.L_0603CA2A:
+    mov.l   .L_0603CAE4, r2
+    mov.w   .L_0603CAD8, r3
     mov.l @r2, r2
     and r3, r2
     tst r2, r2
-    bt      .L_dispatch_ch1
-    mov.w   .L_chan_mask_0100, r4
+    bt      .L_0603CA3C
+    mov.w   .L_0603CAD8, r4
     bsr     hud_menu_system
     mov.b @r10, r5
-.L_dispatch_ch1:
-    mov.l   .L_chan_enable_mask, r2
-    mov.w   .L_chan_mask_0200, r3
+.L_0603CA3C:
+    mov.l   .L_0603CAE4, r2
+    mov.w   .L_0603CADA, r3
     mov.l @r2, r2
     and r3, r2
     tst r2, r2
-    bt      .L_dispatch_ch2
-    mov.w   .L_chan_mask_0200, r4
+    bt      .L_0603CA4E
+    mov.w   .L_0603CADA, r4
     bsr     hud_menu_system
     mov.b @r10, r5
-.L_dispatch_ch2:
-    mov.l   .L_chan_enable_mask, r2
+.L_0603CA4E:
+    mov.l   .L_0603CAE4, r2
     mov.l @r2, r2
     and r14, r2
     tst r2, r2
-    bt      .L_dispatch_ch3
+    bt      .L_0603CA5E
     mov.b @r10, r5
     bsr     hud_menu_system
     mov r14, r4
-.L_dispatch_ch3:
-    mov.l   .L_chan_enable_mask, r2
-    mov.w   .L_chan_mask_0800, r3
+.L_0603CA5E:
+    mov.l   .L_0603CAE4, r2
+    mov.w   .L_0603CADC, r3
     mov.l @r2, r2
     and r3, r2
     tst r2, r2
-    bt      .L_dispatch_ch4
-    mov.w   .L_chan_mask_0800, r4
+    bt      .L_0603CA70
+    mov.w   .L_0603CADC, r4
     bsr     hud_menu_system
     mov.b @r10, r5
-.L_dispatch_ch4:
-    mov.l   .L_chan_enable_mask, r2
+.L_0603CA70:
+    mov.l   .L_0603CAE4, r2
     mov.w   DAT_0603cade, r3
     mov.l @r2, r2
     and r3, r2
     tst r2, r2
-    bt      .L_dispatch_ch5
+    bt      .L_0603CA82
     mov.w   DAT_0603cade, r4
     bsr     hud_menu_system
     mov.b @r10, r5
-.L_dispatch_ch5:
-    mov.l   .L_chan_enable_mask, r2
+.L_0603CA82:
+    mov.l   .L_0603CAE4, r2
     mov.w   DAT_0603cae0, r3
     mov.l @r2, r2
     and r3, r2
     tst r2, r2
-    bt      .L_dispatch_ch6
+    bt      .L_0603CA94
     mov.w   DAT_0603cae0, r4
     bsr     hud_menu_system
     mov.b @r10, r5
-.L_dispatch_ch6:
-    mov.l   .L_chan_enable_mask, r2
+.L_0603CA94:
+    mov.l   .L_0603CAE4, r2
     mov.w   DAT_0603cae2, r3
     mov.l @r2, r2
     and r3, r2
     tst r2, r2
-    bt      .L_dispatch_ch7
+    bt      .L_0603CAA6
     mov.w   DAT_0603cae2, r4
     bsr     hud_menu_system
     mov.b @r10, r5
-.L_dispatch_ch7:
-    mov.l   .L_chan_enable_mask, r2
-    mov.l   .L_chan_mask_8000, r3
+.L_0603CAA6:
+    mov.l   .L_0603CAE4, r2
+    mov.l   .L_0603CAE8, r3
     mov.l @r2, r2
     and r3, r2
     tst r2, r2
-    bt      .L_dispatch_ch8
-    mov.l   .L_chan_mask_8000, r4
+    bt      .L_0603CAB8
+    mov.l   .L_0603CAE8, r4
     bsr     hud_menu_system
     mov.b @r10, r5
-.L_dispatch_ch8:
-    mov.l   .L_chan_enable_mask, r0
+.L_0603CAB8:
+    mov.l   .L_0603CAE4, r0
     mov.l @r0, r0
     tst #0x4, r0
-    bt      .L_dispatch_ch9
+    bt      .L_0603CAC6
     mov.b @r10, r5
     bsr     hud_menu_system
     mov #0x4, r4
-.L_dispatch_ch9:
-    mov.l   .L_chan_enable_mask, r0
+.L_0603CAC6:
+    mov.l   .L_0603CAE4, r0
     mov.l @r0, r0
     tst #0x8, r0
-    bt      .L_dispatch_done
+    bt      .L_0603CAD4
     mov.b @r10, r5
     bsr     hud_menu_system
     mov #0x8, r4
-.L_dispatch_done:
-    bra     .L_dispatch_ext
+.L_0603CAD4:
+    bra     .L_0603CAEC
     nop
-.L_chan_mask_0100:
+.L_0603CAD8:
     .2byte  0x0100
-.L_chan_mask_0200:
+.L_0603CADA:
     .2byte  0x0200
-.L_chan_mask_0800:
+.L_0603CADC:
     .2byte  0x0800
 
     .global DAT_0603cade
@@ -1293,214 +1293,214 @@ DAT_0603cae0:
     .global DAT_0603cae2
 DAT_0603cae2:
     .2byte  0x4000
-.L_chan_enable_mask:
+.L_0603CAE4:
     .4byte  sym_060A4D84
-.L_chan_mask_8000:
+.L_0603CAE8:
     .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
-.L_dispatch_ext:
-    mov.l   .L_chan_enable_mask_b, r0
+.L_0603CAEC:
+    mov.l   .L_0603CBA4, r0
     mov.l @r0, r0
     tst #0x10, r0
-    bt      .L_dispatch_ch_0x20
+    bt      .L_0603CAFA
     mov.b @r10, r5
     bsr     hud_menu_system
     mov #0x10, r4
-.L_dispatch_ch_0x20:
-    mov.l   .L_chan_enable_mask_b, r0
+.L_0603CAFA:
+    mov.l   .L_0603CBA4, r0
     mov.l @r0, r0
     tst #0x20, r0
-    bt      .L_dispatch_ch_0x01
+    bt      .L_0603CB08
     mov.b @r10, r5
     bsr     hud_menu_system
     mov #0x20, r4
-.L_dispatch_ch_0x01:
-    mov.l   .L_chan_enable_mask_b, r2
+.L_0603CB08:
+    mov.l   .L_0603CBA4, r2
     mov.l @r2, r2
     and r13, r2
     tst r2, r2
-    bt      .L_dispatch_ch_0x02
+    bt      .L_0603CB18
     mov.b @r10, r5
     bsr     hud_menu_system
     mov #0x1, r4
-.L_dispatch_ch_0x02:
-    mov.l   .L_chan_enable_mask_b, r0
+.L_0603CB18:
+    mov.l   .L_0603CBA4, r0
     mov.l @r0, r0
     tst #0x2, r0
-    bt      .L_dispatch_ch_0x80
+    bt      .L_0603CB26
     mov.b @r10, r5
     bsr     hud_menu_system
     mov #0x2, r4
-.L_dispatch_ch_0x80:
-    mov.l   .L_chan_enable_mask_b, r0
+.L_0603CB26:
+    mov.l   .L_0603CBA4, r0
     mov.l @r0, r0
     tst #0x80, r0
-    bt      .L_state2_complete
-    mov.w   .L_chan_mask_0080, r4
+    bt      .L_0603CB34
+    mov.w   .L_0603CBA2, r4
     bsr     hud_menu_system
     mov.b @r10, r5
-.L_state2_complete:
-    mov.l   .L_max_frame_ptr_c, r3
+.L_0603CB34:
+    mov.l   .L_0603CBA8, r3
     mov.l r8, @r3
-    bra     .L_ext_return
+    bra     .L_0603CC5C
     nop
-.L_state3_entry:
+.L_0603CB3C:
     mov.l @r4, r2
-    mov.l   .L_max_frame_ptr_c, r3
+    mov.l   .L_0603CBA8, r3
     mov.l @r3, r3
     cmp/hi r3, r2
-    bf      .L_state3_begin
-    mov.l   .L_max_frame_ptr_c, r3
+    bf      .L_0603CB54
+    mov.l   .L_0603CBA8, r3
     mov.l @r3, r3
     add #0x1, r3
-    mov.l   .L_max_frame_ptr_c, r2
+    mov.l   .L_0603CBA8, r2
     mov.l r3, @r2
-    bra     .L_ext_return
+    bra     .L_0603CC5C
     nop
-.L_state3_begin:
-    mov.l   .L_delta_r_ptr, r7
-    mov.l   .L_delta_g_ptr, r6
-    mov.l   .L_delta_b_ptr, r5
-    mov.l   .L_chan_enable_mask_b, r4
+.L_0603CB54:
+    mov.l   .L_0603CBAC, r7
+    mov.l   .L_0603CBB0, r6
+    mov.l   .L_0603CBB4, r5
+    mov.l   .L_0603CBA4, r4
     mov.w @r7, r7
     mov.w @r6, r6
     mov.w @r5, r5
     bsr     display_palette_calc
     mov.l @r4, r4
-    mov.l   .L_accum_b_ptr, r4
-    mov.l   .L_delta_b_ptr, r5
+    mov.l   .L_0603CBB8, r4
+    mov.l   .L_0603CBB4, r5
     mov.w @r4, r2
     mov.w @r5, r5
     sub r5, r2
     mov.w r2, @r4
-    mov.l   .L_delta_g_ptr, r3
-    mov.l   .L_accum_g_ptr, r2
+    mov.l   .L_0603CBB0, r3
+    mov.l   .L_0603CBBC, r2
     mov.w @r3, r3
     mov.w @r2, r2
     sub r3, r2
-    mov.l   .L_accum_g_ptr, r3
+    mov.l   .L_0603CBBC, r3
     mov.w r2, @r3
-    mov.l   .L_delta_r_ptr, r1
-    mov.l   .L_accum_r_ptr, r3
+    mov.l   .L_0603CBAC, r1
+    mov.l   .L_0603CBC0, r3
     mov.w @r1, r1
     mov.w @r3, r3
     sub r1, r3
-    mov.l   .L_accum_r_ptr, r1
+    mov.l   .L_0603CBC0, r1
     cmp/pl r5
-    bf/s    .L_clamp_b_neg
+    bf/s    .L_0603CBC4
     mov.w r3, @r1
     mov.w @r4, r3
     cmp/pl r3
-    bt      .L_clamp_g
+    bt      .L_0603CBD0
     exts.w r8, r3
-    mov.l   .L_delta_b_ptr, r2
+    mov.l   .L_0603CBB4, r2
     mov.w r3, @r2
-    bra     .L_clamp_g
+    bra     .L_0603CBD0
     nop
-.L_chan_mask_0080:
+.L_0603CBA2:
     .2byte  0x0080
-.L_chan_enable_mask_b:
+.L_0603CBA4:
     .4byte  sym_060A4D84
-.L_max_frame_ptr_c:
+.L_0603CBA8:
     .4byte  sym_060A4D8C
-.L_delta_r_ptr:
+.L_0603CBAC:
     .4byte  sym_060A4D9C
-.L_delta_g_ptr:
+.L_0603CBB0:
     .4byte  sym_060A4D9A
-.L_delta_b_ptr:
+.L_0603CBB4:
     .4byte  sym_060A4D98
-.L_accum_b_ptr:
+.L_0603CBB8:
     .4byte  sym_060A4D9E
-.L_accum_g_ptr:
+.L_0603CBBC:
     .4byte  sym_060A4DA0
-.L_accum_r_ptr:
+.L_0603CBC0:
     .4byte  sym_060A4DA2
-.L_clamp_b_neg:
+.L_0603CBC4:
     mov.w @r4, r2
     cmp/pz r2
-    bf      .L_clamp_g
+    bf      .L_0603CBD0
     exts.w r8, r2
-    mov.l   .L_delta_b_ptr_b, r3
+    mov.l   .L_0603CC70, r3
     mov.w r2, @r3
-.L_clamp_g:
-    mov.l   .L_delta_g_ptr_b, r2
+.L_0603CBD0:
+    mov.l   .L_0603CC74, r2
     mov.w @r2, r2
     cmp/pl r2
-    bf      .L_clamp_g_neg
-    mov.l   .L_accum_g_ptr_b, r2
+    bf      .L_0603CBEA
+    mov.l   .L_0603CC78, r2
     mov.w @r2, r2
     cmp/pl r2
-    bt      .L_clamp_r
+    bt      .L_0603CBF8
     exts.w r8, r2
-    mov.l   .L_delta_g_ptr_b, r3
+    mov.l   .L_0603CC74, r3
     mov.w r2, @r3
-    bra     .L_clamp_r
+    bra     .L_0603CBF8
     nop
-.L_clamp_g_neg:
-    mov.l   .L_accum_g_ptr_b, r2
+.L_0603CBEA:
+    mov.l   .L_0603CC78, r2
     mov.w @r2, r2
     cmp/pz r2
-    bf      .L_clamp_r
+    bf      .L_0603CBF8
     exts.w r8, r2
-    mov.l   .L_delta_g_ptr_b, r3
+    mov.l   .L_0603CC74, r3
     mov.w r2, @r3
-.L_clamp_r:
-    mov.l   .L_delta_r_ptr_b, r2
+.L_0603CBF8:
+    mov.l   .L_0603CC7C, r2
     mov.w @r2, r2
     cmp/pl r2
-    bf      .L_clamp_r_neg
-    mov.l   .L_accum_r_ptr_b, r2
+    bf      .L_0603CC12
+    mov.l   .L_0603CC80, r2
     mov.w @r2, r2
     cmp/pl r2
-    bt      .L_check_all_zero
+    bt      .L_0603CC20
     exts.w r8, r2
-    mov.l   .L_delta_r_ptr_b, r3
+    mov.l   .L_0603CC7C, r3
     mov.w r2, @r3
-    bra     .L_check_all_zero
+    bra     .L_0603CC20
     nop
-.L_clamp_r_neg:
-    mov.l   .L_accum_r_ptr_b, r2
+.L_0603CC12:
+    mov.l   .L_0603CC80, r2
     mov.w @r2, r2
     cmp/pz r2
-    bf      .L_check_all_zero
+    bf      .L_0603CC20
     exts.w r8, r2
-    mov.l   .L_delta_r_ptr_b, r3
+    mov.l   .L_0603CC7C, r3
     mov.w r2, @r3
-.L_check_all_zero:
-    mov.l   .L_delta_b_ptr_b, r2
+.L_0603CC20:
+    mov.l   .L_0603CC70, r2
     mov.w @r2, r2
     tst r2, r2
-    bf      .L_state3_finalize
-    mov.l   .L_delta_g_ptr_b, r3
+    bf      .L_0603CC3C
+    mov.l   .L_0603CC74, r3
     mov.w @r3, r3
     tst r3, r3
-    bf      .L_state3_finalize
-    mov.l   .L_delta_r_ptr_b, r3
+    bf      .L_0603CC3C
+    mov.l   .L_0603CC7C, r3
     mov.w @r3, r3
     tst r3, r3
-    bf      .L_state3_finalize
+    bf      .L_0603CC3C
     extu.b r8, r3
     mov.b r3, @r9
-.L_state3_finalize:
-    mov.l   .L_max_frame_ptr_d, r3
+.L_0603CC3C:
+    mov.l   .L_0603CC84, r3
     mov.l r8, @r3
-    bra     .L_ext_return
+    bra     .L_0603CC5C
     nop
-.L_state_dispatch:
+.L_0603CC44:
     cmp/eq #0x1, r0
-    bf      .L_not_state1
-    bra     .L_state1_entry
+    bf      .L_0603CC4C
+    bra     .L_0603C756
     nop
-.L_not_state1:
+.L_0603CC4C:
     cmp/eq #0x2, r0
-    bf      .L_not_state2
-    bra     .L_state2_entry
+    bf      .L_0603CC54
+    bra     .L_0603C9C4
     nop
-.L_not_state2:
+.L_0603CC54:
     cmp/eq #0x3, r0
-    bf      .L_ext_return
-    bra     .L_state3_entry
+    bf      .L_0603CC5C
+    bra     .L_0603CB3C
     nop
-.L_ext_return:
+.L_0603CC5C:
     add #0x20, r15
     lds.l @r15+, pr
     mov.l @r15+, r8
@@ -1511,17 +1511,17 @@ DAT_0603cae2:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_delta_b_ptr_b:
+.L_0603CC70:
     .4byte  sym_060A4D98
-.L_delta_g_ptr_b:
+.L_0603CC74:
     .4byte  sym_060A4D9A
-.L_accum_g_ptr_b:
+.L_0603CC78:
     .4byte  sym_060A4DA0
-.L_delta_r_ptr_b:
+.L_0603CC7C:
     .4byte  sym_060A4D9C
-.L_accum_r_ptr_b:
+.L_0603CC80:
     .4byte  sym_060A4DA2
-.L_max_frame_ptr_d:
+.L_0603CC84:
     .4byte  sym_060A4D8C
 
     .global display_palette_calc
@@ -1532,15 +1532,15 @@ display_palette_calc:
     mov.l r12, @-r15
     mov.l r11, @-r15
     sts.l pr, @-r15
-    mov.l   .L_config_byte_ptr_b, r11
+    mov.l   .L_0603CD50, r11
     mov.w   DAT_0603cd4c, r13
-    mov.l   .L_color_offset_regs, r14
+    mov.l   .L_0603CD54, r14
     tst r4, r4
-    bf/s    .L_apply_screen_b
+    bf/s    .L_0603CCF0
     mov #0x1, r12
     mov r12, r0
-    mov.w   .L_chan_id_0501, r1
-    mov.l   .L_fn_channel_commit_g, r3
+    mov.w   .L_0603CD4E, r1
+    mov.l   .L_0603CD58, r3
     jsr @r3
     mov r11, r2
     mov.w @(4, r14), r0
@@ -1552,8 +1552,8 @@ display_palette_calc:
     extu.w r2, r0
     mov.w r0, @(4, r14)
     mov r12, r0
-    mov.w   .L_chan_id_0501, r1
-    mov.l   .L_fn_channel_commit_g, r3
+    mov.w   .L_0603CD4E, r1
+    mov.l   .L_0603CD58, r3
     jsr @r3
     mov r11, r2
     exts.w r6, r6
@@ -1565,8 +1565,8 @@ display_palette_calc:
     extu.w r2, r0
     mov.w r0, @(6, r14)
     mov r12, r0
-    mov.w   .L_chan_id_0501, r1
-    mov.l   .L_fn_channel_commit_g, r3
+    mov.w   .L_0603CD4E, r1
+    mov.l   .L_0603CD58, r3
     jsr @r3
     mov r11, r2
     mov.w @(8, r14), r0
@@ -1577,12 +1577,12 @@ display_palette_calc:
     add r7, r2
     extu.w r2, r2
     mov r2, r0
-    bra     .L_palette_calc_return
+    bra     .L_0603CD40
     mov.w r0, @(8, r14)
-.L_apply_screen_b:
+.L_0603CCF0:
     mov r12, r0
-    mov.w   .L_chan_id_0501, r1
-    mov.l   .L_fn_channel_commit_g, r3
+    mov.w   .L_0603CD4E, r1
+    mov.l   .L_0603CD58, r3
     jsr @r3
     mov r11, r2
     exts.w r5, r5
@@ -1594,8 +1594,8 @@ display_palette_calc:
     extu.w r2, r0
     mov.w r0, @(10, r14)
     mov r12, r0
-    mov.w   .L_chan_id_0501, r1
-    mov.l   .L_fn_channel_commit_g, r3
+    mov.w   .L_0603CD4E, r1
+    mov.l   .L_0603CD58, r3
     jsr @r3
     mov r11, r2
     mov.w @(12, r14), r0
@@ -1607,8 +1607,8 @@ display_palette_calc:
     extu.w r2, r0
     mov.w r0, @(12, r14)
     mov r12, r0
-    mov.w   .L_chan_id_0501, r1
-    mov.l   .L_fn_channel_commit_g, r3
+    mov.w   .L_0603CD4E, r1
+    mov.l   .L_0603CD58, r3
     jsr @r3
     mov r11, r2
     mov.w @(14, r14), r0
@@ -1620,7 +1620,7 @@ display_palette_calc:
     extu.w r2, r2
     mov r2, r0
     mov.w r0, @(14, r14)
-.L_palette_calc_return:
+.L_0603CD40:
     lds.l @r15+, pr
     mov.l @r15+, r11
     mov.l @r15+, r12
@@ -1631,11 +1631,11 @@ display_palette_calc:
     .global DAT_0603cd4c
 DAT_0603cd4c:
     .2byte  0x01FF
-.L_chan_id_0501:
+.L_0603CD4E:
     .2byte  0x0501
-.L_config_byte_ptr_b:
+.L_0603CD50:
     .4byte  sym_060A4D58
-.L_color_offset_regs:
+.L_0603CD54:
     .4byte  sym_060A4D46
-.L_fn_channel_commit_g:
+.L_0603CD58:
     .4byte  sym_06034F78

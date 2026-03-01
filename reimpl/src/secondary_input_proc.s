@@ -63,9 +63,9 @@ secondary_input_proc:
     addc r6, r1
     addc r2, r9
     tst r3, r3
-    bt      .L_sticky_clear
+    bt      .L_06035A80
     or #0x1, r0
-.L_sticky_clear:
+.L_06035A80:
     xtrct r0, r3
     xtrct r1, r0
     xtrct r9, r1
@@ -74,46 +74,46 @@ secondary_input_proc:
     rotcr r3
     mov.l   .L_pool_06035B2C, r5
     tst r1, r5
-    bt      .L_no_extra_shift
+    bt      .L_06035AA4
     shlr r1
     rotcr r0
     rotcr r3
     add #0x1, r8
     mov.l   .L_pool_06035B20, r4
     cmp/eq r4, r8
-    bf      .L_no_extra_shift
+    bf      .L_06035AA4
     .byte   0xAF, 0x97    /* bra 0x060359D2 (external) */
     nop
-.L_no_extra_shift:
+.L_06035AA4:
     tst r3, r3
-    bt      .L_round_skip
+    bt      .L_06035AAA
     or #0x1, r0
-.L_round_skip:
+.L_06035AAA:
     cmp/pl r8
-    bt      .L_pack_mantissa
+    bt      .L_06035ABE
     neg r8, r8
     add #0x1, r8
-.L_denorm_shift:
+.L_06035AB2:
     shlr r1
     rotcr r0
     .word 0x0329
     dt r8
-    bf/s    .L_denorm_shift
+    bf/s    .L_06035AB2
     or r3, r0
-.L_pack_mantissa:
+.L_06035ABE:
     tst #0x4, r0
-    bt      .L_no_round
+    bt      .L_06035AD6
     tst #0xB, r0
-    bt      .L_no_round
+    bt      .L_06035AD6
     mov #0x8, r4
     addc r4, r0
     addc r2, r1
     cmp/gt r1, r5
-    bt      .L_no_round
+    bt      .L_06035AD6
     shlr r1
     rotcr r0
     add #0x1, r8
-.L_no_round:
+.L_06035AD6:
     shlr r1
     rotcr r0
     shlr r1
@@ -176,35 +176,35 @@ sym_06035B34:
     mov.l r9, @-r15
     mov.l r10, @-r15
     mov.l r11, @-r15
-    mov.l   .L_cmp_exp_field, r0
+    mov.l   .L_06035BC0, r0
     mov r4, r10
     mov r6, r11
     mov r4, r8
     and r0, r8
     mov r6, r9
     and r0, r9
-    mov.l   .L_cmp_mant_field, r0
+    mov.l   .L_06035BC4, r0
     and r0, r4
     and r0, r6
-    mov.l   .L_cmp_exp_field, r0
+    mov.l   .L_06035BC0, r0
     cmp/eq r0, r8
-    bt      .L_cmp_a_special
-.L_cmp_check_b:
+    bt      .L_06035B90
+.L_06035B66:
     cmp/eq r0, r9
-    bt      .L_cmp_b_special
-.L_cmp_check_a_zero:
+    bt      .L_06035B9C
+.L_06035B6A:
     tst r8, r8
-    bt      .L_cmp_both_zero
-.L_cmp_compare:
+    bt      .L_06035BA8
+.L_06035B6E:
     cmp/eq r10, r11
-    bf      .L_cmp_not_equal
+    bf      .L_06035B7A
     cmp/eq r5, r7
-    bf      .L_cmp_not_equal
-    bra     .L_cmp_done
+    bf      .L_06035B7A
+    bra     .L_06035B7C
     mov #0x0, r0
-.L_cmp_not_equal:
+.L_06035B7A:
     mov #0x1, r0
-.L_cmp_done:
+.L_06035B7C:
     mov.l @r15+, r11
     mov.l @r15+, r10
     mov.l @r15+, r9
@@ -215,36 +215,36 @@ sym_06035B34:
     mov.l @r15+, r4
     rts
     add #0x10, r15
-.L_cmp_a_special:
+.L_06035B90:
     tst r4, r4
-    bf      .L_cmp_not_equal
+    bf      .L_06035B7A
     tst r5, r5
-    bf      .L_cmp_not_equal
-    bra     .L_cmp_check_b
+    bf      .L_06035B7A
+    bra     .L_06035B66
     nop
-.L_cmp_b_special:
+.L_06035B9C:
     tst r6, r6
-    bf      .L_cmp_not_equal
+    bf      .L_06035B7A
     tst r7, r7
-    bf      .L_cmp_not_equal
-    bra     .L_cmp_check_a_zero
+    bf      .L_06035B7A
+    bra     .L_06035B6A
     nop
-.L_cmp_both_zero:
+.L_06035BA8:
     tst r9, r9
-    bf      .L_cmp_not_equal
+    bf      .L_06035B7A
     tst r4, r4
-    bf      .L_cmp_compare
+    bf      .L_06035B6E
     tst r5, r5
-    bf      .L_cmp_compare
+    bf      .L_06035B6E
     tst r6, r6
-    bf      .L_cmp_not_equal
+    bf      .L_06035B7A
     tst r7, r7
-    bf      .L_cmp_not_equal
-    bra     .L_cmp_done
+    bf      .L_06035B7A
+    bra     .L_06035B7C
     mov #0x0, r0
-.L_cmp_exp_field:
+.L_06035BC0:
     .4byte  0x7FF00000
-.L_cmp_mant_field:
+.L_06035BC4:
     .4byte  0x000FFFFF
 
     .global sym_06035BC8
@@ -252,11 +252,11 @@ sym_06035BC8:
     mov.l r1, @-r15
     mov.l r2, @-r15
     tst r0, r0
-    bt      .L_i2f_zero
-    mov.l   .L_i2f_bias_max, r1
-.L_i2f_normalize:
+    bt      .L_06035BFC
+    mov.l   .L_06035C04, r1
+.L_06035BD2:
     shll r0
-    bf/s    .L_i2f_normalize
+    bf/s    .L_06035BD2
     add #-0x1, r1
     mov r0, r2
     shll16 r2
@@ -269,7 +269,7 @@ sym_06035BC8:
     shll2 r1
     shll2 r1
     or r1, r0
-.L_i2f_store:
+.L_06035BEE:
     mov.l @(8, r15), r1
     mov.l r0, @r1
     mov.l r2, @(4, r1)
@@ -277,10 +277,10 @@ sym_06035BC8:
     mov.l @r15+, r1
     rts
     add #0x4, r15
-.L_i2f_zero:
+.L_06035BFC:
     mov #0x0, r2
-    bra     .L_i2f_store
+    bra     .L_06035BEE
     mov #0x0, r0
     .2byte  0x0009
-.L_i2f_bias_max:
+.L_06035C04:
     .4byte  0x0000041F

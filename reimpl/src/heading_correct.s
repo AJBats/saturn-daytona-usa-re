@@ -9,7 +9,7 @@ heading_correct:
     mov.l r11, @-r15
     sts.l macl, @-r15
     add #-0x4, r15
-    mov.l   .L_p_car_struct, r6
+    mov.l   .L_0600CCFC, r6
     mov.w   DAT_0600ccf6, r0
     mov.l @r6, r6
     mov.l @(r0, r6), r7
@@ -18,36 +18,36 @@ heading_correct:
     sub r3, r7
     mov #0x8, r3
     cmp/ge r3, r7
-    bt      .L_outside_deadzone
+    bt      .L_0600CC66
     mov #-0x8, r3
     cmp/gt r3, r7
-    bf      .L_outside_deadzone
+    bf      .L_0600CC66
 
     mov.w   DAT_0600ccf6, r0
     mov.l @(r0, r6), r3
     add #0x4, r0
     mov.l r3, @(r0, r6)
-    bra     .L_do_lookup
+    bra     .L_0600CC7E
     nop
 
-.L_outside_deadzone:
+.L_0600CC66:
     cmp/pl r7
-    bf      .L_adjust_negative
+    bf      .L_0600CC76
 
     mov.w   DAT_0600ccf8, r0
     mov.l @(r0, r6), r3
     add #0x8, r3
     mov.l r3, @(r0, r6)
-    bra     .L_do_lookup
+    bra     .L_0600CC7E
     nop
 
-.L_adjust_negative:
+.L_0600CC76:
     mov.w   DAT_0600ccf8, r0
     mov.l @(r0, r6), r2
     add #-0x8, r2
     mov.l r2, @(r0, r6)
 
-.L_do_lookup:
+.L_0600CC7E:
     mov.w @(20, r4), r0
     mov r0, r3
     mov.w   DAT_0600ccf6, r0
@@ -57,7 +57,7 @@ heading_correct:
     mov.w r3, @r15
     mov.w @r15, r7
     mov.w @r15, r0
-    mov.l   .L_p_seg_data_table, r11
+    mov.l   .L_0600CD00, r11
     extu.w r7, r7
     and #0xFF, r0
     extu.w r0, r14
@@ -65,12 +65,12 @@ heading_correct:
     shlr2 r14
     shlr2 r14
     tst r14, r14
-    bt/s    .L_direct_lookup
+    bt/s    .L_0600CD04
     shlr8 r7
 
     mov #0x7, r3
     cmp/ge r3, r7
-    bt      .L_direct_lookup
+    bt      .L_0600CD04
 
     mov #0x4, r1
     mov.w   DAT_0600ccfa, r0
@@ -110,7 +110,7 @@ heading_correct:
     add r14, r1
     shar r1
     shar r1
-    bra     .L_copy_angles
+    bra     .L_0600CD20
     mov.l r1, @(8, r5)
 
     .global DAT_0600ccf6
@@ -124,12 +124,12 @@ DAT_0600ccf8:
     .global DAT_0600ccfa
 DAT_0600ccfa:
     .2byte  0x01EC
-.L_p_car_struct:
+.L_0600CCFC:
     .4byte  sym_0607E940
-.L_p_seg_data_table:
+.L_0600CD00:
     .4byte  sym_0607EB88
 
-.L_direct_lookup:
+.L_0600CD04:
     .byte   0x90, 0x5A    /* mov.w .L_wpool_0600CDBC, r0 */
     mov.l @(r0, r6), r2
     shll2 r2
@@ -145,7 +145,7 @@ DAT_0600ccfa:
     mov.l @(4, r6), r3
     mov.l r3, @(8, r5)
 
-.L_copy_angles:
+.L_0600CD20:
     mov.w @(12, r4), r0
     mov.w r0, @(12, r5)
     mov.w @(14, r4), r0

@@ -28,7 +28,7 @@ text_scroll_marquee:
     mov.l @r3, r3
     and r3, r0
     tst #0x1, r0
-    bt/s    .L_load_glyph_data
+    bt/s    .L_06016D30
     extu.b r4, r7
     mov #0x28, r7
     extu.b r14, r3
@@ -40,9 +40,9 @@ text_scroll_marquee:
     add r2, r3
     exts.w r3, r3
     add r13, r3
-    .byte   0xD1, 0x27    /* mov.l .L_fp_half, r1 */
+    .byte   0xD1, 0x27    /* mov.l .L_06016DCC, r1 */
     mov.l r1, @(44, r3)
-.L_load_glyph_data:
+.L_06016D30:
     .byte   0xD5, 0x27    /* mov.l .L_pool_06016DD6, r5 */
     extu.b r14, r6
     mov.b @r15, r4
@@ -121,7 +121,7 @@ text_scroll_marquee:
     .4byte  sym_06085F89                /* bonus mode flag (byte) */
 .L_pool_06016DCE:
     .4byte  sym_0607EBF4                /* race event bitfield (32-bit) */
-.L_fp_half:
+.L_06016DCC:
     .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_06016DD6:
     .4byte  sym_0605BB74                /* character glyph table (16-bit sprite coords) */

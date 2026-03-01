@@ -19,23 +19,23 @@ menu_elem_alpha:
     mov #0x8, r2
     and r14, r2
     tst r2, r2
-    bt      .L_calc_blend
-    bra     .L_check_ready
+    bt      .L_0603B0F8
+    bra     .L_0603B0E2
     nop
-.L_check_ready:
+.L_0603B0E2:
     mov #0x4, r2
     and r14, r2
     tst r2, r2
-    bt      .L_calc_blend
-    bra     .L_return_opaque
+    bt      .L_0603B0F8
+    bra     .L_0603B0EE
     nop
-.L_return_opaque:
+.L_0603B0EE:
     mov #0x0, r0
     add #0x8, r15
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-.L_calc_blend:
+.L_0603B0F8:
     mov.l @r15, r4
     mov.l @(4, r15), r1
     mov.l @r4, r4

@@ -15,44 +15,44 @@ sys_timer_config:
     mov.l   .L_pool_0603B844, r11
     mov.w   DAT_0603b838, r12
     mov r4, r13
-    bra     .L_loop_check
+    bra     .L_0603B7FC
     mov #0x0, r14
-.L_loop_body:
+.L_0603B7D8:
     mov.l @r13, r0
     tst r0, r0
-    bf      .L_use_stride16
+    bf      .L_0603B7E8
     mov.l @(8, r13), r5
     jsr @r11
     mov r14, r4
-    bra     .L_check_flag
+    bra     .L_0603B7EE
     nop
-.L_use_stride16:
+.L_0603B7E8:
     mov.l @(8, r13), r5
     jsr @r10
     mov r14, r4
-.L_check_flag:
+.L_0603B7EE:
     mov r0, r4
     and r12, r4
     tst r4, r4
-    bt      .L_flag_clear
-    bra     .L_post_loop
+    bt      .L_0603B7FA
+    bra     .L_0603B802
     nop
-.L_flag_clear:
+.L_0603B7FA:
     add #0x1, r14
-.L_loop_check:
+.L_0603B7FC:
     mov.l @(4, r13), r2
     cmp/ge r2, r14
-    bf      .L_loop_body
-.L_post_loop:
+    bf      .L_0603B7D8
+.L_0603B802:
     mov.l @(4, r13), r2
     cmp/gt r2, r14
-    bf      .L_found_in_range
-    bra     .L_return
+    bf      .L_0603B80C
+    bra     .L_0603B810
     mov #0x0, r0
-.L_found_in_range:
+.L_0603B80C:
     mov r14, r0
     add #0x1, r0
-.L_return:
+.L_0603B810:
     lds.l @r15+, pr
     mov.l @r15+, r10
     mov.l @r15+, r11

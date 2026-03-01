@@ -12,63 +12,63 @@ slave_main_loop:
     mov #0x0, r3
     mov.l r3, @r15
     stc sr, r0
-    mov.w   .L_mask_sr_imask, r3
+    mov.w   .L_06034F62, r3
     and r3, r0
     or #0xF0, r0
     ldc r0, sr
     mov #0x0, r2
-    mov.w   .L_reg_tier, r3
+    mov.w   .L_06034F64, r3
     mov.w r2, @r3
     mov #0x0, r2
-    mov.w   .L_reg_iprb, r3
+    mov.w   .L_06034F66, r3
     mov.w r2, @r3
     mov #0x1, r2
-    mov.w   .L_reg_tier_byte, r3
+    mov.w   .L_06034F68, r3
     mov.b r2, @r3
-    bra     .L_loop_top
+    bra     .L_06034F5E
     nop
-.L_poll_icf:
-    mov.w   .L_reg_ftcsr, r0
+.L_06034F34:
+    mov.w   .L_06034F6A, r0
     mov.b @r0, r0
     extu.b r0, r0
     and #0x80, r0
-    mov.w   .L_icf_bit, r3
+    mov.w   .L_06034F6C, r3
     cmp/eq r3, r0
-    bf      .L_loop_top
+    bf      .L_06034F5E
     mov #0x0, r3
-    mov.w   .L_reg_ftcsr, r2
+    mov.w   .L_06034F6A, r2
     mov.b r3, @r2
-    mov.l   .L_ptr_callback, r0
+    mov.l   .L_06034F70, r0
     mov.l @r0, r0
     tst r0, r0
-    bt      .L_clear_callback
-    mov.l   .L_ptr_callback_ct, r3
+    bt      .L_06034F58
+    mov.l   .L_06034F74, r3
     mov.l @r3, r2
     jsr @r2
     nop
-.L_clear_callback:
+.L_06034F58:
     mov #0x0, r3
-    mov.l   .L_ptr_callback, r2
+    mov.l   .L_06034F70, r2
     mov.l r3, @r2
-.L_loop_top:
-    bra     .L_poll_icf
+.L_06034F5E:
+    bra     .L_06034F34
     nop
-.L_mask_sr_imask:
+.L_06034F62:
     .2byte  0xFF0F
-.L_reg_tier:
+.L_06034F64:
     .2byte  0xFEE2
-.L_reg_iprb:
+.L_06034F66:
     .2byte  0xFE60
-.L_reg_tier_byte:
+.L_06034F68:
     .2byte  0xFE10
-.L_reg_ftcsr:
+.L_06034F6A:
     .2byte  0xFE11
-.L_icf_bit:
+.L_06034F6C:
     .2byte  0x0080
     .2byte  0xFFFF
-.L_ptr_callback:
+.L_06034F70:
     .4byte  sym_06063574
-.L_ptr_callback_ct:
+.L_06034F74:
     .4byte  sym_06063574 + 0x20000000
 
     .global sym_06034F78
@@ -84,41 +84,41 @@ sym_06034F78:
     mov.l r6, @-r15
     mov #0x0, r5
     mov #-0x1, r6
-.L_build_val_mask:
+.L_06034F8E:
     shll r5
     shll r6
     add #-0x1, r4
     add #0x1, r5
     cmp/pl r4
-    bf      .L_shift_to_pos
+    bf      .L_06034FA6
     shll r5
     shll r6
     add #-0x1, r4
     add #0x1, r5
     cmp/pl r4
-    bt      .L_build_val_mask
-.L_shift_to_pos:
+    bt      .L_06034F8E
+.L_06034FA6:
     and r5, r0
     mov #0x20, r4
     sub r1, r4
     sub r3, r4
     mov r0, r5
     tst r4, r4
-    bt      .L_merge_write
-.L_shift_up_loop:
+    bt      .L_06034FCC
+.L_06034FB4:
     shll r6
     shll r5
     add #-0x1, r4
     add #0x1, r6
     cmp/pl r4
-    bf      .L_merge_write
+    bf      .L_06034FCC
     shll r6
     shll r5
     add #-0x1, r4
     add #0x1, r6
     cmp/pl r4
-    bt      .L_shift_up_loop
-.L_merge_write:
+    bt      .L_06034FB4
+.L_06034FCC:
     mov.l @r2, r4
     and r4, r6
     or r6, r5
@@ -134,7 +134,7 @@ sym_06034F78:
 sym_06034FE0:
     mov.l r2, @-r15
     mov.l r3, @-r15
-    mov.w   .L_reg_frt_base, r3
+    mov.w   .L_06034FFA, r3
     mov #0x0, r2
     mov.l r0, @r3
     add #0x8, r3
@@ -145,14 +145,14 @@ sym_06034FE0:
     mov.l @r15+, r3
     rts
     mov.l @r15+, r2
-.L_reg_frt_base:
+.L_06034FFA:
     .2byte  0xFF00
 
     .global sym_06034FFC
 sym_06034FFC:
     tst r0, r0
     mov.l r2, @-r15
-    bt      .L_sdiv_by_zero
+    bt      .L_0603509A
     mov.l r3, @-r15
     mov #0x0, r2
     div0s r2, r1
@@ -229,23 +229,23 @@ sym_06034FFC:
     mov.l @r15+, r3
     rts
     mov.l @r15+, r2
-.L_sdiv_by_zero:
-    mov.l   .L_ptr_div_error, r1
-    mov.l   .L_div_error_code, r2
+.L_0603509A:
+    mov.l   .L_060350A8, r1
+    mov.l   .L_060350AC, r2
     mov #0x0, r0
     mov.l r2, @r1
     rts
     mov.l @r15+, r2
     .2byte  0x0009
-.L_ptr_div_error:
+.L_060350A8:
     .4byte  sym_060A246C
-.L_div_error_code:
+.L_060350AC:
     .4byte  0x0000044E
 
     .global sym_060350B0
 sym_060350B0:
     tst r0, r0
-    bt      .L_udiv_by_zero
+    bt      .L_06035150
     mov.l r3, @-r15
     mov #0x0, r3
     mov.l r4, @-r15
@@ -315,28 +315,28 @@ sym_060350B0:
     div1 r4, r3
     rotcl r1
     div1 r4, r3
-    bf      .L_udiv_add_remainder
+    bf      .L_06035148
     mov r3, r0
     mov.l @r15+, r4
     rts
     mov.l @r15+, r3
-.L_udiv_add_remainder:
+.L_06035148:
     add r3, r0
     mov.l @r15+, r4
     rts
     mov.l @r15+, r3
-.L_udiv_by_zero:
+.L_06035150:
     mov.l r2, @-r15
-    mov.l   .L_ptr_udiv_error, r1
-    mov.l   .L_udiv_error_code, r2
+    mov.l   .L_06035160, r1
+    mov.l   .L_06035164, r2
     mov #0x0, r0
     mov.l r2, @r1
     rts
     mov.l @r15+, r2
     .2byte  0x0009
-.L_ptr_udiv_error:
+.L_06035160:
     .4byte  sym_060A246C
-.L_udiv_error_code:
+.L_06035164:
     .4byte  0x0000044E
 
     .global sym_06035168
@@ -344,12 +344,12 @@ sym_06035168:
     mov.l r3, @-r15
     mov #0x40, r3
     cmp/hs r0, r3
-    bf      .L_memcpy_long_loop
-    mov.l   .L_ptr_jump_table, r3
+    bf      .L_06035208
+    mov.l   .L_06035178, r3
     mov.l @(r0, r3), r3
     jmp @r3
     nop
-.L_ptr_jump_table:
+.L_06035178:
     .4byte  sym_060351C4
     .2byte  0x0009
     .global loc_0603517E
@@ -457,22 +457,22 @@ sym_060351C4:
     .4byte  loc_06035186
     .4byte  loc_06035182
     .4byte  loc_0603517E
-.L_memcpy_long_loop:
+.L_06035208:
     mov.l r2, @-r15
     mov r2, r3
     add r0, r3
-.L_copy_pair:
+.L_0603520E:
     mov.l @r2+, r0
     cmp/hs r2, r3
-    bf      .L_memcpy_long_done
+    bf      .L_06035222
     mov.l r0, @r1
     mov.l @r2+, r0
     cmp/hs r2, r3
-    bf      .L_memcpy_long_done
+    bf      .L_06035222
     mov.l r0, @(4, r1)
-    bra     .L_copy_pair
+    bra     .L_0603520E
     add #0x8, r1
-.L_memcpy_long_done:
+.L_06035222:
     mov.l @r15+, r2
     rts
     mov.l @r15+, r3
@@ -483,28 +483,28 @@ sym_06035228:
     mov.l r3, @-r15
     mov.l r4, @-r15
     cmp/eq #0x0, r0
-    bt      .L_bytecpy_done
+    bt      .L_06035258
     mov r2, r4
     add r0, r4
-.L_copy_4bytes:
+.L_06035236:
     mov.b @r2+, r0
     mov.b r0, @r1
     cmp/hi r2, r4
-    bf      .L_bytecpy_done
+    bf      .L_06035258
     mov.b @r2+, r0
     mov.b r0, @(1, r1)
     cmp/hi r2, r4
-    bf      .L_bytecpy_done
+    bf      .L_06035258
     mov.b @r2+, r0
     mov.b r0, @(2, r1)
     cmp/hi r2, r4
-    bf      .L_bytecpy_done
+    bf      .L_06035258
     mov.b @r2+, r0
     mov.b r0, @(3, r1)
     cmp/hi r2, r4
     add #0x4, r1
-    bt      .L_copy_4bytes
-.L_bytecpy_done:
+    bt      .L_06035236
+.L_06035258:
     mov.l @r15+, r4
     mov.l @r15+, r3
     rts
@@ -526,23 +526,23 @@ sym_06035260:
 sym_06035280:
     mov.l r2, @-r15
     cmp/pz r1
-    bf/s    .L_shl_ret
+    bf/s    .L_060352B8
     mov #0x20, r2
     cmp/ge r2, r1
-    bt      .L_shl_overflow
-    mov.l   .L_ptr_shl_offsets, r2
+    bt      .L_060352A4
+    mov.l   .L_060352A0, r2
     add r1, r2
     mov.b @r2, r2
-    mov.l   .L_ptr_shl_base, r1
+    mov.l   .L_0603529C, r1
     add r2, r1
     jmp @r1
     nop
     .2byte  0x0009
-.L_ptr_shl_base:
+.L_0603529C:
     .4byte  sym_060352AA
-.L_ptr_shl_offsets:
+.L_060352A0:
     .4byte  sym_06035260
-.L_shl_overflow:
+.L_060352A4:
     mov #0x0, r0
     rts
     mov.l @r15+, r2
@@ -556,7 +556,7 @@ sym_060352AA:
     shll r0
     shll r0
     shll r0
-.L_shl_ret:
+.L_060352B8:
     rts
     mov.l @r15+, r2
     .4byte  0x40004000
@@ -602,43 +602,43 @@ sym_06035338:
 sym_06035340:
     mov.l r2, @-r15
     cmp/pz r1
-    bf/s    .L_shra_ret
+    bf/s    .L_060353BA
     mov #0x20, r2
     cmp/ge r2, r1
-    bt      .L_shra_ge32
+    bt      .L_0603537C
     mov r0, r2
     rotl r2
-    bf      .L_shra_small_check
-.L_shra_dispatch:
-    mov.l   .L_ptr_shra_offsets, r2
+    bf      .L_06035362
+.L_06035352:
+    mov.l   .L_06035370, r2
     add #-0x18, r1
     add r2, r1
     mov.b @r1, r2
-    mov.l   .L_ptr_shra_base, r1
+    mov.l   .L_06035374, r1
     add r2, r1
     jmp @r1
     nop
-.L_shra_small_check:
+.L_06035362:
     mov #0x8, r2
     cmp/gt r2, r1
-    bf      .L_shra_dispatch
-    mov.l   .L_fn_shra_large, r2
+    bf      .L_06035352
+    mov.l   .L_06035378, r2
     jmp @r2
     nop
     .2byte  0x0009
-.L_ptr_shra_offsets:
+.L_06035370:
     .4byte  sym_06035338
-.L_ptr_shra_base:
+.L_06035374:
     .4byte  sym_060353BE
-.L_fn_shra_large:
+.L_06035378:
     .4byte  sym_06036068
-.L_shra_ge32:
+.L_0603537C:
     shll r0
-    bt      .L_shra_neg_max
+    bt      .L_06035386
     mov #0x0, r0
     rts
     mov.l @r15+, r2
-.L_shra_neg_max:
+.L_06035386:
     mov #-0x1, r0
     rts
     mov.l @r15+, r2
@@ -654,7 +654,7 @@ sym_06035340:
     .4byte  0x40214021
     .4byte  0x40214021
     .2byte  0x4021
-.L_shra_ret:
+.L_060353BA:
     rts
     mov.l @r15+, r2
 
@@ -698,12 +698,12 @@ sym_060353BE:
     .global sym_06035438
 sym_06035438:
     cmp/pl r4
-    bf      .L_negate
-    bra     .L_abs_ret
+    bf      .L_06035440
+    bra     .L_06035442
     mov r4, r0
-.L_negate:
+.L_06035440:
     neg r4, r0
-.L_abs_ret:
+.L_06035442:
     rts
     nop
     .2byte  0x0000
@@ -725,92 +725,92 @@ sym_06035460:
     mov.l @(28, r15), r7
     mov.l @(32, r15), r4
     mov.l @(36, r15), r5
-    mov.l   .L_fp_min, r0
-    bra     .L_fadd_entry
+    mov.l   .L_0603572C, r0
+    bra     .L_06035522
     xor r0, r6
-.L_exp_a_max:
+.L_06035478:
     tst r4, r4
-    bf      .L_result_zero
+    bf      .L_0603548C
     tst r5, r5
-    bf      .L_result_zero
+    bf      .L_0603548C
     cmp/eq r3, r9
-    bf      .L_nan_propagate
+    bf      .L_06035494
     tst r7, r7
-    bf      .L_result_zero
+    bf      .L_0603548C
     div0s r10, r11
-    bf      .L_nan_propagate
-.L_result_zero:
+    bf      .L_06035494
+.L_0603548C:
     mov #0x0, r10
     mov #0x0, r4
-    bra     .L_fadd_epilog
+    bra     .L_060356CA
     mov #0x8, r5
-.L_nan_propagate:
-    bra     .L_fadd_epilog
+.L_06035494:
+    bra     .L_060356CA
     nop
-.L_exp_b_zero:
+.L_06035498:
     tst r8, r8
-    bf      .L_check_a_denorm
+    bf      .L_060354AC
     tst r4, r4
-    bf      .L_swap_and_norm
+    bf      .L_060354B8
     tst r5, r5
-    bf      .L_swap_and_norm
+    bf      .L_060354B8
     tst r7, r7
-    bf      .L_copy_b_to_result
-    bra     .L_fadd_epilog
+    bf      .L_060354C4
+    bra     .L_060356CA
     and r11, r10
-.L_check_a_denorm:
+.L_060354AC:
     tst r6, r6
-    bf      .L_norm_b_start
+    bf      .L_060354EE
     tst r7, r7
-    bf      .L_norm_b_start
-    bra     .L_shift_left_3
+    bf      .L_060354EE
+    bra     .L_060354CC
     nop
-.L_swap_and_norm:
+.L_060354B8:
     tst r6, r6
-    bf      .L_norm_a_start
+    bf      .L_060354DA
     tst r7, r7
-    bf      .L_norm_a_start
-    bra     .L_shift_left_3
+    bf      .L_060354DA
+    bra     .L_060354CC
     nop
-.L_copy_b_to_result:
+.L_060354C4:
     mov r6, r4
     mov r7, r5
     mov r9, r8
     mov r11, r10
-.L_shift_left_3:
+.L_060354CC:
     shll r5
     rotcl r4
     shll r5
     rotcl r4
     shll r5
-    bra     .L_fadd_epilog
+    bra     .L_060356CA
     rotcl r4
-.L_norm_a_start:
-    mov.l   .L_fp_sixteen, r3
-    shll r5
-    rotcl r4
-    cmp/ge r3, r4
-    bt      .L_norm_b_start
-.L_norm_a_loop:
+.L_060354DA:
+    mov.l   .L_06035728, r3
     shll r5
     rotcl r4
     cmp/ge r3, r4
-    bf/s    .L_norm_a_loop
+    bt      .L_060354EE
+.L_060354E4:
+    shll r5
+    rotcl r4
+    cmp/ge r3, r4
+    bf/s    .L_060354E4
     add #-0x1, r8
-.L_norm_b_start:
-    mov.l   .L_fp_sixteen, r3
+.L_060354EE:
+    mov.l   .L_06035728, r3
     shll r7
     rotcl r6
     cmp/ge r3, r6
-    bt      .L_align_mantissas
-.L_norm_b_loop:
+    bt      .L_06035502
+.L_060354F8:
     shll r7
     rotcl r6
     cmp/ge r3, r6
-    bf/s    .L_norm_b_loop
+    bf/s    .L_060354F8
     add #-0x1, r9
-.L_align_mantissas:
-    bra     .L_shift_up_3
+.L_06035502:
+    bra     .L_0603556E
     nop
     .2byte  0xE800
     .4byte  0xE400A0DE
@@ -820,7 +820,7 @@ sym_06035460:
     .4byte  0x2F7654F6
     .4byte  0x55F756F8
     .2byte  0x57F9
-.L_fadd_entry:
+.L_06035522:
     mov.l r2, @-r15
     mov.l r3, @-r15
     mov.l r8, @-r15
@@ -830,18 +830,18 @@ sym_06035460:
     rotl r4
     rotl r6
     cmp/hs r6, r4
-    bt      .L_a_ge_b
+    bt      .L_06035542
     mov r4, r2
     mov r6, r4
     mov r2, r6
     mov r5, r2
     mov r7, r5
     mov r2, r7
-.L_a_ge_b:
+.L_06035542:
     rotr r4
     rotr r6
-    mov.l   .L_exp_mask, r3
-    mov.l   .L_mant_mask, r0
+    mov.l   .L_06035714, r3
+    mov.l   .L_06035718, r0
     mov r4, r10
     mov r6, r11
     mov r4, r8
@@ -857,10 +857,10 @@ sym_06035460:
     and r0, r4
     and r0, r6
     cmp/eq r3, r8
-    bt      .L_exp_a_max
+    bt      .L_06035478
     tst r9, r9
-    bt      .L_exp_b_zero
-.L_shift_up_3:
+    bt      .L_06035498
+.L_0603556E:
     shll r5
     rotcl r4
     shll r5
@@ -873,31 +873,31 @@ sym_06035460:
     rotcl r6
     shll r7
     rotcl r6
-    mov.l   .L_implicit_one, r0
+    mov.l   .L_0603571C, r0
     or r0, r4
     or r0, r6
     mov r8, r2
     sub r9, r2
     tst r2, r2
-    bt      .L_add_sub_mantissa
+    bt      .L_060355E8
     mov #0x3, r3
     cmp/ge r2, r3
-    bt      .L_small_shift_right
+    bt      .L_060355E0
     mov #0x36, r3
     cmp/gt r3, r2
-    bt      .L_max_diff
+    bt      .L_060355DA
     mov #0x20, r3
     cmp/gt r3, r2
-    bf/s    .L_align_by_mul
+    bf/s    .L_060355B4
     mov #0x1, r9
     sub r3, r2
     tst r7, r7
-    bt      .L_merge_low
+    bt      .L_060355B0
     or r9, r6
-.L_merge_low:
+.L_060355B0:
     mov r6, r7
     mov #0x0, r6
-.L_align_by_mul:
+.L_060355B4:
     sts.l mach, @-r15
     .word 0xC75F
     sts.l macl, @-r15
@@ -913,95 +913,95 @@ sym_06035460:
     lds.l @r15+, macl
     tst r2, r2
     lds.l @r15+, mach
-    bt/s    .L_add_sub_mantissa
+    bt/s    .L_060355E8
     or r3, r7
-    bra     .L_add_sub_mantissa
+    bra     .L_060355E8
     or r9, r7
-.L_max_diff:
+.L_060355DA:
     mov #0x0, r6
-    bra     .L_add_sub_mantissa
+    bra     .L_060355E8
     mov #0x1, r7
-.L_small_shift_right:
+.L_060355E0:
     shlr r6
     rotcr r7
     dt r2
-    bf      .L_small_shift_right
-.L_add_sub_mantissa:
+    bf      .L_060355E0
+.L_060355E8:
     div0s r10, r11
-    bt      .L_sub_path
+    bt      .L_0603560C
     addc r7, r5
     addc r6, r4
-    mov.l   .L_minit, r3
+    mov.l   .L_06035724, r3
     cmp/gt r4, r3
-    bt      .L_pack_result
+    bt      .L_0603569C
     shlr r4
     rotcr r5
     .word 0x0229
     or r2, r5
     add #0x1, r8
-    mov.l   .L_exp_mask, r3
+    mov.l   .L_06035714, r3
     cmp/eq r3, r8
-    bf      .L_pack_result
+    bf      .L_0603569C
     mov #0x0, r5
-    bra     .L_fadd_epilog
+    bra     .L_060356CA
     mov #0x0, r4
-.L_sub_path:
+.L_0603560C:
     cmp/eq r4, r6
-    bf      .L_sub_body
+    bf      .L_06035614
     cmp/eq r5, r7
-    bt      .L_exact_zero
-.L_sub_body:
+    bt      .L_06035708
+.L_06035614:
     subc r7, r5
     subc r6, r4
-    bf      .L_check_renorm
+    bf      .L_06035622
     clrt
     negc r5, r5
     negc r4, r4
     mov r11, r10
-.L_check_renorm:
+.L_06035622:
     tst r4, r4
-    bf      .L_norm_xtrct
+    bf      .L_0603562C
     mov r5, r4
     mov #0x0, r5
     add #-0x20, r8
-.L_norm_xtrct:
-    mov.l   .L_fp_neg_one, r3
+.L_0603562C:
+    mov.l   .L_06035730, r3
     tst r4, r3
-    bf      .L_check_overflow
+    bf      .L_0603563C
     mov r5, r3
     xtrct r4, r3
     mov r3, r4
     shll16 r5
     add #-0x10, r8
-.L_check_overflow:
-    mov.l   .L_minit, r3
+.L_0603563C:
+    mov.l   .L_06035724, r3
     cmp/hi r4, r3
-    bt      .L_norm_left_check
-.L_norm_right_loop:
+    bt      .L_0603566E
+.L_06035642:
     shlr r4
     rotcr r5
     cmp/hi r4, r3
-    bt/s    .L_pack_result
+    bt/s    .L_0603569C
     add #0x1, r8
     shlr r4
     rotcr r5
     cmp/hi r4, r3
-    bt/s    .L_pack_result
+    bt/s    .L_0603569C
     add #0x1, r8
     shlr r4
     rotcr r5
     cmp/hi r4, r3
-    bt/s    .L_pack_result
+    bt/s    .L_0603569C
     add #0x1, r8
     shlr r4
     rotcr r5
     cmp/hi r4, r3
-    bt/s    .L_pack_result
+    bt/s    .L_0603569C
     add #0x1, r8
-    bra     .L_norm_right_loop
+    bra     .L_06035642
     nop
-.L_norm_left_check:
-    mov.l   .L_implicit_one, r3
+.L_0603566E:
+    mov.l   .L_0603571C, r3
     .4byte  0x34338913
     .4byte  0x45004424
     .4byte  0x34338D0F
@@ -1013,7 +1013,7 @@ sym_06035460:
     .4byte  0x78FF4500
     .4byte  0x44243433
     .4byte  0x8FEC78FF
-.L_pack_result:
+.L_0603569C:
     .4byte  0x48158905
     .4byte  0x688B7801
     .4byte  0x44014525
@@ -1026,14 +1026,14 @@ sym_06035460:
     .4byte  0x30478902
     .4byte  0x44014525
     .2byte  0x7801
-.L_fadd_epilog:
+.L_060356CA:
     shlr r4
     rotcr r5
     shlr r4
     rotcr r5
     shlr r4
     rotcr r5
-    mov.l   .L_mant_mask, r0
+    mov.l   .L_06035718, r0
     and r0, r4
     shll16 r8
     shll2 r8
@@ -1058,27 +1058,27 @@ sym_06035460:
     mov.l @r15+, r0
     rts
     add #0x14, r15
-.L_exact_zero:
+.L_06035708:
     mov #0x0, r10
     mov #0x0, r8
     mov #0x0, r4
-    bra     .L_fadd_epilog
+    bra     .L_060356CA
     mov #0x0, r5
     .2byte  0x0009
-.L_exp_mask:
+.L_06035714:
     .4byte  0x000007FF
-.L_mant_mask:
+.L_06035718:
     .4byte  0x000FFFFF
-.L_implicit_one:
+.L_0603571C:
     .4byte  0x00800000
     .4byte  0x0000FFFF
-.L_minit:
+.L_06035724:
     .4byte  0x01000000
-.L_fp_sixteen:
+.L_06035728:
     .4byte  0x00100000
-.L_fp_min:
+.L_0603572C:
     .4byte  0x80000000
-.L_fp_neg_one:
+.L_06035730:
     .4byte  0xFFFF0000
 
     .global DAT_06035734
@@ -1159,8 +1159,8 @@ sym_060357B8:
     mov.l r5, @-r15
     mov.l @(20, r15), r0
     mov.l @(24, r15), r1
-    mov.l   .L_f2i_exp_mask, r4
-    mov.l   .L_f2i_mant_mask, r5
+    mov.l   .L_06035834, r4
+    mov.l   .L_06035838, r5
     mov r0, r3
     mov r0, r2
     shlr16 r2
@@ -1168,50 +1168,50 @@ sym_060357B8:
     shlr2 r2
     and r4, r2
     and r5, r0
-    mov.l   .L_f2i_exp_bias, r4
+    mov.l   .L_06035840, r4
     sub r4, r2
     cmp/pz r2
-    bf      .L_f2i_out_of_range
+    bf      .L_06035830
     mov #0x53, r4
     cmp/gt r4, r2
-    bt      .L_f2i_out_of_range
-    mov.l   .L_f2i_implicit_one, r4
+    bt      .L_06035830
+    mov.l   .L_0603583C, r4
     or r4, r0
     add #-0x14, r2
     cmp/pz r2
-    bf      .L_f2i_shift_down
+    bf      .L_06035814
     mov #0x20, r4
     cmp/ge r4, r2
-    bt      .L_f2i_shift_high
+    bt      .L_06035802
     add #0x1, r2
-.L_f2i_shift_up:
+.L_060357F8:
     dt r2
-    bt      .L_f2i_apply_sign
+    bt      .L_0603581C
     shll r1
-    bra     .L_f2i_shift_up
+    bra     .L_060357F8
     rotcl r0
-.L_f2i_shift_high:
+.L_06035802:
     mov r1, r0
     add #-0x20, r2
     tst r2, r2
-    bt      .L_f2i_apply_sign
-.L_f2i_shift_extra:
+    bt      .L_0603581C
+.L_0603580A:
     dt r2
-    bf/s    .L_f2i_shift_extra
+    bf/s    .L_0603580A
     shll r0
-    bra     .L_f2i_apply_sign
+    bra     .L_0603581C
     nop
-.L_f2i_shift_down:
+.L_06035814:
     neg r2, r2
-.L_f2i_shr_loop:
+.L_06035816:
     dt r2
-    bf/s    .L_f2i_shr_loop
+    bf/s    .L_06035816
     shlr r0
-.L_f2i_apply_sign:
+.L_0603581C:
     shll r3
-    bf      .L_f2i_epilog
+    bf      .L_06035822
     neg r0, r0
-.L_f2i_epilog:
+.L_06035822:
     mov.l @r15+, r5
     mov.l @r15+, r4
     mov.l @r15+, r3
@@ -1219,16 +1219,16 @@ sym_060357B8:
     mov.l @r15+, r1
     rts
     add #0x8, r15
-.L_f2i_out_of_range:
-    bra     .L_f2i_epilog
+.L_06035830:
+    bra     .L_06035822
     mov #0x0, r0
-.L_f2i_exp_mask:
+.L_06035834:
     .4byte  0x000007FF
-.L_f2i_mant_mask:
+.L_06035838:
     .4byte  0x000FFFFF
-.L_f2i_implicit_one:
+.L_0603583C:
     .4byte  0x00100000
-.L_f2i_exp_bias:
+.L_06035840:
     .4byte  0x000003FF
 
     .global sym_06035844
@@ -1245,44 +1245,44 @@ sym_06035844:
     mov.l r9, @-r15
     mov.l r10, @-r15
     mov.l r11, @-r15
-    mov.l   .L_fsub_exp_field, r0
+    mov.l   .L_060358E4, r0
     mov r4, r10
     mov r6, r11
     mov r4, r8
     and r0, r8
     mov r6, r9
     and r0, r9
-    mov.l   .L_fsub_mant_field, r0
+    mov.l   .L_060358E8, r0
     and r0, r4
     and r0, r6
-    mov.l   .L_fsub_exp_field, r0
+    mov.l   .L_060358E4, r0
     cmp/eq r0, r8
-    bt      .L_fsub_a_is_special
-.L_fsub_check_b_exp:
+    bt      .L_060358B0
+.L_06035876:
     cmp/eq r0, r9
-    bt      .L_fsub_b_is_special
-.L_fsub_check_a_zero:
+    bt      .L_060358BC
+.L_0603587A:
     tst r8, r8
-    bt      .L_fsub_a_exp_zero
-.L_fsub_compute:
+    bt      .L_060358C8
+.L_0603587E:
     div0s r10, r11
-    bt      .L_fsub_same_sign
+    bt      .L_06035898
     cmp/pz r10
-    bf      .L_fsub_neg_a
+    bf      .L_06035890
     clrt
     subc r5, r7
     subc r10, r11
-    bra     .L_fsub_epilog
+    bra     .L_0603589C
     .word 0x0029
-.L_fsub_neg_a:
+.L_06035890:
     subc r7, r5
     subc r11, r10
-    bra     .L_fsub_epilog
+    bra     .L_0603589C
     .word 0x0029
-.L_fsub_same_sign:
+.L_06035898:
     cmp/pz r10
     .word 0x0029
-.L_fsub_epilog:
+.L_0603589C:
     mov.l @r15+, r11
     mov.l @r15+, r10
     mov.l @r15+, r9
@@ -1293,39 +1293,39 @@ sym_06035844:
     mov.l @r15+, r4
     rts
     add #0x10, r15
-.L_fsub_a_is_special:
+.L_060358B0:
     tst r4, r4
-    bf      .L_fsub_return_zero
+    bf      .L_060358E0
     tst r5, r5
-    bf      .L_fsub_return_zero
-    bra     .L_fsub_check_b_exp
+    bf      .L_060358E0
+    bra     .L_06035876
     nop
-.L_fsub_b_is_special:
+.L_060358BC:
     tst r6, r6
-    bf      .L_fsub_return_zero
+    bf      .L_060358E0
     tst r7, r7
-    bf      .L_fsub_return_zero
-    bra     .L_fsub_check_a_zero
+    bf      .L_060358E0
+    bra     .L_0603587A
     nop
-.L_fsub_a_exp_zero:
+.L_060358C8:
     tst r9, r9
-    bf      .L_fsub_compute
+    bf      .L_0603587E
     tst r4, r4
-    bf      .L_fsub_compute
+    bf      .L_0603587E
     tst r5, r5
-    bf      .L_fsub_compute
+    bf      .L_0603587E
     tst r6, r6
-    bf      .L_fsub_compute
+    bf      .L_0603587E
     tst r7, r7
-    bf      .L_fsub_compute
-    bra     .L_fsub_epilog
+    bf      .L_0603587E
+    bra     .L_0603589C
     mov #0x0, r0
-.L_fsub_return_zero:
-    bra     .L_fsub_epilog
+.L_060358E0:
+    bra     .L_0603589C
     mov #0x0, r0
-.L_fsub_exp_field:
+.L_060358E4:
     .4byte  0x7FF00000
-.L_fsub_mant_field:
+.L_060358E8:
     .4byte  0x000FFFFF
 
     .global sym_060358EC
@@ -1334,17 +1334,17 @@ sym_060358EC:
     mov.l r2, @-r15
     mov.l r3, @-r15
     tst r0, r0
-    bt      .L_i2f_zero_input
+    bt      .L_06035934
     mov #0x0, r3
     cmp/pz r0
-    bt      .L_i2f_positive
+    bt      .L_06035900
     mov #0x1, r3
     neg r0, r0
-.L_i2f_positive:
-    mov.l   .L_i2f_exp_init, r1
-.L_i2f_norm_loop:
+.L_06035900:
+    mov.l   .L_0603593C, r1
+.L_06035902:
     shll r0
-    bf/s    .L_i2f_norm_loop
+    bf/s    .L_06035902
     add #-0x1, r1
     mov r0, r2
     shll16 r2
@@ -1360,7 +1360,7 @@ sym_060358EC:
     shll r0
     shlr r3
     rotcr r0
-.L_i2f_store:
+.L_06035924:
     mov.l @(12, r15), r1
     mov.l r0, @r1
     mov.l r2, @(4, r1)
@@ -1369,12 +1369,12 @@ sym_060358EC:
     mov.l @r15+, r1
     rts
     add #0x4, r15
-.L_i2f_zero_input:
+.L_06035934:
     mov #0x0, r2
-    bra     .L_i2f_store
+    bra     .L_06035924
     mov #0x0, r0
     .2byte  0x0009
-.L_i2f_exp_init:
+.L_0603593C:
     .4byte  0x0000041F
     .4byte  0x24488B4A
     .4byte  0x25588B48

@@ -91,11 +91,11 @@ sym_0602E8B8:
 
     .global sym_0602E938
 sym_0602E938:
-    bt/s    .L_scene_data_block_a
+    bt/s    .L_0602E9DA
     mov.w @r15+, r8
     mov.l @(0, r0), r0
     mov.l @(40, r7), r2
-    bt/s    .L_scene_data_block_b
+    bt/s    .L_0602E9E2
     mov.w @r15+, r8
     mov.l @(0, r0), r0
     mov.l @(40, r7), r2
@@ -159,12 +159,12 @@ loc_0602E9A8:
     .word 0x0000
     .word 0x0000
     .word 0x0000
-.L_scene_data_block_a:
+.L_0602E9DA:
     .byte   0xD0, 0x00    /* mov.l .L_pool_0602E9E0, r0 */
 .L_pool_0602E9E0:
     .4byte  0x00003C00
     .2byte  0x0004
-.L_scene_data_block_b:
+.L_0602E9E2:
     mov.b r0, @(0, r0)
     .word 0x0000
     .word 0x0000

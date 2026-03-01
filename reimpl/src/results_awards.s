@@ -42,7 +42,7 @@ results_awards:
     mov.b @(r0, r5), r3
     extu.b r3, r3
     cmp/gt r2, r3
-    bf      .L_done
+    bf      .L_060167B4
     extu.b r4, r4
     mov r4, r2
     shll2 r4
@@ -55,7 +55,7 @@ results_awards:
     mov #0x2, r3
     mov r3, r0
     mov.b r0, @(2, r4)
-.L_done:
+.L_060167B4:
     add #0x10, r15
     lds.l @r15+, pr
     rts

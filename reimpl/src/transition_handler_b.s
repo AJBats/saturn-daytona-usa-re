@@ -12,7 +12,7 @@ transition_handler_b:
     mov.w r3, @r4
     exts.w r3, r3
     cmp/pl r3
-    bf      .L_transition_done
+    bf      .L_0600F8F8
     .byte   0xD3, 0x09    /* mov.l .L_pool_0600F8F6, r3 */
     jmp @r3
     lds.l @r15+, pr
@@ -27,7 +27,7 @@ transition_handler_b:
     .4byte  sym_0607886E                 /* unreferenced pool: &transition_state_word */
 .L_pool_0600F8F6:
     .4byte  hud_transparency             /* VDP2 rotation-scroll coeff writer */
-.L_transition_done:
+.L_0600F8F8:
     .byte   0xD3, 0x19    /* mov.l .L_pool_0600F960, r3 */
     jsr @r3
     mov #0x4, r4

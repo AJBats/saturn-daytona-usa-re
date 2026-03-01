@@ -20,13 +20,13 @@ geom_computation:
     mov r0, r3
     mov.w r3, @r15
     add #0x2, r7
-    bra     .L_outer_loop_test
+    bra     .L_060177F8
     extu.w r11, r12
     .2byte  0xFFFF
     .4byte  sym_06028400
 .L_pool_060177AC:
     .4byte  sym_06085640
-.L_outer_loop_body:
+.L_060177B0:
     extu.b r7, r10
     mulu.w r13, r12
     extu.w r13, r3
@@ -34,9 +34,9 @@ geom_computation:
     sts macl, r1
     shll r1
     cmp/pl r3
-    bf/s    .L_inner_loop_done
+    bf/s    .L_060177F0
     extu.w r11, r14
-.L_inner_loop_body:
+.L_060177C2:
     extu.b r6, r0
     mov #0x36, r3
     extu.w r14, r2
@@ -58,19 +58,19 @@ geom_computation:
     extu.w r13, r2
     extu.w r14, r3
     cmp/ge r2, r3
-    bf/s    .L_inner_loop_body
+    bf/s    .L_060177C2
     add #0x1, r6
-.L_inner_loop_done:
+.L_060177F0:
     extu.w r13, r2
     sub r2, r6
     add #0x1, r7
     add #0x1, r12
-.L_outer_loop_test:
+.L_060177F8:
     extu.w r12, r3
     mov.w @r15, r2
     extu.w r2, r2
     cmp/ge r2, r3
-    bf      .L_outer_loop_body
+    bf      .L_060177B0
     add #0x4, r15
     lds.l @r15+, macl
     mov.l @r15+, r8

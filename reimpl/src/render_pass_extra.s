@@ -13,18 +13,18 @@ frame_end_commit:
     mov.l r9, @-r15
     sts.l pr, @-r15
     mov.w   DAT_060079ce, r9
-    mov.l   .L_sprite_index_table, r10
-    mov.l   .L_frame_counter, r12
-    mov.l   .L_timing_accumulator, r13
-    mov.l   .L_commit_count, r14
+    mov.l   .L_060079D4, r10
+    mov.l   .L_060079D8, r12
+    mov.l   .L_060079DC, r13
+    mov.l   .L_060079E0, r14
     mov.l @r13, r3
     sub r9, r3
     mov.l r3, @r13
     mov.l @r14, r2
     cmp/hs r9, r2
-    bt      .L_skip_dma_transfer
+    bt      .L_0600793C
     mov.l @r13, r6
-    mov.l   .L_sprite_staging, r5
+    mov.l   .L_060079E4, r5
     mov.l @r14, r4
     mov r6, r2
     extu.w r4, r4
@@ -38,36 +38,36 @@ frame_end_commit:
     add r2, r6
     shll r4
     shll2 r3
-    mov.l   .L_sprite_data_base, r2
+    mov.l   .L_060079E8, r2
     add r3, r4
     extu.w r4, r4
-    mov.l   .L_fn_memcpy_long, r3
+    mov.l   .L_060079EC, r3
     jsr @r3
     add r2, r4
     mov.l @r13, r6
-    mov.w   .L_double_budget, r5
+    mov.w   .L_060079D0, r5
     mov.l @r14, r4
-    mov.l   .L_fn_memcpy_word, r3
+    mov.l   .L_060079F0, r3
     shll r6
     add r10, r5
     shll r4
     jsr @r3
     add r10, r4
-.L_skip_dma_transfer:
+.L_0600793C:
     mov.l @r13, r2
     mov r10, r5
     mov.l @r14, r3
     add r2, r3
     mov.l r3, @r14
     mov.l r9, @r13
-    mov.l   .L_fn_cmd_header_build, r3
+    mov.l   .L_060079F4, r3
     jsr @r3
     mov.l @r14, r4
     mov #0x20, r6
-    mov.l   .L_phase_flag, r5
-    mov.l   .L_vdp1_cmd_base, r11
-    mov.l   .L_phase_data_base, r3
-    mov.l   .L_fn_dma_transfer, r2
+    mov.l   .L_060079FC, r5
+    mov.l   .L_060079F8, r11
+    mov.l   .L_06007A00, r3
+    mov.l   .L_06007A04, r2
     mov.w @r5, r5
     shll2 r5
     shll2 r5
@@ -75,8 +75,8 @@ frame_end_commit:
     add r3, r5
     jsr @r2
     mov.l @r11, r4
-    mov.l   .L_vdp1_dma_buf, r3
-    mov.l   .L_vdp1_write_ptr, r2
+    mov.l   .L_06007A08, r3
+    mov.l   .L_06007A0C, r2
     mov.l r3, @r2
     mov.l @r12, r3
     add #0x1, r3
@@ -84,15 +84,15 @@ frame_end_commit:
     bsr     vdp1_sprite_builder
     nop
     mov #0x1, r2
-    mov.l   .L_frame_ready_flag, r3
+    mov.l   .L_06007A10, r3
     mov.l r2, @r3
-    mov.l   .L_fn_subsys_update, r3
+    mov.l   .L_06007A14, r3
     jsr @r3
     nop
     mov.l @r12, r6
-    mov.l   .L_vdp1_dma_buf, r5
+    mov.l   .L_06007A08, r5
     mov.l @r11, r4
-    mov.l   .L_fn_dma_transfer, r3
+    mov.l   .L_06007A04, r3
     add #-0x1, r6
     shll2 r6
     shll2 r6
@@ -101,92 +101,92 @@ frame_end_commit:
     add #0x20, r4
     mov.l @r12, r0
     mov.l @r11, r3
-    mov.l   .L_vdp1_draw_end, r2
+    mov.l   .L_06007A18, r2
     shll2 r0
     shll2 r0
     shll r0
     add r3, r0
     mov.w r2, @r0
-    mov.l   .L_display_flags, r4
-    mov.l   .L_flag_frame_commit, r3
+    mov.l   .L_06007A1C, r4
+    mov.l   .L_06007A20, r3
     mov.l @r4, r2
     or r3, r2
     mov r2, r0
     or #0x4, r0
     mov.l r0, @r4
-    mov.l   .L_race_mode_flag, r0
+    mov.l   .L_06007A24, r0
     mov.l @r0, r0
     tst r0, r0
-    bf      .L_clear_frame_flag
-    mov.l   .L_flag_race_extra, r3
+    bf      .L_060079C4
+    mov.l   .L_06007A28, r3
     mov.l @r4, r2
     or r3, r2
     mov.l r2, @r4
-.L_clear_frame_flag:
+.L_060079C4:
     mov #0x0, r11
-    mov.l   .L_frame_ready_flag, r3
+    mov.l   .L_06007A10, r3
     mov.l r11, @r3
-    bra     .L_cleanup_return
+    bra     .L_06007A2C
     nop
 
     .global DAT_060079ce
 DAT_060079ce:
     .2byte  0x0258
-.L_double_budget:
+.L_060079D0:
     .2byte  0x04B0
     .2byte  0xFFFF
-.L_sprite_index_table:
+.L_060079D4:
     .4byte  sym_0606A4F8
-.L_frame_counter:
+.L_060079D8:
     .4byte  sym_0605A008
-.L_timing_accumulator:
+.L_060079DC:
     .4byte  sym_060620D4
-.L_commit_count:
+.L_060079E0:
     .4byte  sym_060620D0
-.L_sprite_staging:
+.L_060079E4:
     .4byte  sym_0608E460
-.L_sprite_data_base:
+.L_060079E8:
     .4byte  sym_0608AC20
-.L_fn_memcpy_long:
+.L_060079EC:
     .4byte  memcpy_long_idx
-.L_fn_memcpy_word:
+.L_060079F0:
     .4byte  memcpy_word_idx
-.L_fn_cmd_header_build:
+.L_060079F4:
     .4byte  sym_0602C494
-.L_vdp1_cmd_base:
+.L_060079F8:
     .4byte  sym_06063F5C
-.L_phase_flag:
+.L_060079FC:
     .4byte  sym_0605A016
-.L_phase_data_base:
+.L_06007A00:
     .4byte  sym_0605A018
-.L_fn_dma_transfer:
+.L_06007A04:
     .4byte  dma_transfer
-.L_vdp1_dma_buf:
+.L_06007A08:
     .4byte  sym_0606BDFC
-.L_vdp1_write_ptr:
+.L_06007A0C:
     .4byte  sym_060785FC
-.L_frame_ready_flag:
+.L_06007A10:
     .4byte  sym_0605A00C
-.L_fn_subsys_update:
+.L_06007A14:
     .4byte  sym_060394C2
-.L_vdp1_draw_end:
+.L_06007A18:
     .4byte  0x00008000                  /* VDP1 CMDCTRL draw-end marker */
-.L_display_flags:
+.L_06007A1C:
     .4byte  sym_0605B6D8
-.L_flag_frame_commit:
+.L_06007A20:
     .4byte  0x20000000
-.L_race_mode_flag:
+.L_06007A24:
     .4byte  sym_0607EAE0
-.L_flag_race_extra:
+.L_06007A28:
     .4byte  0x08000000
-.L_cleanup_return:
-    mov.l   .L_fn_display_update, r3
+.L_06007A2C:
+    mov.l   .L_06007A98, r3
     jsr @r3
     nop
     mov.l r11, @r14
     mov.l r11, @r12
-    mov.l   .L_results_flag_src, r4
-    mov.l   .L_results_flag_dest, r3
+    mov.l   .L_06007A9C, r4
+    mov.l   .L_06007AA0, r3
     mov.l @r4, r2
     mov.l r2, @r3
     mov.l r11, @r4
@@ -210,32 +210,32 @@ render_pass_extra:
     mov.l r8, @-r15
     sts.l pr, @-r15
     add #-0x8, r15
-    mov.l   .L_display_state, r5
+    mov.l   .L_06007AA4, r5
     mov.w   DAT_06007a92, r4
     mov.w   DAT_06007a94, r0
     mov.l @r5, r3
     mov.l @(r0, r3), r2
     cmp/gt r4, r2
-    bf      .L_use_obj_count
-    bra     .L_calc_scale
+    bf      .L_06007A72
+    bra     .L_06007A78
     mov r4, r13
-.L_use_obj_count:
+.L_06007A72:
     mov.l @r5, r13
     mov.w   DAT_06007a94, r0
     mov.l @(r0, r13), r13
-.L_calc_scale:
-    mov.l   .L_fn_fpmul, r14
-    mov.l   .L_scale_factor, r5
+.L_06007A78:
+    mov.l   .L_06007AA8, r14
+    mov.l   .L_06007AAC, r5
     jsr @r14
     mov r13, r4
     mov.w   DAT_06007a96, r4
     add r0, r4
-    mov.l   .L_widescreen_flag, r0
+    mov.l   .L_06007AB0, r0
     mov.b @r0, r0
     extu.b r0, r0
     tst r0, r0
-    bt      .L_narrow_mode
-    bra     .L_setup_coords
+    bt      .L_06007AB4
+    bra     .L_06007AB6
     mov #0x24, r11
 
     .global DAT_06007a92
@@ -249,31 +249,31 @@ DAT_06007a94:
     .global DAT_06007a96
 DAT_06007a96:
     .2byte  0x7000
-.L_fn_display_update:
+.L_06007A98:
     .4byte  sym_06026CE0
-.L_results_flag_src:
+.L_06007A9C:
     .4byte  sym_06059F44
-.L_results_flag_dest:
+.L_06007AA0:
     .4byte  sym_0606BDF8
-.L_display_state:
+.L_06007AA4:
     .4byte  sym_0607E944
-.L_fn_fpmul:
+.L_06007AA8:
     .4byte  fpmul
-.L_scale_factor:
+.L_06007AAC:
     .4byte  0x0000D1B7
-.L_widescreen_flag:
+.L_06007AB0:
     .4byte  sym_06085FF4
-.L_narrow_mode:
+.L_06007AB4:
     mov #0x34, r11
-.L_setup_coords:
+.L_06007AB6:
     mov r15, r6
-    mov.l   .L_fn_sincos, r3
+    mov.l   .L_06007B9C, r3
     add #0x4, r6
     jsr @r3
     mov r15, r5
-    mov.l   .L_fn_sign_extend, r12
-    mov.l   .L_sprite_cmd_base, r13
-    mov.l   .L_fp_screen_width, r4
+    mov.l   .L_06007BA0, r12
+    mov.l   .L_06007BA4, r13
+    mov.l   .L_06007BA8, r4
     jsr @r14
     mov.l @r15, r5
     jsr @r12
@@ -281,7 +281,7 @@ DAT_06007a96:
     add #0x8, r0
     exts.w r0, r0
     mov.w r0, @(8, r13)
-    mov.l   .L_fp_screen_width, r4
+    mov.l   .L_06007BA8, r4
     jsr @r14
     mov.l @(4, r15), r5
     jsr @r12
@@ -289,8 +289,8 @@ DAT_06007a96:
     add r11, r0
     exts.w r0, r0
     mov.w r0, @(10, r13)
-    mov.l   .L_fp_screen_height, r10
-    mov.l   .L_fp_two, r4
+    mov.l   .L_06007BAC, r10
+    mov.l   .L_06007BB0, r4
     jsr @r14
     mov.l @(4, r15), r5
     mov r0, r8
@@ -303,7 +303,7 @@ DAT_06007a96:
     add #0x8, r0
     exts.w r0, r0
     mov.w r0, @(12, r13)
-    mov.l   .L_fp_two, r4
+    mov.l   .L_06007BB0, r4
     jsr @r14
     mov.l @r15, r5
     mov r0, r8
@@ -316,7 +316,7 @@ DAT_06007a96:
     add r11, r0
     exts.w r0, r0
     mov.w r0, @(14, r13)
-    mov.l   .L_fp_coord_offset, r4
+    mov.l   .L_06007BB4, r4
     jsr @r14
     mov.l @r15, r5
     jsr @r12
@@ -324,7 +324,7 @@ DAT_06007a96:
     add #0x8, r0
     exts.w r0, r0
     mov.w r0, @(16, r13)
-    mov.l   .L_fp_coord_offset, r4
+    mov.l   .L_06007BB4, r4
     jsr @r14
     mov.l @(4, r15), r5
     jsr @r12
@@ -332,7 +332,7 @@ DAT_06007a96:
     add r11, r0
     exts.w r0, r0
     mov.w r0, @(18, r13)
-    mov.l   .L_fp_neg_two, r4
+    mov.l   .L_06007BB8, r4
     jsr @r14
     mov.l @(4, r15), r5
     mov r0, r8
@@ -345,7 +345,7 @@ DAT_06007a96:
     add #0x8, r0
     exts.w r0, r0
     mov.w r0, @(20, r13)
-    mov.l   .L_fp_neg_two, r4
+    mov.l   .L_06007BB8, r4
     jsr @r14
     mov.l @r15, r5
     mov r0, r8
@@ -357,14 +357,14 @@ DAT_06007a96:
     add r0, r4
     add r11, r0
     mov.w r0, @(22, r13)
-    mov.l   .L_vdp1_cmd_color, r0
+    mov.l   .L_06007BBC, r0
     mov.w r0, @(6, r13)
-    mov.l   .L_cmd_write_ptr, r14
-    mov.l   .L_fn_cmd_copy, r3
+    mov.l   .L_06007BC0, r14
+    mov.l   .L_06007BC4, r3
     mov.l @r14, r5
     jsr @r3
     mov r13, r4
-    mov.l   .L_cmd_counter, r4
+    mov.l   .L_06007BC8, r4
     mov.l @r4, r2
     add #0x1, r2
     mov.l r2, @r4
@@ -381,29 +381,29 @@ DAT_06007a96:
     rts
     mov.l @r15+, r14
     .2byte  0xFFFF
-.L_fn_sincos:
+.L_06007B9C:
     .4byte  sincos_pair
-.L_fn_sign_extend:
+.L_06007BA0:
     .4byte  swap_sign_ext
-.L_sprite_cmd_base:
+.L_06007BA4:
     .4byte  sym_06078604
-.L_fp_screen_width:
+.L_06007BA8:
     .4byte  0x00970000
-.L_fp_screen_height:
+.L_06007BAC:
     .4byte  0x00900000
-.L_fp_two:
+.L_06007BB0:
     .4byte  0x00020000                  /* 2.0 (16.16 fixed-point) */
-.L_fp_coord_offset:
+.L_06007BB4:
     .4byte  0x00890000
-.L_fp_neg_two:
+.L_06007BB8:
     .4byte  0xFFFE0000                  /* -2.0 (16.16 fixed-point) */
-.L_vdp1_cmd_color:
+.L_06007BBC:
     .4byte  0x0000A3FF
-.L_cmd_write_ptr:
+.L_06007BC0:
     .4byte  sym_060785FC
-.L_fn_cmd_copy:
+.L_06007BC4:
     .4byte  sym_060280C4
-.L_cmd_counter:
+.L_06007BC8:
     .4byte  sym_0605A008
 
     .global vdp1_sprite_builder
@@ -418,32 +418,32 @@ vdp1_sprite_builder:
     mov.l r9, @-r15
     mov.l r8, @-r15
     sts.l pr, @-r15
-    mov.l   .L_fn_sprite_cmd, r8
-    mov.l   .L_sprite_total, r9
-    mov.l   .L_vdp1_draw_end_b, r10
-    mov.l   .L_sprite_data, r13
-    mov.l   .L_sprite_write_ptr, r14
-    mov.l   .L_loop_counter_addr, r3
+    mov.l   .L_06007CAC, r8
+    mov.l   .L_06007CB0, r9
+    mov.l   .L_06007CB4, r10
+    mov.l   .L_06007CB8, r13
+    mov.l   .L_06007CBC, r14
+    mov.l   .L_06007CC0, r3
     mov.l r4, @r3
-    mov.l   .L_sprite_enable_flag, r5
-    mov.l   .L_vdp1_status, r0
+    mov.l   .L_06007CC4, r5
+    mov.l   .L_06007CC8, r0
     mov.w @r0, r0
     extu.w r0, r0
     tst #0x8, r0
-    bt      .L_clear_enable
+    bt      .L_06007C00
     mov #0x1, r3
     mov.l r3, @r5
-    bra     .L_begin_loop
+    bra     .L_06007C02
     nop
-.L_clear_enable:
+.L_06007C00:
     mov.l r4, @r5
-.L_begin_loop:
-    mov.l   .L_loop_counter_addr, r11
-    bra     .L_check_count
+.L_06007C02:
+    mov.l   .L_06007CC0, r11
+    bra     .L_06007C6A
     mov.l @r11, r11
-.L_process_sprite:
+.L_06007C08:
     mov r11, r12
-    mov.l   .L_sprite_idx_table, r3
+    mov.l   .L_06007CCC, r3
     shll r12
     add r3, r12
     mov.w @r12, r12
@@ -460,7 +460,7 @@ vdp1_sprite_builder:
     mov.w @(6, r0), r0
     extu.w r0, r0
     cmp/eq #0x9, r0
-    bf      .L_normal_sprite
+    bf      .L_06007C4C
     mov r10, r6
     extu.w r12, r4
     mov.l @r14, r5
@@ -471,12 +471,12 @@ vdp1_sprite_builder:
     shll2 r3
     add r3, r4
     extu.w r4, r4
-    mov.l   .L_fn_sprite_cmd_special, r3
+    mov.l   .L_06007CD0, r3
     jsr @r3
     add r13, r4
-    bra     .L_advance_ptr
+    bra     .L_06007C62
     nop
-.L_normal_sprite:
+.L_06007C4C:
     mov.l @r14, r5
     extu.w r12, r4
     mov r4, r3
@@ -488,33 +488,33 @@ vdp1_sprite_builder:
     extu.w r4, r4
     jsr @r8
     add r13, r4
-.L_advance_ptr:
+.L_06007C62:
     add #0x1, r11
     mov.l @r14, r2
     add #0x20, r2
     mov.l r2, @r14
-.L_check_count:
+.L_06007C6A:
     mov.l @r9, r3
     cmp/hs r3, r11
-    bf      .L_process_sprite
-    mov.l   .L_total_counter, r4
+    bf      .L_06007C08
+    mov.l   .L_06007CD4, r4
     mov.l @r9, r3
     mov.l @r4, r2
     add r3, r2
     mov.l r2, @r4
-    mov.l   .L_game_state_flags, r3
-    mov.l   .L_hud_render_mask, r2
+    mov.l   .L_06007CD8, r3
+    mov.l   .L_06007CDC, r2
     mov.l @r3, r3
     and r2, r3
     tst r3, r3
-    bt      .L_finalize
-    mov.l   .L_fn_hud_render, r3
+    bt      .L_06007C90
+    mov.l   .L_06007CE0, r3
     jsr @r3
     nop
     bsr     render_pass_extra
     nop
-.L_finalize:
-    mov.l   .L_fn_post_sprite, r3
+.L_06007C90:
+    mov.l   .L_06007CE4, r3
     jsr @r3
     nop
     lds.l @r15+, pr
@@ -524,39 +524,39 @@ vdp1_sprite_builder:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    mov.l   .L_fn_vdp2_update, r3
+    mov.l   .L_06007CE8, r3
     jmp @r3
     mov.l @r15+, r14
     .2byte  0xFFFF
-.L_fn_sprite_cmd:
+.L_06007CAC:
     .4byte  sym_060280F8
-.L_sprite_total:
+.L_06007CB0:
     .4byte  sym_060620D0
-.L_vdp1_draw_end_b:
+.L_06007CB4:
     .4byte  0x00008000                  /* VDP1 CMDCTRL draw-end marker */
-.L_sprite_data:
+.L_06007CB8:
     .4byte  sym_0608AC20
-.L_sprite_write_ptr:
+.L_06007CBC:
     .4byte  sym_060785FC
-.L_loop_counter_addr:
+.L_06007CC0:
     .4byte  sym_06078620
-.L_sprite_enable_flag:
+.L_06007CC4:
     .4byte  sym_0607861C
-.L_vdp1_status:
+.L_06007CC8:
     .4byte  sym_06063DA0
-.L_sprite_idx_table:
+.L_06007CCC:
     .4byte  sym_0606A4F8
-.L_fn_sprite_cmd_special:
+.L_06007CD0:
     .4byte  sym_060281B8
-.L_total_counter:
+.L_06007CD4:
     .4byte  sym_0605A008
-.L_game_state_flags:
+.L_06007CD8:
     .4byte  sym_0607EBC4
-.L_hud_render_mask:
+.L_06007CDC:
     .4byte  0x20228000
-.L_fn_hud_render:
+.L_06007CE0:
     .4byte  sym_060333D8
-.L_fn_post_sprite:
+.L_06007CE4:
     .4byte  post_sprite_cleanup
-.L_fn_vdp2_update:
+.L_06007CE8:
     .4byte  vdp2_frame_update

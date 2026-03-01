@@ -9,7 +9,7 @@ sound_init_sequence:
     mov r4, r0
     mov.l   .L_pool_06012E44, r14
     cmp/eq #0x1, r0
-    bf      .L_not_course1
+    bf      .L_06012E4C
     mov r14, r5
     mov.l   .L_pool_06012E48, r4
     .byte   0xAF, 0x11    /* bra 0x06012C3C (external) */
@@ -29,15 +29,15 @@ sound_init_sequence:
     .4byte  0x002A8000
 .L_pool_06012E48:
     .4byte  sym_0604496C
-.L_not_course1:
+.L_06012E4C:
     mov r4, r0
     cmp/eq #0x2, r0
-    bf      .L_default_course
+    bf      .L_06012E5A
     mov r14, r5
     .byte   0xD4, 0x0D    /* mov.l .L_pool_06012E8C, r4 */
     .byte   0xAE, 0xF1    /* bra 0x06012C3C (external) */
     mov.l @r15+, r14
-.L_default_course:
+.L_06012E5A:
     mov r14, r5
     .byte   0xD4, 0x0C    /* mov.l .L_pool_06012E90, r4 */
     .byte   0xAE, 0xED    /* bra 0x06012C3C (external) */

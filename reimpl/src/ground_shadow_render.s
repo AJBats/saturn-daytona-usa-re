@@ -7,7 +7,7 @@
 ground_shadow_render:
     sts.l pr, @-r15
     add #-0x8, r15
-    mov.l   .L_fn_input_proc_analog, r3
+    mov.l   .L_06036A90, r3
     jsr @r3
     mov r15, r4
     mov r15, r2
@@ -19,8 +19,8 @@ ground_shadow_render:
     mov r15, r3
     mov.l r14, @(4, r2)
     mov.b r0, @(4, r3)
-    mov.w   .L_periph_port_mask, r4
-    mov.l   .L_fn_input_proc_buttons, r3
+    mov.w   .L_06036A8C, r4
+    mov.l   .L_06036A94, r3
     jsr @r3
     mov r15, r5
     mov r0, r4
@@ -29,10 +29,10 @@ ground_shadow_render:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_periph_port_mask:
+.L_06036A8C:
     .2byte  0x0200                      /* [HIGH] peripheral port A digital mask -- same value as ai_master_update */
     .2byte  0xFFFF                      /* alignment padding between word and longword pools */
-.L_fn_input_proc_analog:
+.L_06036A90:
     .4byte  input_proc_analog           /* [HIGH] -> SMPC analog axis reader / command struct initializer */
-.L_fn_input_proc_buttons:
+.L_06036A94:
     .4byte  input_proc_buttons          /* [HIGH] -> SMPC digital button reader / command dispatcher */

@@ -80,12 +80,12 @@ loc_0601AF04:
     mov.b @r4, r3
     extu.b r3, r3
     tst r3, r3
-    bf      .L_timer_nonzero
+    bf      .L_0601AF16
     .byte   0xD5, 0x18    /* mov.l .L_pool_0601AF70, r5 */
     mov.b @r5, r3
     add #0x1, r3
     mov.b r3, @r5
-.L_timer_nonzero:
+.L_0601AF16:
     mov.b @r4, r2
     add #-0x1, r2
     rts

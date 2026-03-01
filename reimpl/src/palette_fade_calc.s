@@ -15,7 +15,7 @@ palette_fade_calc:
     mov.l   .L_pool_0602E645, r3
     mov.l @r3, r3
     cmp/eq r10, r3
-    bf      .L_check_param_b
+    bf      .L_0602E648
     .byte   0xA0, 0xAB    /* bra 0x0602E78C (external) */
     nop
     .2byte  0x0000
@@ -27,23 +27,23 @@ palette_fade_calc:
     .4byte  0x00000238
 .L_pool_0602E645:
     .4byte  DAT_06083264
-.L_check_param_b:
+.L_0602E648:
     mov.l   .L_pool_0602E655, r3
     mov.l @r3, r3
     cmp/eq r10, r3
-    bt      .L_begin_fade_calc
+    bt      .L_0602E658
     .byte   0xA0, 0x4A    /* bra 0x0602E6E8 (external) */
     nop
 .L_pool_0602E655:
     .4byte  DAT_06083268
-.L_begin_fade_calc:
+.L_0602E658:
     .byte   0xD0, 0x14    /* mov.l .L_pool_0602E6AC, r0 */
     mov.l @(r0, r10), r8
     sub r7, r8
     cmp/pz r8
-    bt      .L_delta_a_positive
+    bt      .L_0602E664
     neg r8, r8
-.L_delta_a_positive:
+.L_0602E664:
     .byte   0xD0, 0x12    /* mov.l .L_pool_0602E6B0, r0 */
     mov.l @(r0, r9), r3
     mov.l @(r0, r10), r5

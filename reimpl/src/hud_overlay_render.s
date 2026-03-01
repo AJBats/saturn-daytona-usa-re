@@ -13,75 +13,75 @@ hud_overlay_render:
     mov.l r10, @-r15
     mov.l r9, @-r15
     sts.l pr, @-r15
-    mov.l   .L_ptr_player_index, r9
-    mov.l   .L_ptr_course_size_table, r10
-    mov.l   .L_ptr_geom_output_buf, r11
-    mov.l   .L_smpc_sf, r13
-    mov.l   .L_ptr_geom_busy_flag, r3
+    mov.l   .L_0601E354, r9
+    mov.l   .L_0601E358, r10
+    mov.l   .L_0601E35C, r11
+    mov.l   .L_0601E360, r13
+    mov.l   .L_0601E364, r3
     mov.b @r3, r3
     extu.b r3, r3
     tst r3, r3
-    bf/s    .L_smpc_resdisa_poll
+    bf/s    .L_0601E2F2
     mov #0x1, r14
-    bra     .L_clear_loop_check
+    bra     .L_0601E2E6
     mov r12, r4
-.L_clear_store:
+.L_0601E2DC:
     mov.l @r11, r2
     add r4, r2
     extu.b r12, r3
     mov.b r3, @r2
     add #0x1, r4
-.L_clear_loop_check:
+.L_0601E2E6:
     mov.b @r9, r0
     extu.b r0, r0
     shll2 r0
     mov.l @(r0, r10), r3
     cmp/hs r3, r4
-    bf      .L_clear_store
-.L_smpc_resdisa_poll:
+    bf      .L_0601E2DC
+.L_0601E2F2:
     mov.b @r13, r2
     extu.b r2, r2
     and r14, r2
     cmp/eq r14, r2
-    bt      .L_smpc_resdisa_poll
+    bt      .L_0601E2F2
     extu.b r14, r2
     mov.b r2, @r13
     mov #0x1A, r3
-    mov.l   .L_smpc_comreg_ct, r2
+    mov.l   .L_0601E368, r2
     mov.b r3, @r2
-.L_smpc_resdisa_wait:
+.L_0601E306:
     mov.b @r13, r2
     extu.b r2, r2
     and r14, r2
     tst r2, r2
-    bf      .L_smpc_resdisa_wait
-    mov.l   .L_ptr_dispatch_fn, r3
-    mov.l   .L_hud_status_array, r6
-    mov.l   .L_ptr_vdp1_param_b, r5
-    mov.l   .L_ptr_vdp1_param_a, r4
+    bf      .L_0601E306
+    mov.l   .L_0601E36C, r3
+    mov.l   .L_0601E370, r6
+    mov.l   .L_0601E374, r5
+    mov.l   .L_0601E378, r4
     mov.l @r3, r3
     mov.l @r5, r5
     jsr @r3
     mov.l @r4, r4
     .byte   0xB0, 0x2C    /* bsr 0x0601E37C (external) */
     nop
-.L_smpc_resenab_poll:
+.L_0601E324:
     mov.b @r13, r2
     extu.b r2, r2
     and r14, r2
     cmp/eq r14, r2
-    bt      .L_smpc_resenab_poll
+    bt      .L_0601E324
     extu.b r14, r2
     mov.b r2, @r13
     mov #0x19, r3
-    mov.l   .L_smpc_comreg_ct, r2
+    mov.l   .L_0601E368, r2
     mov.b r3, @r2
-.L_smpc_resenab_wait:
+.L_0601E338:
     mov.b @r13, r2
     extu.b r2, r2
     and r14, r2
     tst r2, r2
-    bf      .L_smpc_resenab_wait
+    bf      .L_0601E338
     lds.l @r15+, pr
     mov.l @r15+, r9
     mov.l @r15+, r10
@@ -91,23 +91,23 @@ hud_overlay_render:
     rts
     mov.l @r15+, r14
     .2byte  0xFFFF
-.L_ptr_player_index:
+.L_0601E354:
     .4byte  sym_060877D8
-.L_ptr_course_size_table:
+.L_0601E358:
     .4byte  sym_0604A5C0
-.L_ptr_geom_output_buf:
+.L_0601E35C:
     .4byte  sym_0605E068
-.L_smpc_sf:
+.L_0601E360:
     .4byte  0x20100063                  /* SMPC SF — status flag */
-.L_ptr_geom_busy_flag:
+.L_0601E364:
     .4byte  sym_06087080
-.L_smpc_comreg_ct:
+.L_0601E368:
     .4byte  0x2010001F                  /* SMPC COMREG (cache-through) */
-.L_ptr_dispatch_fn:
+.L_0601E36C:
     .4byte  sym_06000358
-.L_hud_status_array:
+.L_0601E370:
     .4byte  sym_06087086
-.L_ptr_vdp1_param_b:
+.L_0601E374:
     .4byte  sym_0605E064
-.L_ptr_vdp1_param_a:
+.L_0601E378:
     .4byte  sym_0605E060

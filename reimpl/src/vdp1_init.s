@@ -15,7 +15,7 @@ vdp1_init:
 
     mov.l   _pool_vdp1_fb_base, r5
     mov.l   _pool_fb_clear_count, r4
-.L_clear_plane_a:
+.L_0600A150:
     mov r5, r3
     add #-0x2, r4
     add #0x4, r5
@@ -23,7 +23,7 @@ vdp1_init:
     mov r5, r2
     add #0x4, r5
     tst r4, r4
-    bf/s    .L_clear_plane_a
+    bf/s    .L_0600A150
     mov.l r14, @r2
 
     mov.l   _pool_fb_swap_flag, r3
@@ -36,7 +36,7 @@ vdp1_init:
 
     mov.l   _pool_vdp1_fb_base, r5
     mov.l   _pool_fb_clear_count, r4
-.L_clear_plane_b:
+.L_0600A174:
     mov r5, r2
     add #-0x2, r4
     add #0x4, r5
@@ -44,7 +44,7 @@ vdp1_init:
     mov r5, r3
     add #0x4, r5
     tst r4, r4
-    bf/s    .L_clear_plane_b
+    bf/s    .L_0600A174
     mov.l r14, @r3
 
     mov.l   _pool_fb_swap_flag, r3
@@ -99,25 +99,25 @@ sym_0600A1F6:
     mov.l   _pool_player_mode_a, r0
     mov.l @r0, r0
     tst r0, r0
-    bf/s    .L_nonzero_player_mode
+    bf/s    .L_0600A250
     mov #0x4, r6
 
     mov.l @r5, r3
     mov.w   DAT_0600a224, r2
     cmp/eq r2, r3
-    bf      .L_try_single_lo
+    bf      .L_0600A214
     exts.w r7, r7
-    bra     .L_res_select_done
+    bra     .L_0600A290
     mov.w r7, @r4
-.L_try_single_lo:
+.L_0600A214:
     mov.l @r5, r2
     mov.w   _wpool_single_lo_thresh, r3
     cmp/eq r3, r2
-    bf      .L_single_no_match
+    bf      .L_0600A220
     exts.w r6, r6
     mov.w r6, @r4
-.L_single_no_match:
-    bra     .L_res_select_done
+.L_0600A220:
+    bra     .L_0600A290
     nop
 
     .global DAT_0600a224
@@ -138,46 +138,46 @@ _pool_fb_res_mode_a:
     .4byte  sym_0605A016
 _pool_player_mode_a:
     .4byte  sym_0607EAD8
-.L_nonzero_player_mode:
+.L_0600A250:
     mov.l   _pool_player_mode_b, r0
     mov.l @r0, r0
     cmp/eq #0x1, r0
-    bf      .L_default_thresholds
+    bf      .L_0600A276
 
     mov.l @r5, r3
     mov.w   DAT_0600a2d8, r2
     cmp/eq r2, r3
-    bf      .L_try_mode1_lo
+    bf      .L_0600A266
     exts.w r7, r7
-    bra     .L_res_select_done
+    bra     .L_0600A290
     mov.w r7, @r4
-.L_try_mode1_lo:
+.L_0600A266:
     mov.l @r5, r2
     mov.w   _wpool_mode1_lo_thresh, r3
     cmp/eq r3, r2
-    bf      .L_mode1_no_match
+    bf      .L_0600A272
     exts.w r6, r6
     mov.w r6, @r4
-.L_mode1_no_match:
-    bra     .L_res_select_done
+.L_0600A272:
+    bra     .L_0600A290
     nop
 
-.L_default_thresholds:
+.L_0600A276:
     mov.l @r5, r2
     mov.w   DAT_0600a2dc, r3
     cmp/eq r3, r2
-    bf      .L_try_default_lo
+    bf      .L_0600A284
     exts.w r7, r7
-    bra     .L_res_select_done
+    bra     .L_0600A290
     mov.w r7, @r4
-.L_try_default_lo:
+.L_0600A284:
     mov.l @r5, r2
     mov.w   _wpool_default_lo_thresh, r3
     cmp/eq r3, r2
-    bf      .L_res_select_done
+    bf      .L_0600A290
     exts.w r6, r6
     mov.w r6, @r4
-.L_res_select_done:
+.L_0600A290:
     rts
     nop
     .4byte  0xE703D515
@@ -240,26 +240,26 @@ sym_0600A33C:
     mov.l   _pool_game_mode, r4
     mov.l @r4, r0
     tst r0, r0
-    bf      .L_check_mode_1
+    bf      .L_0600A34E
     mov #0x5, r3
     mov.w r3, @r5
-    bra     .L_mode_select_done
+    bra     .L_0600A386
     nop
-.L_check_mode_1:
+.L_0600A34E:
     mov.l @r4, r0
     cmp/eq #0x1, r0
-    bf      .L_check_mode_2
+    bf      .L_0600A35C
     mov #0x6, r3
     mov.w r3, @r5
-    bra     .L_mode_select_done
+    bra     .L_0600A386
     nop
-.L_check_mode_2:
+.L_0600A35C:
     mov.l @r4, r0
     cmp/eq #0x2, r0
-    bf      .L_check_mode_3
+    bf      .L_0600A37C
     mov #0x7, r3
     mov.w r3, @r5
-    bra     .L_mode_select_done
+    bra     .L_0600A386
     nop
     .2byte  0x0398
 
@@ -282,13 +282,13 @@ _pool_fb_res_mode_b:
     .4byte  sym_0605A016
 _pool_game_mode:
     .4byte  sym_06063E1C
-.L_check_mode_3:
+.L_0600A37C:
     mov.l @r4, r0
     cmp/eq #0x3, r0
-    bf      .L_mode_select_done
+    bf      .L_0600A386
     mov #0x8, r3
     mov.w r3, @r5
-.L_mode_select_done:
+.L_0600A386:
     rts
     nop
     .2byte  0xE300

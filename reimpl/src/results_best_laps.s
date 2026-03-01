@@ -14,7 +14,7 @@ results_best_laps:
     mov #0x8, r14
     mov.b r4, @r15
     mov #0x0, r4
-.L_reset_loop:
+.L_0601668C:
     extu.b r4, r3
     extu.b r12, r1
     mov r3, r2
@@ -30,7 +30,7 @@ results_best_laps:
     mov.b r0, @(2, r3)
     extu.b r4, r3
     cmp/ge r14, r3
-    bf      .L_reset_loop
+    bf      .L_0601668C
     mov.b @r15, r3
     extu.b r3, r3
     mov r3, r2

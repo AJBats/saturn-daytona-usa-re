@@ -57,18 +57,18 @@ render_obj_processor:
     add #0x18, r12
     mov r4, r13
     add #0x1C, r13
-.L_clip_loop:
+.L_06022B48:
     mov.w @r5, r2
     extu.w r2, r2
     tst r2, r2
-    bt      .L_pathA_vtx0_anchor
-    bra     .L_pathB_check
+    bt      .L_06022B54
+    bra     .L_06022C7E
     nop
-.L_pathA_vtx0_anchor:
+.L_06022B54:
     mov.l @(12, r15), r3
     mov.w @r3, r0
     tst r0, r0
-    bt      .L_pathA_edge01_done
+    bt      .L_06022BB0
     mov.l @r14, r3
     mov.l @r4, r1
     mov r3, r2
@@ -94,28 +94,28 @@ render_obj_processor:
     mov.l @r14, r3
     mov.l r3, @r15
     cmp/ge r6, r3
-    bf      .L_pathA_edge01_done
+    bf      .L_06022BB0
     mov.l @r15, r2
     mov.w   _wpool_x_upper_A, r3
     cmp/gt r3, r2
-    bt      .L_pathA_edge01_done
+    bt      .L_06022BB0
     mov.l @r9, r2
     mov r2, r3
     cmp/ge r6, r3
-    bf/s    .L_pathA_edge01_done
+    bf/s    .L_06022BB0
     mov.l r2, @r15
     mov.l @r15, r2
     mov.w   _wpool_y_upper_A, r3
     cmp/gt r3, r2
-    bt      .L_pathA_edge01_done
+    bt      .L_06022BB0
     mov.l @(12, r15), r2
     exts.w r7, r3
     mov.w r3, @r2
-.L_pathA_edge01_done:
+.L_06022BB0:
     mov.l @(8, r15), r2
     mov.w @r2, r0
     tst r0, r0
-    bra     .L_pathA_test_vis2
+    bra     .L_06022BC0
     nop
 _wpool_coord_lower_bound:
     .2byte  0xFE6B
@@ -123,8 +123,8 @@ _wpool_x_upper_A:
     .2byte  0x0195
 _wpool_y_upper_A:
     .2byte  0x0131
-.L_pathA_test_vis2:
-    bt      .L_pathA_edge02_done
+.L_06022BC0:
+    bt      .L_06022C16
     mov.l @r8, r3
     mov.l @r4, r1
     mov r3, r2
@@ -150,31 +150,31 @@ _wpool_y_upper_A:
     mov.l @r8, r3
     mov.l r3, @r15
     cmp/ge r6, r3
-    bf      .L_pathA_edge02_done
+    bf      .L_06022C16
     mov.l @r15, r2
     mov.w   _wpool_x_upper_B, r3
     cmp/gt r3, r2
-    bt      .L_pathA_edge02_done
+    bt      .L_06022C16
     mov.l @r10, r2
     mov r2, r3
     cmp/ge r6, r3
-    bf/s    .L_pathA_edge02_done
+    bf/s    .L_06022C16
     mov.l r2, @r15
     mov.l @r15, r2
     mov.w   _wpool_y_upper_B, r3
     cmp/gt r3, r2
-    bt      .L_pathA_edge02_done
+    bt      .L_06022C16
     mov.l @(8, r15), r2
     exts.w r7, r3
     mov.w r3, @r2
-.L_pathA_edge02_done:
+.L_06022C16:
     mov.l @(16, r15), r2
     mov.w @r2, r0
     tst r0, r0
-    bf      .L_pathA_nudge_vtx3
-    bra     .L_check_convergence
+    bf      .L_06022C22
+    bra     .L_06023014
     nop
-.L_pathA_nudge_vtx3:
+.L_06022C22:
     mov.l @r12, r3
     mov.l @r4, r1
     mov r3, r2
@@ -200,43 +200,43 @@ _wpool_y_upper_A:
     mov.l @r12, r3
     mov.l r3, @r15
     cmp/ge r6, r3
-    bf      .L_pathA_edge03_done
+    bf      .L_06022C76
     mov.l @r15, r2
     mov.w   _wpool_x_upper_B, r3
     cmp/gt r3, r2
-    bt      .L_pathA_edge03_done
+    bt      .L_06022C76
     mov.l @r13, r2
     mov r2, r3
     cmp/ge r6, r3
-    bf/s    .L_pathA_edge03_done
+    bf/s    .L_06022C76
     mov.l r2, @r15
     mov.l @r15, r2
     mov.w   _wpool_y_upper_B, r3
     cmp/gt r3, r2
-    bt      .L_pathA_edge03_done
+    bt      .L_06022C76
     mov.l @(16, r15), r2
     exts.w r7, r3
     mov.w r3, @r2
-.L_pathA_edge03_done:
-    bra     .L_check_convergence
+.L_06022C76:
+    bra     .L_06023014
     nop
 _wpool_x_upper_B:
     .2byte  0x0195
 _wpool_y_upper_B:
     .2byte  0x0131
-.L_pathB_check:
+.L_06022C7E:
     mov.l @(28, r15), r2
     mov.w @r2, r3
     extu.w r3, r3
     tst r3, r3
-    bt      .L_pathB_vtx1_anchor
-    bra     .L_pathC_check
+    bt      .L_06022C8C
+    bra     .L_06022DB4
     nop
-.L_pathB_vtx1_anchor:
+.L_06022C8C:
     mov.l @(20, r15), r3
     mov.w @r3, r0
     tst r0, r0
-    bt      .L_pathB_edge10_done
+    bt      .L_06022CE8
     mov.l @r4, r3
     mov.l @r14, r1
     mov r3, r2
@@ -262,28 +262,28 @@ _wpool_y_upper_B:
     mov.l @r4, r3
     mov.l r3, @r15
     cmp/ge r6, r3
-    bf      .L_pathB_edge10_done
+    bf      .L_06022CE8
     mov.l @r15, r2
     mov.w   _wpool_x_upper_C, r3
     cmp/gt r3, r2
-    bt      .L_pathB_edge10_done
+    bt      .L_06022CE8
     mov.l @r11, r2
     mov r2, r3
     cmp/ge r6, r3
-    bf/s    .L_pathB_edge10_done
+    bf/s    .L_06022CE8
     mov.l r2, @r15
     mov.l @r15, r2
     mov.w   _wpool_y_upper_C, r3
     cmp/gt r3, r2
-    bt      .L_pathB_edge10_done
+    bt      .L_06022CE8
     mov.l @(20, r15), r2
     exts.w r7, r3
     mov.w r3, @r2
-.L_pathB_edge10_done:
+.L_06022CE8:
     mov.l @(8, r15), r2
     mov.w @r2, r0
     tst r0, r0
-    bt      .L_pathB_edge12_done
+    bt      .L_06022D44
     mov.l @r8, r3
     mov.l @r14, r1
     mov r3, r2
@@ -309,38 +309,38 @@ _wpool_y_upper_B:
     mov.l @r8, r3
     mov.l r3, @r15
     cmp/ge r6, r3
-    bf      .L_pathB_edge12_done
+    bf      .L_06022D44
     mov.l @r15, r2
     mov.w   _wpool_x_upper_C, r3
     cmp/gt r3, r2
-    bt      .L_pathB_edge12_done
+    bt      .L_06022D44
     mov.l @r10, r2
     mov r2, r3
     cmp/ge r6, r3
-    bf/s    .L_pathB_edge12_done
+    bf/s    .L_06022D44
     mov.l r2, @r15
     mov.l @r15, r2
     mov.w   _wpool_y_upper_C, r3
     cmp/gt r3, r2
-    bt      .L_pathB_edge12_done
+    bt      .L_06022D44
     mov.l @(8, r15), r2
     exts.w r7, r3
     mov.w r3, @r2
-.L_pathB_edge12_done:
+.L_06022D44:
     mov.l @(16, r15), r2
     mov.w @r2, r0
     tst r0, r0
-    bra     .L_pathB_test_vis3
+    bra     .L_06022D52
     nop
 _wpool_x_upper_C:
     .2byte  0x0195
 _wpool_y_upper_C:
     .2byte  0x0131
-.L_pathB_test_vis3:
-    bf      .L_pathB_nudge_vtx3
-    bra     .L_check_convergence
+.L_06022D52:
+    bf      .L_06022D58
+    bra     .L_06023014
     nop
-.L_pathB_nudge_vtx3:
+.L_06022D58:
     mov.l @r12, r3
     mov.l @r14, r1
     mov r3, r2
@@ -366,43 +366,43 @@ _wpool_y_upper_C:
     mov.l @r12, r3
     mov.l r3, @r15
     cmp/ge r6, r3
-    bf      .L_pathB_edge13_done
+    bf      .L_06022DAC
     mov.l @r15, r2
     mov.w   _wpool_x_upper_D, r3
     cmp/gt r3, r2
-    bt      .L_pathB_edge13_done
+    bt      .L_06022DAC
     mov.l @r13, r2
     mov r2, r3
     cmp/ge r6, r3
-    bf/s    .L_pathB_edge13_done
+    bf/s    .L_06022DAC
     mov.l r2, @r15
     mov.l @r15, r2
     mov.w   _wpool_y_upper_D, r3
     cmp/gt r3, r2
-    bt      .L_pathB_edge13_done
+    bt      .L_06022DAC
     mov.l @(16, r15), r2
     exts.w r7, r3
     mov.w r3, @r2
-.L_pathB_edge13_done:
-    bra     .L_check_convergence
+.L_06022DAC:
+    bra     .L_06023014
     nop
 _wpool_x_upper_D:
     .2byte  0x0195
 _wpool_y_upper_D:
     .2byte  0x0131
-.L_pathC_check:
+.L_06022DB4:
     mov.l @(24, r15), r2
     mov.w @r2, r3
     extu.w r3, r3
     tst r3, r3
-    bt      .L_pathC_vtx2_anchor
-    bra     .L_pathD_check
+    bt      .L_06022DC2
+    bra     .L_06022EEA
     nop
-.L_pathC_vtx2_anchor:
+.L_06022DC2:
     mov.l @(20, r15), r3
     mov.w @r3, r0
     tst r0, r0
-    bt      .L_pathC_edge20_done
+    bt      .L_06022E1E
     mov.l @r4, r3
     mov.l @r8, r1
     mov r3, r2
@@ -428,28 +428,28 @@ _wpool_y_upper_D:
     mov.l @r4, r3
     mov.l r3, @r15
     cmp/ge r6, r3
-    bf      .L_pathC_edge20_done
+    bf      .L_06022E1E
     mov.l @r15, r2
     mov.w   _wpool_x_upper_E, r3
     cmp/gt r3, r2
-    bt      .L_pathC_edge20_done
+    bt      .L_06022E1E
     mov.l @r11, r2
     mov r2, r3
     cmp/ge r6, r3
-    bf/s    .L_pathC_edge20_done
+    bf/s    .L_06022E1E
     mov.l r2, @r15
     mov.l @r15, r2
     mov.w   _wpool_y_upper_E, r3
     cmp/gt r3, r2
-    bt      .L_pathC_edge20_done
+    bt      .L_06022E1E
     mov.l @(20, r15), r2
     exts.w r7, r3
     mov.w r3, @r2
-.L_pathC_edge20_done:
+.L_06022E1E:
     mov.l @(12, r15), r2
     mov.w @r2, r0
     tst r0, r0
-    bt      .L_pathC_edge21_done
+    bt      .L_06022E7A
     mov.l @r14, r3
     mov.l @r8, r1
     mov r3, r2
@@ -475,38 +475,38 @@ _wpool_y_upper_D:
     mov.l @r14, r3
     mov.l r3, @r15
     cmp/ge r6, r3
-    bf      .L_pathC_edge21_done
+    bf      .L_06022E7A
     mov.l @r15, r2
     mov.w   _wpool_x_upper_E, r3
     cmp/gt r3, r2
-    bt      .L_pathC_edge21_done
+    bt      .L_06022E7A
     mov.l @r9, r2
     mov r2, r3
     cmp/ge r6, r3
-    bf/s    .L_pathC_edge21_done
+    bf/s    .L_06022E7A
     mov.l r2, @r15
     mov.l @r15, r2
     mov.w   _wpool_y_upper_E, r3
     cmp/gt r3, r2
-    bt      .L_pathC_edge21_done
+    bt      .L_06022E7A
     mov.l @(12, r15), r2
     exts.w r7, r3
     mov.w r3, @r2
-.L_pathC_edge21_done:
+.L_06022E7A:
     mov.l @(16, r15), r2
     mov.w @r2, r0
     tst r0, r0
-    bra     .L_pathC_test_vis3
+    bra     .L_06022E88
     nop
 _wpool_x_upper_E:
     .2byte  0x0195
 _wpool_y_upper_E:
     .2byte  0x0131
-.L_pathC_test_vis3:
-    bf      .L_pathC_nudge_vtx3
-    bra     .L_check_convergence
+.L_06022E88:
+    bf      .L_06022E8E
+    bra     .L_06023014
     nop
-.L_pathC_nudge_vtx3:
+.L_06022E8E:
     mov.l @r12, r3
     mov.l @r8, r1
     mov r3, r2
@@ -532,43 +532,43 @@ _wpool_y_upper_E:
     mov.l @r12, r3
     mov.l r3, @r15
     cmp/ge r6, r3
-    bf      .L_pathC_edge23_done
+    bf      .L_06022EE2
     mov.l @r15, r2
     mov.w   _wpool_x_upper_F, r3
     cmp/gt r3, r2
-    bt      .L_pathC_edge23_done
+    bt      .L_06022EE2
     mov.l @r13, r2
     mov r2, r3
     cmp/ge r6, r3
-    bf/s    .L_pathC_edge23_done
+    bf/s    .L_06022EE2
     mov.l r2, @r15
     mov.l @r15, r2
     mov.w   _wpool_y_upper_F, r3
     cmp/gt r3, r2
-    bt      .L_pathC_edge23_done
+    bt      .L_06022EE2
     mov.l @(16, r15), r2
     exts.w r7, r3
     mov.w r3, @r2
-.L_pathC_edge23_done:
-    bra     .L_check_convergence
+.L_06022EE2:
+    bra     .L_06023014
     nop
 _wpool_x_upper_F:
     .2byte  0x0195
 _wpool_y_upper_F:
     .2byte  0x0131
-.L_pathD_check:
+.L_06022EEA:
     mov.l @(32, r15), r2
     mov.w @r2, r3
     extu.w r3, r3
     tst r3, r3
-    bt      .L_pathD_vtx3_anchor
-    bra     .L_check_convergence
+    bt      .L_06022EF8
+    bra     .L_06023014
     nop
-.L_pathD_vtx3_anchor:
+.L_06022EF8:
     mov.l @(20, r15), r3
     mov.w @r3, r0
     tst r0, r0
-    bt      .L_pathD_edge30_done
+    bt      .L_06022F54
     mov.l @r4, r3
     mov.l @r12, r1
     mov r3, r2
@@ -594,28 +594,28 @@ _wpool_y_upper_F:
     mov.l @r4, r3
     mov.l r3, @r15
     cmp/ge r6, r3
-    bf      .L_pathD_edge30_done
+    bf      .L_06022F54
     mov.l @r15, r2
     mov.w   _wpool_x_upper_G, r3
     cmp/gt r3, r2
-    bt      .L_pathD_edge30_done
+    bt      .L_06022F54
     mov.l @r11, r2
     mov r2, r3
     cmp/ge r6, r3
-    bf/s    .L_pathD_edge30_done
+    bf/s    .L_06022F54
     mov.l r2, @r15
     mov.l @r15, r2
     mov.w   _wpool_y_upper_G, r3
     cmp/gt r3, r2
-    bt      .L_pathD_edge30_done
+    bt      .L_06022F54
     mov.l @(20, r15), r2
     exts.w r7, r3
     mov.w r3, @r2
-.L_pathD_edge30_done:
+.L_06022F54:
     mov.l @(12, r15), r2
     mov.w @r2, r0
     tst r0, r0
-    bt      .L_pathD_edge31_done
+    bt      .L_06022FB0
     mov.l @r14, r3
     mov.l @r12, r1
     mov r3, r2
@@ -641,35 +641,35 @@ _wpool_y_upper_F:
     mov.l @r14, r3
     mov.l r3, @r15
     cmp/ge r6, r3
-    bf      .L_pathD_edge31_done
+    bf      .L_06022FB0
     mov.l @r15, r2
     mov.w   _wpool_x_upper_G, r3
     cmp/gt r3, r2
-    bt      .L_pathD_edge31_done
+    bt      .L_06022FB0
     mov.l @r9, r2
     mov r2, r3
     cmp/ge r6, r3
-    bf/s    .L_pathD_edge31_done
+    bf/s    .L_06022FB0
     mov.l r2, @r15
     mov.l @r15, r2
     mov.w   _wpool_y_upper_G, r3
     cmp/gt r3, r2
-    bt      .L_pathD_edge31_done
+    bt      .L_06022FB0
     mov.l @(12, r15), r2
     exts.w r7, r3
     mov.w r3, @r2
-.L_pathD_edge31_done:
+.L_06022FB0:
     mov.l @(8, r15), r2
     mov.w @r2, r0
     tst r0, r0
-    bra     .L_pathD_test_vis2
+    bra     .L_06022FBE
     nop
 _wpool_x_upper_G:
     .2byte  0x0195
 _wpool_y_upper_G:
     .2byte  0x0131
-.L_pathD_test_vis2:
-    bt      .L_check_convergence
+.L_06022FBE:
+    bt      .L_06023014
     mov.l @r8, r3
     mov.l @r12, r1
     mov r3, r2
@@ -695,24 +695,24 @@ _wpool_y_upper_G:
     mov.l @r8, r3
     mov.l r3, @r15
     cmp/ge r6, r3
-    bf      .L_check_convergence
+    bf      .L_06023014
     mov.l @r15, r2
     mov.w   _wpool_x_upper_H, r3
     cmp/gt r3, r2
-    bt      .L_check_convergence
+    bt      .L_06023014
     mov.l @r10, r2
     mov r2, r3
     cmp/ge r6, r3
-    bf/s    .L_check_convergence
+    bf/s    .L_06023014
     mov.l r2, @r15
     mov.l @r15, r2
     mov.w   _wpool_y_upper_H, r3
     cmp/gt r3, r2
-    bt      .L_check_convergence
+    bt      .L_06023014
     mov.l @(8, r15), r2
     exts.w r7, r3
     mov.w r3, @r2
-.L_check_convergence:
+.L_06023014:
     mov.l @(20, r15), r2
     mov.l @(8, r15), r1
     mov.w @r2, r3
@@ -725,13 +725,13 @@ _wpool_y_upper_G:
     mov.w @r1, r2
     or r2, r3
     tst r3, r3
-    bf      .L_not_converged
-    bra     .L_epilogue
+    bf      .L_06023032
+    bra     .L_06023036
     nop
-.L_not_converged:
-    bra     .L_clip_loop
+.L_06023032:
+    bra     .L_06022B48
     nop
-.L_epilogue:
+.L_06023036:
     add #0x2C, r15
     mov.l @r15+, r8
     mov.l @r15+, r9

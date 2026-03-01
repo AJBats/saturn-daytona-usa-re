@@ -17,7 +17,7 @@ text_color_set:
     mov.b r2, @r14
     mov.b @r14, r3
     cmp/pl r3
-    bt      .L_still_counting
+    bt      .L_06016C94
     .byte   0xB5, 0x53    /* bsr 0x0601772E (external) */
     mov #0x0, r4
     mov.b @r15, r4
@@ -26,7 +26,7 @@ text_color_set:
     lds.l @r15+, pr
     .byte   0xA3, 0x28    /* bra 0x060172E4 (external) */
     mov.l @r15+, r14
-.L_still_counting:
+.L_06016C94:
     add #0x4, r15
     lds.l @r15+, pr
     rts

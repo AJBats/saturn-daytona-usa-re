@@ -29,12 +29,12 @@ check_cmd_state:
     .byte   0xD0, 0x04    /* mov.l _pool_cmd_state_byte, r0 */
     mov.b @r0, r1
     tst r1, r1
-    bt      .L_cmd_state_zero
+    bt      .L_060322F8
     .byte   0xD0, 0x03    /* mov.l _pool_cmd_counter, r0 */
     mov.l @r0, r1
     add #0x1, r1
     mov.l r1, @r0
-.L_cmd_state_zero:
+.L_060322F8:
     rts
     nop
 _pool_cmd_state_byte:
@@ -85,7 +85,7 @@ loc_0603237C:
     not r2, r2
     and r2, r1
     mov.w r1, @(r0, r14)
-    bra     .L_check_element_idx
+    bra     .L_060323A8
     nop
 _pool_ctrl_word_offset_a:
     .4byte  0x0000000E
@@ -103,7 +103,7 @@ loc_0603239C:
     and r2, r1
     mov.w r1, @(r0, r14)
 
-.L_check_element_idx:
+.L_060323A8:
     .byte   0xD0, 0x07    /* mov.l _pool_element_idx_offset, r0 */
     mov.l @(r0, r14), r2
     cmp/eq r7, r2

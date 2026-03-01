@@ -14,11 +14,11 @@ speedometer_ctrl:
     mov.w   _wpool_abort_mask, r3
     and r3, r2
     tst r2, r2
-    bt      .L_no_abort
+    bt      .L_06010328
     mov #0x6, r3
     mov.l   _pool_game_dispatch_ptr, r2
     mov.l r3, @r2
-    bra     .L_exit
+    bra     .L_06010386
     nop
     .2byte  0x4000
 _wpool_abort_mask:
@@ -32,16 +32,16 @@ _pool_countdown_ptr:
     .4byte  sym_0607EBCC                    /* &state_countdown (32-bit timer) */
 _pool_game_dispatch_ptr:
     .4byte  g_game_state                    /* &game_state_dispatch value */
-.L_no_abort:
+.L_06010328:
     mov.l @r14, r2
     cmp/pl r2
-    bf      .L_do_shutdown
+    bf      .L_06010338
     extu.w r4, r4
     mov.w   DAT_0601038c, r2
     and r2, r4
     tst r4, r4
-    bt      .L_exit
-.L_do_shutdown:
+    bt      .L_06010386
+.L_06010338:
     mov.l   _pool_car_index_ptr, r5
     mov.l   _pool_snd_table_base, r3
     mov.l   _pool_snd_dispatch, r2
@@ -67,21 +67,21 @@ _pool_game_dispatch_ptr:
     mov.l   _pool_2p_mode_ptr, r0
     mov.b @r0, r0
     tst r0, r0
-    bf      .L_exit
+    bf      .L_06010386
     mov.l   _pool_render_state_ptr, r0
     mov.l @r0, r0
     tst r0, r0
-    bf      .L_exit
+    bf      .L_06010386
     mov.l   _pool_button_hw_ptr, r3
     mov.w @r3, r2
     mov.w   DAT_0601038e, r3
     extu.w r2, r2
     and r3, r2
     tst r2, r2
-    bt      .L_exit
+    bt      .L_06010386
     mov #0x1, r3
     mov.b r3, @r4
-.L_exit:
+.L_06010386:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14

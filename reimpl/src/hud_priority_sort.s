@@ -15,7 +15,7 @@ hud_priority_sort:
     mov #0x60, r14
     mov.l   .L_pool_060155A0, r6
     mov #0x0, r5
-.L_loop_top:
+.L_06015520:
     extu.b r5, r7
     extu.b r5, r0
     mov r7, r3
@@ -44,7 +44,7 @@ hud_priority_sort:
     .word 0x0129
     or r1, r3
     tst r3, r3
-    bt      .L_skip_override
+    bt      .L_0601556E
     extu.b r5, r3
     mov r3, r2
     shll2 r3
@@ -55,11 +55,11 @@ hud_priority_sort:
     exts.w r3, r3
     add r6, r3
     mov.l r12, @(36, r3)
-.L_skip_override:
+.L_0601556E:
     add #0x1, r5
     extu.b r5, r3
     cmp/ge r11, r3
-    bf      .L_loop_top
+    bf      .L_06015520
     extu.b r4, r4
     mov r4, r3
     shll2 r4

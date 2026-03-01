@@ -7,7 +7,7 @@
 obj_init_defaults:
     sts.l pr, @-r15
     add #-0xC, r15
-    mov.w   .L_w_tex_data_const, r10
+    mov.w   .L_060204A8, r10
     mov.l   .L_pool_060204AC, r12
     mov.b r4, @r15
     mov r12, r11
@@ -17,9 +17,9 @@ obj_init_defaults:
     mov.l r6, @(8, r15)
     mov.b @r15, r3
     cmp/pl r3
-    bf/s    .L_epilogue
+    bf/s    .L_06020494
     add #0x6, r9
-.L_loop_top:
+.L_0602044C:
     extu.b r13, r0
     mov.l @(4, r15), r3
     shll r0
@@ -27,13 +27,13 @@ obj_init_defaults:
     extu.b r4, r4
     extu.b r4, r0
     cmp/eq #0x20, r0
-    bf      .L_compute_index
+    bf      .L_06020466
     extu.w r14, r3
     mov.w r3, @r11
     extu.w r14, r2
-    bra     .L_call_loader
+    bra     .L_06020476
     mov.w r2, @r9
-.L_compute_index:
+.L_06020466:
     extu.b r4, r5
     add #-0x40, r5
     shll r5
@@ -42,7 +42,7 @@ obj_init_defaults:
     add #0x1, r5
     extu.w r5, r5
     mov.w r5, @r9
-.L_call_loader:
+.L_06020476:
     mov r10, r7
     extu.w r8, r6
     mov r12, r5
@@ -56,9 +56,9 @@ obj_init_defaults:
     mov.b @r15, r2
     extu.b r13, r3
     cmp/ge r2, r3
-    bf/s    .L_loop_top
+    bf/s    .L_0602044C
     add #0x1, r8
-.L_epilogue:
+.L_06020494:
     add #0xC, r15
     lds.l @r15+, pr
     mov.l @r15+, r8
@@ -69,7 +69,7 @@ obj_init_defaults:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_w_tex_data_const:
+.L_060204A8:
     .2byte  0x3C79                     /* [MEDIUM] texture data constant */
     .2byte  0xFFFF
 .L_pool_060204AC:

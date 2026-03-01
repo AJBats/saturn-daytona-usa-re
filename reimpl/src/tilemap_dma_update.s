@@ -14,59 +14,59 @@ tilemap_dma_update:
     mov.l r6, @r15
     mov r5, r0
     cmp/eq #0x1, r0
-    bt      .L_mode_accepted
-    mov.l   .L_screen_height_ptr, r2
+    bt      .L_06036EAE
+    mov.l   .L_06036EF0, r2
     mov.w @r2, r2
     extu.w r2, r2
     cmp/eq r2, r5
-    bf      .L_epilog
-.L_mode_accepted:
+    bf      .L_06036EE6
+.L_06036EAE:
     extu.w r13, r6
-    mov.l   .L_scene_transform_ptr, r14
-    mov.l   .L_vdp2_offset_mask, r2
+    mov.l   .L_06036EF4, r14
+    mov.l   .L_06036EF8, r2
     shll r6
     and r2, r4
     mov.l r4, @(60, r14)
-    mov.l   .L_vdp2_vram_base, r3
+    mov.l   .L_06036EFC, r3
     or r3, r4
-    mov.l   .L_word_copy_helper, r3
+    mov.l   .L_06036F00, r3
     jsr @r3
     mov.l @r15, r5
     mov.l @(60, r14), r2
     extu.w r13, r0
     shlr r2
     cmp/eq #0x1, r0
-    bt/s    .L_check_ready_flag
+    bt/s    .L_06036ED8
     mov.l r2, @(60, r14)
-    mov.l   .L_sign_bit, r2
+    mov.l   .L_06036F04, r2
     mov.l @(60, r14), r3
     or r2, r3
     mov.l r3, @(60, r14)
-.L_check_ready_flag:
-    mov.l   .L_scene_ready_flag_ptr, r4
+.L_06036ED8:
+    mov.l   .L_06036F08, r4
     mov.w @r4, r2
     extu.w r2, r2
     tst r2, r2
-    bf      .L_epilog
+    bf      .L_06036EE6
     mov #0x1, r3
     mov.w r3, @r4
-.L_epilog:
+.L_06036EE6:
     add #0x4, r15
     lds.l @r15+, pr
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_screen_height_ptr:
+.L_06036EF0:
     .4byte  sym_060635B0                /* &screen_height (16-bit, init=224) */
-.L_scene_transform_ptr:
+.L_06036EF4:
     .4byte  sym_060A3DF8                /* &scene_transform_struct (rotation params, 64 bytes) */
-.L_vdp2_offset_mask:
+.L_06036EF8:
     .4byte  0x0007FFFF                  /* 19-bit VDP2 VRAM offset mask */
-.L_vdp2_vram_base:
+.L_06036EFC:
     .4byte  0x25E00000                  /* VDP2 VRAM +0x00000 */
-.L_word_copy_helper:
+.L_06036F00:
     .4byte  sym_06038A48                /* word_copy_helper (copies r6 bytes as words) */
-.L_sign_bit:
+.L_06036F04:
     .4byte  0x80000000                  /* sign bit / multi-word transfer flag */
-.L_scene_ready_flag_ptr:
+.L_06036F08:
     .4byte  sym_060635AC                /* scene-ready flag (0=idle, 1=pending) */

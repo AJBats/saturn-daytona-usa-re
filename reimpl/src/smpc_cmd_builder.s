@@ -38,17 +38,17 @@ sym_06034E58:
     mov #0x0, r3
     mov.l   _pool_sh2_state_flag, r2
     mov.l r3, @r2
-    bra     .L_poll_sf_sshon
+    bra     .L_06034E64
     nop
 
-.L_poll_sf_sshon:
+.L_06034E64:
     mov.l   _pool_sf_ptr, r0
     mov.l @r0, r0
     mov.b @r0, r0
     extu.b r0, r0
     and #0x1, r0
     cmp/eq #0x1, r0
-    bt      .L_poll_sf_sshon
+    bt      .L_06034E64
 
     mov.l   _pool_sf_ptr, r2
     mov.l @r2, r2
@@ -59,38 +59,38 @@ sym_06034E58:
     mov.l   _pool_sshon_cmd, r3
     mov.b @r3, r3
     mov.b r3, @r2
-    bra     .L_poll_sf_sshon_done
+    bra     .L_06034E88
     nop
 
-.L_poll_sf_sshon_done:
+.L_06034E88:
     mov.l   _pool_sf_ptr, r0
     mov.l @r0, r0
     mov.b @r0, r0
     extu.b r0, r0
     and #0x1, r0
     cmp/eq #0x1, r0
-    bt      .L_poll_sf_sshon_done
+    bt      .L_06034E88
 
     mov #0x0, r2
     mov r2, r0
     mov.w r0, @(2, r15)
-    bra     .L_delay_check
+    bra     .L_06034EAA
     nop
 
-.L_delay_increment:
+.L_06034EA0:
     mov.w @(2, r15), r0
     mov r0, r2
     add #0x1, r2
     mov r2, r0
     mov.w r0, @(2, r15)
 
-.L_delay_check:
+.L_06034EAA:
     mov.w @(2, r15), r0
     mov r0, r3
     extu.w r3, r3
     mov.w   _wpool_delay_limit, r2
     cmp/ge r2, r3
-    bf      .L_delay_increment
+    bf      .L_06034EA0
 
     mov.l   _pool_sh2_callback_ptr, r2
     mov.l @r2, r2
@@ -106,17 +106,17 @@ sym_06034E58:
     mov.l   _pool_intback_cmd, r3
     mov.b @r3, r3
     mov.b r3, @r2
-    bra     .L_poll_sf_intback
+    bra     .L_06034ED4
     nop
 
-.L_poll_sf_intback:
+.L_06034ED4:
     mov.l   _pool_sf_ptr, r0
     mov.l @r0, r0
     mov.b @r0, r0
     extu.b r0, r0
     and #0x1, r0
     cmp/eq #0x1, r0
-    bt      .L_poll_sf_intback
+    bt      .L_06034ED4
     add #0x4, r15
     rts
     nop

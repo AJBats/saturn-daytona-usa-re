@@ -17,27 +17,27 @@ scene_dual_finalize:
     mov.l r8, @-r15
     sts.l pr, @-r15
     mov #0x8, r8
-    mov.l   .L_scene_output_table_a, r9
-    mov.l   .L_scene_output_table_b, r10
-    mov.l   .L_slot_element_table, r11
-    mov.l   .L_scene_data_table_a, r12
-    mov.l   .L_render_phase_byte, r2
+    mov.l   .L_060261A4, r9
+    mov.l   .L_060261A8, r10
+    mov.l   .L_060261AC, r11
+    mov.l   .L_060261B0, r12
+    mov.l   .L_060261B4, r2
     mov.b r3, @r2
-    mov.l   .L_variant_active_byte, r2
+    mov.l   .L_060261B8, r2
     mov.b r1, @r2
-    mov.l   .L_dual_finalize_flag, r4
+    mov.l   .L_060261BC, r4
     mov.b @r4, r0
     extu.b r0, r0
     tst r0, r0
-    bt/s    .L_first_pass_init
+    bt/s    .L_06026148
     mov #0xE, r13
-    bra     .L_epilogue
+    bra     .L_060262AA
     nop
-.L_first_pass_init:
+.L_06026148:
     mov #0x1, r3
     mov.b r3, @r4
     extu.w r14, r4
-.L_slot_init_loop:
+.L_0602614E:
     extu.b r4, r5
     mov r5, r3
     add #0x1, r4
@@ -54,9 +54,9 @@ scene_dual_finalize:
     mov.w r3, @r2
     extu.w r4, r2
     cmp/ge r13, r2
-    bf      .L_slot_init_loop
+    bf      .L_0602614E
     extu.w r14, r4
-.L_scan_data_a_priority:
+.L_06026172:
     extu.w r4, r2
     shll2 r2
     shll r2
@@ -65,43 +65,43 @@ scene_dual_finalize:
     mov.w @r3, r2
     extu.w r2, r2
     tst r2, r2
-    bt      .L_scan_data_a_next
-    bra     .L_scan_data_a_found
+    bt      .L_06026188
+    bra     .L_06026190
     nop
-.L_scan_data_a_next:
+.L_06026188:
     add #0x1, r4
     extu.w r4, r2
     cmp/ge r13, r2
-    bf      .L_scan_data_a_priority
-.L_scan_data_a_found:
+    bf      .L_06026172
+.L_06026190:
     extu.w r4, r4
     cmp/ge r13, r4
-    bt      .L_skip_to_pass2
-    mov.l   .L_fn_scene_finalize_a, r3
+    bt      .L_060261A0
+    mov.l   .L_060261C0, r3
     jsr @r3
     nop
-    bra     .L_merge_pass1_start
+    bra     .L_06026218
     nop
-.L_skip_to_pass2:
-    bra     .L_pass2_outer_loop_check
+.L_060261A0:
+    bra     .L_06026212
     extu.w r14, r5
-.L_scene_output_table_a:
+.L_060261A4:
     .4byte  sym_06060F2C                /* scene output table A (8-byte stride) */
-.L_scene_output_table_b:
+.L_060261A8:
     .4byte  sym_0606107C                /* scene output table B (8-byte stride) */
-.L_slot_element_table:
+.L_060261AC:
     .4byte  sym_060610BC                /* slot element table (12-byte stride) */
-.L_scene_data_table_a:
+.L_060261B0:
     .4byte  sym_06060D7C                /* scene data table A (8-byte stride) */
-.L_render_phase_byte:
+.L_060261B4:
     .4byte  sym_06061198                /* render phase state byte */
-.L_variant_active_byte:
+.L_060261B8:
     .4byte  sym_06061199                /* variant active flag byte */
-.L_dual_finalize_flag:
+.L_060261BC:
     .4byte  sym_06060D78                /* dual finalize active flag byte */
-.L_fn_scene_finalize_a:
+.L_060261C0:
     .4byte  scene_finalize_a            /* rebuilds scene output from data table A */
-.L_pass1_outer_body:
+.L_060261C4:
     extu.w r14, r4
     extu.b r5, r7
     extu.w r5, r6
@@ -115,7 +115,7 @@ scene_dual_finalize:
     add r11, r7
     shll r6
     add r12, r6
-.L_pass1_inner_loop:
+.L_060261DE:
     extu.w r4, r3
     shll2 r3
     shll r3
@@ -127,7 +127,7 @@ scene_dual_finalize:
     mov r0, r3
     extu.w r3, r3
     cmp/eq r3, r2
-    bf      .L_pass1_no_match
+    bf      .L_06026206
     mov.l @r6, r2
     extu.w r4, r3
     shll2 r3
@@ -136,20 +136,20 @@ scene_dual_finalize:
     mov.w @(4, r3), r0
     mov r0, r1
     mov.w r1, @r2
-.L_pass1_no_match:
+.L_06026206:
     add #0x1, r4
     mov #0xA, r2
     extu.w r4, r3
     cmp/ge r2, r3
-    bf      .L_pass1_inner_loop
+    bf      .L_060261DE
     add #0x1, r5
-.L_pass2_outer_loop_check:
+.L_06026212:
     extu.w r5, r2
     cmp/ge r13, r2
-    bf      .L_pass1_outer_body
-.L_merge_pass1_start:
+    bf      .L_060261C4
+.L_06026218:
     extu.w r14, r4
-.L_scan_data_a_count:
+.L_0602621A:
     extu.w r4, r2
     shll2 r2
     shll r2
@@ -158,18 +158,18 @@ scene_dual_finalize:
     mov.w @r3, r2
     extu.w r2, r2
     tst r2, r2
-    bt      .L_scan_data_a_count_next
-    bra     .L_scan_data_a_count_found
+    bt      .L_06026230
+    bra     .L_06026238
     nop
-.L_scan_data_a_count_next:
+.L_06026230:
     add #0x1, r4
     extu.w r4, r2
     cmp/ge r13, r2
-    bf      .L_scan_data_a_count
-.L_scan_data_a_count_found:
+    bf      .L_0602621A
+.L_06026238:
     extu.w r4, r4
     cmp/ge r13, r4
-    bt      .L_all_counts_zero
+    bt      .L_06026252
     lds.l @r15+, pr
     mov.l @r15+, r8
     mov.l @r15+, r9
@@ -177,13 +177,13 @@ scene_dual_finalize:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    mov.l   .L_fn_scene_finalize_b, r3
+    mov.l   .L_060262BC, r3
     jmp @r3
     mov.l @r15+, r14
-.L_all_counts_zero:
-    bra     .L_pass2_outer_check
+.L_06026252:
+    bra     .L_060262A4
     extu.w r14, r5
-.L_pass2_outer_body:
+.L_06026256:
     extu.w r14, r4
     extu.b r5, r7
     extu.w r5, r6
@@ -198,7 +198,7 @@ scene_dual_finalize:
     shll r6
     add r12, r6
     add #0x4, r6
-.L_pass2_inner_loop:
+.L_06026272:
     extu.w r4, r3
     shll2 r3
     shll r3
@@ -210,7 +210,7 @@ scene_dual_finalize:
     mov r0, r3
     extu.w r3, r3
     cmp/eq r3, r2
-    bf      .L_pass2_no_match
+    bf      .L_0602629A
     mov.l @r6, r2
     extu.w r4, r3
     shll2 r3
@@ -219,17 +219,17 @@ scene_dual_finalize:
     mov.w @(4, r3), r0
     mov r0, r1
     mov.w r1, @r2
-.L_pass2_no_match:
+.L_0602629A:
     add #0x1, r4
     extu.w r4, r3
     cmp/ge r8, r3
-    bf      .L_pass2_inner_loop
+    bf      .L_06026272
     add #0x1, r5
-.L_pass2_outer_check:
+.L_060262A4:
     extu.w r5, r3
     cmp/ge r13, r3
-    bf      .L_pass2_outer_body
-.L_epilogue:
+    bf      .L_06026256
+.L_060262AA:
     lds.l @r15+, pr
     mov.l @r15+, r8
     mov.l @r15+, r9
@@ -239,5 +239,5 @@ scene_dual_finalize:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_fn_scene_finalize_b:
+.L_060262BC:
     .4byte  scene_finalize_b            /* rebuilds scene output from data table B */

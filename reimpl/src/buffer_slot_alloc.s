@@ -17,28 +17,28 @@ buffer_slot_alloc:
     add #0x18, r0
     mov.b @(r0, r4), r0
     cmp/eq #0x1, r0
-    bt      .L_slot_active
-    bra     .L_epilogue
+    bt      .L_06041052
+    bra     .L_060410C0
     mov #-0x7, r0
-.L_slot_active:
+.L_06041052:
     mov #0x18, r2
     cmp/ge r2, r1
-    bf      .L_capacity_ok
-    bra     .L_epilogue
+    bf      .L_06041060
+    bra     .L_060410C0
     mov #-0x8, r0
 .L_pool_0604105C:
     .4byte  sym_060A5400
-.L_capacity_ok:
+.L_06041060:
     mov.l @r14, r2
     mov #0x58, r0
     mov.l @(r0, r2), r0
     tst r0, r0
-    bf      .L_dirty_already_set
+    bf      .L_06041072
     mov.l @r14, r3
     mov #0x1, r2
     mov #0x58, r0
     mov.l r2, @(r0, r3)
-.L_dirty_already_set:
+.L_06041072:
     mov r1, r13
     exts.b r4, r4
     exts.b r5, r5
@@ -78,7 +78,7 @@ buffer_slot_alloc:
     .byte   0xB4, 0x00    /* bsr 0x060418BE (external) */
     mov r15, r4
     mov #0x0, r0
-.L_epilogue:
+.L_060410C0:
     add #0x4, r15
     lds.l @r15+, pr
     mov.l @r15+, r13

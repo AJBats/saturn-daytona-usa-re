@@ -10,7 +10,7 @@ sprite_buffer_init:
     mov.l r12, @-r15
     sts.l pr, @-r15
     mov.w   .L_wpool_060116A2, r13
-    mov.l   .L_vdp2_vram_0x5F800, r12
+    mov.l   .L_060116A4, r12
     .byte   0xBF, 0xE1    /* bsr 0x0601164A (external) */
     mov #0x0, r14
     extu.w r14, r4
@@ -29,5 +29,5 @@ sprite_buffer_init:
     mov.l @r15+, r14
 .L_wpool_060116A2:
     .2byte  0x0100                      /* [MEDIUM] sprite buffer entry count (256 longwords) */
-.L_vdp2_vram_0x5F800:
+.L_060116A4:
     .4byte  0x25E5F800                  /* VDP2 VRAM +0x5F800 */

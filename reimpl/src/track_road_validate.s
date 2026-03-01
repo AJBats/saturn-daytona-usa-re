@@ -17,17 +17,17 @@ track_road_validate:
     mov #0x3, r8
     mov #0x0, r9
     mov #0x1, r11
-    .byte   0xDC, 0x22    /* mov.l .L_fn_checkpoint_validate, r12 */
-    .byte   0xDE, 0x20    /* mov.l .L_car_state_base, r14 */
+    .byte   0xDC, 0x22    /* mov.l .L_06041960, r12 */
+    .byte   0xDE, 0x20    /* mov.l .L_0604195C, r14 */
     mov r4, r10
-    bra     .L_loop_condition
+    bra     .L_060419F6
     mov r9, r13
-.L_loop_body:
+.L_060418E0:
     mov.l @r14, r0
     mov #0x58, r1
     mov.l @(r0, r1), r0
     cmp/eq #0x1, r0
-    bf      .L_check_phase2
+    bf      .L_0604192E
     mov.l @r14, r5
     mov r13, r3
     add #0x5C, r5
@@ -37,16 +37,16 @@ track_road_validate:
     mov.l r5, @r15
     mov.b @(1, r5), r0
     mov.l @r15, r4
-    .byte   0xD3, 0x19    /* mov.l .L_fn_road_width, r3 */
+    .byte   0xD3, 0x19    /* mov.l .L_06041964, r3 */
     mov r0, r5
     jsr @r3
     mov.b @r4, r4
     mov r0, r4
     tst r4, r4
-    bt      .L_width_ok
-    bra     .L_loop_exit
+    bt      .L_0604190E
+    bra     .L_06041A04
     nop
-.L_width_ok:
+.L_0604190E:
     mov r15, r4
     jsr @r12
     add #0x4, r4
@@ -63,12 +63,12 @@ track_road_validate:
     mov #0x2, r3
     mov #0x58, r0
     mov.l r3, @(r0, r2)
-.L_check_phase2:
+.L_0604192E:
     mov #0x58, r1
     mov.l @r14, r0
     mov.l @(r0, r1), r0
     cmp/eq #0x2, r0
-    bf      .L_check_phase3
+    bf      .L_060419A6
     mov r13, r3
     mov.l @r14, r5
     shll2 r3
@@ -78,24 +78,24 @@ track_road_validate:
     mov.l r5, @r15
     add #0x2, r5
     mov.l @r15, r4
-    .byte   0xD3, 0x07    /* mov.l .L_fn_bank_calc, r3 */
+    .byte   0xD3, 0x07    /* mov.l .L_06041968, r3 */
     jsr @r3
     mov.b @r4, r4
     mov r0, r4
     tst r4, r4
-    bt      .L_bank_ok
-    bra     .L_loop_exit
+    bt      .L_0604196C
+    bra     .L_06041A04
     nop
     .2byte  0xFFFF
-.L_car_state_base:
+.L_0604195C:
     .4byte  sym_060A5400
-.L_fn_checkpoint_validate:
+.L_06041960:
     .4byte  ai_checkpoint_validate
-.L_fn_road_width:
+.L_06041964:
     .4byte  track_road_width_main
-.L_fn_bank_calc:
+.L_06041968:
     .4byte  track_bank_calc
-.L_bank_ok:
+.L_0604196C:
     mov r15, r4
     jsr @r12
     add #0x4, r4
@@ -116,22 +116,22 @@ track_road_validate:
     add r2, r3
     mov.l @(12, r3), r0
     tst r0, r0
-    bt      .L_no_extra_segment
+    bt      .L_060419A0
     mov.l @r14, r3
     mov #0x58, r0
     mov.l r8, @(r0, r3)
-    bra     .L_check_phase3
+    bra     .L_060419A6
     nop
-.L_no_extra_segment:
+.L_060419A0:
     mov.l @r14, r2
     mov #0x58, r0
     mov.l r11, @(r0, r2)
-.L_check_phase3:
+.L_060419A6:
     mov #0x58, r1
     mov.l @r14, r0
     mov.l @(r0, r1), r0
     cmp/eq #0x3, r0
-    bf      .L_advance_segment
+    bf      .L_060419F4
     mov r13, r3
     mov.l @r14, r6
     shll2 r3
@@ -142,16 +142,16 @@ track_road_validate:
     mov.l @(12, r6), r6
     mov.l @r15, r5
     mov.l @r15, r4
-    .byte   0xD3, 0x27    /* mov.l .L_fn_seg_interpolate, r3 */
+    .byte   0xD3, 0x27    /* mov.l .L_06041A64, r3 */
     mov.l @(8, r5), r5
     jsr @r3
     mov.b @r4, r4
     mov r0, r4
     tst r4, r4
-    bt      .L_interp_ok
-    bra     .L_loop_exit
+    bt      .L_060419D6
+    bra     .L_06041A04
     nop
-.L_interp_ok:
+.L_060419D6:
     mov r15, r4
     jsr @r12
     add #0x4, r4
@@ -167,34 +167,34 @@ track_road_validate:
     mov.l @r14, r2
     mov #0x58, r0
     mov.l r11, @(r0, r2)
-.L_advance_segment:
+.L_060419F4:
     add #0x1, r13
-.L_loop_condition:
+.L_060419F6:
     mov #0x54, r0
     mov.l @r14, r3
     mov.l @(r0, r3), r2
     cmp/ge r2, r13
-    bt      .L_loop_exit
-    bra     .L_loop_body
+    bt      .L_06041A04
+    bra     .L_060418E0
     nop
-.L_loop_exit:
+.L_06041A04:
     mov.l @r14, r2
     mov #0x54, r0
     mov.l @(r0, r2), r3
     cmp/ge r3, r13
-    bf      .L_compact_remaining
+    bf      .L_06041A16
     mov.l @r14, r2
     mov #0x54, r0
-    bra     .L_input_status_check
+    bra     .L_06041A48
     mov.l r9, @(r0, r2)
-.L_compact_remaining:
-    bra     .L_compact_condition
+.L_06041A16:
+    bra     .L_06041A38
     mov r9, r4
-.L_compact_copy:
+.L_06041A1A:
     mov r4, r1
     mov r13, r2
     mov.l @r14, r5
-    .byte   0xD3, 0x11    /* mov.l .L_fn_memcpy_long, r3 */
+    .byte   0xD3, 0x11    /* mov.l .L_06041A68, r3 */
     shll2 r1
     shll2 r2
     add #0x5C, r5
@@ -206,19 +206,19 @@ track_road_validate:
     mov #0x10, r0
     add #0x1, r13
     add #0x1, r4
-.L_compact_condition:
+.L_06041A38:
     mov.l @r14, r2
     mov #0x54, r0
     mov.l @(r0, r2), r3
     cmp/ge r3, r13
-    bf      .L_compact_copy
+    bf      .L_06041A1A
     mov.l @r14, r2
     mov #0x54, r0
     mov.l r4, @(r0, r2)
-.L_input_status_check:
+.L_06041A48:
     mov #0x40, r3
     mov.l r3, @r15
-    .byte   0xD3, 0x07    /* mov.l .L_fn_smpc_status, r3 */
+    .byte   0xD3, 0x07    /* mov.l .L_06041A6C, r3 */
     jsr @r3
     nop
     mov r0, r5
@@ -226,30 +226,30 @@ track_road_validate:
     exts.w r5, r4
     and r3, r4
     tst r4, r4
-    bt      .L_input_bit_clear
-    bra     .L_input_bit_set
+    bt      .L_06041A70
+    bra     .L_06041A72
     mov #0x1, r4
     .2byte  0xFFFF
-.L_fn_seg_interpolate:
+.L_06041A64:
     .4byte  track_seg_interpolate
-.L_fn_memcpy_long:
+.L_06041A68:
     .4byte  sym_06035168
-.L_fn_smpc_status:
+.L_06041A6C:
     .4byte  sym_06035C4E
-.L_input_bit_clear:
+.L_06041A70:
     mov #0x0, r4
-.L_input_bit_set:
+.L_06041A72:
     tst r4, r4
-    bt      .L_read_final_count
+    bt      .L_06041A86
     mov.l @r14, r3
     mov #0x54, r0
     mov.l @(r0, r3), r0
     tst r0, r0
-    bf      .L_read_final_count
+    bf      .L_06041A86
     mov.l @r14, r3
     mov #0x58, r0
     mov.l r9, @(r0, r3)
-.L_read_final_count:
+.L_06041A86:
     mov #0x54, r1
     mov.l @r14, r0
     mov.l @(r0, r1), r0

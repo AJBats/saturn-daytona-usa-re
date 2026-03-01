@@ -18,22 +18,22 @@ evt_state_dispatch:
     mov.l @(4, r4), r4
     mov r0, r4
     tst r4, r4
-    bt      .L_update_ok
+    bt      .L_06040C34
     add #0x8, r15
     lds.l @r15+, pr
     rts
     mov #0x0, r0
-.L_update_ok:
+.L_06040C34:
     mov.l   .L_pool_06040C58, r3
     jsr @r3
     nop
     tst r0, r0
-    bt      .L_poll_done
+    bt      .L_06040C46
     add #0x8, r15
     lds.l @r15+, pr
     rts
     mov #0x0, r0
-.L_poll_done:
+.L_06040C46:
     mov #0x1, r0
     add #0x8, r15
     lds.l @r15+, pr

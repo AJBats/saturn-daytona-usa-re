@@ -45,30 +45,30 @@ dma_param_chain_init:
     shlr2 r3
     mov.l r3, @(8, r15)
     cmp/pl r11
-    bf/s    .L_y_not_positive
+    bf/s    .L_0603FD98
     mov.l r3, @(20, r15)
-    bra     .L_y_dir_done
+    bra     .L_0603FDA6
     mov.l r12, @(24, r15)
-.L_y_not_positive:
+.L_0603FD98:
     cmp/pz r11
-    bt      .L_y_dir_zero
+    bt      .L_0603FDA4
     mov #0x2, r3
     mov.l r3, @(24, r15)
-    bra     .L_y_dir_done
+    bra     .L_0603FDA6
     nop
-.L_y_dir_zero:
+.L_0603FDA4:
     mov.l r13, @(24, r15)
-.L_y_dir_done:
+.L_0603FDA6:
     cmp/pl r10
-    bf      .L_x_not_positive
-    bra     .L_x_dir_done
+    bf      .L_0603FDAE
+    bra     .L_0603FDCA
     mov.l r12, @(28, r15)
-.L_x_not_positive:
+.L_0603FDAE:
     cmp/pz r10
-    bt      .L_x_dir_zero
+    bt      .L_0603FDC8
     mov #0x2, r3
     mov.l r3, @(28, r15)
-    bra     .L_x_dir_done
+    bra     .L_0603FDCA
     nop
     .2byte  0xFFFF              /* alignment padding */
 .L_pool_0603FDBC:
@@ -77,9 +77,9 @@ dma_param_chain_init:
     .4byte  sym_06042BBE
 .L_pool_0603FDC4:
     .4byte  sym_06042A8C
-.L_x_dir_zero:
+.L_0603FDC8:
     mov.l r13, @(28, r15)
-.L_x_dir_done:
+.L_0603FDCA:
     mov r14, r5
     mov r15, r4
     mov.w   .L_wpool_0603FE2E, r3
@@ -95,11 +95,11 @@ dma_param_chain_init:
     mov.l   .L_pool_0603FE38, r3
     jsr @r3
     mov r14, r4
-.L_poll_render:
+.L_0603FDE8:
     jsr @r9
     mov r14, r4
     tst r0, r0
-    bt      .L_poll_render
+    bt      .L_0603FDE8
     mov #0x3, r4
     mov.l @(8, r15), r14
     mov.l @(4, r15), r3

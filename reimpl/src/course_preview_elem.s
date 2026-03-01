@@ -9,27 +9,27 @@ course_preview_elem:
     .byte   0xB0, 0x24    /* bsr 0x060336C8 (external) */
     nop
     lds.l @r15+, pr
-.L_search_loop:
+.L_06033682:
     .byte   0xD5, 0x10    /* mov.l .L_pool_060336C4, r5 */
     add r5, r0
     mov.l @(r0, r2), r3
     cmp/eq r4, r3
-    bt      .L_match_found
+    bt      .L_06033692
     add #-0x1, r6
     cmp/pl r6
-    bt      .L_search_loop
-.L_match_found:
+    bt      .L_06033682
+.L_06033692:
     mov #0x6, r2
     .byte   0xD3, 0x7A    /* mov.l .L_pool_06033880, r3 */
     mov.b @r3, r3
     cmp/pl r3
-    bt      .L_write_cmd
+    bt      .L_060336AA
     mov.l r0, @-r15
     mov #0x1, r0
     cmp/ge r4, r0
     mov.l @r15+, r0
-    bf      .L_write_cmd
+    bf      .L_060336AA
     shll2 r4
     add r4, r2
-.L_write_cmd:
+.L_060336AA:
     mov.w r2, @-r1

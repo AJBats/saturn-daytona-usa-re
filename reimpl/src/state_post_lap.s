@@ -8,303 +8,303 @@ state_post_lap:
     mov.l r14, @-r15
     mov.l r13, @-r15
     sts.l pr, @-r15
-    mov.l   .L_course_state_ptr, r13
-    mov.l   .L_next_game_state, r14
-    mov.l   .L_input_buttons, r3
+    mov.l   .L_06009350, r13
+    mov.l   .L_06009354, r14
+    mov.l   .L_06009358, r3
     mov.w @r3, r2
     extu.w r2, r2
-    mov.w   .L_btn_start_mask, r3
+    mov.w   .L_0600934C, r3
     and r3, r2
     tst r2, r2
-    bt      .L_start_not_pressed
+    bt      .L_060092F2
     mov #0x11, r3
-    mov.l   .L_transition_state, r2
+    mov.l   .L_0600935C, r2
     mov.l r3, @r2
     mov #0x12, r3
     mov.l r3, @r14
-.L_start_not_pressed:
-    mov.l   .L_fn_race_frame_proc, r3
+.L_060092F2:
+    mov.l   .L_06009360, r3
     jsr @r3
     nop
-    mov.l   .L_timing_flag, r0
+    mov.l   .L_06009364, r0
     mov.b @r0, r0
     tst r0, r0
-    bf      .L_check_event_flags
-    mov.l   .L_race_active_flag, r0
+    bf      .L_0600932C
+    mov.l   .L_06009368, r0
     mov.l @r0, r0
     tst r0, r0
-    bf      .L_check_event_flags
-    mov.l   .L_countdown_timer, r3
-    mov.l   .L_countdown_timer, r2
+    bf      .L_0600932C
+    mov.l   .L_0600936C, r3
+    mov.l   .L_0600936C, r2
     mov.l @r3, r3
     add #-0x1, r3
     cmp/pl r3
-    bt/s    .L_check_event_flags
+    bt/s    .L_0600932C
     mov.l r3, @r2
-    mov.l   .L_fn_transition_prepare, r3
+    mov.l   .L_06009370, r3
     jsr @r3
     nop
-    mov.l   .L_player_car_ptr, r2
+    mov.l   .L_06009374, r2
     mov.l @r2, r2
-    mov.w   .L_off_car_score, r0
+    mov.w   .L_0600934E, r0
     mov.l @(r0, r2), r3
-    mov.l   .L_score_store, r1
+    mov.l   .L_06009378, r1
     mov.l r3, @r1
     mov #0x18, r3
     mov.l r3, @r14
-.L_check_event_flags:
-    mov.l   .L_race_event_flags, r4
+.L_0600932C:
+    mov.l   .L_0600937C, r4
     mov.l @r4, r0
     tst #0x1, r0
-    bt      .L_check_idle_counter
+    bt      .L_06009384
     mov #-0x2, r3
     mov.l @r4, r2
     and r3, r2
-    mov.l   .L_fn_transition_prepare, r3
+    mov.l   .L_06009370, r3
     jsr @r3
     mov.l r2, @r4
     mov #0x14, r2
-    mov.l   .L_fn_handler_init_reset, r3
+    mov.l   .L_06009380, r3
     jsr @r3
     mov.l r2, @r14
-    bra     .L_check_sound_trigger
+    bra     .L_06009394
     nop
-.L_btn_start_mask:
+.L_0600934C:
     .2byte  0x0800
-.L_off_car_score:
+.L_0600934E:
     .2byte  0x0240
-.L_course_state_ptr:
+.L_06009350:
     .4byte  sym_0607EAD8
-.L_next_game_state:
+.L_06009354:
     .4byte  g_game_state
-.L_input_buttons:
+.L_06009358:
     .4byte  sym_06063D9A
-.L_transition_state:
+.L_0600935C:
     .4byte  sym_0607EACC
-.L_fn_race_frame_proc:
+.L_06009360:
     .4byte  sym_0600A33C
-.L_timing_flag:
+.L_06009364:
     .4byte  sym_06085FF4
-.L_race_active_flag:
+.L_06009368:
     .4byte  sym_0607EAD0
-.L_countdown_timer:
+.L_0600936C:
     .4byte  sym_0607EAAC
-.L_fn_transition_prepare:
+.L_06009370:
     .4byte  sym_060192CA
-.L_player_car_ptr:
+.L_06009374:
     .4byte  sym_0607E944
-.L_score_store:
+.L_06009378:
     .4byte  sym_06078638
-.L_race_event_flags:
+.L_0600937C:
     .4byte  sym_0607EBF4
-.L_fn_handler_init_reset:
+.L_06009380:
     .4byte  handler_init_reset
-.L_check_idle_counter:
-    mov.l   .L_race_active_flag_2, r0
+.L_06009384:
+    mov.l   .L_060093D0, r0
     mov.l @r0, r0
     tst r0, r0
-    bf      .L_check_sound_trigger
-    mov.l   .L_idle_frame_counter, r4
+    bf      .L_06009394
+    mov.l   .L_060093D4, r4
     mov.l @r4, r3
     add #0x1, r3
     mov.l r3, @r4
-.L_check_sound_trigger:
-    mov.l   .L_sound_timer, r2
+.L_06009394:
+    mov.l   .L_060093D8, r2
     mov.w @r2, r2
     extu.w r2, r2
     tst r2, r2
-    bf      .L_check_replay_mode
-    mov.l   .L_countdown_timer_2, r3
-    mov.w   .L_sound_trigger_val, r2
+    bf      .L_060093B6
+    mov.l   .L_060093DC, r3
+    mov.w   .L_060093CE, r2
     mov.l @r3, r3
     cmp/eq r2, r3
-    bf      .L_check_replay_mode
-    mov.l   .L_snd_cmd_lap_complete, r5
-    mov.l   .L_fn_sound_dispatch, r3
+    bf      .L_060093B6
+    mov.l   .L_060093E0, r5
+    mov.l   .L_060093E4, r3
     jsr @r3
     mov #0x0, r4
     mov #0x28, r2
-    mov.l   .L_sound_timer, r3
+    mov.l   .L_060093D8, r3
     mov.w r2, @r3
-.L_check_replay_mode:
-    mov.l   .L_replay_mode_flag, r0
+.L_060093B6:
+    mov.l   .L_060093E8, r0
     mov.b @r0, r0
     tst r0, r0
-    bt      .L_check_camera
+    bt      .L_060093F6
     mov.l @r13, r0
     tst r0, r0
-    bt      .L_call_race_init
-    mov.l   .L_fn_race_cleanup, r3
+    bt      .L_060093F0
+    mov.l   .L_060093EC, r3
     jsr @r3
     nop
-    bra     .L_check_camera
+    bra     .L_060093F6
     nop
-.L_sound_trigger_val:
+.L_060093CE:
     .2byte  0x00C8
-.L_race_active_flag_2:
+.L_060093D0:
     .4byte  sym_0607EAD0
-.L_idle_frame_counter:
+.L_060093D4:
     .4byte  sym_0607EBD0
-.L_sound_timer:
+.L_060093D8:
     .4byte  sym_06086054
-.L_countdown_timer_2:
+.L_060093DC:
     .4byte  sym_0607EAAC
-.L_snd_cmd_lap_complete:
+.L_060093E0:
     .4byte  0xAE1134FF
-.L_fn_sound_dispatch:
+.L_060093E4:
     .4byte  sound_cmd_dispatch
-.L_replay_mode_flag:
+.L_060093E8:
     .4byte  sym_06078636
-.L_fn_race_cleanup:
+.L_060093EC:
     .4byte  race_cleanup_handler
-.L_call_race_init:
-    mov.l   .L_fn_race_init_helper, r3
+.L_060093F0:
+    mov.l   .L_060094A4, r3
     jsr @r3
     nop
-.L_check_camera:
-    mov.l   .L_camera_active_flag, r0
+.L_060093F6:
+    mov.l   .L_060094A8, r0
     mov.l @r0, r0
     tst r0, r0
-    bt      .L_check_menu_overlay
-    mov.l   .L_fn_camera_event, r3
+    bt      .L_06009410
+    mov.l   .L_060094AC, r3
     jsr @r3
     nop
     mov.l @r13, r0
     tst r0, r0
-    bt      .L_check_menu_overlay
-    mov.l   .L_fn_replay_camera, r3
+    bt      .L_06009410
+    mov.l   .L_060094B0, r3
     jsr @r3
     nop
-.L_check_menu_overlay:
-    mov.l   .L_menu_active_flag, r0
+.L_06009410:
+    mov.l   .L_060094B4, r0
     mov.b @r0, r0
     tst r0, r0
-    bt      .L_check_lap_complete
-    mov.l   .L_fn_menu_overlay, r3
+    bt      .L_0600941E
+    mov.l   .L_060094B8, r3
     jsr @r3
     mov #0x0, r4
-.L_check_lap_complete:
-    mov.l   .L_lap_complete_status, r0
+.L_0600941E:
+    mov.l   .L_060094BC, r0
     mov.l @r0, r0
     cmp/eq #0x1, r0
-    bf      .L_check_attract_camera
+    bf      .L_0600942A
     mov #0x1C, r3
     mov.l r3, @r14
-.L_check_attract_camera:
+.L_0600942A:
     mov.l @r13, r0
     cmp/eq #0x2, r0
-    bf      .L_per_frame_updates
-    mov.l   .L_fn_camera_attract, r3
+    bf      .L_06009436
+    mov.l   .L_060094C0, r3
     jsr @r3
     nop
-.L_per_frame_updates:
-    mov.l   .L_fn_car_iteration, r3
+.L_06009436:
+    mov.l   .L_060094C4, r3
     jsr @r3
     nop
-    mov.l   .L_fn_car_proximity, r3
+    mov.l   .L_060094C8, r3
     jsr @r3
     nop
-    mov.l   .L_fn_camera_system, r3
+    mov.l   .L_060094CC, r3
     jsr @r3
     nop
-    mov.l   .L_camera_eye_pos, r6
-    mov.l   .L_camera_target_pos, r5
-    mov.l   .L_camera_up_vec, r4
-    mov.l   .L_fn_camera_orient, r3
+    mov.l   .L_060094D0, r6
+    mov.l   .L_060094D4, r5
+    mov.l   .L_060094D8, r4
+    mov.l   .L_060094DC, r3
     jsr @r3
     mov.l @r6, r6
-    mov.l   .L_fn_snd_race_update, r3
+    mov.l   .L_060094E0, r3
     jsr @r3
     nop
-    mov.l   .L_fn_scene_master, r3
+    mov.l   .L_060094E4, r3
     jsr @r3
     nop
-    mov.l   .L_extended_display_flag, r0
+    mov.l   .L_060094E8, r0
     mov.w @r0, r0
     extu.w r0, r0
     tst r0, r0
-    bt      .L_check_minimap
-    mov.l   .L_fn_extended_display, r3
+    bt      .L_06009470
+    mov.l   .L_060094EC, r3
     jsr @r3
     nop
-.L_check_minimap:
-    mov.l   .L_minimap_enable_flag, r0
+.L_06009470:
+    mov.l   .L_060094F0, r0
     mov.b @r0, r0
     extu.b r0, r0
     tst r0, r0
-    bt      .L_check_replay_data
-    mov.l   .L_minimap_data_ptr, r7
-    mov.l   .L_mask_nibble3, r6
-    mov.w   .L_minimap_param, r5
-    mov.l   .L_fn_minimap_render, r3
+    bt      .L_06009486
+    mov.l   .L_060094F4, r7
+    mov.l   .L_060094F8, r6
+    mov.w   .L_060094A0, r5
+    mov.l   .L_060094FC, r3
     jsr @r3
     mov #0x8, r4
-.L_check_replay_data:
-    mov.l   .L_player_car_ptr_2, r2
-    mov.w   .L_off_car_replay, r0
+.L_06009486:
+    mov.l   .L_06009500, r2
+    mov.w   .L_060094A2, r0
     mov.l @r2, r2
     mov.l @(r0, r2), r3
     cmp/pl r3
-    bf      .L_epilogue
+    bf      .L_06009496
     .byte   0xB5, 0xF7    /* bsr 0x0600A084 (replay_record */
     nop
-.L_epilogue:
+.L_06009496:
     lds.l @r15+, pr
     mov.l @r15+, r13
-    mov.l   .L_fn_frame_end_commit, r3
+    mov.l   .L_06009504, r3
     jmp @r3
     mov.l @r15+, r14
-.L_minimap_param:
+.L_060094A0:
     .2byte  0x0082
-.L_off_car_replay:
+.L_060094A2:
     .2byte  0x00BC
-.L_fn_race_init_helper:
+.L_060094A4:
     .4byte  sym_06012198
-.L_camera_active_flag:
+.L_060094A8:
     .4byte  sym_0607EAE0
-.L_fn_camera_event:
+.L_060094AC:
     .4byte  camera_event_handler
-.L_fn_replay_camera:
+.L_060094B0:
     .4byte  replay_camera_ctrl
-.L_menu_active_flag:
+.L_060094B4:
     .4byte  sym_0605AB18
-.L_fn_menu_overlay:
+.L_060094B8:
     .4byte  menu_overlay_render
-.L_lap_complete_status:
+.L_060094BC:
     .4byte  sym_0605A1C4
-.L_fn_camera_attract:
+.L_060094C0:
     .4byte  camera_attract_init
-.L_fn_car_iteration:
+.L_060094C4:
     .4byte  car_iteration_loop
-.L_fn_car_proximity:
+.L_060094C8:
     .4byte  car_proximity_check
-.L_fn_camera_system:
+.L_060094CC:
     .4byte  camera_system
-.L_camera_eye_pos:
+.L_060094D0:
     .4byte  sym_06063E24
-.L_camera_target_pos:
+.L_060094D4:
     .4byte  sym_06063EEC
-.L_camera_up_vec:
+.L_060094D8:
     .4byte  sym_06063EF8
-.L_fn_camera_orient:
+.L_060094DC:
     .4byte  camera_orient_calc
-.L_fn_snd_race_update:
+.L_060094E0:
     .4byte  snd_race_update
-.L_fn_scene_master:
+.L_060094E4:
     .4byte  scene_master
-.L_extended_display_flag:
+.L_060094E8:
     .4byte  sym_0607ED8C
-.L_fn_extended_display:
+.L_060094EC:
     .4byte  sym_060033E6
-.L_minimap_enable_flag:
+.L_060094F0:
     .4byte  sym_06086030
-.L_minimap_data_ptr:
+.L_060094F4:
     .4byte  sym_0605A1C8
-.L_mask_nibble3:
+.L_060094F8:
     .4byte  0x0000F000
-.L_fn_minimap_render:
+.L_060094FC:
     .4byte  sym_060283E0
-.L_player_car_ptr_2:
+.L_06009500:
     .4byte  sym_0607E944
-.L_fn_frame_end_commit:
+.L_06009504:
     .4byte  frame_end_commit

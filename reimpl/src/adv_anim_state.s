@@ -15,263 +15,263 @@ adv_anim_state:
     sts.l pr, @-r15
     mov #0x1, r8
     mov #0x0, r9
-    mov.l   .L_ptr_memcpy_word_idx, r10
-    mov.l   .L_ptr_toggle_flag, r12
-    mov.l   .L_ptr_frame_mirror, r13
-    mov.l   .L_ptr_frame_counter, r14
-    mov.l   .L_ptr_game_mode, r0
-    bra     .L_dispatch_game_mode
+    mov.l   .L_060107B4, r10
+    mov.l   .L_060107B8, r12
+    mov.l   .L_060107BC, r13
+    mov.l   .L_060107C0, r14
+    mov.l   .L_060107C4, r0
+    bra     .L_06010792
     mov.b @r0, r0
-.L_mode_frames_5:
-    bra     .L_check_overlay_special
+.L_06010782:
+    bra     .L_060107C8
     mov #0x5, r4
-.L_mode_frames_7:
-    bra     .L_check_overlay_special
+.L_06010786:
+    bra     .L_060107C8
     mov #0x7, r4
-.L_mode_frames_9:
-    bra     .L_check_overlay_special
+.L_0601078A:
+    bra     .L_060107C8
     mov #0x9, r4
-.L_mode_frames_3:
-    bra     .L_check_overlay_special
+.L_0601078E:
+    bra     .L_060107C8
     mov #0x3, r4
-.L_dispatch_game_mode:
+.L_06010792:
     cmp/eq #0x1, r0
-    bt      .L_mode_frames_5
+    bt      .L_06010782
     cmp/eq #0x2, r0
-    bt      .L_mode_frames_5
+    bt      .L_06010782
     cmp/eq #0x3, r0
-    bt      .L_mode_frames_7
+    bt      .L_06010786
     cmp/eq #0x4, r0
-    bt      .L_mode_frames_5
+    bt      .L_06010782
     cmp/eq #0x5, r0
-    bt      .L_mode_frames_7
+    bt      .L_06010786
     cmp/eq #0x6, r0
-    bt      .L_mode_frames_7
+    bt      .L_06010786
     cmp/eq #0x7, r0
-    bt      .L_mode_frames_9
-    bra     .L_mode_frames_3
+    bt      .L_0601078A
+    bra     .L_0601078E
     nop
     .2byte  0xFFFF
-.L_ptr_memcpy_word_idx:
+.L_060107B4:
     .4byte  memcpy_word_idx                  /* word-indexed memcpy routine */
-.L_ptr_toggle_flag:
+.L_060107B8:
     .4byte  sym_060788A8                     /* DMA pair toggle flag (byte) */
-.L_ptr_frame_mirror:
+.L_060107BC:
     .4byte  sym_06078868                     /* frame mirror / sprite index (dword) */
-.L_ptr_frame_counter:
+.L_060107C0:
     .4byte  sym_0607EADC                     /* animation frame counter (dword) */
-.L_ptr_game_mode:
+.L_060107C4:
     .4byte  sym_0605AB16                     /* game mode byte (1-7) */
-.L_check_overlay_special:
-    mov.l   .L_ptr_overlay_flags, r0
+.L_060107C8:
+    mov.l   .L_06010874, r0
     mov.b @r0, r0
     cmp/eq #0x7, r0
-    bf      .L_check_overlay_15
+    bf      .L_060107D2
     mov #0xB, r4
-.L_check_overlay_15:
-    mov.l   .L_ptr_overlay_flags, r0
+.L_060107D2:
+    mov.l   .L_06010874, r0
     mov.b @r0, r0
     cmp/eq #0xF, r0
-    bf      .L_read_input
+    bf      .L_060107DC
     mov #0xD, r4
-.L_read_input:
-    mov.l   .L_ptr_input_word, r0
-    mov.l   .L_mask_low16, r3
+.L_060107DC:
+    mov.l   .L_06010878, r0
+    mov.l   .L_0601087C, r3
     mov.w @r0, r0
     extu.w r0, r0
     xor r3, r0
     and #0xFF, r0
-    mov.w   .L_threshold_fwd, r3
+    mov.w   .L_06010870, r3
     extu.w r0, r11
     cmp/gt r3, r11
-    bf      .L_check_backward
-    mov.l   .L_fp_neg_one, r3
-    mov.l   .L_ptr_anim_direction, r2
+    bf      .L_06010832
+    mov.l   .L_06010880, r3
+    mov.l   .L_06010884, r2
     mov.l r3, @r2
     mov #0x1E, r3
-    mov.l   .L_ptr_timer_value, r2
+    mov.l   .L_06010888, r2
     mov.l r3, @r2
     mov.l @r14, r3
     add #0x1, r3
     mov r3, r2
     mov.l r3, @r14
     cmp/gt r4, r2
-    bf      .L_fwd_store_dma
+    bf      .L_0601080A
     mov.l r9, @r14
-.L_fwd_store_dma:
-    mov.l   .L_fp_fwd_dma_size, r5
+.L_0601080A:
+    mov.l   .L_0601088C, r5
     mov.b @r12, r0
     extu.b r0, r0
     tst r0, r0
-    bt      .L_fwd_toggle_off
+    bt      .L_06010826
     extu.b r9, r3
     mov.b r3, @r12
-    mov.l   .L_ptr_dma_result_a, r3
+    mov.l   .L_06010890, r3
     mov.l r5, @r3
     mov.l @r14, r2
-    mov.l   .L_ptr_frame_idx_a, r3
+    mov.l   .L_06010894, r3
     mov.l r2, @r3
-    bra     .L_check_backward
+    bra     .L_06010832
     nop
-.L_fwd_toggle_off:
+.L_06010826:
     mov.b r8, @r12
-    mov.l   .L_ptr_dma_result_b, r3
+    mov.l   .L_06010898, r3
     mov.l r5, @r3
     mov.l @r14, r2
-    mov.l   .L_ptr_frame_idx_b, r3
+    mov.l   .L_0601089C, r3
     mov.l r2, @r3
-.L_check_backward:
+.L_06010832:
     extu.w r11, r2
     mov #0x70, r3
     cmp/ge r3, r2
-    bt      .L_update_frame_output
-    mov.l   .L_fp_one, r3
-    mov.l   .L_ptr_anim_direction, r2
+    bt      .L_060108B4
+    mov.l   .L_060108A0, r3
+    mov.l   .L_06010884, r2
     mov.l r3, @r2
     mov #0x1E, r3
-    mov.l   .L_ptr_timer_value, r2
+    mov.l   .L_06010888, r2
     mov.l r3, @r2
     mov.l @r14, r3
     add #-0x1, r3
     mov.l r3, @r14
     mov r3, r2
     cmp/pz r2
-    bt      .L_bwd_store_dma
+    bt      .L_06010854
     mov.l r4, @r14
-.L_bwd_store_dma:
-    mov.l   .L_fp_bwd_dma_size, r4
+.L_06010854:
+    mov.l   .L_060108A4, r4
     mov.b @r12, r0
     extu.b r0, r0
     tst r0, r0
-    bt      .L_bwd_toggle_off
+    bt      .L_060108A8
     extu.b r9, r3
     mov.b r3, @r12
-    mov.l   .L_ptr_dma_result_a, r3
+    mov.l   .L_06010890, r3
     mov.l r4, @r3
     mov.l @r14, r2
-    mov.l   .L_ptr_frame_idx_a, r3
+    mov.l   .L_06010894, r3
     mov.l r2, @r3
-    bra     .L_update_frame_output
+    bra     .L_060108B4
     nop
-.L_threshold_fwd:
+.L_06010870:
     .2byte  0x0090                           /* forward input threshold (> this = fwd) */
     .2byte  0xFFFF                           /* alignment padding */
-.L_ptr_overlay_flags:
+.L_06010874:
     .4byte  sym_0605AB17                     /* overlay flags byte */
-.L_ptr_input_word:
+.L_06010878:
     .4byte  sym_06063D9C                     /* input state word (button/analog) */
-.L_mask_low16:
+.L_0601087C:
     .4byte  0x0000FFFF                  /* low 16-bit mask */
-.L_fp_neg_one:
+.L_06010880:
     .4byte  0xFFFF0000                  /* -1.0 (16.16 fixed-point) */
-.L_ptr_anim_direction:
+.L_06010884:
     .4byte  sym_0607889C                     /* per-frame scroll delta (16.16 fp) */
-.L_ptr_timer_value:
+.L_06010888:
     .4byte  sym_0605AA9C                     /* animation hold timer (frames) */
-.L_fp_fwd_dma_size:
+.L_0601088C:
     .4byte  0x000C0000                       /* +12.0 (16.16 fp) — forward DMA size */
-.L_ptr_dma_result_a:
+.L_06010890:
     .4byte  sym_06078894                     /* scroll X position accumulator */
-.L_ptr_frame_idx_a:
+.L_06010894:
     .4byte  sym_060788A0                     /* game state counter (pair A) */
-.L_ptr_dma_result_b:
+.L_06010898:
     .4byte  sym_06078898                     /* scroll Y position accumulator */
-.L_ptr_frame_idx_b:
+.L_0601089C:
     .4byte  sym_060788A4                     /* frame index (pair B) */
-.L_fp_one:
+.L_060108A0:
     .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
-.L_fp_bwd_dma_size:
+.L_060108A4:
     .4byte  0xFFF40000                       /* -12.0 (16.16 fp) — backward DMA size */
-.L_bwd_toggle_off:
+.L_060108A8:
     mov.b r8, @r12
-    mov.l   .L_ptr_dma_result_b2, r3
+    mov.l   .L_06010974, r3
     mov.l r4, @r3
     mov.l @r14, r2
-    mov.l   .L_ptr_frame_idx_b2, r3
+    mov.l   .L_06010978, r3
     mov.l r2, @r3
-.L_update_frame_output:
+.L_060108B4:
     mov.l @r14, r2
     mov.l r2, @r13
     mov r2, r3
     and r8, r3
-    mov.l   .L_ptr_frame_output, r2
+    mov.l   .L_0601097C, r2
     mov.l r3, @r2
     mov.l @r13, r1
     mov #0xA, r2
     cmp/hs r2, r1
-    bt      .L_palette_section
+    bt      .L_06010912
     mov.b @r12, r0
     extu.b r0, r0
     tst r0, r0
-    bt      .L_tile_lookup_toggle_off
+    bt      .L_060108F2
     mov.w   DAT_0601096e, r6
     mov.l @r13, r5
-    mov.l   .L_ptr_tile_table, r3
-    mov.l   .L_ptr_game_state_idx, r4
+    mov.l   .L_06010980, r3
+    mov.l   .L_06010984, r4
     shll2 r5
     mov.l @r4, r4
     add r3, r5
     shll2 r4
     mov.l @r5, r5
     shll r4
-    mov.l   .L_ptr_car_struct_base, r2
+    mov.l   .L_06010988, r2
     mov.l @r2, r2
     add r2, r4
     mov r6, r1
     add #0x40, r1
-    bra     .L_call_memcpy_tile
+    bra     .L_0601090E
     add r1, r4
-.L_tile_lookup_toggle_off:
+.L_060108F2:
     mov.w   DAT_0601096e, r6
     mov.l @r13, r5
-    mov.l   .L_ptr_tile_table, r3
-    mov.l   .L_ptr_game_state_idx, r4
+    mov.l   .L_06010980, r3
+    mov.l   .L_06010984, r4
     shll2 r5
     mov.l @r4, r4
     add r3, r5
     shll2 r4
     mov.l @r5, r5
     shll r4
-    mov.l   .L_ptr_car_struct_base, r2
+    mov.l   .L_06010988, r2
     mov.l @r2, r2
     add r2, r4
     add #0x40, r4
-.L_call_memcpy_tile:
+.L_0601090E:
     jsr @r10
     nop
-.L_palette_section:
+.L_06010912:
     extu.w r11, r4
     mov #0x70, r3
     cmp/ge r3, r4
-    bf      .L_palette_frame_check
-    mov.w   .L_threshold_bwd_hi, r3
+    bf      .L_06010920
+    mov.w   .L_06010970, r3
     cmp/gt r3, r4
-    bf      .L_epilogue
-.L_palette_frame_check:
+    bf      .L_0601095C
+.L_06010920:
     mov.l @r13, r3
     mov #0xC, r2
     cmp/hs r2, r3
-    bt      .L_palette_high_frame
+    bt      .L_06010938
     mov.l @r13, r5
     shll2 r5
     shll2 r5
     shll2 r5
-    mov.l   .L_ptr_palette_table, r3
+    mov.l   .L_0601098C, r3
     add r3, r5
-    bra     .L_palette_compute_cram
+    bra     .L_06010948
     mov #0x40, r6
-.L_palette_high_frame:
+.L_06010938:
     mov #0x40, r6
     mov.l @r13, r5
     add #-0x2, r5
     shll2 r5
     shll2 r5
     shll2 r5
-    mov.l   .L_ptr_palette_table, r3
+    mov.l   .L_0601098C, r3
     add r3, r5
-.L_palette_compute_cram:
-    mov.l   .L_ptr_frame_output, r4
-    mov.l   .L_vdp2_cram_0x000, r2
+.L_06010948:
+    mov.l   .L_0601097C, r4
+    mov.l   .L_06010990, r2
     mov.l @r4, r4
     shll r4
     add #0x23, r4
@@ -280,7 +280,7 @@ adv_anim_state:
     shll r4
     jsr @r10
     add r2, r4
-.L_epilogue:
+.L_0601095C:
     lds.l @r15+, pr
     mov.l @r15+, r8
     mov.l @r15+, r9
@@ -294,22 +294,22 @@ adv_anim_state:
     .global DAT_0601096e
 DAT_0601096e:
     .2byte  0x00C0                           /* tile block size (192 bytes) */
-.L_threshold_bwd_hi:
+.L_06010970:
     .2byte  0x0090                           /* upper dead zone bound for palette skip */
     .2byte  0xFFFF                           /* alignment padding */
-.L_ptr_dma_result_b2:
+.L_06010974:
     .4byte  sym_06078898                     /* scroll Y accumulator (pair B, 2nd ref) */
-.L_ptr_frame_idx_b2:
+.L_06010978:
     .4byte  sym_060788A4                     /* frame index pair B (2nd ref) */
-.L_ptr_frame_output:
+.L_0601097C:
     .4byte  sym_0607EAB8                     /* frame output (odd/even selector) */
-.L_ptr_tile_table:
+.L_06010980:
     .4byte  sym_0605D05C                     /* tile data lookup table base */
-.L_ptr_game_state_idx:
+.L_06010984:
     .4byte  sym_06059FFC                     /* current game state index */
-.L_ptr_car_struct_base:
+.L_06010988:
     .4byte  sym_06063F5C                     /* car struct array base pointer */
-.L_ptr_palette_table:
+.L_0601098C:
     .4byte  sym_0605CA9C                     /* 64-byte palette entry table base */
-.L_vdp2_cram_0x000:
+.L_06010990:
     .4byte  0x25F00000                       /* VDP2 color RAM base address */

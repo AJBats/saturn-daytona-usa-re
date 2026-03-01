@@ -10,189 +10,189 @@ course_init_pipeline:
     mov.l r12, @-r15
     mov.l r11, @-r15
     sts.l pr, @-r15
-    mov.l   .L_ptr_input_struct, r12
-    mov.l   .L_ptr_course_index, r14
-    mov.l   .L_fp_half, r5
-    mov.l   .L_ptr_course_confirm, r4
+    mov.l   .L_0601A9A8, r12
+    mov.l   .L_0601A9AC, r14
+    mov.l   .L_0601A9B0, r5
+    mov.l   .L_0601A9B4, r4
     mov.w @(2, r12), r0
     mov r0, r3
     extu.w r3, r3
     and r5, r3
     tst r3, r3
-    bt/s    .L_check_dpad_left
+    bt/s    .L_0601A96C
     mov #0x0, r13
     mov.b @r14, r3
     add #0x1, r3
     mov.b r3, @r14
     exts.b r13, r2
-    bra     .L_clamp_index
+    bra     .L_0601A9D2
     mov.b r2, @r4
-.L_check_dpad_left:
+.L_0601A96C:
     mov.w   DAT_0601a9a4, r6
     mov.w @(2, r12), r0
     mov r0, r2
     extu.w r2, r2
     and r6, r2
     tst r2, r2
-    bt      .L_check_held_right
+    bt      .L_0601A986
     mov.b @r14, r3
     add #-0x1, r3
     mov.b r3, @r14
     exts.b r13, r2
-    bra     .L_clamp_index
+    bra     .L_0601A9D2
     mov.b r2, @r4
-.L_check_held_right:
+.L_0601A986:
     mov.w @r12, r2
     extu.w r2, r2
     and r5, r2
     tst r2, r2
-    bt      .L_check_held_left
+    bt      .L_0601A9B8
     mov.b @r4, r0
     cmp/eq #0x14, r0
-    bf      .L_clamp_index
+    bf      .L_0601A9D2
     mov.b @r14, r2
     add #0x1, r2
     mov.b r2, @r14
     exts.b r13, r3
     mov.b r3, @r4
-    bra     .L_clamp_index
+    bra     .L_0601A9D2
     nop
 
     .global DAT_0601a9a4
 DAT_0601a9a4:
     .2byte  0x4000
     .2byte  0xFFFF
-.L_ptr_input_struct:
+.L_0601A9A8:
     .4byte  g_pad_state
-.L_ptr_course_index:
+.L_0601A9AC:
     .4byte  sym_0605D24C
-.L_fp_half:
+.L_0601A9B0:
     .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
-.L_ptr_course_confirm:
+.L_0601A9B4:
     .4byte  sym_0605D243
-.L_check_held_left:
+.L_0601A9B8:
     mov.w @r12, r2
     extu.w r2, r2
     and r6, r2
     tst r2, r2
-    bt      .L_clamp_index
+    bt      .L_0601A9D2
     mov.b @r4, r0
     cmp/eq #0x14, r0
-    bf      .L_clamp_index
+    bf      .L_0601A9D2
     mov.b @r14, r2
     add #-0x1, r2
     mov.b r2, @r14
     exts.b r13, r3
     mov.b r3, @r4
-.L_clamp_index:
+.L_0601A9D2:
     mov #0x32, r3
     mov.b @r14, r2
     cmp/ge r3, r2
-    bf      .L_check_negative
+    bf      .L_0601A9DE
     exts.b r13, r3
     mov.b r3, @r14
-.L_check_negative:
+.L_0601A9DE:
     mov.b @r14, r2
     cmp/pz r2
-    bt      .L_check_action_buttons
+    bt      .L_0601A9E8
     mov #0x31, r2
     mov.b r2, @r14
-.L_check_action_buttons:
+.L_0601A9E8:
     mov.w @(2, r12), r0
     extu.w r0, r0
     tst #0xF8, r0
-    bt      .L_check_start_pressed
+    bt      .L_0601A9F4
     exts.b r13, r3
     mov.b r3, @r14
-.L_check_start_pressed:
+.L_0601A9F4:
     mov.w @(2, r12), r0
     mov.w   DAT_0601aa3a, r3
     mov r0, r2
     extu.w r2, r2
     and r3, r2
     tst r2, r2
-    bt      .L_update_scroll_layers
-    mov.l   .L_ptr_course_active_flag, r0
+    bt      .L_0601AA78
+    mov.l   .L_0601AA3C, r0
     mov.b @r0, r0
     extu.b r0, r0
     tst r0, r0
-    bt      .L_select_variant
-    mov.l   .L_fn_sound_ram_upload_a, r3
+    bt      .L_0601AA1E
+    mov.l   .L_0601AA40, r3
     jsr @r3
     nop
-    mov.l   .L_fn_sound_ram_upload_b, r3
+    mov.l   .L_0601AA44, r3
     jsr @r3
     nop
     extu.b r13, r2
-    mov.l   .L_ptr_course_active_flag, r3
+    mov.l   .L_0601AA3C, r3
     mov.b r2, @r3
-.L_select_variant:
+.L_0601AA1E:
     mov #0x24, r3
-    mov.l   .L_ptr_variant_init_flag, r11
+    mov.l   .L_0601AA48, r11
     mov.b @r14, r2
     cmp/ge r3, r2
-    bt      .L_index_ge_0x24
+    bt      .L_0601AA50
     mov.b @r11, r3
     tst r3, r3
-    bt      .L_send_sound_cmds
-    mov.l   .L_fn_race_variant_e, r3
+    bt      .L_0601AA60
+    mov.l   .L_0601AA4C, r3
     jsr @r3
     nop
     exts.b r13, r2
-    bra     .L_send_sound_cmds
+    bra     .L_0601AA60
     mov.b r2, @r11
 
     .global DAT_0601aa3a
 DAT_0601aa3a:
     .2byte  0x0600
-.L_ptr_course_active_flag:
+.L_0601AA3C:
     .4byte  sym_06085FF6
-.L_fn_sound_ram_upload_a:
+.L_0601AA40:
     .4byte  sym_06012EC4
-.L_fn_sound_ram_upload_b:
+.L_0601AA44:
     .4byte  sym_06012F00
-.L_ptr_variant_init_flag:
+.L_0601AA48:
     .4byte  sym_06085FF7
-.L_fn_race_variant_e:
+.L_0601AA4C:
     .4byte  race_variant_e
-.L_index_ge_0x24:
+.L_0601AA50:
     mov.b @r11, r0
     cmp/eq #0x1, r0
-    bt      .L_send_sound_cmds
-    mov.l   .L_fn_race_variant_f, r3
+    bt      .L_0601AA60
+    mov.l   .L_0601AAC8, r3
     jsr @r3
     nop
     mov #0x1, r2
     mov.b r2, @r11
-.L_send_sound_cmds:
-    mov.l   .L_snd_init_cmd, r5
-    mov.l   .L_fn_sound_cmd_dispatch, r3
+.L_0601AA60:
+    mov.l   .L_0601AACC, r5
+    mov.l   .L_0601AAD0, r3
     jsr @r3
     mov #0x0, r4
     mov.b @r14, r5
-    mov.l   .L_course_snd_cmd_table, r3
-    mov.l   .L_fn_sound_cmd_dispatch, r2
+    mov.l   .L_0601AAD4, r3
+    mov.l   .L_0601AAD0, r2
     shll2 r5
     add r3, r5
     mov.l @r5, r5
     jsr @r2
     mov #0x0, r4
-.L_update_scroll_layers:
-    mov.l   .L_fn_geom_render_dispatch, r11
+.L_0601AA78:
+    mov.l   .L_0601AAD8, r11
     mov #0x0, r6
     mov.w   DAT_0601aac2, r5
-    mov.l   .L_scroll_layer_name, r7
+    mov.l   .L_0601AADC, r7
     jsr @r11
     mov #0xC, r4
-    mov.l   .L_scroll_layer_name, r7
+    mov.l   .L_0601AADC, r7
     mov #0x0, r6
-    mov.w   .L_scroll_offset_b, r5
+    mov.w   .L_0601AAC4, r5
     jsr @r11
     mov #0xC, r4
     mov.b @r14, r7
-    mov.l   .L_course_render_params, r3
-    mov.l   .L_mask_0xE000, r6
-    mov.w   .L_scroll_offset_b, r5
+    mov.l   .L_0601AAE0, r3
+    mov.l   .L_0601AAE4, r6
+    mov.w   .L_0601AAC4, r5
     shll r7
     shll2 r7
     add r3, r7
@@ -200,8 +200,8 @@ DAT_0601aa3a:
     jsr @r11
     mov #0xC, r4
     mov.b @r14, r7
-    mov.l   .L_course_render_params, r3
-    mov.l   .L_mask_0xE000, r6
+    mov.l   .L_0601AAE0, r3
+    mov.l   .L_0601AAE4, r6
     mov.w   DAT_0601aac2, r5
     shll r7
     shll2 r7
@@ -219,22 +219,22 @@ DAT_0601aa3a:
     .global DAT_0601aac2
 DAT_0601aac2:
     .2byte  0x099C
-.L_scroll_offset_b:
+.L_0601AAC4:
     .2byte  0x091C
     .2byte  0xFFFF
-.L_fn_race_variant_f:
+.L_0601AAC8:
     .4byte  race_variant_f
-.L_snd_init_cmd:
+.L_0601AACC:
     .4byte  0xAE0001FF
-.L_fn_sound_cmd_dispatch:
+.L_0601AAD0:
     .4byte  sound_cmd_dispatch
-.L_course_snd_cmd_table:
+.L_0601AAD4:
     .4byte  sym_06049CFC
-.L_fn_geom_render_dispatch:
+.L_0601AAD8:
     .4byte  sym_060283E0
-.L_scroll_layer_name:
+.L_0601AADC:
     .4byte  sym_06049CDC
-.L_course_render_params:
+.L_0601AAE0:
     .4byte  sym_0605D35C
-.L_mask_0xE000:
+.L_0601AAE4:
     .4byte  0x0000E000                  /* bits 15:13 mask */

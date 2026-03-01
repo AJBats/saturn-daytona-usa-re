@@ -15,11 +15,11 @@ minimap_render:
     sts.l pr, @-r15
     mov.l   .L_pool_06015668, r8
     mov #0x4, r9
-    mov.l   .L_fp_half, r10
+    mov.l   .L_0601566C, r10
     mov.l   .L_pool_06015670, r11
     mov.l   .L_pool_06015674, r13
     mov #0x0, r14
-.L_slot_loop:
+.L_060155C0:
     extu.b r14, r4
     mov r4, r0
     cmp/eq #0x3, r0
@@ -28,7 +28,7 @@ minimap_render:
     .word 0x0129
     or r1, r0
     tst r0, r0
-    bt      .L_direct_copy
+    bt      .L_06015614
     extu.b r14, r12
     mov r8, r5
     mov r12, r3
@@ -47,7 +47,7 @@ minimap_render:
     mov.l @(28, r12), r4
     mov r0, r2
     cmp/pz r2
-    bt/s    .L_integrate_accum
+    bt/s    .L_0601562A
     mov.l r0, @(20, r12)
     extu.b r14, r4
     mov r4, r3
@@ -60,9 +60,9 @@ minimap_render:
     add r13, r4
     mov.l @(20, r4), r2
     neg r2, r2
-    bra     .L_integrate_accum
+    bra     .L_0601562A
     mov.l r2, @(20, r4)
-.L_direct_copy:
+.L_06015614:
     extu.b r14, r4
     mov r4, r3
     shll2 r4
@@ -74,7 +74,7 @@ minimap_render:
     add r13, r4
     mov.l @(28, r4), r2
     mov.l r2, @(16, r4)
-.L_integrate_accum:
+.L_0601562A:
     extu.b r14, r4
     mov r4, r3
     add #0x1, r14
@@ -95,7 +95,7 @@ minimap_render:
     mov.l r3, @(28, r4)
     extu.b r14, r2
     cmp/ge r9, r2
-    bf      .L_slot_loop
+    bf      .L_060155C0
     lds.l @r15+, pr
     mov.l @r15+, r8
     mov.l @r15+, r9
@@ -108,7 +108,7 @@ minimap_render:
     .2byte  0xFFFF
 .L_pool_06015668:
     .4byte  0x0000DDB2                  /* ~0.866 (16.16 FP scale factor, sin(60) or cos(30)) */
-.L_fp_half:
+.L_0601566C:
     .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_06015670:
     .4byte  fpmul

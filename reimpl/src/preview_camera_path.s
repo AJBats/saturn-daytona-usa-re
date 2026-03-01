@@ -6,88 +6,88 @@
     .type preview_camera_path, @function
 preview_camera_path:
     sts.l pr, @-r15
-    mov.l   .L_status_word, r3
+    mov.l   .L_0601AB50, r3
     mov.w @r3, r2
     extu.w r2, r2
-    mov.w   .L_preview_button_mask, r3
+    mov.w   .L_0601AB4E, r3
     and r3, r2
     tst r2, r2
     bt      .L_0601AB48
     mov #0x1E, r3
-    mov.l   .L_game_state, r2
+    mov.l   .L_0601AB54, r2
     mov #0x1, r5
     mov #0x0, r4
     mov.l r3, @r2
     exts.b r4, r0
     extu.b r5, r3
-    mov.l   .L_preview_flag_a, r2
+    mov.l   .L_0601AB58, r2
     exts.b r5, r5
     mov.b r3, @r2
-    mov.l   .L_preview_flag_b, r2
+    mov.l   .L_0601AB5C, r2
     mov.b r4, @r2
-    mov.l   .L_preview_flag_c, r2
+    mov.l   .L_0601AB60, r2
     mov.b r0, @r2
-    mov.l   .L_preview_flag_d, r3
+    mov.l   .L_0601AB64, r3
     mov.b r5, @r3
-    mov.l   .L_preview_flag_e, r3
+    mov.l   .L_0601AB68, r3
     mov.b r4, @r3
     extu.b r4, r4
-    mov.l   .L_preview_flag_f, r3
+    mov.l   .L_0601AB6C, r3
     mov.b r4, @r3
-    mov.l   .L_fn_layer_config, r3
+    mov.l   .L_0601AB70, r3
     jsr @r3
     mov #0xC, r4
-    mov.l   .L_render_flags, r4
-    mov.l   .L_fn_render_commit, r3
+    mov.l   .L_0601AB74, r4
+    mov.l   .L_0601AB78, r3
     mov.l @r4, r0
     or #0x4, r0
     jsr @r3
     mov.l r0, @r4
-    mov.l   .L_fn_course_draw, r3
+    mov.l   .L_0601AB7C, r3
     jsr @r3
     nop
-    mov.l   .L_snd_cmd_preview, r5
-    mov.l   .L_fn_sound_dispatch, r3
+    mov.l   .L_0601AB80, r5
+    mov.l   .L_0601AB84, r3
     jsr @r3
     mov #0xF, r4
-    mov.l   .L_fn_handler_reset, r3
+    mov.l   .L_0601AB88, r3
     jmp @r3
     lds.l @r15+, pr
 .L_0601AB48:
     lds.l @r15+, pr
     rts
     nop
-.L_preview_button_mask:
+.L_0601AB4E:
     .2byte  0x0700                        /* preview trigger: bits 8-10 */
-.L_status_word:
+.L_0601AB50:
     .4byte  sym_06063D9A               /* input status word (16-bit) */
-.L_game_state:
+.L_0601AB54:
     .4byte  g_game_state               /* game state dispatch value */
-.L_preview_flag_a:
+.L_0601AB58:
     .4byte  sym_0605E0A2               /* preview camera flag A (byte) */
-.L_preview_flag_b:
+.L_0601AB5C:
     .4byte  sym_06085FF0               /* preview camera flag B (byte) */
-.L_preview_flag_c:
+.L_0601AB60:
     .4byte  sym_0605D245               /* preview camera flag C (byte) */
-.L_preview_flag_d:
+.L_0601AB64:
     .4byte  sym_06085FF1               /* preview camera flag D (byte) */
-.L_preview_flag_e:
+.L_0601AB68:
     .4byte  sym_06085FF2               /* preview camera flag E (byte) */
-.L_preview_flag_f:
+.L_0601AB6C:
     .4byte  sym_06085FF3               /* preview camera flag F (byte) */
-.L_fn_layer_config:
+.L_0601AB70:
     .4byte  sym_0602853E               /* display layer configuration */
-.L_render_flags:
+.L_0601AB74:
     .4byte  sym_0605B6D8               /* render mode flags (32-bit) */
-.L_fn_render_commit:
+.L_0601AB78:
     .4byte  sym_06028560               /* render state commit */
-.L_fn_course_draw:
+.L_0601AB7C:
     .4byte  course_select_draw         /* course selection screen draw */
-.L_snd_cmd_preview:
+.L_0601AB80:
     .4byte  0xAE0001FF                  /* sound command: preview music */
-.L_fn_sound_dispatch:
+.L_0601AB84:
     .4byte  sound_cmd_dispatch         /* sound command dispatcher */
-.L_fn_handler_reset:
+.L_0601AB88:
     .4byte  handler_init_reset         /* handler initialization reset */
 
     .global sym_0601AB8C

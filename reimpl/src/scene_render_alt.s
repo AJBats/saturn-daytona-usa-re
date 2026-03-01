@@ -16,12 +16,12 @@ scene_render_alt:
     mov r5, r13
     mov.l @r5, r14
     mov.l @(8, r5), r12
-    .byte   0xDB, 0x07    /* mov.l .L_tile_index_table, r11 */
-    .byte   0xDA, 0x08    /* mov.l .L_tile_data_base, r10 */
-    .byte   0xD0, 0x08    /* mov.l .L_race_mode_ptr, r0 */
+    .byte   0xDB, 0x07    /* mov.l .L_06027F14, r11 */
+    .byte   0xDA, 0x08    /* mov.l .L_06027F18, r10 */
+    .byte   0xD0, 0x08    /* mov.l .L_06027F1C, r0 */
     mov.l @r0, r0
     cmp/eq #0x2, r0
-    bt      .L_mode2_car_lookup
+    bt      .L_06027F20
     mov r4, r0
     shll r0
     add #0x1, r0
@@ -30,59 +30,59 @@ scene_render_alt:
     mov r4, r0
     shll2 r0
     mov.w @(r0, r11), r8
-    bra     .L_start_plane_loop
+    bra     .L_06027F84
     shlr r8
-.L_tile_index_table:
+.L_06027F14:
     .4byte  sym_060C2000
-.L_tile_data_base:
+.L_06027F18:
     .4byte  sym_060BF000
-.L_race_mode_ptr:
+.L_06027F1C:
     .4byte  sym_0607EAD8
-.L_mode2_car_lookup:
-    .byte   0xD1, 0x04    /* mov.l .L_car_id_list, r1 */
+.L_06027F20:
+    .byte   0xD1, 0x04    /* mov.l .L_06027F34, r1 */
     xor r9, r9
-.L_scan_car_list:
+.L_06027F24:
     mov.w @r1+, r0
     tst r0, r0
-    bt      .L_car_not_found
+    bt      .L_06027F64
     cmp/eq r0, r4
-    bt      .L_car_id_found
-    bra     .L_scan_car_list
+    bt      .L_06027F38
+    bra     .L_06027F24
     add #0x2, r9
     .2byte  0x0000
-.L_car_id_list:
+.L_06027F34:
     .4byte  sym_06061270
-.L_car_id_found:
-    .byte   0xD1, 0x07    /* mov.l .L_car_struct_ptr, r1 */
+.L_06027F38:
+    .byte   0xD1, 0x07    /* mov.l .L_06027F58, r1 */
     mov.l @r1, r1
     mov.w   DAT_06027f56, r0
     mov.l @(r0, r1), r1
     mov #0x46, r0
     cmp/gt r0, r1
-    bt      .L_car_not_found
+    bt      .L_06027F64
     shll r9
-    .byte   0xD0, 0x04    /* mov.l .L_car_render_table, r0 */
+    .byte   0xD0, 0x04    /* mov.l .L_06027F5C, r0 */
     add r9, r0
-    .byte   0xD1, 0x04    /* mov.l .L_active_cmd_slot, r1 */
+    .byte   0xD1, 0x04    /* mov.l .L_06027F60, r1 */
     mov.w @r0+, r2
     mov.w @r0, r9
-    bra     .L_check_override
+    bra     .L_06027F66
     mov.w r2, @r1
 
     .global DAT_06027f56
 DAT_06027f56:
     .2byte  0x01EC
-.L_car_struct_ptr:
+.L_06027F58:
     .4byte  sym_0607E940
-.L_car_render_table:
+.L_06027F5C:
     .4byte  sym_06061240
-.L_active_cmd_slot:
+.L_06027F60:
     .4byte  sym_06063F50
-.L_car_not_found:
+.L_06027F64:
     xor r9, r9
-.L_check_override:
+.L_06027F66:
     tst r9, r9
-    bf      .L_use_override_entry
+    bf      .L_06027F7E
     mov r4, r0
     shll r0
     add #0x1, r0
@@ -91,22 +91,22 @@ DAT_06027f56:
     mov r4, r0
     shll2 r0
     mov.w @(r0, r11), r8
-    bra     .L_start_plane_loop
+    bra     .L_06027F84
     shlr r8
-.L_use_override_entry:
-    .byte   0xD0, 0x11    /* mov.l .L_active_cmd_slot_b, r0 */
+.L_06027F7E:
+    .byte   0xD0, 0x11    /* mov.l .L_06027FC4, r0 */
     mov.w @r0, r8
     shlr r8
-.L_start_plane_loop:
+.L_06027F84:
     xor r7, r7
-.L_plane_loop_top:
+.L_06027F86:
     mov r8, r0
     shll r0
     mov.w @(r0, r10), r1
-    .byte   0xD0, 0x0E    /* mov.l .L_obj_struct_size, r0 */
+    .byte   0xD0, 0x0E    /* mov.l .L_06027FC8, r0 */
     mulu.w r0, r1
     sts macl, r5
-    .byte   0xD0, 0x0E    /* mov.l .L_obj_array_base, r0 */
+    .byte   0xD0, 0x0E    /* mov.l .L_06027FCC, r0 */
     add r0, r5
     mov r5, r0
     mov.l @(0, r0), r4
@@ -117,32 +117,32 @@ DAT_06027f56:
     sts macl, r3
     xtrct r0, r3
     add r2, r3
-    .byte   0xD0, 0x09    /* mov.l .L_minit, r0 */
+    .byte   0xD0, 0x09    /* mov.l .L_06027FD0, r0 */
     tst r4, r0
-    bf      .L_plane_x_no_offset
+    bf      .L_06027FB0
     add r12, r3
-.L_plane_x_no_offset:
-    mov.w   .L_flag_negate_x, r0
+.L_06027FB0:
+    mov.w   .L_06027FC0, r0
     tst r0, r4
-    bt      .L_plane_x_check_neg
+    bt      .L_06027FB8
     neg r3, r3
-.L_plane_x_check_neg:
+.L_06027FB8:
     cmp/pz r3
-    bt      .L_test_plane_y
-    bra     .L_plane_culled
+    bt      .L_06027FD4
+    bra     .L_06028064
     nop
-.L_flag_negate_x:
+.L_06027FC0:
     .2byte  0x0100
     .2byte  0x0000
-.L_active_cmd_slot_b:
+.L_06027FC4:
     .4byte  sym_06063F50
-.L_obj_struct_size:
+.L_06027FC8:
     .4byte  0x00000034
-.L_obj_array_base:
+.L_06027FCC:
     .4byte  sym_060A6000
-.L_minit:
+.L_06027FD0:
     .4byte  0x01000000                  /* MINIT — primary SH-2 init comm */
-.L_test_plane_y:
+.L_06027FD4:
     mov r5, r0
     mov.l @(24, r0), r6
     mov.l @(28, r0), r2
@@ -151,26 +151,26 @@ DAT_06027f56:
     sts macl, r3
     xtrct r0, r3
     add r2, r3
-    .byte   0xD0, 0x06    /* mov.l .L_flag_plane_y, r0 */
+    .byte   0xD0, 0x06    /* mov.l .L_06028000, r0 */
     tst r0, r4
-    bf      .L_plane_y_no_offset
+    bf      .L_06027FEC
     add r12, r3
-.L_plane_y_no_offset:
-    mov.w   .L_flag_negate_y, r0
+.L_06027FEC:
+    mov.w   .L_06027FFC, r0
     tst r0, r4
-    bt      .L_plane_y_check_neg
+    bt      .L_06027FF4
     neg r3, r3
-.L_plane_y_check_neg:
+.L_06027FF4:
     cmp/pz r3
-    bt      .L_test_plane_z
-    bra     .L_plane_culled
+    bt      .L_06028004
+    bra     .L_06028064
     nop
-.L_flag_negate_y:
+.L_06027FFC:
     .2byte  0x0200
     .2byte  0x0000
-.L_flag_plane_y:
+.L_06028000:
     .4byte  0x02000000
-.L_test_plane_z:
+.L_06028004:
     mov r5, r0
     mov.l @(32, r0), r6
     mov.l @(36, r0), r2
@@ -179,26 +179,26 @@ DAT_06027f56:
     sts macl, r3
     xtrct r0, r3
     add r2, r3
-    .byte   0xD0, 0x06    /* mov.l .L_flag_plane_z, r0 */
+    .byte   0xD0, 0x06    /* mov.l .L_06028030, r0 */
     tst r0, r4
-    bf      .L_plane_z_no_offset
+    bf      .L_0602801C
     add r12, r3
-.L_plane_z_no_offset:
-    mov.w   .L_flag_negate_z, r0
+.L_0602801C:
+    mov.w   .L_0602802C, r0
     tst r0, r4
-    bt      .L_plane_z_check_neg
+    bt      .L_06028024
     neg r3, r3
-.L_plane_z_check_neg:
+.L_06028024:
     cmp/pz r3
-    bt      .L_test_plane_w
-    bra     .L_plane_culled
+    bt      .L_06028034
+    bra     .L_06028064
     nop
-.L_flag_negate_z:
+.L_0602802C:
     .2byte  0x0400
     .2byte  0x0000
-.L_flag_plane_z:
+.L_06028030:
     .4byte  0x04000000
-.L_test_plane_w:
+.L_06028034:
     mov r5, r0
     mov.l @(40, r0), r6
     mov.l @(44, r0), r2
@@ -207,53 +207,53 @@ DAT_06027f56:
     sts macl, r3
     xtrct r0, r3
     add r2, r3
-    .byte   0xD0, 0x06    /* mov.l .L_flag_plane_w, r0 */
+    .byte   0xD0, 0x06    /* mov.l .L_06028060, r0 */
     tst r0, r4
-    bf      .L_plane_w_no_offset
+    bf      .L_0602804C
     add r12, r3
-.L_plane_w_no_offset:
+.L_0602804C:
     mov.w   DAT_0602805c, r0
     tst r0, r4
-    bt      .L_plane_w_check_neg
+    bt      .L_06028054
     neg r3, r3
-.L_plane_w_check_neg:
+.L_06028054:
     cmp/pz r3
-    bf      .L_plane_culled
-    bra     .L_all_planes_passed
+    bf      .L_06028064
+    bra     .L_06028070
     mov #0x1, r6
 
     .global DAT_0602805c
 DAT_0602805c:
     .2byte  0x0800
     .2byte  0x0000
-.L_flag_plane_w:
+.L_06028060:
     .4byte  0x08000000
-.L_plane_culled:
+.L_06028064:
     add #0x1, r7
     add #0x1, r8
     cmp/ge r9, r7
-    bt      .L_all_planes_passed
-    bra     .L_plane_loop_top
+    bt      .L_06028070
+    bra     .L_06027F86
     nop
-.L_all_planes_passed:
+.L_06028070:
     mov.l @r15+, r6
     tst r6, r6
-    bt      .L_epilogue
+    bt      .L_060280A6
     cmp/eq r7, r9
-    bt      .L_epilogue
-    .byte   0xD0, 0x0F    /* mov.l .L_off_field_x, r0 */
+    bt      .L_060280A6
+    .byte   0xD0, 0x0F    /* mov.l .L_060280B8, r0 */
     mov.l @(r0, r5), r1
     dmuls.l r14, r1
     sts mach, r0
     sts macl, r1
     xtrct r0, r1
-    .byte   0xD0, 0x0D    /* mov.l .L_off_field_y, r0 */
+    .byte   0xD0, 0x0D    /* mov.l .L_060280BC, r0 */
     mov.l @(r0, r5), r2
     dmuls.l r12, r2
     sts mach, r0
     sts macl, r2
     xtrct r0, r2
-    .byte   0xD0, 0x0B    /* mov.l .L_off_field_z, r0 */
+    .byte   0xD0, 0x0B    /* mov.l .L_060280C0, r0 */
     mov.l @(r0, r5), r3
     add r2, r1
     add r3, r1
@@ -263,7 +263,7 @@ DAT_0602805c:
     shll r0
     mov.w @(r0, r10), r1
     mov.w r1, @r6
-.L_epilogue:
+.L_060280A6:
     mov.l @r15+, r8
     mov.l @r15+, r9
     mov.l @r15+, r10
@@ -273,16 +273,16 @@ DAT_0602805c:
     mov.l @r15+, r14
     rts
     nop
-.L_off_field_x:
+.L_060280B8:
     .4byte  0x00000004
-.L_off_field_y:
+.L_060280BC:
     .4byte  0x00000008
-.L_off_field_z:
+.L_060280C0:
     .4byte  0x0000000C
 
     .global sym_060280C4
 sym_060280C4:
-    .byte   0xD3, 0x0A    /* mov.l .L_vdp1_cmd_template_a, r3 */
+    .byte   0xD3, 0x0A    /* mov.l .L_060280F0, r3 */
     mov r4, r2
     mov.w @r3+, r4
     mov r5, r1
@@ -304,7 +304,7 @@ sym_060280C4:
     rts
     mov.l r0, @(24, r1)
     .2byte  0x0000
-.L_vdp1_cmd_template_a:
+.L_060280F0:
     .4byte  sym_060280F4
 
     .global sym_060280F4
@@ -316,7 +316,7 @@ sym_060280F4:
 sym_060280F8:
     mov #0x5, r0
     mov.b @(r0, r4), r6
-    .byte   0xD1, 0x18    /* mov.l .L_tex_index_table, r1 */
+    .byte   0xD1, 0x18    /* mov.l .L_06028160, r1 */
     extu.b r6, r6
     shll8 r6
     shlr2 r6
@@ -326,31 +326,31 @@ sym_060280F8:
     shll r0
     mov.w @(r0, r1), r7
     mulu.w r2, r7
-    .byte   0xD1, 0x14    /* mov.l .L_slot_data_base, r1 */
+    .byte   0xD1, 0x14    /* mov.l .L_06028164, r1 */
     mov #0x6, r0
     sts macl, r2
     add r2, r1
     mov.w @(r0, r1), r6
-    .byte   0xD3, 0x13    /* mov.l .L_draw_mode_table, r3 */
+    .byte   0xD3, 0x13    /* mov.l .L_06028168, r3 */
     mov.b @(4, r4), r0
     and #0xC, r0
     add r0, r3
     mov.l @r3, r0
     mov.w r0, @(0, r5)
     mov.b @(4, r4), r0
-    .byte   0xD2, 0x10    /* mov.l .L_color_mode_table, r2 */
+    .byte   0xD2, 0x10    /* mov.l .L_0602816C, r2 */
     and #0x1, r0
     shll r0
     add r2, r0
     mov.w @r0, r0
     mov.w r0, @(4, r5)
-    .byte   0xD3, 0x0E    /* mov.l .L_tex_base_addr, r3 */
+    .byte   0xD3, 0x0E    /* mov.l .L_06028170, r3 */
     mov.l @r3, r0
     mov #0x8, r3
     mulu.w r3, r7
     add r6, r0
     mov.w r0, @(6, r5)
-    .byte   0xD2, 0x08    /* mov.l .L_slot_data_base, r2 */
+    .byte   0xD2, 0x08    /* mov.l .L_06028164, r2 */
     sts macl, r3
     add r3, r2
     mov.l @(0, r2), r0
@@ -366,15 +366,15 @@ sym_060280F8:
     mov.l r3, @(20, r5)
     rts
     mov.l r1, @(24, r5)
-.L_tex_index_table:
+.L_06028160:
     .4byte  sym_060684EC
-.L_slot_data_base:
+.L_06028164:
     .4byte  sym_06063F64
-.L_draw_mode_table:
+.L_06028168:
     .4byte  sym_06028178
-.L_color_mode_table:
+.L_0602816C:
     .4byte  sym_06028174
-.L_tex_base_addr:
+.L_06028170:
     .4byte  sym_06059FFC
 
     .global sym_06028174
@@ -392,7 +392,7 @@ sym_06028178:
     stc gbr, r0
     .word 0x0000
     .word 0x0032
-    .byte   0xD3, 0x09    /* mov.l .L_vdp1_cmd_template_b, r3 */
+    .byte   0xD3, 0x09    /* mov.l .L_060281B0, r3 */
     mov r4, r2
     mov.w @r3+, r4
     mov r5, r1
@@ -412,7 +412,7 @@ sym_06028178:
     rts
     mov.l r0, @(24, r1)
     .2byte  0x0000
-.L_vdp1_cmd_template_b:
+.L_060281B0:
     .4byte  sym_060281B4
 
     .global sym_060281B4
@@ -422,7 +422,7 @@ sym_060281B4:
 
     .global sym_060281B8
 sym_060281B8:
-    .byte   0xD3, 0x09    /* mov.l .L_vdp1_cmd_template_c, r3 */
+    .byte   0xD3, 0x09    /* mov.l .L_060281E0, r3 */
     mov r4, r2
     mov.w @r3+, r4
     mov r5, r1
@@ -442,14 +442,14 @@ sym_060281B8:
     rts
     mov.l r0, @(24, r1)
     .2byte  0x0000
-.L_vdp1_cmd_template_c:
+.L_060281E0:
     .4byte  sym_060281E4
 
     .global sym_060281E4
 sym_060281E4:
     mov.b r0, @(r0, r0)
     .word 0x05C0
-    .byte   0xD3, 0x09    /* mov.l .L_vdp1_cmd_template_d, r3 */
+    .byte   0xD3, 0x09    /* mov.l .L_06028210, r3 */
     mov r4, r2
     mov.w @r3+, r4
     mov r5, r1
@@ -469,7 +469,7 @@ sym_060281E4:
     rts
     mov.l r0, @(24, r1)
     .2byte  0x0000
-.L_vdp1_cmd_template_d:
+.L_06028210:
     .4byte  sym_06028214
 
     .global sym_06028214
@@ -488,8 +488,8 @@ sym_06028218:
     mov.l r1, @-r15
     mov.l r0, @-r15
     sts.l pr, @-r15
-    .byte   0xD6, 0x21    /* mov.l .L_dlist_data_a, r6 */
-    bra     .L_int_build_dlist
+    .byte   0xD6, 0x21    /* mov.l .L_060282B0, r6 */
+    bra     .L_0602825E
     mov #0x9, r4
 
     .global sym_06028230
@@ -503,8 +503,8 @@ sym_06028230:
     mov.l r1, @-r15
     mov.l r0, @-r15
     sts.l pr, @-r15
-    .byte   0xD6, 0x1D    /* mov.l .L_dlist_data_c, r6 */
-    bra     .L_int_build_dlist
+    .byte   0xD6, 0x1D    /* mov.l .L_060282B8, r6 */
+    bra     .L_0602825E
     mov #0xC, r4
 
     .global sym_06028248
@@ -518,14 +518,14 @@ sym_06028248:
     mov.l r1, @-r15
     mov.l r0, @-r15
     sts.l pr, @-r15
-    .byte   0xD6, 0x18    /* mov.l .L_dlist_data_d, r6 */
+    .byte   0xD6, 0x18    /* mov.l .L_060282BC, r6 */
     mov #0x9, r4
-.L_int_build_dlist:
-    mov.w   .L_sr_irq_mask, r0
+.L_0602825E:
+    mov.w   .L_060282AC, r0
     mov #0x1, r5
     .byte   0xB1, 0xCD    /* bsr 0x06028600 (external) */
     ldc r0, sr
-    .byte   0xD6, 0x13    /* mov.l .L_dlist_data_b, r6 */
+    .byte   0xD6, 0x13    /* mov.l .L_060282B4, r6 */
     mov #0xD, r4
     .byte   0xB1, 0xC9    /* bsr 0x06028600 (external) */
     mov #0x2, r5
@@ -533,10 +533,10 @@ sym_06028248:
     mov #0x2, r5
     .byte   0xB1, 0xB5    /* bsr 0x060285E0 (external) */
     mov.l @(36, r15), r6
-    .byte   0xD4, 0x0A    /* mov.l .L_vram_cfg_src, r4 */
-    .byte   0xD5, 0x0A    /* mov.l .L_vram_cfg_dst, r5 */
-    mov.w   .L_copy_word_count, r6
-    .byte   0xD7, 0x0A    /* mov.l .L_fn_memcpy_word, r7 */
+    .byte   0xD4, 0x0A    /* mov.l .L_060282A0, r4 */
+    .byte   0xD5, 0x0A    /* mov.l .L_060282A4, r5 */
+    mov.w   .L_0602829C, r6
+    .byte   0xD7, 0x0A    /* mov.l .L_060282A8, r7 */
     jsr @r7
     mov.l @r4, r4
     lds.l @r15+, pr
@@ -549,29 +549,29 @@ sym_06028248:
     mov.l @r15+, r6
     mov.l @r15+, r7
     sett
-.L_halt_loop:
-    bt      .L_halt_loop
+.L_06028296:
+    bt      .L_06028296
     rte
     nop
-.L_copy_word_count:
+.L_0602829C:
     .2byte  0x0180
     .2byte  0x0000
-.L_vram_cfg_src:
+.L_060282A0:
     .4byte  sym_060612B8
-.L_vram_cfg_dst:
+.L_060282A4:
     .4byte  sym_060612C4
-.L_fn_memcpy_word:
+.L_060282A8:
     .4byte  memcpy_word_idx
-.L_sr_irq_mask:
+.L_060282AC:
     .2byte  0x00F0
     .2byte  0x0009
-.L_dlist_data_a:
+.L_060282B0:
     .4byte  sym_06059C5C
-.L_dlist_data_b:
+.L_060282B4:
     .4byte  sym_06059C74
-.L_dlist_data_c:
+.L_060282B8:
     .4byte  sym_06059C7B
-.L_dlist_data_d:
+.L_060282BC:
     .4byte  sym_06059C8C
     .4byte  0xD20ED00F
     .4byte  0x12001201

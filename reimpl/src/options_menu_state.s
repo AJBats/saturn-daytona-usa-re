@@ -12,17 +12,17 @@ options_menu_state:
     mov r6, r0
     mov.l r12, @-r15
     sts.l pr, @-r15
-    mov.l   .L_mask_bit0, r12
-    mov.l   .L_cfg_target_ptr, r7
-    mov.l   .L_cfg_word_base, r5
-    mov.l   .L_fn_bitfield_rmw, r3
+    mov.l   .L_0603D8C8, r12
+    mov.l   .L_0603D8CC, r7
+    mov.l   .L_0603D8D0, r5
+    mov.l   .L_0603D8D4, r3
     mov r12, r13
     mov r7, r2
     add #-0x1, r13
     jsr @r3
     mov r6, r1
     mov.w @(2, r5), r0
-    mov.l   .L_mask_bit8, r3
+    mov.l   .L_0603D8D8, r3
     mov r0, r2
     extu.w r2, r2
     and r3, r2
@@ -30,7 +30,7 @@ options_menu_state:
     mov.w r0, @(2, r5)
     mov r7, r2
     mov r6, r0
-    mov.l   .L_fn_bitfield_rmw, r3
+    mov.l   .L_0603D8D4, r3
     jsr @r3
     mov r6, r1
     mov.w @(2, r5), r0
@@ -41,7 +41,7 @@ options_menu_state:
     mov r7, r2
     mov.w r0, @(2, r5)
     mov r6, r0
-    mov.l   .L_fn_bitfield_rmw, r3
+    mov.l   .L_0603D8D4, r3
     jsr @r3
     mov r6, r1
     mov.w @(2, r5), r0
@@ -52,11 +52,11 @@ options_menu_state:
     mov.w r0, @(2, r5)
     mov r7, r2
     mov r6, r0
-    mov.l   .L_fn_bitfield_rmw, r3
+    mov.l   .L_0603D8D4, r3
     jsr @r3
     mov r6, r1
     mov.w @(2, r5), r0
-    mov.l   .L_mask_bit2, r3
+    mov.l   .L_0603D8DC, r3
     mov r0, r2
     extu.w r2, r2
     and r3, r2
@@ -64,11 +64,11 @@ options_menu_state:
     mov.w r0, @(2, r5)
     mov r7, r2
     mov r6, r0
-    mov.l   .L_fn_bitfield_rmw, r3
+    mov.l   .L_0603D8D4, r3
     jsr @r3
     mov r6, r1
     mov.w @(2, r5), r0
-    mov.l   .L_mask_bit3, r3
+    mov.l   .L_0603D8E0, r3
     mov r0, r2
     extu.w r2, r2
     and r3, r2
@@ -76,11 +76,11 @@ options_menu_state:
     mov.w r0, @(2, r5)
     mov r7, r2
     mov r6, r0
-    mov.l   .L_fn_bitfield_rmw, r3
+    mov.l   .L_0603D8D4, r3
     jsr @r3
     mov r6, r1
     mov.w @(2, r5), r0
-    mov.l   .L_mask_bit4, r3
+    mov.l   .L_0603D8E4, r3
     mov r0, r2
     extu.w r2, r2
     and r3, r2
@@ -88,11 +88,11 @@ options_menu_state:
     mov.w r0, @(2, r5)
     mov r7, r2
     mov r6, r0
-    mov.l   .L_fn_bitfield_rmw, r3
+    mov.l   .L_0603D8D4, r3
     jsr @r3
     mov r6, r1
     mov.w @(2, r5), r0
-    mov.l   .L_mask_bit5, r3
+    mov.l   .L_0603D8E8, r3
     mov r0, r2
     extu.w r2, r2
     and r3, r2
@@ -100,18 +100,18 @@ options_menu_state:
     mov r2, r0
     mov.w r0, @(2, r5)
     tst r4, r4
-    bf      .L_options_active
-    bra     .L_epilogue
+    bf      .L_0603D874
+    bra     .L_0603D9C6
     nop
-.L_options_active:
+.L_0603D874:
     mov r6, r0
     mov r7, r2
-    mov.l   .L_fn_bitfield_rmw, r3
+    mov.l   .L_0603D8D4, r3
     jsr @r3
     mov #0x1, r1
     mov.w @(2, r5), r0
-    mov.l   .L_mask_bit8, r3
-    mov.w   .L_set_bit8, r1
+    mov.l   .L_0603D8D8, r3
+    mov.w   .L_0603D8C4, r1
     mov r0, r2
     extu.w r2, r2
     and r3, r2
@@ -122,10 +122,10 @@ options_menu_state:
     mov r2, r0
     mov.w r0, @(2, r5)
     tst r3, r3
-    bt      .L_check_opt_bit1
+    bt      .L_0603D8B4
     mov r6, r0
     mov r7, r2
-    mov.l   .L_fn_bitfield_rmw, r3
+    mov.l   .L_0603D8D4, r3
     jsr @r3
     mov #0x1, r1
     mov.w @(2, r5), r0
@@ -136,38 +136,38 @@ options_menu_state:
     extu.w r2, r2
     mov r2, r0
     mov.w r0, @(2, r5)
-.L_check_opt_bit1:
+.L_0603D8B4:
     mov r4, r3
     and r14, r3
     tst r3, r3
-    bt      .L_check_opt_bit3
+    bt      .L_0603D902
     mov r6, r0
     mov r7, r2
-    bra     .L_set_cfg_bit0
+    bra     .L_0603D8EC
     mov #0x1, r1
-.L_set_bit8:
+.L_0603D8C4:
     .2byte  0x0100                          /* bit 8 value (0x0100) */
     .2byte  0xFFFF                          /* padding */
-.L_mask_bit0:
+.L_0603D8C8:
     .4byte  0x0000FFFE                      /* clear-mask for bit 0 */
-.L_cfg_target_ptr:
+.L_0603D8CC:
     .4byte  sym_060A4D58                    /* bitfield RMW target ptr */
-.L_cfg_word_base:
+.L_0603D8D0:
     .4byte  sym_060A4D18                    /* config word array base */
-.L_fn_bitfield_rmw:
+.L_0603D8D4:
     .4byte  sym_06034F78                    /* bitfield RMW function */
-.L_mask_bit8:
+.L_0603D8D8:
     .4byte  0x0000FEFF                      /* clear-mask for bit 8 */
-.L_mask_bit2:
+.L_0603D8DC:
     .4byte  0x0000FFFB                      /* clear-mask for bit 2 */
-.L_mask_bit3:
+.L_0603D8E0:
     .4byte  0x0000FFF7                      /* clear-mask for bit 3 */
-.L_mask_bit4:
+.L_0603D8E4:
     .4byte  0x0000FFEF                      /* clear-mask for bit 4 */
-.L_mask_bit5:
+.L_0603D8E8:
     .4byte  0x0000FFDF                      /* clear-mask for bit 5 */
-.L_set_cfg_bit0:
-    mov.l   .L_fn_bitfield_rmw_b, r3
+.L_0603D8EC:
+    mov.l   .L_0603D9D4, r3
     jsr @r3
     nop
     mov.w @(2, r5), r0
@@ -178,14 +178,14 @@ options_menu_state:
     extu.w r2, r2
     mov r2, r0
     mov.w r0, @(2, r5)
-.L_check_opt_bit3:
+.L_0603D902:
     mov #0x8, r3
     and r4, r3
     tst r3, r3
-    bt      .L_check_opt_bit7
+    bt      .L_0603D924
     mov r6, r0
     mov r7, r2
-    mov.l   .L_fn_bitfield_rmw_b, r3
+    mov.l   .L_0603D9D4, r3
     jsr @r3
     mov #0x1, r1
     mov.w @(2, r5), r0
@@ -196,14 +196,14 @@ options_menu_state:
     extu.w r2, r2
     mov r2, r0
     mov.w r0, @(2, r5)
-.L_check_opt_bit7:
-    mov.w   .L_test_bit7, r3
+.L_0603D924:
+    mov.w   .L_0603D9D0, r3
     and r4, r3
     tst r3, r3
-    bt      .L_check_opt_bit4
+    bt      .L_0603D946
     mov r6, r0
     mov r7, r2
-    mov.l   .L_fn_bitfield_rmw_b, r3
+    mov.l   .L_0603D9D4, r3
     jsr @r3
     mov #0x1, r1
     mov.w @(2, r5), r0
@@ -214,92 +214,92 @@ options_menu_state:
     extu.w r2, r2
     mov r2, r0
     mov.w r0, @(2, r5)
-.L_check_opt_bit4:
+.L_0603D946:
     mov #0x10, r3
     and r4, r3
     tst r3, r3
-    bt      .L_check_opt_bit5
+    bt      .L_0603D966
     mov r6, r0
     mov r7, r2
-    mov.l   .L_fn_bitfield_rmw_b, r3
+    mov.l   .L_0603D9D4, r3
     jsr @r3
     mov #0x1, r1
     mov.w @(2, r5), r0
     extu.w r0, r0
-    mov.l   .L_mask_bit2_b, r3
+    mov.l   .L_0603D9D8, r3
     and r3, r0
     or #0x4, r0
     extu.w r0, r0
     mov.w r0, @(2, r5)
-.L_check_opt_bit5:
+.L_0603D966:
     mov #0x20, r2
     and r4, r2
     tst r2, r2
-    bt      .L_check_opt_bit0
+    bt      .L_0603D986
     mov r6, r0
     mov r7, r2
-    mov.l   .L_fn_bitfield_rmw_b, r3
+    mov.l   .L_0603D9D4, r3
     jsr @r3
     mov #0x1, r1
     mov.w @(2, r5), r0
     extu.w r0, r0
-    mov.l   .L_mask_bit3_b, r3
+    mov.l   .L_0603D9DC, r3
     and r3, r0
     or #0x8, r0
     extu.w r0, r0
     mov.w r0, @(2, r5)
-.L_check_opt_bit0:
+.L_0603D986:
     mov r4, r2
     and r6, r2
     tst r2, r2
-    bt      .L_check_opt_bit19
+    bt      .L_0603D9A6
     mov r6, r0
     mov r7, r2
-    mov.l   .L_fn_bitfield_rmw_b, r3
+    mov.l   .L_0603D9D4, r3
     jsr @r3
     mov #0x1, r1
     mov.w @(2, r5), r0
     extu.w r0, r0
-    mov.l   .L_mask_bit4_b, r3
+    mov.l   .L_0603D9E0, r3
     and r3, r0
     or #0x10, r0
     extu.w r0, r0
     mov.w r0, @(2, r5)
-.L_check_opt_bit19:
-    mov.l   .L_mask_bit19, r2
+.L_0603D9A6:
+    mov.l   .L_0603D9E4, r2
     and r2, r4
     tst r4, r4
-    bt      .L_epilogue
+    bt      .L_0603D9C6
     mov r6, r0
     mov r7, r2
-    mov.l   .L_fn_bitfield_rmw_b, r3
+    mov.l   .L_0603D9D4, r3
     jsr @r3
     mov #0x1, r1
     mov.w @(2, r5), r0
     extu.w r0, r0
-    mov.l   .L_mask_bit5_b, r3
+    mov.l   .L_0603D9E8, r3
     and r3, r0
     or #0x20, r0
     extu.w r0, r0
     mov.w r0, @(2, r5)
-.L_epilogue:
+.L_0603D9C6:
     lds.l @r15+, pr
     mov.l @r15+, r12
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_test_bit7:
+.L_0603D9D0:
     .2byte  0x0080                          /* test mask for opt bit 7 */
     .2byte  0xFFFF                          /* padding */
-.L_fn_bitfield_rmw_b:
+.L_0603D9D4:
     .4byte  sym_06034F78                    /* bitfield RMW function (2nd pool) */
-.L_mask_bit2_b:
+.L_0603D9D8:
     .4byte  0x0000FFFB                      /* clear-mask for bit 2 (2nd pool) */
-.L_mask_bit3_b:
+.L_0603D9DC:
     .4byte  0x0000FFF7                      /* clear-mask for bit 3 (2nd pool) */
-.L_mask_bit4_b:
+.L_0603D9E0:
     .4byte  0x0000FFEF                      /* clear-mask for bit 4 (2nd pool) */
-.L_mask_bit19:
+.L_0603D9E4:
     .4byte  0x00080000                      /* test mask for opt bit 19 (0x80000) */
-.L_mask_bit5_b:
+.L_0603D9E8:
     .4byte  0x0000FFDF                      /* clear-mask for bit 5 (2nd pool) */

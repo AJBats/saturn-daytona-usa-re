@@ -14,33 +14,33 @@ scene_frame_render:
     .byte   0xDC, 0x1E    /* mov.l .L_pool_0603F184, r12 */
     mov.l r6, @r15
     tst r14, r14
-    bt/s    .L_check_render_mode
+    bt/s    .L_0603F122
     mov r5, r13
     mov.l @r15, r5
     .byte   0xD3, 0x1C    /* mov.l .L_pool_0603F188, r3 */
     jsr @r3
     mov r14, r4
-.L_dispatch_loop:
+.L_0603F11A:
     jsr @r12
     mov r14, r4
     tst r0, r0
-    bf      .L_dispatch_loop
-.L_check_render_mode:
+    bf      .L_0603F11A
+.L_0603F122:
     mov.l @r13, r0
     tst r0, r0
-    bf      .L_render_text
+    bf      .L_0603F134
     mov.l @(4, r13), r6
     mov.l @(8, r13), r5
     .byte   0xB0, 0xD8    /* bsr 0x0603F2E0 (external) */
     mov r14, r4
-    bra     .L_epilogue
+    bra     .L_0603F13C
     nop
-.L_render_text:
+.L_0603F134:
     mov.l @(4, r13), r6
     mov.l @(8, r13), r5
     .byte   0xB1, 0x03    /* bsr 0x0603F342 (external) */
     mov r14, r4
-.L_epilogue:
+.L_0603F13C:
     add #0x4, r15
     lds.l @r15+, pr
     mov.l @r15+, r12

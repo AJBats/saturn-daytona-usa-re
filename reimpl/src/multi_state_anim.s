@@ -13,27 +13,27 @@ multi_state_anim:
     mov.l r9, @-r15
     mov.l r8, @-r15
     sts.l pr, @-r15
-    mov.l   .L_ptr_frame_output, r8
+    mov.l   .L_06010518, r8
     mov #0x0, r9
     mov #0x1, r10
-    mov.l   .L_ptr_toggle_flag, r12
-    mov.l   .L_ptr_frame_mirror, r13
-    mov.l   .L_ptr_frame_counter, r14
+    mov.l   .L_0601053C, r12
+    mov.l   .L_0601051C, r13
+    mov.l   .L_0601050C, r14
     mov r4, r11
-    mov.l   .L_ptr_game_mode, r0
-    bra     .L_dispatch_mode
+    mov.l   .L_06010540, r0
+    bra     .L_06010550
     mov.b @r0, r0
-.L_mode_5_frames:
-    bra     .L_check_overrides
+.L_06010504:
+    bra     .L_06010570
     mov #0x5, r4
     .4byte  0x00C0FFFF
-.L_ptr_frame_counter:
+.L_0601050C:
     .4byte  sym_0607EADC
     .4byte  sym_06063D9C
     .4byte  0x0000FFFF
-.L_ptr_frame_output:
+.L_06010518:
     .4byte  sym_0607EAB8
-.L_ptr_frame_mirror:
+.L_0601051C:
     .4byte  sym_06078868
     .4byte  dma_transfer
     .4byte  sym_0605D084
@@ -42,192 +42,192 @@ multi_state_anim:
     .4byte  sym_0605D05C
     .4byte  sym_0605D088
     .4byte  sym_06078880
-.L_ptr_toggle_flag:
+.L_0601053C:
     .4byte  sym_060788A8
-.L_ptr_game_mode:
+.L_06010540:
     .4byte  sym_0605AB16
-.L_mode_7_frames:
-    bra     .L_check_overrides
+.L_06010544:
+    bra     .L_06010570
     mov #0x7, r4
-.L_mode_9_frames:
-    bra     .L_check_overrides
+.L_06010548:
+    bra     .L_06010570
     mov #0x9, r4
-.L_mode_default:
-    bra     .L_check_overrides
+.L_0601054C:
+    bra     .L_06010570
     mov #0x3, r4
-.L_dispatch_mode:
+.L_06010550:
     cmp/eq #0x1, r0
-    bt      .L_mode_5_frames
+    bt      .L_06010504
     cmp/eq #0x2, r0
-    bt      .L_mode_5_frames
+    bt      .L_06010504
     cmp/eq #0x3, r0
-    bt      .L_mode_7_frames
+    bt      .L_06010544
     cmp/eq #0x4, r0
-    bt      .L_mode_5_frames
+    bt      .L_06010504
     cmp/eq #0x5, r0
-    bt      .L_mode_7_frames
+    bt      .L_06010544
     cmp/eq #0x6, r0
-    bt      .L_mode_7_frames
+    bt      .L_06010544
     cmp/eq #0x7, r0
-    bt      .L_mode_9_frames
-    bra     .L_mode_default
+    bt      .L_06010548
+    bra     .L_0601054C
     nop
-.L_check_overrides:
-    mov.l   .L_ptr_overlay_flags, r0
+.L_06010570:
+    mov.l   .L_0601064C, r0
     mov.b @r0, r0
     cmp/eq #0x7, r0
-    bf      .L_check_mode_15
+    bf      .L_0601057A
     mov #0xB, r4
-.L_check_mode_15:
-    mov.l   .L_ptr_overlay_flags, r0
+.L_0601057A:
+    mov.l   .L_0601064C, r0
     mov.b @r0, r0
     cmp/eq #0xF, r0
-    bf      .L_check_direction
+    bf      .L_06010584
     mov #0xD, r4
-.L_check_direction:
-    mov.l   .L_ptr_anim_direction, r5
+.L_06010584:
+    mov.l   .L_06010650, r5
     extu.w r11, r2
-    mov.l   .L_fp_half, r3
+    mov.l   .L_06010654, r3
     and r3, r2
     tst r2, r2
-    bt      .L_check_reverse
-    mov.l   .L_fp_neg_one, r3
+    bt      .L_06010612
+    mov.l   .L_06010658, r3
     mov.l r3, @r5
     mov.l @r14, r2
     add #0x1, r2
     mov r2, r3
     mov.l r2, @r14
     cmp/gt r4, r3
-    bf      .L_fwd_check_toggle
+    bf      .L_060105A2
     mov.l r9, @r14
-.L_fwd_check_toggle:
+.L_060105A2:
     mov.b @r12, r0
     extu.b r0, r0
     tst r0, r0
-    bt      .L_fwd_toggle_off
+    bt      .L_060105DE
     extu.b r9, r3
     mov #0x0, r2
     mov.b r3, @r12
     mov #0x0, r3
     add #-0x8, r15
     mov.l r2, @-r15
-    mov.l   .L_dma_src_addr, r2
+    mov.l   .L_0601065C, r2
     mov.l r2, @-r15
     mov.l r3, @-r15
-    mov.l   .L_dma_dst_addr, r3
+    mov.l   .L_06010660, r3
     mov.l r3, @-r15
     mov r15, r2
-    mov.l   .L_fn_dma_param_setup, r3
+    mov.l   .L_06010664, r3
     add #0x10, r2
     jsr @r3
     mov.l r2, @-r15
-    mov.l   .L_fn_dma_execute, r2
+    mov.l   .L_06010668, r2
     jsr @r2
     nop
-    mov.l   .L_ptr_dma_result_a, r3
+    mov.l   .L_0601066C, r3
     mov.l r0, @r3
     mov.l @r14, r2
-    mov.l   .L_ptr_frame_idx_a, r3
+    mov.l   .L_06010670, r3
     mov.l r2, @r3
-    bra     .L_update_output
+    bra     .L_06010690
     nop
-.L_fwd_toggle_off:
+.L_060105DE:
     extu.b r10, r2
     mov #0x0, r3
     mov.b r2, @r12
     add #-0x8, r15
     mov #0x0, r2
     mov.l r3, @-r15
-    mov.l   .L_dma_src_addr, r3
+    mov.l   .L_0601065C, r3
     mov.l r3, @-r15
     mov.l r2, @-r15
-    mov.l   .L_dma_dst_addr, r2
+    mov.l   .L_06010660, r2
     mov.l r2, @-r15
     mov r15, r3
-    mov.l   .L_fn_dma_param_setup, r2
+    mov.l   .L_06010664, r2
     add #0x10, r3
     jsr @r2
     mov.l r3, @-r15
-    mov.l   .L_fn_dma_execute, r3
+    mov.l   .L_06010668, r3
     jsr @r3
     nop
-    mov.l   .L_ptr_dma_result_b, r3
+    mov.l   .L_06010674, r3
     mov.l r0, @r3
     mov.l @r14, r2
-    mov.l   .L_ptr_frame_idx_b, r3
+    mov.l   .L_06010678, r3
     mov.l r2, @r3
-    bra     .L_update_output
+    bra     .L_06010690
     nop
-.L_check_reverse:
+.L_06010612:
     extu.w r11, r2
     mov.w   DAT_0601064a, r3
     and r3, r2
     tst r2, r2
-    bt      .L_update_output
-    mov.l   .L_fp_one, r3
+    bt      .L_06010690
+    mov.l   .L_0601067C, r3
     mov.l r3, @r5
     mov.l @r14, r2
     add #-0x1, r2
     mov r2, r3
     mov.l r2, @r14
     cmp/pz r3
-    bt      .L_rev_check_toggle
+    bt      .L_0601062E
     mov.l r4, @r14
-.L_rev_check_toggle:
-    mov.l   .L_reverse_offset, r4
+.L_0601062E:
+    mov.l   .L_06010680, r4
     mov.b @r12, r0
     extu.b r0, r0
     tst r0, r0
-    bt      .L_rev_toggle_off
+    bt      .L_06010684
     extu.b r9, r3
     mov.b r3, @r12
-    mov.l   .L_ptr_dma_result_a, r3
+    mov.l   .L_0601066C, r3
     mov.l r4, @r3
     mov.l @r14, r2
-    mov.l   .L_ptr_frame_idx_a, r3
+    mov.l   .L_06010670, r3
     mov.l r2, @r3
-    bra     .L_update_output
+    bra     .L_06010690
     nop
 
     .global DAT_0601064a
 DAT_0601064a:
     .2byte  0x4000
-.L_ptr_overlay_flags:
+.L_0601064C:
     .4byte  sym_0605AB17
-.L_ptr_anim_direction:
+.L_06010650:
     .4byte  sym_0607889C
-.L_fp_half:
+.L_06010654:
     .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
-.L_fp_neg_one:
+.L_06010658:
     .4byte  0xFFFF0000                  /* -1.0 (16.16 fixed-point) */
-.L_dma_src_addr:
+.L_0601065C:
     .4byte  0x40280000
-.L_dma_dst_addr:
+.L_06010660:
     .4byte  0x40F00000
-.L_fn_dma_param_setup:
+.L_06010664:
     .4byte  sym_060359E4
-.L_fn_dma_execute:
+.L_06010668:
     .4byte  sym_060357B8
-.L_ptr_dma_result_a:
+.L_0601066C:
     .4byte  sym_06078894
-.L_ptr_frame_idx_a:
+.L_06010670:
     .4byte  sym_060788A0
-.L_ptr_dma_result_b:
+.L_06010674:
     .4byte  sym_06078898
-.L_ptr_frame_idx_b:
+.L_06010678:
     .4byte  sym_060788A4
-.L_fp_one:
+.L_0601067C:
     .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
-.L_reverse_offset:
+.L_06010680:
     .4byte  0xFFF40000
-.L_rev_toggle_off:
+.L_06010684:
     mov.b r10, @r12
-    mov.l   .L_ptr_dma_result_b2, r3
+    mov.l   .L_06010738, r3
     mov.l r4, @r3
     mov.l @r14, r2
-    mov.l   .L_ptr_frame_idx_b2, r3
+    mov.l   .L_0601073C, r3
     mov.l r2, @r3
-.L_update_output:
+.L_06010690:
     mov.l @r14, r2
     mov.l r2, @r13
     mov r2, r3
@@ -236,66 +236,66 @@ DAT_0601064a:
     mov #0xA, r3
     mov.l @r13, r2
     cmp/hs r3, r2
-    bt      .L_check_palette
+    bt      .L_060106CE
     mov.b @r12, r0
     extu.b r0, r0
     tst r0, r0
-    bt      .L_tile_toggle_off
-    mov.w   .L_dma_size, r6
+    bt      .L_060106BA
+    mov.w   .L_06010736, r6
     mov.l @r13, r5
     shll2 r5
-    mov.l   .L_ptr_tile_table, r3
+    mov.l   .L_06010740, r3
     add r3, r5
-    mov.l   .L_ptr_dma_dst_on, r4
-    bra     .L_do_tile_dma
+    mov.l   .L_06010744, r4
+    bra     .L_060106C8
     mov.l @r5, r5
-.L_tile_toggle_off:
-    mov.w   .L_dma_size, r6
+.L_060106BA:
+    mov.w   .L_06010736, r6
     mov.l @r13, r5
     shll2 r5
-    mov.l   .L_ptr_tile_table, r3
+    mov.l   .L_06010740, r3
     add r3, r5
     mov.l @r5, r5
-    mov.l   .L_ptr_dma_dst_off, r4
-.L_do_tile_dma:
-    mov.l   .L_fn_dma_transfer, r2
+    mov.l   .L_06010748, r4
+.L_060106C8:
+    mov.l   .L_0601074C, r2
     jsr @r2
     mov.l @r4, r4
-.L_check_palette:
+.L_060106CE:
     extu.w r11, r11
-    mov.l   .L_mask_0xC000, r3
+    mov.l   .L_06010750, r3
     and r3, r11
     tst r11, r11
-    bt      .L_epilogue_rts
+    bt      .L_06010724
     mov #0xC, r2
     mov.l @r13, r3
     cmp/hs r2, r3
-    bt      .L_pal_high_frame
+    bt      .L_060106F0
     mov.l @r13, r5
     shll2 r5
     shll2 r5
     shll2 r5
-    mov.l   .L_ptr_palette_table, r3
+    mov.l   .L_06010754, r3
     add r3, r5
-    bra     .L_calc_cram_dest
+    bra     .L_06010700
     mov #0x40, r6
-.L_pal_high_frame:
+.L_060106F0:
     mov #0x40, r6
     mov.l @r13, r5
     add #-0x2, r5
     shll2 r5
     shll2 r5
     shll2 r5
-    mov.l   .L_ptr_palette_table, r3
+    mov.l   .L_06010754, r3
     add r3, r5
-.L_calc_cram_dest:
+.L_06010700:
     mov.l @r8, r4
     shll r4
     add #0x23, r4
     shll2 r4
     shll2 r4
     shll r4
-    mov.l   .L_vdp2_cram_0x000, r2
+    mov.l   .L_06010758, r2
     add r2, r4
     lds.l @r15+, pr
     mov.l @r15+, r8
@@ -304,10 +304,10 @@ DAT_0601064a:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    mov.l   .L_fn_memcpy_word, r2
+    mov.l   .L_0601075C, r2
     jmp @r2
     mov.l @r15+, r14
-.L_epilogue_rts:
+.L_06010724:
     lds.l @r15+, pr
     mov.l @r15+, r8
     mov.l @r15+, r9
@@ -317,25 +317,25 @@ DAT_0601064a:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_dma_size:
+.L_06010736:
     .2byte  0x00C0
-.L_ptr_dma_result_b2:
+.L_06010738:
     .4byte  sym_06078898
-.L_ptr_frame_idx_b2:
+.L_0601073C:
     .4byte  sym_060788A4
-.L_ptr_tile_table:
+.L_06010740:
     .4byte  sym_0605D05C
-.L_ptr_dma_dst_on:
+.L_06010744:
     .4byte  sym_06078880
-.L_ptr_dma_dst_off:
+.L_06010748:
     .4byte  sym_06078884
-.L_fn_dma_transfer:
+.L_0601074C:
     .4byte  dma_transfer
-.L_mask_0xC000:
+.L_06010750:
     .4byte  0x0000C000                  /* bits 15:14 mask */
-.L_ptr_palette_table:
+.L_06010754:
     .4byte  sym_0605CA9C
-.L_vdp2_cram_0x000:
+.L_06010758:
     .4byte  0x25F00000                  /* VDP2 color RAM +0x000 */
-.L_fn_memcpy_word:
+.L_0601075C:
     .4byte  memcpy_word_idx

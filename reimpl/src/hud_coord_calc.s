@@ -15,7 +15,7 @@ hud_coord_calc:
     mov.l   _pool_split_screen_flag, r0
     mov.b @r0, r0
     tst r0, r0
-    bt      .L_single_player_path
+    bt      .L_060109E0
     mov #0x20, r6
     mov.l   _pool_disp_elem_data_ptr, r5
     mov.l   _pool_cmd_table_base, r3
@@ -41,9 +41,9 @@ hud_coord_calc:
     shll r0
     add r0, r4
     mov.l @r13, r1
-    bra     .L_do_first_copy
+    bra     .L_060109FA
     add r1, r4
-.L_single_player_path:
+.L_060109E0:
     mov.w   DAT_06010a2a, r6
 
     .global loc_060109E2
@@ -60,7 +60,7 @@ loc_060109E2:
     mov.l @r13, r2
     add r2, r4
     add #0x40, r4
-.L_do_first_copy:
+.L_060109FA:
     jsr @r14
     nop
     mov.w   DAT_06010a2a, r6

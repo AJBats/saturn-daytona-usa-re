@@ -13,69 +13,69 @@ track_segment_interp:
     mov.w   DAT_0604155e, r7
     mov.l @r14, r1
     cmp/eq r7, r4
-    bt/s    .L_r4_valid
+    bt/s    .L_060414F4
     mov.l @(r0, r1), r1
     mov r4, r0
     cmp/eq #-0x2, r0
-    bt      .L_r4_valid
+    bt      .L_060414F4
     cmp/pz r4
-    bf      .L_ret_invalid_arg
+    bf      .L_06041512
     mov #0x18, r2
     cmp/ge r2, r4
-    bt      .L_ret_invalid_arg
-.L_r4_valid:
+    bt      .L_06041512
+.L_060414F4:
     cmp/pz r5
-    bf      .L_ret_invalid_arg
+    bf      .L_06041512
     mov #0x18, r3
     cmp/ge r3, r5
-    bt      .L_ret_invalid_arg
+    bt      .L_06041512
     cmp/eq r7, r6
-    bt      .L_r6_valid
+    bt      .L_0604151C
     mov r6, r0
     cmp/eq #-0x2, r0
-    bt      .L_r6_valid
+    bt      .L_0604151C
     cmp/pz r6
-    bf      .L_ret_invalid_arg
+    bf      .L_06041512
     mov #0x18, r2
     cmp/ge r2, r6
-    bf      .L_r6_valid
-.L_ret_invalid_arg:
+    bf      .L_0604151C
+.L_06041512:
     mov #-0x6, r0
     add #0x4, r15
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-.L_r6_valid:
+.L_0604151C:
     cmp/eq r7, r4
-    bt      .L_skip_r4_active_check
+    bt      .L_06041532
     mov r4, r0
     cmp/eq #-0x2, r0
-    bt      .L_skip_r4_active_check
+    bt      .L_06041532
     mov.l   .L_pool_06041560, r0
     mov.l @r0, r0
     add #0x18, r0
     mov.b @(r0, r4), r0
     cmp/eq #0x1, r0
-    bf      .L_ret_inactive_car
-.L_skip_r4_active_check:
+    bf      .L_06041552
+.L_06041532:
     cmp/eq r7, r6
-    bt      .L_skip_r6_active_check
+    bt      .L_06041548
     mov r6, r0
     cmp/eq #-0x2, r0
-    bt      .L_skip_r6_active_check
+    bt      .L_06041548
     mov.l   .L_pool_06041560, r0
     mov.l @r0, r0
     add #0x18, r0
     mov.b @(r0, r6), r0
     cmp/eq #0x1, r0
-    bf      .L_ret_inactive_car
-.L_skip_r6_active_check:
+    bf      .L_06041552
+.L_06041548:
     mov.l   .L_pool_06041560, r0
     mov.l @r0, r0
     mov.b @(r0, r5), r0
     cmp/eq #0x1, r0
-    bt      .L_all_valid
-.L_ret_inactive_car:
+    bt      .L_06041564
+.L_06041552:
     mov #-0x7, r0
     add #0x4, r15
     lds.l @r15+, pr
@@ -91,26 +91,26 @@ DAT_0604155e:
     .2byte  0x00FF
 .L_pool_06041560:
     .4byte  sym_060A5400
-.L_all_valid:
+.L_06041564:
     mov #0x18, r2
     cmp/ge r2, r1
-    bf      .L_queue_not_full
+    bf      .L_06041574
     mov #-0x8, r0
     add #0x4, r15
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-.L_queue_not_full:
+.L_06041574:
     mov.l @r14, r2
     .byte   0x90, 0x39    /* mov.w .L_wpool_060415EC, r0 */
     mov.l @(r0, r2), r0
     tst r0, r0
-    bf      .L_flag_already_set
+    bf      .L_06041586
     mov.l @r14, r3
     mov #0x1, r2
     .byte   0x90, 0x33    /* mov.w .L_wpool_060415EC, r0 */
     mov.l r2, @(r0, r3)
-.L_flag_already_set:
+.L_06041586:
     exts.w r1, r7
     mov.l @r14, r3
     mov r7, r2

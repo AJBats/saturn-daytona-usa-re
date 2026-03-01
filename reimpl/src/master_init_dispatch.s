@@ -7,848 +7,848 @@
 master_init_dispatch:
     sts.l pr, @-r15
     mov #0x0, r3
-    mov.l   .L_game_state_flag, r2
+    mov.l   .L_06003AE8, r2
     mov.l r3, @r2
-    mov.l   .L_heap_base_addr, r3
-    mov.l   .L_heap_base_ptr, r2
+    mov.l   .L_06003AEC, r3
+    mov.l   .L_06003AF0, r2
     mov.l r3, @r2
     mov #0x0, r3
-    mov.l   .L_init_mode_flag, r2
+    mov.l   .L_06003AF4, r2
     mov.l r3, @r2
-    mov.w   .L_const_0080, r3
-    mov.l   .L_dispatch_flags, r2
+    mov.w   .L_06003ADC, r3
+    mov.l   .L_06003AF8, r2
     mov.l r3, @r2
     mov #0x1, r3
-    mov.l   .L_init_counter, r2
+    mov.l   .L_06003AFC, r2
     mov.l r3, @r2
     mov.w   DAT_06003ade, r7
-    mov.l   .L_handler_slot_96, r6
-    mov.l   .L_handler_table_a, r4
-    mov.l   .L_fn_register_handler, r3
+    mov.l   .L_06003B00, r6
+    mov.l   .L_06003B04, r4
+    mov.l   .L_06003B08, r3
     jsr @r3
     mov #0x8, r5
-    mov.w   .L_slot_id_a2, r7
-    mov.l   .L_handler_slot_a2, r6
-    mov.l   .L_handler_table_a, r4
-    mov.l   .L_fn_register_handler, r3
+    mov.w   .L_06003AE0, r7
+    mov.l   .L_06003B0C, r6
+    mov.l   .L_06003B04, r4
+    mov.l   .L_06003B08, r3
     jsr @r3
     mov #0x8, r5
     mov #0x3F, r7
-    mov.l   .L_handler_slot_3f, r6
-    mov.l   .L_handler_table_b, r4
-    mov.l   .L_fn_register_handler, r3
+    mov.l   .L_06003B10, r6
+    mov.l   .L_06003B14, r4
+    mov.l   .L_06003B08, r3
     jsr @r3
     mov #0x4, r5
     mov #0x61, r7
-    mov.l   .L_handler_slot_61, r6
-    mov.l   .L_handler_table_a, r4
-    mov.l   .L_fn_register_handler, r3
+    mov.l   .L_06003B18, r6
+    mov.l   .L_06003B04, r4
+    mov.l   .L_06003B08, r3
     jsr @r3
     mov #0x8, r5
     mov #0x45, r7
-    mov.l   .L_handler_slot_45, r6
-    mov.l   .L_handler_table_c, r4
-    mov.l   .L_fn_register_handler, r3
+    mov.l   .L_06003B1C, r6
+    mov.l   .L_06003B20, r4
+    mov.l   .L_06003B08, r3
     jsr @r3
     mov #0xC, r5
     mov #0xB, r7
-    mov.l   .L_handler_slot_0b, r6
-    mov.l   .L_handler_table_d, r4
-    mov.l   .L_fn_register_handler, r3
+    mov.l   .L_06003B24, r6
+    mov.l   .L_06003B28, r4
+    mov.l   .L_06003B08, r3
     jsr @r3
     mov #0x4, r5
     mov #0x0, r7
-    mov.l   .L_handler_table_e, r4
-    mov.l   .L_fn_register_handler, r3
+    mov.l   .L_06003B2C, r4
+    mov.l   .L_06003B08, r3
     mov r7, r6
     jsr @r3
     mov #0x4, r5
     mov #0x34, r7
-    mov.l   .L_handler_slot_34, r6
-    mov.l   .L_handler_table_f, r4
-    mov.l   .L_fn_register_handler, r3
+    mov.l   .L_06003B30, r6
+    mov.l   .L_06003B34, r4
+    mov.l   .L_06003B08, r3
     jsr @r3
     mov #0xC, r5
-    mov.w   .L_slot_id_c9, r7
-    mov.l   .L_handler_slot_c9, r6
-    mov.l   .L_handler_table_g, r4
-    mov.l   .L_fn_register_handler, r3
+    mov.w   .L_06003AE2, r7
+    mov.l   .L_06003B38, r6
+    mov.l   .L_06003B3C, r4
+    mov.l   .L_06003B08, r3
     jsr @r3
     mov #0x9, r5
-    mov.w   .L_slot_id_2ea, r7
-    mov.l   .L_handler_slot_2ea, r6
-    mov.l   .L_handler_table_h, r4
-    mov.l   .L_fn_register_handler, r3
+    mov.w   .L_06003AE4, r7
+    mov.l   .L_06003B40, r6
+    mov.l   .L_06003B44, r4
+    mov.l   .L_06003B08, r3
     jsr @r3
     mov #0x9, r5
     mov #0x0, r7
     mov r7, r6
-    bra     .L_register_obj_handlers
+    bra     .L_06003B48
     mov #0x8, r5
-.L_const_0080:
+.L_06003ADC:
     .2byte  0x0080
 
     .global DAT_06003ade
 DAT_06003ade:
     .2byte  0x0096
-.L_slot_id_a2:
+.L_06003AE0:
     .2byte  0x00A2
-.L_slot_id_c9:
+.L_06003AE2:
     .2byte  0x00C9
-.L_slot_id_2ea:
+.L_06003AE4:
     .2byte  0x02EA
     .2byte  0xFFFF
-.L_game_state_flag:
+.L_06003AE8:
     .4byte  sym_06063D94
-.L_heap_base_addr:
+.L_06003AEC:
     .4byte  sym_060F0000
-.L_heap_base_ptr:
+.L_06003AF0:
     .4byte  sym_06063D90
-.L_init_mode_flag:
+.L_06003AF4:
     .4byte  sym_06059F10
-.L_dispatch_flags:
+.L_06003AF8:
     .4byte  sym_06059F18
-.L_init_counter:
+.L_06003AFC:
     .4byte  sym_06059F1C
-.L_handler_slot_96:
+.L_06003B00:
     .4byte  0x002D0868
-.L_handler_table_a:
+.L_06003B04:
     .4byte  sym_06059EC8
-.L_fn_register_handler:
+.L_06003B08:
     .4byte  obj_transform_cache
-.L_handler_slot_a2:
+.L_06003B0C:
     .4byte  0x002D0108
-.L_handler_slot_3f:
+.L_06003B10:
     .4byte  sym_060430CE
-.L_handler_table_b:
+.L_06003B14:
     .4byte  0x002BE5F0
-.L_handler_slot_61:
+.L_06003B18:
     .4byte  0x002D11A4
-.L_handler_slot_45:
+.L_06003B1C:
     .4byte  0x002A0000
-.L_handler_table_c:
+.L_06003B20:
     .4byte  0x002A86F8
-.L_handler_slot_0b:
+.L_06003B24:
     .4byte  0x002A7D64
-.L_handler_table_d:
+.L_06003B28:
     .4byte  0x002AC382
-.L_handler_table_e:
+.L_06003B2C:
     .4byte  0x002AC390
-.L_handler_slot_34:
+.L_06003B30:
     .4byte  0x002A3784
-.L_handler_table_f:
+.L_06003B34:
     .4byte  0x002AA0B0
-.L_handler_slot_c9:
+.L_06003B38:
     .4byte  0x002A6BCC
-.L_handler_table_g:
+.L_06003B3C:
     .4byte  sym_060EF650
-.L_handler_slot_2ea:
+.L_06003B40:
     .4byte  0x002A3910
-.L_handler_table_h:
+.L_06003B44:
     .4byte  sym_060EE300
-.L_register_obj_handlers:
-    mov.l   .L_obj_table_init_a, r4
-    mov.l   .L_fn_register_handler_2, r3
+.L_06003B48:
+    mov.l   .L_06003C1C, r4
+    mov.l   .L_06003C20, r3
     jsr @r3
     nop
     mov #0x0, r7
-    mov.l   .L_obj_table_slot_0a, r4
-    mov.l   .L_fn_register_handler_2, r3
+    mov.l   .L_06003C24, r4
+    mov.l   .L_06003C20, r3
     mov r7, r6
     jsr @r3
     mov #0x8, r5
     mov #0x0, r7
-    mov.l   .L_obj_table_slot_0b, r4
-    mov.l   .L_fn_register_handler_2, r3
+    mov.l   .L_06003C28, r4
+    mov.l   .L_06003C20, r3
     mov r7, r6
     jsr @r3
     mov #0x8, r5
-    mov.w   .L_slot_id_1bb, r7
-    mov.l   .L_handler_slot_1bb, r6
-    mov.l   .L_obj_table_1bb, r4
-    mov.l   .L_fn_register_handler_2, r3
+    mov.w   .L_06003C16, r7
+    mov.l   .L_06003C2C, r6
+    mov.l   .L_06003C30, r4
+    mov.l   .L_06003C20, r3
     jsr @r3
     mov #0xC, r5
     mov #0x0, r7
-    mov.l   .L_obj_table_null_01, r4
-    mov.l   .L_fn_register_handler_2, r3
+    mov.l   .L_06003C34, r4
+    mov.l   .L_06003C20, r3
     mov r7, r6
     jsr @r3
     mov #0xC, r5
     mov #0x0, r7
-    mov.l   .L_obj_table_null_02, r4
-    mov.l   .L_fn_register_handler_2, r3
+    mov.l   .L_06003C38, r4
+    mov.l   .L_06003C20, r3
     mov r7, r6
     jsr @r3
     mov #0xC, r5
     mov #0x0, r7
-    mov.l   .L_obj_table_null_03, r4
-    mov.l   .L_fn_register_handler_2, r3
+    mov.l   .L_06003C3C, r4
+    mov.l   .L_06003C20, r3
     mov r7, r6
     jsr @r3
     mov #0xC, r5
     mov #0x0, r7
-    mov.l   .L_obj_table_null_04, r4
-    mov.l   .L_fn_register_handler_2, r3
+    mov.l   .L_06003C40, r4
+    mov.l   .L_06003C20, r3
     mov r7, r6
     jsr @r3
     mov #0xC, r5
     mov #0x0, r7
-    mov.l   .L_obj_table_null_05, r4
-    mov.l   .L_fn_register_handler_2, r3
+    mov.l   .L_06003C44, r4
+    mov.l   .L_06003C20, r3
     mov r7, r6
     jsr @r3
     mov #0xC, r5
     mov #0x0, r7
-    mov.l   .L_obj_table_null_06, r4
-    mov.l   .L_fn_register_handler_2, r3
+    mov.l   .L_06003C48, r4
+    mov.l   .L_06003C20, r3
     mov r7, r6
     jsr @r3
     mov #0xC, r5
     mov #0x0, r7
-    mov.l   .L_obj_table_null_07, r4
-    mov.l   .L_fn_register_handler_2, r3
+    mov.l   .L_06003C4C, r4
+    mov.l   .L_06003C20, r3
     mov r7, r6
     jsr @r3
     mov #0xC, r5
     mov #0x0, r7
-    mov.l   .L_obj_table_null_08, r4
-    mov.l   .L_fn_register_handler_2, r3
+    mov.l   .L_06003C50, r4
+    mov.l   .L_06003C20, r3
     mov r7, r6
     jsr @r3
     mov #0xC, r5
     mov #0x0, r7
-    mov.l   .L_obj_table_null_09, r4
-    mov.l   .L_fn_register_handler_2, r3
+    mov.l   .L_06003C54, r4
+    mov.l   .L_06003C20, r3
     mov r7, r6
     jsr @r3
     mov #0xC, r5
     mov #0x0, r7
-    mov.l   .L_obj_table_null_10, r4
-    mov.l   .L_fn_register_handler_2, r3
+    mov.l   .L_06003C58, r4
+    mov.l   .L_06003C20, r3
     mov r7, r6
     jsr @r3
     mov #0xC, r5
     mov #0x14, r7
-    mov.l   .L_handler_slot_14, r6
-    mov.l   .L_obj_table_slot_14, r4
-    mov.l   .L_fn_register_handler_2, r3
+    mov.l   .L_06003C5C, r6
+    mov.l   .L_06003C60, r4
+    mov.l   .L_06003C20, r3
     jsr @r3
     mov #0x4, r5
     mov #0x0, r7
-    mov.l   .L_obj_table_null_11, r4
-    mov.l   .L_fn_register_handler_2, r3
+    mov.l   .L_06003C64, r4
+    mov.l   .L_06003C20, r3
     mov r7, r6
     jsr @r3
     mov #0x4, r5
-    mov.w   .L_slot_id_db, r7
-    mov.l   .L_handler_slot_db, r6
-    mov.l   .L_handler_table_a_2, r4
-    mov.l   .L_fn_register_handler_2, r3
+    mov.w   .L_06003C18, r7
+    mov.l   .L_06003C68, r6
+    mov.l   .L_06003C6C, r4
+    mov.l   .L_06003C20, r3
     jsr @r3
     mov #0x9, r5
     mov.w   DAT_06003c1a, r7
-    bra     .L_register_scene_handlers
+    bra     .L_06003C70
     nop
-.L_slot_id_1bb:
+.L_06003C16:
     .2byte  0x01BB
-.L_slot_id_db:
+.L_06003C18:
     .2byte  0x00DB
 
     .global DAT_06003c1a
 DAT_06003c1a:
     .2byte  0x013C
-.L_obj_table_init_a:
+.L_06003C1C:
     .4byte  sym_060EE7D4
-.L_fn_register_handler_2:
+.L_06003C20:
     .4byte  obj_transform_cache
-.L_obj_table_slot_0a:
+.L_06003C24:
     .4byte  sym_060EECA8
-.L_obj_table_slot_0b:
+.L_06003C28:
     .4byte  sym_060EF17C
-.L_handler_slot_1bb:
+.L_06003C2C:
     .4byte  0x002ADA4C
-.L_obj_table_1bb:
+.L_06003C30:
     .4byte  0x002B4D1C
-.L_obj_table_null_01:
+.L_06003C34:
     .4byte  0x002B4D50
-.L_obj_table_null_02:
+.L_06003C38:
     .4byte  0x002B4D84
-.L_obj_table_null_03:
+.L_06003C3C:
     .4byte  0x002B4DE4
-.L_obj_table_null_04:
+.L_06003C40:
     .4byte  0x002B510A
-.L_obj_table_null_05:
+.L_06003C44:
     .4byte  0x002B517A
-.L_obj_table_null_06:
+.L_06003C48:
     .4byte  0x002B4DB8
-.L_obj_table_null_07:
+.L_06003C4C:
     .4byte  0x002B4EAC
-.L_obj_table_null_08:
+.L_06003C50:
     .4byte  0x002B4FF8
-.L_obj_table_null_09:
+.L_06003C54:
     .4byte  0x002B5054
-.L_obj_table_null_10:
+.L_06003C58:
     .4byte  0x002B50B2
-.L_handler_slot_14:
+.L_06003C5C:
     .4byte  0x002B43EC
-.L_obj_table_slot_14:
+.L_06003C60:
     .4byte  0x002B7082
-.L_obj_table_null_11:
+.L_06003C64:
     .4byte  0x002B709A
-.L_handler_slot_db:
+.L_06003C68:
     .4byte  0x002B0910
-.L_handler_table_a_2:
+.L_06003C6C:
     .4byte  sym_06059EC8
-.L_register_scene_handlers:
-    mov.l   .L_handler_slot_13c, r6
-    mov.l   .L_handler_table_a_3, r4
-    mov.l   .L_fn_register_handler_3, r3
+.L_06003C70:
+    mov.l   .L_06003D3C, r6
+    mov.l   .L_06003D40, r4
+    mov.l   .L_06003D44, r3
     jsr @r3
     mov #0x9, r5
     mov #0x19, r7
-    mov.l   .L_handler_slot_19, r6
-    mov.l   .L_handler_table_a_3, r4
-    mov.l   .L_fn_register_handler_3, r3
+    mov.l   .L_06003D48, r6
+    mov.l   .L_06003D40, r4
+    mov.l   .L_06003D44, r3
     jsr @r3
     mov #0x8, r5
     mov.w   DAT_06003d36, r7
-    mov.l   .L_handler_slot_106, r6
-    mov.l   .L_handler_table_a_3, r4
-    mov.l   .L_fn_register_handler_3, r3
+    mov.l   .L_06003D4C, r6
+    mov.l   .L_06003D40, r4
+    mov.l   .L_06003D44, r3
     jsr @r3
     mov #0x9, r5
-    mov.w   .L_slot_id_16a, r7
-    mov.l   .L_handler_slot_16a, r6
-    mov.l   .L_scene_table_16a, r4
-    mov.l   .L_fn_register_handler_3, r3
+    mov.w   .L_06003D38, r7
+    mov.l   .L_06003D50, r6
+    mov.l   .L_06003D54, r4
+    mov.l   .L_06003D44, r3
     jsr @r3
     mov #0xC, r5
     mov #0x57, r7
-    mov.l   .L_handler_slot_57, r6
-    mov.l   .L_scene_table_57, r4
-    mov.l   .L_fn_register_handler_3, r3
+    mov.l   .L_06003D58, r6
+    mov.l   .L_06003D5C, r4
+    mov.l   .L_06003D44, r3
     jsr @r3
     mov #0xC, r5
     mov #0x0, r7
-    mov.l   .L_scene_table_null_01, r4
-    mov.l   .L_fn_register_handler_3, r3
+    mov.l   .L_06003D60, r4
+    mov.l   .L_06003D44, r3
     mov r7, r6
     jsr @r3
     mov #0xC, r5
     mov #0x0, r7
-    mov.l   .L_scene_table_null_02, r4
-    mov.l   .L_fn_register_handler_3, r3
+    mov.l   .L_06003D64, r4
+    mov.l   .L_06003D44, r3
     mov r7, r6
     jsr @r3
     mov #0xC, r5
     mov.w   DAT_06003d3a, r7
-    mov.l   .L_handler_slot_116, r6
-    mov.l   .L_scene_table_116, r4
-    mov.l   .L_fn_register_handler_3, r3
+    mov.l   .L_06003D68, r6
+    mov.l   .L_06003D6C, r4
+    mov.l   .L_06003D44, r3
     jsr @r3
     mov #0xC, r5
     mov #0x0, r7
-    mov.l   .L_scene_table_null_03, r4
-    mov.l   .L_fn_register_handler_3, r3
+    mov.l   .L_06003D70, r4
+    mov.l   .L_06003D44, r3
     mov r7, r6
     jsr @r3
     mov #0xC, r5
     mov #0x0, r7
-    mov.l   .L_scene_table_null_04, r4
-    mov.l   .L_fn_register_handler_3, r3
+    mov.l   .L_06003D74, r4
+    mov.l   .L_06003D44, r3
     mov r7, r6
     jsr @r3
     mov #0xC, r5
     mov #0x0, r7
-    mov.l   .L_scene_table_null_05, r4
-    mov.l   .L_fn_register_handler_3, r3
+    mov.l   .L_06003D78, r4
+    mov.l   .L_06003D44, r3
     mov r7, r6
     jsr @r3
     mov #0xC, r5
     mov #0x0, r7
-    mov.l   .L_scene_table_null_06, r4
-    mov.l   .L_fn_register_handler_3, r3
+    mov.l   .L_06003D7C, r4
+    mov.l   .L_06003D44, r3
     mov r7, r6
     jsr @r3
     mov #0xC, r5
     mov #0x0, r7
-    mov.l   .L_scene_table_null_07, r4
-    mov.l   .L_fn_register_handler_3, r3
+    mov.l   .L_06003D80, r4
+    mov.l   .L_06003D44, r3
     mov r7, r6
     jsr @r3
     mov #0xC, r5
     mov #0x0, r7
-    mov.l   .L_scene_table_null_08, r4
-    mov.l   .L_fn_register_handler_3, r3
+    mov.l   .L_06003D84, r4
+    mov.l   .L_06003D44, r3
     mov r7, r6
     jsr @r3
     mov #0xC, r5
     mov #0x0, r7
-    mov.l   .L_scene_table_null_09, r4
-    mov.l   .L_fn_register_handler_3, r3
+    mov.l   .L_06003D88, r4
+    mov.l   .L_06003D44, r3
     mov r7, r6
     jsr @r3
     mov #0xC, r5
     mov #0x52, r7
-    mov.l   .L_handler_slot_52, r6
-    mov.l   .L_scene_table_52, r4
-    mov.l   .L_fn_register_handler_3, r3
+    mov.l   .L_06003D8C, r6
+    mov.l   .L_06003D90, r4
+    mov.l   .L_06003D44, r3
     jsr @r3
     mov #0xC, r5
     mov #0x0, r7
     mov r7, r6
-    bra     .L_register_gfx_handlers
+    bra     .L_06003D94
     mov #0xC, r5
 
     .global DAT_06003d36
 DAT_06003d36:
     .2byte  0x0106
-.L_slot_id_16a:
+.L_06003D38:
     .2byte  0x016A
 
     .global DAT_06003d3a
 DAT_06003d3a:
     .2byte  0x0116
-.L_handler_slot_13c:
+.L_06003D3C:
     .4byte  0x002B121C
-.L_handler_table_a_3:
+.L_06003D40:
     .4byte  sym_06059EC8
-.L_fn_register_handler_3:
+.L_06003D44:
     .4byte  obj_transform_cache
-.L_handler_slot_19:
+.L_06003D48:
     .4byte  0x002B3550
-.L_handler_slot_106:
+.L_06003D4C:
     .4byte  0x002BECFC
-.L_handler_slot_16a:
+.L_06003D50:
     .4byte  0x002B2300
-.L_scene_table_16a:
+.L_06003D54:
     .4byte  0x002B625E
-.L_handler_slot_57:
+.L_06003D58:
     .4byte  0x002B04B4
-.L_scene_table_57:
+.L_06003D5C:
     .4byte  0x002B616E
-.L_scene_table_null_01:
+.L_06003D60:
     .4byte  0x002B61C2
-.L_scene_table_null_02:
+.L_06003D64:
     .4byte  0x002B6216
-.L_handler_slot_116:
+.L_06003D68:
     .4byte  0x002B36B4
-.L_scene_table_116:
+.L_06003D6C:
     .4byte  0x002B6C02
-.L_scene_table_null_03:
+.L_06003D70:
     .4byte  0x002B6C92
-.L_scene_table_null_04:
+.L_06003D74:
     .4byte  0x002B6D22
-.L_scene_table_null_05:
+.L_06003D78:
     .4byte  0x002B6DB2
-.L_scene_table_null_06:
+.L_06003D7C:
     .4byte  0x002B6E42
-.L_scene_table_null_07:
+.L_06003D80:
     .4byte  0x002B6ED2
-.L_scene_table_null_08:
+.L_06003D84:
     .4byte  0x002B6F62
-.L_scene_table_null_09:
+.L_06003D88:
     .4byte  0x002B6FF2
-.L_handler_slot_52:
+.L_06003D8C:
     .4byte  0x002B8EA8
-.L_scene_table_52:
+.L_06003D90:
     .4byte  0x002BE684
-.L_register_gfx_handlers:
-    mov.l   .L_gfx_table_init, r4
-    mov.l   .L_fn_register_handler_4, r3
+.L_06003D94:
+    mov.l   .L_06003E68, r4
+    mov.l   .L_06003E6C, r3
     jsr @r3
     nop
     mov #0x0, r7
-    mov.l   .L_gfx_table_null_01, r4
-    mov.l   .L_fn_register_handler_4, r3
+    mov.l   .L_06003E70, r4
+    mov.l   .L_06003E6C, r3
     mov r7, r6
     jsr @r3
     mov #0xC, r5
     mov #0x0, r7
-    mov.l   .L_gfx_table_null_02, r4
-    mov.l   .L_fn_register_handler_4, r3
+    mov.l   .L_06003E74, r4
+    mov.l   .L_06003E6C, r3
     mov r7, r6
     jsr @r3
     mov #0xC, r5
     mov #0x0, r7
-    mov.l   .L_gfx_table_null_03, r4
-    mov.l   .L_fn_register_handler_4, r3
+    mov.l   .L_06003E78, r4
+    mov.l   .L_06003E6C, r3
     mov r7, r6
     jsr @r3
     mov #0xC, r5
-    mov.w   .L_slot_id_220, r7
-    mov.l   .L_handler_slot_220, r6
-    mov.l   .L_gfx_table_220, r4
-    mov.l   .L_fn_register_handler_4, r3
+    mov.w   .L_06003E66, r7
+    mov.l   .L_06003E7C, r6
+    mov.l   .L_06003E80, r4
+    mov.l   .L_06003E6C, r3
     jsr @r3
     mov #0xC, r5
     mov #0x0, r7
-    mov.l   .L_gfx_table_null_04, r4
-    mov.l   .L_fn_register_handler_4, r3
-    mov r7, r6
-    jsr @r3
-    mov #0xC, r5
-    mov #0x0, r7
-    mov.l   .L_gfx_table_null_05, r4
-    mov.l   .L_fn_register_handler_4, r3
+    mov.l   .L_06003E84, r4
+    mov.l   .L_06003E6C, r3
     mov r7, r6
     jsr @r3
     mov #0xC, r5
     mov #0x0, r7
-    mov.l   .L_gfx_table_null_06, r4
-    mov.l   .L_fn_register_handler_4, r3
+    mov.l   .L_06003E88, r4
+    mov.l   .L_06003E6C, r3
     mov r7, r6
     jsr @r3
     mov #0xC, r5
     mov #0x0, r7
-    mov.l   .L_gfx_table_null_07, r4
-    mov.l   .L_fn_register_handler_4, r3
+    mov.l   .L_06003E8C, r4
+    mov.l   .L_06003E6C, r3
     mov r7, r6
     jsr @r3
     mov #0xC, r5
     mov #0x0, r7
-    mov.l   .L_gfx_table_null_08, r4
-    mov.l   .L_fn_register_handler_4, r3
+    mov.l   .L_06003E90, r4
+    mov.l   .L_06003E6C, r3
     mov r7, r6
     jsr @r3
     mov #0xC, r5
     mov #0x0, r7
-    mov.l   .L_gfx_table_null_09, r4
-    mov.l   .L_fn_register_handler_4, r3
+    mov.l   .L_06003E94, r4
+    mov.l   .L_06003E6C, r3
     mov r7, r6
     jsr @r3
     mov #0xC, r5
     mov #0x0, r7
-    mov.l   .L_gfx_table_null_10, r4
-    mov.l   .L_fn_register_handler_4, r3
+    mov.l   .L_06003E98, r4
+    mov.l   .L_06003E6C, r3
     mov r7, r6
     jsr @r3
     mov #0xC, r5
     mov #0x0, r7
-    mov.l   .L_gfx_table_null_11, r4
-    mov.l   .L_fn_register_handler_4, r3
+    mov.l   .L_06003E9C, r4
+    mov.l   .L_06003E6C, r3
     mov r7, r6
     jsr @r3
     mov #0xC, r5
     mov #0x0, r7
-    mov.l   .L_gfx_table_null_12, r4
-    mov.l   .L_fn_register_handler_4, r3
+    mov.l   .L_06003EA0, r4
+    mov.l   .L_06003E6C, r3
     mov r7, r6
     jsr @r3
     mov #0xC, r5
     mov #0x0, r7
-    mov.l   .L_gfx_table_null_13, r4
-    mov.l   .L_fn_register_handler_4, r3
+    mov.l   .L_06003EA4, r4
+    mov.l   .L_06003E6C, r3
     mov r7, r6
     jsr @r3
     mov #0xC, r5
     mov #0x0, r7
-    mov.l   .L_gfx_table_null_14, r4
-    mov.l   .L_fn_register_handler_4, r3
+    mov.l   .L_06003EA8, r4
+    mov.l   .L_06003E6C, r3
     mov r7, r6
     jsr @r3
     mov #0xC, r5
     mov #0x0, r7
-    mov.l   .L_gfx_table_null_15, r4
-    mov.l   .L_fn_register_handler_4, r3
+    mov.l   .L_06003EAC, r4
+    mov.l   .L_06003E6C, r3
+    mov r7, r6
+    jsr @r3
+    mov #0xC, r5
+    mov #0x0, r7
+    mov.l   .L_06003EB0, r4
+    mov.l   .L_06003E6C, r3
     mov r7, r6
     jsr @r3
     mov #0xC, r5
     mov #0x0, r7
     mov r7, r6
-    mov.l   .L_gfx_table_null_16, r4
-    bra     .L_register_misc_handlers
+    mov.l   .L_06003EB4, r4
+    bra     .L_06003EB8
     mov #0xC, r5
-.L_slot_id_220:
+.L_06003E66:
     .2byte  0x0220
-.L_gfx_table_init:
+.L_06003E68:
     .4byte  0x002BE6E8
-.L_fn_register_handler_4:
+.L_06003E6C:
     .4byte  obj_transform_cache
-.L_gfx_table_null_01:
+.L_06003E70:
     .4byte  0x002BE71C
-.L_gfx_table_null_02:
+.L_06003E74:
     .4byte  0x002BE780
-.L_gfx_table_null_03:
+.L_06003E78:
     .4byte  0x002BE7B4
-.L_handler_slot_220:
+.L_06003E7C:
     .4byte  0x002ACB58
-.L_gfx_table_220:
+.L_06003E80:
     .4byte  0x002B49CC
-.L_gfx_table_null_04:
+.L_06003E84:
     .4byte  0x002B4A80
-.L_gfx_table_null_05:
+.L_06003E88:
     .4byte  0x002B4AB4
-.L_gfx_table_null_06:
+.L_06003E8C:
     .4byte  0x002B4AE8
-.L_gfx_table_null_07:
+.L_06003E90:
     .4byte  0x002B4B1C
-.L_gfx_table_null_08:
+.L_06003E94:
     .4byte  0x002B4B50
-.L_gfx_table_null_09:
+.L_06003E98:
     .4byte  0x002B4B84
-.L_gfx_table_null_10:
+.L_06003E9C:
     .4byte  0x002B4BB8
-.L_gfx_table_null_11:
+.L_06003EA0:
     .4byte  0x002B4BEC
-.L_gfx_table_null_12:
+.L_06003EA4:
     .4byte  0x002B4C20
-.L_gfx_table_null_13:
+.L_06003EA8:
     .4byte  0x002B4C54
-.L_gfx_table_null_14:
+.L_06003EAC:
     .4byte  0x002B4C64
-.L_gfx_table_null_15:
+.L_06003EB0:
     .4byte  0x002B4C70
-.L_gfx_table_null_16:
+.L_06003EB4:
     .4byte  0x002B4CAC
-.L_register_misc_handlers:
-    mov.l   .L_fn_register_handler_5, r3
+.L_06003EB8:
+    mov.l   .L_06003F8C, r3
     jsr @r3
     nop
     mov #0x0, r7
-    mov.l   .L_misc_table_null_01, r4
-    mov.l   .L_fn_register_handler_5, r3
+    mov.l   .L_06003F90, r4
+    mov.l   .L_06003F8C, r3
     mov r7, r6
     jsr @r3
     mov #0xC, r5
     mov #0x0, r7
-    mov.l   .L_misc_table_null_02, r4
-    mov.l   .L_fn_register_handler_5, r3
+    mov.l   .L_06003F94, r4
+    mov.l   .L_06003F8C, r3
     mov r7, r6
     jsr @r3
     mov #0xC, r5
     mov #0x0, r7
-    mov.l   .L_misc_table_null_03, r4
-    mov.l   .L_fn_register_handler_5, r3
+    mov.l   .L_06003F98, r4
+    mov.l   .L_06003F8C, r3
     mov r7, r6
     jsr @r3
     mov #0xC, r5
     mov #0x0, r7
-    mov.l   .L_handler_table_a_5, r4
-    mov.l   .L_fn_register_handler_5, r3
+    mov.l   .L_06003F9C, r4
+    mov.l   .L_06003F8C, r3
     mov r7, r6
     jsr @r3
     mov #0x8, r5
-    mov.w   .L_memset_size_0a00, r5
-    mov.l   .L_memset_target_01, r4
-    mov.l   .L_fn_register_memset, r3
+    mov.w   .L_06003F88, r5
+    mov.l   .L_06003FA0, r4
+    mov.l   .L_06003FA4, r3
     jsr @r3
     mov #0x4, r6
-    mov.w   .L_memset_size_0a00, r5
-    mov.l   .L_memset_target_02, r4
-    mov.l   .L_fn_register_memset, r3
+    mov.w   .L_06003F88, r5
+    mov.l   .L_06003FA8, r4
+    mov.l   .L_06003FA4, r3
     jsr @r3
     mov #0x4, r6
-    mov.w   .L_memset_size_0a00, r5
-    mov.l   .L_memset_target_03, r4
-    mov.l   .L_fn_register_memset, r3
+    mov.w   .L_06003F88, r5
+    mov.l   .L_06003FAC, r4
+    mov.l   .L_06003FA4, r3
     jsr @r3
     mov #0x4, r6
-    mov.w   .L_memset_size_0a00, r5
-    mov.l   .L_memset_target_04, r4
-    mov.l   .L_fn_register_memset, r3
+    mov.w   .L_06003F88, r5
+    mov.l   .L_06003FB0, r4
+    mov.l   .L_06003FA4, r3
     jsr @r3
     mov #0x4, r6
     mov #0x49, r7
-    mov.l   .L_handler_slot_49, r6
-    mov.l   .L_misc_table_49, r4
-    mov.l   .L_fn_register_handler_5, r3
+    mov.l   .L_06003FB4, r6
+    mov.l   .L_06003FB8, r4
+    mov.l   .L_06003F8C, r3
     jsr @r3
     mov #0xD, r5
     mov #0x14, r7
-    mov.l   .L_handler_slot_14_2, r6
-    mov.l   .L_misc_table_14, r4
-    mov.l   .L_fn_register_handler_5, r3
+    mov.l   .L_06003FBC, r6
+    mov.l   .L_06003FC0, r4
+    mov.l   .L_06003F8C, r3
     jsr @r3
     mov #0x5, r5
     mov #0x0, r7
-    mov.l   .L_misc_table_null_04, r4
-    mov.l   .L_fn_register_handler_5, r3
+    mov.l   .L_06003FC4, r4
+    mov.l   .L_06003F8C, r3
     mov r7, r6
     jsr @r3
     mov #0x4, r5
     mov #0x10, r7
-    mov.l   .L_handler_slot_10, r6
-    mov.l   .L_misc_table_10, r4
-    mov.l   .L_fn_register_handler_5, r3
+    mov.l   .L_06003FC8, r6
+    mov.l   .L_06003FCC, r4
+    mov.l   .L_06003F8C, r3
     jsr @r3
     mov #0xC, r5
     mov #0x0, r7
-    mov.l   .L_misc_table_null_05, r4
-    mov.l   .L_fn_register_handler_5, r3
+    mov.l   .L_06003FD0, r4
+    mov.l   .L_06003F8C, r3
     mov r7, r6
     jsr @r3
     mov #0xC, r5
     mov #0x0, r7
-    mov.l   .L_misc_table_null_06, r4
-    mov.l   .L_fn_register_handler_5, r3
+    mov.l   .L_06003FD4, r4
+    mov.l   .L_06003F8C, r3
     mov r7, r6
     jsr @r3
     mov #0xC, r5
     mov #0x0, r7
-    mov.l   .L_misc_table_null_07, r4
-    mov.l   .L_fn_register_handler_5, r3
+    mov.l   .L_06003FD8, r4
+    mov.l   .L_06003F8C, r3
     mov r7, r6
     jsr @r3
     mov #0xC, r5
     mov #0x0, r7
-    mov.l   .L_misc_table_null_07, r4
-    mov.l   .L_fn_register_handler_5, r3
+    mov.l   .L_06003FD8, r4
+    mov.l   .L_06003F8C, r3
     mov r7, r6
     jsr @r3
     mov #0xC, r5
     mov #0x0, r7
-    mov.l   .L_handler_table_a_5, r4
-    mov.l   .L_fn_register_handler_5, r3
+    mov.l   .L_06003F9C, r4
+    mov.l   .L_06003F8C, r3
     mov r7, r6
     jsr @r3
     mov r7, r5
     mov #0x7, r7
-    bra     .L_register_phys_handlers
+    bra     .L_06003FDC
     nop
-.L_memset_size_0a00:
+.L_06003F88:
     .2byte  0x0A00
     .2byte  0xFFFF
-.L_fn_register_handler_5:
+.L_06003F8C:
     .4byte  obj_transform_cache
-.L_misc_table_null_01:
+.L_06003F90:
     .4byte  0x002B4CC8
-.L_misc_table_null_02:
+.L_06003F94:
     .4byte  0x002B4CE4
-.L_misc_table_null_03:
+.L_06003F98:
     .4byte  0x002B4D00
-.L_handler_table_a_5:
+.L_06003F9C:
     .4byte  sym_06059EC8
-.L_memset_target_01:
+.L_06003FA0:
     .4byte  0x002A8964
-.L_fn_register_memset:
+.L_06003FA4:
     .4byte  sym_0600508A
-.L_memset_target_02:
+.L_06003FA8:
     .4byte  0x002A8AB8
-.L_memset_target_03:
+.L_06003FAC:
     .4byte  0x002A8C74
-.L_memset_target_04:
+.L_06003FB0:
     .4byte  0x002A8DC8
-.L_handler_slot_49:
+.L_06003FB4:
     .4byte  0x002AC63C
-.L_misc_table_49:
+.L_06003FB8:
     .4byte  0x002B4918
-.L_handler_slot_14_2:
+.L_06003FBC:
     .4byte  0x002B43EC
-.L_misc_table_14:
+.L_06003FC0:
     .4byte  0x002B7082
-.L_misc_table_null_04:
+.L_06003FC4:
     .4byte  0x002B709A
-.L_handler_slot_10:
+.L_06003FC8:
     .4byte  0x002B9194
-.L_misc_table_10:
+.L_06003FCC:
     .4byte  0x002BE7DC
-.L_misc_table_null_05:
+.L_06003FD0:
     .4byte  0x002BE7EC
-.L_misc_table_null_06:
+.L_06003FD4:
     .4byte  0x002BE7FC
-.L_misc_table_null_07:
+.L_06003FD8:
     .4byte  0x002BE80C
-.L_register_phys_handlers:
-    mov.l   .L_handler_slot_07, r6
-    mov.l   .L_phys_table_07, r4
-    mov.l   .L_fn_register_handler_6, r3
+.L_06003FDC:
+    mov.l   .L_060040A4, r6
+    mov.l   .L_060040A8, r4
+    mov.l   .L_060040AC, r3
     jsr @r3
     mov #0x4, r5
     mov #0x26, r7
-    mov.l   .L_handler_slot_26, r6
-    mov.l   .L_phys_table_26, r4
-    mov.l   .L_fn_register_handler_6, r3
+    mov.l   .L_060040B0, r6
+    mov.l   .L_060040B4, r4
+    mov.l   .L_060040AC, r3
     jsr @r3
     mov #0xC, r5
     mov #0x0, r7
-    mov.l   .L_phys_table_null_01, r4
-    mov.l   .L_fn_register_handler_6, r3
+    mov.l   .L_060040B8, r4
+    mov.l   .L_060040AC, r3
     mov r7, r6
     jsr @r3
     mov #0xC, r5
     mov #0x0, r7
-    mov.l   .L_phys_table_null_02, r4
-    mov.l   .L_fn_register_handler_6, r3
+    mov.l   .L_060040BC, r4
+    mov.l   .L_060040AC, r3
     mov r7, r6
     jsr @r3
     mov #0xC, r5
     mov #0x0, r7
-    mov.l   .L_phys_table_null_03, r4
-    mov.l   .L_fn_register_handler_6, r3
+    mov.l   .L_060040C0, r4
+    mov.l   .L_060040AC, r3
     mov r7, r6
     jsr @r3
     mov #0xC, r5
     mov #0x0, r7
-    mov.l   .L_phys_table_null_04, r4
-    mov.l   .L_fn_register_handler_6, r3
+    mov.l   .L_060040C4, r4
+    mov.l   .L_060040AC, r3
     mov r7, r6
     jsr @r3
     mov #0xC, r5
     mov #0x0, r7
-    mov.l   .L_phys_table_null_05, r4
-    mov.l   .L_fn_register_handler_6, r3
+    mov.l   .L_060040C8, r4
+    mov.l   .L_060040AC, r3
     mov r7, r6
     jsr @r3
     mov #0xC, r5
     mov #0x1B, r7
-    mov.l   .L_handler_slot_1b, r6
-    mov.l   .L_phys_table_1b, r4
-    mov.l   .L_fn_register_handler_6, r3
+    mov.l   .L_060040CC, r6
+    mov.l   .L_060040D0, r4
+    mov.l   .L_060040AC, r3
     jsr @r3
     mov #0x4, r5
     mov #0x0, r7
-    mov.l   .L_phys_table_null_06, r4
-    mov.l   .L_fn_register_handler_6, r3
+    mov.l   .L_060040D4, r4
+    mov.l   .L_060040AC, r3
     mov r7, r6
     jsr @r3
     mov #0x4, r5
     mov #0x17, r7
-    mov.l   .L_handler_slot_17, r6
-    mov.l   .L_phys_table_17, r4
-    mov.l   .L_fn_register_handler_6, r3
+    mov.l   .L_060040D8, r6
+    mov.l   .L_060040DC, r4
+    mov.l   .L_060040AC, r3
     jsr @r3
     mov #0xC, r5
-    mov.w   .L_memset_size_0bb8, r5
-    mov.l   .L_memset_target_05, r4
-    mov.l   .L_fn_register_memset_2, r3
+    mov.w   .L_0600409E, r5
+    mov.l   .L_060040E0, r4
+    mov.l   .L_060040E4, r3
     jsr @r3
     mov #0x4, r6
-    mov.w   .L_memset_size_0bb8, r5
-    mov.l   .L_memset_target_06, r4
-    mov.l   .L_fn_register_memset_2, r3
+    mov.w   .L_0600409E, r5
+    mov.l   .L_060040E8, r4
+    mov.l   .L_060040E4, r3
     jsr @r3
     mov #0x4, r6
-    mov.w   .L_memset_size_0bb8, r5
-    mov.l   .L_memset_target_07, r4
-    mov.l   .L_fn_register_memset_2, r3
+    mov.w   .L_0600409E, r5
+    mov.l   .L_060040EC, r4
+    mov.l   .L_060040E4, r3
     jsr @r3
     mov #0x4, r6
-    mov.w   .L_memset_size_0bb8, r5
-    mov.l   .L_memset_target_08, r4
-    mov.l   .L_fn_register_memset_2, r3
+    mov.w   .L_0600409E, r5
+    mov.l   .L_060040F0, r4
+    mov.l   .L_060040E4, r3
     jsr @r3
     mov #0x4, r6
-    mov.w   .L_memset_size_0bb8, r5
-    mov.l   .L_memset_target_09, r4
-    mov.l   .L_fn_register_memset_2, r3
+    mov.w   .L_0600409E, r5
+    mov.l   .L_060040F4, r4
+    mov.l   .L_060040E4, r3
     jsr @r3
     mov #0x4, r6
-    mov.w   .L_memset_size_0bb8, r5
-    mov.l   .L_memset_target_10, r4
-    mov.l   .L_fn_register_memset_2, r3
+    mov.w   .L_0600409E, r5
+    mov.l   .L_060040F8, r4
+    mov.l   .L_060040E4, r3
     jsr @r3
     mov #0x4, r6
     mov.w   DAT_060040a0, r5
-    mov.l   .L_memset_target_11, r4
-    mov.l   .L_fn_register_memset_2, r3
+    mov.l   .L_060040FC, r4
+    mov.l   .L_060040E4, r3
     jsr @r3
     mov #0x4, r6
     mov.w   DAT_060040a2, r5
-    bra     .L_register_final_batch
+    bra     .L_06004100
     mov #0x4, r6
-.L_memset_size_0bb8:
+.L_0600409E:
     .2byte  0x0BB8
 
     .global DAT_060040a0
@@ -858,59 +858,59 @@ DAT_060040a0:
     .global DAT_060040a2
 DAT_060040a2:
     .2byte  0x0D7D
-.L_handler_slot_07:
+.L_060040A4:
     .4byte  0x002B8DC8
-.L_phys_table_07:
+.L_060040A8:
     .4byte  0x002BE672
-.L_fn_register_handler_6:
+.L_060040AC:
     .4byte  obj_transform_cache
-.L_handler_slot_26:
+.L_060040B0:
     .4byte  0x002B9244
-.L_phys_table_26:
+.L_060040B4:
     .4byte  0x002BE81C
-.L_phys_table_null_01:
+.L_060040B8:
     .4byte  0x002BE834
-.L_phys_table_null_02:
+.L_060040BC:
     .4byte  0x002BE84C
-.L_phys_table_null_03:
+.L_060040C0:
     .4byte  0x002BE864
-.L_phys_table_null_04:
+.L_060040C4:
     .4byte  0x002BE87C
-.L_phys_table_null_05:
+.L_060040C8:
     .4byte  0x002BE888
-.L_handler_slot_1b:
+.L_060040CC:
     .4byte  0x002B943C
-.L_phys_table_1b:
+.L_060040D0:
     .4byte  0x002BE894
-.L_phys_table_null_06:
+.L_060040D4:
     .4byte  0x002BE8B4
-.L_handler_slot_17:
+.L_060040D8:
     .4byte  0x002B979C
-.L_phys_table_17:
+.L_060040DC:
     .4byte  0x002BE8D2
-.L_memset_target_05:
+.L_060040E0:
     .4byte  0x002B51EA
-.L_fn_register_memset_2:
+.L_060040E4:
     .4byte  sym_0600508A
-.L_memset_target_06:
+.L_060040E8:
     .4byte  0x002B5B8E
-.L_memset_target_07:
+.L_060040EC:
     .4byte  0x002B5F02
-.L_memset_target_08:
+.L_060040F0:
     .4byte  0x002BDB00
-.L_memset_target_09:
+.L_060040F4:
     .4byte  0x002BDBC4
-.L_memset_target_10:
+.L_060040F8:
     .4byte  0x002BDC04
-.L_memset_target_11:
+.L_060040FC:
     .4byte  0x002BDC50
-.L_register_final_batch:
-    mov.l   .L_final_memset_target, r4
-    mov.l   .L_fn_register_memset_3, r3
+.L_06004100:
+    mov.l   .L_060041C8, r4
+    mov.l   .L_060041CC, r3
     jsr @r3
     nop
     mov.w   DAT_060041c2, r5
-    mov.l   .L_final_memset_batch, r4
+    mov.l   .L_060041D0, r4
     .4byte  0xD32F430B
     .4byte  0xE6049556
     .4byte  0xD42FD32D
@@ -965,11 +965,11 @@ DAT_060041c2:
     .global DAT_060041c4
 DAT_060041c4:
     .4byte  0x0E4CFFFF
-.L_final_memset_target:
+.L_060041C8:
     .4byte  0x002BE098
-.L_fn_register_memset_3:
+.L_060041CC:
     .4byte  sym_0600508A
-.L_final_memset_batch:
+.L_060041D0:
     .4byte  0x002BE10C
     .4byte  0x002BE180
     .4byte  0x002BE1F4

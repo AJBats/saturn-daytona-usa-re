@@ -16,9 +16,9 @@ disp_mode_switch:
     mov.b @r0, r1
     mov.l   .L_pool_06033044, r0
     tst r0, r1
-    bt      .L_scroll_disabled
+    bt      .L_0603304C
     mov.l   .L_pool_06033048, r5
-    bra     .L_interpolate
+    bra     .L_0603304E
     nop
     .2byte  0x0000
 .L_pool_06033040:
@@ -27,9 +27,9 @@ disp_mode_switch:
     .4byte  0x00000001
 .L_pool_06033048:
     .4byte  0x00003333
-.L_scroll_disabled:
+.L_0603304C:
     xor r5, r5
-.L_interpolate:
+.L_0603304E:
     mov.l   .L_pool_06033074, r0
     mov.l @r0, r1
     sub r1, r5

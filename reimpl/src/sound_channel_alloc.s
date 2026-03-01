@@ -42,7 +42,7 @@ sound_channel_alloc:
     mov.w @r13, r0
     extu.w r0, r0
     tst r0, r0
-    bt      .L_countdown_done
+    bt      .L_0601D4DA
     mov #0x0, r6
     mov.l @r14, r3
     sub r4, r3
@@ -58,7 +58,7 @@ sound_channel_alloc:
     mov.l @r15+, r13
     bra     camera_view_update
     mov.l @r15+, r14
-.L_countdown_done:
+.L_0601D4DA:
     mov.l   _pool_game_state_byte, r5
     mov.b @r5, r2
     add #0x1, r2
@@ -90,11 +90,11 @@ loc_0601D50C:
     mov.l   _pool2_display_slot_ptr, r0
     mov.l @r0, r0
     tst r0, r0
-    bt      .L_fade_done
+    bt      .L_0601D53C
     mov.l   _pool2_mode_config_flags, r0
     mov.l @r0, r0
     tst #0x1, r0
-    bt/s    .L_negate_offset
+    bt/s    .L_0601D530
     mov #0x0, r6
     mov.l   _pool2_display_slot_ptr, r5
     mov #0x0, r3
@@ -103,17 +103,17 @@ loc_0601D50C:
     addc r3, r5
     shar r5
     mov.l   _pool2_display_slot_ptr, r3
-    bra     .L_commit_fade
+    bra     .L_0601D536
     mov.l r5, @r3
-.L_negate_offset:
+.L_0601D530:
     mov.l   _pool2_display_slot_ptr, r5
     mov.l @r5, r5
     neg r5, r5
-.L_commit_fade:
+.L_0601D536:
     mov.l   _pool2_fn_display_channel_b, r3
     jmp @r3
     mov #0x20, r4
-.L_fade_done:
+.L_0601D53C:
     mov.l   _pool2_game_state_byte, r4
     mov.b @r4, r2
     add #0x1, r2
@@ -146,11 +146,11 @@ loc_0601D568:
     mov #0x1, r2
     mov.l @r3, r3
     cmp/ge r2, r3
-    bt      .L_timer_still_active
+    bt      .L_0601D578
     mov #0x6, r2
     mov.l   _pool4_game_state_dispatch, r3
     mov.l r2, @r3
-.L_timer_still_active:
+.L_0601D578:
     rts
     nop
 
@@ -171,7 +171,7 @@ camera_view_update:
     mov.l   _pool5_dest_table_base, r7
     extu.w r1, r1
     shll r1
-.L_copy_loop:
+.L_0601D598:
     extu.w r4, r5
     extu.w r4, r6
     shll r5
@@ -188,7 +188,7 @@ camera_view_update:
     extu.w r4, r3
     mov.w @(2, r6), r0
     cmp/ge r14, r3
-    bf/s    .L_copy_loop
+    bf/s    .L_0601D598
     mov.w r0, @(2, r5)
     mov #0x0, r7
     mov.w @r15, r0

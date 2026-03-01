@@ -15,192 +15,192 @@ replay_playback:
     mov.l r8, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   .L_fp_half, r8
-    mov.l   .L_cmd_buf_base, r9
-    mov.l   .L_idx_byte_b, r11
-    mov.l   .L_idx_byte_a, r12
-    mov.l   .L_ctrl_state_ptr, r14
-    mov.l   .L_game_flag_a, r0
+    mov.l   .L_0601BEC8, r8
+    mov.l   .L_0601BECC, r9
+    mov.l   .L_0601BED0, r11
+    mov.l   .L_0601BED4, r12
+    mov.l   .L_0601BED8, r14
+    mov.l   .L_0601BEDC, r0
     mov.l @r0, r0
     tst r0, r0
-    bt/s    .L_issue_all_cmds
+    bt/s    .L_0601BE94
     mov.l @r14, r14
-    mov.l   .L_game_flag_b, r0
+    mov.l   .L_0601BEE0, r0
     mov.l @r0, r0
     tst r0, r0
-    bf      .L_check_bit_flags
-.L_issue_all_cmds:
+    bf      .L_0601BEE8
+.L_0601BE94:
     mov r13, r0
-    mov.w   .L_cmd_id_1901_a, r1
-    mov.l   .L_fn_disp_cmd_issue, r3
+    mov.w   .L_0601BEC0, r1
+    mov.l   .L_0601BEE4, r3
     jsr @r3
     mov r14, r2
     mov r13, r0
-    mov.w   .L_cmd_id_1801_a, r1
-    mov.l   .L_fn_disp_cmd_issue, r3
+    mov.w   .L_0601BEC2, r1
+    mov.l   .L_0601BEE4, r3
     jsr @r3
     mov r14, r2
     mov r13, r0
-    mov.w   .L_cmd_id_1701_a, r1
-    mov.l   .L_fn_disp_cmd_issue, r3
+    mov.w   .L_0601BEC4, r1
+    mov.l   .L_0601BEE4, r3
     jsr @r3
     mov r14, r2
     mov r13, r0
-    mov.w   .L_cmd_id_1601_a, r1
-    mov.l   .L_fn_disp_cmd_issue, r3
+    mov.w   .L_0601BEC6, r1
+    mov.l   .L_0601BEE4, r3
     jsr @r3
     mov r14, r2
-    bra     .L_epilogue
+    bra     .L_0601C392
     nop
-.L_cmd_id_1901_a:
+.L_0601BEC0:
     .2byte  0x1901
-.L_cmd_id_1801_a:
+.L_0601BEC2:
     .2byte  0x1801
-.L_cmd_id_1701_a:
+.L_0601BEC4:
     .2byte  0x1701
-.L_cmd_id_1601_a:
+.L_0601BEC6:
     .2byte  0x1601
-.L_fp_half:
+.L_0601BEC8:
     .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
-.L_cmd_buf_base:
+.L_0601BECC:
     .4byte  sym_06089EDC
-.L_idx_byte_b:
+.L_0601BED0:
     .4byte  sym_0605DF57
-.L_idx_byte_a:
+.L_0601BED4:
     .4byte  sym_0605DF56
-.L_ctrl_state_ptr:
+.L_0601BED8:
     .4byte  sym_0607E944
-.L_game_flag_a:
+.L_0601BEDC:
     .4byte  sym_06063E1C
-.L_game_flag_b:
+.L_0601BEE0:
     .4byte  sym_06063E20
-.L_fn_disp_cmd_issue:
+.L_0601BEE4:
     .4byte  sym_06034F78
-.L_check_bit_flags:
+.L_0601BEE8:
     mov r14, r0
     mov.b @(3, r0), r0
     tst #0x40, r0
-    bt      .L_check_bit_80
+    bt      .L_0601BF00
     mov #0x8, r3
-    mov.l   .L_timer_ch_a, r2
+    mov.l   .L_0601BF8C, r2
     mov r13, r0
     mov.w r3, @r2
-    mov.w   .L_cmd_id_1901_b, r1
-    mov.l   .L_fn_disp_cmd_issue_b, r3
+    mov.w   .L_0601BF82, r1
+    mov.l   .L_0601BF90, r3
     jsr @r3
     mov r14, r2
-.L_check_bit_80:
+.L_0601BF00:
     mov r14, r0
     mov.b @(3, r0), r0
     tst #0x80, r0
-    bt      .L_check_bit_01
+    bt      .L_0601BF18
     mov #0x8, r3
-    mov.l   .L_timer_ch_b, r2
+    mov.l   .L_0601BF94, r2
     mov r13, r0
     mov.w r3, @r2
-    mov.w   .L_cmd_id_1801_b, r1
-    mov.l   .L_fn_disp_cmd_issue_b, r3
+    mov.w   .L_0601BF84, r1
+    mov.l   .L_0601BF90, r3
     jsr @r3
     mov r14, r2
-.L_check_bit_01:
+.L_0601BF18:
     mov r14, r0
     mov.b @(2, r0), r0
     tst #0x1, r0
-    bt      .L_check_bit_02
+    bt      .L_0601BF30
     mov #0x8, r3
-    mov.l   .L_timer_ch_c, r2
+    mov.l   .L_0601BF98, r2
     mov r13, r0
     mov.w r3, @r2
-    mov.w   .L_cmd_id_1701_b, r1
-    mov.l   .L_fn_disp_cmd_issue_b, r3
+    mov.w   .L_0601BF86, r1
+    mov.l   .L_0601BF90, r3
     jsr @r3
     mov r14, r2
-.L_check_bit_02:
+.L_0601BF30:
     mov r14, r0
     mov.b @(2, r0), r0
     tst #0x2, r0
-    bt      .L_check_timer_ch_a
+    bt      .L_0601BF48
     mov #0x8, r3
-    mov.l   .L_timer_ch_d, r2
+    mov.l   .L_0601BF9C, r2
     mov r13, r0
     mov.w r3, @r2
-    mov.w   .L_cmd_id_1601_b, r1
-    mov.l   .L_fn_disp_cmd_issue_b, r3
+    mov.w   .L_0601BF88, r1
+    mov.l   .L_0601BF90, r3
     jsr @r3
     mov r14, r2
-.L_check_timer_ch_a:
-    mov.w   .L_uniform_scale, r10
-    mov.l   .L_timer_ch_a, r2
+.L_0601BF48:
+    mov.w   .L_0601BF8A, r10
+    mov.l   .L_0601BF8C, r2
     mov.w @r2, r2
     extu.w r2, r2
     cmp/pl r2
-    bf      .L_check_timer_ch_b
-    mov.l   .L_fn_render_setup, r3
+    bf      .L_0601C032
+    mov.l   .L_0601BFA0, r3
     jsr @r3
     nop
-    mov.l   .L_game_flag_a_2, r0
+    mov.l   .L_0601BFA4, r0
     mov.l @r0, r0
     cmp/eq #0x1, r0
-    bf      .L_ch_a_alt_position
-    mov.l   .L_game_flag_b_2, r0
+    bf      .L_0601BFBC
+    mov.l   .L_0601BFA8, r0
     mov.l @r0, r0
     cmp/eq #0x1, r0
-    bf      .L_ch_a_alt_position
-    mov.l   .L_scale_neg_ch_a, r6
-    mov.l   .L_pos_param_ch_a, r4
-    mov.l   .L_fn_position_set, r3
+    bf      .L_0601BFBC
+    mov.l   .L_0601BFAC, r6
+    mov.l   .L_0601BFB0, r4
+    mov.l   .L_0601BFB4, r3
     jsr @r3
     mov r8, r5
     mov r10, r6
     mov r10, r5
-    mov.l   .L_fn_mat_scale, r3
+    mov.l   .L_0601BFB8, r3
     jsr @r3
     mov r10, r4
-    bra     .L_ch_a_render_common
+    bra     .L_0601BFC6
     nop
-.L_cmd_id_1901_b:
+.L_0601BF82:
     .2byte  0x1901
-.L_cmd_id_1801_b:
+.L_0601BF84:
     .2byte  0x1801
-.L_cmd_id_1701_b:
+.L_0601BF86:
     .2byte  0x1701
-.L_cmd_id_1601_b:
+.L_0601BF88:
     .2byte  0x1601
-.L_uniform_scale:
+.L_0601BF8A:
     .2byte  0x6666                      /* 0.4 (16.16 scale factor) */
-.L_timer_ch_a:
+.L_0601BF8C:
     .4byte  sym_0605DF4E
-.L_fn_disp_cmd_issue_b:
+.L_0601BF90:
     .4byte  sym_06034F78
-.L_timer_ch_b:
+.L_0601BF94:
     .4byte  sym_0605DF50
-.L_timer_ch_c:
+.L_0601BF98:
     .4byte  sym_0605DF52
-.L_timer_ch_d:
+.L_0601BF9C:
     .4byte  sym_0605DF54
-.L_fn_render_setup:
+.L_0601BFA0:
     .4byte  sym_06026DBC
-.L_game_flag_a_2:
+.L_0601BFA4:
     .4byte  sym_06063E1C
-.L_game_flag_b_2:
+.L_0601BFA8:
     .4byte  sym_06063E20
-.L_scale_neg_ch_a:
+.L_0601BFAC:
     .4byte  0xFFFE4000                  /* -1.75 (16.16 fixed-point) */
-.L_pos_param_ch_a:
+.L_0601BFB0:
     .4byte  0x00014872                  /* 1.28 (16.16 fixed-point) */
-.L_fn_position_set:
+.L_0601BFB4:
     .4byte  sym_06026E2E
-.L_fn_mat_scale:
+.L_0601BFB8:
     .4byte  mat_scale_columns
-.L_ch_a_alt_position:
-    mov.w   .L_alt_scale_ch_a, r6
-    mov.l   .L_pos_param_ch_a_alt, r4
-    mov.l   .L_fn_position_set_2, r3
+.L_0601BFBC:
+    mov.w   .L_0601C06E, r6
+    mov.l   .L_0601C074, r4
+    mov.l   .L_0601C078, r3
     jsr @r3
     mov r8, r5
-.L_ch_a_render_common:
-    mov.w   .L_rot_angle_ch_a, r4
-    mov.l   .L_fn_mat_rot_y, r3
+.L_0601BFC6:
+    mov.w   .L_0601C070, r4
+    mov.l   .L_0601C07C, r3
     jsr @r3
     nop
     mov.b @r12, r5
@@ -208,10 +208,10 @@ replay_playback:
     add #0x12, r5
     shll2 r5
     mov.l r5, @r15
-    mov.l   .L_render_z_tbl, r3
+    mov.l   .L_0601C080, r3
     mov.l @r15, r4
-    mov.l   .L_render_x_tbl, r2
-    mov.l   .L_fn_render_params_a, r1
+    mov.l   .L_0601C084, r2
+    mov.l   .L_0601C088, r1
     add r3, r5
     add r2, r4
     mov.l @r5, r5
@@ -222,11 +222,11 @@ replay_playback:
     add #0x12, r6
     shll2 r6
     mov.l r6, @r15
-    mov.l   .L_render_y_tbl, r3
-    mov.l   .L_scale_factor_tbl, r5
+    mov.l   .L_0601C08C, r3
+    mov.l   .L_0601C090, r5
     mov.l @r15, r4
-    mov.l   .L_render_w_tbl, r2
-    mov.l   .L_fn_render_params_b, r1
+    mov.l   .L_0601C094, r2
+    mov.l   .L_0601C098, r1
     add r3, r6
     mov.w @r5, r5
     add r2, r4
@@ -243,99 +243,99 @@ replay_playback:
     mov.b @r12, r3
     extu.b r3, r3
     cmp/ge r2, r3
-    bf      .L_ch_a_dec_timer
+    bf      .L_0601C024
     extu.b r13, r2
     mov.b r2, @r12
-.L_ch_a_dec_timer:
-    mov.l   .L_timer_ch_a_dec, r3
+.L_0601C024:
+    mov.l   .L_0601C09C, r3
     mov.w @r3, r3
     add #-0x1, r3
-    mov.l   .L_timer_ch_a_dec, r2
+    mov.l   .L_0601C09C, r2
     mov.w r3, @r2
-    bra     .L_check_active_display
+    bra     .L_0601C2B0
     nop
-.L_check_timer_ch_b:
-    mov.l   .L_timer_ch_b_chk, r3
+.L_0601C032:
+    mov.l   .L_0601C0A0, r3
     mov.w @r3, r3
     extu.w r3, r3
     cmp/pl r3
-    bt      .L_process_ch_b
-    bra     .L_check_timer_ch_c
+    bt      .L_0601C040
+    bra     .L_0601C164
     nop
-.L_process_ch_b:
-    mov.l   .L_fn_render_setup_2, r3
+.L_0601C040:
+    mov.l   .L_0601C0A4, r3
     jsr @r3
     nop
-    mov.l   .L_game_flag_a_3, r0
+    mov.l   .L_0601C0A8, r0
     mov.l @r0, r0
     cmp/eq #0x1, r0
-    bf      .L_ch_b_alt_position
-    mov.l   .L_game_flag_b_3, r0
+    bf      .L_0601C0BC
+    mov.l   .L_0601C0AC, r0
     mov.l @r0, r0
     cmp/eq #0x1, r0
-    bf      .L_ch_b_alt_position
-    mov.l   .L_scale_neg_ch_b, r6
-    mov.l   .L_pos_param_ch_b, r4
-    mov.l   .L_fn_position_set_2, r3
+    bf      .L_0601C0BC
+    mov.l   .L_0601C0B0, r6
+    mov.l   .L_0601C0B4, r4
+    mov.l   .L_0601C078, r3
     jsr @r3
     mov r8, r5
     mov r10, r6
     mov r10, r5
-    mov.l   .L_fn_mat_scale_2, r3
+    mov.l   .L_0601C0B8, r3
     jsr @r3
     mov r10, r4
-    bra     .L_ch_b_render_common
+    bra     .L_0601C0C6
     nop
-.L_alt_scale_ch_a:
+.L_0601C06E:
     .2byte  0x228F
-.L_rot_angle_ch_a:
+.L_0601C070:
     .2byte  0x1000
     .2byte  0xFFFF
-.L_pos_param_ch_a_alt:
+.L_0601C074:
     .4byte  0x00014872                  /* 1.28 (16.16 fixed-point) */
-.L_fn_position_set_2:
+.L_0601C078:
     .4byte  sym_06026E2E
-.L_fn_mat_rot_y:
+.L_0601C07C:
     .4byte  mat_rot_y
-.L_render_z_tbl:
+.L_0601C080:
     .4byte  sym_060621D8
-.L_render_x_tbl:
+.L_0601C084:
     .4byte  sym_0606212C
-.L_fn_render_params_a:
+.L_0601C088:
     .4byte  sym_06031D8C
-.L_render_y_tbl:
+.L_0601C08C:
     .4byte  sym_06062180
-.L_scale_factor_tbl:
+.L_0601C090:
     .4byte  sym_06089E9C
-.L_render_w_tbl:
+.L_0601C094:
     .4byte  sym_060620D8
-.L_fn_render_params_b:
+.L_0601C098:
     .4byte  sym_06031A28
-.L_timer_ch_a_dec:
+.L_0601C09C:
     .4byte  sym_0605DF4E
-.L_timer_ch_b_chk:
+.L_0601C0A0:
     .4byte  sym_0605DF50
-.L_fn_render_setup_2:
+.L_0601C0A4:
     .4byte  sym_06026DBC
-.L_game_flag_a_3:
+.L_0601C0A8:
     .4byte  sym_06063E1C
-.L_game_flag_b_3:
+.L_0601C0AC:
     .4byte  sym_06063E20
-.L_scale_neg_ch_b:
+.L_0601C0B0:
     .4byte  0xFFFE4000                  /* -1.75 (16.16 fixed-point) */
-.L_pos_param_ch_b:
+.L_0601C0B4:
     .4byte  0xFFFEB78E                  /* -1.28 (16.16 fixed-point) */
-.L_fn_mat_scale_2:
+.L_0601C0B8:
     .4byte  mat_scale_columns
-.L_ch_b_alt_position:
-    mov.w   .L_alt_scale_ch_b, r6
-    mov.l   .L_pos_param_ch_b_alt, r4
-    mov.l   .L_fn_position_set_3, r3
+.L_0601C0BC:
+    mov.w   .L_0601C132, r6
+    mov.l   .L_0601C138, r4
+    mov.l   .L_0601C13C, r3
     jsr @r3
     mov r8, r5
-.L_ch_b_render_common:
-    mov.w   .L_rot_angle_ch_b, r4
-    mov.l   .L_fn_mat_rot_y_2, r3
+.L_0601C0C6:
+    mov.w   .L_0601C134, r4
+    mov.l   .L_0601C140, r3
     jsr @r3
     nop
     mov.b @r11, r5
@@ -343,10 +343,10 @@ replay_playback:
     add #0x12, r5
     shll2 r5
     mov.l r5, @r15
-    mov.l   .L_render_z_tbl_2, r3
+    mov.l   .L_0601C144, r3
     mov.l @r15, r4
-    mov.l   .L_render_x_tbl_2, r2
-    mov.l   .L_fn_render_params_a_2, r1
+    mov.l   .L_0601C148, r2
+    mov.l   .L_0601C14C, r1
     add r3, r5
     add r2, r4
     mov.l @r5, r5
@@ -357,11 +357,11 @@ replay_playback:
     add #0x12, r6
     shll2 r6
     mov.l r6, @r15
-    mov.l   .L_render_y_tbl_2, r3
-    mov.l   .L_scale_factor_tbl_2, r5
+    mov.l   .L_0601C150, r3
+    mov.l   .L_0601C154, r5
     mov.l @r15, r4
-    mov.l   .L_render_w_tbl_2, r2
-    mov.l   .L_fn_render_params_b_2, r1
+    mov.l   .L_0601C158, r2
+    mov.l   .L_0601C15C, r1
     add r3, r6
     mov.w @r5, r5
     add r2, r4
@@ -378,62 +378,62 @@ replay_playback:
     mov.b @r11, r3
     extu.b r3, r3
     cmp/ge r2, r3
-    bf      .L_ch_b_dec_timer
+    bf      .L_0601C124
     extu.b r13, r2
     mov.b r2, @r11
-.L_ch_b_dec_timer:
-    mov.l   .L_timer_ch_b_dec, r3
+.L_0601C124:
+    mov.l   .L_0601C160, r3
     mov.w @r3, r3
     add #-0x1, r3
-    mov.l   .L_timer_ch_b_dec, r2
+    mov.l   .L_0601C160, r2
     mov.w r3, @r2
-    bra     .L_check_active_display
+    bra     .L_0601C2B0
     nop
-.L_alt_scale_ch_b:
+.L_0601C132:
     .2byte  0x228F
-.L_rot_angle_ch_b:
+.L_0601C134:
     .2byte  0x7000
     .2byte  0xFFFF
-.L_pos_param_ch_b_alt:
+.L_0601C138:
     .4byte  0xFFFEB78E                  /* -1.28 (16.16 fixed-point) */
-.L_fn_position_set_3:
+.L_0601C13C:
     .4byte  sym_06026E2E
-.L_fn_mat_rot_y_2:
+.L_0601C140:
     .4byte  mat_rot_y
-.L_render_z_tbl_2:
+.L_0601C144:
     .4byte  sym_060621D8
-.L_render_x_tbl_2:
+.L_0601C148:
     .4byte  sym_0606212C
-.L_fn_render_params_a_2:
+.L_0601C14C:
     .4byte  sym_06031D8C
-.L_render_y_tbl_2:
+.L_0601C150:
     .4byte  sym_06062180
-.L_scale_factor_tbl_2:
+.L_0601C154:
     .4byte  sym_06089E9C
-.L_render_w_tbl_2:
+.L_0601C158:
     .4byte  sym_060620D8
-.L_fn_render_params_b_2:
+.L_0601C15C:
     .4byte  sym_06031A28
-.L_timer_ch_b_dec:
+.L_0601C160:
     .4byte  sym_0605DF50
-.L_check_timer_ch_c:
-    mov.l   .L_timer_ch_c_val, r3
+.L_0601C164:
+    mov.l   .L_0601C1F4, r3
     mov.w @r3, r3
     extu.w r3, r3
     cmp/pl r3
-    bf      .L_check_timer_ch_d
+    bf      .L_0601C224
     mov r10, r6
     mov r10, r5
-    mov.l   .L_fn_mat_scale_3, r3
+    mov.l   .L_0601C1F8, r3
     jsr @r3
     mov r10, r4
-    mov.w   .L_alt_scale_ch_c, r6
-    mov.l   .L_pos_param_ch_c, r4
-    mov.l   .L_fn_position_set_4, r3
+    mov.w   .L_0601C1EE, r6
+    mov.l   .L_0601C1FC, r4
+    mov.l   .L_0601C200, r3
     jsr @r3
     mov r8, r5
-    mov.w   .L_rot_angle_ch_c, r4
-    mov.l   .L_fn_mat_rot_y_3, r3
+    mov.w   .L_0601C1F0, r4
+    mov.l   .L_0601C204, r3
     jsr @r3
     nop
     mov.b @r12, r5
@@ -441,10 +441,10 @@ replay_playback:
     add #0x12, r5
     shll2 r5
     mov.l r5, @r15
-    mov.l   .L_render_z_tbl_3, r3
+    mov.l   .L_0601C208, r3
     mov.l @r15, r4
-    mov.l   .L_render_x_tbl_3, r2
-    mov.l   .L_fn_render_params_a_3, r1
+    mov.l   .L_0601C20C, r2
+    mov.l   .L_0601C210, r1
     add r3, r5
     add r2, r4
     mov.l @r5, r5
@@ -455,11 +455,11 @@ replay_playback:
     add #0x12, r6
     shll2 r6
     mov.l r6, @r15
-    mov.l   .L_render_y_tbl_3, r3
-    mov.l   .L_scale_factor_tbl_3, r5
+    mov.l   .L_0601C214, r3
+    mov.l   .L_0601C218, r5
     mov.l @r15, r4
-    mov.l   .L_render_w_tbl_3, r2
-    mov.l   .L_fn_render_params_b_3, r1
+    mov.l   .L_0601C21C, r2
+    mov.l   .L_0601C220, r1
     add r3, r6
     mov.w @r5, r5
     add r2, r4
@@ -476,67 +476,67 @@ replay_playback:
     mov #0x3, r2
     extu.b r3, r3
     cmp/ge r2, r3
-    bf      .L_ch_c_dec_timer
+    bf      .L_0601C1E0
     extu.b r13, r2
     mov.b r2, @r12
-.L_ch_c_dec_timer:
-    mov.l   .L_timer_ch_c_val, r3
+.L_0601C1E0:
+    mov.l   .L_0601C1F4, r3
     mov.w @r3, r3
     add #-0x1, r3
-    mov.l   .L_timer_ch_c_val, r2
+    mov.l   .L_0601C1F4, r2
     mov.w r3, @r2
-    bra     .L_check_active_display
+    bra     .L_0601C2B0
     nop
-.L_alt_scale_ch_c:
+.L_0601C1EE:
     .2byte  0xDD71
-.L_rot_angle_ch_c:
+.L_0601C1F0:
     .2byte  0x1000
     .2byte  0xFFFF
-.L_timer_ch_c_val:
+.L_0601C1F4:
     .4byte  sym_0605DF52
-.L_fn_mat_scale_3:
+.L_0601C1F8:
     .4byte  mat_scale_columns
-.L_pos_param_ch_c:
+.L_0601C1FC:
     .4byte  0x00014872                  /* 1.28 (16.16 fixed-point) */
-.L_fn_position_set_4:
+.L_0601C200:
     .4byte  sym_06026E2E
-.L_fn_mat_rot_y_3:
+.L_0601C204:
     .4byte  mat_rot_y
-.L_render_z_tbl_3:
+.L_0601C208:
     .4byte  sym_060621D8
-.L_render_x_tbl_3:
+.L_0601C20C:
     .4byte  sym_0606212C
-.L_fn_render_params_a_3:
+.L_0601C210:
     .4byte  sym_06031D8C
-.L_render_y_tbl_3:
+.L_0601C214:
     .4byte  sym_06062180
-.L_scale_factor_tbl_3:
+.L_0601C218:
     .4byte  sym_06089E9C
-.L_render_w_tbl_3:
+.L_0601C21C:
     .4byte  sym_060620D8
-.L_fn_render_params_b_3:
+.L_0601C220:
     .4byte  sym_06031A28
-.L_check_timer_ch_d:
-    mov.l   .L_timer_ch_d_val, r3
+.L_0601C224:
+    mov.l   .L_0601C2C0, r3
     mov.w @r3, r3
     extu.w r3, r3
     cmp/pl r3
-    bf      .L_check_active_display
-    mov.l   .L_fn_render_setup_3, r3
+    bf      .L_0601C2B0
+    mov.l   .L_0601C2C4, r3
     jsr @r3
     nop
     mov r10, r6
     mov r10, r5
-    mov.l   .L_fn_mat_scale_4, r3
+    mov.l   .L_0601C2C8, r3
     jsr @r3
     mov r10, r4
-    mov.w   .L_alt_scale_ch_d, r6
-    mov.l   .L_pos_param_ch_d, r4
-    mov.l   .L_fn_position_set_5, r3
+    mov.w   .L_0601C2BC, r6
+    mov.l   .L_0601C2CC, r4
+    mov.l   .L_0601C2D0, r3
     jsr @r3
     mov r8, r5
-    mov.w   .L_rot_angle_ch_d, r4
-    mov.l   .L_fn_mat_rot_y_4, r3
+    mov.w   .L_0601C2BE, r4
+    mov.l   .L_0601C2D4, r3
     jsr @r3
     nop
     mov.b @r11, r5
@@ -544,10 +544,10 @@ replay_playback:
     add #0x12, r5
     shll2 r5
     mov.l r5, @r15
-    mov.l   .L_render_z_tbl_4, r3
+    mov.l   .L_0601C2D8, r3
     mov.l @r15, r4
-    mov.l   .L_render_x_tbl_4, r2
-    mov.l   .L_fn_render_params_a_4, r1
+    mov.l   .L_0601C2DC, r2
+    mov.l   .L_0601C2E0, r1
     add r3, r5
     add r2, r4
     mov.l @r5, r5
@@ -558,11 +558,11 @@ replay_playback:
     add #0x12, r6
     shll2 r6
     mov.l r6, @r15
-    mov.l   .L_render_y_tbl_4, r3
-    mov.l   .L_scale_factor_tbl_4, r5
+    mov.l   .L_0601C2E4, r3
+    mov.l   .L_0601C2E8, r5
     mov.l @r15, r4
-    mov.l   .L_render_w_tbl_4, r2
-    mov.l   .L_fn_render_params_b_4, r1
+    mov.l   .L_0601C2EC, r2
+    mov.l   .L_0601C2F0, r1
     add r3, r6
     mov.w @r5, r5
     add r2, r4
@@ -579,95 +579,95 @@ replay_playback:
     mov.b @r11, r3
     extu.b r3, r3
     cmp/ge r2, r3
-    bf      .L_ch_d_dec_timer
+    bf      .L_0601C2A6
     extu.b r13, r2
     mov.b r2, @r11
-.L_ch_d_dec_timer:
-    mov.l   .L_timer_ch_d_val, r3
+.L_0601C2A6:
+    mov.l   .L_0601C2C0, r3
     mov.w @r3, r3
     add #-0x1, r3
-    mov.l   .L_timer_ch_d_val, r2
+    mov.l   .L_0601C2C0, r2
     mov.w r3, @r2
-.L_check_active_display:
-    mov.l   .L_active_display_flag, r0
+.L_0601C2B0:
+    mov.l   .L_0601C2F4, r0
     mov.l @r0, r0
     tst r0, r0
-    bf      .L_check_anim_state
-    bra     .L_epilogue
+    bf      .L_0601C2F8
+    bra     .L_0601C392
     nop
-.L_alt_scale_ch_d:
+.L_0601C2BC:
     .2byte  0xDD71
-.L_rot_angle_ch_d:
+.L_0601C2BE:
     .2byte  0x7000
-.L_timer_ch_d_val:
+.L_0601C2C0:
     .4byte  sym_0605DF54
-.L_fn_render_setup_3:
+.L_0601C2C4:
     .4byte  sym_06026DBC
-.L_fn_mat_scale_4:
+.L_0601C2C8:
     .4byte  mat_scale_columns
-.L_pos_param_ch_d:
+.L_0601C2CC:
     .4byte  0xFFFEB78E                  /* -1.28 (16.16 fixed-point) */
-.L_fn_position_set_5:
+.L_0601C2D0:
     .4byte  sym_06026E2E
-.L_fn_mat_rot_y_4:
+.L_0601C2D4:
     .4byte  mat_rot_y
-.L_render_z_tbl_4:
+.L_0601C2D8:
     .4byte  sym_060621D8
-.L_render_x_tbl_4:
+.L_0601C2DC:
     .4byte  sym_0606212C
-.L_fn_render_params_a_4:
+.L_0601C2E0:
     .4byte  sym_06031D8C
-.L_render_y_tbl_4:
+.L_0601C2E4:
     .4byte  sym_06062180
-.L_scale_factor_tbl_4:
+.L_0601C2E8:
     .4byte  sym_06089E9C
-.L_render_w_tbl_4:
+.L_0601C2EC:
     .4byte  sym_060620D8
-.L_fn_render_params_b_4:
+.L_0601C2F0:
     .4byte  sym_06031A28
-.L_active_display_flag:
+.L_0601C2F4:
     .4byte  sym_06059F30
-.L_check_anim_state:
-    mov.w   .L_field_166_off, r0
+.L_0601C2F8:
+    mov.w   .L_0601C3A6, r0
     mov.w @(r0, r14), r3
     tst r3, r3
-    bf      .L_recheck_anim_fields
-    mov.w   .L_field_152_off, r0
+    bf      .L_0601C30E
+    mov.w   .L_0601C3A8, r0
     mov.w @(r0, r14), r3
     tst r3, r3
-    bf      .L_recheck_anim_fields
+    bf      .L_0601C30E
     exts.w r13, r3
-    mov.l   .L_disp_elem_index, r2
+    mov.l   .L_0601C3AC, r2
     mov.w r3, @r2
-.L_recheck_anim_fields:
-    mov.w   .L_field_166_off, r0
+.L_0601C30E:
+    mov.w   .L_0601C3A6, r0
     mov.w @(r0, r14), r0
     tst r0, r0
-    bf      .L_anim_render_dispatch
-    mov.w   .L_field_152_off, r0
+    bf      .L_0601C31E
+    mov.w   .L_0601C3A8, r0
     mov.w @(r0, r14), r0
     tst r0, r0
-    bt      .L_epilogue
-.L_anim_render_dispatch:
-    mov.l   .L_fn_render_setup_4, r3
+    bt      .L_0601C392
+.L_0601C31E:
+    mov.l   .L_0601C3B0, r3
     jsr @r3
     nop
-    mov.l   .L_camera_state_ptr, r10
-    mov.l   .L_z_offset_neg, r3
-    mov.w   .L_y_offset_neg, r2
+    mov.l   .L_0601C3B4, r10
+    mov.l   .L_0601C3B8, r3
+    mov.w   .L_0601C3AA, r2
     mov.l @(8, r10), r6
     mov.l @(4, r10), r5
     neg r6, r6
     add r2, r5
     add r3, r6
-    mov.l   .L_fn_position_set_6, r3
+    mov.l   .L_0601C3BC, r3
     jsr @r3
     mov.l @r10, r4
-    mov.l   .L_fn_mat_rot_y_5, r3
+    mov.l   .L_0601C3C0, r3
     jsr @r3
     mov r8, r4
-    mov.w   .L_field_166_off, r0
-    mov.l   .L_elem_lookup_tbl, r3
+    mov.w   .L_0601C3A6, r0
+    mov.l   .L_0601C3C4, r3
     mov.w @(r0, r14), r5
     shll r5
     add r3, r5
@@ -675,17 +675,17 @@ replay_playback:
     add #0xE, r5
     shll2 r5
     mov.l r5, @r15
-    mov.l   .L_render_z_tbl_5, r2
+    mov.l   .L_0601C3C8, r2
     mov.l @r15, r4
-    mov.l   .L_render_x_tbl_5, r1
-    mov.l   .L_fn_render_params_a_5, r3
+    mov.l   .L_0601C3CC, r1
+    mov.l   .L_0601C3D0, r3
     add r2, r5
     add r1, r4
     mov.l @r5, r5
     jsr @r3
     mov.l @r4, r4
-    mov.w   .L_field_166_off, r0
-    mov.l   .L_elem_lookup_tbl, r3
+    mov.w   .L_0601C3A6, r0
+    mov.l   .L_0601C3C4, r3
     mov.w @(r0, r14), r6
     shll r6
     add r3, r6
@@ -693,11 +693,11 @@ replay_playback:
     add #0xE, r6
     shll2 r6
     mov.l r6, @r15
-    mov.l   .L_render_y_tbl_5, r2
-    mov.l   .L_scale_factor_tbl_5, r5
+    mov.l   .L_0601C3D4, r2
+    mov.l   .L_0601C3D8, r5
     mov.l @r15, r4
-    mov.l   .L_render_w_tbl_5, r1
-    mov.l   .L_fn_render_params_b_5, r3
+    mov.l   .L_0601C3DC, r1
+    mov.l   .L_0601C3E0, r3
     add r2, r6
     mov.w @r5, r5
     add r1, r4
@@ -707,7 +707,7 @@ replay_playback:
     mov.l @r9, r2
     add #-0x30, r2
     mov.l r2, @r9
-.L_epilogue:
+.L_0601C392:
     add #0x4, r15
     lds.l @r15+, pr
     mov.l @r15+, r8
@@ -718,37 +718,37 @@ replay_playback:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_field_166_off:
+.L_0601C3A6:
     .2byte  0x0166
-.L_field_152_off:
+.L_0601C3A8:
     .2byte  0x0152
-.L_y_offset_neg:
+.L_0601C3AA:
     .2byte  0xCCCD                      /* -0x3333 signed = -13107 */
-.L_disp_elem_index:
+.L_0601C3AC:
     .4byte  sym_0605DF44
-.L_fn_render_setup_4:
+.L_0601C3B0:
     .4byte  sym_06026DBC
-.L_camera_state_ptr:
+.L_0601C3B4:
     .4byte  sym_06044670
-.L_z_offset_neg:
+.L_0601C3B8:
     .4byte  0xFFFF6000                  /* -0.625 (16.16 fixed-point) */
-.L_fn_position_set_6:
+.L_0601C3BC:
     .4byte  sym_06026E2E
-.L_fn_mat_rot_y_5:
+.L_0601C3C0:
     .4byte  mat_rot_y
-.L_elem_lookup_tbl:
+.L_0601C3C4:
     .4byte  sym_0605DF46
-.L_render_z_tbl_5:
+.L_0601C3C8:
     .4byte  sym_060621D8
-.L_render_x_tbl_5:
+.L_0601C3CC:
     .4byte  sym_0606212C
-.L_fn_render_params_a_5:
+.L_0601C3D0:
     .4byte  sym_06031D8C
-.L_render_y_tbl_5:
+.L_0601C3D4:
     .4byte  sym_06062180
-.L_scale_factor_tbl_5:
+.L_0601C3D8:
     .4byte  sym_06089E9C
-.L_render_w_tbl_5:
+.L_0601C3DC:
     .4byte  sym_060620D8
-.L_fn_render_params_b_5:
+.L_0601C3E0:
     .4byte  sym_06031A28

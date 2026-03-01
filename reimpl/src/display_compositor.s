@@ -27,42 +27,42 @@ display_compositor:
     mov.l @(r0, r14), r7
     add #0x1, r7
     cmp/hi r3, r7
-    bt/s    .L_layer1_done
+    bt/s    .L_06005B20
     mov #0x8, r10
     mov #0xC, r6
     mov.w   _wpool_x_pos_frame, r5
     jsr @r13
     mov #0x8, r4
-.L_layer1_done:
+.L_06005B20:
     mov.b @r8, r0
     tst r0, r0
-    bt      .L_1p_y_offset
+    bt      .L_06005B2C
     mov.w   DAT_06005b80, r5
-    bra     .L_y_layer_common
+    bra     .L_06005B2E
     nop
-.L_1p_y_offset:
+.L_06005B2C:
     mov.w   DAT_06005b82, r5
-.L_y_layer_common:
+.L_06005B2E:
     mov.l   _pool_scale_mode_flag, r0
     mov.l @r0, r0
     tst r0, r0
-    bt      .L_apply_perspective
-    bra     .L_y_write
+    bt      .L_06005B3A
+    bra     .L_06005B44
     mov.l @(8, r14), r7
-.L_apply_perspective:
+.L_06005B3A:
     mov.l @(8, r14), r7
     mov.l   _pool_perspective_scale, r3
     mul.l r3, r7
     sts macl, r7
     shlr16 r7
-.L_y_write:
+.L_06005B44:
     mov #0x24, r6
     jsr @r13
     mov #0x8, r4
     mov.l   _pool_extra_layer_flag, r0
     mov.l @r0, r0
     tst r0, r0
-    bf      .L_z_layer_done
+    bf      .L_06005B60
     mov.w   DAT_06005b84, r0
     mov #0x30, r6
     mov.w   _wpool_x_pos_z, r5
@@ -70,22 +70,22 @@ display_compositor:
     add #0x1, r7
     jsr @r13
     mov #0x8, r4
-.L_z_layer_done:
+.L_06005B60:
     mov.b @r8, r0
     tst r0, r0
-    bt      .L_1p_effect_offset
+    bt      .L_06005B6C
     mov.w   DAT_06005b88, r5
-    bra     .L_effect_layer_common
+    bra     .L_06005B6E
     nop
-.L_1p_effect_offset:
+.L_06005B6C:
     mov.w   DAT_06005b8a, r5
-.L_effect_layer_common:
+.L_06005B6E:
     mov.l   _pool_alt_offset_flag, r0
     mov.l @r0, r0
     tst r0, r0
-    bt      .L_use_default_offset
+    bt      .L_06005BBC
     mov.w   _wpool_alt_field_offset, r0
-    bra     .L_effect_write
+    bra     .L_06005BBE
     nop
 
     .global DAT_06005b7c
@@ -140,9 +140,9 @@ _pool_extra_layer_flag:
     .4byte  sym_0607EAE0
 _pool_alt_offset_flag:
     .4byte  sym_0607EAB8
-.L_use_default_offset:
+.L_06005BBC:
     mov.w   DAT_06005c74, r0
-.L_effect_write:
+.L_06005BBE:
     mov #0x6C, r6
     mov.w @(r0, r14), r7
     add #0x1, r7
@@ -150,21 +150,21 @@ _pool_alt_offset_flag:
     mov #0x8, r4
     mov.b @r8, r0
     tst r0, r0
-    bf      .L_epilogue_rts
+    bf      .L_06005C60
     mov.l   _pool_game_state_bitmask, r3
-    mov.l   .L_fp_two, r2
+    mov.l   .L_06005C80, r2
     mov.l @r3, r3
     and r2, r3
     tst r3, r3
-    bt/s    .L_no_effect_overlay
+    bt/s    .L_06005C1E
     mov #0x1, r4
     mov.l @r9, r0
     cmp/eq #0x78, r0
-    bf      .L_check_timer_active
+    bf      .L_06005BE8
     mov #0x3C, r2
     mov.l r2, @r12
     mov.l r10, @r11
-.L_check_timer_active:
+.L_06005BE8:
     mov.l @r9, r3
     .2byte  0xE278
     .4byte  0x33238916
@@ -180,9 +180,9 @@ _pool_alt_offset_flag:
     .4byte  0x43214321
     .4byte  0x73012B32
     .2byte  0xE400
-.L_no_effect_overlay:
+.L_06005C1E:
     tst r4, r4
-    bt      .L_tail_call_static
+    bt      .L_06005C40
     mov.l @r9, r1
     mov.l   _pool_geometry_transform, r3
     jsr @r3
@@ -190,16 +190,16 @@ _pool_alt_offset_flag:
     mov r0, r7
     mov.w   DAT_06005c76, r4
     cmp/gt r4, r7
-    bf      .L_brightness_ok
+    bf      .L_06005C34
     mov r4, r7
-.L_brightness_ok:
+.L_06005C34:
     mov #0x18, r6
     mov.w   _wpool_x_pos_overlay, r5
     jsr @r13
     mov #0x8, r4
-    bra     .L_epilogue_rts
+    bra     .L_06005C60
     nop
-.L_tail_call_static:
+.L_06005C40:
     mov.l   _pool_static_text_data, r7
     mov #0x60, r6
     mov r6, r5
@@ -216,7 +216,7 @@ _pool_alt_offset_flag:
     mov.l   _pool_geom_dispatch_final, r3
     jmp @r3
     mov.l @r15+, r14
-.L_epilogue_rts:
+.L_06005C60:
     lds.l @r15+, macl
     lds.l @r15+, pr
     mov.l @r15+, r8
@@ -240,7 +240,7 @@ _wpool_x_pos_overlay:
     .2byte  0xFFFF
 _pool_game_state_bitmask:
     .4byte  sym_0607EBC4
-.L_fp_two:
+.L_06005C80:
     .4byte  0x00020000                  /* 2.0 (16.16 fixed-point) */
     .4byte  0xAE1114FF
     .4byte  sound_cmd_dispatch

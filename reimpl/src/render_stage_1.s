@@ -10,36 +10,36 @@ render_stage_1:
     sts.l pr, @-r15
     mov #0x0, r13
     add #-0x4, r15
-    mov.l   .L_p_palette_intensity, r14
-    mov.l   .L_p_render_state_var, r3
+    mov.l   .L_0601CA44, r14
+    mov.l   .L_0601CA48, r3
     mov.l r13, @r3
-    mov.l   .L_p_render_cycle_flag, r3
+    mov.l   .L_0601CA4C, r3
     mov.b r13, @r3
     mov.w   DAT_0601ca3a, r1
-    mov.l   .L_fn_display_disable, r3
+    mov.l   .L_0601CA50, r3
     jsr @r3
     mov.w r1, @r14
-    mov.l   .L_fn_channels_clear, r3
+    mov.l   .L_0601CA54, r3
     jsr @r3
     nop
-    mov.l   .L_fn_display_update, r3
+    mov.l   .L_0601CA58, r3
     jsr @r3
     nop
-    mov.l   .L_p_state_tracker, r3
+    mov.l   .L_0601CA5C, r3
     mov.l r13, @r3
-    mov.l   .L_fn_audio_display_init, r3
+    mov.l   .L_0601CA60, r3
     jsr @r3
     nop
     mov.w   DAT_0601ca3c, r2
-    mov.l   .L_p_frame_countdown, r3
+    mov.l   .L_0601CA64, r3
     mov.l r2, @r3
-    mov.l   .L_p_stage_counter, r3
+    mov.l   .L_0601CA68, r3
     mov.l r13, @r3
-    mov.l   .L_p_dma_pending, r3
+    mov.l   .L_0601CA6C, r3
     mov.l r13, @r3
-    mov.l   .L_vdp2_cram_0x200, r5
+    mov.l   .L_0601CA70, r5
     mov #0x20, r4
-.L_cram_copy_bank1:
+.L_0601C9BC:
     mov.w @r14, r3
     add #-0x2, r4
     mov.w r3, @r5
@@ -48,11 +48,11 @@ render_stage_1:
     mov r5, r2
     add #0x2, r5
     tst r4, r4
-    bf/s    .L_cram_copy_bank1
+    bf/s    .L_0601C9BC
     mov.w r3, @r2
-    mov.l   .L_vdp2_cram_0x400, r5
+    mov.l   .L_0601CA74, r5
     mov #0x20, r4
-.L_cram_copy_bank2:
+.L_0601C9D4:
     mov.w @r14, r2
     add #-0x2, r4
     mov.w r2, @r5
@@ -61,48 +61,48 @@ render_stage_1:
     mov r5, r3
     add #0x2, r5
     tst r4, r4
-    bf/s    .L_cram_copy_bank2
+    bf/s    .L_0601C9D4
     mov.w r2, @r3
-    mov.l   .L_palette_src_cram0, r5
-    mov.l   .L_vdp2_cram_0x000, r4
-    mov.l   .L_fn_dma_transfer, r3
+    mov.l   .L_0601CA78, r5
+    mov.l   .L_0601CA7C, r4
+    mov.l   .L_0601CA80, r3
     jsr @r3
     mov #0x40, r6
     mov #0x9, r7
-    mov.l   .L_tile_src_a, r5
-    mov.l   .L_vdp2_vram_0x70E40, r4
-    mov.l   .L_fn_vram_tile_copy, r3
+    mov.l   .L_0601CA84, r5
+    mov.l   .L_0601CA88, r4
+    mov.l   .L_0601CA8C, r3
     jsr @r3
     mov #0x0, r6
     mov #0x9, r7
-    mov.l   .L_tile_src_b, r5
-    mov.l   .L_vdp2_vram_0x7B168, r4
-    mov.l   .L_fn_vram_tile_copy, r3
+    mov.l   .L_0601CA90, r5
+    mov.l   .L_0601CA94, r4
+    mov.l   .L_0601CA8C, r3
     jsr @r3
     mov #0x0, r6
-    mov.l   .L_p_scroll_config_a, r2
+    mov.l   .L_0601CA98, r2
     mov.l r2, @r15
     mov r2, r7
     mov r2, r5
-    mov.w   .L_w_scroll_extent, r6
-    mov.l   .L_fn_scroll_setup, r3
+    mov.w   .L_0601CA3E, r6
+    mov.l   .L_0601CA9C, r3
     mov.l @(4, r7), r7
     mov.l @r5, r5
     jsr @r3
     mov #0x4, r4
-    mov.l   .L_p_scroll_config_b, r2
+    mov.l   .L_0601CAA0, r2
     mov.l r2, @r15
     mov r2, r7
     mov r2, r5
-    mov.w   .L_w_scroll_extent, r6
-    mov.l   .L_fn_scroll_setup, r3
+    mov.w   .L_0601CA3E, r6
+    mov.l   .L_0601CA9C, r3
     mov.l @(4, r7), r7
     mov.l @r5, r5
     jsr @r3
     mov #0x0, r4
-    mov.l   .L_fn_channel_nibble_cfg, r13
-    mov.w   .L_w_channel_init_mask, r4
-    bra     .L_channel_config_loop
+    mov.l   .L_0601CAA4, r13
+    mov.w   .L_0601CA40, r4
+    bra     .L_0601CAA8
     mov #0x0, r5
 
     .global DAT_0601ca3a
@@ -112,62 +112,62 @@ DAT_0601ca3a:
     .global DAT_0601ca3c
 DAT_0601ca3c:
     .2byte  0x012C                              /* 300 — frame countdown initial value */
-.L_w_scroll_extent:
+.L_0601CA3E:
     .2byte  0x0518                              /* 1304 — scroll extent / pixel range */
-.L_w_channel_init_mask:
+.L_0601CA40:
     .2byte  0x0100                              /* channel 8 mask (first nibble cfg call) */
     .2byte  0xFFFF                              /* alignment padding */
-.L_p_palette_intensity:
+.L_0601CA44:
     .4byte  sym_06086028                        /* &palette_intensity (word) */
-.L_p_render_state_var:
+.L_0601CA48:
     .4byte  sym_0608602C                        /* &render_state_var (long) */
-.L_p_render_cycle_flag:
+.L_0601CA4C:
     .4byte  sym_06086030                        /* &render_cycle_flag (byte) */
-.L_fn_display_disable:
+.L_0601CA50:
     .4byte  sym_060149E0                        /* display_disable — clear bit 15 */
-.L_fn_channels_clear:
+.L_0601CA54:
     .4byte  display_channels_clear              /* clear all display channels */
-.L_fn_display_update:
+.L_0601CA58:
     .4byte  sym_06026CE0                        /* display_update — refresh display state */
-.L_p_state_tracker:
+.L_0601CA5C:
     .4byte  sym_06059F44                        /* &state_tracker (long) */
-.L_fn_audio_display_init:
+.L_0601CA60:
     .4byte  audio_display_init                  /* audio + display subsystem init */
-.L_p_frame_countdown:
+.L_0601CA64:
     .4byte  sym_0608601C                        /* &frame_countdown (long) */
-.L_p_stage_counter:
+.L_0601CA68:
     .4byte  sym_06086020                        /* &stage_counter (long) */
-.L_p_dma_pending:
+.L_0601CA6C:
     .4byte  sym_06086024                        /* &dma_pending_flag (long) */
-.L_vdp2_cram_0x200:
+.L_0601CA70:
     .4byte  0x25F00200                          /* VDP2 color RAM bank 1 (+0x200) */
-.L_vdp2_cram_0x400:
+.L_0601CA74:
     .4byte  0x25F00400                          /* VDP2 color RAM bank 2 (+0x400) */
-.L_palette_src_cram0:
+.L_0601CA78:
     .4byte  sym_0604880C                        /* palette source data for CRAM bank 0 DMA */
-.L_vdp2_cram_0x000:
+.L_0601CA7C:
     .4byte  0x25F00000                          /* VDP2 color RAM bank 0 (+0x000) */
-.L_fn_dma_transfer:
+.L_0601CA80:
     .4byte  dma_transfer                        /* SCU DMA transfer function */
-.L_tile_src_a:
+.L_0601CA84:
     .4byte  0x00014000                          /* tile pattern source A (WRAM offset) */
-.L_vdp2_vram_0x70E40:
+.L_0601CA88:
     .4byte  0x25E70E40                          /* VDP2 VRAM tile dest A (+0x70E40) */
-.L_fn_vram_tile_copy:
+.L_0601CA8C:
     .4byte  sym_0600511E                        /* vram_tile_copy — pattern data transfer */
-.L_tile_src_b:
+.L_0601CA90:
     .4byte  0x00016BC0                          /* tile pattern source B (WRAM offset) */
-.L_vdp2_vram_0x7B168:
+.L_0601CA94:
     .4byte  0x25E7B168                          /* VDP2 VRAM tile dest B (+0x7B168) */
-.L_p_scroll_config_a:
+.L_0601CA98:
     .4byte  sym_06063958                        /* &scroll_config_a struct (8 bytes) */
-.L_fn_scroll_setup:
+.L_0601CA9C:
     .4byte  sym_06028400                        /* scroll_setup — configure scroll plane */
-.L_p_scroll_config_b:
+.L_0601CAA0:
     .4byte  sym_06063960                        /* &scroll_config_b struct (8 bytes) */
-.L_fn_channel_nibble_cfg:
+.L_0601CAA4:
     .4byte  channel_nibble_config               /* display channel nibble configurator */
-.L_channel_config_loop:
+.L_0601CAA8:
     jsr @r13
     nop
     mov #0x1, r5

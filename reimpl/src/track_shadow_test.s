@@ -18,7 +18,7 @@ track_shadow_test:
     mov r15, r4
     mov r0, r4
     tst r4, r4
-    bt      .L_ground_query_ok
+    bt      .L_060415F8
     add #0x20, r15
     lds.l @r15+, pr
     rts
@@ -32,34 +32,34 @@ DAT_060415ee:
     .word 0xFFFF
 .L_pool_060415F4:
     .4byte  track_shadow_ground
-.L_ground_query_ok:
+.L_060415F8:
     mov.l @r15, r0
     cmp/eq #0x2, r0
-    bf      .L_return_fail
+    bf      .L_0604160A
     mov.l @r15, r2
     mov.l @(4, r15), r3
     mov.l @(8, r15), r1
     add r3, r2
     cmp/ge r2, r1
-    bf      .L_do_shape_query
-.L_return_fail:
+    bf      .L_06041612
+.L_0604160A:
     add #0x20, r15
     lds.l @r15+, pr
     rts
     mov #-0xB, r0
-.L_do_shape_query:
+.L_06041612:
     mov.l @(16, r15), r5
     .byte   0xD3, 0x14    /* mov.l .L_pool_06041668, r3 */
     jsr @r3
     mov.l @(8, r15), r4
     mov r0, r4
     tst r4, r4
-    bt      .L_shape_query_ok
+    bt      .L_06041628
     add #0x20, r15
     lds.l @r15+, pr
     rts
     mov #-0xB, r0
-.L_shape_query_ok:
+.L_06041628:
     mov r15, r4
     .byte   0xD3, 0x10    /* mov.l .L_pool_0604166C, r3 */
     jsr @r3

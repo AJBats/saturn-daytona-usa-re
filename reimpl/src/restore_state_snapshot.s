@@ -20,14 +20,14 @@ restore_state_snapshot:
     mov.l   .L_pool_06019040, r0
     mov.l @r0, r0
     tst r0, r0
-    bf      .L_skip_sound_load
+    bf      .L_06019028
     mov.l   .L_pool_0601904C, r3
     jsr @r3
     nop
     mov #0x0, r2
     mov.l   .L_pool_06019050, r3
     mov.w r2, @r3
-.L_skip_sound_load:
+.L_06019028:
     mov.l   .L_pool_06019054, r5
     jsr @r14
     mov #0xF, r4

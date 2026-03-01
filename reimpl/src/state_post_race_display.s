@@ -12,7 +12,7 @@ state_post_race_display:
     .byte   0xD2, 0x16    /* mov.l .L_pool_06009DB9, r2 */
     mov.b @r2, r2
     tst r2, r2
-    bf      .L_skip_display_pipeline
+    bf      .L_06009D76
 
     .byte   0xD3, 0x15    /* mov.l .L_pool_06009DBD, r3 */
     jsr @r3
@@ -27,7 +27,7 @@ state_post_race_display:
     jsr @r3
     nop
 
-.L_skip_display_pipeline:
+.L_06009D76:
     .byte   0xD3, 0x15    /* mov.l .L_pool_06009DD5, r3 */
     jmp @r3
     lds.l @r15+, pr

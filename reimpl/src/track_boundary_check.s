@@ -14,7 +14,7 @@ track_boundary_check:
     mov.w   DAT_06041b0a, r1
     mov.l @(r0, r1), r0
     cmp/eq #0x1, r0
-    bf      .L_skip_phase1
+    bf      .L_06041AE8
     mov.l @r14, r4
     mov.w   .L_wpool_06041B0C, r0
     mov.l   .L_pool_06041B14, r3
@@ -25,13 +25,13 @@ track_boundary_check:
     mov.l @r2, r3
     add #0x1, r3
     tst r4, r4
-    bf/s    .L_skip_state_update
+    bf/s    .L_06041AD4
     mov.l r3, @r2
     mov.l @r14, r3
     mov #0x2, r2
     mov.w   DAT_06041b0a, r0
     mov.l r2, @(r0, r3)
-.L_skip_state_update:
+.L_06041AD4:
     mov r15, r4
     mov.l   .L_pool_06041B18, r3
     jsr @r3
@@ -42,12 +42,12 @@ track_boundary_check:
     mov.b @r3, r1
     mov #0x40, r0
     mov.b r1, @(r0, r2)
-.L_skip_phase1:
+.L_06041AE8:
     mov.l @r14, r0
     mov.w   DAT_06041b0a, r1
     mov.l @(r0, r1), r0
     cmp/eq #0x2, r0
-    bf      .L_return
+    bf      .L_06041B2E
     mov #0x40, r2
     mov.l   .L_pool_06041B1C, r3
     jsr @r3
@@ -57,8 +57,8 @@ track_boundary_check:
     exts.w r5, r4
     and r3, r4
     tst r4, r4
-    bt      .L_bit_clear
-    bra     .L_bit_set_exit
+    bt      .L_06041B20
+    bra     .L_06041B22
     mov #0x1, r4
 
     .global DAT_06041b0a
@@ -75,16 +75,16 @@ DAT_06041b0a:
     .4byte  ai_checkpoint_validate  /* [HIGH] validate AI checkpoint from stack buffer */
 .L_pool_06041B1C:
     .4byte  sym_06035C4E         /* [MEDIUM] HIRQ/CD status reader — event_queue.s calls it "state/field validator" */
-.L_bit_clear:
+.L_06041B20:
     mov #0x0, r4
-.L_bit_set_exit:
+.L_06041B22:
     tst r4, r4
-    bt      .L_return
+    bt      .L_06041B2E
     mov.l @r14, r3
     mov #0x0, r2
     .byte   0x90, 0x4C    /* mov.w .L_wpool_06041BC6, r0 */
     mov.l r2, @(r0, r3)
-.L_return:
+.L_06041B2E:
     mov.l @r14, r0
     .byte   0x91, 0x49    /* mov.w .L_wpool_06041BC6, r1 */
     mov.l @(r0, r1), r0

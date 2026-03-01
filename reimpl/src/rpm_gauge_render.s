@@ -11,7 +11,7 @@ rpm_gauge_render:
     lds.l @r15+, pr
     .byte   0xDD, 0x03    /* mov.l .L_pool_06032A79, r13 */
     mov.l @r13, r13
-    bra     .L_rpm_gauge_body
+    bra     .L_06032AE4
     nop
     .2byte  0x0000
     .4byte  sym_06026DBC
@@ -43,7 +43,7 @@ rpm_gauge_render:
     .4byte  0x00000054
     .4byte  0x0000003A
     .4byte  0x000001A4
-.L_rpm_gauge_body:
+.L_06032AE4:
     .byte   0xD0, 0x8E    /* mov.l .L_pool_06032D20, r0 */
     add r12, r0
     mov.l @r0+, r4

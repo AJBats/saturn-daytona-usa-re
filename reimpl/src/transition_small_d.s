@@ -11,7 +11,7 @@ transition_small_d:
     mov.l @r14, r3
     add #-0x1, r3
     cmp/pz r3
-    bt/s    .L_epilogue
+    bt/s    .L_0600FE20
     mov.l r3, @r14
     .byte   0xD5, 0x07    /* mov.l .L_pool_0600FE30, r5 */
     .byte   0xD3, 0x07    /* mov.l .L_pool_0600FE34, r3 */
@@ -22,7 +22,7 @@ transition_small_d:
     mov #0xF, r3
     .byte   0xD2, 0x05    /* mov.l .L_pool_0600FE38, r2 */
     mov.b r3, @r2
-.L_epilogue:
+.L_0600FE20:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14

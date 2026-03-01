@@ -10,30 +10,30 @@ lap_timer_ctrl:
     mov.l   .L_pool_060122D8, r4
     mov.l @r4, r3
     cmp/ge r2, r3
-    bf      .L_not_finishing
+    bf      .L_060122A2
     .byte   0xB0, 0x2D    /* bsr 0x060122F4 (external) */
     nop
     .byte   0xB1, 0x37    /* bsr 0x0601250C (external) */
     nop
     .byte   0xA2, 0x37    /* bra 0x06012710 (external) */
     lds.l @r15+, pr
-.L_not_finishing:
+.L_060122A2:
     mov #0x64, r3
     mov.l   .L_pool_060122DC, r6
     mov.l @r4, r2
     cmp/ge r3, r2
-    bf/s    .L_below_100
+    bf/s    .L_060122B8
     mov #0x0, r5
     exts.w r5, r5
     .byte   0xB1, 0x2C    /* bsr 0x0601250C (external) */
     mov.w r5, @r6
     .byte   0xA2, 0x2C    /* bra 0x06012710 (external) */
     lds.l @r15+, pr
-.L_below_100:
+.L_060122B8:
     mov.l @r4, r2
     mov #0x28, r3
     cmp/ge r3, r2
-    bf      .L_initialize
+    bf      .L_060122E0
     exts.w r5, r5
     .byte   0xB1, 0x85    /* bsr 0x060125D0 (external) */
     mov.w r5, @r6
@@ -47,7 +47,7 @@ lap_timer_ctrl:
     .4byte  sym_0607EBCC
 .L_pool_060122DC:
     .4byte  sym_060788B2
-.L_initialize:
+.L_060122E0:
     mov #0x1, r5
     mov #0x10, r2
     mov.l r5, @r4

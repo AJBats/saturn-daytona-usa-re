@@ -17,22 +17,22 @@ coord_grid_pack:
     mov.l   .L_pool_06006828, r7
     mov.l   .L_pool_0600682C, r6
     mov.w   DAT_06006804, r5
-    mov.l   .L_fp_half, r4
+    mov.l   .L_06006830, r4
     mov.l   .L_pool_06006834, r0
     mov.b @r0, r0
     tst r0, r0
-    bf      .L_swapped_axes
+    bf      .L_060067F4
     extu.w r5, r5
     mov.w r5, @r6
     extu.w r4, r4
-    bra     .L_grid_write_done
+    bra     .L_060067FC
     mov.w r4, @r7
-.L_swapped_axes:
+.L_060067F4:
     extu.w r4, r4
     mov.w r4, @r6
     extu.w r5, r5
     mov.w r5, @r7
-.L_grid_write_done:
+.L_060067FC:
     lds.l @r15+, pr
     rts
     nop
@@ -60,7 +60,7 @@ DAT_06006804:
     .4byte  sym_06063F4A        /* pointer: sym_06063F4A (grid Z output word) */
 .L_pool_0600682C:
     .4byte  sym_06063F48        /* pointer: sym_06063F48 (grid X output word) */
-.L_fp_half:
+.L_06006830:
     .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_06006834:
     .4byte  sym_06078663        /* pointer: sym_06078663 (display mode / camera flip byte flag) */

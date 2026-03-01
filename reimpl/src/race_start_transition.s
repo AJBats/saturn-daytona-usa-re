@@ -76,7 +76,7 @@ sym_0601A5F8:
     mov.w @r0, r0
     extu.w r0, r0
     cmp/eq #0x10, r0
-    bf      .L_not_green_light
+    bf      .L_0601A658
     mov.w   _wpool_green_light_param, r0
     rts
     nop
@@ -121,7 +121,7 @@ _pool_fn_palette_commit:
     .4byte  palette_frame_effects         /* per-frame palette commit to VDP2 CRAM */
 _pool_game_timer:
     .4byte  sym_06063D9E                  /* game timer (16-bit) — 0x10 = green light */
-.L_not_green_light:
+.L_0601A658:
     .byte   0x90, 0x40    /* mov.w .L_wpool_0601A6DC, r0 (cross-TU word pool) */
     rts
     nop

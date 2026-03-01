@@ -9,14 +9,14 @@ results_full_render:
     bsr     place_result_cell
     nop
     lds.l @r15+, pr
-    mov.l   .L_fp_one, r4
+    mov.l   .L_06033270, r4
     add r4, r1
     add #-0x1, r7
     cmp/pl r7
     .byte   0x89, 0xEA    /* bt 0x06033228 (external) */
     mov.l   .L_pool_06033276, r0
     add r0, r1
-    mov.l   .L_fp_one, r0
+    mov.l   .L_06033270, r0
     add r0, r2
     add #-0x1, r6
     cmp/pl r6
@@ -28,7 +28,7 @@ results_full_render:
 
     .4byte  0x00030000                   /* 3.0 (16.16 fixed-point) — unused padding / alignment */
     .4byte  sym_0603390C                 /* pointer to display element descriptor table */
-.L_fp_one:
+.L_06033270:
     .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
 .L_pool_06033276:
     .4byte  0xFFF80000                   /* -8.0 (16.16 fixed-point) — X row-reset delta */
@@ -45,7 +45,7 @@ place_result_cell:
     mov.l   .L_pool_06033316, r3
     add r0, r1
     add r3, r2
-    mov.l   .L_fp_four, r0
+    mov.l   .L_06033318, r0
     cmp/gt r1, r0
     bt      .ret_restore
     cmp/gt r2, r0
@@ -56,8 +56,8 @@ place_result_cell:
     mov.l   .L_pool_06033322, r0
     cmp/gt r0, r2
     bt      .ret_restore
-    mov.l   .L_fp_half, r0
-    mov.l   .L_fp_one_b, r3
+    mov.l   .L_06033324, r0
+    mov.l   .L_06033328, r3
     tst r0, r2
     bt      .y_no_round
     add r3, r2
@@ -123,15 +123,15 @@ place_result_cell:
     .4byte  0x00240000                   /* 36.0 (16.16) — results grid X origin offset */
 .L_pool_06033316:
     .4byte  0x001C0000                   /* 28.0 (16.16) — results grid Y origin offset */
-.L_fp_four:
+.L_06033318:
     .4byte  0x00040000                  /* 4.0 (16.16 fixed-point) */
 .L_pool_0603331E:
     .4byte  0x00460000                   /* 70.0 (16.16) — results grid right clip boundary */
 .L_pool_06033322:
     .4byte  0x00360000                   /* 54.0 (16.16) — results grid bottom clip boundary */
-.L_fp_half:
+.L_06033324:
     .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
-.L_fp_one_b:
+.L_06033328:
     .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
 .L_pool_0603332E:
     .4byte  sym_060629AC                 /* base address of results colour cell table */

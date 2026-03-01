@@ -14,12 +14,12 @@ car_physics_init:
     mov.l r8, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   .L_fn_vdp1_init, r3
+    mov.l   .L_0600ED84, r3
     jsr @r3
     nop
-    mov.l   .L_car_struct_ptr_b, r4
-    mov.l   .L_car_array_base, r14
-    mov.l   .L_car_index, r5
+    mov.l   .L_0600ED88, r4
+    mov.l   .L_0600ED8C, r14
+    mov.l   .L_0600ED90, r5
     mov.l @r5, r5
     shll2 r5
     shll r5
@@ -28,12 +28,12 @@ car_physics_init:
     mov r5, r2
     add #0x40, r2
     mov.l r2, @r4
-    mov.w   .L_car_struct_offset, r10
+    mov.w   .L_0600ED60, r10
     mov r2, r3
     add r10, r3
-    mov.l   .L_car_struct_ptr_a, r2
+    mov.l   .L_0600ED94, r2
     mov.l r3, @r2
-    mov.l   .L_car_struct_array, r4
+    mov.l   .L_0600ED98, r4
     mov r4, r6
     mov.w   DAT_0600ed62, r1
     add r1, r5
@@ -47,43 +47,43 @@ car_physics_init:
     add #0x20, r2
     mov.l r2, @(8, r4)
     mov #0x0, r3
-    mov.l   .L_race_state_a, r2
+    mov.l   .L_0600ED9C, r2
     mov.l r3, @r2
     mov.w   DAT_0600ed64, r3
-    mov.l   .L_race_timer_init, r2
+    mov.l   .L_0600EDA0, r2
     mov.l r3, @r2
-    mov.l   .L_fn_ptr_table, r3
-    mov.w   .L_fn_tbl_cmd_a, r5
+    mov.l   .L_0600EDA4, r3
+    mov.w   .L_0600ED66, r5
     mov.l @r3, r3
     jsr @r3
     mov #-0x1, r4
-    mov.l   .L_fn_subsys_init, r3
+    mov.l   .L_0600EDA8, r3
     jsr @r3
     nop
-    mov.l   .L_fn_ptr_table, r2
-    mov.w   .L_fn_tbl_cmd_b, r4
+    mov.l   .L_0600EDA4, r2
+    mov.w   .L_0600ED68, r4
     mov.l @r2, r2
     jsr @r2
     mov #0x0, r5
     mov #0x60, r6
-    mov.l   .L_dma_src_addr, r5
-    mov.l   .L_fn_dma_transfer, r3
+    mov.l   .L_0600EDAC, r5
+    mov.l   .L_0600EDB0, r3
     jsr @r3
     mov.l @r14, r4
     mov #0x3, r2
-    mov.l   .L_dma_config, r3
+    mov.l   .L_0600EDB4, r3
     mov #0x0, r11
     mov.l r2, @r3
     mov r11, r6
     mov.l @r14, r2
-    mov.l   .L_fp_half, r3
+    mov.l   .L_0600EDB8, r3
     add #0x60, r2
     mov.w r3, @r2
-    mov.l   .L_vdp1_config_word, r2
+    mov.l   .L_0600EDBC, r2
     mov.w r11, @r2
-    mov.w   .L_spr_size_0x108, r12
-    mov.l   .L_fn_vdp1_sprite, r14
-    mov.l   .L_cdrom_base, r13
+    mov.w   .L_0600ED6A, r12
+    mov.l   .L_0600EDC0, r14
+    mov.l   .L_0600EDC4, r13
     mov.w   DAT_0600ed6c, r7
     mov r12, r5
     add r13, r7
@@ -91,7 +91,7 @@ car_physics_init:
     mov #0x1, r4
     mov.w   DAT_0600ed6e, r7
     mov r11, r6
-    mov.w   .L_spr_size_0x810, r5
+    mov.w   .L_0600ED70, r5
     add r13, r7
     jsr @r14
     mov #0x2, r4
@@ -109,7 +109,7 @@ car_physics_init:
     mov #0x4, r4
     mov.w   DAT_0600ed7a, r7
     mov r11, r6
-    mov.w   .L_spr_size_0x519, r5
+    mov.w   .L_0600ED7C, r5
     add r13, r7
     jsr @r14
     mov #0x5, r4
@@ -119,9 +119,9 @@ car_physics_init:
     add r13, r7
     jsr @r14
     mov #0x6, r4
-    bra     .L_sprite_reg_phase2
+    bra     .L_0600EDC8
     nop
-.L_car_struct_offset:
+.L_0600ED60:
     .2byte  0x00C0
 
     .global DAT_0600ed62
@@ -131,11 +131,11 @@ DAT_0600ed62:
     .global DAT_0600ed64
 DAT_0600ed64:
     .2byte  0x20D8
-.L_fn_tbl_cmd_a:
+.L_0600ED66:
     .2byte  0x0083                      /* BIOS interrupt mask A: enable VBlank + timer */
-.L_fn_tbl_cmd_b:
+.L_0600ED68:
     .2byte  0xFF7C                      /* BIOS interrupt mask B: second config pattern */
-.L_spr_size_0x108:
+.L_0600ED6A:
     .2byte  0x0108
 
     .global DAT_0600ed6c
@@ -145,7 +145,7 @@ DAT_0600ed6c:
     .global DAT_0600ed6e
 DAT_0600ed6e:
     .2byte  0x29A3                      /* cdrom offset: slot 2 sprite data */
-.L_spr_size_0x810:
+.L_0600ED70:
     .2byte  0x0810
 
     .global DAT_0600ed72
@@ -167,7 +167,7 @@ DAT_0600ed78:
     .global DAT_0600ed7a
 DAT_0600ed7a:
     .2byte  0x2E73
-.L_spr_size_0x519:
+.L_0600ED7C:
     .2byte  0x0519
 
     .global DAT_0600ed7e
@@ -178,110 +178,110 @@ DAT_0600ed7e:
 DAT_0600ed80:
     .2byte  0x080F                      /* sprite size param for slot 6 */
     .2byte  0xFFFF                      /* alignment padding */
-.L_fn_vdp1_init:
+.L_0600ED84:
     .4byte  vdp1_init                   /* VDP1 sprite hardware reset */
-.L_car_struct_ptr_b:
+.L_0600ED88:
     .4byte  sym_06078884                /* &car_struct_ptr_b (computed at init) */
-.L_car_array_base:
+.L_0600ED8C:
     .4byte  sym_06063F5C                /* &car_array_base (ptr to car data pool) */
-.L_car_index:
+.L_0600ED90:
     .4byte  sym_06059FFC                /* &car_index (active car selector) */
-.L_car_struct_ptr_a:
+.L_0600ED94:
     .4byte  sym_06078880                /* &car_struct_ptr_a (offset +0xC0 from ptr_b) */
-.L_car_struct_array:
+.L_0600ED98:
     .4byte  sym_06078888                /* car_struct_array[3] (3 x 32-byte slots) */
-.L_race_state_a:
+.L_0600ED9C:
     .4byte  sym_0606A4F4                /* &race_state_a (disc/loading state) */
-.L_race_timer_init:
+.L_0600EDA0:
     .4byte  sym_0606A4EC                /* &race_timer (init to 0x20D8) */
-.L_fn_ptr_table:
+.L_0600EDA4:
     .4byte  sym_06000344                /* BIOS interrupt mask control fn ptr */
-.L_fn_subsys_init:
+.L_0600EDA8:
     .4byte  sym_06012E00                /* subsystem init function */
-.L_dma_src_addr:
+.L_0600EDAC:
     .4byte  sym_0605A018                /* phase display data base (DMA source) */
-.L_fn_dma_transfer:
+.L_0600EDB0:
     .4byte  dma_transfer                /* SCU DMA transfer function */
-.L_dma_config:
+.L_0600EDB4:
     .4byte  sym_0605A008                /* &frame_counter (set to 3 during init) */
-.L_fp_half:
+.L_0600EDB8:
     .4byte  0x00008000                  /* 0.5 in 16.16 fixed-point */
-.L_vdp1_config_word:
+.L_0600EDBC:
     .4byte  sym_06089E44                /* &vdp1_sprite_index (word, cleared to 0) */
-.L_fn_vdp1_sprite:
+.L_0600EDC0:
     .4byte  vdp1_sprite_render          /* sprite registration: r4=slot r5=size r6=flags r7=cdrom */
-.L_cdrom_base:
+.L_0600EDC4:
     .4byte  0x002A0000                  /* CD-ROM data base address */
-.L_sprite_reg_phase2:
+.L_0600EDC8:
     mov.w   DAT_0600eeba, r7
     mov #0x4, r6
-    mov.w   .L_spr_size_0x738, r5
+    mov.w   .L_0600EEBC, r5
     add r13, r7
     jsr @r14
     mov #0x7, r4
     mov.w   DAT_0600eebe, r7
     mov #0x4, r6
-    mov.w   .L_spr_size_0x738, r5
+    mov.w   .L_0600EEBC, r5
     add r13, r7
     jsr @r14
     mov #0x8, r4
     mov.w   DAT_0600eec0, r7
     mov r11, r6
-    mov.w   .L_spr_size_0x208, r5
+    mov.w   .L_0600EEC2, r5
     add r13, r7
     jsr @r14
     mov #0x9, r4
     mov.w   DAT_0600eec4, r7
     mov #0x3C, r6
-    mov.w   .L_spr_size_0xA28, r5
+    mov.w   .L_0600EEC6, r5
     add r13, r7
     jsr @r14
     mov #0xA, r4
     mov.w   DAT_0600eec8, r7
     mov #0x8, r6
-    mov.w   .L_spr_size_0x228, r5
+    mov.w   .L_0600EECA, r5
     add r13, r7
     jsr @r14
     mov #0x10, r4
     mov.w   DAT_0600eecc, r7
     mov #0x8, r6
-    mov.w   .L_spr_size_0x428, r5
+    mov.w   .L_0600EECE, r5
     add r13, r7
     jsr @r14
     mov #0x11, r4
     mov.w   DAT_0600eed0, r7
     mov #0x8, r6
-    mov.w   .L_spr_size_0x418, r5
+    mov.w   .L_0600EED2, r5
     add r13, r7
     jsr @r14
     mov #0x12, r4
     mov.w   DAT_0600eed4, r7
     mov #0x8, r6
-    mov.w   .L_spr_size_0x820, r5
+    mov.w   .L_0600EED6, r5
     add r13, r7
     jsr @r14
     mov #0x13, r4
     mov.w   DAT_0600eed8, r7
     mov #0x8, r6
-    mov.w   .L_spr_size_0x518, r5
+    mov.w   .L_0600EEDA, r5
     add r13, r7
     jsr @r14
     mov #0x14, r4
     mov.w   DAT_0600eedc, r7
     mov #0x8, r6
-    mov.w   .L_spr_size_0x518, r5
+    mov.w   .L_0600EEDA, r5
     add r13, r7
     jsr @r14
     mov #0x15, r4
     mov.w   DAT_0600eede, r7
     mov #0xC, r6
-    mov.w   .L_spr_size_0x508, r5
+    mov.w   .L_0600EEE0, r5
     add r13, r7
     jsr @r14
     mov #0x16, r4
     mov.w   DAT_0600eee2, r7
     mov #0x8, r6
-    mov.w   .L_spr_size_0xD10, r5
+    mov.w   .L_0600EEE4, r5
     add r13, r7
     jsr @r14
     mov #0x17, r4
@@ -291,7 +291,7 @@ DAT_0600ed80:
     add r13, r7
     jsr @r14
     mov #0x18, r4
-    mov.w   .L_spr_size_0x348, r9
+    mov.w   .L_0600EEEA, r9
     mov #0x10, r6
     mov.w   DAT_0600eeec, r7
     mov r9, r5
@@ -311,19 +311,19 @@ DAT_0600ed80:
     jsr @r14
     mov #0x1B, r4
     mov #0x1C, r6
-    mov.w   .L_spr_size_0x630, r5
+    mov.w   .L_0600EEF4, r5
     mov.w   DAT_0600eef2, r7
     add r13, r7
     jsr @r14
     mov r6, r4
     mov #0x10, r6
-    mov.w   .L_spr_size_0xA28, r5
+    mov.w   .L_0600EEC6, r5
     mov.w   DAT_0600eef6, r7
     add r13, r7
     jsr @r14
     mov #0x1D, r4
     mov #0x18, r6
-    mov.w   .L_spr_size_0xC08, r5
+    mov.w   .L_0600EEFA, r5
     mov.w   DAT_0600eef8, r7
     add r13, r7
     jsr @r14
@@ -331,14 +331,14 @@ DAT_0600ed80:
     mov.w   DAT_0600eefc, r7
     add r13, r7
     mov #0x18, r6
-    mov.w   .L_spr_size_0xC10, r5
-    bra     .L_sprite_reg_phase3
+    mov.w   .L_0600EEFE, r5
+    bra     .L_0600EF00
     mov #0x1F, r4
 
     .global DAT_0600eeba
 DAT_0600eeba:
     .2byte  0x3027
-.L_spr_size_0x738:
+.L_0600EEBC:
     .2byte  0x0738
 
     .global DAT_0600eebe
@@ -348,43 +348,43 @@ DAT_0600eebe:
     .global DAT_0600eec0
 DAT_0600eec0:
     .2byte  0x3433
-.L_spr_size_0x208:
+.L_0600EEC2:
     .2byte  0x0208
 
     .global DAT_0600eec4
 DAT_0600eec4:
     .2byte  0x3457
-.L_spr_size_0xA28:
+.L_0600EEC6:
     .2byte  0x0A28
 
     .global DAT_0600eec8
 DAT_0600eec8:
     .2byte  0x0640
-.L_spr_size_0x228:
+.L_0600EECA:
     .2byte  0x0228
 
     .global DAT_0600eecc
 DAT_0600eecc:
     .2byte  0x06AC
-.L_spr_size_0x428:
+.L_0600EECE:
     .2byte  0x0428
 
     .global DAT_0600eed0
 DAT_0600eed0:
     .2byte  0x074C
-.L_spr_size_0x418:
+.L_0600EED2:
     .2byte  0x0418
 
     .global DAT_0600eed4
 DAT_0600eed4:
     .2byte  0x07E4
-.L_spr_size_0x820:
+.L_0600EED6:
     .2byte  0x0820
 
     .global DAT_0600eed8
 DAT_0600eed8:
     .2byte  0x09B4
-.L_spr_size_0x518:
+.L_0600EEDA:
     .2byte  0x0518
 
     .global DAT_0600eedc
@@ -394,13 +394,13 @@ DAT_0600eedc:
     .global DAT_0600eede
 DAT_0600eede:
     .2byte  0x0AA4
-.L_spr_size_0x508:
+.L_0600EEE0:
     .2byte  0x0508
 
     .global DAT_0600eee2
 DAT_0600eee2:
     .2byte  0x0AD8
-.L_spr_size_0xD10:
+.L_0600EEE4:
     .2byte  0x0D10
 
     .global DAT_0600eee6
@@ -410,7 +410,7 @@ DAT_0600eee6:
     .global DAT_0600eee8
 DAT_0600eee8:
     .2byte  0x041C
-.L_spr_size_0x348:
+.L_0600EEEA:
     .2byte  0x0348
 
     .global DAT_0600eeec
@@ -428,7 +428,7 @@ DAT_0600eef0:
     .global DAT_0600eef2
 DAT_0600eef2:
     .2byte  0x12F8
-.L_spr_size_0x630:
+.L_0600EEF4:
     .2byte  0x0630
 
     .global DAT_0600eef6
@@ -438,18 +438,18 @@ DAT_0600eef6:
     .global DAT_0600eef8
 DAT_0600eef8:
     .2byte  0x1890
-.L_spr_size_0xC08:
+.L_0600EEFA:
     .2byte  0x0C08
 
     .global DAT_0600eefc
 DAT_0600eefc:
     .2byte  0x1908
-.L_spr_size_0xC10:
+.L_0600EEFE:
     .2byte  0x0C10
-.L_sprite_reg_phase3:
+.L_0600EF00:
     jsr @r14
     nop
-    mov.w   .L_spr_size_0x308, r9
+    mov.w   .L_0600EFFC, r9
     mov #0xC, r6
     mov.w   DAT_0600effe, r7
     mov r9, r5
@@ -457,7 +457,7 @@ DAT_0600eefc:
     jsr @r14
     mov #0x20, r4
     mov #0xC, r6
-    mov.w   .L_spr_size_0x410, r5
+    mov.w   .L_0600F002, r5
     mov.w   DAT_0600f000, r7
     add r13, r7
     jsr @r14
@@ -475,7 +475,7 @@ DAT_0600eefc:
     jsr @r14
     mov #0x23, r4
     mov #0xC, r6
-    mov.w   .L_spr_size_0x410, r5
+    mov.w   .L_0600F002, r5
     mov.w   DAT_0600f008, r7
     add r13, r7
     jsr @r14
@@ -493,19 +493,19 @@ DAT_0600eefc:
     jsr @r14
     mov #0x26, r4
     mov #0xC, r6
-    mov.w   .L_spr_size_0x610, r5
+    mov.w   .L_0600F012, r5
     mov.w   DAT_0600f010, r7
     add r13, r7
     jsr @r14
     mov #0x27, r4
     mov #0x14, r6
-    mov.w   .L_spr_size_0x510, r5
+    mov.w   .L_0600F016, r5
     mov.w   DAT_0600f014, r7
     add r13, r7
     jsr @r14
     mov #0x28, r4
     mov #0x14, r6
-    mov.w   .L_spr_size_0x310, r5
+    mov.w   .L_0600F01A, r5
     mov.w   DAT_0600f018, r7
     add r13, r7
     jsr @r14
@@ -523,25 +523,25 @@ DAT_0600eefc:
     jsr @r14
     mov #0x2B, r4
     mov #0xC, r6
-    mov.w   .L_spr_size_0x110, r5
+    mov.w   .L_0600F026, r5
     mov.w   DAT_0600f024, r7
     add r13, r7
     jsr @r14
     mov #0x2C, r4
     mov #0xC, r6
-    mov.w   .L_spr_size_0x110, r5
+    mov.w   .L_0600F026, r5
     mov.w   DAT_0600f028, r7
     add r13, r7
     jsr @r14
     mov #0x2D, r4
     mov #0x14, r6
-    mov.w   .L_spr_size_0x510, r5
+    mov.w   .L_0600F016, r5
     mov.w   DAT_0600f02a, r7
     add r13, r7
     jsr @r14
     mov #0x2E, r4
     mov #0x14, r6
-    mov.w   .L_spr_size_0x310, r5
+    mov.w   .L_0600F01A, r5
     mov.w   DAT_0600f02c, r7
     add r13, r7
     jsr @r14
@@ -571,9 +571,9 @@ DAT_0600eefc:
     jsr @r14
     mov #0x33, r4
     mov.w   DAT_0600f036, r7
-    bra     .L_sprite_reg_phase4
+    bra     .L_0600F038
     nop
-.L_spr_size_0x308:
+.L_0600EFFC:
     .2byte  0x0308
 
     .global DAT_0600effe
@@ -583,7 +583,7 @@ DAT_0600effe:
     .global DAT_0600f000
 DAT_0600f000:
     .2byte  0x1B04
-.L_spr_size_0x410:
+.L_0600F002:
     .2byte  0x0410
 
     .global DAT_0600f004
@@ -613,19 +613,19 @@ DAT_0600f00e:
     .global DAT_0600f010
 DAT_0600f010:
     .2byte  0x1D84
-.L_spr_size_0x610:
+.L_0600F012:
     .2byte  0x0610
 
     .global DAT_0600f014
 DAT_0600f014:
     .2byte  0x1E20
-.L_spr_size_0x510:
+.L_0600F016:
     .2byte  0x0510
 
     .global DAT_0600f018
 DAT_0600f018:
     .2byte  0x1E8C
-.L_spr_size_0x310:
+.L_0600F01A:
     .2byte  0x0310
 
     .global DAT_0600f01c
@@ -647,7 +647,7 @@ DAT_0600f022:
     .global DAT_0600f024
 DAT_0600f024:
     .2byte  0x2060
-.L_spr_size_0x110:
+.L_0600F026:
     .2byte  0x0110
 
     .global DAT_0600f028
@@ -681,7 +681,7 @@ DAT_0600f034:
     .global DAT_0600f036
 DAT_0600f036:
     .2byte  0x2304
-.L_sprite_reg_phase4:
+.L_0600F038:
     add r13, r7
     mov #0x14, r6
     mov r12, r5
@@ -713,16 +713,16 @@ DAT_0600f036:
     mov #0x38, r4
     mov #0x10, r6
     mov r12, r5
-    mov.w   .L_cdrom_off_last, r7
+    mov.w   .L_0600F154, r7
     add r13, r7
     jsr @r14
     mov #0x39, r4
     mov #0x1, r3
     mov r11, r6
-    mov.l   .L_sprite_flag, r2
+    mov.l   .L_0600F158, r2
     mov r3, r5
     mov.w r3, @r2
-    mov.l   .L_fn_obj_register, r12
+    mov.l   .L_0600F15C, r12
     jsr @r12
     mov #0x41, r4
     mov r11, r6
@@ -818,7 +818,7 @@ DAT_0600f036:
     jsr @r12
     mov #0x5D, r4
     mov #0x30, r6
-    bra     .L_obj_reg_phase2
+    bra     .L_0600F160
     nop
 
     .global DAT_0600f14c
@@ -836,14 +836,14 @@ DAT_0600f150:
     .global DAT_0600f152
 DAT_0600f152:
     .2byte  0x2324
-.L_cdrom_off_last:
+.L_0600F154:
     .2byte  0x232C                      /* cdrom offset: slot 0x39 (last basic sprite) */
     .2byte  0xFFFF                      /* alignment padding */
-.L_sprite_flag:
+.L_0600F158:
     .4byte  sym_06089E46                /* &sprite_ready_flag (word, set to 1) */
-.L_fn_obj_register:
+.L_0600F15C:
     .4byte  sym_06007540                /* object registration: r4=slot r5=obj_id r6=flags */
-.L_obj_reg_phase2:
+.L_0600F160:
     mov #0x1E, r5
     jsr @r12
     mov #0x5E, r4
@@ -956,8 +956,8 @@ DAT_0600f152:
     jsr @r12
     mov #0x79, r4
     mov #0x78, r6
-    mov.w   .L_slot_0x101, r4
-    mov.w   .L_spr_size_0xB40, r8
+    mov.w   .L_0600F26E, r4
+    mov.w   .L_0600F26A, r8
     mov.w   DAT_0600f26c, r7
     add r13, r7
     jsr @r14
@@ -968,22 +968,22 @@ DAT_0600f152:
     add r13, r7
     jsr @r14
     mov r8, r5
-    mov.w   .L_flags_0x80, r9
+    mov.w   .L_0600F274, r9
     mov.w   DAT_0600f276, r7
-    mov.w   .L_slot_0x103, r4
+    mov.w   .L_0600F278, r4
     mov r9, r6
     add r13, r7
     jsr @r14
     mov r8, r5
-    bra     .L_obj_reg_final
+    bra     .L_0600F27A
     nop
-.L_spr_size_0xB40:
+.L_0600F26A:
     .2byte  0x0B40                      /* large sprite group size param */
 
     .global DAT_0600f26c
 DAT_0600f26c:
     .2byte  0x4B46                      /* cdrom offset: slot 0x101 sprite data */
-.L_slot_0x101:
+.L_0600F26E:
     .2byte  0x0101                      /* extended VDP1 slot 0x101 */
 
     .global DAT_0600f270
@@ -993,15 +993,15 @@ DAT_0600f270:
     .global DAT_0600f272
 DAT_0600f272:
     .2byte  0x0102                      /* extended VDP1 slot 0x102 */
-.L_flags_0x80:
+.L_0600F274:
     .2byte  0x0080                      /* sprite flags: bit 7 set */
 
     .global DAT_0600f276
 DAT_0600f276:
     .2byte  0x5B86                      /* cdrom offset: slot 0x103 sprite data */
-.L_slot_0x103:
+.L_0600F278:
     .2byte  0x0103                      /* extended VDP1 slot 0x103 */
-.L_obj_reg_final:
+.L_0600F27A:
     mov.w   DAT_0600f342, r6
     mov.w   DAT_0600f344, r4
     mov r6, r5
@@ -1013,94 +1013,94 @@ DAT_0600f276:
     jsr @r12
     add #0x7A, r5
     mov.w   DAT_0600f34a, r6
-    mov.w   .L_slot_0x106, r4
+    mov.w   .L_0600F34C, r4
     mov r6, r5
     jsr @r12
     add #0x77, r5
-    mov.l   .L_fp_half_0600F350, r2
-    mov.l   .L_vdp1_mode_addr, r3
+    mov.l   .L_0600F350, r2
+    mov.l   .L_0600F354, r3
     mov.w r2, @r3
     mov r3, r6
-    mov.l   .L_vdp2_cram_0xFFE, r4
-    mov.l   .L_fn_tilemap_dma, r3
+    mov.l   .L_0600F358, r4
+    mov.l   .L_0600F35C, r3
     jsr @r3
     mov #0x1, r5
-    mov.l   .L_fn_subsys_b, r3
+    mov.l   .L_0600F360, r3
     jsr @r3
     nop
-    mov.l   .L_fn_audio_init, r3
+    mov.l   .L_0600F364, r3
     jsr @r3
     nop
-    mov.l   .L_fn_render_coord, r3
+    mov.l   .L_0600F368, r3
     jsr @r3
     nop
     mov r10, r6
-    mov.l   .L_pal_src_bg, r2
-    mov.l   .L_fn_memcpy_word, r14
+    mov.l   .L_0600F370, r2
+    mov.l   .L_0600F36C, r14
     mov.l r2, @r15
-    mov.l   .L_vdp2_cram_0x060, r4
+    mov.l   .L_0600F374, r4
     jsr @r14
     mov r2, r5
     mov r10, r6
-    mov.l   .L_vdp2_cram_0x460, r4
+    mov.l   .L_0600F378, r4
     jsr @r14
     mov.l @r15, r5
     mov #0x20, r6
-    mov.l   .L_pal_src_spr_a, r3
+    mov.l   .L_0600F37C, r3
     mov.l r3, @r15
-    mov.l   .L_vdp2_cram_0x520, r4
+    mov.l   .L_0600F380, r4
     jsr @r14
     mov r3, r5
     mov #0x20, r6
-    mov.l   .L_vdp2_cram_0x540, r4
+    mov.l   .L_0600F384, r4
     jsr @r14
     mov.l @r15, r5
     mov #0x40, r6
-    mov.l   .L_pal_src_obj, r3
+    mov.l   .L_0600F388, r3
     mov.l r3, @r15
-    mov.l   .L_vdp2_cram_0x1A0, r4
+    mov.l   .L_0600F38C, r4
     jsr @r14
     mov r3, r5
     mov #0x40, r6
-    mov.l   .L_vdp2_cram_0x7A0, r4
+    mov.l   .L_0600F390, r4
     jsr @r14
     mov.l @r15, r5
     mov #0x20, r6
-    mov.l   .L_pal_src_obj_b, r3
+    mov.l   .L_0600F394, r3
     mov.l r3, @r15
-    mov.l   .L_vdp2_cram_0x1E0, r4
+    mov.l   .L_0600F398, r4
     jsr @r14
     mov r3, r5
     mov #0x20, r6
-    mov.l   .L_vdp2_cram_0x7E0, r4
+    mov.l   .L_0600F39C, r4
     jsr @r14
     mov.l @r15, r5
-    mov.l   .L_pal_src_effect, r5
-    mov.l   .L_vdp2_cram_0x5A0, r4
+    mov.l   .L_0600F3A0, r5
+    mov.l   .L_0600F3A4, r4
     jsr @r14
     mov #0x40, r6
     mov #0x60, r6
-    mov.l   .L_pal_src_base, r3
+    mov.l   .L_0600F3A8, r3
     mov.l r3, @r15
-    mov.l   .L_vdp2_cram_0x000, r4
+    mov.l   .L_0600F3AC, r4
     jsr @r14
     mov r3, r5
     mov #0x60, r6
-    mov.l   .L_vdp2_cram_0x600, r4
+    mov.l   .L_0600F3B0, r4
     jsr @r14
     mov.l @r15, r5
-    mov.l   .L_pal_src_spr_b, r5
-    mov.l   .L_vdp2_cram_0x6A0, r4
+    mov.l   .L_0600F3B4, r5
+    mov.l   .L_0600F3B8, r4
     jsr @r14
     mov #0x20, r6
     mov r9, r6
-    mov.l   .L_pal_src_nbg, r3
+    mov.l   .L_0600F3BC, r3
     mov.l r3, @r15
-    mov.l   .L_vdp2_cram_0x120, r4
+    mov.l   .L_0600F3C0, r4
     jsr @r14
     mov r3, r5
     mov r9, r6
-    bra     .L_palette_and_cleanup
+    bra     .L_0600F3C4
     mov.l @r15, r5
 
     .global DAT_0600f342
@@ -1122,68 +1122,68 @@ DAT_0600f348:
     .global DAT_0600f34a
 DAT_0600f34a:
     .2byte  0x008C                      /* obj flags for slot 0x106 */
-.L_slot_0x106:
+.L_0600F34C:
     .2byte  0x0106                      /* extended VDP1 slot 0x106 */
     .2byte  0xFFFF                      /* alignment padding */
-.L_fp_half_0600F350:
+.L_0600F350:
     .4byte  0x00008000                  /* 0.5 in 16.16 fixed-point */
-.L_vdp1_mode_addr:
+.L_0600F354:
     .4byte  sym_06086028                /* &display_control_flag (word) */
-.L_vdp2_cram_0xFFE:
+.L_0600F358:
     .4byte  0x25F00FFE                  /* VDP2 CRAM last entry (end marker) */
-.L_fn_tilemap_dma:
+.L_0600F35C:
     .4byte  tilemap_dma_update          /* tilemap DMA update function */
-.L_fn_subsys_b:
+.L_0600F360:
     .4byte  sym_060149E0                /* display_disable: clears bit 15 of display state */
-.L_fn_audio_init:
+.L_0600F364:
     .4byte  audio_display_init          /* audio/display init function */
-.L_fn_render_coord:
+.L_0600F368:
     .4byte  render_coord_transform      /* render coordinate transform */
-.L_fn_memcpy_word:
+.L_0600F36C:
     .4byte  memcpy_word_idx             /* word-indexed memcpy for palette DMA */
-.L_pal_src_bg:
+.L_0600F370:
     .4byte  sym_060484EC                /* BG palette source (0xC0 bytes) */
-.L_vdp2_cram_0x060:
+.L_0600F374:
     .4byte  0x25F00060                  /* CRAM +0x060: BG palette bank A */
-.L_vdp2_cram_0x460:
+.L_0600F378:
     .4byte  0x25F00460                  /* CRAM +0x460: BG palette bank B (mirror) */
-.L_pal_src_spr_a:
+.L_0600F37C:
     .4byte  sym_0604870C                /* sprite palette source A (0x20 bytes) */
-.L_vdp2_cram_0x520:
+.L_0600F380:
     .4byte  0x25F00520                  /* CRAM +0x520: sprite palette A */
-.L_vdp2_cram_0x540:
+.L_0600F384:
     .4byte  0x25F00540                  /* CRAM +0x540: sprite palette A mirror */
-.L_pal_src_obj:
+.L_0600F388:
     .4byte  sym_0604842C                /* object palette source (0x40 bytes) */
-.L_vdp2_cram_0x1A0:
+.L_0600F38C:
     .4byte  0x25F001A0                  /* CRAM +0x1A0: object palette bank A */
-.L_vdp2_cram_0x7A0:
+.L_0600F390:
     .4byte  0x25F007A0                  /* CRAM +0x7A0: object palette bank B (mirror) */
-.L_pal_src_obj_b:
+.L_0600F394:
     .4byte  sym_0604846C                /* object palette source B (0x20 bytes) */
-.L_vdp2_cram_0x1E0:
+.L_0600F398:
     .4byte  0x25F001E0                  /* CRAM +0x1E0: object palette B bank A */
-.L_vdp2_cram_0x7E0:
+.L_0600F39C:
     .4byte  0x25F007E0                  /* CRAM +0x7E0: object palette B bank B (mirror) */
-.L_pal_src_effect:
+.L_0600F3A0:
     .4byte  sym_0605CA5C                /* effect palette source (0x40 bytes) */
-.L_vdp2_cram_0x5A0:
+.L_0600F3A4:
     .4byte  0x25F005A0                  /* CRAM +0x5A0: effect palette */
-.L_pal_src_base:
+.L_0600F3A8:
     .4byte  sym_0604814C                /* base palette source (0x60 bytes) */
-.L_vdp2_cram_0x000:
+.L_0600F3AC:
     .4byte  0x25F00000                  /* CRAM +0x000: base palette bank A */
-.L_vdp2_cram_0x600:
+.L_0600F3B0:
     .4byte  0x25F00600                  /* CRAM +0x600: base palette bank B (mirror) */
-.L_pal_src_spr_b:
+.L_0600F3B4:
     .4byte  sym_060484CC                /* sprite palette source B (0x20 bytes) */
-.L_vdp2_cram_0x6A0:
+.L_0600F3B8:
     .4byte  0x25F006A0                  /* CRAM +0x6A0: sprite palette B */
-.L_pal_src_nbg:
+.L_0600F3BC:
     .4byte  sym_060487AC                /* NBG palette source (r9 bytes) */
-.L_vdp2_cram_0x120:
+.L_0600F3C0:
     .4byte  0x25F00120                  /* CRAM +0x120: NBG palette */
-.L_palette_and_cleanup:
+.L_0600F3C4:
     .byte   0xD4, 0x27    /* mov.l .L_pool_0600F464, r4 */
     jsr @r14
     nop

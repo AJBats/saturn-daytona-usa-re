@@ -6,20 +6,20 @@
     .type race_utility_fn, @function
 race_utility_fn:
     sts.l pr, @-r15
-    .byte   0xD3, 0x14    /* mov.l .L_fn_render_finalize, r3 */
+    .byte   0xD3, 0x14    /* mov.l .L_0600C2DC, r3 */
     jsr @r3
     nop
-    .byte   0xD3, 0x14    /* mov.l .L_fn_camera_track_setup, r3 */
+    .byte   0xD3, 0x14    /* mov.l .L_0600C2E0, r3 */
     jsr @r3
     nop
-    .byte   0xD4, 0x13    /* mov.l .L_ptr_render_state_byte, r4 */
+    .byte   0xD4, 0x13    /* mov.l .L_0600C2E4, r4 */
     mov.b @r4, r2
     tst r2, r2
-    bf      .L_check_state_1
-    .byte   0xD3, 0x12    /* mov.l .L_fn_scene_path_b, r3 */
+    bf      .L_0600C2EC
+    .byte   0xD3, 0x12    /* mov.l .L_0600C2E8, r3 */
     jsr @r3
     nop
-    bra     .L_write_scroll_exit
+    bra     .L_0600C2F8
     nop
     .2byte  0xFE11                       /* alignment / padding */
     .4byte  0x0080FFFF                   /* (unreachable pool) bitmask constant */
@@ -35,24 +35,24 @@ race_utility_fn:
     .4byte  scene_post_render            /* (unreachable pool) fn ptr: scene_post_render */
     .4byte  replay_playback_engine       /* (unreachable pool) fn ptr: replay_playback_engine */
     .4byte  sym_06059FF8                 /* (unreachable pool) timing variable */
-.L_fn_render_finalize:
+.L_0600C2DC:
     .4byte  sym_0603C000                 /* pool: &render_finalize function */
-.L_fn_camera_track_setup:
+.L_0600C2E0:
     .4byte  camera_track_setup           /* pool: &camera_track_setup function */
-.L_ptr_render_state_byte:
+.L_0600C2E4:
     .4byte  sym_06082A26                 /* pool: &render_state_byte */
-.L_fn_scene_path_b:
+.L_0600C2E8:
     .4byte  scene_path_b                 /* pool: &scene_path_b function */
-.L_check_state_1:
+.L_0600C2EC:
     mov.b @r4, r0
     cmp/eq #0x1, r0
-    bf      .L_write_scroll_exit
-    .byte   0xD3, 0x21    /* mov.l .L_fn_scene_path_a, r3 */
+    bf      .L_0600C2F8
+    .byte   0xD3, 0x21    /* mov.l .L_0600C378, r3 */
     jsr @r3
     nop
-.L_write_scroll_exit:
-    .byte   0xD2, 0x20    /* mov.l .L_mask_low16, r2 */
-    .byte   0xD3, 0x21    /* mov.l .L_vdp2_scroll_reg, r3 */
+.L_0600C2F8:
+    .byte   0xD2, 0x20    /* mov.l .L_0600C37C, r2 */
+    .byte   0xD3, 0x21    /* mov.l .L_0600C380, r3 */
     lds.l @r15+, pr
     rts
     mov.w r2, @r3
@@ -60,7 +60,7 @@ race_utility_fn:
     .global sym_0600C302
 sym_0600C302:
     mov #0x68, r0
-    .byte   0xD4, 0x1F    /* mov.l .L_ptr_car_array_base, r4 */
+    .byte   0xD4, 0x1F    /* mov.l .L_0600C384, r4 */
     mov.l @r4, r4
     mov.l @(r0, r4), r3
     add #0x7C, r0
@@ -73,46 +73,46 @@ sym_0600C302:
     mov.w   DAT_0600c36a, r0
     mov.w @(r0, r4), r3
     cmp/pl r3
-    bf      .L_check_timer_174
+    bf      .L_0600C328
     mov.w   DAT_0600c36a, r0
     mov.w @(r0, r4), r2
     add #-0x1, r2
     mov.w r2, @(r0, r4)
-.L_check_timer_174:
+.L_0600C328:
     mov.w   DAT_0600c36c, r0
     mov.w @(r0, r4), r3
     cmp/pl r3
-    bf      .L_check_zone_timer
+    bf      .L_0600C338
     mov.w   DAT_0600c36c, r0
     mov.w @(r0, r4), r2
     add #-0x1, r2
     mov.w r2, @(r0, r4)
-.L_check_zone_timer:
+.L_0600C338:
     mov.w   DAT_0600c36e, r0
     mov.w @(r0, r4), r0
     tst r0, r0
-    bt      .L_zone_timer_zero
+    bt      .L_0600C344
     rts
     nop
-.L_zone_timer_zero:
+.L_0600C344:
     mov #0x12, r7
     mov #0x68, r0
     mov.w   DAT_0600c370, r2
     mov.l @(r0, r4), r3
     cmp/ge r2, r3
-    bf/s    .L_check_ext_value
+    bf/s    .L_0600C35C
     mov #0x0, r6
     mov.w   DAT_0600c36a, r0
     mov.w r7, @(r0, r4)
     add #0x2, r0
     rts
     mov.w r6, @(r0, r4)
-.L_check_ext_value:
+.L_0600C35C:
     mov.w   DAT_0600c372, r0
     mov.w   .L_wpool_0600C37C, r2
     mov.l @(r0, r4), r3
     cmp/ge r2, r3
-    bt      .L_ext_above_threshold
+    bt      .L_0600C388
     rts
     nop
 
@@ -138,30 +138,30 @@ DAT_0600c372:
 .L_wpool_0600C37C:
     .2byte  0x008C
     .2byte  0xFFFF
-.L_fn_scene_path_a:
+.L_0600C378:
     .4byte  scene_path_a
-.L_mask_low16:
+.L_0600C37C:
     .4byte  0x0000FFFF                  /* low 16-bit mask */
-.L_vdp2_scroll_reg:
+.L_0600C380:
     .4byte  0x21800000
-.L_ptr_car_array_base:
+.L_0600C384:
     .4byte  sym_0607E944
-.L_ext_above_threshold:
+.L_0600C388:
     mov #0x68, r0
     mov.w   .L_wpool_0600C41E, r3
     mov.l @(r0, r4), r5
     cmp/gt r3, r5
-    bf      .L_speed_range_exit
+    bf      .L_0600C3A4
     mov.w   DAT_0600c418, r3
     cmp/ge r3, r5
-    bt      .L_speed_range_exit
+    bt      .L_0600C3A4
     exts.w r6, r6
     mov.w   .L_wpool_0600C422, r0
     mov.w r6, @(r0, r4)
     exts.w r7, r7
     add #0x2, r0
     mov.w r7, @(r0, r4)
-.L_speed_range_exit:
+.L_0600C3A4:
     rts
     nop
     .4byte  0xD51CD61D

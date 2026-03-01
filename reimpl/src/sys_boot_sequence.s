@@ -15,9 +15,9 @@ sys_boot_sequence:
     mov.l r8, @-r15
     sts.l pr, @-r15
     add #-0x1C, r15
-    mov.l   .L_ptr_boundary_release, r10
+    mov.l   .L_060402EC, r10
     mov r15, r5
-    mov.l   .L_ptr_game_state, r13
+    mov.l   .L_060402F0, r13
     mov.l @(24, r14), r12
     mov.l @(32, r14), r11
     mov.l @(36, r14), r3
@@ -25,97 +25,97 @@ sys_boot_sequence:
     sub r3, r11
     .byte   0xB1, 0x6A    /* bsr 0x060405B8 (external) */
     mov r15, r4
-    bra     .L_state_dispatch
+    bra     .L_06040312
     mov r0, r9
 
-.L_state2_redirect:
-    bra     .L_process_data
+.L_060402E8:
+    bra     .L_0604032A
     nop
-.L_ptr_boundary_release:
+.L_060402EC:
     .4byte  sym_06040FEA
-.L_ptr_game_state:
+.L_060402F0:
     .4byte  sym_060A4D14
 
-.L_state0_surface_check:
-    mov.l   .L_ptr_surface_check, r3
+.L_060402F4:
+    mov.l   .L_06040344, r3
     jsr @r3
     nop
     tst r0, r0
-    bf      .L_process_data
-    bra     .L_epilogue
+    bf      .L_0604032A
+    bra     .L_06040522
     mov #0x1, r0
 
-.L_state3_exit:
-    bra     .L_epilogue
+.L_06040302:
+    bra     .L_06040522
     mov #0x3, r0
 
-.L_state4_exit:
-    bra     .L_epilogue
+.L_06040306:
+    bra     .L_06040522
     mov #0x4, r0
 
-.L_state5_release_lock:
+.L_0604030A:
     jsr @r10
     mov.l @(40, r12), r4
-    bra     .L_epilogue
+    bra     .L_06040522
     mov #0x6, r0
 
-.L_state_dispatch:
+.L_06040312:
     cmp/eq #0x0, r0
-    bt      .L_state0_surface_check
+    bt      .L_060402F4
     cmp/eq #0x1, r0
-    bt      .L_process_data
+    bt      .L_0604032A
     cmp/eq #0x2, r0
-    bt      .L_state2_redirect
+    bt      .L_060402E8
     cmp/eq #0x3, r0
-    bt      .L_state3_exit
+    bt      .L_06040302
     cmp/eq #0x4, r0
-    bt      .L_state4_exit
-    bra     .L_state5_release_lock
+    bt      .L_06040306
+    bra     .L_0604030A
     nop
 
-.L_process_data:
+.L_0604032A:
     mov.l @(32, r14), r4
     tst r4, r4
-    bf      .L_clamp_remaining
+    bf      .L_0604033A
     mov.l @(36, r14), r3
     cmp/eq r3, r4
-    bf      .L_clamp_remaining
-    bra     .L_epilogue
+    bf      .L_0604033A
+    bra     .L_06040522
     mov #0x2, r0
 
-.L_clamp_remaining:
+.L_0604033A:
     mov.l @(40, r14), r4
     cmp/ge r4, r11
-    bt      .L_use_max_chunk
-    bra     .L_check_boundary
+    bt      .L_06040348
+    bra     .L_0604034A
     nop
-.L_ptr_surface_check:
+.L_06040344:
     .4byte  track_surface_check
-.L_use_max_chunk:
+.L_06040348:
     mov r4, r11
 
-.L_check_boundary:
-    mov.l   .L_ptr_boundary_active, r3
+.L_0604034A:
+    mov.l   .L_060403D8, r3
     jsr @r3
     mov.l @(40, r12), r4
     tst r0, r0
-    bt      .L_enqueue_command
-    bra     .L_boundary_active_path
+    bt      .L_06040358
+    bra     .L_060404D0
     nop
 
-.L_enqueue_command:
+.L_06040358:
     mov #0x0, r6
-    mov.l   .L_fp_max, r5
-    mov.l   .L_ptr_evt_cmd_enqueue, r3
+    mov.l   .L_060403DC, r5
+    mov.l   .L_060403E0, r3
     jsr @r3
     mov.l @(24, r14), r4
     mov r0, r9
     cmp/pz r9
-    bt      .L_calc_dest_offset
+    bt      .L_0604036A
     mov #0x0, r9
 
-.L_calc_dest_offset:
-    mov.l   .L_ptr_calc_position, r3
+.L_0604036A:
+    mov.l   .L_060403E4, r3
     jsr @r3
     mov r12, r4
     mov r0, r5
@@ -123,81 +123,81 @@ sys_boot_sequence:
     mov r14, r4
     mov.l @(4, r14), r8
     cmp/pl r9
-    bf/s    .L_check_batch_fits
+    bf/s    .L_06040394
     add r0, r8
-    mov.l   .L_ptr_game_state_b, r3
-    mov.w   .L_off_state_pos_ac, r0
+    mov.l   .L_060403E8, r3
+    mov.w   .L_060403D6, r0
     mov.l @r3, r3
     mov.l @(r0, r3), r2
     cmp/ge r2, r8
-    bt      .L_check_batch_fits
+    bt      .L_06040394
     mov.l @r13, r2
-    mov.w   .L_off_state_pos_ac, r0
+    mov.w   .L_060403D6, r0
     mov.l @(r0, r2), r3
     sub r8, r3
     sub r3, r9
 
-.L_check_batch_fits:
+.L_06040394:
     cmp/ge r11, r9
-    bf      .L_partial_remaining
+    bf      .L_060403AE
     mov.l @(36, r14), r2
     add r11, r2
     mov.l r2, @(36, r14)
     mov.l @(32, r14), r3
     sub r2, r3
     tst r3, r3
-    bf      .L_batch_continue
-    bra     .L_epilogue
+    bf      .L_060403AA
+    bra     .L_06040522
     mov #0x2, r0
 
-.L_batch_continue:
-    bra     .L_epilogue
+.L_060403AA:
+    bra     .L_06040522
     mov #0x0, r0
 
-.L_partial_remaining:
+.L_060403AE:
     sub r9, r11
     cmp/pl r11
-    bt      .L_acquire_lock
+    bt      .L_060403C6
     mov.l @(32, r14), r3
     mov.l @(36, r14), r2
     sub r2, r3
     tst r3, r3
-    bf      .L_partial_continue
-    bra     .L_epilogue
+    bf      .L_060403C2
+    bra     .L_06040522
     mov #0x2, r0
 
-.L_partial_continue:
-    bra     .L_epilogue
+.L_060403C2:
+    bra     .L_06040522
     mov #0x0, r0
 
-.L_acquire_lock:
-    mov.l   .L_ptr_boundary_acquire, r3
+.L_060403C6:
+    mov.l   .L_060403EC, r3
     jsr @r3
     nop
     mov r0, r9
     cmp/pz r9
-    bt      .L_build_sub_batch
-    bra     .L_epilogue
+    bt      .L_060403F0
+    bra     .L_06040522
     mov #0x6, r0
 
-.L_off_state_pos_ac:
+.L_060403D6:
     .2byte  0x00AC
-.L_ptr_boundary_active:
+.L_060403D8:
     .4byte  sym_06041014
-.L_fp_max:
+.L_060403DC:
     .4byte  0x7FFFFFFF                  /* max positive 16.16 */
-.L_ptr_evt_cmd_enqueue:
+.L_060403E0:
     .4byte  evt_cmd_enqueue
-.L_ptr_calc_position:
+.L_060403E4:
     .4byte  sym_060409DE
-.L_ptr_game_state_b:
+.L_060403E8:
     .4byte  sym_060A4D14
-.L_ptr_boundary_acquire:
+.L_060403EC:
     .4byte  sym_06040FB8
 
-.L_build_sub_batch:
+.L_060403F0:
     mov.l r9, @(40, r12)
-    mov.l   .L_ptr_calc_position_b, r3
+    mov.l   .L_060404C0, r3
     jsr @r3
     mov r12, r4
     mov r11, r5
@@ -236,56 +236,56 @@ sys_boot_sequence:
 
     mov r15, r3
     mov.l @r13, r4
-    mov.w   .L_off_state_pos_ac_b, r0
+    mov.w   .L_060404BA, r0
     add #0x8, r3
     mov.l @(r0, r4), r4
     mov.l @(4, r3), r2
     cmp/gt r2, r4
-    bt      .L_validate_and_commit
+    bt      .L_0604047C
     mov r15, r2
     mov.l @r13, r3
-    mov.w   .L_off_state_pos_b0, r0
+    mov.w   .L_060404BC, r0
     add #0x8, r2
     mov.l @(r0, r3), r3
     mov.l @(4, r2), r2
     cmp/ge r3, r2
-    bt      .L_validate_and_commit
+    bt      .L_0604047C
     mov.l @(8, r14), r2
     cmp/ge r2, r4
-    bt      .L_validate_and_commit
+    bt      .L_0604047C
     mov.l @r13, r2
     mov.l @(8, r14), r3
-    mov.w   .L_off_state_pos_b0, r0
+    mov.w   .L_060404BC, r0
     mov.l @(r0, r2), r2
     cmp/gt r2, r3
-    bt      .L_validate_and_commit
+    bt      .L_0604047C
 
     mov.l @r13, r2
     mov r15, r3
     add #0x8, r3
     mov.l @(4, r3), r1
-    mov.w   .L_off_state_pos_ac_b, r0
+    mov.w   .L_060404BA, r0
     mov.l r1, @(r0, r2)
-    bra     .L_epilogue
+    bra     .L_06040522
     mov #0x0, r0
 
-.L_validate_and_commit:
+.L_0604047C:
     mov r9, r5
-    mov.l   .L_ptr_queue_validator, r3
+    mov.l   .L_060404C4, r3
     jsr @r3
     mov.l @(20, r12), r4
-    mov.l   .L_ptr_state_field_read, r3
+    mov.l   .L_060404C8, r3
     jsr @r3
     nop
     tst r0, r0
-    bt      .L_commit_queue_entry
-    bra     .L_epilogue
+    bt      .L_06040492
+    bra     .L_06040522
     mov #0x6, r0
 
-.L_commit_queue_entry:
+.L_06040492:
     mov r9, r5
     mov r15, r4
-    mov.l   .L_ptr_queue_helper, r3
+    mov.l   .L_060404CC, r3
     jsr @r3
     add #0x8, r4
     mov.l @(36, r14), r2
@@ -295,81 +295,81 @@ sys_boot_sequence:
     mov r15, r2
     add #0x8, r2
     mov.l @(4, r2), r1
-    mov.w   .L_off_state_pos_ac_b, r0
+    mov.w   .L_060404BA, r0
     mov.l r1, @(r0, r3)
     mov.l @r13, r3
     mov.l @(8, r14), r2
     add #0x4, r0
     mov.l r2, @(r0, r3)
-    bra     .L_epilogue
+    bra     .L_06040522
     mov #0x0, r0
 
-.L_off_state_pos_ac_b:
+.L_060404BA:
     .2byte  0x00AC
-.L_off_state_pos_b0:
+.L_060404BC:
     .2byte  0x00B0
     .2byte  0xFFFF
-.L_ptr_calc_position_b:
+.L_060404C0:
     .4byte  sym_060409DE
-.L_ptr_queue_validator:
+.L_060404C4:
     .4byte  queue_validator
-.L_ptr_state_field_read:
+.L_060404C8:
     .4byte  state_field_read
-.L_ptr_queue_helper:
+.L_060404CC:
     .4byte  queue_helper
 
-.L_boundary_active_path:
+.L_060404D0:
     mov.l @(8, r14), r3
     mov.l @r15, r2
     cmp/gt r2, r3
-    bt      .L_end_exceeds_boundary
+    bt      .L_060404FC
     jsr @r10
     mov.l @(40, r12), r4
     mov.l @r13, r2
-    mov.w   .L_off_state_pos_b0_b, r0
+    mov.w   .L_06040536, r0
     mov.l @(r0, r2), r3
     mov.l @r15, r2
     cmp/gt r2, r3
-    bt      .L_boundary_within_range
+    bt      .L_060404F8
     mov.l @r13, r2
     mov r2, r3
-    mov.w   .L_off_state_pos_b0_b, r0
+    mov.w   .L_06040536, r0
     mov.l @(r0, r3), r1
     add #-0x4, r0
     mov.l r1, @(r0, r2)
-    bra     .L_epilogue
+    bra     .L_06040522
     mov #0x2, r0
 
-.L_boundary_within_range:
-    bra     .L_epilogue
+.L_060404F8:
+    bra     .L_06040522
     mov #0x0, r0
 
-.L_end_exceeds_boundary:
+.L_060404FC:
     mov.l @r13, r3
     mov.l @r15, r2
-    mov.w   .L_off_state_pos_ac_c, r0
+    mov.w   .L_06040538, r0
     mov.l @(r0, r3), r3
     sub r3, r2
     mov.l @(32, r14), r3
     cmp/ge r3, r2
-    bf      .L_check_enqueue_result
+    bf      .L_06040514
     jsr @r10
     mov.l @(40, r12), r4
-    bra     .L_epilogue
+    bra     .L_06040522
     mov #0x2, r0
 
-.L_check_enqueue_result:
+.L_06040514:
     tst r9, r9
-    bf      .L_return_continue
+    bf      .L_06040520
     jsr @r10
     mov.l @(40, r12), r4
-    bra     .L_epilogue
+    bra     .L_06040522
     mov #0x6, r0
 
-.L_return_continue:
+.L_06040520:
     mov #0x0, r0
 
-.L_epilogue:
+.L_06040522:
     add #0x1C, r15
     lds.l @r15+, pr
     mov.l @r15+, r8
@@ -381,7 +381,7 @@ sys_boot_sequence:
     rts
     mov.l @r15+, r14
 
-.L_off_state_pos_b0_b:
+.L_06040536:
     .2byte  0x00B0
-.L_off_state_pos_ac_c:
+.L_06040538:
     .2byte  0x00AC

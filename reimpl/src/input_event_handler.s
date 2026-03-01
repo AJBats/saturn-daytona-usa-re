@@ -11,27 +11,27 @@ input_event_handler:
     .byte   0xD4, 0x26    /* mov.l _pool_lap_disp_timer, r4 */
     mov.l @r4, r3
     cmp/pl r3
-    bf      .L_epilogue
+    bf      .L_06005AE0
     mov.l @r4, r3
     add #-0x1, r3
     mov r3, r0
     tst #0x1, r0
-    bt/s    .L_even_frame
+    bt/s    .L_06005A9C
     mov.l r3, @r4
     .byte   0xD0, 0x22    /* mov.l _pool_2p_mode_flag, r0 */
     mov.b @r0, r0
     tst r0, r0
-    bt      .L_1p_index
+    bt      .L_06005A4A
     mov.w   _wpool_2p_elem_index, r14
-    bra     .L_index_selected
+    bra     .L_06005A4C
     nop
-.L_1p_index:
+.L_06005A4A:
     mov #0x21, r14
-.L_index_selected:
+.L_06005A4C:
     .byte   0xD0, 0x1F    /* mov.l _pool_anim_countdown, r0 */
     mov.l @r0, r0
     tst r0, r0
-    bt      .L_anim_zero
+    bt      .L_06005A78
     mov r14, r7
     shll2 r7
     shll r7
@@ -50,7 +50,7 @@ input_event_handler:
     .byte   0xD3, 0x18    /* mov.l _pool_dlist_loader, r3 */
     jmp @r3
     mov.l @r15+, r14
-.L_anim_zero:
+.L_06005A78:
     mov r14, r7
     shll2 r7
     shll r7
@@ -69,7 +69,7 @@ input_event_handler:
     .byte   0xD3, 0x0F    /* mov.l _pool_dlist_loader, r3 */
     jmp @r3
     mov.l @r15+, r14
-.L_even_frame:
+.L_06005A9C:
     .byte   0xD7, 0x0E    /* mov.l _pool_static_data, r7 */
     mov.w   _wpool_static_size, r6
     mov.w   DAT_06005abe, r5
@@ -122,7 +122,7 @@ _pool_geom_dispatch:
     .4byte  sym_060284AE                      /* -> geom_dispatch_final function */
 
 
-.L_epilogue:
+.L_06005AE0:
     add #0x4, r15
     lds.l @r15+, pr
     rts

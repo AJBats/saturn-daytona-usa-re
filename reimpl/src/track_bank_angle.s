@@ -9,7 +9,7 @@ track_bank_angle:
     mov r4, r12
     add #-0x10, r15
     mov r15, r4
-    mov.l   .L_fn_analog, r3
+    mov.l   .L_06036298, r3
     jsr @r3
     add #0x8, r4
     mov r15, r2
@@ -24,19 +24,19 @@ track_bank_angle:
     mov r15, r2
     add #0x8, r2
     mov.b r0, @(4, r2)
-    mov.l   .L_fn_digital, r3
+    mov.l   .L_060362A0, r3
     jsr @r3
     mov #0x0, r4
     mov r0, r4
     mov r15, r2
     mov r4, r0
     mov.l @r2, r3
-    mov.l   .L_mask_low24, r2
+    mov.l   .L_060362A4, r2
     and r2, r3
     mov.l r3, @r13
     mov r15, r2
     mov.l @(4, r2), r3
-    mov.l   .L_mask_low24, r2
+    mov.l   .L_060362A4, r2
     and r2, r3
     mov.l r3, @r14
     add #0x10, r15
@@ -45,10 +45,10 @@ track_bank_angle:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_fn_analog:
+.L_06036298:
     .4byte  input_proc_analog
     .4byte  input_proc_buttons
-.L_fn_digital:
+.L_060362A0:
     .4byte  input_proc_digital
-.L_mask_low24:
+.L_060362A4:
     .4byte  0x00FFFFFF                  /* low 24-bit mask */

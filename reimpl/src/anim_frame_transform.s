@@ -12,10 +12,10 @@ anim_frame_transform:
     mov.l   .L_pool_06005EB8, r5
     mov.l r4, @r15
     mov #0xA, r12
-    mov.w   .L_divu_DVDNT, r14
+    mov.w   .L_06005EAE, r14
     mov r14, r7
     add #0x4, r7
-    mov.w   .L_divu_DVSR, r6
+    mov.w   .L_06005EB0, r6
     mov #0x0, r4
 
     mov.l r12, @r6
@@ -24,11 +24,11 @@ anim_frame_transform:
     mov.l r3, @r14
     extu.b r4, r0
     mov.b r0, @(8, r5)
-    mov.w   .L_divu_DVDNTH_S, r13
+    mov.w   .L_06005EB2, r13
     mov.l @r13, r3
     extu.b r3, r3
     mov.b r3, @r15
-    mov.w   .L_divu_DVDNTL_S, r1
+    mov.w   .L_06005EB4, r1
     mov.l @r1, r2
     mov.l r2, @(4, r15)
 
@@ -114,29 +114,29 @@ anim_frame_transform:
     mov.l @r13, r4
     extu.b r4, r4
     tst r4, r4
-    bt      .L_tens_min_blank
+    bt      .L_06005EBC
     extu.b r4, r3
     add #0x1, r3
     extu.b r3, r4
-    bra     .L_store_tens_min
+    bra     .L_06005EBE
     nop
 
-.L_divu_DVDNT:
+.L_06005EAE:
     .2byte  0xFF04                  /* 0xFFFFFF04 = DVDNT — dividend reg, triggers 32/32 div [HIGH] */
-.L_divu_DVSR:
+.L_06005EB0:
     .2byte  0xFF00                  /* 0xFFFFFF00 = DVSR — divisor register [HIGH] */
-.L_divu_DVDNTH_S:
+.L_06005EB2:
     .2byte  0xFF18                  /* 0xFFFFFF18 = DVDNTH_S — remainder after 32/32 division [HIGH] */
-.L_divu_DVDNTL_S:
+.L_06005EB4:
     .2byte  0xFF1C                  /* 0xFFFFFF1C = DVDNTL_S — quotient after 32/32 division [HIGH] */
     .2byte  0xFFFF                  /* pool alignment padding */
 
 .L_pool_06005EB8:
     .4byte  sym_06063E14            /* &digit_buffer — 9-byte HUD time display buffer [HIGH] */
 
-.L_tens_min_blank:
+.L_06005EBC:
     mov #0xB, r4
-.L_store_tens_min:
+.L_06005EBE:
     mov r5, r0
     mov.b r4, @r5
     add #0x8, r15

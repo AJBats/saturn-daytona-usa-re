@@ -8,30 +8,30 @@ evt_checkpoint_validate:
     sts.l pr, @-r15
     add #-0x4, r15
     .byte   0xD7, 0x15    /* mov.l .L_pool_0604130D, r7 */
-    mov.w   .L_validation_slot_offset, r0
+    mov.w   .L_06041306, r0
     mov.l @r7, r3
     mov.l @(r0, r3), r0
     tst r0, r0
-    bt      .L_slot_free
+    bt      .L_060412CA
     add #0x4, r15
     lds.l @r15+, pr
     rts
     mov #-0x1, r0
-.L_slot_free:
+.L_060412CA:
     mov.l @r7, r0
     mov.l @(52, r0), r0
     cmp/eq #0x1, r0
-    bf      .L_register_checkpoint
+    bf      .L_060412DA
     add #0x4, r15
     lds.l @r15+, pr
     rts
     mov #-0x5, r0
-.L_register_checkpoint:
+.L_060412DA:
     mov #0x1, r3
     mov.l @r7, r2
     mov.l r3, @(52, r2)
     mov.l @r7, r2
-    mov.w   .L_validation_slot_offset, r0
+    mov.w   .L_06041306, r0
     mov.l r3, @(r0, r2)
     add #0x4, r0
     mov.l @r7, r3
@@ -49,7 +49,7 @@ evt_checkpoint_validate:
     lds.l @r15+, pr
     rts
     nop
-.L_validation_slot_offset:
+.L_06041306:
     .2byte  0x0338                           /* [HIGH] offset to checkpoint validation slot in state struct */
     .4byte  ai_checkpoint_validate
 .L_pool_0604130D:

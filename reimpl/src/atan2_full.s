@@ -13,32 +13,32 @@ atan2_full:
     mov r0, r4
     lds.l @r15+, pr
     tst r7, r7
-    bf      .L_no_quadrant_adjust
+    bf      .L_06027472
     .byte   0xD2, 0x21    /* mov.l .L_pool_060274F4, r2 ! r2 = 0x8000 (180 degrees) */
     add r2, r0
-.L_no_quadrant_adjust:
+.L_06027472:
     rts
     exts.w r0, r0
 
     .global isqrt
 isqrt:
     cmp/pl r4
-    bf/s    .L_isqrt_done
+    bf/s    .L_06027494
     mov #0x0, r0
     .byte   0xD2, 0x1D    /* mov.l .L_pool_060274F4, r2 ! r2 = 0x8000 (initial bit = MSB) */
-.L_isqrt_loop:
+.L_0602747E:
     add r2, r0
     mul.l r0, r0
     sts macl, r3
     cmp/eq r4, r3
-    bt      .L_isqrt_done
+    bt      .L_06027494
     cmp/hi r4, r3
-    bf      .L_isqrt_no_undo
+    bf      .L_0602748E
     sub r2, r0
-.L_isqrt_no_undo:
+.L_0602748E:
     shlr r2
     cmp/pl r2
-    bt      .L_isqrt_loop
-.L_isqrt_done:
+    bt      .L_0602747E
+.L_06027494:
     rts
     shll8 r0

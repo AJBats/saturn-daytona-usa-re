@@ -8,13 +8,13 @@ vec3_normalize:
     mov.l r14, @-r15
     sts.l pr, @-r15
     mov r4, r14
-    bsr     .L_vec3_dot_self
+    bsr     .L_060274DA
     mov r4, r5
     .byte   0xBF, 0xE8    /* bsr 0x06027476 (external: isqrt) */
     mov r0, r4
     cmp/pl r0
-    bf      .L_norm_done
-    mov.l   .L_fp_one, r4
+    bf      .L_060274D4
+    mov.l   .L_060274F8, r4
     .byte   0xB0, 0x56    /* bsr 0x0602755C (external: fpdiv_setup) */
     mov r0, r5
     mov.l @(0, r14), r1
@@ -35,11 +35,11 @@ vec3_normalize:
     sts macl, r3
     xtrct r4, r3
     mov.l r3, @(8, r14)
-.L_norm_done:
+.L_060274D4:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-.L_vec3_dot_self:
+.L_060274DA:
     clrmac
     mac.l @r4+, @r5+
     mac.l @r4+, @r5+
@@ -52,7 +52,7 @@ vec3_normalize:
     .4byte  0x002F2F20
     .4byte  0x002F0000
     .4byte  0x00008000
-.L_fp_one:
+.L_060274F8:
     .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
     .4byte  0x40003FFC
     .4byte  0x0FFC4000

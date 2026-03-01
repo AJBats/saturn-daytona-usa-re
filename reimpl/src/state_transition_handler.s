@@ -14,7 +14,7 @@ state_transition_handler:
     mov.w   .L_wpool_06041D58, r1
     mov.l @(r0, r1), r0
     cmp/eq #0x1, r0
-    bf      .L_check_phase2
+    bf      .L_06041D26
     mov.l @r14, r6
     mov.w   DAT_06041d5a, r0
     mov.l @r14, r5
@@ -28,13 +28,13 @@ state_transition_handler:
     mov.l @(r0, r4), r4
     mov r0, r4
     tst r4, r4
-    bt      .L_impact_clear
+    bt      .L_06041D02
     mov #0x1, r0
     add #0x10, r15
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-.L_impact_clear:
+.L_06041D02:
     mov r15, r4
     mov.l   .L_pool_06041D64, r3
     jsr @r3
@@ -53,18 +53,18 @@ state_transition_handler:
     mov #0x2, r2
     mov.w   .L_wpool_06041D58, r0
     mov.l r2, @(r0, r3)
-.L_check_phase2:
+.L_06041D26:
     mov.l @r14, r0
     mov.w   .L_wpool_06041D58, r1
     mov.l @(r0, r1), r0
     cmp/eq #0x2, r0
-    bf      .L_return_in_progress
+    bf      .L_06041D4E
     mov.l   .L_pool_06041D68, r3
     jsr @r3
     mov #0x0, r4
     mov r0, r4
     tst r4, r4
-    bf      .L_return_in_progress
+    bf      .L_06041D4E
     mov #0x0, r4
     mov.l @r14, r3
     mov.w   .L_wpool_06041D58, r0
@@ -74,7 +74,7 @@ state_transition_handler:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-.L_return_in_progress:
+.L_06041D4E:
     mov #0x1, r0
     add #0x10, r15
     lds.l @r15+, pr

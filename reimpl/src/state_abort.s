@@ -9,7 +9,7 @@ state_abort:
     .byte   0xD4, 0x23    /* mov.l .L_p_race_event_bits, r4 */
     mov.l @r4, r0
     tst #0x1, r0
-    bt      .L_no_abort
+    bt      .L_06009524
     mov #-0x2, r3
     mov.l @r4, r2
     and r3, r2
@@ -17,18 +17,18 @@ state_abort:
     mov #0x14, r3
     .byte   0xD2, 0x1F    /* mov.l .L_p_game_state, r2 */
     mov.l r3, @r2
-    bra     .L_set_next_state
+    bra     .L_06009534
     nop
-.L_no_abort:
+.L_06009524:
     .byte   0xD0, 0x1E    /* mov.l .L_p_race_end_flag, r0 */
     mov.l @r0, r0
     tst r0, r0
-    bf      .L_set_next_state
+    bf      .L_06009534
     .byte   0xD4, 0x1D    /* mov.l .L_p_frame_counter, r4 */
     mov.l @r4, r3
     add #0x1, r3
     mov.l r3, @r4
-.L_set_next_state:
+.L_06009534:
     mov #0x1D, r2
     .byte   0xD3, 0x19    /* mov.l .L_p_game_state, r3 */
     mov.l r2, @r3

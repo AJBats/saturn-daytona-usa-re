@@ -12,9 +12,9 @@ mega_render_func:
     mov.l r8, @-r15
     sts.l pr, @-r15
     add #-0x8, r15
-    mov.l   .L_fp_interp_high, r1
-    mov.l   .L_fp_interp_low, r2
-    mov.l   .L_clip_threshold_ptr, r14
+    mov.l   .L_06029770, r1
+    mov.l   .L_06029774, r2
+    mov.l   .L_06029778, r14
     mov.l @r14, r14
     mov r5, r12
     mov.w @(2, r12), r0
@@ -25,21 +25,21 @@ mega_render_func:
     mov.w r0, @(6, r15)
     mov.w @r12, r0
     mov.w r0, @r15
-.L_interp_loop:
+.L_06029768:
     cmp/eq #0x0, r0
-    bt      .L_mode_a_dispatch
-    bra     .L_modeB_dispatch
+    bt      .L_0602977C
+    bra     .L_06029890
     mov.w @(2, r15), r0
-.L_fp_interp_high:
+.L_06029770:
     .4byte  0x0000E666
-.L_fp_interp_low:
+.L_06029774:
     .4byte  0x00001999
-.L_clip_threshold_ptr:
+.L_06029778:
     .4byte  sym_06063F08
-.L_mode_a_dispatch:
+.L_0602977C:
     mov.w @(2, r12), r0
     cmp/eq #0x0, r0
-    bt      .L_modeA_axis1_done
+    bt      .L_060297D4
     mov.l @(0, r4), r7
     dmuls.l r7, r2
     mov.l @(12, r4), r6
@@ -79,12 +79,12 @@ mega_render_func:
     add #0x4, r9
     mov.l r9, @(20, r4)
     cmp/gt r14, r9
-    bf      .L_modeA_axis1_done
+    bf      .L_060297D4
     mov.w r0, @(2, r12)
-.L_modeA_axis1_done:
+.L_060297D4:
     mov.w @(4, r12), r0
     cmp/eq #0x0, r0
-    bt      .L_modeA_axis2_done
+    bt      .L_0602982C
     mov.l @(0, r4), r7
     dmuls.l r7, r2
     mov.l @(24, r4), r6
@@ -124,15 +124,15 @@ mega_render_func:
     add #0x4, r9
     mov.l r9, @(32, r4)
     cmp/gt r14, r9
-    bf      .L_modeA_axis2_done
+    bf      .L_0602982C
     mov.w r0, @(4, r12)
-.L_modeA_axis2_done:
+.L_0602982C:
     mov.w @(6, r12), r0
     cmp/eq #0x0, r0
-    bf      .L_modeA_blend_axis3
-    bra     .L_interp_done
+    bf      .L_06029836
+    bra     .L_06029BCE
     nop
-.L_modeA_blend_axis3:
+.L_06029836:
     mov.l @(0, r4), r7
     dmuls.l r7, r2
     mov.l @(36, r4), r6
@@ -171,23 +171,23 @@ mega_render_func:
     add #0x4, r9
     mov.l r9, @(44, r4)
     cmp/gt r14, r9
-    bt      .L_modeA_axis3_converged
-    bra     .L_interp_done
+    bt      .L_06029888
+    bra     .L_06029BCE
     nop
-.L_modeA_axis3_converged:
+.L_06029888:
     mov #0x0, r0
     mov.w r0, @(6, r12)
-    bra     .L_interp_done
+    bra     .L_06029BCE
     nop
-.L_modeB_dispatch:
+.L_06029890:
     cmp/eq #0x0, r0
-    bt      .L_modeB_entry
-    bra     .L_modeC_dispatch
+    bt      .L_06029898
+    bra     .L_060299AC
     mov.w @(4, r15), r0
-.L_modeB_entry:
+.L_06029898:
     mov.w @(0, r12), r0
     cmp/eq #0x0, r0
-    bt      .L_modeB_axis0_done
+    bt      .L_060298F0
     mov.l @(12, r4), r7
     dmuls.l r7, r2
     mov.l @(0, r4), r6
@@ -227,12 +227,12 @@ mega_render_func:
     add #0x4, r9
     mov.l r9, @(8, r4)
     cmp/gt r14, r9
-    bf      .L_modeB_axis0_done
+    bf      .L_060298F0
     mov.w r0, @(0, r12)
-.L_modeB_axis0_done:
+.L_060298F0:
     mov.w @(4, r12), r0
     cmp/eq #0x0, r0
-    bt      .L_modeB_axis1_done
+    bt      .L_06029948
     mov.l @(12, r4), r7
     dmuls.l r7, r2
     mov.l @(24, r4), r6
@@ -272,15 +272,15 @@ mega_render_func:
     add #0x4, r9
     mov.l r9, @(32, r4)
     cmp/gt r14, r9
-    bf      .L_modeB_axis1_done
+    bf      .L_06029948
     mov.w r0, @(4, r12)
-.L_modeB_axis1_done:
+.L_06029948:
     mov.w @(6, r12), r0
     cmp/eq #0x0, r0
-    bf      .L_modeB_blend_axis2
-    bra     .L_interp_done
+    bf      .L_06029952
+    bra     .L_06029BCE
     nop
-.L_modeB_blend_axis2:
+.L_06029952:
     mov.l @(12, r4), r7
     dmuls.l r7, r2
     mov.l @(36, r4), r6
@@ -319,23 +319,23 @@ mega_render_func:
     add #0x4, r9
     mov.l r9, @(44, r4)
     cmp/gt r14, r9
-    bt      .L_modeB_axis2_converged
-    bra     .L_interp_done
+    bt      .L_060299A4
+    bra     .L_06029BCE
     nop
-.L_modeB_axis2_converged:
+.L_060299A4:
     mov #0x0, r0
     mov.w r0, @(6, r12)
-    bra     .L_interp_done
+    bra     .L_06029BCE
     nop
-.L_modeC_dispatch:
+.L_060299AC:
     cmp/eq #0x0, r0
-    bt      .L_modeC_entry
-    bra     .L_modeD_entry
+    bt      .L_060299B4
+    bra     .L_06029AC8
     mov.w @(0, r12), r0
-.L_modeC_entry:
+.L_060299B4:
     mov.w @(0, r12), r0
     cmp/eq #0x0, r0
-    bt      .L_modeC_axis0_done
+    bt      .L_06029A0C
     mov.l @(24, r4), r7
     dmuls.l r7, r2
     mov.l @(0, r4), r6
@@ -375,12 +375,12 @@ mega_render_func:
     add #0x4, r9
     mov.l r9, @(8, r4)
     cmp/gt r14, r9
-    bf      .L_modeC_axis0_done
+    bf      .L_06029A0C
     mov.w r0, @(0, r12)
-.L_modeC_axis0_done:
+.L_06029A0C:
     mov.w @(2, r12), r0
     cmp/eq #0x0, r0
-    bt      .L_modeC_axis1_done
+    bt      .L_06029A64
     mov.l @(24, r4), r7
     dmuls.l r7, r2
     mov.l @(12, r4), r6
@@ -420,15 +420,15 @@ mega_render_func:
     add #0x4, r9
     mov.l r9, @(20, r4)
     cmp/gt r14, r9
-    bf      .L_modeC_axis1_done
+    bf      .L_06029A64
     mov.w r0, @(2, r12)
-.L_modeC_axis1_done:
+.L_06029A64:
     mov.w @(6, r12), r0
     cmp/eq #0x0, r0
-    bf      .L_modeC_blend_axis2
-    bra     .L_interp_done
+    bf      .L_06029A6E
+    bra     .L_06029BCE
     nop
-.L_modeC_blend_axis2:
+.L_06029A6E:
     mov.l @(24, r4), r7
     dmuls.l r7, r2
     mov.l @(36, r4), r6
@@ -467,17 +467,17 @@ mega_render_func:
     add #0x4, r9
     mov.l r9, @(44, r4)
     cmp/gt r14, r9
-    bt      .L_modeC_axis2_converged
-    bra     .L_interp_done
+    bt      .L_06029AC0
+    bra     .L_06029BCE
     nop
-.L_modeC_axis2_converged:
+.L_06029AC0:
     mov #0x0, r0
     mov.w r0, @(6, r12)
-    bra     .L_interp_done
+    bra     .L_06029BCE
     nop
-.L_modeD_entry:
+.L_06029AC8:
     cmp/eq #0x0, r0
-    bt      .L_modeD_axis0_done
+    bt      .L_06029B1E
     mov.l @(36, r4), r7
     dmuls.l r7, r2
     mov.l @(0, r4), r6
@@ -517,12 +517,12 @@ mega_render_func:
     add #0x4, r9
     mov.l r9, @(8, r4)
     cmp/gt r14, r9
-    bf      .L_modeD_axis0_done
+    bf      .L_06029B1E
     mov.w r0, @(0, r12)
-.L_modeD_axis0_done:
+.L_06029B1E:
     mov.w @(2, r12), r0
     cmp/eq #0x0, r0
-    bt      .L_modeD_axis1_done
+    bt      .L_06029B76
     mov.l @(36, r4), r7
     dmuls.l r7, r2
     mov.l @(12, r4), r6
@@ -562,12 +562,12 @@ mega_render_func:
     add #0x4, r9
     mov.l r9, @(20, r4)
     cmp/gt r14, r9
-    bf      .L_modeD_axis1_done
+    bf      .L_06029B76
     mov.w r0, @(2, r12)
-.L_modeD_axis1_done:
+.L_06029B76:
     mov.w @(4, r12), r0
     cmp/eq #0x0, r0
-    bt      .L_interp_done
+    bt      .L_06029BCE
     mov.l @(36, r4), r7
     dmuls.l r7, r2
     mov.l @(24, r4), r6
@@ -607,9 +607,9 @@ mega_render_func:
     add #0x4, r9
     mov.l r9, @(32, r4)
     cmp/gt r14, r9
-    bf      .L_interp_done
+    bf      .L_06029BCE
     mov.w r0, @(4, r12)
-.L_interp_done:
+.L_06029BCE:
     mov.w @r12, r7
     mov.w @(2, r12), r0
     add r0, r7
@@ -618,10 +618,10 @@ mega_render_func:
     mov.w @(6, r12), r0
     add r7, r0
     cmp/eq #0x0, r0
-    bt      .L_return_interp
-    bra     .L_interp_loop
+    bt      .L_06029BE4
+    bra     .L_06029768
     mov.w @r15, r0
-.L_return_interp:
+.L_06029BE4:
     add #0x8, r15
     lds.l @r15+, pr
     mov.l @r15+, r8
@@ -641,7 +641,7 @@ sym_06029BF4:
     mov.l r13, @-r15
     sts.l pr, @-r15
     mov r4, r8
-    mov.l   .L_clip_threshold_a, r10
+    mov.l   .L_06029C30, r10
     mov.l @r10, r10
     mov #0x18, r0
     mul.l r7, r0
@@ -649,37 +649,37 @@ sym_06029BF4:
     mov r6, r13
     sts macl, r0
     add r0, r8
-.L_transform_loop_a:
+.L_06029C14:
     mov.l r3, @-r15
     mov.l r7, @-r15
     add #-0x18, r8
-    mov.l   .L_render_enable_flag, r12
+    mov.l   .L_06029C34, r12
     mov.w @r12, r0
     cmp/eq #0x0, r0
-    bt      .L_begin_transform_a
+    bt      .L_06029C38
     mov.w @(14, r8), r0
     mov.w   DAT_06029c2e, r1
     cmp/eq r0, r1
-    bf      .L_begin_transform_a
-    bra     .L_skip_polygon_a
+    bf      .L_06029C38
+    bra     .L_0602A1B6
     nop
 
     .global DAT_06029c2e
 DAT_06029c2e:
     .2byte  0x0097
-.L_clip_threshold_a:
+.L_06029C30:
     .4byte  sym_06063F08
-.L_render_enable_flag:
+.L_06029C34:
     .4byte  sym_0605BE36
-.L_begin_transform_a:
+.L_06029C38:
     mov.w @(16, r8), r0
     mov #0xC, r1
     extu.w r0, r4
     mul.l r1, r4
-    mov.l   .L_vertex_out_a, r5
+    mov.l   .L_06029CF4, r5
     sts macl, r4
     add r3, r4
-    mov.l   .L_camera_matrix, r0
+    mov.l   .L_06029CF8, r0
     mov #0x24, r7
     mov.l @r0, r6
     add r6, r7
@@ -717,15 +717,15 @@ DAT_06029c2e:
     mov.l r1, @(8, r5)
     mov.l @(8, r5), r0
     cmp/ge r0, r10
-    mov.l   .L_depth_result_a, r11
+    mov.l   .L_06029CFC, r11
     .word 0x0029
     mov.w r0, @r11
     mov.w @(12, r8), r0
     tst #0x8, r0
-    bf      .L_passA_backface_ok
-    mov.l   .L_backface_scratch_a, r5
+    bf      .L_06029D04
+    mov.l   .L_06029D00, r5
     mov r8, r4
-    mov.l   .L_camera_matrix, r0
+    mov.l   .L_06029CF8, r0
     clrmac
     mov.l @r0, r2
     mac.l @r4+, @r2+
@@ -753,7 +753,7 @@ DAT_06029c2e:
     sts macl, r1
     xtrct r0, r1
     mov.l r1, @(8, r5)
-    mov.l   .L_vertex_out_a, r4
+    mov.l   .L_06029CF4, r4
     clrmac
     mac.l @r4+, @r5+
     mac.l @r4+, @r5+
@@ -762,27 +762,27 @@ DAT_06029c2e:
     sts macl, r0
     xtrct r1, r0
     cmp/pl r0
-    bt      .L_passA_backface_ok
-    bra     .L_skip_polygon_a
+    bt      .L_06029D04
+    bra     .L_0602A1B6
     nop
     .2byte  0x0000
-.L_vertex_out_a:
+.L_06029CF4:
     .4byte  sym_0608A70C
-.L_camera_matrix:
+.L_06029CF8:
     .4byte  sym_06089EDC
-.L_depth_result_a:
+.L_06029CFC:
     .4byte  sym_0608A704
-.L_backface_scratch_a:
+.L_06029D00:
     .4byte  sym_0608A73C
-.L_passA_backface_ok:
+.L_06029D04:
     mov.w @(18, r8), r0
     mov #0xC, r1
     extu.w r0, r4
     mul.l r1, r4
-    mov.l   .L_vertex_out_b, r5
+    mov.l   .L_06029E38, r5
     sts macl, r4
     add r3, r4
-    mov.l   .L_camera_matrix_b, r0
+    mov.l   .L_06029E3C, r0
     mov #0x24, r7
     mov.l @r0, r6
     add r6, r7
@@ -826,10 +826,10 @@ DAT_06029c2e:
     mov #0xC, r1
     extu.w r0, r4
     mul.l r1, r4
-    mov.l   .L_vertex_out_c, r5
+    mov.l   .L_06029E40, r5
     sts macl, r4
     add r3, r4
-    mov.l   .L_camera_matrix_b, r0
+    mov.l   .L_06029E3C, r0
     mov #0x24, r7
     mov.l @r0, r6
     add r6, r7
@@ -873,10 +873,10 @@ DAT_06029c2e:
     mov #0xC, r1
     extu.w r0, r4
     mul.l r1, r4
-    mov.l   .L_vertex_out_d, r5
+    mov.l   .L_06029E44, r5
     sts macl, r4
     add r3, r4
-    mov.l   .L_camera_matrix_b, r0
+    mov.l   .L_06029E3C, r0
     mov #0x24, r7
     mov.l @r0, r6
     add r6, r7
@@ -923,39 +923,39 @@ DAT_06029c2e:
     add r1, r0
     add r3, r0
     cmp/eq #0x0, r0
-    bt      .L_passA_write_sprite
+    bt      .L_06029E58
     cmp/eq #0x4, r0
-    bf      .L_passA_clip_dispatch
-    bra     .L_skip_polygon_a
+    bf      .L_06029E48
+    bra     .L_0602A1B6
     nop
     .2byte  0x0000
-.L_vertex_out_b:
+.L_06029E38:
     .4byte  sym_0608A718
-.L_camera_matrix_b:
+.L_06029E3C:
     .4byte  sym_06089EDC
-.L_vertex_out_c:
+.L_06029E40:
     .4byte  sym_0608A724
-.L_vertex_out_d:
+.L_06029E44:
     .4byte  sym_0608A730
-.L_passA_clip_dispatch:
-    mov.l   .L_pipeline_a_table, r1
+.L_06029E48:
+    mov.l   .L_06029EAC, r1
     shll2 r0
     add r1, r0
     mov.l @r0, r0
-    mov.l   .L_vertex_data_a, r4
-    mov.l   .L_depth_data_a, r5
+    mov.l   .L_06029EB0, r4
+    mov.l   .L_06029EB4, r5
     jsr @r0
     nop
-.L_passA_write_sprite:
-    mov.l   .L_commit_count, r0
+.L_06029E58:
+    mov.l   .L_06029EB8, r0
     mov #0x18, r1
     mov.l @r0, r0
     mul.l r0, r1
-    mov.l   .L_sprite_data_table, r2
-    mov.l   .L_poly_params_a, r11
+    mov.l   .L_06029EBC, r2
+    mov.l   .L_06029EC0, r11
     sts macl, r9
     add r2, r9
-    mov.l   .L_vertex_data_a, r4
+    mov.l   .L_06029EB0, r4
     mov r11, r5
     mov.w   DAT_06029ea4, r1
     mov.w   DAT_06029ea6, r0
@@ -976,14 +976,14 @@ DAT_06029c2e:
     mov.l r2, @(4, r5)
     mov.l @r5, r1
     mov.l @(4, r5), r2
-    mov.l   .L_render_state_a, r12
+    mov.l   .L_06029EC4, r12
     mov #0x0, r0
     mov.w r0, @r12
-    mov.w   .L_screen_width_a, r3
+    mov.w   .L_06029EA8, r3
     cmp/gt r3, r1
-    bf      .L_passA_v0_chk_left
+    bf      .L_06029EC8
     mov #0x1, r0
-    bra     .L_passA_v0_bounds_done
+    bra     .L_06029EEE
     mov.w r0, @r12
 
     .global DAT_06029ea4
@@ -993,52 +993,52 @@ DAT_06029ea4:
     .global DAT_06029ea6
 DAT_06029ea6:
     .2byte  0x00A0
-.L_screen_width_a:
+.L_06029EA8:
     .2byte  0x0190
     .2byte  0x0000
-.L_pipeline_a_table:
+.L_06029EAC:
     .4byte  sym_0602A1E0
-.L_vertex_data_a:
+.L_06029EB0:
     .4byte  sym_0608A70C
-.L_depth_data_a:
+.L_06029EB4:
     .4byte  sym_0608A704
-.L_commit_count:
+.L_06029EB8:
     .4byte  sym_060620D0
-.L_sprite_data_table:
+.L_06029EBC:
     .4byte  sym_0608AC20
-.L_poly_params_a:
+.L_06029EC0:
     .4byte  sym_0608A76C
-.L_render_state_a:
+.L_06029EC4:
     .4byte  sym_0608A6FC
-.L_passA_v0_chk_left:
+.L_06029EC8:
     mov.w   DAT_06029ed4, r3
     cmp/gt r1, r3
-    bf      .L_passA_v0_chk_top
+    bf      .L_06029ED6
     mov #0x1, r0
-    bra     .L_passA_v0_bounds_done
+    bra     .L_06029EEE
     mov.w r0, @r12
 
     .global DAT_06029ed4
 DAT_06029ed4:
     .2byte  0xFE70
-.L_passA_v0_chk_top:
+.L_06029ED6:
     mov.w   DAT_06029ee2, r3
     cmp/gt r3, r2
-    bf      .L_passA_v0_chk_bottom
+    bf      .L_06029EE4
     mov #0x1, r0
-    bra     .L_passA_v0_bounds_done
+    bra     .L_06029EEE
     mov.w r0, @r12
 
     .global DAT_06029ee2
 DAT_06029ee2:
     .2byte  0x012C
-.L_passA_v0_chk_bottom:
+.L_06029EE4:
     mov.w   DAT_06029f2a, r3
     cmp/gt r2, r3
-    bf      .L_passA_v0_bounds_done
+    bf      .L_06029EEE
     mov #0x1, r0
     mov.w r0, @r12
-.L_passA_v0_bounds_done:
+.L_06029EEE:
     mov r11, r5
     add #0xC, r4
     add #0x8, r5
@@ -1065,9 +1065,9 @@ DAT_06029ee2:
     mov.w r0, @(2, r12)
     mov.w   DAT_06029f30, r3
     cmp/gt r3, r1
-    bf      .L_passA_v1_chk_left
+    bf      .L_06029F32
     mov #0x1, r0
-    bra     .L_passA_v1_bounds_done
+    bra     .L_06029F58
     mov.w r0, @(2, r12)
 
     .global DAT_06029f2a
@@ -1085,35 +1085,35 @@ DAT_06029f2e:
     .global DAT_06029f30
 DAT_06029f30:
     .2byte  0x0190
-.L_passA_v1_chk_left:
+.L_06029F32:
     mov.w   DAT_06029f3e, r3
     cmp/gt r1, r3
-    bf      .L_passA_v1_chk_top
+    bf      .L_06029F40
     mov #0x1, r0
-    bra     .L_passA_v1_bounds_done
+    bra     .L_06029F58
     mov.w r0, @(2, r12)
 
     .global DAT_06029f3e
 DAT_06029f3e:
     .2byte  0xFE70
-.L_passA_v1_chk_top:
+.L_06029F40:
     mov.w   DAT_06029f4c, r3
     cmp/gt r3, r2
-    bf      .L_passA_v1_chk_bottom
+    bf      .L_06029F4E
     mov #0x1, r0
-    bra     .L_passA_v1_bounds_done
+    bra     .L_06029F58
     mov.w r0, @(2, r12)
 
     .global DAT_06029f4c
 DAT_06029f4c:
     .2byte  0x012C
-.L_passA_v1_chk_bottom:
+.L_06029F4E:
     mov.w   DAT_06029f94, r3
     cmp/gt r2, r3
-    bf      .L_passA_v1_bounds_done
+    bf      .L_06029F58
     mov #0x1, r0
     mov.w r0, @(2, r12)
-.L_passA_v1_bounds_done:
+.L_06029F58:
     mov r11, r5
     add #0xC, r4
     add #0x10, r5
@@ -1140,9 +1140,9 @@ DAT_06029f4c:
     mov.w r0, @(4, r12)
     mov.w   DAT_06029f9a, r3
     cmp/gt r3, r1
-    bf      .L_passA_v2_chk_left
+    bf      .L_06029F9C
     mov #0x1, r0
-    bra     .L_passA_v2_bounds_done
+    bra     .L_06029FC2
     mov.w r0, @(4, r12)
 
     .global DAT_06029f94
@@ -1160,35 +1160,35 @@ DAT_06029f98:
     .global DAT_06029f9a
 DAT_06029f9a:
     .2byte  0x0190
-.L_passA_v2_chk_left:
+.L_06029F9C:
     mov.w   DAT_06029fa8, r3
     cmp/gt r1, r3
-    bf      .L_passA_v2_chk_top
+    bf      .L_06029FAA
     mov #0x1, r0
-    bra     .L_passA_v2_bounds_done
+    bra     .L_06029FC2
     mov.w r0, @(4, r12)
 
     .global DAT_06029fa8
 DAT_06029fa8:
     .2byte  0xFE70
-.L_passA_v2_chk_top:
+.L_06029FAA:
     mov.w   DAT_06029fb6, r3
     cmp/gt r3, r2
-    bf      .L_passA_v2_chk_bottom
+    bf      .L_06029FB8
     mov #0x1, r0
-    bra     .L_passA_v2_bounds_done
+    bra     .L_06029FC2
     mov.w r0, @(4, r12)
 
     .global DAT_06029fb6
 DAT_06029fb6:
     .2byte  0x012C
-.L_passA_v2_chk_bottom:
+.L_06029FB8:
     mov.w   DAT_06029ffe, r3
     cmp/gt r2, r3
-    bf      .L_passA_v2_bounds_done
+    bf      .L_06029FC2
     mov #0x1, r0
     mov.w r0, @(4, r12)
-.L_passA_v2_bounds_done:
+.L_06029FC2:
     mov r11, r5
     add #0xC, r4
     add #0x18, r5
@@ -1215,9 +1215,9 @@ DAT_06029fb6:
     mov.w r0, @(6, r12)
     mov.w   DAT_0602a004, r3
     cmp/gt r3, r1
-    bf      .L_passA_v3_chk_left
+    bf      .L_0602A006
     mov #0x1, r0
-    bra     .L_passA_v3_bounds_done
+    bra     .L_0602A02C
     mov.w r0, @(6, r12)
 
     .global DAT_06029ffe
@@ -1235,112 +1235,112 @@ DAT_0602a002:
     .global DAT_0602a004
 DAT_0602a004:
     .2byte  0x0190
-.L_passA_v3_chk_left:
+.L_0602A006:
     mov.w   DAT_0602a012, r3
     cmp/gt r1, r3
-    bf      .L_passA_v3_chk_top
+    bf      .L_0602A014
     mov #0x1, r0
-    bra     .L_passA_v3_bounds_done
+    bra     .L_0602A02C
     mov.w r0, @(6, r12)
 
     .global DAT_0602a012
 DAT_0602a012:
     .2byte  0xFE70
-.L_passA_v3_chk_top:
+.L_0602A014:
     mov.w   DAT_0602a020, r3
     cmp/gt r3, r2
-    bf      .L_passA_v3_chk_bottom
+    bf      .L_0602A022
     mov #0x1, r0
-    bra     .L_passA_v3_bounds_done
+    bra     .L_0602A02C
     mov.w r0, @(6, r12)
 
     .global DAT_0602a020
 DAT_0602a020:
     .2byte  0x012C
-.L_passA_v3_chk_bottom:
+.L_0602A022:
     mov.w   DAT_0602a050, r3
     cmp/gt r2, r3
-    bf      .L_passA_v3_bounds_done
+    bf      .L_0602A02C
     mov #0x1, r0
     mov.w r0, @(6, r12)
-.L_passA_v3_bounds_done:
-    mov.l   .L_sh2_periph_0x150, r4
-    mov.l   .L_scale_constant_a, r5
-    mov.l   .L_sh2_periph_0x181, r6
-    mov.l   .L_poly_limit_a, r7
+.L_0602A02C:
+    mov.l   .L_0602A054, r4
+    mov.l   .L_0602A058, r5
+    mov.l   .L_0602A05C, r6
+    mov.l   .L_0602A060, r7
     mov.l @r11, r0
     cmp/gt r0, r4
-    bf      .L_passA_frustum_right
+    bf      .L_0602A064
     mov.l @(8, r11), r0
     cmp/gt r0, r4
-    bf      .L_passA_frustum_right
+    bf      .L_0602A064
     mov.l @(16, r11), r0
     cmp/gt r0, r4
-    bf      .L_passA_frustum_right
+    bf      .L_0602A064
     mov.l @(24, r11), r0
     cmp/gt r0, r4
-    bf      .L_passA_frustum_right
-    bra     .L_skip_polygon_a
+    bf      .L_0602A064
+    bra     .L_0602A1B6
     nop
 
     .global DAT_0602a050
 DAT_0602a050:
     .2byte  0xFE70
     .2byte  0x0000
-.L_sh2_periph_0x150:
+.L_0602A054:
     .4byte  0xFFFFFF50                  /* SH-2 peripheral +0x150 */
-.L_scale_constant_a:
+.L_0602A058:
     .4byte  0x000000B0
-.L_sh2_periph_0x181:
+.L_0602A05C:
     .4byte  0xFFFFFF81                  /* SH-2 peripheral +0x181 */
-.L_poly_limit_a:
+.L_0602A060:
     .4byte  0x00000051
-.L_passA_frustum_right:
+.L_0602A064:
     mov.l @r11, r0
     cmp/gt r0, r5
-    bt      .L_passA_frustum_top
+    bt      .L_0602A080
     mov.l @(8, r11), r0
     cmp/gt r0, r5
-    bt      .L_passA_frustum_top
+    bt      .L_0602A080
     mov.l @(16, r11), r0
     cmp/gt r0, r5
-    bt      .L_passA_frustum_top
+    bt      .L_0602A080
     mov.l @(24, r11), r0
     cmp/gt r0, r5
-    bt      .L_passA_frustum_top
-    bra     .L_skip_polygon_a
+    bt      .L_0602A080
+    bra     .L_0602A1B6
     nop
-.L_passA_frustum_top:
+.L_0602A080:
     mov.l @(4, r11), r0
     cmp/gt r0, r6
-    bf      .L_passA_frustum_bottom
+    bf      .L_0602A09C
     mov.l @(12, r11), r0
     cmp/gt r0, r6
-    bf      .L_passA_frustum_bottom
+    bf      .L_0602A09C
     mov.l @(20, r11), r0
     cmp/gt r0, r6
-    bf      .L_passA_frustum_bottom
+    bf      .L_0602A09C
     mov.l @(28, r11), r0
     cmp/gt r0, r6
-    bf      .L_passA_frustum_bottom
-    bra     .L_skip_polygon_a
+    bf      .L_0602A09C
+    bra     .L_0602A1B6
     nop
-.L_passA_frustum_bottom:
+.L_0602A09C:
     mov.l @(4, r11), r0
     cmp/gt r0, r7
-    bt      .L_passA_frustum_pass
+    bt      .L_0602A0B8
     mov.l @(12, r11), r0
     cmp/gt r0, r7
-    bt      .L_passA_frustum_pass
+    bt      .L_0602A0B8
     mov.l @(20, r11), r0
     cmp/gt r0, r7
-    bt      .L_passA_frustum_pass
+    bt      .L_0602A0B8
     mov.l @(28, r11), r0
     cmp/gt r0, r7
-    bt      .L_passA_frustum_pass
-    bra     .L_skip_polygon_a
+    bt      .L_0602A0B8
+    bra     .L_0602A1B6
     nop
-.L_passA_frustum_pass:
+.L_0602A0B8:
     mov.w @r12, r1
     mov.w @(2, r12), r0
     add r0, r1
@@ -1349,20 +1349,20 @@ DAT_0602a050:
     mov.w @(6, r12), r0
     add r1, r0
     cmp/eq #0x4, r0
-    bf      .L_passA_partial_clip
-    bra     .L_skip_polygon_a
+    bf      .L_0602A0CE
+    bra     .L_0602A1B6
     nop
-.L_passA_partial_clip:
+.L_0602A0CE:
     cmp/eq #0x0, r0
-    bt      .L_passA_emit_quad
+    bt      .L_0602A0E0
     mov r11, r4
     shll2 r0
-    mov.l   .L_pipeline_a_sub, r1
+    mov.l   .L_0602A128, r1
     add r1, r0
     mov.l @r0, r0
     jsr @r0
     mov r12, r5
-.L_passA_emit_quad:
+.L_0602A0E0:
     mov.l @r11, r0
     mov.w r0, @(8, r9)
     mov.l @(4, r11), r0
@@ -1389,21 +1389,21 @@ DAT_0602a050:
     mov r13, r0
     mov.b r0, @(5, r9)
     mov.w @(12, r8), r0
-    mov.l   .L_pipeline_a_sub2, r1
+    mov.l   .L_0602A12C, r1
     and #0x7, r0
     shll2 r0
     mov.l @(r0, r1), r0
-    mov.l   .L_vertex_data_a2, r1
+    mov.l   .L_0602A130, r1
     mov.l @(8, r1), r3
     mov.l @(20, r1), r4
     mov.l @(32, r1), r5
     jmp @r0
     mov.l @(44, r1), r6
-.L_pipeline_a_sub:
+.L_0602A128:
     .4byte  sym_0602A1F0
-.L_pipeline_a_sub2:
+.L_0602A12C:
     .4byte  sym_0602A200
-.L_vertex_data_a2:
+.L_0602A130:
     .4byte  sym_0608A70C
 
     .global loc_0602A134
@@ -1412,83 +1412,83 @@ loc_0602A134:
     add r5, r6
     add r6, r3
     shlr2 r3
-    bra     .L_passA_zsort_commit
+    bra     .L_0602A19E
     nop
 
     .global loc_0602A140
 loc_0602A140:
     cmp/ge r3, r4
-    bt      .L_depthA_min_ge_1
+    bt      .L_0602A146
     mov r4, r3
-.L_depthA_min_ge_1:
+.L_0602A146:
     cmp/ge r3, r5
-    bt      .L_depthA_min_ge_2
+    bt      .L_0602A14C
     mov r5, r3
-.L_depthA_min_ge_2:
+.L_0602A14C:
     cmp/ge r3, r6
-    bt      .L_depthA_min_ge_done
+    bt      .L_0602A152
     mov r6, r3
-.L_depthA_min_ge_done:
-    bra     .L_passA_zsort_commit
+.L_0602A152:
+    bra     .L_0602A19E
     nop
 
     .global loc_0602A156
 loc_0602A156:
     cmp/gt r3, r4
-    bf      .L_depthA_min_gt_1
+    bf      .L_0602A15C
     mov r4, r3
-.L_depthA_min_gt_1:
+.L_0602A15C:
     cmp/gt r3, r5
-    bf      .L_depthA_min_gt_2
+    bf      .L_0602A162
     mov r5, r3
-.L_depthA_min_gt_2:
+.L_0602A162:
     cmp/gt r3, r6
-    bf      .L_depthA_min_gt_done
+    bf      .L_0602A168
     mov r6, r3
-.L_depthA_min_gt_done:
-    bra     .L_passA_zsort_commit
+.L_0602A168:
+    bra     .L_0602A19E
     nop
 
     .global loc_0602A16C
 loc_0602A16C:
-    mov.l   .L_fp_depth_bias_a, r0
+    mov.l   .L_0602A184, r0
     cmp/gt r3, r4
-    bf      .L_depthA_bias_min_1
+    bf      .L_0602A174
     mov r4, r3
-.L_depthA_bias_min_1:
+.L_0602A174:
     cmp/gt r3, r5
-    bf      .L_depthA_bias_min_2
+    bf      .L_0602A17A
     mov r5, r3
-.L_depthA_bias_min_2:
+.L_0602A17A:
     cmp/gt r3, r6
-    bf      .L_depthA_bias_min_done
+    bf      .L_0602A180
     mov r6, r3
-.L_depthA_bias_min_done:
-    bra     .L_passA_zsort_commit
+.L_0602A180:
+    bra     .L_0602A19E
     add r0, r3
-.L_fp_depth_bias_a:
+.L_0602A184:
     .4byte  0x000B8000
 
     .global loc_0602A188
 loc_0602A188:
-    mov.l   .L_fp_one, r0
+    mov.l   .L_0602A1C4, r0
     cmp/gt r3, r4
-    bf      .L_depthA_offset_min_1
+    bf      .L_0602A190
     mov r4, r3
-.L_depthA_offset_min_1:
+.L_0602A190:
     cmp/gt r3, r5
-    bf      .L_depthA_offset_min_2
+    bf      .L_0602A196
     mov r5, r3
-.L_depthA_offset_min_2:
+.L_0602A196:
     cmp/gt r3, r6
-    bf      .L_depthA_offset_min_done
+    bf      .L_0602A19C
     mov r6, r3
-.L_depthA_offset_min_done:
+.L_0602A19C:
     add r0, r3
-.L_passA_zsort_commit:
-    mov.l   .L_commit_count_2, r2
+.L_0602A19E:
+    mov.l   .L_0602A1C8, r2
     neg r3, r3
-    mov.l   .L_sprite_index_table, r1
+    mov.l   .L_0602A1CC, r1
     shlr8 r3
     mov.l @r2, r0
     shlr2 r3
@@ -1498,21 +1498,21 @@ loc_0602A188:
     shar r0
     add #0x1, r0
     mov.l r0, @r2
-.L_skip_polygon_a:
+.L_0602A1B6:
     mov.l @r15+, r7
     mov.l @r15+, r3
     dt r7
-    bt      .L_passA_epilogue
-    bra     .L_transform_loop_a
+    bt      .L_0602A1D0
+    bra     .L_06029C14
     nop
     .2byte  0x0000
-.L_fp_one:
+.L_0602A1C4:
     .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
-.L_commit_count_2:
+.L_0602A1C8:
     .4byte  sym_060620D0
-.L_sprite_index_table:
+.L_0602A1CC:
     .4byte  sym_0606A4F8
-.L_passA_epilogue:
+.L_0602A1D0:
     lds.l @r15+, pr
     mov.l @r15+, r13
     mov.l @r15+, r12
@@ -1556,7 +1556,7 @@ sym_0602A214:
     mov.l r13, @-r15
     sts.l pr, @-r15
     mov r4, r8
-    mov.l   .L_clip_threshold_b, r10
+    mov.l   .L_0602A250, r10
     mov.l @r10, r10
     mov #0x18, r0
     mul.l r7, r0
@@ -1564,37 +1564,37 @@ sym_0602A214:
     mov r6, r13
     sts macl, r0
     add r0, r8
-.L_transform_loop_b:
+.L_0602A234:
     mov.l r3, @-r15
     mov.l r7, @-r15
     add #-0x18, r8
-    mov.l   .L_render_enable_b, r12
+    mov.l   .L_0602A254, r12
     mov.w @r12, r0
     cmp/eq #0x0, r0
-    bt      .L_passB_begin_transform
+    bt      .L_0602A258
     mov.w @(14, r8), r0
     mov.w   DAT_0602a24e, r1
     cmp/eq r0, r1
-    bf      .L_passB_begin_transform
-    bra     .L_skip_polygon_b
+    bf      .L_0602A258
+    bra     .L_0602A7D6
     nop
 
     .global DAT_0602a24e
 DAT_0602a24e:
     .2byte  0x0097
-.L_clip_threshold_b:
+.L_0602A250:
     .4byte  sym_06063F08
-.L_render_enable_b:
+.L_0602A254:
     .4byte  sym_0605BE36
-.L_passB_begin_transform:
+.L_0602A258:
     mov.w @(16, r8), r0
     mov #0xC, r1
     extu.w r0, r4
     mul.l r1, r4
-    mov.l   .L_vertex_out_e, r5
+    mov.l   .L_0602A314, r5
     sts macl, r4
     add r3, r4
-    mov.l   .L_render_budget_a, r0
+    mov.l   .L_0602A318, r0
     mov #0x24, r7
     mov.l @r0, r6
     add r6, r7
@@ -1632,15 +1632,15 @@ DAT_0602a24e:
     mov.l r1, @(8, r5)
     mov.l @(8, r5), r0
     cmp/ge r0, r10
-    mov.l   .L_depth_result_b, r11
+    mov.l   .L_0602A31C, r11
     .word 0x0029
     mov.w r0, @r11
     mov.w @(12, r8), r0
     tst #0x8, r0
-    bf      .L_passB_backface_ok
-    mov.l   .L_backface_scratch_b, r5
+    bf      .L_0602A324
+    mov.l   .L_0602A320, r5
     mov r8, r4
-    mov.l   .L_render_budget_a, r0
+    mov.l   .L_0602A318, r0
     clrmac
     mov.l @r0, r2
     mac.l @r4+, @r2+
@@ -1668,7 +1668,7 @@ DAT_0602a24e:
     sts macl, r1
     xtrct r0, r1
     mov.l r1, @(8, r5)
-    mov.l   .L_vertex_out_e, r4
+    mov.l   .L_0602A314, r4
     clrmac
     mac.l @r4+, @r5+
     mac.l @r4+, @r5+
@@ -1677,27 +1677,27 @@ DAT_0602a24e:
     sts macl, r0
     xtrct r1, r0
     cmp/pl r0
-    bt      .L_passB_backface_ok
-    bra     .L_skip_polygon_b
+    bt      .L_0602A324
+    bra     .L_0602A7D6
     nop
     .2byte  0x0000
-.L_vertex_out_e:
+.L_0602A314:
     .4byte  sym_0608A7A0
-.L_render_budget_a:
+.L_0602A318:
     .4byte  sym_0608A52C
-.L_depth_result_b:
+.L_0602A31C:
     .4byte  sym_0608A798
-.L_backface_scratch_b:
+.L_0602A320:
     .4byte  sym_0608A7D0
-.L_passB_backface_ok:
+.L_0602A324:
     mov.w @(18, r8), r0
     mov #0xC, r1
     extu.w r0, r4
     mul.l r1, r4
-    mov.l   .L_vertex_out_f, r5
+    mov.l   .L_0602A458, r5
     sts macl, r4
     add r3, r4
-    mov.l   .L_render_budget_b, r0
+    mov.l   .L_0602A45C, r0
     mov #0x24, r7
     mov.l @r0, r6
     add r6, r7
@@ -1741,10 +1741,10 @@ DAT_0602a24e:
     mov #0xC, r1
     extu.w r0, r4
     mul.l r1, r4
-    mov.l   .L_vertex_out_g, r5
+    mov.l   .L_0602A460, r5
     sts macl, r4
     add r3, r4
-    mov.l   .L_render_budget_b, r0
+    mov.l   .L_0602A45C, r0
     mov #0x24, r7
     mov.l @r0, r6
     add r6, r7
@@ -1788,10 +1788,10 @@ DAT_0602a24e:
     mov #0xC, r1
     extu.w r0, r4
     mul.l r1, r4
-    mov.l   .L_vertex_out_h, r5
+    mov.l   .L_0602A464, r5
     sts macl, r4
     add r3, r4
-    mov.l   .L_render_budget_b, r0
+    mov.l   .L_0602A45C, r0
     mov #0x24, r7
     mov.l @r0, r6
     add r6, r7
@@ -1838,39 +1838,39 @@ DAT_0602a24e:
     add r1, r0
     add r3, r0
     cmp/eq #0x0, r0
-    bt      .L_passB_write_sprite
+    bt      .L_0602A478
     cmp/eq #0x4, r0
-    bf      .L_passB_clip_dispatch
-    bra     .L_skip_polygon_b
+    bf      .L_0602A468
+    bra     .L_0602A7D6
     nop
     .2byte  0x0000
-.L_vertex_out_f:
+.L_0602A458:
     .4byte  sym_0608A7AC
-.L_render_budget_b:
+.L_0602A45C:
     .4byte  sym_0608A52C
-.L_vertex_out_g:
+.L_0602A460:
     .4byte  sym_0608A7B8
-.L_vertex_out_h:
+.L_0602A464:
     .4byte  sym_0608A7C4
-.L_passB_clip_dispatch:
-    mov.l   .L_pipeline_b_table, r1
+.L_0602A468:
+    mov.l   .L_0602A4CC, r1
     shll2 r0
     add r1, r0
     mov.l @r0, r0
-    mov.l   .L_vertex_data_e, r4
-    mov.l   .L_depth_data_b, r5
+    mov.l   .L_0602A4D0, r4
+    mov.l   .L_0602A4D4, r5
     jsr @r0
     nop
-.L_passB_write_sprite:
-    mov.l   .L_frame_counter, r0
+.L_0602A478:
+    mov.l   .L_0602A4D8, r0
     mov #0x18, r1
     mov.l @r0, r0
     mul.l r0, r1
-    mov.l   .L_sprite_data_b, r2
-    mov.l   .L_poly_params_b, r11
+    mov.l   .L_0602A4DC, r2
+    mov.l   .L_0602A4E0, r11
     sts macl, r9
     add r2, r9
-    mov.l   .L_vertex_data_e, r4
+    mov.l   .L_0602A4D0, r4
     mov r11, r5
     mov.w   DAT_0602a4c4, r1
     mov.w   DAT_0602a4c6, r0
@@ -1891,14 +1891,14 @@ DAT_0602a24e:
     mov.l r2, @(4, r5)
     mov.l @r5, r1
     mov.l @(4, r5), r2
-    mov.l   .L_render_state_b, r12
+    mov.l   .L_0602A4E4, r12
     mov #0x0, r0
     mov.w r0, @r12
-    mov.w   .L_screen_width_b, r3
+    mov.w   .L_0602A4C8, r3
     cmp/gt r3, r1
-    bf      .L_passB_v0_chk_left
+    bf      .L_0602A4E8
     mov #0x1, r0
-    bra     .L_passB_v0_bounds_done
+    bra     .L_0602A50E
     mov.w r0, @r12
 
     .global DAT_0602a4c4
@@ -1908,52 +1908,52 @@ DAT_0602a4c4:
     .global DAT_0602a4c6
 DAT_0602a4c6:
     .2byte  0x00A0
-.L_screen_width_b:
+.L_0602A4C8:
     .2byte  0x0190
     .2byte  0x0000
-.L_pipeline_b_table:
+.L_0602A4CC:
     .4byte  sym_0602A800
-.L_vertex_data_e:
+.L_0602A4D0:
     .4byte  sym_0608A7A0
-.L_depth_data_b:
+.L_0602A4D4:
     .4byte  sym_0608A798
-.L_frame_counter:
+.L_0602A4D8:
     .4byte  sym_060620D4
-.L_sprite_data_b:
+.L_0602A4DC:
     .4byte  sym_0608AC20
-.L_poly_params_b:
+.L_0602A4E0:
     .4byte  sym_0608A800
-.L_render_state_b:
+.L_0602A4E4:
     .4byte  sym_0608A790
-.L_passB_v0_chk_left:
+.L_0602A4E8:
     mov.w   DAT_0602a4f4, r3
     cmp/gt r1, r3
-    bf      .L_passB_v0_chk_top
+    bf      .L_0602A4F6
     mov #0x1, r0
-    bra     .L_passB_v0_bounds_done
+    bra     .L_0602A50E
     mov.w r0, @r12
 
     .global DAT_0602a4f4
 DAT_0602a4f4:
     .2byte  0xFE70
-.L_passB_v0_chk_top:
+.L_0602A4F6:
     mov.w   DAT_0602a502, r3
     cmp/gt r3, r2
-    bf      .L_passB_v0_chk_bottom
+    bf      .L_0602A504
     mov #0x1, r0
-    bra     .L_passB_v0_bounds_done
+    bra     .L_0602A50E
     mov.w r0, @r12
 
     .global DAT_0602a502
 DAT_0602a502:
     .2byte  0x012C
-.L_passB_v0_chk_bottom:
+.L_0602A504:
     mov.w   DAT_0602a54a, r3
     cmp/gt r2, r3
-    bf      .L_passB_v0_bounds_done
+    bf      .L_0602A50E
     mov #0x1, r0
     mov.w r0, @r12
-.L_passB_v0_bounds_done:
+.L_0602A50E:
     mov r11, r5
     add #0xC, r4
     add #0x8, r5
@@ -1980,9 +1980,9 @@ DAT_0602a502:
     mov.w r0, @(2, r12)
     mov.w   DAT_0602a550, r3
     cmp/gt r3, r1
-    bf      .L_passB_v1_chk_left
+    bf      .L_0602A552
     mov #0x1, r0
-    bra     .L_passB_v1_bounds_done
+    bra     .L_0602A578
     mov.w r0, @(2, r12)
 
     .global DAT_0602a54a
@@ -2000,35 +2000,35 @@ DAT_0602a54e:
     .global DAT_0602a550
 DAT_0602a550:
     .2byte  0x0190
-.L_passB_v1_chk_left:
+.L_0602A552:
     mov.w   DAT_0602a55e, r3
     cmp/gt r1, r3
-    bf      .L_passB_v1_chk_top
+    bf      .L_0602A560
     mov #0x1, r0
-    bra     .L_passB_v1_bounds_done
+    bra     .L_0602A578
     mov.w r0, @(2, r12)
 
     .global DAT_0602a55e
 DAT_0602a55e:
     .2byte  0xFE70
-.L_passB_v1_chk_top:
+.L_0602A560:
     mov.w   DAT_0602a56c, r3
     cmp/gt r3, r2
-    bf      .L_passB_v1_chk_bottom
+    bf      .L_0602A56E
     mov #0x1, r0
-    bra     .L_passB_v1_bounds_done
+    bra     .L_0602A578
     mov.w r0, @(2, r12)
 
     .global DAT_0602a56c
 DAT_0602a56c:
     .2byte  0x012C
-.L_passB_v1_chk_bottom:
+.L_0602A56E:
     mov.w   DAT_0602a5b4, r3
     cmp/gt r2, r3
-    bf      .L_passB_v1_bounds_done
+    bf      .L_0602A578
     mov #0x1, r0
     mov.w r0, @(2, r12)
-.L_passB_v1_bounds_done:
+.L_0602A578:
     mov r11, r5
     add #0xC, r4
     add #0x10, r5
@@ -2055,9 +2055,9 @@ DAT_0602a56c:
     mov.w r0, @(4, r12)
     mov.w   DAT_0602a5ba, r3
     cmp/gt r3, r1
-    bf      .L_passB_v2_chk_left
+    bf      .L_0602A5BC
     mov #0x1, r0
-    bra     .L_passB_v2_bounds_done
+    bra     .L_0602A5E2
     mov.w r0, @(4, r12)
 
     .global DAT_0602a5b4
@@ -2075,35 +2075,35 @@ DAT_0602a5b8:
     .global DAT_0602a5ba
 DAT_0602a5ba:
     .2byte  0x0190
-.L_passB_v2_chk_left:
+.L_0602A5BC:
     mov.w   DAT_0602a5c8, r3
     cmp/gt r1, r3
-    bf      .L_passB_v2_chk_top
+    bf      .L_0602A5CA
     mov #0x1, r0
-    bra     .L_passB_v2_bounds_done
+    bra     .L_0602A5E2
     mov.w r0, @(4, r12)
 
     .global DAT_0602a5c8
 DAT_0602a5c8:
     .2byte  0xFE70
-.L_passB_v2_chk_top:
+.L_0602A5CA:
     mov.w   DAT_0602a5d6, r3
     cmp/gt r3, r2
-    bf      .L_passB_v2_chk_bottom
+    bf      .L_0602A5D8
     mov #0x1, r0
-    bra     .L_passB_v2_bounds_done
+    bra     .L_0602A5E2
     mov.w r0, @(4, r12)
 
     .global DAT_0602a5d6
 DAT_0602a5d6:
     .2byte  0x012C
-.L_passB_v2_chk_bottom:
+.L_0602A5D8:
     mov.w   DAT_0602a61e, r3
     cmp/gt r2, r3
-    bf      .L_passB_v2_bounds_done
+    bf      .L_0602A5E2
     mov #0x1, r0
     mov.w r0, @(4, r12)
-.L_passB_v2_bounds_done:
+.L_0602A5E2:
     mov r11, r5
     add #0xC, r4
     add #0x18, r5
@@ -2130,9 +2130,9 @@ DAT_0602a5d6:
     mov.w r0, @(6, r12)
     mov.w   DAT_0602a624, r3
     cmp/gt r3, r1
-    bf      .L_passB_v3_chk_left
+    bf      .L_0602A626
     mov #0x1, r0
-    bra     .L_passB_v3_bounds_done
+    bra     .L_0602A64C
     mov.w r0, @(6, r12)
 
     .global DAT_0602a61e
@@ -2150,112 +2150,112 @@ DAT_0602a622:
     .global DAT_0602a624
 DAT_0602a624:
     .2byte  0x0190
-.L_passB_v3_chk_left:
+.L_0602A626:
     mov.w   DAT_0602a632, r3
     cmp/gt r1, r3
-    bf      .L_passB_v3_chk_top
+    bf      .L_0602A634
     mov #0x1, r0
-    bra     .L_passB_v3_bounds_done
+    bra     .L_0602A64C
     mov.w r0, @(6, r12)
 
     .global DAT_0602a632
 DAT_0602a632:
     .2byte  0xFE70
-.L_passB_v3_chk_top:
+.L_0602A634:
     mov.w   DAT_0602a640, r3
     cmp/gt r3, r2
-    bf      .L_passB_v3_chk_bottom
+    bf      .L_0602A642
     mov #0x1, r0
-    bra     .L_passB_v3_bounds_done
+    bra     .L_0602A64C
     mov.w r0, @(6, r12)
 
     .global DAT_0602a640
 DAT_0602a640:
     .2byte  0x012C
-.L_passB_v3_chk_bottom:
+.L_0602A642:
     mov.w   DAT_0602a670, r3
     cmp/gt r2, r3
-    bf      .L_passB_v3_bounds_done
+    bf      .L_0602A64C
     mov #0x1, r0
     mov.w r0, @(6, r12)
-.L_passB_v3_bounds_done:
-    mov.l   .L_sh2_periph_0x150_0602A674, r4
-    mov.l   .L_scale_constant_b, r5
-    mov.l   .L_sh2_periph_0x181_0602A67C, r6
-    mov.l   .L_poly_limit_b, r7
+.L_0602A64C:
+    mov.l   .L_0602A674, r4
+    mov.l   .L_0602A678, r5
+    mov.l   .L_0602A67C, r6
+    mov.l   .L_0602A680, r7
     mov.l @r11, r0
     cmp/gt r0, r4
-    bf      .L_passB_frustum_right
+    bf      .L_0602A684
     mov.l @(8, r11), r0
     cmp/gt r0, r4
-    bf      .L_passB_frustum_right
+    bf      .L_0602A684
     mov.l @(16, r11), r0
     cmp/gt r0, r4
-    bf      .L_passB_frustum_right
+    bf      .L_0602A684
     mov.l @(24, r11), r0
     cmp/gt r0, r4
-    bf      .L_passB_frustum_right
-    bra     .L_skip_polygon_b
+    bf      .L_0602A684
+    bra     .L_0602A7D6
     nop
 
     .global DAT_0602a670
 DAT_0602a670:
     .2byte  0xFE70
     .2byte  0x0000
-.L_sh2_periph_0x150_0602A674:
+.L_0602A674:
     .4byte  0xFFFFFF50                  /* SH-2 peripheral +0x150 */
-.L_scale_constant_b:
+.L_0602A678:
     .4byte  0x000000B0
-.L_sh2_periph_0x181_0602A67C:
+.L_0602A67C:
     .4byte  0xFFFFFF81                  /* SH-2 peripheral +0x181 */
-.L_poly_limit_b:
+.L_0602A680:
     .4byte  0x00000051
-.L_passB_frustum_right:
+.L_0602A684:
     mov.l @r11, r0
     cmp/gt r0, r5
-    bt      .L_passB_frustum_top
+    bt      .L_0602A6A0
     mov.l @(8, r11), r0
     cmp/gt r0, r5
-    bt      .L_passB_frustum_top
+    bt      .L_0602A6A0
     mov.l @(16, r11), r0
     cmp/gt r0, r5
-    bt      .L_passB_frustum_top
+    bt      .L_0602A6A0
     mov.l @(24, r11), r0
     cmp/gt r0, r5
-    bt      .L_passB_frustum_top
-    bra     .L_skip_polygon_b
+    bt      .L_0602A6A0
+    bra     .L_0602A7D6
     nop
-.L_passB_frustum_top:
+.L_0602A6A0:
     mov.l @(4, r11), r0
     cmp/gt r0, r6
-    bf      .L_passB_frustum_bottom
+    bf      .L_0602A6BC
     mov.l @(12, r11), r0
     cmp/gt r0, r6
-    bf      .L_passB_frustum_bottom
+    bf      .L_0602A6BC
     mov.l @(20, r11), r0
     cmp/gt r0, r6
-    bf      .L_passB_frustum_bottom
+    bf      .L_0602A6BC
     mov.l @(28, r11), r0
     cmp/gt r0, r6
-    bf      .L_passB_frustum_bottom
-    bra     .L_skip_polygon_b
+    bf      .L_0602A6BC
+    bra     .L_0602A7D6
     nop
-.L_passB_frustum_bottom:
+.L_0602A6BC:
     mov.l @(4, r11), r0
     cmp/gt r0, r7
-    bt      .L_passB_frustum_pass
+    bt      .L_0602A6D8
     mov.l @(12, r11), r0
     cmp/gt r0, r7
-    bt      .L_passB_frustum_pass
+    bt      .L_0602A6D8
     mov.l @(20, r11), r0
     cmp/gt r0, r7
-    bt      .L_passB_frustum_pass
+    bt      .L_0602A6D8
     mov.l @(28, r11), r0
     cmp/gt r0, r7
-    bt      .L_passB_frustum_pass
-    bra     .L_skip_polygon_b
+    bt      .L_0602A6D8
+    bra     .L_0602A7D6
     nop
-.L_passB_frustum_pass:
+.L_0602A6D8:
     mov.w @r12, r1
     mov.w @(2, r12), r0
     add r0, r1
@@ -2264,20 +2264,20 @@ DAT_0602a670:
     mov.w @(6, r12), r0
     add r1, r0
     cmp/eq #0x4, r0
-    bf      .L_passB_partial_clip
-    bra     .L_skip_polygon_b
+    bf      .L_0602A6EE
+    bra     .L_0602A7D6
     nop
-.L_passB_partial_clip:
+.L_0602A6EE:
     cmp/eq #0x0, r0
-    bt      .L_passB_emit_quad
+    bt      .L_0602A700
     mov r11, r4
     shll2 r0
-    mov.l   .L_pipeline_b_sub, r1
+    mov.l   .L_0602A748, r1
     add r1, r0
     mov.l @r0, r0
     jsr @r0
     mov r12, r5
-.L_passB_emit_quad:
+.L_0602A700:
     mov.l @r11, r0
     mov.w r0, @(8, r9)
     mov.l @(4, r11), r0
@@ -2304,21 +2304,21 @@ DAT_0602a670:
     mov r13, r0
     mov.b r0, @(5, r9)
     mov.w @(12, r8), r0
-    mov.l   .L_pipeline_b_sub2, r1
+    mov.l   .L_0602A74C, r1
     and #0x7, r0
     shll2 r0
     mov.l @(r0, r1), r0
-    mov.l   .L_vertex_data_e2, r1
+    mov.l   .L_0602A750, r1
     mov.l @(8, r1), r3
     mov.l @(20, r1), r4
     mov.l @(32, r1), r5
     jmp @r0
     mov.l @(44, r1), r6
-.L_pipeline_b_sub:
+.L_0602A748:
     .4byte  sym_0602A810
-.L_pipeline_b_sub2:
+.L_0602A74C:
     .4byte  sym_0602A820
-.L_vertex_data_e2:
+.L_0602A750:
     .4byte  sym_0608A7A0
 
     .global loc_0602A754
@@ -2327,83 +2327,83 @@ loc_0602A754:
     add r5, r6
     add r6, r3
     shlr2 r3
-    bra     .L_passB_zsort_commit
+    bra     .L_0602A7BE
     nop
 
     .global loc_0602A760
 loc_0602A760:
     cmp/ge r3, r4
-    bt      .L_depthB_min_ge_1
+    bt      .L_0602A766
     mov r4, r3
-.L_depthB_min_ge_1:
+.L_0602A766:
     cmp/ge r3, r5
-    bt      .L_depthB_min_ge_2
+    bt      .L_0602A76C
     mov r5, r3
-.L_depthB_min_ge_2:
+.L_0602A76C:
     cmp/ge r3, r6
-    bt      .L_depthB_min_ge_done
+    bt      .L_0602A772
     mov r6, r3
-.L_depthB_min_ge_done:
-    bra     .L_passB_zsort_commit
+.L_0602A772:
+    bra     .L_0602A7BE
     nop
 
     .global loc_0602A776
 loc_0602A776:
     cmp/gt r3, r4
-    bf      .L_depthB_min_gt_1
+    bf      .L_0602A77C
     mov r4, r3
-.L_depthB_min_gt_1:
+.L_0602A77C:
     cmp/gt r3, r5
-    bf      .L_depthB_min_gt_2
+    bf      .L_0602A782
     mov r5, r3
-.L_depthB_min_gt_2:
+.L_0602A782:
     cmp/gt r3, r6
-    bf      .L_depthB_min_gt_done
+    bf      .L_0602A788
     mov r6, r3
-.L_depthB_min_gt_done:
-    bra     .L_passB_zsort_commit
+.L_0602A788:
+    bra     .L_0602A7BE
     nop
 
     .global loc_0602A78C
 loc_0602A78C:
-    mov.l   .L_fp_depth_bias_b, r0
+    mov.l   .L_0602A7A4, r0
     cmp/gt r3, r4
-    bf      .L_depthB_bias_min_1
+    bf      .L_0602A794
     mov r4, r3
-.L_depthB_bias_min_1:
+.L_0602A794:
     cmp/gt r3, r5
-    bf      .L_depthB_bias_min_2
+    bf      .L_0602A79A
     mov r5, r3
-.L_depthB_bias_min_2:
+.L_0602A79A:
     cmp/gt r3, r6
-    bf      .L_depthB_bias_min_done
+    bf      .L_0602A7A0
     mov r6, r3
-.L_depthB_bias_min_done:
-    bra     .L_passB_zsort_commit
+.L_0602A7A0:
+    bra     .L_0602A7BE
     add r0, r3
-.L_fp_depth_bias_b:
+.L_0602A7A4:
     .4byte  0x000B8000
 
     .global loc_0602A7A8
 loc_0602A7A8:
-    mov.l   .L_fp_one_0602A7E4, r0
+    mov.l   .L_0602A7E4, r0
     cmp/gt r3, r4
-    bf      .L_depthB_offset_min_1
+    bf      .L_0602A7B0
     mov r4, r3
-.L_depthB_offset_min_1:
+.L_0602A7B0:
     cmp/gt r3, r5
-    bf      .L_depthB_offset_min_2
+    bf      .L_0602A7B6
     mov r5, r3
-.L_depthB_offset_min_2:
+.L_0602A7B6:
     cmp/gt r3, r6
-    bf      .L_depthB_offset_min_done
+    bf      .L_0602A7BC
     mov r6, r3
-.L_depthB_offset_min_done:
+.L_0602A7BC:
     add r0, r3
-.L_passB_zsort_commit:
-    mov.l   .L_frame_counter_2, r2
+.L_0602A7BE:
+    mov.l   .L_0602A7E8, r2
     neg r3, r3
-    mov.l   .L_sprite_idx_b, r1
+    mov.l   .L_0602A7EC, r1
     shlr8 r3
     mov.l @r2, r0
     shlr2 r3
@@ -2413,21 +2413,21 @@ loc_0602A7A8:
     shar r0
     add #0x1, r0
     mov.l r0, @r2
-.L_skip_polygon_b:
+.L_0602A7D6:
     mov.l @r15+, r7
     mov.l @r15+, r3
     dt r7
-    bt      .L_return_transform
-    bra     .L_transform_loop_b
+    bt      .L_0602A7F0
+    bra     .L_0602A234
     nop
     .2byte  0x0000
-.L_fp_one_0602A7E4:
+.L_0602A7E4:
     .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
-.L_frame_counter_2:
+.L_0602A7E8:
     .4byte  sym_060620D4
-.L_sprite_idx_b:
+.L_0602A7EC:
     .4byte  sym_0606A4F8
-.L_return_transform:
+.L_0602A7F0:
     lds.l @r15+, pr
     mov.l @r15+, r13
     mov.l @r15+, r12

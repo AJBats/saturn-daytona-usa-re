@@ -9,7 +9,7 @@ mat_multiply_basic:
     extu.w r4, r0
     add #-0x4, r15
     tst #0x4, r0
-    bt      .L_dlist_struct_path
+    bt      .L_0602653E
     mov.l   .L_pool_0602657C, r7
     mov.w   .L_wpool_06026572, r6
     mov.w   .L_wpool_06026574, r5
@@ -24,7 +24,7 @@ mat_multiply_basic:
     mov.l   .L_pool_06026580, r3
     jmp @r3
     lds.l @r15+, pr
-.L_dlist_struct_path:
+.L_0602653E:
     mov.l   .L_pool_06026584, r2
     mov.l r2, @r15
     mov r2, r7

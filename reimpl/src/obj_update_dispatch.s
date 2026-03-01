@@ -11,56 +11,56 @@ obj_update_dispatch:
     mov.l r11, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   .L_obj_scale_x, r13
+    mov.l   .L_060207D0, r13
     mov.b r4, @r15
-    mov.l   .L_fn_cmd_queue_init, r3
+    mov.l   .L_060207D4, r3
     jsr @r3
     mov #0x8, r4
-    mov.l   .L_fp_half, r12
+    mov.l   .L_060207D8, r12
     mov.l @r13, r2
     sub r12, r2
     mov.l r2, @r13
-    mov.l   .L_obj_scale_y, r14
+    mov.l   .L_060207DC, r14
     mov.l @r14, r3
     sub r12, r3
     mov.l r3, @r14
     mov r3, r5
-    mov.l   .L_fn_color_intensity, r3
+    mov.l   .L_060207E0, r3
     jsr @r3
     mov.l @r13, r4
-    mov.l   .L_obj_scale_z, r14
+    mov.l   .L_060207E4, r14
     mov.l @r14, r2
     sub r12, r2
     mov.l r2, @r14
     mov r2, r3
-    mov.l   .L_obj_draw_x, r11
-    mov.l   .L_fp_one, r2
+    mov.l   .L_060207E8, r11
+    mov.l   .L_060207EC, r2
     cmp/gt r2, r3
-    bf      .L_scale_z_done
+    bf      .L_06020794
     mov.l @r14, r5
-    mov.l   .L_fp_neg_one, r2
-    mov.l   .L_fp_176, r4
-    mov.l   .L_fn_fpmul, r3
+    mov.l   .L_060207F0, r2
+    mov.l   .L_060207F4, r4
+    mov.l   .L_060207F8, r3
     jsr @r3
     add r2, r5
     mov r0, r4
-    mov.l   .L_fn_fpdiv, r3
+    mov.l   .L_060207FC, r3
     jsr @r3
     mov.l @r14, r5
     mov r0, r12
     mov.l @r14, r5
-    mov.l   .L_fp_neg_one, r2
-    mov.l   .L_fp_112, r4
-    mov.l   .L_fn_fpmul, r3
+    mov.l   .L_060207F0, r2
+    mov.l   .L_06020800, r4
+    mov.l   .L_060207F8, r3
     jsr @r3
     add r2, r5
     mov r0, r4
-    mov.l   .L_fn_fpdiv, r3
+    mov.l   .L_060207FC, r3
     jsr @r3
     mov.l @r14, r5
     mov r0, r6
     mov r12, r4
-    mov.l   .L_obj_draw_y, r7
+    mov.l   .L_06020804, r7
     mov r0, r5
     mov.l @r11, r2
     mov.l @r7, r3
@@ -68,27 +68,27 @@ obj_update_dispatch:
     sub r3, r5
     mov.l r12, @r11
     mov.l r6, @r7
-    mov.l   .L_fn_scene_write_add, r3
+    mov.l   .L_06020808, r3
     jsr @r3
     mov #0x0, r6
-    bra     .L_after_draw_update
+    bra     .L_060207A2
     nop
-.L_scale_z_done:
+.L_06020794:
     mov #0x0, r6
-    mov.l   .L_fn_display_channel_b, r3
+    mov.l   .L_0602080C, r3
     mov r6, r5
     jsr @r3
     mov #0x8, r4
     mov #0x0, r2
     mov.l r2, @r11
-.L_after_draw_update:
-    mov.l   .L_fn_cmd_queue_commit, r3
+.L_060207A2:
+    mov.l   .L_06020810, r3
     jsr @r3
     nop
     mov.l @r13, r2
-    mov.l   .L_fp_one, r3
+    mov.l   .L_060207EC, r3
     cmp/gt r3, r2
-    bt      .L_transition_done
+    bt      .L_060207C2
     mov.b @r15, r4
     extu.b r4, r4
     add #0x4, r15
@@ -98,7 +98,7 @@ obj_update_dispatch:
     mov.l @r15+, r13
     .byte   0xA3, 0x16    /* bra 0x06020DEE (external) */
     mov.l @r15+, r14
-.L_transition_done:
+.L_060207C2:
     add #0x4, r15
     lds.l @r15+, pr
     mov.l @r15+, r11
@@ -106,37 +106,37 @@ obj_update_dispatch:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_obj_scale_x:
+.L_060207D0:
     .4byte  sym_06087818                        /* obj scale X (16.16 fp) */
-.L_fn_cmd_queue_init:
+.L_060207D4:
     .4byte  sym_0603850C                        /* display cmd queue: select channel */
-.L_fp_half:
+.L_060207D8:
     .4byte  0x00008000                          /* 0.5 (16.16 fixed-point) */
-.L_obj_scale_y:
+.L_060207DC:
     .4byte  sym_0608781C                        /* obj scale Y (16.16 fp) */
-.L_fn_color_intensity:
+.L_060207E0:
     .4byte  scene_color_intensity               /* scene color intensity */
-.L_obj_scale_z:
+.L_060207E4:
     .4byte  sym_06087820                        /* obj scale Z (16.16 fp) */
-.L_obj_draw_x:
+.L_060207E8:
     .4byte  sym_06087810                        /* obj draw X coordinate (16.16 fp) */
-.L_fp_one:
+.L_060207EC:
     .4byte  0x00010000                          /* 1.0 (16.16 fixed-point) */
-.L_fp_neg_one:
+.L_060207F0:
     .4byte  0xFFFF0000                          /* -1.0 (16.16 fixed-point) */
-.L_fp_176:
+.L_060207F4:
     .4byte  0x00B00000                          /* 176.0 (16.16 fp) — half screen width */
-.L_fn_fpmul:
+.L_060207F8:
     .4byte  fpmul                               /* fixed-point multiply */
-.L_fn_fpdiv:
+.L_060207FC:
     .4byte  fpdiv_setup                         /* fixed-point divide */
-.L_fp_112:
+.L_06020800:
     .4byte  0x00700000                          /* 112.0 (16.16 fp) — half screen height */
-.L_obj_draw_y:
+.L_06020804:
     .4byte  sym_06087814                        /* obj draw Y coordinate (16.16 fp) */
-.L_fn_scene_write_add:
+.L_06020808:
     .4byte  scene_data_write_add                /* scene data write (additive) */
-.L_fn_display_channel_b:
+.L_0602080C:
     .4byte  display_channel_b                   /* display channel enable */
-.L_fn_cmd_queue_commit:
+.L_06020810:
     .4byte  sym_06038520                        /* display cmd queue: commit */

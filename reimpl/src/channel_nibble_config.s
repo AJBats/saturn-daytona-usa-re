@@ -13,7 +13,7 @@ channel_nibble_config:
     mov.l r10, @-r15
     mov.l r9, @-r15
     sts.l pr, @-r15
-    mov.l   .L_mask_byte1, r9
+    mov.l   .L_06038CD8, r9
     mov.w   DAT_06038cc8, r10
     mov.l   _pool_mask_hi_nib_clear, r11
     mov.l   _pool_mask_lo_nib_clear, r12
@@ -23,7 +23,7 @@ channel_nibble_config:
     mov.w   _wpool_bit_a0_lo, r3
     and r4, r3
     tst r3, r3
-    bt/s    .L_check_a0_hi_nib
+    bt/s    .L_06038C14
     extu.b r5, r5
     mov r7, r0
     mov.w   _wpool_param_0x101, r1
@@ -37,11 +37,11 @@ channel_nibble_config:
     or r3, r2
     extu.w r2, r2
     mov.w r2, @r6
-.L_check_a0_hi_nib:
+.L_06038C14:
     mov.w   _wpool_bit_a0_hi, r2
     and r4, r2
     tst r2, r2
-    bt      .L_check_a2_lo_nib
+    bt      .L_06038C36
     mov r7, r0
     mov.w   _wpool_param_0x101, r1
     mov.l   _pool_bitfield_rmw, r3
@@ -55,11 +55,11 @@ channel_nibble_config:
     or r3, r2
     extu.w r2, r2
     mov.w r2, @r6
-.L_check_a2_lo_nib:
+.L_06038C36:
     mov.w   _wpool_bit_a2_lo, r2
     and r4, r2
     tst r2, r2
-    bt      .L_check_a2_hi_nib
+    bt      .L_06038C5A
     mov r7, r0
     mov.w   _wpool_param_0x101, r1
     mov.l   _pool_bitfield_rmw, r3
@@ -74,11 +74,11 @@ channel_nibble_config:
     extu.w r2, r2
     mov r2, r0
     mov.w r0, @(2, r6)
-.L_check_a2_hi_nib:
+.L_06038C5A:
     mov.w   _wpool_bit_a2_hi, r3
     and r4, r3
     tst r3, r3
-    bt      .L_check_a4_lo_nib
+    bt      .L_06038C80
     mov r7, r0
     mov.w   _wpool_param_0x101, r1
     mov.l   _pool_bitfield_rmw, r3
@@ -94,11 +94,11 @@ channel_nibble_config:
     extu.w r2, r2
     mov r2, r0
     mov.w r0, @(2, r6)
-.L_check_a4_lo_nib:
+.L_06038C80:
     mov.w   DAT_06038cd4, r3
     and r4, r3
     tst r3, r3
-    bt      .L_check_a4_hi_nib
+    bt      .L_06038CA4
     mov r7, r0
     mov.w   _wpool_param_0x101, r1
     mov.l   _pool_bitfield_rmw, r3
@@ -113,11 +113,11 @@ channel_nibble_config:
     extu.w r2, r2
     mov r2, r0
     mov.w r0, @(4, r6)
-.L_check_a4_hi_nib:
+.L_06038CA4:
     mov.w   DAT_06038cd6, r3
     and r4, r3
     tst r3, r3
-    bt      .L_check_a6_lo_nib
+    bt      .L_06038CFA
     mov r7, r0
     mov.w   _wpool_param_0x101, r1
     mov.l   _pool_bitfield_rmw, r3
@@ -130,7 +130,7 @@ channel_nibble_config:
     extu.w r5, r3
     shll8 r3
     or r3, r2
-    bra     .L_store_a4_hi_result
+    bra     .L_06038CF4
     nop
 
     .global DAT_06038cc8
@@ -154,7 +154,7 @@ DAT_06038cd4:
     .global DAT_06038cd6
 DAT_06038cd6:
     .2byte  0x2000
-.L_mask_byte1:
+.L_06038CD8:
     .4byte  0x0000FF00                  /* byte 1 mask: keep high byte, clear low byte */
 _pool_mask_hi_nib_clear:
     .4byte  0x0000F0FF                  /* mask: clear bits 11:8 (high nibble of low byte) */
@@ -168,15 +168,15 @@ _pool_cfg_array_a:
     .4byte  sym_060A4D28                /* config word array A (4 words at offsets 0/2/4/6) */
 _pool_bitfield_rmw:
     .4byte  sym_06034F78                /* bitfield read-modify-write utility */
-.L_store_a4_hi_result:
+.L_06038CF4:
     extu.w r2, r2
     mov r2, r0
     mov.w r0, @(4, r6)
-.L_check_a6_lo_nib:
+.L_06038CFA:
     mov.w   DAT_06038e1a, r3
     and r4, r3
     tst r3, r3
-    bt      .L_check_a6_hi_nib
+    bt      .L_06038D1E
     mov r7, r0
     mov.w   _wpool_param_0x101_b, r1
     mov.l   _pool_bitfield_rmw_b, r3
@@ -191,11 +191,11 @@ _pool_bitfield_rmw:
     extu.w r2, r2
     mov r2, r0
     mov.w r0, @(6, r6)
-.L_check_a6_hi_nib:
-    mov.l   .L_bit_a6_hi, r3
+.L_06038D1E:
+    mov.l   .L_06038E28, r3
     and r4, r3
     tst r3, r3
-    bt      .L_check_b0_lo_nib
+    bt      .L_06038D44
     mov r7, r0
     mov.w   _wpool_param_0x101_b, r1
     mov.l   _pool_bitfield_rmw_b, r3
@@ -211,11 +211,11 @@ _pool_bitfield_rmw:
     extu.w r2, r2
     mov r2, r0
     mov.w r0, @(6, r6)
-.L_check_b0_lo_nib:
+.L_06038D44:
     mov #0x4, r3
     and r4, r3
     tst r3, r3
-    bt      .L_check_b0_lo_alt
+    bt      .L_06038D64
     mov r7, r0
     mov.w   _wpool_param_0x201, r1
     mov.l   _pool_bitfield_rmw_b, r3
@@ -228,11 +228,11 @@ _pool_bitfield_rmw:
     or r3, r2
     extu.w r2, r2
     mov.w r2, @r13
-.L_check_b0_lo_alt:
+.L_06038D64:
     mov #0x2, r2
     and r4, r2
     tst r2, r2
-    bt      .L_check_b0_hi_nib
+    bt      .L_06038D84
     mov r7, r0
     mov.w   _wpool_param_0x201, r1
     mov.l   _pool_bitfield_rmw_b, r3
@@ -245,11 +245,11 @@ _pool_bitfield_rmw:
     or r3, r2
     extu.w r2, r2
     mov.w r2, @r13
-.L_check_b0_hi_nib:
+.L_06038D84:
     mov #0x8, r2
     and r4, r2
     tst r2, r2
-    bt      .L_check_b0_hi_alt
+    bt      .L_06038DA6
     mov r7, r0
     mov.w   _wpool_param_0x201, r1
     mov.l   _pool_bitfield_rmw_b, r3
@@ -263,11 +263,11 @@ _pool_bitfield_rmw:
     or r3, r2
     extu.w r2, r2
     mov.w r2, @r13
-.L_check_b0_hi_alt:
+.L_06038DA6:
     mov.w   _wpool_bit_b0_hi_alt, r2
     and r4, r2
     tst r2, r2
-    bt      .L_check_b2_lo_nib
+    bt      .L_06038DC8
     mov r7, r0
     mov.w   _wpool_param_0x201, r1
     mov.l   _pool_bitfield_rmw_b, r3
@@ -281,11 +281,11 @@ _pool_bitfield_rmw:
     or r3, r2
     extu.w r2, r2
     mov.w r2, @r13
-.L_check_b2_lo_nib:
+.L_06038DC8:
     mov #0x10, r2
     and r4, r2
     tst r2, r2
-    bt      .L_check_b2_hi_nib
+    bt      .L_06038DEC
     mov r7, r0
     mov.w   _wpool_param_0x201, r1
     mov.l   _pool_bitfield_rmw_b, r3
@@ -300,11 +300,11 @@ _pool_bitfield_rmw:
     extu.w r2, r2
     mov r2, r0
     mov.w r0, @(2, r13)
-.L_check_b2_hi_nib:
+.L_06038DEC:
     mov #0x20, r3
     and r4, r3
     tst r3, r3
-    bt      .L_check_final_field
+    bt      .L_06038E12
     mov r7, r0
     mov.w   _wpool_param_0x201, r1
     mov.l   _pool_bitfield_rmw_b, r3
@@ -320,10 +320,10 @@ _pool_bitfield_rmw:
     extu.w r2, r2
     mov r2, r0
     mov.w r0, @(2, r13)
-.L_check_final_field:
+.L_06038E12:
     and r7, r4
     tst r4, r4
-    bra     .L_final_field
+    bra     .L_06038E2C
     nop
 
     .global DAT_06038e1a
@@ -338,10 +338,10 @@ _wpool_bit_b0_hi_alt:
     .2byte  0xFFFF
 _pool_bitfield_rmw_b:
     .4byte  sym_06034F78                /* bitfield RMW utility (pool 2) */
-.L_bit_a6_hi:
+.L_06038E28:
     .4byte  0x00008000                  /* bitmask: bit 15 = array_a word[6] high nibble */
-.L_final_field:
-    bt      .L_epilogue
+.L_06038E2C:
+    bt      .L_06038E3C
     mov r7, r0
     mov.w   _wpool_param_0x201_b, r1
     mov.l   _pool_bitfield_rmw_c, r3
@@ -349,7 +349,7 @@ _pool_bitfield_rmw_b:
     mov r14, r2
     mov r5, r0
     mov.w r0, @(4, r13)
-.L_epilogue:
+.L_06038E3C:
     lds.l @r15+, pr
     mov.l @r15+, r9
     mov.l @r15+, r10

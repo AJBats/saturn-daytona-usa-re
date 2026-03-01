@@ -9,46 +9,46 @@ start_light_ctrl:
     mov.l r13, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    .byte   0xD3, 0x21    /* mov.l .L_light_state, r3 */
+    .byte   0xD3, 0x21    /* mov.l .L_0601A248, r3 */
     mov.w @r3, r2
     extu.w r2, r2
-    mov.w   .L_light_bits_mask, r3
+    mov.w   .L_0601A23A, r3
     and r3, r2
     tst r2, r2
-    bt/s    .L_check_anim_phase
+    bt/s    .L_0601A1FE
     mov #0x0, r14
     .byte   0xD4, 0x1B    /* mov.l .L_pool_0601A24D, r4 */
     mov.b @r4, r3
     add #0x1, r3
     mov.b r3, @r4
-    .byte   0xD4, 0x1C    /* mov.l .L_frame_ctr_b, r4 */
+    .byte   0xD4, 0x1C    /* mov.l .L_0601A24C, r4 */
     mov.b @r4, r2
     add #0x1, r2
     mov.b r2, @r4
-    .byte   0xD2, 0x1B    /* mov.l .L_reset_byte, r2 */
+    .byte   0xD2, 0x1B    /* mov.l .L_0601A250, r2 */
     mov.b r14, @r2
-    .byte   0xD2, 0x1B    /* mov.l .L_timer_word, r2 */
+    .byte   0xD2, 0x1B    /* mov.l .L_0601A254, r2 */
     mov.l r14, @r2
-    .byte   0xD4, 0x1B    /* mov.l .L_ctrl_flags, r4 */
-    .byte   0xD1, 0x1B    /* mov.l .L_sign_bit, r1 */
-    .byte   0xD3, 0x1C    /* mov.l .L_fn_state_handler, r3 */
+    .byte   0xD4, 0x1B    /* mov.l .L_0601A258, r4 */
+    .byte   0xD1, 0x1B    /* mov.l .L_0601A25C, r1 */
+    .byte   0xD3, 0x1C    /* mov.l .L_0601A260, r3 */
     mov.l @r4, r2
     or r1, r2
     jsr @r3
     mov.l r2, @r4
     mov #0x1, r2
-    .byte   0xD3, 0x1A    /* mov.l .L_active_flag, r3 */
+    .byte   0xD3, 0x1A    /* mov.l .L_0601A264, r3 */
     mov.b r2, @r3
-.L_check_anim_phase:
+.L_0601A1FE:
     mov #0x8, r3
-    .byte   0xDD, 0x19    /* mov.l .L_anim_phase, r13 */
+    .byte   0xDD, 0x19    /* mov.l .L_0601A268, r13 */
     mov.b @r13, r2
     extu.b r2, r2
     cmp/ge r3, r2
-    bt      .L_late_anim_phase
-    .byte   0xD7, 0x18    /* mov.l .L_vdp1_table_early, r7 */
-    mov.w   .L_vdp1_offset, r6
-    .byte   0xD3, 0x18    /* mov.l .L_anim_data, r3 */
+    bt      .L_0601A278
+    .byte   0xD7, 0x18    /* mov.l .L_0601A26C, r7 */
+    mov.w   .L_0601A23C, r6
+    .byte   0xD3, 0x18    /* mov.l .L_0601A270, r3 */
     mov.l r3, @r15
     mov r3, r5
     add #0xD, r5
@@ -67,45 +67,45 @@ start_light_ctrl:
     add #0x4, r15
     lds.l @r15+, pr
     mov.l @r15+, r13
-    .byte   0xD3, 0x0F    /* mov.l .L_fn_vdp1_draw, r3 */
+    .byte   0xD3, 0x0F    /* mov.l .L_0601A274, r3 */
     jmp @r3
     mov.l @r15+, r14
-.L_light_bits_mask:
+.L_0601A23A:
     .2byte  0x0600                        /* traffic light state bits 10:9 */
-.L_vdp1_offset:
+.L_0601A23C:
     .2byte  0x0090                        /* VDP1 command table offset */
     .2byte  0xFFFF
 .L_pool_0601A24D:
     .4byte  sym_06085FF2               /* frame counter A (byte) */
     .4byte  sym_0605D280               /* (adjacent data) */
-.L_light_state:
+.L_0601A248:
     .4byte  sym_06063D9A               /* traffic light state register (16-bit) */
-.L_frame_ctr_b:
+.L_0601A24C:
     .4byte  sym_06085FF3               /* frame counter B (byte) */
-.L_reset_byte:
+.L_0601A250:
     .4byte  sym_0605D245               /* animation reset byte */
-.L_timer_word:
+.L_0601A254:
     .4byte  sym_06059F44               /* animation timer (32-bit, cleared on change) */
-.L_ctrl_flags:
+.L_0601A258:
     .4byte  sym_0605B6D8               /* control flags (sign bit = state change) */
-.L_sign_bit:
+.L_0601A25C:
     .4byte  0x80000000                  /* sign bit / negative flag */
-.L_fn_state_handler:
+.L_0601A260:
     .4byte  sym_06026CE0               /* light state change handler */
-.L_active_flag:
+.L_0601A264:
     .4byte  sym_06085FF1               /* light active flag (byte, 1 = active) */
-.L_anim_phase:
+.L_0601A268:
     .4byte  sym_0605D242               /* animation phase counter (byte, 0-16+) */
-.L_vdp1_table_early:
+.L_0601A26C:
     .4byte  sym_06049E48               /* VDP1 display table (early phase) */
-.L_anim_data:
+.L_0601A270:
     .4byte  sym_06049AFC               /* animation data struct (sprite indices) */
-.L_fn_vdp1_draw:
+.L_0601A274:
     .4byte  sym_060284AE               /* VDP1 sprite draw function */
-.L_late_anim_phase:
+.L_0601A278:
     .byte   0xD7, 0x25    /* mov.l .L_vdp1_table_late, r7 */
     .byte   0x96, 0x48    /* mov.w .L_wpool_0601A30E, r6 */
-    .byte   0xD2, 0x25    /* mov.l .L_anim_data_late, r2 */
+    .byte   0xD2, 0x25    /* mov.l .L_0601A270_late, r2 */
     mov.l @r7, r7
     mov r2, r5
     mov r2, r3
@@ -121,7 +121,7 @@ start_light_ctrl:
     shll2 r5
     add r3, r5
     add #0xD, r5
-    .byte   0xD3, 0x1E    /* mov.l .L_fn_vdp1_draw_late, r3 */
+    .byte   0xD3, 0x1E    /* mov.l .L_0601A274_late, r3 */
     shll r5
     jsr @r3
     mov #0xC, r4
@@ -129,10 +129,10 @@ start_light_ctrl:
     mov #0x10, r3
     extu.b r2, r2
     cmp/gt r3, r2
-    bf      .L_epilogue
+    bf      .L_0601A2B2
     extu.b r14, r3
     mov.b r3, @r13
-.L_epilogue:
+.L_0601A2B2:
     add #0x4, r15
     lds.l @r15+, pr
     mov.l @r15+, r13

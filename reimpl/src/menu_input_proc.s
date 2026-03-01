@@ -15,31 +15,31 @@ menu_input_proc:
     mov.l r5, @r15
     .byte   0xDD, 0x0F    /* mov.l .L_pool_0603AD3A, r13 */
     tst r0, r0
-    bf/s    .L_active_input_path
+    bf/s    .L_0603AD40
     mov r4, r12
 
     mov.l @r13, r3
     mov.w   .L_wpool_0603AD30, r0
     mov.l @(r0, r3), r0
     tst r0, r0
-    bt      .L_attract_flag_clear
+    bt      .L_0603AD14
     .byte   0xB6, 0x16    /* bsr 0x0603B93C (external) */
     mov #-0x7, r4
-    bra     .L_return
+    bra     .L_0603AD9E
     nop
-.L_attract_flag_clear:
+.L_0603AD14:
     .byte   0xD3, 0x09    /* mov.l .L_pool_0603AD3E, r3 */
     jsr @r3
     mov r12, r4
     mov r0, r4
     cmp/pz r4
-    bt      .L_return_result
+    bt      .L_0603AD28
     .byte   0xB6, 0x0C    /* bsr 0x0603B93C (external) */
     mov #-0x1, r4
-    bra     .L_return
+    bra     .L_0603AD9E
     nop
-.L_return_result:
-    bra     .L_return
+.L_0603AD28:
+    bra     .L_0603AD9E
     mov r4, r0
 .L_wpool_0603AD2E:
     .2byte  0xFF0C
@@ -52,41 +52,41 @@ menu_input_proc:
 .L_pool_0603AD3E:
     .4byte  credits_scroll_entry
 
-.L_active_input_path:
+.L_0603AD40:
     mov.l @r13, r2
     .byte   0x90, 0x4A    /* mov.w .L_wpool_0603ADDA, r0 */
     mov.l @(r0, r2), r0
     tst r0, r0
-    bf      .L_flag_nonzero
+    bf      .L_0603AD5A
     mov.l @r13, r5
     .byte   0x90, 0x46    /* mov.w .L_wpool_0603ADDC, r0 */
     .byte   0xD3, 0x24    /* mov.l .L_pool_0603ADE0, r3 */
     mov.l @(r0, r5), r5
     jsr @r3
     mov r12, r4
-    bra     .L_dispatch_done
+    bra     .L_0603AD66
     nop
-.L_flag_nonzero:
+.L_0603AD5A:
     mov.l @r13, r5
     .byte   0x90, 0x3E    /* mov.w .L_wpool_0603ADDC, r0 */
     .byte   0xD3, 0x21    /* mov.l .L_pool_0603ADE4, r3 */
     mov.l @(r0, r5), r5
     jsr @r3
     mov r12, r4
-.L_dispatch_done:
+.L_0603AD66:
     mov r0, r14
     mov.b @(11, r14), r0
     extu.b r0, r0
     tst #0x10, r0
-    bt      .L_no_input_flag
-    bra     .L_process_input
+    bt      .L_0603AD74
+    bra     .L_0603AD7C
     nop
-.L_no_input_flag:
+.L_0603AD74:
     .byte   0xB5, 0xE2    /* bsr 0x0603B93C (external) */
     mov #-0x6, r4
-    bra     .L_return
+    bra     .L_0603AD9E
     nop
-.L_process_input:
+.L_0603AD7C:
     mov r12, r6
     mov r14, r5
     mov r15, r4
@@ -105,7 +105,7 @@ menu_input_proc:
     mov #0x0, r4
     mov.l @r15, r0
 
-.L_return:
+.L_0603AD9E:
     .byte   0x91, 0x1E    /* mov.w .L_wpool_0603ADDE, r1 */
     add r1, r15
     lds.l @r15+, pr

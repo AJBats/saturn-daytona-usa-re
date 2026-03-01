@@ -15,22 +15,22 @@ scene_process_a:
     sts.l pr, @-r15
     add #-0x18, r15
     mov.w   DAT_0602528a, r8
-    mov.l   .L_obj_table_base, r12
-    mov.l   .L_fn_layer_setup, r14
+    mov.l   .L_06025294, r12
+    mov.l   .L_06025298, r14
     mov r8, r11
     mov.l r4, @(4, r15)
-    mov.l   .L_game_state_ptr, r4
-    mov.w   .L_scene_data_size, r13
-    mov.w   .L_obj_table_offset, r10
+    mov.l   .L_0602529C, r4
+    mov.w   .L_0602528C, r13
+    mov.w   .L_0602528E, r10
     mov.b @r4, r0
     extu.b r0, r0
     cmp/eq #0x4, r0
-    bf/s    .L_not_state4
+    bf/s    .L_06025272
     add #0xB, r11
-    mov.l   .L_scene_data_state4, r7
+    mov.l   .L_060252A0, r7
     mov r13, r5
-    mov.l   .L_fn_geom_dispatch, r3
-    mov.w   .L_dma_size_small, r6
+    mov.l   .L_060252A4, r3
+    mov.w   .L_06025290, r6
     jsr @r3
     mov #0x8, r4
     mov r12, r7
@@ -42,55 +42,55 @@ scene_process_a:
     mov.l @r5, r5
     jsr @r14
     mov #0x8, r4
-    bra     .L_slot_dispatch
+    bra     .L_060252D0
     nop
-.L_not_state4:
+.L_06025272:
     mov.b @r4, r0
     extu.b r0, r0
     cmp/eq #0x5, r0
-    bf      .L_state_default
-    mov.l   .L_scene_data_state5, r7
+    bf      .L_060252AC
+    mov.l   .L_060252A8, r7
     mov r13, r5
-    mov.l   .L_fn_geom_dispatch, r3
-    mov.w   .L_dma_size_small, r6
+    mov.l   .L_060252A4, r3
+    mov.w   .L_06025290, r6
     jsr @r3
     mov #0x8, r4
-    bra     .L_layer_setup_common
+    bra     .L_060252B8
     nop
 
     .global DAT_0602528a
 DAT_0602528a:
     .2byte  0x00A9                      /* render param (physics mode) */
-.L_scene_data_size:
+.L_0602528C:
     .2byte  0x0C08                      /* scene data block size */
-.L_obj_table_offset:
+.L_0602528E:
     .2byte  0x0590                      /* offset into obj table for main entry */
-.L_dma_size_small:
+.L_06025290:
     .2byte  0x0090                      /* DMA transfer size (small) */
 
     .global DAT_06025292
 DAT_06025292:
     .2byte  0x0C3E                      /* layer size for state 4 extra pass */
-.L_obj_table_base:
+.L_06025294:
     .4byte  sym_06063750                /* car/obj table base (8-byte stride) */
-.L_fn_layer_setup:
+.L_06025298:
     .4byte  sym_06028400                /* layer setup / geometry dispatch */
-.L_game_state_ptr:
+.L_0602529C:
     .4byte  sym_06061198                /* game state byte */
-.L_scene_data_state4:
+.L_060252A0:
     .4byte  sym_060590B8                /* scene data for state 4 (race) */
-.L_fn_geom_dispatch:
+.L_060252A4:
     .4byte  sym_060284AE                /* geometry dispatch function */
-.L_scene_data_state5:
+.L_060252A8:
     .4byte  sym_060590E0                /* scene data for state 5 (post-race) */
-.L_state_default:
-    mov.l   .L_scene_data_default, r7
+.L_060252AC:
+    mov.l   .L_06025390, r7
     mov r13, r5
-    mov.l   .L_fn_geom_dispatch_2, r3
-    mov.w   .L_dma_size_small_2, r6
+    mov.l   .L_06025394, r3
+    mov.w   .L_06025378, r6
     jsr @r3
     mov #0x8, r4
-.L_layer_setup_common:
+.L_060252B8:
     mov r12, r13
     mov.w   DAT_0602537a, r6
     add r10, r13
@@ -103,12 +103,12 @@ DAT_06025292:
     mov.l @r13, r5
     jsr @r14
     mov #0x8, r4
-.L_slot_dispatch:
+.L_060252D0:
     mov.l @(4, r15), r7
-    mov.l   .L_scene_slot_table, r3
-    mov.w   .L_dma_size_small_2, r6
+    mov.l   .L_06025398, r3
+    mov.w   .L_06025378, r6
     mov.w   DAT_0602537e, r5
-    mov.l   .L_fn_geom_dispatch_2, r2
+    mov.l   .L_06025394, r2
     shll2 r7
     shll r7
     add r3, r7
@@ -130,7 +130,7 @@ DAT_06025292:
     mov.l r7, @r15
     mov.l @(4, r7), r7
     mov.w   DAT_06025386, r3
-    mov.w   .L_dma_size_mid, r6
+    mov.w   .L_06025388, r6
     mov.l @r15, r5
     add r3, r7
     mov.l @r5, r5
@@ -141,7 +141,7 @@ DAT_06025292:
     mov.l r7, @r15
     mov.l @(4, r7), r7
     mov.w   DAT_06025386, r3
-    mov.w   .L_dma_size_large, r6
+    mov.w   .L_0602538C, r6
     mov.l @r15, r5
     add r3, r7
     mov.l @r5, r5
@@ -150,11 +150,11 @@ DAT_06025292:
     mov #0x0, r13
     mov.l @(4, r15), r10
     shll2 r10
-    mov.l   .L_render_record_table, r3
+    mov.l   .L_0602539C, r3
     add r3, r10
-.L_car_loop_start:
+.L_06025330:
     extu.w r8, r5
-    mov.l   .L_fn_car_physics, r3
+    mov.l   .L_060253A0, r3
     jsr @r3
     extu.w r13, r4
     mov r13, r2
@@ -166,18 +166,18 @@ DAT_06025292:
     mov r0, r2
     extu.w r2, r2
     cmp/eq r11, r2
-    bf      .L_render_dispatch
-    mov.l   .L_game_state_ptr_2, r0
+    bf      .L_06025360
+    mov.l   .L_060253A4, r0
     mov.b @r0, r0
     extu.b r0, r0
     cmp/eq #0x4, r0
-    bt      .L_render_dispatch
-    mov.l   .L_game_state_ptr_2, r0
+    bt      .L_06025360
+    mov.l   .L_060253A4, r0
     mov.b @r0, r0
     extu.b r0, r0
     cmp/eq #0x5, r0
-    bf      .L_next_slot
-.L_render_dispatch:
+    bf      .L_06025446
+.L_06025360:
     mov r13, r9
     mov.l @r10, r3
     shll2 r9
@@ -187,10 +187,10 @@ DAT_06025292:
     mov r0, r2
     extu.w r2, r2
     cmp/eq r11, r2
-    bt      .L_use_type_9
-    bra     .L_render_record_proc
+    bt      .L_060253A8
+    bra     .L_060253AA
     mov #0x8, r2
-.L_dma_size_small_2:
+.L_06025378:
     .2byte  0x0090                      /* DMA transfer size (small, 2nd pool copy) */
 
     .global DAT_0602537a
@@ -220,36 +220,36 @@ DAT_06025384:
     .global DAT_06025386
 DAT_06025386:
     .2byte  0x7000                      /* frame data offset: layers 2 & 3 */
-.L_dma_size_mid:
+.L_06025388:
     .2byte  0x02A0                      /* DMA transfer size (medium) */
 
     .global DAT_0602538a
 DAT_0602538a:
     .2byte  0x0438                      /* obj table offset: layer 3 */
-.L_dma_size_large:
+.L_0602538C:
     .2byte  0x02B4                      /* DMA transfer size (large) */
     .2byte  0xFFFF                      /* alignment padding */
-.L_scene_data_default:
+.L_06025390:
     .4byte  sym_06059104                /* scene data for default state */
-.L_fn_geom_dispatch_2:
+.L_06025394:
     .4byte  sym_060284AE                /* geometry dispatch (2nd pool copy) */
-.L_scene_slot_table:
+.L_06025398:
     .4byte  sym_06058F94                /* scene slot table base */
-.L_render_record_table:
+.L_0602539C:
     .4byte  sym_06061170                /* render record table (4-byte per car) */
-.L_fn_car_physics:
+.L_060253A0:
     .4byte  car_physics_final           /* per-car physics final update */
-.L_game_state_ptr_2:
+.L_060253A4:
     .4byte  sym_06061198                /* game state byte (2nd pool copy) */
-.L_use_type_9:
+.L_060253A8:
     mov #0x9, r2
-.L_render_record_proc:
+.L_060253AA:
     extu.w r2, r2
     mov r13, r6
     mov r2, r0
     shll r6
     mov.w r0, @(16, r15)
-    mov.l   .L_slot_offset_table, r7
+    mov.l   .L_06025468, r7
     add r9, r7
     mov.l r7, @r15
     mov.l @r7, r7
@@ -258,10 +258,10 @@ DAT_0602538a:
     add r12, r7
     mov.l r7, @(8, r15)
     mov.l @(4, r7), r7
-    mov.l   .L_fp_half, r3
+    mov.l   .L_0602546C, r3
     mov.l r6, @(4, r15)
     add r3, r7
-    mov.l   .L_dir_table_a, r3
+    mov.l   .L_06025470, r3
     add r3, r6
     mov.l r6, @(12, r15)
     mov.b @(1, r6), r0
@@ -302,7 +302,7 @@ DAT_0602538a:
     mov.l @(4, r2), r3
     add r3, r7
     mov.l @(4, r15), r6
-    mov.l   .L_dir_table_b, r3
+    mov.l   .L_06025474, r3
     add r3, r6
     mov.l r6, @r15
     mov.b @(1, r6), r0
@@ -322,14 +322,14 @@ DAT_0602538a:
     mov.l @r4, r4
     jsr @r14
     shll2 r4
-.L_next_slot:
+.L_06025446:
     add #0x1, r13
     mov #0xA, r3
     cmp/ge r3, r13
-    bt      .L_epilogue
-    bra     .L_car_loop_start
+    bt      .L_06025452
+    bra     .L_06025330
     nop
-.L_epilogue:
+.L_06025452:
     add #0x18, r15
     lds.l @r15+, pr
     mov.l @r15+, r8
@@ -341,11 +341,11 @@ DAT_0602538a:
     rts
     mov.l @r15+, r14
     .2byte  0xFFFF                      /* alignment padding */
-.L_slot_offset_table:
+.L_06025468:
     .4byte  sym_06058FBC                /* per-slot offset entries (8-byte stride) */
-.L_fp_half:
+.L_0602546C:
     .4byte  0x00008000                  /* 0.5 (16.16 fixed-point rounding) */
-.L_dir_table_a:
+.L_06025470:
     .4byte  sym_0605904C                /* direction pair table A (2-byte stride) */
-.L_dir_table_b:
+.L_06025474:
     .4byte  sym_06059060                /* direction pair table B (2-byte stride) */

@@ -9,8 +9,8 @@ audio_dist_calc:
     add #-0x1, r4
     add #-0x10, r15
     shll2 r4
-    mov.l   .L_car_struct_ptr, r5
-    mov.l   .L_course_data_ptr, r0
+    mov.l   .L_0600DE20, r5
+    mov.l   .L_0600DE24, r0
     mov.l @r5, r5
     mov.l @r0, r0
     mov.l @(16, r5), r6
@@ -30,14 +30,14 @@ audio_dist_calc:
     mov r7, r2
     sub r6, r2
     cmp/pz r2
-    bt/s    .L_x_diff_positive
+    bt/s    .L_0600DDC4
     mov.l r2, @(12, r15)
     mov r6, r3
-    bra     .L_x_abs_done
+    bra     .L_0600DDC6
     sub r7, r3
-.L_x_diff_positive:
+.L_0600DDC4:
     mov.l @(12, r15), r3
-.L_x_abs_done:
+.L_0600DDC6:
     mov.l @(4, r4), r2
     mov.l r2, @(4, r15)
     mov.l @(24, r5), r2
@@ -46,27 +46,27 @@ audio_dist_calc:
     mov.l @(8, r15), r1
     sub r1, r2
     cmp/pz r2
-    bt/s    .L_y_diff_positive
+    bt/s    .L_0600DDE4
     mov.l r2, @r15
     mov.l @(8, r15), r1
     mov.l @(4, r15), r2
     sub r2, r1
-    bra     .L_y_abs_done
+    bra     .L_0600DDE6
     nop
-.L_y_diff_positive:
+.L_0600DDE4:
     mov.l @r15, r1
-.L_y_abs_done:
+.L_0600DDE6:
     mov r3, r4
-    mov.l   .L_p_audio_elapsed, r6
+    mov.l   .L_0600DE28, r6
     add r1, r4
-    mov.l   .L_fn_scale_divide, r3
+    mov.l   .L_0600DE2C, r3
     mov r4, r1
     jsr @r3
     mov.l @(12, r5), r0
     mov.l r0, @r6
     mov r0, r1
-    mov.l   .L_p_audio_remaining, r4
-    mov.l   .L_p_frame_counter, r2
+    mov.l   .L_0600DE30, r4
+    mov.l   .L_0600DE34, r2
     mov.l @r2, r2
     mov r2, r3
     shll2 r2
@@ -74,10 +74,10 @@ audio_dist_calc:
     sub r1, r2
     mov r2, r3
     mov.l r2, @r4
-    mov.l   .L_p_prev_remaining, r5
+    mov.l   .L_0600DE38, r5
     mov.l @r5, r2
     sub r2, r3
-    mov.l   .L_p_remaining_delta, r2
+    mov.l   .L_0600DE3C, r2
     mov.l r3, @r2
     mov.l @r4, r3
     add #0x10, r15
@@ -88,19 +88,19 @@ audio_dist_calc:
     .global DAT_0600de1e
 DAT_0600de1e:
     .2byte  0x01E0                           /* car_struct offset to audio data array pointer */
-.L_car_struct_ptr:
+.L_0600DE20:
     .4byte  sym_0607E940                     /* → current car struct pointer */
-.L_course_data_ptr:
+.L_0600DE24:
     .4byte  sym_06063F3C                     /* → current course data entry pointer */
-.L_p_audio_elapsed:
+.L_0600DE28:
     .4byte  sym_0607869C                     /* → audio_elapsed output (scaled distance) */
-.L_fn_scale_divide:
+.L_0600DE2C:
     .4byte  sym_06034FE0                     /* → scale/divide function */
-.L_p_audio_remaining:
+.L_0600DE30:
     .4byte  sym_060786B0                     /* → audio_remaining output (frame_counter*5 - elapsed) */
-.L_p_frame_counter:
+.L_0600DE34:
     .4byte  sym_0607EBD0                     /* → frame counter (32-bit) */
-.L_p_prev_remaining:
+.L_0600DE38:
     .4byte  sym_0605A21C                     /* → previous remaining value (in/out) */
-.L_p_remaining_delta:
+.L_0600DE3C:
     .4byte  sym_060786A0                     /* → remaining_delta output (remaining - prev_remaining) */

@@ -21,27 +21,27 @@ ai_waypoint_pathfind:
     mov.l   .L_pool_06014DF4, r4
     mov.b @r4, r3
     tst r3, r3
-    bt/s    .L_check_traffic_light
+    bt/s    .L_06014D54
     mov #0x1, r13
-    bra     .L_post_pathfind
+    bra     .L_06014E70
     nop
-.L_check_traffic_light:
+.L_06014D54:
     mov.l   .L_pool_06014DF8, r3
     mov.w @r3, r2
     mov.w   DAT_06014de4, r3
     extu.w r2, r2
     and r3, r2
     tst r2, r2
-    bf      .L_race_flag_dispatch
-    bra     .L_post_pathfind
+    bf      .L_06014D66
+    bra     .L_06014E70
     nop
-.L_race_flag_dispatch:
+.L_06014D66:
     mov #0x4, r7
     mov.l   .L_pool_06014DFC, r3
     mov.l @r3, r3
     and r13, r3
     tst r3, r3
-    bf/s    .L_path_b_race_complete
+    bf/s    .L_06014E04
     mov #0xB, r6
     mov.w @r14, r5
     extu.w r5, r5
@@ -54,32 +54,32 @@ ai_waypoint_pathfind:
     neg r1, r1
     and r1, r0
     tst r0, r0
-    bt      .L_path_a_wide_range
+    bt      .L_06014DB8
     exts.b r13, r3
     mov.b r3, @r4
     extu.b r9, r10
-.L_path_a_handler_loop:
+.L_06014D92:
     mov.l   .L_pool_06014E00, r3
     jsr @r3
     extu.b r10, r4
     add #0x1, r10
     extu.b r10, r2
     cmp/ge r12, r2
-    bf      .L_path_a_handler_loop
+    bf      .L_06014D92
     exts.w r13, r2
     mov.w r2, @r8
     mov #0x14, r2
     mov.w @r14, r3
     extu.w r3, r3
     cmp/gt r2, r3
-    bf/s    .L_path_a_write_phase
+    bf/s    .L_06014DB2
     mov #0x20, r4
     mov #0x22, r4
-.L_path_a_write_phase:
+.L_06014DB2:
     extu.b r4, r4
-    bra     .L_post_pathfind
+    bra     .L_06014E70
     mov.w r4, @r14
-.L_path_a_wide_range:
+.L_06014DB8:
     mov.w @r14, r5
     extu.w r5, r5
     cmp/ge r7, r5
@@ -91,7 +91,7 @@ ai_waypoint_pathfind:
     neg r1, r1
     and r1, r0
     tst r0, r0
-    bt      .L_path_a_skip
+    bt      .L_06014DE0
     mov.b r13, @r4
     exts.w r13, r2
     mov.w r2, @r8
@@ -100,8 +100,8 @@ ai_waypoint_pathfind:
     add #0x12, r3
     extu.w r3, r3
     mov.w r3, @r14
-.L_path_a_skip:
-    bra     .L_post_pathfind
+.L_06014DE0:
+    bra     .L_06014E70
     nop
 
     .global DAT_06014de4
@@ -122,7 +122,7 @@ DAT_06014de4:
     .4byte  sym_0607EBF4               /* race complete flag (bit 0 checked) */
 .L_pool_06014E00:
     .4byte  sym_060172E4               /* waypoint handler function */
-.L_path_b_race_complete:
+.L_06014E04:
     mov.w @r14, r5
     extu.w r5, r5
     cmp/gt r6, r5
@@ -134,32 +134,32 @@ DAT_06014de4:
     neg r1, r1
     and r1, r0
     tst r0, r0
-    bt      .L_path_b_wide_range
+    bt      .L_06014E48
     exts.b r13, r3
     mov.b r3, @r4
     extu.b r9, r10
-.L_path_b_handler_loop:
+.L_06014E22:
     mov.l   .L_pool_06014F14, r3
     jsr @r3
     extu.b r10, r4
     add #0x1, r10
     extu.b r10, r2
     cmp/ge r12, r2
-    bf      .L_path_b_handler_loop
+    bf      .L_06014E22
     exts.w r13, r2
     mov.w r2, @r8
     mov #0x14, r2
     mov.w @r14, r3
     extu.w r3, r3
     cmp/gt r2, r3
-    bf/s    .L_path_b_write_phase
+    bf/s    .L_06014E42
     mov #0x23, r4
     mov #0x26, r4
-.L_path_b_write_phase:
+.L_06014E42:
     extu.b r4, r4
-    bra     .L_post_pathfind
+    bra     .L_06014E70
     mov.w r4, @r14
-.L_path_b_wide_range:
+.L_06014E48:
     mov.w @r14, r5
     extu.w r5, r5
     cmp/ge r7, r5
@@ -171,7 +171,7 @@ DAT_06014de4:
     neg r1, r1
     and r1, r0
     tst r0, r0
-    bt      .L_post_pathfind
+    bt      .L_06014E70
     mov.b r13, @r4
     exts.w r13, r2
     mov.w r2, @r8
@@ -180,15 +180,15 @@ DAT_06014de4:
     add #0x13, r3
     extu.w r3, r3
     mov.w r3, @r14
-.L_post_pathfind:
+.L_06014E70:
     mov.l   .L_pool_06014F18, r0
     mov.b @r0, r0
     tst r0, r0
-    bt      .L_skip_compact
+    bt      .L_06014E7E
     mov.l   .L_pool_06014F1C, r3
     jsr @r3
     nop
-.L_skip_compact:
+.L_06014E7E:
     .byte   0xB0, 0x59    /* bsr 0x06014F34 (external) */
     nop
     mov.l   .L_pool_06014F20, r3
@@ -202,7 +202,7 @@ DAT_06014de4:
     shll2 r10
     shll r10
     add r11, r10
-.L_slot_loop:
+.L_06014E98:
     extu.b r4, r6
     mov.l   .L_pool_06014F28, r2
     mov r6, r3
@@ -230,7 +230,7 @@ DAT_06014de4:
     neg r1, r1
     and r1, r0
     tst r0, r0
-    bt      .L_slot_inactive_flags
+    bt      .L_06014EE4
     extu.b r4, r3
     add r5, r3
     shll2 r3
@@ -239,9 +239,9 @@ DAT_06014de4:
     mov #0x44, r2
     mov r2, r0
     mov.w r0, @(6, r3)
-    bra     .L_slot_write_flag_b
+    bra     .L_06014EF6
     mov #0x48, r0
-.L_slot_inactive_flags:
+.L_06014EE4:
     extu.b r4, r2
     add r5, r2
     shll2 r2
@@ -251,11 +251,11 @@ DAT_06014de4:
     mov.w r0, @(6, r2)
     mov #0x50, r3
     mov r3, r0
-.L_slot_write_flag_b:
+.L_06014EF6:
     add #0x1, r4
     extu.b r4, r3
     cmp/ge r9, r3
-    bf/s    .L_slot_loop
+    bf/s    .L_06014E98
     mov.w r0, @(6, r10)
     lds.l @r15+, pr
     mov.l @r15+, r8

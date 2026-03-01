@@ -6,64 +6,64 @@
     .type vdp1_display_list_setup, @function
 vdp1_display_list_setup:
     sts.l pr, @-r15
-    mov.w   .L_off_flag_word_a, r1
-    mov.w   .L_off_flag_word_b, r2
+    mov.w   .L_0602C71A, r1
+    mov.w   .L_0602C71C, r2
     mov.l @(r0, r1), r3
     mov.l @(r0, r2), r4
-    bsr     .L_activation_weight_calc
+    bsr     .L_0602C7FC
     or r3, r4
     mov r4, r10
-    mov.w   .L_off_flag_word_c, r1
-    mov.w   .L_off_flag_word_d, r2
+    mov.w   .L_0602C71E, r1
+    mov.w   .L_0602C720, r2
     mov.l @(r0, r1), r3
     mov.l @(r0, r2), r4
-    bsr     .L_activation_weight_calc
+    bsr     .L_0602C7FC
     or r3, r4
     mov r4, r11
-    mov.w   .L_off_vel_x, r1
-    mov.w   .L_off_vel_y, r2
+    mov.w   .L_0602C722, r1
+    mov.w   .L_0602C724, r2
     mov.l @(r0, r1), r5
     mov.l @(r0, r2), r6
     neg r5, r5
     neg r6, r6
     mov r0, r14
-    mov.w   .L_off_vel_state_x, r1
-    mov.w   .L_off_vel_state_y, r2
+    mov.w   .L_0602C726, r1
+    mov.w   .L_0602C728, r2
     mov.l @(r0, r1), r9
     mov.l @(r0, r2), r4
     mov r9, r7
     xor r5, r7
     cmp/pz r7
-    bt      .L_signs_agree
+    bt      .L_0602C6CE
     mov #0x0, r9
-.L_signs_agree:
+.L_0602C6CE:
     mov.l r6, @-r15
     mov.l r5, @-r15
-    mov.l   .L_horiz_scale_factor, r5
+    mov.l   .L_0602C72C, r5
     mov r4, r7
     dmuls.l r4, r5
-    mov.l   .L_vert_scale_factor, r1
+    mov.l   .L_0602C730, r1
     sts mach, r4
     sts macl, r8
     mov #0x0, r13
     xtrct r4, r8
     dmuls.l r7, r1
     mov.l @(28, r0), r4
-    mov.l   .L_sin_index_range, r5
+    mov.l   .L_0602C734, r5
     sts mach, r1
     sts macl, r7
-    mov.l   .L_sin_lookup_ptr, r0
+    mov.l   .L_0602C738, r0
     xtrct r1, r7
     cmp/pz r4
-    bt      .L_heading_valid
+    bt      .L_0602C6F8
     mov #0x0, r4
     mov #0x0, r13
-.L_heading_valid:
+.L_0602C6F8:
     jsr @r0
     shar r4
     dmuls.l r0, r5
-    mov.w   .L_off_speed_delta, r1
-    mov.l   .L_normalize_factor, r3
+    mov.w   .L_0602C72A, r1
+    mov.l   .L_0602C73C, r3
     sts mach, r5
     sts macl, r4
     mov r14, r0
@@ -71,72 +71,72 @@ vdp1_display_list_setup:
     tst r13, r13
     mov r4, r13
     mov.l @(r0, r1), r5
-    bf      .L_heading_was_invalid
+    bf      .L_0602C740
     shll r13
     add r5, r13
-    bra     .L_compute_scale_products
+    bra     .L_0602C748
     add r4, r5
 
     .global DAT_0602c71a
-.L_off_flag_word_a:
+.L_0602C71A:
 DAT_0602c71a:
     .2byte  0x0120                      /* car+0x120: activation flag word A [HIGH] */
 
     .global DAT_0602c71c
-.L_off_flag_word_b:
+.L_0602C71C:
 DAT_0602c71c:
     .2byte  0x0124                      /* car+0x124: activation flag word B [HIGH] */
 
     .global DAT_0602c71e
-.L_off_flag_word_c:
+.L_0602C71E:
 DAT_0602c71e:
     .2byte  0x0128                      /* car+0x128: activation flag word C [HIGH] */
 
     .global DAT_0602c720
-.L_off_flag_word_d:
+.L_0602C720:
 DAT_0602c720:
     .2byte  0x012C                      /* car+0x12C: activation flag word D [HIGH] */
 
     .global DAT_0602c722
-.L_off_vel_x:
+.L_0602C722:
 DAT_0602c722:
     .2byte  0x0060                      /* car+0x60: velocity X component [HIGH] */
 
     .global DAT_0602c724
-.L_off_vel_y:
+.L_0602C724:
 DAT_0602c724:
     .2byte  0x0064                      /* car+0x64: velocity Y component [HIGH] */
 
     .global DAT_0602c726
-.L_off_vel_state_x:
+.L_0602C726:
 DAT_0602c726:
     .2byte  0x0100                      /* car+0x100: velocity state X [HIGH] */
 
     .global DAT_0602c728
-.L_off_vel_state_y:
+.L_0602C728:
 DAT_0602c728:
     .2byte  0x0104                      /* car+0x104: velocity state Y [HIGH] */
 
     .global DAT_0602c72a
-.L_off_speed_delta:
+.L_0602C72A:
 DAT_0602c72a:
     .2byte  0x00FC                      /* car+0xFC: clamped speed delta [HIGH] */
-.L_horiz_scale_factor:
+.L_0602C72C:
     .4byte  0x03700000                  /* 0x03700000 = ~880.0 FP16.16 horizontal velocity scale factor [HIGH] */
-.L_vert_scale_factor:
+.L_0602C730:
     .4byte  0x02D00000                  /* 0x02D00000 = ~720.0 FP16.16 vertical velocity scale factor [HIGH] */
-.L_sin_index_range:
+.L_0602C734:
     .4byte  0x00000645                  /* 0x645 = 1605, sin table index range [MEDIUM] */
-.L_sin_lookup_ptr:
+.L_0602C738:
     .4byte  sin_lookup                  /* -> sin_lookup function (trig table) [HIGH] */
-.L_normalize_factor:
+.L_0602C73C:
     .4byte  0x251B1285                  /* FP normalization constant for scale blend [MEDIUM] */
-.L_heading_was_invalid:
+.L_0602C740:
     neg r13, r13
     shll r13
     add r5, r13
     add r4, r5
-.L_compute_scale_products:
+.L_0602C748:
     dmuls.l r3, r5
     mov.l @r15+, r5
     sts mach, r4
@@ -154,7 +154,7 @@ DAT_0602c72a:
     add r8, r5
     sub r0, r5
     dmuls.l r10, r5
-    mov.l   .L_display_scale_norm, r3
+    mov.l   .L_0602C7A8, r3
     sts mach, r5
     sts macl, r4
     xtrct r5, r4
@@ -170,7 +170,7 @@ DAT_0602c72a:
     add r7, r4
     add r13, r4
     dmuls.l r4, r11
-    mov.l   .L_display_scale_norm, r3
+    mov.l   .L_0602C7A8, r3
     sts mach, r5
     sts macl, r4
     xtrct r5, r4
@@ -178,43 +178,43 @@ DAT_0602c72a:
     sts mach, r4
     sts macl, r11
     xtrct r4, r11
-    mov.l   .L_x_scale_min, r1
-    mov.l   .L_x_scale_max, r2
+    mov.l   .L_0602C7AC, r1
+    mov.l   .L_0602C7B0, r2
     cmp/gt r1, r10
-    bt      .L_x_above_min
+    bt      .L_0602C7B4
     mov r1, r10
-    bra     .L_x_clamped
+    bra     .L_0602C7BA
     nop
-.L_display_scale_norm:
+.L_0602C7A8:
     .4byte  0x00028000                  /* 0x00028000 = ~2.5 FP16.16 display scale normalization [HIGH] */
-.L_x_scale_min:
+.L_0602C7AC:
     .4byte  0x01600000                  /* 0x01600000 = ~352.0 FP16.16 minimum X display scale [HIGH] */
-.L_x_scale_max:
+.L_0602C7B0:
     .4byte  0x0C080000                  /* 0x0C080000 = ~3080.0 FP16.16 maximum X display scale [HIGH] */
-.L_x_above_min:
+.L_0602C7B4:
     cmp/ge r10, r2
-    bt      .L_x_clamped
+    bt      .L_0602C7BA
     mov r2, r10
-.L_x_clamped:
-    mov.l   .L_y_scale_min, r1
-    mov.l   .L_y_scale_max, r2
+.L_0602C7BA:
+    mov.l   .L_0602C7C8, r1
+    mov.l   .L_0602C7CC, r2
     cmp/gt r1, r11
-    bt      .L_y_above_min
+    bt      .L_0602C7D0
     mov r1, r11
-    bra     .L_y_clamped
+    bra     .L_0602C7D6
     nop
-.L_y_scale_min:
+.L_0602C7C8:
     .4byte  0x01200000                  /* 0x01200000 = ~288.0 FP16.16 minimum Y display scale [HIGH] */
-.L_y_scale_max:
+.L_0602C7CC:
     .4byte  0x09D80000                  /* 0x09D80000 = ~2520.0 FP16.16 maximum Y display scale [HIGH] */
-.L_y_above_min:
+.L_0602C7D0:
     cmp/ge r11, r2
-    bt      .L_y_clamped
+    bt      .L_0602C7D6
     mov r2, r11
-.L_y_clamped:
+.L_0602C7D6:
     mov r14, r0
-    mov.w   .L_off_display_scale_x, r1
-    mov.w   .L_off_display_scale_y, r3
+    mov.w   .L_0602C7F8, r1
+    mov.w   .L_0602C7FA, r3
     mov.l @(r0, r1), r2
     mov.l @(r0, r3), r4
     sub r2, r10
@@ -231,16 +231,16 @@ DAT_0602c72a:
     mov.l r4, @(r0, r3)
 
     .global DAT_0602c7f8
-.L_off_display_scale_x:
+.L_0602C7F8:
 DAT_0602c7f8:
     .2byte  0x0140                      /* car+0x140: smoothed X display scale output [HIGH] */
 
     .global DAT_0602c7fa
-.L_off_display_scale_y:
+.L_0602C7FA:
 DAT_0602c7fa:
     .2byte  0x0144                      /* car+0x144: smoothed Y display scale output [HIGH] */
 
-.L_activation_weight_calc:
+.L_0602C7FC:
     mov.l @(8, r0), r3
     mov #0xA, r2
     mov.l r10, @-r15
@@ -251,54 +251,54 @@ DAT_0602c7fa:
     .byte   0x96, 0x45    /* mov.w .L_wpool_0602C898, r6 (r6 = 0x0001, activation bit 0 mask) [HIGH] */
     tst r6, r4
     not r6, r7
-    bt/s    .L_test_bit_2
+    bt/s    .L_0602C818
     and r7, r4
     .byte   0x98, 0x41    /* mov.w .L_wpool_0602C89A, r8 (r8 = 0x00EE, activation weight for bit 0 = 238) [HIGH] */
     mov #0x1, r9
-.L_test_bit_2:
+.L_0602C818:
     .byte   0x96, 0x40    /* mov.w .L_wpool_0602C89C, r6 (r6 = 0x0004, activation bit 2 mask) [HIGH] */
     tst r6, r4
     not r6, r7
-    bt/s    .L_test_bit_1
+    bt/s    .L_0602C828
     and r7, r4
     .byte   0x96, 0x3C    /* mov.w .L_wpool_0602C89E, r6 (r6 = 0x00B4, activation weight for bit 2 = 180) [HIGH] */
     add r6, r8
     add #0x1, r9
-.L_test_bit_1:
+.L_0602C828:
     .byte   0x96, 0x3A    /* mov.w .L_wpool_0602C8A0, r6 (r6 = 0x0002, activation bit 1 mask) [HIGH] */
     tst r6, r4
     not r6, r7
-    bt/s    .L_test_bit_4
+    bt/s    .L_0602C838
     and r7, r4
     .byte   0x96, 0x36    /* mov.w .L_wpool_0602C8A2, r6 (r6 = 0x00D2, activation weight for bit 1 = 210) [HIGH] */
     add r6, r8
     add #0x1, r9
-.L_test_bit_4:
+.L_0602C838:
     .byte   0x96, 0x34    /* mov.w .L_wpool_0602C8A4, r6 (r6 = 0x0010, activation bit 4 mask) [HIGH] */
     tst r6, r4
     not r6, r7
-    bt/s    .L_test_bit_5
+    bt/s    .L_0602C848
     and r7, r4
     .byte   0x96, 0x30    /* mov.w .L_wpool_0602C8A6, r6 (r6 = 0x00F6, activation weight for bit 4 = 246) [HIGH] */
     add r6, r8
     add #0x1, r9
-.L_test_bit_5:
+.L_0602C848:
     .byte   0x96, 0x2E    /* mov.w .L_wpool_0602C8A8, r6 (r6 = 0x0020, activation bit 5 mask) [HIGH] */
     tst r6, r4
     not r6, r7
-    bt/s    .L_test_remainder
+    bt/s    .L_0602C858
     and r7, r4
     .byte   0x96, 0x2A    /* mov.w .L_wpool_0602C8AA, r6 (r6 = 0x00FA, activation weight for bit 5 = 250) [HIGH] */
     add r6, r8
     add #0x1, r9
-.L_test_remainder:
+.L_0602C858:
     mov #0x0, r6
     cmp/eq r6, r4
-    bt      .L_all_bits_tested
+    bt      .L_0602C864
     .byte   0x96, 0x25    /* mov.w .L_wpool_0602C8AC, r6 (r6 = 0x0096, activation weight for remainder bits = 150) [HIGH] */
     add r6, r8
     add #0x1, r9
-.L_all_bits_tested:
+.L_0602C864:
     tst r9, r9
     .byte   0x8D, 0x15    /* bt/s 0x0602C894 (external: no flags, return r4=0) */
     mov #0x0, r4

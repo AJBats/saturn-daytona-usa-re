@@ -8,7 +8,7 @@ scene_proc_e:
     mov.l r14, @-r15
     sts.l pr, @-r15
     mov r4, r8
-    mov.l   .L_clip_threshold_ptr, r10
+    mov.l   .L_0602BED0, r10
     mov.l @r10, r10
     mov #0x18, r0
     mul.l r7, r0
@@ -17,7 +17,7 @@ scene_proc_e:
     mov r3, r14
     sts macl, r0
     add r0, r8
-.L_vertex_loop:
+.L_0602BDF0:
     mov.l r7, @-r15
     add #-0x18, r8
     mov.w @(16, r8), r0
@@ -29,7 +29,7 @@ scene_proc_e:
     mov.w @r4+, r0
     mov.w @r4+, r1
     mov.w @r4+, r2
-    mov.l   .L_vertex_output_a, r4
+    mov.l   .L_0602BED4, r4
     shll8 r0
     shll2 r0
     shll r0
@@ -42,8 +42,8 @@ scene_proc_e:
     shll2 r2
     shll r2
     mov.l r2, @(8, r4)
-    mov.l   .L_vertex_scratch, r5
-    mov.l   .L_render_budget, r0
+    mov.l   .L_0602BED8, r5
+    mov.l   .L_0602BEDC, r0
     mov #0x24, r7
     mov.l @r0, r6
     add r6, r7
@@ -81,15 +81,15 @@ scene_proc_e:
     mov.l r1, @(8, r5)
     mov.l @(8, r5), r0
     cmp/ge r0, r10
-    mov.l   .L_vertex_output_y, r11
+    mov.l   .L_0602BEE0, r11
     .word 0x0029
     mov.w r0, @r11
     mov.w @(12, r8), r0
     tst #0x8, r0
-    bf      .L_vertex_2
-    mov.l   .L_vertex_accum_a, r5
+    bf      .L_0602BEE8
+    mov.l   .L_0602BEE4, r5
     mov r8, r4
-    mov.l   .L_render_budget, r0
+    mov.l   .L_0602BEDC, r0
     clrmac
     mov.l @r0, r2
     mac.l @r4+, @r2+
@@ -117,7 +117,7 @@ scene_proc_e:
     sts macl, r1
     xtrct r0, r1
     mov.l r1, @(8, r5)
-    mov.l   .L_vertex_scratch, r4
+    mov.l   .L_0602BED8, r4
     clrmac
     mac.l @r4+, @r5+
     mac.l @r4+, @r5+
@@ -126,23 +126,23 @@ scene_proc_e:
     sts macl, r0
     xtrct r1, r0
     cmp/pl r0
-    bt      .L_vertex_2
-    bra     .L_next_poly
+    bt      .L_0602BEE8
+    bra     .L_0602C416
     nop
     .2byte  0x0000
-.L_clip_threshold_ptr:
+.L_0602BED0:
     .4byte  sym_06063F08
-.L_vertex_output_a:
+.L_0602BED4:
     .4byte  sym_06094F74
-.L_vertex_scratch:
+.L_0602BED8:
     .4byte  sym_06094EF4
-.L_render_budget:
+.L_0602BEDC:
     .4byte  sym_0608A52C
-.L_vertex_output_y:
+.L_0602BEE0:
     .4byte  sym_06094EEC
-.L_vertex_accum_a:
+.L_0602BEE4:
     .4byte  sym_06094F24
-.L_vertex_2:
+.L_0602BEE8:
     mov.w @(18, r8), r0
     mov #0x6, r1
     extu.w r0, r4
@@ -152,7 +152,7 @@ scene_proc_e:
     mov.w @r4+, r0
     mov.w @r4+, r1
     mov.w @r4+, r2
-    mov.l   .L_vertex_output_a2, r4
+    mov.l   .L_0602C084, r4
     shll8 r0
     shll2 r0
     shll r0
@@ -165,9 +165,9 @@ scene_proc_e:
     shll2 r2
     shll r2
     mov.l r2, @(8, r4)
-    mov.l   .L_vertex_scratch2, r5
+    mov.l   .L_0602C088, r5
     add #0xC, r5
-    mov.l   .L_render_budget2, r0
+    mov.l   .L_0602C08C, r0
     mov #0x24, r7
     mov.l @r0, r6
     add r6, r7
@@ -216,7 +216,7 @@ scene_proc_e:
     mov.w @r4+, r0
     mov.w @r4+, r1
     mov.w @r4+, r2
-    mov.l   .L_vertex_output_a2, r4
+    mov.l   .L_0602C084, r4
     shll8 r0
     shll2 r0
     shll r0
@@ -225,15 +225,15 @@ scene_proc_e:
     shll2 r1
     shll r1
     mov.l r1, @(4, r4)
-    mov.l   .L_vertex_y_scratch, r5
+    mov.l   .L_0602C090, r5
     mov.l r1, @r5
     shll8 r2
     shll2 r2
     shll r2
     mov.l r2, @(8, r4)
-    mov.l   .L_vertex_scratch2, r5
+    mov.l   .L_0602C088, r5
     add #0x18, r5
-    mov.l   .L_render_budget2, r0
+    mov.l   .L_0602C08C, r0
     mov #0x24, r7
     mov.l @r0, r6
     add r6, r7
@@ -282,7 +282,7 @@ scene_proc_e:
     mov.w @r4+, r0
     mov.w @r4+, r1
     mov.w @r4+, r2
-    mov.l   .L_vertex_output_a2, r4
+    mov.l   .L_0602C084, r4
     shll8 r0
     shll2 r0
     shll r0
@@ -295,9 +295,9 @@ scene_proc_e:
     shll2 r2
     shll r2
     mov.l r2, @(8, r4)
-    mov.l   .L_vertex_scratch2, r5
+    mov.l   .L_0602C088, r5
     add #0x24, r5
-    mov.l   .L_render_budget2, r0
+    mov.l   .L_0602C08C, r0
     mov #0x24, r7
     mov.l @r0, r6
     add r6, r7
@@ -344,38 +344,38 @@ scene_proc_e:
     add r1, r0
     add r3, r0
     cmp/eq #0x0, r0
-    bt      .L_post_clip_setup
+    bt      .L_0602C0A4
     cmp/eq #0x4, r0
-    bf      .L_clip_dispatch
-    bra     .L_next_poly
+    bf      .L_0602C094
+    bra     .L_0602C416
     nop
-.L_vertex_output_a2:
+.L_0602C084:
     .4byte  sym_06094F74
-.L_vertex_scratch2:
+.L_0602C088:
     .4byte  sym_06094EF4
-.L_render_budget2:
+.L_0602C08C:
     .4byte  sym_0608A52C
-.L_vertex_y_scratch:
+.L_0602C090:
     .4byte  sym_06094FA4
-.L_clip_dispatch:
-    mov.l   .L_pipeline_a_table, r1
+.L_0602C094:
+    mov.l   .L_0602C0F8, r1
     shll2 r0
     add r1, r0
     mov.l @r0, r0
-    mov.l   .L_vertex_scratch3, r4
-    mov.l   .L_vertex_output_y2, r5
+    mov.l   .L_0602C0FC, r4
+    mov.l   .L_0602C100, r5
     jsr @r0
     nop
-.L_post_clip_setup:
-    mov.l   .L_frame_counter, r0
+.L_0602C0A4:
+    mov.l   .L_0602C104, r0
     mov #0x18, r1
     mov.l @r0, r0
     mul.l r0, r1
-    mov.l   .L_sprite_data_table, r2
-    mov.l   .L_vertex_accum_b, r11
+    mov.l   .L_0602C108, r2
+    mov.l   .L_0602C10C, r11
     sts macl, r9
     add r2, r9
-    mov.l   .L_vertex_scratch3, r4
+    mov.l   .L_0602C0FC, r4
     mov r11, r5
     mov.w   DAT_0602c0f0, r1
     mov.w   DAT_0602c0f2, r0
@@ -396,14 +396,14 @@ scene_proc_e:
     mov.l r2, @(4, r5)
     mov.l @r5, r1
     mov.l @(4, r5), r2
-    mov.l   .L_vertex_output_x, r12
+    mov.l   .L_0602C110, r12
     mov #0x0, r0
     mov.w r0, @r12
-    mov.w   .L_clip_bound_pos, r3
+    mov.w   .L_0602C0F4, r3
     cmp/gt r3, r1
-    bf      .L_clip_check_neg_x
+    bf      .L_0602C114
     mov #0x1, r0
-    bra     .L_edge_test_1_done
+    bra     .L_0602C13A
     mov.w r0, @r12
 
     .global DAT_0602c0f0
@@ -413,52 +413,52 @@ DAT_0602c0f0:
     .global DAT_0602c0f2
 DAT_0602c0f2:
     .2byte  0x00A0
-.L_clip_bound_pos:
+.L_0602C0F4:
     .2byte  0x0190
     .2byte  0x0000
-.L_pipeline_a_table:
+.L_0602C0F8:
     .4byte  sym_0602C450
-.L_vertex_scratch3:
+.L_0602C0FC:
     .4byte  sym_06094EF4
-.L_vertex_output_y2:
+.L_0602C100:
     .4byte  sym_06094EEC
-.L_frame_counter:
+.L_0602C104:
     .4byte  sym_060620D4
-.L_sprite_data_table:
+.L_0602C108:
     .4byte  sym_0608AC20
-.L_vertex_accum_b:
+.L_0602C10C:
     .4byte  sym_06094F54
-.L_vertex_output_x:
+.L_0602C110:
     .4byte  sym_06094EE4
-.L_clip_check_neg_x:
+.L_0602C114:
     mov.w   DAT_0602c120, r3
     cmp/gt r1, r3
-    bf      .L_clip_check_pos_y
+    bf      .L_0602C122
     mov #0x1, r0
-    bra     .L_edge_test_1_done
+    bra     .L_0602C13A
     mov.w r0, @r12
 
     .global DAT_0602c120
 DAT_0602c120:
     .2byte  0xFE70
-.L_clip_check_pos_y:
+.L_0602C122:
     mov.w   DAT_0602c12e, r3
     cmp/gt r3, r2
-    bf      .L_clip_check_neg_y
+    bf      .L_0602C130
     mov #0x1, r0
-    bra     .L_edge_test_1_done
+    bra     .L_0602C13A
     mov.w r0, @r12
 
     .global DAT_0602c12e
 DAT_0602c12e:
     .2byte  0x012C
-.L_clip_check_neg_y:
+.L_0602C130:
     mov.w   DAT_0602c176, r3
     cmp/gt r2, r3
-    bf      .L_edge_test_1_done
+    bf      .L_0602C13A
     mov #0x1, r0
     mov.w r0, @r12
-.L_edge_test_1_done:
+.L_0602C13A:
     mov r11, r5
     add #0xC, r4
     add #0x8, r5
@@ -485,9 +485,9 @@ DAT_0602c12e:
     mov.w r0, @(2, r12)
     mov.w   DAT_0602c17c, r3
     cmp/gt r3, r1
-    bf      .L_v2_check_neg_x
+    bf      .L_0602C17E
     mov #0x1, r0
-    bra     .L_edge_test_2_done
+    bra     .L_0602C1A4
     mov.w r0, @(2, r12)
 
     .global DAT_0602c176
@@ -505,35 +505,35 @@ DAT_0602c17a:
     .global DAT_0602c17c
 DAT_0602c17c:
     .2byte  0x0190
-.L_v2_check_neg_x:
+.L_0602C17E:
     mov.w   DAT_0602c18a, r3
     cmp/gt r1, r3
-    bf      .L_v2_check_pos_y
+    bf      .L_0602C18C
     mov #0x1, r0
-    bra     .L_edge_test_2_done
+    bra     .L_0602C1A4
     mov.w r0, @(2, r12)
 
     .global DAT_0602c18a
 DAT_0602c18a:
     .2byte  0xFE70
-.L_v2_check_pos_y:
+.L_0602C18C:
     mov.w   DAT_0602c198, r3
     cmp/gt r3, r2
-    bf      .L_v2_check_neg_y
+    bf      .L_0602C19A
     mov #0x1, r0
-    bra     .L_edge_test_2_done
+    bra     .L_0602C1A4
     mov.w r0, @(2, r12)
 
     .global DAT_0602c198
 DAT_0602c198:
     .2byte  0x012C
-.L_v2_check_neg_y:
+.L_0602C19A:
     mov.w   DAT_0602c1e0, r3
     cmp/gt r2, r3
-    bf      .L_edge_test_2_done
+    bf      .L_0602C1A4
     mov #0x1, r0
     mov.w r0, @(2, r12)
-.L_edge_test_2_done:
+.L_0602C1A4:
     mov r11, r5
     add #0xC, r4
     add #0x10, r5
@@ -560,9 +560,9 @@ DAT_0602c198:
     mov.w r0, @(4, r12)
     mov.w   DAT_0602c1e6, r3
     cmp/gt r3, r1
-    bf      .L_v3_check_neg_x
+    bf      .L_0602C1E8
     mov #0x1, r0
-    bra     .L_edge_test_3_done
+    bra     .L_0602C20E
     mov.w r0, @(4, r12)
 
     .global DAT_0602c1e0
@@ -580,35 +580,35 @@ DAT_0602c1e4:
     .global DAT_0602c1e6
 DAT_0602c1e6:
     .2byte  0x0190
-.L_v3_check_neg_x:
+.L_0602C1E8:
     mov.w   DAT_0602c1f4, r3
     cmp/gt r1, r3
-    bf      .L_v3_check_pos_y
+    bf      .L_0602C1F6
     mov #0x1, r0
-    bra     .L_edge_test_3_done
+    bra     .L_0602C20E
     mov.w r0, @(4, r12)
 
     .global DAT_0602c1f4
 DAT_0602c1f4:
     .2byte  0xFE70
-.L_v3_check_pos_y:
+.L_0602C1F6:
     mov.w   DAT_0602c202, r3
     cmp/gt r3, r2
-    bf      .L_v3_check_neg_y
+    bf      .L_0602C204
     mov #0x1, r0
-    bra     .L_edge_test_3_done
+    bra     .L_0602C20E
     mov.w r0, @(4, r12)
 
     .global DAT_0602c202
 DAT_0602c202:
     .2byte  0x012C
-.L_v3_check_neg_y:
+.L_0602C204:
     mov.w   DAT_0602c24a, r3
     cmp/gt r2, r3
-    bf      .L_edge_test_3_done
+    bf      .L_0602C20E
     mov #0x1, r0
     mov.w r0, @(4, r12)
-.L_edge_test_3_done:
+.L_0602C20E:
     mov r11, r5
     add #0xC, r4
     add #0x18, r5
@@ -635,9 +635,9 @@ DAT_0602c202:
     mov.w r0, @(6, r12)
     mov.w   DAT_0602c250, r3
     cmp/gt r3, r1
-    bf      .L_v4_check_neg_x
+    bf      .L_0602C252
     mov #0x1, r0
-    bra     .L_edge_test_4_done
+    bra     .L_0602C278
     mov.w r0, @(6, r12)
 
     .global DAT_0602c24a
@@ -655,112 +655,112 @@ DAT_0602c24e:
     .global DAT_0602c250
 DAT_0602c250:
     .2byte  0x0190
-.L_v4_check_neg_x:
+.L_0602C252:
     mov.w   DAT_0602c25e, r3
     cmp/gt r1, r3
-    bf      .L_v4_check_pos_y
+    bf      .L_0602C260
     mov #0x1, r0
-    bra     .L_edge_test_4_done
+    bra     .L_0602C278
     mov.w r0, @(6, r12)
 
     .global DAT_0602c25e
 DAT_0602c25e:
     .2byte  0xFE70
-.L_v4_check_pos_y:
+.L_0602C260:
     mov.w   DAT_0602c26c, r3
     cmp/gt r3, r2
-    bf      .L_v4_check_neg_y
+    bf      .L_0602C26E
     mov #0x1, r0
-    bra     .L_edge_test_4_done
+    bra     .L_0602C278
     mov.w r0, @(6, r12)
 
     .global DAT_0602c26c
 DAT_0602c26c:
     .2byte  0x012C
-.L_v4_check_neg_y:
+.L_0602C26E:
     mov.w   DAT_0602c29c, r3
     cmp/gt r2, r3
-    bf      .L_edge_test_4_done
+    bf      .L_0602C278
     mov #0x1, r0
     mov.w r0, @(6, r12)
-.L_edge_test_4_done:
-    mov.l   .L_frustum_left, r4
-    mov.l   .L_frustum_right, r5
-    mov.l   .L_frustum_top, r6
-    mov.l   .L_frustum_bottom, r7
+.L_0602C278:
+    mov.l   .L_0602C2A0, r4
+    mov.l   .L_0602C2A4, r5
+    mov.l   .L_0602C2A8, r6
+    mov.l   .L_0602C2AC, r7
     mov.l @r11, r0
     cmp/gt r0, r4
-    bf      .L_frustum_check_right
+    bf      .L_0602C2B0
     mov.l @(8, r11), r0
     cmp/gt r0, r4
-    bf      .L_frustum_check_right
+    bf      .L_0602C2B0
     mov.l @(16, r11), r0
     cmp/gt r0, r4
-    bf      .L_frustum_check_right
+    bf      .L_0602C2B0
     mov.l @(24, r11), r0
     cmp/gt r0, r4
-    bf      .L_frustum_check_right
-    bra     .L_next_poly
+    bf      .L_0602C2B0
+    bra     .L_0602C416
     nop
 
     .global DAT_0602c29c
 DAT_0602c29c:
     .2byte  0xFE70
     .2byte  0x0000
-.L_frustum_left:
+.L_0602C2A0:
     .4byte  0xFFFFFF50
-.L_frustum_right:
+.L_0602C2A4:
     .4byte  0x000000B0
-.L_frustum_top:
+.L_0602C2A8:
     .4byte  0xFFFFFF81
-.L_frustum_bottom:
+.L_0602C2AC:
     .4byte  0x00000051
-.L_frustum_check_right:
+.L_0602C2B0:
     mov.l @r11, r0
     cmp/gt r0, r5
-    bt      .L_frustum_check_top
+    bt      .L_0602C2CC
     mov.l @(8, r11), r0
     cmp/gt r0, r5
-    bt      .L_frustum_check_top
+    bt      .L_0602C2CC
     mov.l @(16, r11), r0
     cmp/gt r0, r5
-    bt      .L_frustum_check_top
+    bt      .L_0602C2CC
     mov.l @(24, r11), r0
     cmp/gt r0, r5
-    bt      .L_frustum_check_top
-    bra     .L_next_poly
+    bt      .L_0602C2CC
+    bra     .L_0602C416
     nop
-.L_frustum_check_top:
+.L_0602C2CC:
     mov.l @(4, r11), r0
     cmp/gt r0, r6
-    bf      .L_frustum_check_bottom
+    bf      .L_0602C2E8
     mov.l @(12, r11), r0
     cmp/gt r0, r6
-    bf      .L_frustum_check_bottom
+    bf      .L_0602C2E8
     mov.l @(20, r11), r0
     cmp/gt r0, r6
-    bf      .L_frustum_check_bottom
+    bf      .L_0602C2E8
     mov.l @(28, r11), r0
     cmp/gt r0, r6
-    bf      .L_frustum_check_bottom
-    bra     .L_next_poly
+    bf      .L_0602C2E8
+    bra     .L_0602C416
     nop
-.L_frustum_check_bottom:
+.L_0602C2E8:
     mov.l @(4, r11), r0
     cmp/gt r0, r7
-    bt      .L_all_clipped_check
+    bt      .L_0602C304
     mov.l @(12, r11), r0
     cmp/gt r0, r7
-    bt      .L_all_clipped_check
+    bt      .L_0602C304
     mov.l @(20, r11), r0
     cmp/gt r0, r7
-    bt      .L_all_clipped_check
+    bt      .L_0602C304
     mov.l @(28, r11), r0
     cmp/gt r0, r7
-    bt      .L_all_clipped_check
-    bra     .L_next_poly
+    bt      .L_0602C304
+    bra     .L_0602C416
     nop
-.L_all_clipped_check:
+.L_0602C304:
     mov.w @r12, r1
     mov.w @(2, r12), r0
     add r0, r1
@@ -769,20 +769,20 @@ DAT_0602c29c:
     mov.w @(6, r12), r0
     add r1, r0
     cmp/eq #0x4, r0
-    bf      .L_partial_clip
-    bra     .L_next_poly
+    bf      .L_0602C31A
+    bra     .L_0602C416
     nop
-.L_partial_clip:
+.L_0602C31A:
     cmp/eq #0x0, r0
-    bt      .L_store_vertices
+    bt      .L_0602C32C
     mov r11, r4
     shll2 r0
-    mov.l   .L_pipeline_b_table, r1
+    mov.l   .L_0602C374, r1
     add r1, r0
     mov.l @r0, r0
     jsr @r0
     mov r12, r5
-.L_store_vertices:
+.L_0602C32C:
     mov.l @r11, r0
     mov.w r0, @(8, r9)
     mov.l @(4, r11), r0
@@ -809,21 +809,21 @@ DAT_0602c29c:
     mov r13, r0
     mov.b r0, @(5, r9)
     mov.w @(12, r8), r0
-    mov.l   .L_zsort_dispatch, r1
+    mov.l   .L_0602C378, r1
     and #0x7, r0
     shll2 r0
     mov.l @(r0, r1), r0
-    mov.l   .L_vertex_scratch4, r1
+    mov.l   .L_0602C37C, r1
     mov.l @(8, r1), r3
     mov.l @(20, r1), r4
     mov.l @(32, r1), r5
     jmp @r0
     mov.l @(44, r1), r6
-.L_pipeline_b_table:
+.L_0602C374:
     .4byte  sym_0602C460
-.L_zsort_dispatch:
+.L_0602C378:
     .4byte  sym_0602C470
-.L_vertex_scratch4:
+.L_0602C37C:
     .4byte  sym_06094EF4
 
 
@@ -833,94 +833,94 @@ loc_0602C380:
     add r5, r6
     add r6, r3
     shlr2 r3
-    bra     .L_zsort_finalize
+    bra     .L_0602C3EA
     nop
 
     .global loc_0602C38C
 loc_0602C38C:
     cmp/ge r3, r4
-    bt      .L_minz_skip_v2
+    bt      .L_0602C392
     mov r4, r3
-.L_minz_skip_v2:
+.L_0602C392:
     cmp/ge r3, r5
-    bt      .L_minz_skip_v3
+    bt      .L_0602C398
     mov r5, r3
-.L_minz_skip_v3:
+.L_0602C398:
     cmp/ge r3, r6
-    bt      .L_minz_skip_v4
+    bt      .L_0602C39E
     mov r6, r3
-.L_minz_skip_v4:
-    bra     .L_zsort_finalize
+.L_0602C39E:
+    bra     .L_0602C3EA
     nop
 
     .global loc_0602C3A2
 loc_0602C3A2:
     cmp/gt r3, r4
-    bf      .L_maxz_skip_v2
+    bf      .L_0602C3A8
     mov r4, r3
-.L_maxz_skip_v2:
+.L_0602C3A8:
     cmp/gt r3, r5
-    bf      .L_maxz_skip_v3
+    bf      .L_0602C3AE
     mov r5, r3
-.L_maxz_skip_v3:
+.L_0602C3AE:
     cmp/gt r3, r6
-    bf      .L_maxz_skip_v4
+    bf      .L_0602C3B4
     mov r6, r3
-.L_maxz_skip_v4:
-    bra     .L_zsort_finalize
+.L_0602C3B4:
+    bra     .L_0602C3EA
     nop
 
     .global loc_0602C3B8
 loc_0602C3B8:
-    mov.l   .L_fp_depth_bias_a, r0
+    mov.l   .L_0602C3D0, r0
     cmp/gt r3, r4
-    bf      .L_maxz_bias_skip_v2
+    bf      .L_0602C3C0
     mov r4, r3
-.L_maxz_bias_skip_v2:
+.L_0602C3C0:
     cmp/gt r3, r5
-    bf      .L_maxz_bias_skip_v3
+    bf      .L_0602C3C6
     mov r5, r3
-.L_maxz_bias_skip_v3:
+.L_0602C3C6:
     cmp/gt r3, r6
-    bf      .L_maxz_bias_skip_v4
+    bf      .L_0602C3CC
     mov r6, r3
-.L_maxz_bias_skip_v4:
-    bra     .L_zsort_finalize
+.L_0602C3CC:
+    bra     .L_0602C3EA
     add r0, r3
-.L_fp_depth_bias_a:
+.L_0602C3D0:
     .4byte  0x000B8000
 
     .global loc_0602C3D4
 loc_0602C3D4:
-    mov.l   .L_fp_one, r0
+    mov.l   .L_0602C420, r0
     cmp/gt r3, r4
-    bf      .L_maxz_far_skip_v2
+    bf      .L_0602C3DC
     mov r4, r3
-.L_maxz_far_skip_v2:
+.L_0602C3DC:
     cmp/gt r3, r5
-    bf      .L_maxz_far_skip_v3
+    bf      .L_0602C3E2
     mov r5, r3
-.L_maxz_far_skip_v3:
+.L_0602C3E2:
     cmp/gt r3, r6
-    bf      .L_maxz_far_skip_v4
+    bf      .L_0602C3E8
     mov r6, r3
-.L_maxz_far_skip_v4:
+.L_0602C3E8:
     add r0, r3
-.L_zsort_finalize:
-    mov.l   .L_vertex_y_scratch2, r1
+.L_0602C3EA:
+    mov.l   .L_0602C424, r1
     mov.l @r1, r1
-    mov.l   .L_depth_sort_state, r0
+    mov.l   .L_0602C428, r0
     mov.l @r0, r0
-    mov.l   .L_fp_two, r2
+    mov.l   .L_0602C42C, r2
     add r2, r1
     cmp/gt r1, r0
-    bf      .L_zsort_store
-    mov.l   .L_fp_depth_bias_b, r2
+    bf      .L_0602C3FE
+    mov.l   .L_0602C430, r2
     add r2, r3
-.L_zsort_store:
-    mov.l   .L_frame_counter2, r2
+.L_0602C3FE:
+    mov.l   .L_0602C434, r2
     neg r3, r3
-    mov.l   .L_sprite_index_table, r1
+    mov.l   .L_0602C438, r1
     shlr8 r3
     mov.l @r2, r0
     shlr2 r3
@@ -930,27 +930,27 @@ loc_0602C3D4:
     shar r0
     add #0x1, r0
     mov.l r0, @r2
-.L_next_poly:
+.L_0602C416:
     mov.l @r15+, r7
     dt r7
-    bt      .L_return
-    bra     .L_vertex_loop
+    bt      .L_0602C43C
+    bra     .L_0602BDF0
     nop
-.L_fp_one:
+.L_0602C420:
     .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
-.L_vertex_y_scratch2:
+.L_0602C424:
     .4byte  sym_06094FA4
-.L_depth_sort_state:
+.L_0602C428:
     .4byte  sym_06063F54
-.L_fp_two:
+.L_0602C42C:
     .4byte  0x00020000                  /* 2.0 (16.16 fixed-point) */
-.L_fp_depth_bias_b:
+.L_0602C430:
     .4byte  0x000A0000                  /* 10.0 (16.16 fixed-point) -- distance bias */
-.L_frame_counter2:
+.L_0602C434:
     .4byte  sym_060620D4
-.L_sprite_index_table:
+.L_0602C438:
     .4byte  sym_0606A4F8
-.L_return:
+.L_0602C43C:
     lds.l @r15+, pr
     mov.l @r15+, r14
     mov.l @r15+, r13
@@ -1001,20 +1001,20 @@ sym_0602C494:
     sts.l pr, @-r15
     mov r4, r8
     mov r5, r9
-    mov.l   .L_bucket_counts_init, r1
-    mov.l   .L_sort_buffer_b, r11
+    mov.l   .L_0602C680, r1
+    mov.l   .L_0602C684, r11
     mov.l r11, @r1
-    mov.l   .L_sort_input, r3
+    mov.l   .L_0602C688, r3
     mov r9, r1
     mov #0x0, r2
-.L_copy_input_loop:
+.L_0602C4AE:
     mov.w @r1+, r11
     add #0x1, r2
     cmp/hs r8, r2
     mov.w r11, @r3
-    bf/s    .L_copy_input_loop
+    bf/s    .L_0602C4AE
     add #0x2, r3
-    mov.l   .L_bucket_counts, r1
+    mov.l   .L_0602C670, r1
     mov #0x0, r2
     mov.l r2, @-r1
     mov.l r2, @-r1
@@ -1032,12 +1032,12 @@ sym_0602C494:
     mov.l r2, @-r1
     mov.l r2, @-r1
     mov.l r2, @-r1
-    mov.l   .L_sort_input, r6
+    mov.l   .L_0602C688, r6
     mov #0x0, r7
-    mov.l   .L_bucket_indices_b, r10
-    mov.w   .L_bucket_stride_b, r4
-    mov.l   .L_sort_buffer_b, r5
-.L_bucket_pass_1:
+    mov.l   .L_0602C68C, r10
+    mov.w   .L_0602C67C, r4
+    mov.l   .L_0602C684, r5
+.L_0602C4E8:
     mov.w @r6+, r0
     mov r10, r2
     and #0x1F, r0
@@ -1054,34 +1054,34 @@ sym_0602C494:
     mov.w r7, @(r0, r5)
     add #0x1, r7
     cmp/hs r8, r7
-    bf      .L_bucket_pass_1
+    bf      .L_0602C4E8
     mov r9, r4
     mov.l r8, @-r15
-    mov.l   .L_bucket_indices, r3
-    mov.l   .L_sort_buffer, r6
+    mov.l   .L_0602C674, r3
+    mov.l   .L_0602C678, r6
     mov #0x0, r7
-    mov.w   .L_bucket_stride, r0
+    mov.w   .L_0602C66C, r0
     mov #0x1F, r5
-.L_gather_pass_1:
+.L_0602C518:
     mov.w @r3+, r1
     mov r6, r2
     extu.w r1, r1
     cmp/pl r1
-    bf/s    .L_gather_next_1
+    bf/s    .L_0602C530
     add r0, r6
-.L_gather_inner_1:
+.L_0602C524:
     mov.w @r2+, r8
     add #-0x1, r1
     cmp/pl r1
     mov.w r8, @r4
-    bt/s    .L_gather_inner_1
+    bt/s    .L_0602C524
     add #0x2, r4
-.L_gather_next_1:
+.L_0602C530:
     add #0x1, r7
     cmp/gt r5, r7
-    bf      .L_gather_pass_1
+    bf      .L_0602C518
     mov.l @r15+, r8
-    mov.l   .L_bucket_counts, r1
+    mov.l   .L_0602C670, r1
     mov #0x0, r2
     mov.l r2, @-r1
     mov.l r2, @-r1
@@ -1101,11 +1101,11 @@ sym_0602C494:
     mov.l r2, @-r1
     mov #0x0, r6
     mov r9, r7
-.L_bucket_pass_2:
+.L_0602C560:
     mov.w @r7, r1
     extu.w r1, r0
     shll r0
-    mov.l   .L_sort_input, r1
+    mov.l   .L_0602C688, r1
     mov.w @(r0, r1), r1
     extu.w r1, r0
     shlr2 r0
@@ -1114,13 +1114,13 @@ sym_0602C494:
     and #0x1F, r0
     mov r0, r2
     add r0, r2
-    mov.l   .L_bucket_indices_b, r1
+    mov.l   .L_0602C68C, r1
     add r1, r2
     mov.w @r2, r3
     mov r3, r1
     add #0x1, r1
     mov.w r1, @r2
-    mov.w   .L_bucket_stride_b, r1
+    mov.w   .L_0602C67C, r1
     mul.l r1, r0
     extu.w r3, r3
     shll r3
@@ -1129,38 +1129,38 @@ sym_0602C494:
     add #0x1, r6
     sts macl, r0
     add r1, r0
-    mov.l   .L_sort_buffer_b, r1
+    mov.l   .L_0602C684, r1
     mov.w @r7+, r11
     cmp/hs r8, r6
-    bf/s    .L_bucket_pass_2
+    bf/s    .L_0602C560
     mov.w r11, @(r0, r1)
     mov r9, r4
     mov.l r8, @-r15
-    mov.l   .L_bucket_indices, r3
-    mov.l   .L_sort_buffer, r6
+    mov.l   .L_0602C674, r3
+    mov.l   .L_0602C678, r6
     mov #0x0, r7
-    mov.w   .L_bucket_stride, r0
+    mov.w   .L_0602C66C, r0
     mov #0x1F, r5
-.L_gather_pass_2:
+.L_0602C5AE:
     mov.w @r3+, r1
     mov r6, r2
     extu.w r1, r1
     cmp/pl r1
-    bf/s    .L_gather_next_2
+    bf/s    .L_0602C5C6
     add r0, r6
-.L_gather_inner_2:
+.L_0602C5BA:
     mov.w @r2+, r8
     add #-0x1, r1
     cmp/pl r1
     mov.w r8, @r4
-    bt/s    .L_gather_inner_2
+    bt/s    .L_0602C5BA
     add #0x2, r4
-.L_gather_next_2:
+.L_0602C5C6:
     add #0x1, r7
     cmp/gt r5, r7
-    bf      .L_gather_pass_2
+    bf      .L_0602C5AE
     mov.l @r15+, r8
-    mov.l   .L_bucket_counts, r1
+    mov.l   .L_0602C670, r1
     mov #0x0, r2
     mov.l r2, @-r1
     mov.l r2, @-r1
@@ -1180,24 +1180,24 @@ sym_0602C494:
     mov.l r2, @-r1
     mov #0x0, r6
     mov r9, r7
-.L_bucket_pass_3:
+.L_0602C5F6:
     mov.w @r7, r1
     extu.w r1, r1
     mov r1, r0
     add r1, r0
-    mov.l   .L_sort_input, r1
+    mov.l   .L_0602C688, r1
     mov.b @(r0, r1), r0
     shlr2 r0
     and #0x1F, r0
     mov r0, r2
     add r0, r2
-    mov.l   .L_bucket_indices_b, r1
+    mov.l   .L_0602C68C, r1
     add r1, r2
     mov.w @r2, r3
     mov r3, r1
     add #0x1, r1
     mov.w r1, @r2
-    mov.w   .L_bucket_stride_b, r1
+    mov.w   .L_0602C67C, r1
     mul.l r1, r0
     extu.w r3, r3
     shll r3
@@ -1206,36 +1206,36 @@ sym_0602C494:
     add #0x1, r6
     sts macl, r0
     add r1, r0
-    mov.l   .L_sort_buffer_b, r1
+    mov.l   .L_0602C684, r1
     mov.w @r7+, r11
     cmp/hs r8, r6
-    bf/s    .L_bucket_pass_3
+    bf/s    .L_0602C5F6
     mov.w r11, @(r0, r1)
     mov r9, r4
     mov.l r8, @-r15
-    mov.l   .L_bucket_indices, r3
-    mov.l   .L_sort_buffer, r6
+    mov.l   .L_0602C674, r3
+    mov.l   .L_0602C678, r6
     mov #0x0, r7
-    mov.w   .L_bucket_stride, r0
+    mov.w   .L_0602C66C, r0
     mov #0x1F, r5
-.L_gather_pass_3:
+.L_0602C640:
     mov.w @r3+, r1
     mov r6, r2
     extu.w r1, r1
     cmp/pl r1
-    bf/s    .L_gather_next_3
+    bf/s    .L_0602C658
     add r0, r6
-.L_gather_inner_3:
+.L_0602C64C:
     mov.w @r2+, r8
     add #-0x1, r1
     cmp/pl r1
     mov.w r8, @r4
-    bt/s    .L_gather_inner_3
+    bt/s    .L_0602C64C
     add #0x2, r4
-.L_gather_next_3:
+.L_0602C658:
     add #0x1, r7
     cmp/gt r5, r7
-    bf      .L_gather_pass_3
+    bf      .L_0602C640
     mov.l @r15+, r8
     lds.l @r15+, pr
     mov.l @r15+, r11
@@ -1243,23 +1243,23 @@ sym_0602C494:
     mov.l @r15+, r9
     rts
     mov.l @r15+, r8
-.L_bucket_stride:
+.L_0602C66C:
     .2byte  0x0640
     .2byte  0x0000
-.L_bucket_counts:
+.L_0602C670:
     .4byte  sym_060A2468
-.L_bucket_indices:
+.L_0602C674:
     .4byte  sym_060A2428
-.L_sort_buffer:
+.L_0602C678:
     .4byte  sym_06094FA8
-.L_bucket_stride_b:
+.L_0602C67C:
     .2byte  0x0640
     .2byte  0x0009
-.L_bucket_counts_init:
+.L_0602C680:
     .4byte  sym_060A2468
-.L_sort_buffer_b:
+.L_0602C684:
     .4byte  sym_06094FA8
-.L_sort_input:
+.L_0602C688:
     .4byte  sym_060A17A8
-.L_bucket_indices_b:
+.L_0602C68C:
     .4byte  sym_060A2428

@@ -22,7 +22,7 @@ course_select_draw:
     mov.l   _pool_last_drawn_course, r0
     mov.b @r0, r0
     tst r0, r0
-    bt/s    .L_skip_loop
+    bt/s    .L_0601959E
     mov #0x0, r11
     mov #0x14, r6
     mov.w   DAT_060195ac, r7
@@ -36,11 +36,11 @@ course_select_draw:
     jsr @r9
     mov #0xC, r4
     exts.b r11, r14
-.L_loop_top:
+.L_0601954A:
     exts.b r14, r3
     mov.b @r12, r2
     cmp/eq r2, r3
-    bt      .L_skip_selected
+    bt      .L_0601958E
     exts.b r14, r0
     shll r0
     mov.l r0, @(4, r15)
@@ -71,7 +71,7 @@ course_select_draw:
     shll r6
     jsr @r9
     mov #0xC, r4
-.L_skip_selected:
+.L_0601958E:
     exts.b r11, r3
     mov.l   _pool_last_drawn_course, r2
     add #0x1, r14
@@ -79,14 +79,14 @@ course_select_draw:
     exts.b r14, r1
     mov #0x4, r2
     cmp/ge r2, r1
-    bf      .L_loop_top
-.L_skip_loop:
+    bf      .L_0601954A
+.L_0601959E:
     mov.l   _pool_highlight_flag, r0
     mov.b @r0, r0
     extu.b r0, r0
     tst r0, r0
-    bt      .L_draw_highlight
-    bra     .L_epilogue
+    bt      .L_060195D0
+    bra     .L_06019680
     nop
 
     .global DAT_060195ac
@@ -113,13 +113,13 @@ _pool_last_drawn_course:
     .4byte  sym_06085FF1
 _pool_highlight_flag:
     .4byte  sym_06085FF5
-.L_draw_highlight:
+.L_060195D0:
     mov.l   _pool_blink_timer, r14
     mov #0xF, r2
     mov.b @r14, r3
     extu.b r3, r3
     cmp/gt r2, r3
-    bt      .L_blink_phase
+    bt      .L_0601961C
     mov.b @r12, r0
     shll r0
     mov.l r0, @(4, r15)
@@ -150,9 +150,9 @@ _pool_highlight_flag:
     shll r6
     jsr @r9
     mov #0xC, r4
-    bra     .L_epilogue
+    bra     .L_06019680
     nop
-.L_blink_phase:
+.L_0601961C:
     mov.l   _pool_blink_geom_data, r7
     mov.w   _wpool_blink_param_offset, r6
     mov.b @r12, r5
@@ -200,10 +200,10 @@ _pool_highlight_flag:
     mov.b @r14, r2
     extu.b r2, r2
     cmp/gt r3, r2
-    bf      .L_epilogue
+    bf      .L_06019680
     extu.b r11, r3
     mov.b r3, @r14
-.L_epilogue:
+.L_06019680:
     add #0xC, r15
     lds.l @r15+, pr
     mov.l @r15+, r8

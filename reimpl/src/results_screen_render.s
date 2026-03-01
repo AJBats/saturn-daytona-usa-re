@@ -15,7 +15,7 @@ results_screen_render:
     mov.l @(48, r4), r2
     mov.l @(56, r4), r3
     cmp/eq r3, r2
-    bt/s    .L_y_interp_done
+    bt/s    .L_0601605E
     mov #0x0, r12
     extu.b r14, r4
     mov r4, r3
@@ -41,7 +41,7 @@ results_screen_render:
     neg r1, r1
     and r1, r0
     tst r0, r0
-    bt      .L_check_y_clamp_positive
+    bt      .L_06016022
     extu.b r14, r4
     mov r4, r3
     shll2 r4
@@ -53,7 +53,7 @@ results_screen_render:
     add r13, r4
     mov.l @(56, r4), r2
     mov.l r2, @(48, r4)
-.L_check_y_clamp_positive:
+.L_06016022:
     extu.b r14, r4
     mov r4, r3
     shll2 r4
@@ -72,7 +72,7 @@ results_screen_render:
     .word 0x0129
     and r1, r0
     tst r0, r0
-    bt      .L_y_interp_done
+    bt      .L_0601605E
     extu.b r14, r4
     mov r4, r3
     shll2 r4
@@ -84,7 +84,7 @@ results_screen_render:
     add r13, r4
     mov.l @(56, r4), r2
     mov.l r2, @(48, r4)
-.L_y_interp_done:
+.L_0601605E:
     extu.b r14, r11
     mov r11, r3
     shll2 r11
@@ -105,7 +105,7 @@ results_screen_render:
     sub r2, r4
     .byte   0xD2, 0x10    /* mov.l .L_pool_060160C8, r2 */
     cmp/gt r2, r0
-    bt      .L_x_interp_done
+    bt      .L_0601612E
     extu.b r14, r2
     mov r2, r3
     shll2 r2
@@ -117,7 +117,7 @@ results_screen_render:
     add r13, r2
     mov.l @(16, r2), r2
     cmp/pz r2
-    bt      .L_x_vel_positive
+    bt      .L_060160CC
     extu.b r14, r2
     mov r2, r3
     shll2 r2
@@ -129,7 +129,7 @@ results_screen_render:
     add r13, r2
     .byte   0xD1, 0x05    /* mov.l .L_pool_060160CC, r1 */
     mov.w   .L_wpool_060160BE, r4
-    bra     .L_apply_speed_damping
+    bra     .L_060160E4
     mov.l r1, @(16, r2)
 .L_wpool_060160BE:
     .2byte  0xF800
@@ -141,7 +141,7 @@ results_screen_render:
     .4byte  0x000F0000                  /* nibble 4 mask */ ! 15.0 in 16.16 FP — distance threshold for damping
 .L_pool_060160CC:
     .4byte  0xFFFC0000
-.L_x_vel_positive:
+.L_060160CC:
     extu.b r14, r2
     mov r2, r3
     shll2 r2
@@ -154,7 +154,7 @@ results_screen_render:
     .byte   0xD1, 0x47    /* mov.l .L_pool_06016201, r1 */
     mov.l r1, @(16, r2)
     mov.w   .L_wpool_060161FD, r4
-.L_apply_speed_damping:
+.L_060160E4:
     extu.b r14, r3
     mov r3, r2
     shll2 r3
@@ -166,7 +166,7 @@ results_screen_render:
     add r13, r3
     mov.l @(28, r3), r0
     tst r0, r0
-    bt      .L_apply_single_damp
+    bt      .L_06016116
     extu.b r14, r5
     mov r5, r3
     shll2 r5
@@ -180,7 +180,7 @@ results_screen_render:
     shll r2
     mov.l r2, @(16, r5)
     shll r4
-.L_apply_single_damp:
+.L_06016116:
     extu.b r14, r3
     mov r3, r2
     shll2 r3
@@ -193,7 +193,7 @@ results_screen_render:
     mov.l @(16, r3), r1
     sub r4, r1
     mov.l r1, @(16, r3)
-.L_x_interp_done:
+.L_0601612E:
     extu.b r14, r5
     mov r5, r3
     shll2 r5
@@ -215,7 +215,7 @@ results_screen_render:
     neg r1, r1
     and r1, r0
     tst r0, r0
-    bt/s    .L_check_x_clamp_positive
+    bt/s    .L_06016176
     mov #0x1, r4
     extu.b r14, r5
     mov r5, r3
@@ -228,9 +228,9 @@ results_screen_render:
     add r13, r5
     mov.l @(52, r5), r2
     mov.l r2, @(4, r5)
-    bra     .L_render_element
+    bra     .L_060161B4
     extu.b r4, r12
-.L_check_x_clamp_positive:
+.L_06016176:
     extu.b r14, r5
     mov r5, r3
     shll2 r5
@@ -249,7 +249,7 @@ results_screen_render:
     .word 0x0129
     and r1, r0
     tst r0, r0
-    bt      .L_render_element
+    bt      .L_060161B4
     extu.b r14, r5
     mov r5, r3
     shll2 r5
@@ -262,12 +262,12 @@ results_screen_render:
     mov.l @(52, r5), r2
     mov.l r2, @(4, r5)
     extu.b r4, r12
-.L_render_element:
+.L_060161B4:
     .byte   0xB6, 0x10    /* bsr 0x06016DD8 (external) */
     extu.b r14, r4
     extu.b r12, r12
     tst r12, r12
-    bt      .L_epilogue
+    bt      .L_0601621C
     extu.b r14, r4
     mov #0x41, r0
     mov r4, r3
@@ -285,7 +285,7 @@ results_screen_render:
     mov.b @(r0, r4), r3
     extu.b r3, r3
     cmp/gt r2, r3
-    bf      .L_decrement_phase
+    bf      .L_06016200
     extu.b r14, r14
     mov r14, r2
     shll2 r14
@@ -295,14 +295,14 @@ results_screen_render:
     add r2, r14
     exts.w r14, r14
     add r13, r14
-    bra     .L_write_phase
+    bra     .L_0601621A
     mov #0x2, r0
 .L_wpool_060161FD:
     .2byte  0x0800
     .2byte  0xFFFF
 .L_pool_06016201:
     .4byte  0x00040000                  /* 4.0 (16.16 fixed-point) */ ! +4.0 base positive X velocity
-.L_decrement_phase:
+.L_06016200:
     extu.b r14, r14
     mov r14, r2
     shll2 r14
@@ -316,9 +316,9 @@ results_screen_render:
     mov r0, r3
     add #-0x1, r3
     mov r3, r0
-.L_write_phase:
+.L_0601621A:
     mov.b r0, @(2, r14)
-.L_epilogue:
+.L_0601621C:
     lds.l @r15+, pr
     mov.l @r15+, r11
     mov.l @r15+, r12

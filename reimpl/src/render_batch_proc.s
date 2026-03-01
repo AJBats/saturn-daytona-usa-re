@@ -159,7 +159,7 @@ render_batch_proc:
     mov.l   _pool_vdp1_vram_base, r11
     mov.w   _wpool_copy_count, r6
     mov.l   _pool_game_state_idx_ptr, r4
-    bra     .L_copy_vdp1_data
+    bra     .L_06023194
     mov r11, r5
 _wpool_copy_count:
     .2byte  0x3AC0
@@ -170,7 +170,7 @@ _pool_vdp1_vram_base:
     .4byte  0x002A8000
 _pool_game_state_idx_ptr:
     .4byte  sym_06059FFC
-.L_copy_vdp1_data:
+.L_06023194:
     mov.l @r4, r4
     mov.l   _pool_scroll_base_table, r3
     mov.w   _wpool_scroll_data_offset, r2
@@ -182,9 +182,9 @@ _pool_game_state_idx_ptr:
     mov.l   _pool_memcpy_word_idx, r2
     jsr @r2
     nop
-    bra     .L_channel_loop_test
+    bra     .L_0602322C
     extu.w r12, r13
-.L_channel_loop_body:
+.L_060231AE:
     mov r13, r4
     mov r13, r3
     mov.l   _pool_channel_table_base, r2
@@ -199,9 +199,9 @@ _pool_game_state_idx_ptr:
     mov r0, r8
     extu.w r8, r3
     cmp/pl r3
-    bf/s    .L_primary_done
+    bf/s    .L_060231E4
     extu.w r12, r9
-.L_primary_loop:
+.L_060231CE:
     mov r11, r6
     extu.w r14, r5
     mov.l   _pool_sprite_render_fn, r3
@@ -211,9 +211,9 @@ _pool_game_state_idx_ptr:
     extu.w r8, r3
     extu.w r9, r2
     cmp/ge r3, r2
-    bf/s    .L_primary_loop
+    bf/s    .L_060231CE
     add #0xC, r10
-.L_primary_done:
+.L_060231E4:
     mov r13, r4
     mov r13, r3
     mov.l   _pool_channel_table_base, r2
@@ -227,15 +227,15 @@ _pool_game_state_idx_ptr:
     mov r0, r8
     extu.w r13, r0
     cmp/eq #0x27, r0
-    bf/s    .L_not_special_channel
+    bf/s    .L_06023204
     mov.l @(4, r4), r10
     add #0x2F, r14
-.L_not_special_channel:
+.L_06023204:
     extu.w r8, r2
     cmp/pl r2
-    bf/s    .L_secondary_done
+    bf/s    .L_06023220
     extu.w r12, r9
-.L_secondary_loop:
+.L_0602320C:
     extu.w r14, r5
     mov.l   _pool_secondary_render_fn, r3
     jsr @r3
@@ -244,21 +244,21 @@ _pool_game_state_idx_ptr:
     extu.w r8, r3
     extu.w r9, r2
     cmp/ge r3, r2
-    bf/s    .L_secondary_loop
+    bf/s    .L_0602320C
     add #0x6, r10
-.L_secondary_done:
+.L_06023220:
     extu.w r13, r3
     mov #0x27, r2
     cmp/ge r2, r3
-    bt      .L_skip_index_bump
+    bt      .L_0602322A
     add #0xA, r14
-.L_skip_index_bump:
+.L_0602322A:
     add #0x1, r13
-.L_channel_loop_test:
+.L_0602322C:
     extu.w r13, r2
     mov #0x28, r3
     cmp/ge r3, r2
-    bf      .L_channel_loop_body
+    bf      .L_060231AE
     add #0x15, r14
     mov.l   _pool_sprite_bank_base, r3
     mov.l   _pool_extra_desc, r4
@@ -268,9 +268,9 @@ _pool_game_state_idx_ptr:
     mov r0, r9
     extu.w r9, r2
     cmp/pl r2
-    bf/s    .L_epilogue
+    bf/s    .L_06023260
     extu.w r12, r10
-.L_extra_primary_loop:
+.L_0602324A:
     mov r11, r6
     extu.w r14, r5
     mov.l   _pool_sprite_render_fn, r3
@@ -280,9 +280,9 @@ _pool_game_state_idx_ptr:
     extu.w r9, r3
     extu.w r10, r2
     cmp/ge r3, r2
-    bf/s    .L_extra_primary_loop
+    bf/s    .L_0602324A
     add #0xC, r13
-.L_epilogue:
+.L_06023260:
     lds.l @r15+, pr
     mov.l @r15+, r8
     mov.l @r15+, r9

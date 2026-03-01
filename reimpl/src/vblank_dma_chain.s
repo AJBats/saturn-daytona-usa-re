@@ -19,23 +19,23 @@ vblank_dma_chain:
     add #-0x54, r15
     mov.l @r14, r0
     tst r0, r0
-    bf/s    .L_has_commands
+    bf/s    .L_0603F5A6
     mov r10, r8
-    bra     .L_epilogue
+    bra     .L_0603F838
     mov.b r10, @r13
-.L_has_commands:
+.L_0603F5A6:
     .byte   0xBF, 0xC5    /* bsr 0x0603F534 (external) */
     mov r14, r4
     mov.b r0, @r13
     mov.b @r13, r2
     extu.b r2, r2
     tst r2, r2
-    bf      .L_count_nonzero
-    bra     .L_epilogue
+    bf      .L_0603F5C0
+    bra     .L_0603F838
     nop
     .4byte  0x0800FFFF
     .4byte  cmd_multi_validate
-.L_count_nonzero:
+.L_0603F5C0:
     mov r14, r4
     mov #0x1, r6
     mov r15, r5
@@ -49,19 +49,19 @@ vblank_dma_chain:
     .byte   0xBF, 0x94    /* bsr 0x0603F500 (external) */
     mov r14, r4
     mov.l r0, @(8, r13)
-    bra     .L_skip_init_test
+    bra     .L_0603F5EA
     mov r10, r12
-.L_skip_field_loop:
+.L_0603F5DE:
     mov r14, r4
     mov #0x1, r6
     mov r15, r5
     .byte   0xBF, 0x07    /* bsr 0x0603F3F6 (external) */
     add #0x48, r5
     add #0x1, r12
-.L_skip_init_test:
+.L_0603F5EA:
     mov #0x7, r2
     cmp/ge r2, r12
-    bf      .L_skip_field_loop
+    bf      .L_0603F5DE
     mov r14, r4
     mov #0x1, r6
     mov r15, r5
@@ -101,9 +101,9 @@ vblank_dma_chain:
     mov.l r2, @(4, r15)
     mov r13, r11
     add #0x10, r11
-    bra     .L_fname_read_test
+    bra     .L_0603F676
     mov r10, r12
-.L_fname_read_char:
+.L_0603F642:
     mov r14, r4
     mov #0x1, r6
     mov r15, r5
@@ -115,66 +115,66 @@ vblank_dma_chain:
     mov.b @r15, r0
     extu.b r0, r0
     cmp/eq #0x3B, r0
-    bf/s    .L_not_version_sep
+    bf/s    .L_0603F660
     add #0x1, r12
-    bra     .L_fname_done
+    bra     .L_0603F68A
     nop
-.L_not_version_sep:
+.L_0603F660:
     mov r11, r2
     mov.b @r15, r3
     mov.b r3, @r2
     mov.b @r15, r0
     extu.b r0, r0
     cmp/eq #0x2E, r0
-    bf/s    .L_fname_read_test
+    bf/s    .L_0603F676
     add #0x1, r11
     mov #0x50, r0
-    bra     .L_fname_done
+    bra     .L_0603F68A
     mov.l r11, @(r0, r15)
-.L_fname_read_test:
+.L_0603F676:
     mov #0x8, r4
     extu.b r9, r5
     cmp/gt r4, r5
-    bf      .L_use_total_len
-    bra     .L_use_max_8
+    bf      .L_0603F684
+    bra     .L_0603F686
     mov r4, r2
 
     .global DAT_0603f682
 DAT_0603f682:
     .2byte  0x0096
-.L_use_total_len:
+.L_0603F684:
     mov r5, r2
-.L_use_max_8:
+.L_0603F686:
     cmp/ge r2, r12
-    bf      .L_fname_read_char
-.L_fname_done:
+    bf      .L_0603F642
+.L_0603F68A:
     mov.b @r15, r0
     extu.b r0, r0
     cmp/eq #0x3B, r0
-    bf      .L_not_semicolon
-    bra     .L_skip_version_loop_test
+    bf      .L_0603F6AC
+    bra     .L_0603F6A2
     nop
-.L_skip_version_char:
+.L_0603F696:
     mov r14, r4
     mov #0x1, r6
     mov r15, r5
     .byte   0xBE, 0xAB    /* bsr 0x0603F3F6 (external) */
     add #0x44, r5
     add #0x1, r12
-.L_skip_version_loop_test:
+.L_0603F6A2:
     extu.b r9, r2
     cmp/ge r2, r12
-    bf      .L_skip_version_char
-    bra     .L_post_ext_parsing
+    bf      .L_0603F696
+    bra     .L_0603F748
     nop
-.L_not_semicolon:
+.L_0603F6AC:
     mov.b @r15, r0
     extu.b r0, r0
     cmp/eq #0x2E, r0
-    bt      .L_ext_chars_done
-    bra     .L_ext_read_test
+    bt      .L_0603F6E8
+    bra     .L_0603F6E2
     nop
-.L_ext_read_char:
+.L_0603F6B8:
     mov r14, r4
     mov #0x1, r6
     mov r15, r5
@@ -186,25 +186,25 @@ DAT_0603f682:
     mov.b @r15, r0
     extu.b r0, r0
     cmp/eq #0x2E, r0
-    bf/s    .L_ext_not_dot
+    bf/s    .L_0603F6E0
     add #0x1, r12
     mov r11, r2
     add #0x1, r11
     mov.b @r15, r3
     mov.b r3, @r2
     mov #0x50, r0
-    bra     .L_ext_chars_done
+    bra     .L_0603F6E8
     mov.l r11, @(r0, r15)
-.L_ext_not_dot:
+.L_0603F6E0:
     mov #0x1, r8
-.L_ext_read_test:
+.L_0603F6E2:
     extu.b r9, r2
     cmp/ge r2, r12
-    bf      .L_ext_read_char
-.L_ext_chars_done:
-    bra     .L_post_ext_parsing
+    bf      .L_0603F6B8
+.L_0603F6E8:
+    bra     .L_0603F748
     nop
-.L_read_remaining_char:
+.L_0603F6EC:
     mov r14, r4
     mov #0x1, r6
     mov r15, r5
@@ -216,64 +216,64 @@ DAT_0603f682:
     mov.b @r15, r0
     extu.b r0, r0
     cmp/eq #0x3B, r0
-    bf/s    .L_remaining_not_semi
+    bf/s    .L_0603F720
     add #0x1, r12
-    bra     .L_skip_remaining_test
+    bra     .L_0603F716
     nop
-.L_skip_remaining_char:
+.L_0603F70A:
     mov r14, r4
     mov #0x1, r6
     mov r15, r5
     .byte   0xBE, 0x71    /* bsr 0x0603F3F6 (external) */
     add #0x40, r5
     add #0x1, r12
-.L_skip_remaining_test:
+.L_0603F716:
     extu.b r9, r2
     cmp/ge r2, r12
-    bf      .L_skip_remaining_char
-    bra     .L_fname_null_terminate
+    bf      .L_0603F70A
+    bra     .L_0603F74E
     nop
-.L_remaining_not_semi:
+.L_0603F720:
     mov #0x50, r0
     mov r11, r3
     mov #0x3, r1
     mov.l @(r0, r15), r2
     sub r2, r3
     cmp/gt r1, r3
-    bf      .L_ext_len_ok
-    bra     .L_post_ext_parsing
+    bf      .L_0603F732
+    bra     .L_0603F748
     mov #0x1, r8
-.L_ext_len_ok:
+.L_0603F732:
     mov r13, r2
     mov r11, r3
     add #0x10, r2
     sub r2, r3
     mov #0xC, r2
     cmp/ge r2, r3
-    bt      .L_post_ext_parsing
+    bt      .L_0603F748
     mov r11, r2
     add #0x1, r11
     mov.b @r15, r3
     mov.b r3, @r2
-.L_post_ext_parsing:
+.L_0603F748:
     extu.b r9, r3
     cmp/ge r3, r12
-    bf      .L_read_remaining_char
-.L_fname_null_terminate:
+    bf      .L_0603F6EC
+.L_0603F74E:
     mov r13, r3
     mov r11, r2
     add #0x10, r3
     sub r3, r2
     mov #0xC, r3
     cmp/ge r3, r2
-    bt      .L_skip_null
+    bt      .L_0603F760
     extu.b r10, r3
     mov.b r3, @r11
-.L_skip_null:
+.L_0603F760:
     extu.b r9, r0
     add #0x1, r0
     tst #0x1, r0
-    bt      .L_no_pad_byte
+    bt      .L_0603F778
     mov r14, r4
     mov #0x1, r6
     mov r15, r5
@@ -282,38 +282,38 @@ DAT_0603f682:
     mov.l @(4, r15), r2
     add #0x1, r2
     mov.l r2, @(4, r15)
-.L_no_pad_byte:
+.L_0603F778:
     mov r13, r3
     add #0x10, r3
     mov.b @r3, r2
     extu.b r2, r2
     tst r2, r2
-    bf      .L_fname_nonempty
+    bf      .L_0603F792
     mov r13, r0
     .byte   0xD3, 0x20    /* mov.l _pool_strcpy, r3 */
     .byte   0xD1, 0x1E    /* mov.l _pool_str_dot, r1 */
     jsr @r3
     add #0x10, r0
-    bra     .L_post_fname_fixup
+    bra     .L_0603F7A8
     nop
-.L_fname_nonempty:
+.L_0603F792:
     mov r13, r0
     add #0x10, r0
     mov.b @r0, r0
     extu.b r0, r0
     cmp/eq #0x1, r0
-    bf      .L_post_fname_fixup
+    bf      .L_0603F7A8
     .byte   0xD1, 0x1B    /* mov.l _pool_str_dotdot, r1 */
     mov r13, r0
     .byte   0xD2, 0x19    /* mov.l _pool_strcpy, r2 */
     jsr @r2
     add #0x10, r0
-.L_post_fname_fixup:
+.L_0603F7A8:
     mov.b @r13, r3
     mov.l @(4, r15), r2
     extu.b r3, r3
     cmp/ge r3, r2
-    bt      .L_all_fields_consumed
+    bt      .L_0603F810
     mov r14, r4
     mov #0x4, r6
     mov r15, r5
@@ -341,21 +341,21 @@ DAT_0603f682:
     mov #0x1D, r0
     mov.b r4, @(r0, r13)
     mov.l @(4, r15), r12
-    bra     .L_tail_skip_test
+    bra     .L_0603F7F8
     add #0x9, r12
-.L_tail_skip_char:
+.L_0603F7EC:
     mov r14, r4
     mov #0x1, r6
     mov r15, r5
     .byte   0xBE, 0x00    /* bsr 0x0603F3F6 (external) */
     add #0x30, r5
     add #0x1, r12
-.L_tail_skip_test:
+.L_0603F7F8:
     mov.b @r13, r2
     extu.b r2, r2
     cmp/ge r2, r12
-    bf      .L_tail_skip_char
-    bra     .L_check_fixup_flag
+    bf      .L_0603F7EC
+    bra     .L_0603F82E
     nop
 _pool_str_dot:
     .4byte  sym_06059CB8
@@ -363,31 +363,31 @@ _pool_strcpy:
     .4byte  sym_06035FEC
 _pool_str_dotdot:
     .4byte  sym_06059CBC
-.L_all_fields_consumed:
+.L_0603F810:
     mov #0x2C, r0
     mov.b @(r0, r15), r0
     extu.b r0, r0
     tst #0x2, r0
-    bt      .L_no_half_flag
-    .byte   0xD2, 0x26    /* mov.l .L_fp_half, r2 */
-    bra     .L_store_xfer_len
+    bt      .L_0603F820
+    .byte   0xD2, 0x26    /* mov.l .L_0603F8B4, r2 */
+    bra     .L_0603F822
     nop
-.L_no_half_flag:
+.L_0603F820:
     mov #0x0, r2
-.L_store_xfer_len:
+.L_0603F822:
     extu.w r2, r2
     mov r2, r0
     mov.w r0, @(12, r13)
     extu.b r10, r3
     mov #0x1D, r0
     mov.b r3, @(r0, r13)
-.L_check_fixup_flag:
+.L_0603F82E:
     tst r8, r8
-    bt      .L_epilogue
+    bt      .L_0603F838
     mov.w @(12, r13), r0
     or #0x80, r0
     mov.w r0, @(12, r13)
-.L_epilogue:
+.L_0603F838:
     add #0x54, r15
     lds.l @r15+, pr
     mov.l @r15+, r8
@@ -428,7 +428,7 @@ _pool_str_dotdot:
 DAT_0603f8ae:
     .2byte  0x1000
     .4byte  0x2000FFFF
-.L_fp_half:
+.L_0603F8B4:
     .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 
     .global sym_0603F8B8

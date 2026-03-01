@@ -15,70 +15,70 @@ slave_sh2_setup:
     mov r6, r10
     mov.l r9, @-r15
     sts.l pr, @-r15
-    mov.l   .L_ptr_memcmp, r9
-    mov.w   .L_flag_mask, r11
-    mov.l   .L_ptr_str_dot, r0
-    mov.l   .L_ptr_strcmp, r3
+    mov.l   .L_0603F18C, r9
+    mov.w   .L_0603F180, r11
+    mov.l   .L_0603F190, r0
+    mov.l   .L_0603F194, r3
     jsr @r3
     mov r5, r1
     tst r0, r0
-    bf      .L_dot_no_match
-    bra     .L_return
+    bf      .L_0603F170
+    bra     .L_0603F1D0
     mov #0x0, r0
-.L_dot_no_match:
-    mov.l   .L_ptr_str_dotdot, r0
-    mov.l   .L_ptr_strcmp, r3
+.L_0603F170:
+    mov.l   .L_0603F198, r0
+    mov.l   .L_0603F194, r3
     jsr @r3
     mov r12, r1
     tst r0, r0
-    bf      .L_search_entries
-    bra     .L_return
+    bf      .L_0603F19C
+    bra     .L_0603F1D0
     mov #0x1, r0
-.L_flag_mask:
+.L_0603F180:
     .2byte  0x0080
     .2byte  0xFFFF
     .4byte  cmd_dispatch_main
     .4byte  menu_state_handler
-.L_ptr_memcmp:
+.L_0603F18C:
     .4byte  sym_06036D94
-.L_ptr_str_dot:
+.L_0603F190:
     .4byte  sym_06059CB8
-.L_ptr_strcmp:
+.L_0603F194:
     .4byte  sym_06036D14
-.L_ptr_str_dotdot:
+.L_0603F198:
     .4byte  sym_06059CBC
-.L_search_entries:
+.L_0603F19C:
     mov #0x2, r14
     cmp/ge r10, r14
-    bt/s    .L_not_found
+    bt/s    .L_0603F1CE
     add #0x30, r13
-.L_compare_entry:
+.L_0603F1A4:
     mov #0xC, r6
     mov r13, r5
     add #0xC, r5
     jsr @r9
     mov r12, r4
     tst r0, r0
-    bf      .L_check_end_flag
-    bra     .L_return
+    bf      .L_0603F1B6
+    bra     .L_0603F1D0
     mov r14, r0
-.L_check_end_flag:
+.L_0603F1B6:
     mov.b @(11, r13), r0
     mov r0, r3
     extu.b r3, r3
     and r11, r3
     tst r3, r3
-    bt      .L_next_entry
-    bra     .L_not_found
+    bt      .L_0603F1C6
+    bra     .L_0603F1CE
     nop
-.L_next_entry:
+.L_0603F1C6:
     add #0x1, r14
     cmp/ge r10, r14
-    bf/s    .L_compare_entry
+    bf/s    .L_0603F1A4
     add #0x18, r13
-.L_not_found:
+.L_0603F1CE:
     mov #-0x1, r0
-.L_return:
+.L_0603F1D0:
     lds.l @r15+, pr
     mov.l @r15+, r9
     mov.l @r15+, r10

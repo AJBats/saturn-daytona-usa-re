@@ -57,10 +57,10 @@ vdp1_cmd_list_reset:
     mov.l @(r0, r1), r3
     .byte   0xD4, 0x1D    /* mov.l _pool_frame_threshold, r4 */
     cmp/gt r3, r4
-    bt      .L_skip_frametime_store
+    bt      .L_0602DB90
     .byte   0xD1, 0x1C    /* mov.l _pool_off_frame_time, r1 */
     mov.l r6, @(r0, r1)
-.L_skip_frametime_store:
+.L_0602DB90:
     .byte   0xD1, 0x1C    /* mov.l _pool_off_frame_time_b, r1 */
     mov.l r6, @(r0, r1)
     .byte   0xD1, 0x1C    /* mov.l _pool_race_complete_flag, r1 */

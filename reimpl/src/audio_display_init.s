@@ -7,7 +7,7 @@
 audio_display_init:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    .byte   0xDE, 0x13    /* mov.l .L_fn_display_layer_config, r14 */
+    .byte   0xDE, 0x13    /* mov.l .L_0600A078, r14 */
     jsr @r14
     mov #0x0, r4
     jsr @r14
@@ -16,11 +16,11 @@ audio_display_init:
     mov #0x8, r4
     jsr @r14
     mov #0xC, r4
-    .byte   0xD3, 0x0F    /* mov.l .L_fn_render_state_commit, r3 */
+    .byte   0xD3, 0x0F    /* mov.l .L_0600A07C, r3 */
     jsr @r3
     nop
     mov #0x0, r6
-    .byte   0xDE, 0x0E    /* mov.l .L_fn_display_channel_b, r14 */
+    .byte   0xDE, 0x0E    /* mov.l .L_0600A080, r14 */
     mov r6, r5
     jsr @r14
     mov #0x4, r4
@@ -43,11 +43,11 @@ audio_display_init:
     .4byte  sound_cmd_dispatch             /* (unused pool entry in this TU) */
     .4byte  0xAE0001FF                     /* (unused) sound cmd: init/preview music */
     .4byte  0xAE0600FF                     /* (unused) sound cmd: start BGM */
-.L_fn_display_layer_config:
+.L_0600A078:
     .4byte  sym_0602853E                   /* display_layer_config */
-.L_fn_render_state_commit:
+.L_0600A07C:
     .4byte  sym_06028560                   /* render_state_commit */
-.L_fn_display_channel_b:
+.L_0600A080:
     .4byte  display_channel_b              /* display channel clear/configure */
     .4byte  0xD523E401
     .4byte  0x90406352

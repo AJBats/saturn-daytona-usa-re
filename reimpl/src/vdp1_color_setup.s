@@ -8,100 +8,100 @@ vdp1_color_setup:
     sts.l pr, @-r15
     mov #0x0, r12
     mov #0x0, r6
-    mov.w   .L_off_obj_data, r1
-    mov.w   .L_off_lateral_vel, r2
+    mov.w   .L_0602C9CC, r1
+    mov.w   .L_0602C9CE, r2
     mov.l @(r0, r1), r3
     mov.l @(r0, r2), r4
     xor r3, r4
     cmp/pz r4
-    bf      .L_drift_mag_done
+    bf      .L_0602C8FE
     mov r3, r6
     cmp/pz r6
-    bt      .L_drift_mag_done
+    bt      .L_0602C8FE
     neg r6, r6
-.L_drift_mag_done:
+.L_0602C8FE:
     mov.l @(8, r0), r1
     mov #0x46, r7
     cmp/ge r1, r7
-    bt      .L_skip_spin_detect
-    mov.w   .L_off_angular_vel_a, r2
-    mov.w   .L_off_angular_vel_b, r3
+    bt      .L_0602C92A
+    mov.w   .L_0602C9D0, r2
+    mov.w   .L_0602C9D2, r3
     mov.l @(r0, r2), r4
     mov.l @(r0, r3), r5
     xor r4, r5
     cmp/pz r5
-    bt      .L_skip_spin_detect
-    mov.w   .L_off_yaw_deflect, r2
-    mov.w   .L_yaw_threshold, r4
+    bt      .L_0602C92A
+    mov.w   .L_0602C9D4, r2
+    mov.w   .L_0602C9D6, r4
     mov.l @(r0, r2), r3
     cmp/ge r4, r3
-    bt      .L_set_spin_mode
+    bt      .L_0602C924
     neg r4, r4
     cmp/ge r3, r4
-    bt      .L_skip_spin_detect
-.L_set_spin_mode:
-    mov.w   .L_off_render_mode, r2
+    bt      .L_0602C92A
+.L_0602C924:
+    mov.w   .L_0602C9D8, r2
     mov #0xA, r3
     mov.w r3, @(r0, r2)
-.L_skip_spin_detect:
+.L_0602C92A:
     mov #0x64, r2
-    mov.w   .L_drift_threshold, r3
+    mov.w   .L_0602C9DA, r3
     cmp/gt r1, r2
-    bt      .L_no_color_boost
+    bt      .L_0602C938
     cmp/gt r6, r3
-    bt      .L_no_color_boost
+    bt      .L_0602C938
     mov #0x1, r12
-.L_no_color_boost:
-    mov.w   .L_off_mode_timer, r3
+.L_0602C938:
+    mov.w   .L_0602C9DC, r3
     mov.w @(r0, r3), r2
     tst r2, r2
-    bt      .L_skip_secondary_mode
-    mov.w   .L_off_secondary_mode, r3
+    bt      .L_0602C946
+    mov.w   .L_0602C9DE, r3
     mov #0x10, r2
     mov.w r2, @(r0, r3)
-.L_skip_secondary_mode:
+.L_0602C946:
     mov.l @(28, r0), r3
-    mov.w   .L_vert_threshold, r2
+    mov.w   .L_0602C9E0, r2
     cmp/ge r3, r2
-    bt      .L_skip_airborne_mode
-    mov.w   .L_off_activate_a, r2
+    bt      .L_0602C978
+    mov.w   .L_0602C9E2, r2
     mov #0x4, r3
     mov.l @(r0, r2), r1
     add #0x4, r2
     tst r1, r3
-    bt      .L_check_flags_b
-    mov.w   .L_off_obj_data, r3
+    bt      .L_0602C962
+    mov.w   .L_0602C9CC, r3
     mov.l @(r0, r3), r1
     cmp/pz r1
-    bf      .L_set_airborne_mode
-.L_check_flags_b:
+    bf      .L_0602C972
+.L_0602C962:
     mov #0x4, r3
     mov.l @(r0, r2), r1
     tst r1, r3
-    bt      .L_skip_airborne_mode
-    mov.w   .L_off_obj_data, r3
+    bt      .L_0602C978
+    mov.w   .L_0602C9CC, r3
     mov.l @(r0, r3), r1
     cmp/pz r1
-    bf      .L_skip_airborne_mode
-.L_set_airborne_mode:
-    mov.w   .L_off_render_mode, r3
+    bf      .L_0602C978
+.L_0602C972:
+    mov.w   .L_0602C9D8, r3
     mov #0x14, r2
     mov.w r2, @(r0, r3)
-.L_skip_airborne_mode:
-    mov.w   .L_off_color_timer, r8
+.L_0602C978:
+    mov.w   .L_0602C9E4, r8
     mov.w @(r0, r8), r2
     tst r12, r12
-    bt      .L_no_boost_inc
+    bt      .L_0602C982
     add #0x1, r2
-.L_no_boost_inc:
+.L_0602C982:
     cmp/pz r2
-    bf      .L_phase2_timers
+    bf      .L_0602C9F8
     add #-0x1, r2
     mov.w r2, @(r0, r8)
-    mov.w   .L_off_intensity, r3
-    mov.w   .L_off_angular_vel_b, r2
+    mov.w   .L_0602C9E6, r3
+    mov.w   .L_0602C9D2, r2
     mov.l @(r0, r3), r6
-    mov.w   .L_off_decel_coeff, r1
+    mov.w   .L_0602C9E8, r1
     dmuls.l r6, r6
     mov.l @(r0, r2), r5
     mov.l @(r0, r1), r4
@@ -109,13 +109,13 @@ vdp1_color_setup:
     dmuls.l r5, r5
     sts mach, r0
     dmuls.l r4, r4
-    .byte   0xDD, 0x12    /* mov.l .L_fn_hw_divide, r13 */
+    .byte   0xDD, 0x12    /* mov.l .L_0602C9EC, r13 */
     sts mach, r1
     jsr @r13
     add r6, r0
     shll16 r0
     mov r0, r3
-    mov.w   .L_off_decel_coeff, r1
+    mov.w   .L_0602C9E8, r1
     mov r14, r0
     mov.l @(r0, r1), r5
     dmuls.l r3, r5
@@ -124,172 +124,172 @@ vdp1_color_setup:
     sts macl, r3
     xtrct r6, r3
     cmp/pz r3
-    bt      .L_color_positive
+    bt      .L_0602C9C2
     mov r4, r3
-.L_color_positive:
+.L_0602C9C2:
     cmp/gt r4, r5
-    bt      .L_clamp_upper
+    bt      .L_0602C9F0
     mov r4, r5
-    bra     .L_store_color
+    bra     .L_0602C9F6
     nop
 
     .global DAT_0602c9cc
-.L_off_obj_data:
+.L_0602C9CC:
 DAT_0602c9cc:
     .2byte  0x0040
 
     .global DAT_0602c9ce
-.L_off_lateral_vel:
+.L_0602C9CE:
 DAT_0602c9ce:
     .2byte  0x005C
 
     .global DAT_0602c9d0
-.L_off_angular_vel_a:
+.L_0602C9D0:
 DAT_0602c9d0:
     .2byte  0x0060
 
     .global DAT_0602c9d2
-.L_off_angular_vel_b:
+.L_0602C9D2:
 DAT_0602c9d2:
     .2byte  0x0064
 
     .global DAT_0602c9d4
-.L_off_yaw_deflect:
+.L_0602C9D4:
 DAT_0602c9d4:
     .2byte  0x00D0
 
     .global DAT_0602c9d6
-.L_yaw_threshold:
+.L_0602C9D6:
 DAT_0602c9d6:
     .2byte  0x1000
 
     .global DAT_0602c9d8
-.L_off_render_mode:
+.L_0602C9D8:
 DAT_0602c9d8:
     .2byte  0x016C
-.L_drift_threshold:
+.L_0602C9DA:
     .2byte  0x0E00
 
     .global DAT_0602c9dc
-.L_off_mode_timer:
+.L_0602C9DC:
 DAT_0602c9dc:
     .2byte  0x00D4
 
     .global DAT_0602c9de
-.L_off_secondary_mode:
+.L_0602C9DE:
 DAT_0602c9de:
     .2byte  0x0170
-.L_vert_threshold:
+.L_0602C9E0:
     .2byte  0x0500
 
     .global DAT_0602c9e2
-.L_off_activate_a:
+.L_0602C9E2:
 DAT_0602c9e2:
     .2byte  0x0128
-.L_off_color_timer:
+.L_0602C9E4:
     .2byte  0x016A
 
     .global DAT_0602c9e6
-.L_off_intensity:
+.L_0602C9E6:
 DAT_0602c9e6:
     .2byte  0x0144
-.L_off_decel_coeff:
+.L_0602C9E8:
     .2byte  0x011C
     .2byte  0x0000
-.L_fn_hw_divide:
+.L_0602C9EC:
     .4byte  sym_0602ECCC
-.L_clamp_upper:
+.L_0602C9F0:
     cmp/ge r5, r3
-    bt      .L_store_color
+    bt      .L_0602C9F6
     mov r3, r5
-.L_store_color:
+.L_0602C9F6:
     mov.l r5, @(r0, r1)
-.L_phase2_timers:
+.L_0602C9F8:
     add #0x2, r8
     mov.w @(r0, r8), r2
     cmp/pz r2
-    bf      .L_timer_b
+    bf      .L_0602CA0A
     add #-0x1, r2
     mov.w r2, @(r0, r8)
-    mov.w   .L_off_draw_count, r3
+    mov.w   .L_0602CA72, r3
     mov #0x0, r4
     mov.w r4, @(r0, r3)
-.L_timer_b:
+.L_0602CA0A:
     add #0x2, r8
     mov.w @(r0, r8), r5
     cmp/pl r5
-    bf      .L_timer_c
+    bf      .L_0602CA26
     add #-0x1, r5
     mov.w r5, @(r0, r8)
-    mov.w   .L_off_intensity_b, r2
-    .byte   0xD4, 0x18    /* mov.l .L_decay_factor, r4 */
+    mov.w   .L_0602CA74, r2
+    .byte   0xD4, 0x18    /* mov.l .L_0602CA7C, r4 */
     mov.l @(r0, r2), r3
     dmuls.l r3, r4
     sts mach, r3
     sts macl, r4
     xtrct r3, r4
     mov.w r4, @(r0, r2)
-.L_timer_c:
+.L_0602CA26:
     add #0x2, r8
     mov.w @(r0, r8), r5
     cmp/pl r5
-    bf      .L_timer_d
+    bf      .L_0602CA38
     add #-0x1, r5
     mov.w r5, @(r0, r8)
-    mov.w   .L_off_intensity_b, r2
-    .byte   0xD3, 0x12    /* mov.l .L_full_bright, r3 */
+    mov.w   .L_0602CA74, r2
+    .byte   0xD3, 0x12    /* mov.l .L_0602CA80, r3 */
     mov.l r3, @(r0, r2)
-.L_timer_d:
+.L_0602CA38:
     add #0x2, r8
     mov.w @(r0, r8), r5
     cmp/pl r5
-    bf      .L_timer_e
+    bf      .L_0602CA52
     add #-0x1, r5
     mov.w r5, @(r0, r8)
-    mov.w   .L_off_intensity_b, r1
+    mov.w   .L_0602CA74, r1
     mov.l @(r0, r1), r2
     shar r2
     mov.l r2, @(r0, r1)
-    mov.w   .L_off_force_aux, r5
+    mov.w   .L_0602CA76, r5
     mov #0x0, r3
     mov.l r3, @(r0, r5)
-.L_timer_e:
+.L_0602CA52:
     add #0x2, r8
     mov.w @(r0, r8), r5
     cmp/pl r5
-    bf      .L_return
+    bf      .L_0602CA6C
     add #-0x1, r5
     mov.w r5, @(r0, r8)
-    mov.w   .L_off_decel_coeff_b, r1
+    mov.w   .L_0602CA78, r1
     mov.l @(r0, r1), r3
     cmp/pz r3
-    bf      .L_return
+    bf      .L_0602CA6C
     neg r3, r3
-    mov.w   .L_off_force_aux, r1
+    mov.w   .L_0602CA76, r1
     mov.l r3, @(r0, r1)
-.L_return:
+.L_0602CA6C:
     lds.l @r15+, pr
     rts
     mov #0x0, r1
 
     .global DAT_0602ca72
-.L_off_draw_count:
+.L_0602CA72:
 DAT_0602ca72:
     .2byte  0x0168
 
     .global DAT_0602ca74
-.L_off_intensity_b:
+.L_0602CA74:
 DAT_0602ca74:
     .2byte  0x0144
 
     .global DAT_0602ca76
-.L_off_force_aux:
+.L_0602CA76:
 DAT_0602ca76:
     .2byte  0x00F4
-.L_off_decel_coeff_b:
+.L_0602CA78:
     .2byte  0x011C
     .2byte  0x0000
-.L_decay_factor:
+.L_0602CA7C:
     .4byte  0x00011999
-.L_full_bright:
+.L_0602CA80:
     .4byte  0x09D80000

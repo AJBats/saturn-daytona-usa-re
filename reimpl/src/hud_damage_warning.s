@@ -13,15 +13,15 @@ hud_damage_warning:
     add #0x4, r6
     mov.l @(60, r15), r10
     mov r15, r5
-    mov.l   .L_fn_sincos, r3
+    mov.l   .L_06011C18, r3
     jsr @r3
     mov.w @(r0, r15), r4
 
     neg r8, r4
-    mov.l   .L_hud_record_base, r11
-    mov.l   .L_hud_record_count, r12
-    mov.l   .L_fn_swap_sign_ext, r13
-    mov.l   .L_fn_fpmul, r14
+    mov.l   .L_06011C1C, r11
+    mov.l   .L_06011C20, r12
+    mov.l   .L_06011C24, r13
+    mov.l   .L_06011C28, r14
 
     mov.w @r12, r2
     mov r2, r3
@@ -143,21 +143,21 @@ hud_damage_warning:
     jsr @r14
     mov r8, r4
     mov.l r0, @-r15
-    bra     .L_after_pool
+    bra     .L_06011C2C
     nop
     .2byte  0xFFFF                      /* padding to align pool */
-.L_fn_sincos:
+.L_06011C18:
     .4byte  sincos_pair                 /* sin/cos lookup function */
-.L_hud_record_base:
+.L_06011C1C:
     .4byte  sym_060786CC                /* HUD record array base address */
-.L_hud_record_count:
+.L_06011C20:
     .4byte  sym_0605AAA0                /* HUD record count/index (16-bit) */
-.L_fn_swap_sign_ext:
+.L_06011C24:
     .4byte  swap_sign_ext               /* extract int16 from 16.16 fixed-point */
-.L_fn_fpmul:
+.L_06011C28:
     .4byte  fpmul                       /* 16.16 fixed-point multiply */
 
-.L_after_pool:
+.L_06011C2C:
     mov.l @(12, r15), r5
     jsr @r14
     mov r9, r4
@@ -335,9 +335,9 @@ hud_damage_warning:
     shll r3
     shll2 r2
     shll2 r2
-    bra     .L_write_flags
+    bra     .L_06011D86
     nop
-.L_write_flags:
+.L_06011D86:
     add r2, r3
     extu.b r4, r0
     exts.w r3, r3

@@ -24,21 +24,21 @@ geom_math_calc:
     mov.l @(r0, r4), r3
     add #-0x1, r2
     cmp/hs r2, r3
-    bf      .L_below_threshold
+    bf      .L_06018196
     .byte   0xD4, 0x2A    /* mov.l .L_pool_06018240, r4 */
     mov.l @r4, r4
-    bra     .L_config_chosen
+    bra     .L_0601819C
     mov #0x1, r5
-.L_below_threshold:
+.L_06018196:
     .byte   0xD4, 0x29    /* mov.l .L_pool_06018244, r4 */
     mov.l @r4, r4
     mov #0x0, r5
-.L_config_chosen:
+.L_0601819C:
     mov.w   DAT_06018216, r6
     mov #0x5, r3
     mov.w @r12, r2
     cmp/gt r3, r2
-    bt      .L_reset_mode
+    bt      .L_060181D2
     mov.w   .L_wpool_06018220, r4
     mov r14, r3
     add r14, r6
@@ -59,9 +59,9 @@ geom_math_calc:
     mov.l @r2, r3
     add r4, r3
     mov.l r3, @r2
-    bra     .L_check_flag
+    bra     .L_060181F8
     nop
-.L_reset_mode:
+.L_060181D2:
     mov r14, r2
     add r14, r6
     add r11, r2
@@ -81,10 +81,10 @@ geom_math_calc:
     mov.l r3, @r2
     mov #0x0, r2
     mov.w r2, @r12
-.L_check_flag:
+.L_060181F8:
     extu.w r5, r5
     tst r5, r5
-    bt      .L_flag_clear
+    bt      .L_06018244
     mov r14, r3
     add r11, r3
     mov.w @r3, r2
@@ -93,7 +93,7 @@ geom_math_calc:
     shll r2
     add r13, r2
     mov.w   DAT_0601821a, r0
-    bra     .L_write_slot_flag
+    bra     .L_06018258
     mov.w r0, @(6, r2)
 
     .global DAT_06018212
@@ -131,7 +131,7 @@ DAT_0601821a:
     .4byte  sym_06089E28                     /* projection config (below-threshold config) */
 .L_pool_06018248:
     .4byte  sym_06089E30                     /* projection param A (reset target for secondary slot) */
-.L_flag_clear:
+.L_06018244:
     mov r14, r2
     add r11, r2
     mov.w @r2, r3
@@ -142,19 +142,19 @@ DAT_0601821a:
     .byte   0x92, 0x4E    /* mov.w .L_wpool_060182F2, r2 */
     mov r2, r0
     mov.w r0, @(6, r3)
-.L_write_slot_flag:
+.L_06018258:
     .byte   0xD3, 0x27    /* mov.l .L_pool_060182F8, r3 */
     .byte   0xD2, 0x28    /* mov.l .L_pool_060182FC, r2 */
     mov.l @r3, r3
     and r2, r3
     tst r3, r3
-    bt      .L_scroll_config_path
+    bt      .L_0601826E
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
     .byte   0xA1, 0xB5    /* bra 0x060185D8 (external) */
     mov.l @r15+, r14
-.L_scroll_config_path:
+.L_0601826E:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13

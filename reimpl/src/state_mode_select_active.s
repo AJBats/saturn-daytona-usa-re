@@ -11,38 +11,38 @@ state_mode_select_active:
     mov.w @r0, r0
     extu.w r0, r0
     cmp/eq #0x70, r0
-    bf/s    .L_skip_saturn_mode
+    bf/s    .L_06008D8A
     mov #0x0, r14
     mov #0x2, r2
     mov.l   _pool_course_type_ptr, r3
     mov.l r2, @r3
-.L_skip_saturn_mode:
+.L_06008D8A:
     mov.l   _pool_countdown_ptr, r4
     mov.l @r4, r2
     add #-0x1, r2
     mov.l r2, @r4
     mov r2, r3
     cmp/pz r3
-    bt      .L_countdown_ok
+    bt      .L_06008DA2
     mov.l   _pool_game_state_ptr, r3
     mov.l r14, @r3
     mov.l   _pool_fn_disable_display, r3
     jsr @r3
     nop
-.L_countdown_ok:
+.L_06008DA2:
     mov.l   _pool_button_status_ptr, r2
     mov.w @r2, r3
     extu.w r3, r3
     mov.w   _wpool_confirm_mask, r2
     and r2, r3
     tst r3, r3
-    bt      .L_no_confirm
+    bt      .L_06008DBA
     mov.l   _pool_game_state_ptr, r3
     mov.l r14, @r3
     mov.l   _pool_fn_disable_display, r3
     jsr @r3
     nop
-.L_no_confirm:
+.L_06008DBA:
     mov.l   _pool_fn_render_dispatch, r3
     jsr @r3
     nop

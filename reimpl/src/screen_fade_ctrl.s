@@ -28,30 +28,30 @@ screen_fade_ctrl:
     add r13, r0
     mov r12, r6
     mov r0, r14
-.L_row_group:
+.L_06028468:
     mov r8, r12
     mov r14, r0
-.L_tile_loop:
+.L_0602846C:
     mov r3, r13
     mov r1, r9
     mov.b @r0+, r7
     mulu.w r7, r11
     sts macl, r7
     add r7, r9
-.L_pixel_loop:
+.L_06028478:
     mov.w @r9, r7
     add r2, r7
     mov.w r7, @r5
     add #0x2, r9
     dt r13
-    bf/s    .L_pixel_loop
+    bf/s    .L_06028478
     add #0x2, r5
     dt r12
-    bf      .L_tile_loop
+    bf      .L_0602846C
     add r3, r1
     add r3, r1
     dt r4
-    bf/s    .L_row_group
+    bf/s    .L_06028468
     add r6, r5
     lds.l @r15+, pr
     mov.l @r15+, r14

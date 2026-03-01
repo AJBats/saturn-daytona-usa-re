@@ -10,23 +10,23 @@ math_trig_lib:
     .byte   0xDB, 0x2D    /* mov.l .L_pool_06042707, r11 */
 
     cmp/pz r10
-    bt/s    .L_x_nonneg
+    bt/s    .L_06042652
     mov r4, r12
     neg r10, r5
-.L_x_nonneg:
+.L_06042652:
     cmp/pz r12
-    bt      .L_y_nonneg
+    bt      .L_06042658
     neg r12, r4
-.L_y_nonneg:
+.L_06042658:
 
     mov #0x41, r2
     cmp/ge r2, r5
-    bt      .L_do_hw_divide
+    bt      .L_06042664
     .byte   0xDD, 0x29    /* mov.l .L_pool_0604270B, r13 */
-    bra     .L_have_tangent_ratio
+    bra     .L_06042674
     nop
 
-.L_do_hw_divide:
+.L_06042664:
     .byte   0xD0, 0x25    /* mov.l .L_pool_06042703, r0 */
     swap.w r4, r2
     mov.l r5, @r0
@@ -36,11 +36,11 @@ math_trig_lib:
     mov.l r4, @(20, r0)
     mov.l @(20, r0), r13
 
-.L_have_tangent_ratio:
+.L_06042674:
     mov #0x0, r4
     mov #0x5A, r5
 
-.L_bsearch_loop:
+.L_06042678:
     mov r4, r14
     add r5, r14
     shar r14
@@ -49,7 +49,7 @@ math_trig_lib:
     shll r0
     mov.l @(r0, r11), r2
     cmp/gt r13, r2
-    bt      .L_bsearch_go_low
+    bt      .L_0604269E
 
     mov r14, r4
     add #0x1, r4
@@ -58,18 +58,18 @@ math_trig_lib:
     shll r0
     mov.l @(r0, r11), r3
     cmp/ge r3, r13
-    bt      .L_bsearch_check_done
-    bra     .L_bsearch_found
+    bt      .L_060426A0
+    bra     .L_060426A4
     nop
 
-.L_bsearch_go_low:
+.L_0604269E:
     mov r14, r5
 
-.L_bsearch_check_done:
+.L_060426A0:
     cmp/ge r5, r4
-    bf      .L_bsearch_loop
+    bf      .L_06042678
 
-.L_bsearch_found:
+.L_060426A4:
     mov r14, r0
     mov r13, r4
     shll2 r0
@@ -85,36 +85,36 @@ math_trig_lib:
 
     .byte   0xD2, 0x12    /* mov.l .L_pool_0604270F, r2 */
     cmp/gt r2, r4
-    bf      .L_frac_ok
+    bf      .L_060426C4
     .byte   0xD4, 0x11    /* mov.l .L_pool_0604270F, r4 */
 
-.L_frac_ok:
+.L_060426C4:
     mov r14, r0
     shll16 r0
     cmp/pz r12
-    bt/s    .L_y_was_positive
+    bt/s    .L_060426D0
     add r0, r4
     neg r4, r4
 
-.L_y_was_positive:
+.L_060426D0:
     cmp/pz r10
-    bt      .L_result_ready
+    bt      .L_060426E4
 
     cmp/pz r12
-    bf      .L_x_neg_y_neg
+    bf      .L_060426DE
 
     .byte   0xD2, 0x0C    /* mov.l .L_pool_06042713, r2 */
-    bra     .L_apply_quadrant_offset
+    bra     .L_060426E0
     nop
 
-.L_x_neg_y_neg:
+.L_060426DE:
     .byte   0xD2, 0x0C    /* mov.l .L_pool_06042717, r2 */
 
-.L_apply_quadrant_offset:
+.L_060426E0:
     sub r4, r2
     mov r2, r4
 
-.L_result_ready:
+.L_060426E4:
     mov r4, r0
     lds.l @r15+, pr
     lds.l @r15+, macl
@@ -171,7 +171,7 @@ sym_06042714:
     .word 0x0000
     mov.l r14, @(32, r10)
     .word 0x0038
-    bf/s    .L_tan_entry_deg31
+    bf/s    .L_0604280C
     .word 0x0000
     mov.l r6, @(56, r15)
     .word 0x0038
@@ -243,7 +243,7 @@ sym_06042714:
     .4byte  0x002B6686
     .4byte  0x000093CD
     .4byte  0x002A88D2
-.L_tan_entry_deg31:
+.L_0604280C:
     .word 0x0000
     mov.w   .L_wpool_060429BD, r9
     .word 0x0029

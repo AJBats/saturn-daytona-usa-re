@@ -19,57 +19,57 @@ button_input_read:
     mov.l r9, @-r15
     mov.l r8, @-r15
     sts.l pr, @-r15
-    mov.l   .L_fn_disp_channel_b, r8
-    mov.l   .L_fn_disp_channel_a, r9
-    mov.l   .L_fn_scene_dispatch, r10
-    mov.l   .L_game_state_flag, r11
-    mov.l   .L_frame_counter, r13
-    mov.l   .L_input_state_ptr, r14
-    mov.l   .L_tick_counter, r4
+    mov.l   .L_06006FDC, r8
+    mov.l   .L_06006FE0, r9
+    mov.l   .L_06006FE4, r10
+    mov.l   .L_06006FE8, r11
+    mov.l   .L_06006FEC, r13
+    mov.l   .L_06006FF0, r14
+    mov.l   .L_06006FF4, r4
     mov.l @r4, r3
     add #0x1, r3
     mov.l r3, @r4
-    mov.l   .L_run_flag, r3
+    mov.l   .L_06006FF8, r3
     mov.l r2, @r3
-    mov.l   .L_skip_flag, r0
+    mov.l   .L_06006FFC, r0
     mov.w @r0, r0
     extu.w r0, r0
     tst r0, r0
-    bt/s    .L_vdp_mode_entry
+    bt/s    .L_06006F76
     mov #0x0, r12
-    bra     .L_exit_epilogue
+    bra     .L_060071F0
     nop
 
-.L_vdp_mode_entry:
-    mov.l   .L_display_mode, r3
+.L_06006F76:
+    mov.l   .L_06007000, r3
     mov.l r12, @r3
-    mov.l   .L_vdp_mode, r4
+    mov.l   .L_06007004, r4
     mov.w @r4, r0
     extu.w r0, r0
     cmp/eq #0x2, r0
-    bf      .L_vdp_check_mode3
+    bf      .L_06006F98
     mov.l @r11, r0
     tst r0, r0
-    bt      .L_button_dispatch
+    bt      .L_06007058
     jsr @r10
     nop
     mov #0x2, r3
-    mov.l   .L_display_mode, r2
+    mov.l   .L_06007000, r2
     mov.l r3, @r2
-    bra     .L_button_dispatch
+    bra     .L_06007058
     nop
-.L_vdp_check_mode3:
-    mov.l   .L_vdp1_fbcr, r6
-    mov.l   .L_fbcr_state, r5
+.L_06006F98:
+    mov.l   .L_06007008, r6
+    mov.l   .L_0600700C, r5
     mov.w @r4, r0
     extu.w r0, r0
     cmp/eq #0x3, r0
-    bf      .L_vdp_check_mode0
+    bf      .L_06006FCA
     mov.l @r11, r0
     tst r0, r0
-    bt      .L_button_dispatch
-    mov.l   .L_tvmr_state, r0
-    mov.l   .L_vdp1_tvmr, r3
+    bt      .L_06007058
+    mov.l   .L_06007010, r0
+    mov.l   .L_06007014, r3
     mov.w @r0, r0
     extu.w r0, r0
     or #0x8, r0
@@ -80,91 +80,91 @@ button_input_read:
     jsr @r10
     mov.w r0, @r6
     mov #0x3, r3
-    mov.l   .L_display_mode, r2
+    mov.l   .L_06007000, r2
     mov.l r3, @r2
-    bra     .L_button_dispatch
+    bra     .L_06007058
     nop
-.L_vdp_check_mode0:
+.L_06006FCA:
     mov.w @r4, r2
     extu.w r2, r2
     tst r2, r2
-    bf      .L_vdp_mode1_fbswap
+    bf      .L_06007018
     jsr @r10
     nop
-    bra     .L_button_dispatch
+    bra     .L_06007058
     mov.l r12, @r11
     .2byte  0xFFFF
 
-.L_fn_disp_channel_b:
+.L_06006FDC:
     .4byte  display_channel_b
-.L_fn_disp_channel_a:
+.L_06006FE0:
     .4byte  display_channel_a
-.L_fn_scene_dispatch:
+.L_06006FE4:
     .4byte  scene_data_dispatch
-.L_game_state_flag:
+.L_06006FE8:
     .4byte  sym_060635C4
-.L_frame_counter:
+.L_06006FEC:
     .4byte  sym_060635C0
-.L_input_state_ptr:
+.L_06006FF0:
     .4byte  sym_0605B6D8
-.L_tick_counter:
+.L_06006FF4:
     .4byte  sym_0607864C
-.L_run_flag:
+.L_06006FF8:
     .4byte  sym_06059F54
-.L_skip_flag:
+.L_06006FFC:
     .4byte  sym_0605A00C
-.L_display_mode:
+.L_06007000:
     .4byte  sym_06063F58
-.L_vdp_mode:
+.L_06007004:
     .4byte  sym_060635B4
-.L_vdp1_fbcr:
+.L_06007008:
     .4byte  0x25D00002
-.L_fbcr_state:
+.L_0600700C:
     .4byte  sym_060A4C92
-.L_tvmr_state:
+.L_06007010:
     .4byte  sym_060A4C90
-.L_vdp1_tvmr:
+.L_06007014:
     .4byte  0x25D00000
 
-.L_vdp_mode1_fbswap:
+.L_06007018:
     mov.l @r13, r2
     add #0x1, r2
     mov.l r2, @r13
-    mov.l   .L_fb_swap_enable, r0
+    mov.l   .L_060070F0, r0
     mov.l @r0, r0
     cmp/eq #0x1, r0
-    bf      .L_fbswap_check_delay
-    mov.l   .L_fb_swap_delay, r2
+    bf      .L_0600703C
+    mov.l   .L_060070F4, r2
     mov.l @r13, r3
     mov.l @r2, r2
     add #-0x1, r2
     cmp/gt r3, r2
-    bt      .L_fbswap_check_delay
+    bt      .L_0600703C
     mov.w @r5, r0
     extu.w r0, r0
     or #0x2, r0
     extu.w r0, r0
     mov.w r0, @r6
-.L_fbswap_check_delay:
-    mov.l   .L_fb_swap_delay, r3
+.L_0600703C:
+    mov.l   .L_060070F4, r3
     mov.l @r13, r2
     mov.l @r3, r3
     cmp/gt r2, r3
-    bt      .L_button_dispatch
+    bt      .L_06007058
     mov.l @r11, r0
     tst r0, r0
-    bt      .L_fbswap_reset_counter
+    bt      .L_06007056
     jsr @r10
     nop
     mov #0x1, r3
-    mov.l   .L_display_mode_b, r2
+    mov.l   .L_060070F8, r2
     mov.l r3, @r2
-.L_fbswap_reset_counter:
+.L_06007056:
     mov.l r12, @r13
 
-.L_button_dispatch:
-    mov.l   .L_car_array_idx, r3
-    mov.l   .L_car_select, r1
+.L_06007058:
+    mov.l   .L_060070FC, r3
+    mov.l   .L_06007100, r1
     mov.l @r3, r3
     mov.l @r1, r1
     shlr2 r3
@@ -177,238 +177,238 @@ button_input_read:
     shll2 r2
     add r2, r3
     add r1, r3
-    mov.l   .L_car_base, r2
+    mov.l   .L_06007104, r2
     add r2, r3
-    mov.l   .L_current_car, r2
+    mov.l   .L_06007108, r2
     mov.l r3, @r2
 
     mov.l @r14, r1
-    mov.l   .L_bit29_dma, r2
+    mov.l   .L_0600710C, r2
     and r2, r1
     tst r1, r1
-    bt      .L_check_dpad_right
-    mov.w   .L_dma_size_a, r6
-    mov.l   .L_current_car, r5
-    mov.l   .L_dma_dst_a, r4
-    mov.l   .L_fn_dma_transfer, r3
+    bt      .L_06007094
+    mov.w   .L_060070EA, r6
+    mov.l   .L_06007108, r5
+    mov.l   .L_06007110, r4
+    mov.l   .L_06007114, r3
     mov.l @r5, r5
     jsr @r3
     mov.l @r4, r4
 
-.L_check_dpad_right:
+.L_06007094:
     mov.l @r14, r0
     tst #0x4, r0
-    bt      .L_check_dpad_left
-    mov.w   .L_dma_size_b, r6
-    mov.l   .L_dma_src_b, r5
-    mov.l   .L_dma_dst_b, r4
-    mov.l   .L_fn_dma_transfer, r3
+    bt      .L_060070A8
+    mov.w   .L_060070EC, r6
+    mov.l   .L_06007118, r5
+    mov.l   .L_0600711C, r4
+    mov.l   .L_06007114, r3
     mov.l @r5, r5
     jsr @r3
     mov.l @r4, r4
 
-.L_check_dpad_left:
+.L_060070A8:
     mov.l @r14, r0
     tst #0x10, r0
-    bt      .L_check_start
-    mov.l   .L_btn_left_a, r6
-    mov.l   .L_btn_left_b, r5
+    bt      .L_060070BA
+    mov.l   .L_06007120, r6
+    mov.l   .L_06007124, r5
     mov.l @r6, r6
     mov.l @r5, r5
     jsr @r8
     mov #0x4, r4
 
-.L_check_start:
+.L_060070BA:
     mov.l @r14, r0
     tst #0x20, r0
-    bt      .L_check_btn_a
-    mov.l   .L_btn_start_a, r6
-    mov.l   .L_btn_start_b, r5
+    bt      .L_060070CC
+    mov.l   .L_06007128, r6
+    mov.l   .L_0600712C, r5
     mov.l @r6, r6
     mov.l @r5, r5
     jsr @r8
     mov #0x8, r4
 
-.L_check_btn_a:
+.L_060070CC:
     mov.l @r14, r0
     tst #0x40, r0
-    bt      .L_check_btn_b
-    mov.l   .L_btn_a_src, r6
-    mov.l   .L_btn_a_dst, r5
+    bt      .L_060070DE
+    mov.l   .L_06007130, r6
+    mov.l   .L_06007134, r5
     mov.l @r6, r6
     mov.l @r5, r5
     jsr @r8
     mov #0x10, r4
 
-.L_check_btn_b:
+.L_060070DE:
     mov.l @r14, r0
     tst #0x80, r0
-    bt      .L_check_chan_a0
-    mov.l   .L_btn_b_src, r6
-    bra     .L_btn_b_handler
+    bt      .L_06007146
+    mov.l   .L_06007138, r6
+    bra     .L_0600713C
     nop
 
-.L_dma_size_a:
+.L_060070EA:
     .2byte  0x0640
-.L_dma_size_b:
+.L_060070EC:
     .2byte  0x0E00
     .2byte  0xFFFF
 
-.L_fb_swap_enable:
+.L_060070F0:
     .4byte  sym_060635B8
-.L_fb_swap_delay:
+.L_060070F4:
     .4byte  sym_060635BC
-.L_display_mode_b:
+.L_060070F8:
     .4byte  sym_06063F58
-.L_car_array_idx:
+.L_060070FC:
     .4byte  sym_06059F3C
-.L_car_select:
+.L_06007100:
     .4byte  sym_06059F38
-.L_car_base:
+.L_06007104:
     .4byte  sym_0606B178
-.L_current_car:
+.L_06007108:
     .4byte  sym_06059F34
-.L_bit29_dma:
+.L_0600710C:
     .4byte  0x20000000
-.L_dma_dst_a:
+.L_06007110:
     .4byte  sym_06063F60
-.L_fn_dma_transfer:
+.L_06007114:
     .4byte  dma_transfer
-.L_dma_src_b:
+.L_06007118:
     .4byte  sym_0606129C
-.L_dma_dst_b:
+.L_0600711C:
     .4byte  sym_060612B4
-.L_btn_left_a:
+.L_06007120:
     .4byte  sym_0605B700
-.L_btn_left_b:
+.L_06007124:
     .4byte  sym_0605B6FC
-.L_btn_start_a:
+.L_06007128:
     .4byte  sym_0605B708
-.L_btn_start_b:
+.L_0600712C:
     .4byte  sym_0605B704
-.L_btn_a_src:
+.L_06007130:
     .4byte  sym_0605B710
-.L_btn_a_dst:
+.L_06007134:
     .4byte  sym_0605B70C
-.L_btn_b_src:
+.L_06007138:
     .4byte  sym_0605B718
 
-.L_btn_b_handler:
+.L_0600713C:
     mov.l @r6, r6
-    mov.l   .L_btn_b_dst, r5
+    mov.l   .L_06007208, r5
     mov.l @r5, r5
     jsr @r8
     mov #0x20, r4
 
 
-.L_check_chan_a0:
+.L_06007146:
     mov.l @r14, r3
-    mov.l   .L_evt_bit16, r2
+    mov.l   .L_0600720C, r2
     and r2, r3
     tst r3, r3
-    bt      .L_check_chan_a1
-    mov.l   .L_chan_a0_src, r6
-    mov.l   .L_chan_a0_dst, r5
+    bt      .L_0600715C
+    mov.l   .L_06007210, r6
+    mov.l   .L_06007214, r5
     mov.l @r6, r6
     mov.l @r5, r5
     jsr @r9
     mov #0x4, r4
 
-.L_check_chan_a1:
+.L_0600715C:
     mov.l @r14, r3
-    mov.l   .L_evt_bit17, r2
+    mov.l   .L_06007218, r2
     and r2, r3
     tst r3, r3
-    bt      .L_check_chan_a2
-    mov.l   .L_chan_a1_src, r6
-    mov.l   .L_chan_a1_dst, r5
+    bt      .L_06007172
+    mov.l   .L_0600721C, r6
+    mov.l   .L_06007220, r5
     mov.l @r6, r6
     mov.l @r5, r5
     jsr @r9
     mov #0x8, r4
 
-.L_check_chan_a2:
+.L_06007172:
     mov.l @r14, r3
-    mov.l   .L_evt_bit18, r2
+    mov.l   .L_06007224, r2
     and r2, r3
     tst r3, r3
-    bt      .L_check_chan_a3
-    mov.l   .L_chan_a2_src, r6
-    mov.l   .L_chan_a2_dst, r5
+    bt      .L_06007188
+    mov.l   .L_06007228, r6
+    mov.l   .L_0600722C, r5
     mov.l @r6, r6
     mov.l @r5, r5
     jsr @r9
     mov #0x10, r4
 
-.L_check_chan_a3:
+.L_06007188:
     mov.l @r14, r3
-    mov.l   .L_evt_bit19, r2
+    mov.l   .L_06007230, r2
     and r2, r3
     tst r3, r3
-    bt      .L_check_handler_a
-    mov.l   .L_chan_a3_src, r6
-    mov.l   .L_chan_a3_dst, r5
+    bt      .L_0600719E
+    mov.l   .L_06007234, r6
+    mov.l   .L_06007238, r5
     mov.l @r6, r6
     mov.l @r5, r5
     jsr @r9
     mov #0x20, r4
 
 
-.L_check_handler_a:
+.L_0600719E:
     mov.l @r14, r3
-    mov.l   .L_evt_bit31, r2
+    mov.l   .L_0600723C, r2
     and r2, r3
     tst r3, r3
-    bt      .L_check_handler_b
-    mov.l   .L_fn_handler_a, r3
+    bt      .L_060071AE
+    mov.l   .L_06007240, r3
     jsr @r3
     nop
 
-.L_check_handler_b:
+.L_060071AE:
     mov.l @r14, r2
-    mov.l   .L_evt_bit30, r3
+    mov.l   .L_06007244, r3
     and r3, r2
     tst r2, r2
-    bt      .L_check_channels_reload
-    mov.l   .L_fn_handler_b, r3
+    bt      .L_060071BE
+    mov.l   .L_06007248, r3
     jsr @r3
     nop
 
-.L_check_channels_reload:
+.L_060071BE:
     mov.l @r14, r2
-    mov.l   .L_evt_bit20, r3
+    mov.l   .L_0600724C, r3
     and r3, r2
     tst r2, r2
-    bt      .L_check_collision
-    mov.l   .L_fn_channels_load, r3
+    bt      .L_060071CE
+    mov.l   .L_06007250, r3
     jsr @r3
     nop
 
-.L_check_collision:
+.L_060071CE:
     mov.l @r14, r2
-    mov.l   .L_evt_bit26, r3
+    mov.l   .L_06007254, r3
     and r3, r2
     tst r2, r2
-    bt      .L_check_physics
-    mov.l   .L_fn_collision, r3
+    bt      .L_060071DE
+    mov.l   .L_06007258, r3
     jsr @r3
     nop
 
-.L_check_physics:
+.L_060071DE:
     mov.l @r14, r2
-    mov.l   .L_evt_bit27, r3
+    mov.l   .L_0600725C, r3
     and r3, r2
     tst r2, r2
-    bt      .L_clear_input
-    mov.l   .L_fn_physics, r3
+    bt      .L_060071EE
+    mov.l   .L_06007260, r3
     jsr @r3
     nop
 
-.L_clear_input:
+.L_060071EE:
     mov.l r12, @r14
-.L_exit_epilogue:
+.L_060071F0:
     mov #0x2, r2
-    mov.l   .L_run_flag_exit, r3
+    mov.l   .L_06007264, r3
     mov.l r2, @r3
     lds.l @r15+, pr
     mov.l @r15+, r8
@@ -420,51 +420,51 @@ button_input_read:
     rts
     mov.l @r15+, r14
 
-.L_btn_b_dst:
+.L_06007208:
     .4byte  sym_0605B714
-.L_evt_bit16:
+.L_0600720C:
     .4byte  0x00010000
-.L_chan_a0_src:
+.L_06007210:
     .4byte  sym_0605B6E0
-.L_chan_a0_dst:
+.L_06007214:
     .4byte  sym_0605B6DC
-.L_evt_bit17:
+.L_06007218:
     .4byte  0x00020000
-.L_chan_a1_src:
+.L_0600721C:
     .4byte  sym_0605B6E8
-.L_chan_a1_dst:
+.L_06007220:
     .4byte  sym_0605B6E4
-.L_evt_bit18:
+.L_06007224:
     .4byte  0x00040000
-.L_chan_a2_src:
+.L_06007228:
     .4byte  sym_0605B6F0
-.L_chan_a2_dst:
+.L_0600722C:
     .4byte  sym_0605B6EC
-.L_evt_bit19:
+.L_06007230:
     .4byte  0x00080000
-.L_chan_a3_src:
+.L_06007234:
     .4byte  sym_0605B6F8
-.L_chan_a3_dst:
+.L_06007238:
     .4byte  sym_0605B6F4
-.L_evt_bit31:
+.L_0600723C:
     .4byte  0x80000000
-.L_fn_handler_a:
+.L_06007240:
     .4byte  sym_060149E0
-.L_evt_bit30:
+.L_06007244:
     .4byte  0x40000000
-.L_fn_handler_b:
+.L_06007248:
     .4byte  sym_060149CC
-.L_evt_bit20:
+.L_0600724C:
     .4byte  0x00100000
-.L_fn_channels_load:
+.L_06007250:
     .4byte  display_channels_load
-.L_evt_bit26:
+.L_06007254:
     .4byte  0x04000000
-.L_fn_collision:
+.L_06007258:
     .4byte  obj_collision_update
-.L_evt_bit27:
+.L_0600725C:
     .4byte  0x08000000
-.L_fn_physics:
+.L_06007260:
     .4byte  sym_06033354
-.L_run_flag_exit:
+.L_06007264:
     .4byte  sym_06059F54

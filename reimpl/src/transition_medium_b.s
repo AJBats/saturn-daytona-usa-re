@@ -13,7 +13,7 @@ transition_medium_b:
     mov.l r3, @r4
     mov.w   _wpool_trigger_frame, r2
     cmp/eq r2, r3
-    bf      .L_every_frame
+    bf      .L_0600FE74
     mov.l   _pool_tilemap_src, r2
     mov.l r2, @r15
     mov.l   _pool_dma_src, r4
@@ -35,18 +35,18 @@ transition_medium_b:
     mov #0x10, r2
     mov.l   _pool_game_state_byte, r3
     mov.b r2, @r3
-.L_every_frame:
+.L_0600FE74:
     mov.l   _pool_split_tile_data, r7
     mov.w   _wpool_tile_size, r6
     mov.w   _wpool_tile_data_size, r5
     mov.l   _pool_fn_display_channel, r3
     jsr @r3
     mov #0xC, r4
-    mov.l   .L_vdp2_cram_0x1E0, r4
+    mov.l   .L_0600FEC4, r4
     mov.l   _pool_fn_palette_fade, r3
     jsr @r3
     nop
-    mov.l   .L_vdp2_cram_0x520, r4
+    mov.l   .L_0600FECC, r4
     add #0x4, r15
     mov.l   _pool_fn_palette_fade, r3
     jmp @r3
@@ -79,9 +79,9 @@ _pool_split_tile_data:
     .4byte  sym_0605ACE4           /* split-screen tile data source */
 _pool_fn_display_channel:
     .4byte  sym_060284AE           /* display channel handler / tile writer */
-.L_vdp2_cram_0x1E0:
+.L_0600FEC4:
     .4byte  0x25F001E0             /* VDP2 color RAM +0x1E0 */
 _pool_fn_palette_fade:
     .4byte  sym_06011F1C           /* palette_color_fade (from dual_hud_render) */
-.L_vdp2_cram_0x520:
+.L_0600FECC:
     .4byte  0x25F00520             /* VDP2 color RAM +0x520 */

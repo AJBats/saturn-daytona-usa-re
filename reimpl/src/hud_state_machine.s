@@ -18,7 +18,7 @@ hud_state_machine:
     mov #0x0, r8
     mov r15, r9
     add #0x8, r9
-    mov.l   .L_smpc_comreg_ct, r10
+    mov.l   .L_0601E52C, r10
     mov r10, r13
     add #0x44, r13
     mov #0x1, r14
@@ -39,7 +39,7 @@ hud_state_machine:
     add #0x1, r4
     mov.b r8, @r5
     mov.b r8, @r4
-    bra     .L_loop_check
+    bra     .L_0601E5C4
     mov r8, r12
 
     .4byte  sym_06087084
@@ -47,10 +47,10 @@ hud_state_machine:
     .4byte  sym_06087094
     .4byte  sym_060877D8
     .4byte  sym_0604A5C0
-.L_smpc_comreg_ct:
+.L_0601E52C:
     .4byte  0x2010001F             /* SMPC COMREG (cache-through) */
 
-.L_loop_body:
+.L_0601E530:
     mov r12, r11
     shll2 r11
     shll2 r11
@@ -58,21 +58,21 @@ hud_state_machine:
     mov.l   .L_pool_0601E600, r3
     add r3, r11
 
-.L_poll_sf_set_a:
+.L_0601E53C:
     mov.b @r13, r3
     extu.b r3, r3
     and r14, r3
     cmp/eq r14, r3
-    bt      .L_poll_sf_set_a
+    bt      .L_0601E53C
     mov.b r14, @r13
     mov #0x1A, r2
     mov.b r2, @r10
-.L_poll_sf_clear_a:
+.L_0601E54C:
     mov.b @r13, r2
     extu.b r2, r2
     and r14, r2
     tst r2, r2
-    bf      .L_poll_sf_clear_a
+    bf      .L_0601E54C
 
     mov.l   .L_pool_0601E604, r3
     mov #0x0, r5
@@ -100,83 +100,83 @@ hud_state_machine:
     mov r0, r4
     mov r0, r4
 
-.L_poll_sf_set_b:
+.L_0601E586:
     mov.b @r13, r2
     extu.b r2, r2
     and r14, r2
     cmp/eq r14, r2
-    bt      .L_poll_sf_set_b
+    bt      .L_0601E586
     extu.b r14, r2
     mov.b r2, @r13
     mov #0x19, r3
     mov.b r3, @r10
-.L_poll_sf_clear_b:
+.L_0601E598:
     mov.b @r13, r2
     extu.b r2, r2
     and r14, r2
     tst r2, r2
-    bf      .L_poll_sf_clear_b
+    bf      .L_0601E598
 
     tst r4, r4
-    bf      .L_skip_changed_flag
+    bf      .L_0601E5AE
     mov r12, r3
     add r9, r3
     extu.b r14, r2
     mov.b r2, @r3
 
-.L_skip_changed_flag:
+.L_0601E5AE:
     mov #0x1E, r0
     mov.b @(r0, r11), r0
     extu.b r0, r0
     tst r0, r0
-    bt      .L_next_element
+    bt      .L_0601E5C2
     mov r15, r3
     add #0x4, r3
     add r12, r3
     extu.b r14, r2
     mov.b r2, @r3
 
-.L_next_element:
+.L_0601E5C2:
     add #0x1, r12
 
-.L_loop_check:
+.L_0601E5C4:
     mov.l   .L_pool_0601E614, r3
     mov.w @r3, r3
     extu.w r3, r3
     cmp/ge r3, r12
-    bf      .L_loop_body
+    bf      .L_0601E530
 
     mov r8, r4
 
-.L_scan_changed:
+.L_0601E5D0:
     mov r4, r3
     add r9, r3
     mov.b @r3, r0
     extu.b r0, r0
     tst r0, r0
-    bt      .L_changed_not_set
-    bra     .L_return
+    bt      .L_0601E5E0
+    bra     .L_0601E622
     extu.b r4, r0
 
-.L_changed_not_set:
+.L_0601E5E0:
     add #0x1, r4
     mov #0x3, r3
     cmp/ge r3, r4
-    bf      .L_scan_changed
+    bf      .L_0601E5D0
 
     mov r15, r6
     mov.l @r15, r4
     add #0x7, r6
     cmp/hs r6, r4
-    bt/s    .L_no_update_found
+    bt/s    .L_0601E620
     mov #0x3, r5
 
-.L_scan_update:
+.L_0601E5F4:
     mov.b @r4, r0
     extu.b r0, r0
     tst r0, r0
-    bt      .L_update_not_set
-    bra     .L_return
+    bt      .L_0601E618
+    bra     .L_0601E622
     extu.b r5, r0
 
 .L_pool_0601E600:
@@ -192,16 +192,16 @@ hud_state_machine:
 .L_pool_0601E614:
     .4byte  sym_06087084
 
-.L_update_not_set:
+.L_0601E618:
     add #0x1, r4
     cmp/hs r6, r4
-    bf/s    .L_scan_update
+    bf/s    .L_0601E5F4
     add #0x1, r5
 
-.L_no_update_found:
+.L_0601E620:
     mov #0x8, r0
 
-.L_return:
+.L_0601E622:
     add #0xC, r15
     lds.l @r15+, pr
     mov.l @r15+, r8

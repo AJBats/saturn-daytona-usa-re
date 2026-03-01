@@ -15,21 +15,21 @@ transform_rotation_alt:
     .byte   0xD5, 0x0D    /* mov.l .L_pool_060264D8, r5 */
     mov #0x0, r4
     extu.w r4, r6
-.L_loop_body:
+.L_060264A2:
     extu.w r6, r0
     shll2 r0
     shll r0
     add r12, r0
     mov.w @(6, r0), r0
-    bra     .L_dispatch_setup
+    bra     .L_060264D8
     extu.w r0, r0
     .4byte  0xA001624D                      /* embedded dispatch path bytes */
     .4byte  0x625DA027                      /* embedded dispatch path bytes */
     .4byte  0x2E21A001                      /* embedded dispatch path bytes */
     .4byte  0x624D625D                      /* embedded dispatch path bytes */
     .4byte  0xA0222721                      /* embedded dispatch path bytes */
-.L_dispatch_out_of_range:
-    bra     .L_next_slot
+.L_060264C4:
+    bra     .L_06026508
     nop
 .L_pool_060264CC:
     .4byte  sym_0606107C                    /* [MEDIUM] slot data table B (8-byte stride, 8 slots) */
@@ -39,12 +39,12 @@ transform_rotation_alt:
     .4byte  sym_06060D34                    /* [MEDIUM] &rotation_state_b (word) */
 .L_pool_060264D8:
     .4byte  0x00008000                  /* [HIGH] 0.5 (16.16 fixed-point) */
-.L_dispatch_setup:
+.L_060264D8:
     mov.w   .L_wpool_060264F2, r1
     sub r1, r0
     mov #0xC, r1
     cmp/hs r1, r0
-    bt      .L_dispatch_out_of_range
+    bt      .L_060264C4
     shll r0
     mov r0, r1
     .word 0xC702
@@ -59,11 +59,11 @@ transform_rotation_alt:
     .4byte  0xFFC6FFC6                      /* dispatch offsets for render_type 0x0090 and 0x0091 */
     .4byte  0xFFD0FFD0                      /* dispatch offsets for render_type 0x0092 and 0x0093 */
     .4byte  0xFFD0FFD0                      /* dispatch offsets for render_type 0x0094 and 0x0095 */
-.L_next_slot:
+.L_06026508:
     add #0x1, r6
     extu.w r6, r2
     cmp/ge r13, r2
-    bf      .L_loop_body
+    bf      .L_060264A2
     mov.l @r15+, r12
     mov.l @r15+, r13
     rts

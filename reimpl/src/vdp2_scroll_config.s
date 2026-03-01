@@ -14,13 +14,13 @@ vdp2_scroll_config:
     mov.l r8, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   .L_force_complete_flag, r9
-    mov.l   .L_car_struct_ptr, r10
-    mov.l   .L_fp_half, r11
-    mov.l   .L_anim_phase_ptr, r13
-    mov.l   .L_scroll_pos_ptr, r14
-    mov.l   .L_scroll_shadow_ptr, r6
-    mov.l   .L_scroll_active_flag, r4
+    mov.l   .L_060183F4, r9
+    mov.l   .L_060183F8, r10
+    mov.l   .L_060183FC, r11
+    mov.l   .L_06018400, r13
+    mov.l   .L_06018404, r14
+    mov.l   .L_06018408, r6
+    mov.l   .L_0601840C, r4
     mov.b @r4, r3
     mov.b r3, @r6
     mov.l @r10, r5
@@ -28,24 +28,24 @@ vdp2_scroll_config:
     mov.w   DAT_060183ee, r3
     mov.l @(r0, r5), r5
     cmp/ge r3, r5
-    bf/s    .L_clear_all_state
+    bf/s    .L_06018358
     mov #0x0, r12
     mov.w   DAT_060183f0, r3
     cmp/gt r3, r5
-    bf      .L_begin_scroll_setup
-.L_clear_all_state:
+    bf      .L_06018364
+.L_06018358:
     mov.l r12, @r14
     mov.l r12, @(4, r14)
     mov.b r12, @r4
     mov.b r12, @r9
-    bra     .L_early_exit
+    bra     .L_0601858C
     mov.b r12, @r13
-.L_begin_scroll_setup:
+.L_06018364:
     mov #0x1, r7
     extu.b r7, r2
     mov.b r2, @r4
-    mov.l   .L_vdp2_scroll_reg_src, r0
-    mov.l   .L_scroll_config_reg, r3
+    mov.l   .L_06018410, r0
+    mov.l   .L_06018414, r3
     mov.w @r0, r0
     mov.w @r3, r3
     extu.w r0, r0
@@ -55,17 +55,17 @@ vdp2_scroll_config:
     xor r8, r3
     and r8, r3
     extu.w r3, r5
-    mov.l   .L_scroll_config_reg, r3
+    mov.l   .L_06018414, r3
     mov.w r8, @r3
-    mov.l   .L_direction_flag_ptr, r0
+    mov.l   .L_06018418, r0
     mov.b @r0, r0
     extu.b r0, r0
     tst r0, r0
-    bt      .L_check_direction_change
+    bt      .L_06018394
     extu.b r7, r7
-    bra     .L_check_boost_mode
+    bra     .L_060183C2
     mov.b r7, @r9
-.L_check_direction_change:
+.L_06018394:
     mov.b @r4, r2
     mov.b @r6, r3
     mov.l @r10, r1
@@ -82,36 +82,36 @@ vdp2_scroll_config:
     .word 0x0029
     and r0, r2
     tst r2, r2
-    bt      .L_check_boost_mode
-    mov.l   .L_frame_counter_ptr, r0
+    bt      .L_060183C2
+    mov.l   .L_0601841C, r0
     mov.l @r0, r0
     tst #0x3F, r0
-    bf      .L_check_boost_mode
+    bf      .L_060183C2
     extu.b r7, r7
     mov.b r7, @r9
-.L_check_boost_mode:
-    mov.l   .L_fp_one, r4
-    mov.l   .L_boost_mode_flag, r0
+.L_060183C2:
+    mov.l   .L_06018420, r4
+    mov.l   .L_06018424, r0
     mov.b @r0, r0
     extu.b r0, r0
     tst r0, r0
-    bf      .L_boost_path_entry
+    bf      .L_06018476
     mov.l @r10, r3
     mov.l @(8, r3), r0
     tst r0, r0
-    bt      .L_normal_check_active
-    bra     .L_apply_transforms
+    bt      .L_060183DA
+    bra     .L_06018528
     nop
-.L_normal_check_active:
+.L_060183DA:
     extu.w r5, r5
     tst r5, r5
-    bf      .L_normal_begin_anim
-    bra     .L_apply_transforms
+    bf      .L_060183E4
+    bra     .L_06018528
     nop
-.L_normal_begin_anim:
+.L_060183E4:
     mov.w   DAT_060183f2, r5
     mov.b @r13, r0
-    bra     .L_normal_phase_dispatch
+    bra     .L_06018466
     extu.b r0, r0
 
     .global DAT_060183ec
@@ -129,213 +129,213 @@ DAT_060183f0:
     .global DAT_060183f2
 DAT_060183f2:
     .2byte  0x1000                      /* normal animation fraction step */
-.L_force_complete_flag:
+.L_060183F4:
     .4byte  sym_0605BE35                /* force-complete flag (byte) */
-.L_car_struct_ptr:
+.L_060183F8:
     .4byte  sym_0607E940                /* current car struct pointer */
-.L_fp_half:
+.L_060183FC:
     .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
-.L_anim_phase_ptr:
+.L_06018400:
     .4byte  sym_0605BE32                /* animation phase counter (byte) */
-.L_scroll_pos_ptr:
+.L_06018404:
     .4byte  sym_06085FC0                /* scroll position struct (int+frac) */
-.L_scroll_shadow_ptr:
+.L_06018408:
     .4byte  sym_0605BE34                /* previous scroll_active shadow (byte) */
-.L_scroll_active_flag:
+.L_0601840C:
     .4byte  sym_0605BE33                /* scroll active flag (byte) */
-.L_vdp2_scroll_reg_src:
+.L_06018410:
     .4byte  g_pad_state                /* VDP2 scroll direction source register */
-.L_scroll_config_reg:
+.L_06018414:
     .4byte  sym_0605BE30                /* scroll config register (16-bit) */
-.L_direction_flag_ptr:
+.L_06018418:
     .4byte  sym_0605DE3C                /* transition state flag (byte) */
-.L_frame_counter_ptr:
+.L_0601841C:
     .4byte  sym_0605A010                /* global frame counter (32-bit) */
-.L_fp_one:
+.L_06018420:
     .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
-.L_boost_mode_flag:
+.L_06018424:
     .4byte  sym_06085FF4                /* boost/extended mode flag (byte) */
-.L_normal_phase_0:
+.L_06018428:
     mov.l r12, @r14
     mov.l @(4, r14), r2
     add r5, r2
     mov r2, r3
     mov.l r2, @(4, r14)
     cmp/ge r4, r3
-    bf      .L_normal_anim_done
+    bf      .L_06018472
     mov.l r11, @r14
     mov.l r11, @(4, r14)
     mov.b @r13, r3
     add #0x1, r3
     mov.b r3, @r13
-    bra     .L_normal_anim_done
+    bra     .L_06018472
     nop
-.L_normal_phase_1:
+.L_06018444:
     mov.l r11, @r14
     mov.l @(4, r14), r2
     add r5, r2
     mov r2, r3
     mov.l r2, @(4, r14)
-    mov.l   .L_fp_one_point_five, r2
+    mov.l   .L_06018508, r2
     cmp/ge r2, r3
-    bf      .L_normal_anim_done
+    bf      .L_06018472
     mov.l r12, @r14
     mov.l r12, @(4, r14)
     mov.b @r13, r2
     add #0x1, r2
-    bra     .L_normal_anim_done
+    bra     .L_06018472
     mov.b r2, @r13
-.L_normal_phase_default:
+.L_06018460:
     mov.l r12, @r14
-    bra     .L_normal_anim_done
+    bra     .L_06018472
     mov.l r12, @(4, r14)
-.L_normal_phase_dispatch:
+.L_06018466:
     cmp/eq #0x0, r0
-    bt      .L_normal_phase_0
+    bt      .L_06018428
     cmp/eq #0x1, r0
-    bt      .L_normal_phase_1
-    bra     .L_normal_phase_default
+    bt      .L_06018444
+    bra     .L_06018460
     nop
-.L_normal_anim_done:
-    bra     .L_apply_transforms
+.L_06018472:
+    bra     .L_06018528
     nop
-.L_boost_path_entry:
-    mov.w   .L_fast_int_step, r7
-    mov.w   .L_fast_frac_step, r6
+.L_06018476:
+    mov.w   .L_06018504, r7
+    mov.w   .L_06018506, r6
     mov.b @r13, r0
-    bra     .L_boost_phase_dispatch
+    bra     .L_06018510
     extu.b r0, r0
-.L_boost_phase_0:
+.L_06018480:
     mov.l r12, @r14
     mov.l r12, @(4, r14)
     mov.l @r10, r2
     mov.l @(8, r2), r0
     tst r0, r0
-    bf      .L_apply_transforms
+    bf      .L_06018528
     extu.w r5, r5
     tst r5, r5
-    bt      .L_apply_transforms
+    bt      .L_06018528
     mov.b @r13, r3
     add #0x1, r3
     mov.b r3, @r13
-    bra     .L_apply_transforms
+    bra     .L_06018528
     nop
-.L_boost_phase_1:
+.L_0601849C:
     mov.l @(4, r14), r2
     add r6, r2
     mov.l r2, @(4, r14)
     mov r2, r3
     cmp/ge r4, r3
-    bf      .L_apply_transforms
+    bf      .L_06018528
     mov.l r4, @(4, r14)
     mov.b @r13, r3
     add #0x1, r3
     mov.b r3, @r13
-    bra     .L_apply_transforms
+    bra     .L_06018528
     nop
-.L_boost_phase_2:
+.L_060184B4:
     mov.l @r14, r2
     add r7, r2
     mov.l r2, @r14
     mov r2, r3
     cmp/ge r11, r3
-    bf      .L_apply_transforms
+    bf      .L_06018528
     mov.l r11, @r14
     mov.b @r13, r3
     add #0x1, r3
     mov.b r3, @r13
-    bra     .L_apply_transforms
+    bra     .L_06018528
     nop
-.L_boost_phase_3:
+.L_060184CC:
     mov.l @(4, r14), r2
     add r6, r2
     mov.l r2, @(4, r14)
     mov r2, r3
-    mov.l   .L_fp_two, r4
+    mov.l   .L_0601850C, r4
     cmp/ge r4, r3
-    bf      .L_apply_transforms
+    bf      .L_06018528
     mov.l r4, @(4, r14)
     mov.b @r13, r3
     add #0x1, r3
     mov.b r3, @r13
-    bra     .L_apply_transforms
+    bra     .L_06018528
     nop
-.L_boost_phase_4:
+.L_060184E6:
     mov.l @r14, r2
     add r7, r2
     mov r2, r3
     mov.l r2, @r14
     cmp/ge r4, r3
-    bf      .L_apply_transforms
+    bf      .L_06018528
     mov.l r12, @r14
     mov.b @r13, r3
     add #0x1, r3
     mov.b r3, @r13
-    bra     .L_apply_transforms
+    bra     .L_06018528
     nop
-.L_boost_phase_default:
+.L_060184FE:
     mov.l r12, @r14
-    bra     .L_apply_transforms
+    bra     .L_06018528
     mov.l r12, @(4, r14)
-.L_fast_int_step:
+.L_06018504:
     .2byte  0x0200                      /* boost mode integer step per frame */
-.L_fast_frac_step:
+.L_06018506:
     .2byte  0x0100                      /* boost mode fraction step per frame */
-.L_fp_one_point_five:
+.L_06018508:
     .4byte  0x00018000                  /* 1.5 (16.16 fixed-point) */
-.L_fp_two:
+.L_0601850C:
     .4byte  0x00020000                  /* 2.0 (16.16 fixed-point) */
-.L_boost_phase_dispatch:
+.L_06018510:
     cmp/eq #0x0, r0
-    bt      .L_boost_phase_0
+    bt      .L_06018480
     cmp/eq #0x1, r0
-    bt      .L_boost_phase_1
+    bt      .L_0601849C
     cmp/eq #0x2, r0
-    bt      .L_boost_phase_2
+    bt      .L_060184B4
     cmp/eq #0x3, r0
-    bt      .L_boost_phase_3
+    bt      .L_060184CC
     cmp/eq #0x4, r0
-    bt      .L_boost_phase_4
-    bra     .L_boost_phase_default
+    bt      .L_060184E6
+    bra     .L_060184FE
     nop
-.L_apply_transforms:
+.L_06018528:
     mov.b @r9, r0
     extu.b r0, r0
     tst r0, r0
-    bt      .L_begin_transform_chain
+    bt      .L_06018534
     mov.l r11, @r14
     mov.l r11, @(4, r14)
-.L_begin_transform_chain:
-    mov.l   .L_fn_pre_transform_setup, r3
+.L_06018534:
+    mov.l   .L_060185A8, r3
     jsr @r3
     nop
-    mov.l   .L_camera_pos_params, r8
-    mov.l   .L_fn_transform_dispatch, r3
+    mov.l   .L_060185AC, r8
+    mov.l   .L_060185B0, r3
     mov.l @(8, r8), r6
     mov.l @(4, r8), r5
     jsr @r3
     mov.l @r8, r4
     mov.l @(4, r14), r4
     mov.w   DAT_060185a0, r2
-    mov.l   .L_fn_mat_rot_y, r3
+    mov.l   .L_060185B4, r3
     jsr @r3
     add r2, r4
-    mov.l   .L_fn_mat_rot_x, r3
+    mov.l   .L_060185B8, r3
     jsr @r3
     mov.l @r14, r4
-    mov.w   .L_rotation_angle, r5
-    mov.l   .L_wram_low, r2
-    mov.l   .L_wram_obj_offset, r3
+    mov.w   .L_060185A2, r5
+    mov.l   .L_060185BC, r2
+    mov.l   .L_060185C0, r3
     mov r2, r4
     add r3, r4
-    mov.l   .L_fn_transform_chain_a, r3
+    mov.l   .L_060185C4, r3
     jsr @r3
     mov.l r2, @r15
-    mov.w   .L_display_scale, r6
-    mov.l   .L_scale_factor_table, r5
+    mov.w   .L_060185A4, r6
+    mov.l   .L_060185C8, r5
     mov.l @r15, r4
-    mov.l   .L_wram_display_offset, r2
-    mov.l   .L_fn_transform_chain_b, r3
+    mov.l   .L_060185CC, r2
+    mov.l   .L_060185D0, r3
     mov.w @r5, r5
     jsr @r3
     add r2, r4
@@ -347,10 +347,10 @@ DAT_060183f2:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    mov.l   .L_fn_post_transform, r3
+    mov.l   .L_060185D4, r3
     jmp @r3
     mov.l @r15+, r14
-.L_early_exit:
+.L_0601858C:
     add #0x4, r15
     lds.l @r15+, pr
     mov.l @r15+, r8
@@ -365,32 +365,32 @@ DAT_060183f2:
     .global DAT_060185a0
 DAT_060185a0:
     .2byte  0x38E3                      /* Y rotation bias (added to fraction) */
-.L_rotation_angle:
+.L_060185A2:
     .2byte  0x0178                      /* rotation angle parameter (376 deg units) */
-.L_display_scale:
+.L_060185A4:
     .2byte  0x0145                      /* display scale parameter (325) */
     .2byte  0xFFFF                      /* padding / alignment */
-.L_fn_pre_transform_setup:
+.L_060185A8:
     .4byte  sym_06026DBC                /* pre-transform setup function */
-.L_camera_pos_params:
+.L_060185AC:
     .4byte  sym_06048140                /* camera position parameters (X/Y/Z) */
-.L_fn_transform_dispatch:
+.L_060185B0:
     .4byte  sym_06026E2E                /* transform dispatch function */
-.L_fn_mat_rot_y:
+.L_060185B4:
     .4byte  mat_rot_y                   /* Y-axis rotation matrix builder */
-.L_fn_mat_rot_x:
+.L_060185B8:
     .4byte  mat_rot_x            /* matrix transform function */
-.L_wram_low:
+.L_060185BC:
     .4byte  0x00200000                  /* Work RAM Low base */
-.L_wram_obj_offset:
+.L_060185C0:
     .4byte  0x000BABE0                  /* object data offset in WRAM Low */
-.L_fn_transform_chain_a:
+.L_060185C4:
     .4byte  sym_06031D8C                /* transform chain A dispatch */
-.L_scale_factor_table:
+.L_060185C8:
     .4byte  sym_06089E98                /* per-mode scale factor table (16-bit) */
-.L_wram_display_offset:
+.L_060185CC:
     .4byte  0x000BBD80                  /* display data offset in WRAM Low */
-.L_fn_transform_chain_b:
+.L_060185D0:
     .4byte  sym_06031A28                /* transform chain B dispatch */
-.L_fn_post_transform:
+.L_060185D4:
     .4byte  sym_06026DF8                /* post-transform cleanup function */

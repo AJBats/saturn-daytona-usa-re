@@ -21,15 +21,15 @@ best_time_compare:
     mov.w @r0, r0
     extu.w r0, r0
     cmp/eq #0x10, r0
-    bf      .L_mode_not_attract
+    bf      .L_06013A9C
     .byte   0xB4, 0xE7    /* bsr 0x06014466 (external) */
     nop
-    bra     .L_after_mode_branch
+    bra     .L_06013AA0
     nop
-.L_mode_not_attract:
+.L_06013A9C:
     .byte   0xB5, 0x36    /* bsr 0x0601450C (external) */
     nop
-.L_after_mode_branch:
+.L_06013AA0:
     .byte   0xB5, 0x8C    /* bsr 0x060145BC (external) */
     nop
     mov.l   .L_pool_06013AF0, r2
@@ -38,15 +38,15 @@ best_time_compare:
     extu.w r3, r3
     and r2, r3
     tst r3, r3
-    bt      .L_skip_wall_call
+    bt      .L_06013AB6
     .byte   0xB6, 0x0E    /* bsr 0x060146D2 (external) */
     nop
-.L_skip_wall_call:
+.L_06013AB6:
     mov #0x4, r3
     mov.l   .L_pool_06013AF4, r2
     mov.l @r2, r2
     cmp/hs r3, r2
-    bt      .L_tail_wall_call
+    bt      .L_06013AD0
     mov.l   .L_pool_06013AF8, r3
     mov.l   .L_pool_06013AF8, r2
     mov.w @r3, r3
@@ -54,11 +54,11 @@ best_time_compare:
     mov.w r3, @r2
     exts.w r3, r3
     cmp/pl r3
-    bt      .L_return_normal
-.L_tail_wall_call:
+    bt      .L_06013AD4
+.L_06013AD0:
     .byte   0xA5, 0xFF    /* bra 0x060146D2 (external) */
     lds.l @r15+, pr
-.L_return_normal:
+.L_06013AD4:
     lds.l @r15+, pr
     rts
     nop

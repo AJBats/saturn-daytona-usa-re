@@ -13,9 +13,9 @@ credits_text_format:
     add #0x24, r4
     mov #0x0, r4
     cmp/gt r4, r13
-    bf/s    .L_loop_done
+    bf/s    .L_0603F32C
     mov r4, r12
-.L_loop_body:
+.L_0603F300:
     mov r15, r5
     mov r15, r4
     add #0x4, r5
@@ -26,10 +26,10 @@ credits_text_format:
     mov.b @r2, r3
     extu.b r3, r3
     tst r3, r3
-    bf      .L_entry_valid
-    bra     .L_loop_done
+    bf      .L_0603F31A
+    bra     .L_0603F32C
     nop
-.L_entry_valid:
+.L_0603F31A:
     mov r15, r5
     add #0x4, r5
     .byte   0xB2, 0x95    /* bsr 0x0603F84C (external) */
@@ -37,9 +37,9 @@ credits_text_format:
     add #0xC, r14
     add #-0x1, r13
     cmp/pl r13
-    bt/s    .L_loop_body
+    bt/s    .L_0603F300
     add #0x1, r12
-.L_loop_done:
+.L_0603F32C:
     add #-0xC, r14
     mov.b @(11, r14), r0
     or #0x80, r0

@@ -19,7 +19,7 @@ obj_pool_dealloc:
     jsr @r3
     mov #0x4, r0
     mov.w @(2, r6), r0
-    mov.l   .L_fp_half, r3
+    mov.l   .L_06020328, r3
     mov r0, r2
     extu.w r2, r2
     and r3, r2
@@ -93,7 +93,7 @@ _not_complete:
     .4byte  sym_0605F526                 /* &pool_data_table (4 bytes, src for copy) */
 .L_pool_06020324:
     .4byte  sym_06035228                 /* memcpy_byte(r0=count, r1=dst, r2=src) */
-.L_fp_half:
+.L_06020328:
     .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_0602032C:
     .4byte  sym_06087824                 /* &anim_state_B byte (completion flag) */

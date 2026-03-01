@@ -18,9 +18,9 @@ post_sprite_cleanup:
     mov #0x0, r11
     mov.l   .L_pool_06011E6C, r12
     mov.l   .L_pool_06011E70, r14
-    bra     .L_loop_check
+    bra     .L_06011E44
     extu.w r11, r13
-.L_loop_body:
+.L_06011DDE:
     mov r13, r2
     mov r13, r3
     shll2 r2
@@ -34,7 +34,7 @@ post_sprite_cleanup:
     mov r0, r2
     extu.b r2, r2
     tst r2, r2
-    bf      .L_flag_nonzero
+    bf      .L_06011E16
     mov.l @r14, r5
     mov r13, r4
     mov r13, r3
@@ -47,9 +47,9 @@ post_sprite_cleanup:
     mov.l   .L_pool_06011E74, r3
     jsr @r3
     add r12, r4
-    bra     .L_post_builder
+    bra     .L_06011E36
     nop
-.L_flag_nonzero:
+.L_06011E16:
     mov r13, r9
     mov r13, r3
     mov.l @r14, r5
@@ -66,7 +66,7 @@ post_sprite_cleanup:
     extu.b r11, r2
     mov r2, r0
     mov.b r0, @(5, r9)
-.L_post_builder:
+.L_06011E36:
     mov.l @r10, r3
     add #0x1, r3
     mov.l r3, @r10
@@ -74,12 +74,12 @@ post_sprite_cleanup:
     add #0x20, r2
     mov.l r2, @r14
     add #0x1, r13
-.L_loop_check:
+.L_06011E44:
     extu.w r13, r3
     mov.w @r8, r2
     extu.w r2, r2
     cmp/ge r2, r3
-    bf      .L_loop_body
+    bf      .L_06011DDE
     mov.w r11, @r8
     lds.l @r15+, pr
     mov.l @r15+, r8

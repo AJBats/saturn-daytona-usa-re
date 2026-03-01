@@ -16,33 +16,33 @@ menu_overlay_render:
     sts.l pr, @-r15
     sts.l macl, @-r15
     mov.w   DAT_06026922, r8
-    mov.l   .L_fn_disp_cmd_write, r9
-    mov.l   .L_overlay_active_flag, r10
-    mov.l   .L_global_tick_counter, r11
-    mov.l   .L_anim_substep, r13
-    mov.l   .L_anim_phase, r14
+    mov.l   .L_06026924, r9
+    mov.l   .L_06026928, r10
+    mov.l   .L_0602692C, r11
+    mov.l   .L_06026930, r13
+    mov.l   .L_06026934, r14
     tst r4, r4
-    bt/s    .L_run_animation
+    bt/s    .L_060268E6
     mov #0x0, r12
     mov.w r12, @r10
     exts.w r12, r2
     mov.w r2, @r13
     mov.w r2, @r14
-    mov.l   .L_anim_done_flag, r2
+    mov.l   .L_06026938, r2
     mov.w r12, @r2
-    bra     .L_epilogue
+    bra     .L_06026C70
     mov.l r12, @r11
-.L_run_animation:
-    mov.l   .L_course_type, r0
-    bra     .L_dispatch_course
+.L_060268E6:
+    mov.l   .L_0602693C, r0
+    bra     .L_06026C48
     mov.l @r0, r0
-.L_course0_handler:
+.L_060268EC:
     mov.w @r14, r2
     mov #0x36, r3
     cmp/ge r3, r2
-    bt      .L_c0_check_last_phase
+    bt      .L_0602694C
     mov.w @r14, r3
-    mov.l   .L_timing_tbl_c0, r2
+    mov.l   .L_06026940, r2
     mov.l @r11, r0
     shll r3
     add r2, r3
@@ -51,50 +51,50 @@ menu_overlay_render:
     shll r3
     add r1, r3
     cmp/hs r3, r0
-    bf      .L_c0_write_active_cmd
+    bf      .L_06026982
     mov r8, r5
     mov.w @r14, r2
     add #0x1, r2
     mov.w r2, @r14
     mov.w r12, @r13
-    mov.l   .L_cmd_data_c0, r7
-    mov.l   .L_mask_nibble3, r6
+    mov.l   .L_06026944, r7
+    mov.l   .L_06026948, r6
     jsr @r9
     mov #0xC, r4
     mov #0x1, r2
-    bra     .L_c0_write_active_cmd
+    bra     .L_06026982
     mov.w r2, @r10
 
     .global DAT_06026922
 DAT_06026922:
     .2byte  0x0C04
-.L_fn_disp_cmd_write:
+.L_06026924:
     .4byte  sym_060283E0              /* display command writer function */
-.L_overlay_active_flag:
+.L_06026928:
     .4byte  sym_0606123C              /* overlay active flag (word) */
-.L_global_tick_counter:
+.L_0602692C:
     .4byte  sym_0607864C              /* global tick counter (dword) */
-.L_anim_substep:
+.L_06026930:
     .4byte  sym_0606123A              /* animation substep index (word) */
-.L_anim_phase:
+.L_06026934:
     .4byte  sym_06061238              /* animation phase counter (word) */
-.L_anim_done_flag:
+.L_06026938:
     .4byte  sym_0606123E              /* animation-done flag (word) */
-.L_course_type:
+.L_0602693C:
     .4byte  sym_0607EAD8              /* course type selector (0/1/2) */
-.L_timing_tbl_c0:
+.L_06026940:
     .4byte  sym_060597B8              /* course 0 frame timing table (16-bit) */
-.L_cmd_data_c0:
+.L_06026944:
     .4byte  sym_06059826              /* course 0 display cmd data */
-.L_mask_nibble3:
+.L_06026948:
     .4byte  0x0000F000                /* VDP priority nibble mask */
-.L_c0_check_last_phase:
+.L_0602694C:
     mov.w @r14, r0
     cmp/eq #0x36, r0
-    bf      .L_c0_write_active_cmd
+    bf      .L_06026982
     mov.w @r14, r2
-    mov.l   .L_timing_tbl_c0_b, r3
-    mov.l   .L_global_tick_counter_b, r0
+    mov.l   .L_06026B1C, r3
+    mov.l   .L_06026B20, r0
     shll r2
     mov.l @r0, r0
     add r3, r2
@@ -103,10 +103,10 @@ DAT_06026922:
     shll r2
     add r1, r2
     cmp/hs r2, r0
-    bf      .L_c0_write_active_cmd
+    bf      .L_06026982
     mov r8, r5
-    mov.l   .L_cmd_data_final, r7
-    mov.l   .L_mask_nibble3_b, r6
+    mov.l   .L_06026B24, r7
+    mov.l   .L_06026B28, r6
     jsr @r9
     mov #0xC, r4
     exts.w r12, r3
@@ -114,17 +114,17 @@ DAT_06026922:
     exts.w r12, r2
     mov.w r2, @r13
     mov #0x1, r3
-    mov.l   .L_anim_done_flag_b, r2
+    mov.l   .L_06026B2C, r2
     mov.w r3, @r2
-.L_c0_write_active_cmd:
+.L_06026982:
     mov.w @r10, r0
     tst r0, r0
-    bt      .L_c0_clear_active
+    bt      .L_060269A2
     mov r8, r5
     mov.w @r14, r7
-    mov.l   .L_seq_index_tbl_c0, r3
-    mov.l   .L_cmd_ptr_tbl_c0, r2
-    mov.l   .L_mask_nibble3_b, r6
+    mov.l   .L_06026B30, r3
+    mov.l   .L_06026B34, r2
+    mov.l   .L_06026B28, r6
     add #-0x1, r7
     add r3, r7
     mov.b @r7, r7
@@ -133,29 +133,29 @@ DAT_06026922:
     mov.l @r7, r7
     jsr @r9
     mov #0xC, r4
-.L_c0_clear_active:
+.L_060269A2:
     exts.w r12, r3
     mov.w r3, @r10
     mov.w @r14, r2
     cmp/pl r2
-    bt      .L_c0_enter_substep_loop
-    bra     .L_check_anim_done
+    bt      .L_060269B0
+    bra     .L_06026C60
     nop
-.L_c0_enter_substep_loop:
-    bra     .L_c0_substep_iter
+.L_060269B0:
+    bra     .L_060269DC
     nop
-.L_c0_substep_check:
+.L_060269B4:
     mov.w @r13, r2
     mov #0x20, r3
     cmp/ge r3, r2
-    bf      .L_c0_write_reg_block
-    bra     .L_c0_substep_done
+    bf      .L_060269C0
+    bra     .L_06026A10
     nop
-.L_c0_write_reg_block:
+.L_060269C0:
     mov.w @r13, r5
     mov.w @r14, r4
-    mov.l   .L_seq_index_tbl_c0, r3
-    mov.l   .L_cmd_ptr_tbl_c0, r2
+    mov.l   .L_06026B30, r3
+    mov.l   .L_06026B34, r2
     add #-0x1, r4
     add r3, r4
     mov.b @r4, r4
@@ -166,10 +166,10 @@ DAT_06026922:
     mov.w @r13, r3
     add #0x1, r3
     mov.w r3, @r13
-.L_c0_substep_iter:
+.L_060269DC:
     mov.w @r14, r0
-    mov.l   .L_seq_index_tbl_c0, r3
-    mov.l   .L_anim_step_tbl_c0, r2
+    mov.l   .L_06026B30, r3
+    mov.l   .L_06026B38, r2
     mov.w @r13, r4
     mov.w @r14, r1
     add #-0x1, r0
@@ -181,7 +181,7 @@ DAT_06026922:
     shll r0
     add r2, r0
     mov.b @(r0, r4), r4
-    mov.l   .L_timing_tbl_c0_b, r0
+    mov.l   .L_06026B1C, r0
     mov.w @(r0, r1), r3
     add r4, r3
     mov r3, r1
@@ -189,20 +189,20 @@ DAT_06026922:
     add r1, r3
     mov.l @r11, r1
     cmp/hs r3, r1
-    bf      .L_c0_substep_done
+    bf      .L_06026A10
     mov r4, r0
     cmp/eq #-0x1, r0
-    bf      .L_c0_substep_check
-.L_c0_substep_done:
-    bra     .L_check_anim_done
+    bf      .L_060269B4
+.L_06026A10:
+    bra     .L_06026C60
     nop
-.L_course1_handler:
+.L_06026A14:
     mov.w @r14, r2
     mov #0x3A, r3
     cmp/ge r3, r2
-    bt      .L_c1_check_last_phase
+    bt      .L_06026A4A
     mov.w @r14, r3
-    mov.l   .L_timing_tbl_c1, r2
+    mov.l   .L_06026B3C, r2
     mov.l @r11, r0
     shll r3
     add r2, r3
@@ -211,26 +211,26 @@ DAT_06026922:
     shll r3
     add r1, r3
     cmp/hs r3, r0
-    bf      .L_c1_write_active_cmd
+    bf      .L_06026A80
     mov r8, r5
     mov.w @r14, r2
     add #0x1, r2
     mov.w r2, @r14
     mov.w r12, @r13
-    mov.l   .L_cmd_data_final, r7
-    mov.l   .L_mask_nibble3_b, r6
+    mov.l   .L_06026B24, r7
+    mov.l   .L_06026B28, r6
     jsr @r9
     mov #0xC, r4
     mov #0x1, r2
-    bra     .L_c1_write_active_cmd
+    bra     .L_06026A80
     mov.w r2, @r10
-.L_c1_check_last_phase:
+.L_06026A4A:
     mov.w @r14, r0
     cmp/eq #0x3A, r0
-    bf      .L_c1_write_active_cmd
+    bf      .L_06026A80
     mov.w @r14, r2
-    mov.l   .L_timing_tbl_c1, r3
-    mov.l   .L_global_tick_counter_b, r0
+    mov.l   .L_06026B3C, r3
+    mov.l   .L_06026B20, r0
     shll r2
     mov.l @r0, r0
     add r3, r2
@@ -239,10 +239,10 @@ DAT_06026922:
     shll r2
     add r1, r2
     cmp/hs r2, r0
-    bf      .L_c1_write_active_cmd
-    mov.l   .L_cmd_data_final, r7
+    bf      .L_06026A80
+    mov.l   .L_06026B24, r7
     mov r8, r5
-    mov.l   .L_mask_nibble3_b, r6
+    mov.l   .L_06026B28, r6
     jsr @r9
     mov #0xC, r4
     exts.w r12, r3
@@ -250,17 +250,17 @@ DAT_06026922:
     exts.w r12, r2
     mov.w r2, @r13
     mov #0x1, r3
-    mov.l   .L_anim_done_flag_b, r2
+    mov.l   .L_06026B2C, r2
     mov.w r3, @r2
-.L_c1_write_active_cmd:
+.L_06026A80:
     mov.w @r10, r0
     tst r0, r0
-    bt      .L_c1_clear_active
+    bt      .L_06026AA0
     mov.w @r14, r7
     mov r8, r5
-    mov.l   .L_seq_index_tbl_c1, r3
-    mov.l   .L_cmd_ptr_tbl_c1, r2
-    mov.l   .L_mask_nibble3_b, r6
+    mov.l   .L_06026B40, r3
+    mov.l   .L_06026B44, r2
+    mov.l   .L_06026B28, r6
     add #-0x1, r7
     add r3, r7
     mov.b @r7, r7
@@ -269,29 +269,29 @@ DAT_06026922:
     mov.l @r7, r7
     jsr @r9
     mov #0xC, r4
-.L_c1_clear_active:
+.L_06026AA0:
     exts.w r12, r3
     mov.w r3, @r10
     mov.w @r14, r2
     cmp/pl r2
-    bt      .L_c1_enter_substep_loop
-    bra     .L_check_anim_done
+    bt      .L_06026AAE
+    bra     .L_06026C60
     nop
-.L_c1_enter_substep_loop:
-    bra     .L_c1_substep_iter
+.L_06026AAE:
+    bra     .L_06026ADA
     nop
-.L_c1_substep_check:
+.L_06026AB2:
     mov #0x24, r3
     mov.w @r13, r2
     cmp/ge r3, r2
-    bf      .L_c1_write_reg_block
-    bra     .L_c1_substep_done
+    bf      .L_06026ABE
+    bra     .L_06026B16
     nop
-.L_c1_write_reg_block:
+.L_06026ABE:
     mov.w @r13, r5
     mov.w @r14, r4
-    mov.l   .L_seq_index_tbl_c1, r3
-    mov.l   .L_cmd_ptr_tbl_c1, r2
+    mov.l   .L_06026B40, r3
+    mov.l   .L_06026B44, r2
     add #-0x1, r4
     add r3, r4
     mov.b @r4, r4
@@ -302,10 +302,10 @@ DAT_06026922:
     mov.w @r13, r3
     add #0x1, r3
     mov.w r3, @r13
-.L_c1_substep_iter:
+.L_06026ADA:
     mov.w @r14, r0
-    mov.l   .L_seq_index_tbl_c1, r3
-    mov.l   .L_anim_step_tbl_c1, r1
+    mov.l   .L_06026B40, r3
+    mov.l   .L_06026B48, r1
     mov.w @r13, r4
     add #-0x1, r0
     mov.b @(r0, r3), r0
@@ -321,7 +321,7 @@ DAT_06026922:
     add #-0x1, r2
     mov.b @(r0, r4), r4
     shll r2
-    mov.l   .L_timing_tbl_c1, r0
+    mov.l   .L_06026B3C, r0
     mov.w @(r0, r2), r3
     add r4, r3
     mov r3, r2
@@ -329,45 +329,45 @@ DAT_06026922:
     add r2, r3
     mov.l @r11, r2
     cmp/hs r3, r2
-    bf      .L_c1_substep_done
+    bf      .L_06026B16
     mov r4, r0
     cmp/eq #-0x1, r0
-    bf      .L_c1_substep_check
-.L_c1_substep_done:
-    bra     .L_check_anim_done
+    bf      .L_06026AB2
+.L_06026B16:
+    bra     .L_06026C60
     nop
     .2byte  0xFFFF
-.L_timing_tbl_c0_b:
+.L_06026B1C:
     .4byte  sym_060597B8              /* course 0 timing table (dup) */
-.L_global_tick_counter_b:
+.L_06026B20:
     .4byte  sym_0607864C              /* global tick counter (dup) */
-.L_cmd_data_final:
+.L_06026B24:
     .4byte  sym_06059826              /* final-frame display cmd data */
-.L_mask_nibble3_b:
+.L_06026B28:
     .4byte  0x0000F000                /* VDP priority nibble mask (dup) */
-.L_anim_done_flag_b:
+.L_06026B2C:
     .4byte  sym_0606123E              /* animation-done flag (dup) */
-.L_seq_index_tbl_c0:
+.L_06026B30:
     .4byte  sym_060591BA              /* course 0 sequence index byte table */
-.L_cmd_ptr_tbl_c0:
+.L_06026B34:
     .4byte  sym_060611FC              /* course 0 cmd pointer table (dword) */
-.L_anim_step_tbl_c0:
+.L_06026B38:
     .4byte  sym_060595D8              /* course 0 anim step sizes (2D byte) */
-.L_timing_tbl_c1:
+.L_06026B3C:
     .4byte  sym_060591F0              /* course 1 frame timing table (16-bit) */
-.L_seq_index_tbl_c1:
+.L_06026B40:
     .4byte  sym_0605914C              /* course 1 sequence index byte table */
-.L_cmd_ptr_tbl_c1:
+.L_06026B44:
     .4byte  sym_0606119C              /* course 1 cmd pointer table (dword) */
-.L_anim_step_tbl_c1:
+.L_06026B48:
     .4byte  sym_06059266              /* course 1 anim step sizes (2D byte) */
-.L_course2_handler:
+.L_06026B4C:
     mov.w @r14, r2
     mov #0x34, r3
     cmp/ge r3, r2
-    bt      .L_c2_check_last_phase
+    bt      .L_06026B82
     mov.w @r14, r3
-    mov.l   .L_timing_tbl_c2, r2
+    mov.l   .L_06026C84, r2
     mov.l @r11, r0
     shll r3
     add r2, r3
@@ -376,26 +376,26 @@ DAT_06026922:
     shll r3
     add r1, r3
     cmp/hs r3, r0
-    bf      .L_c2_write_active_cmd
+    bf      .L_06026BB8
     mov r8, r5
     mov.w @r14, r2
     add #0x1, r2
     mov.w r2, @r14
     mov.w r12, @r13
-    mov.l   .L_cmd_data_c2, r7
-    mov.l   .L_mask_nibble3_c, r6
+    mov.l   .L_06026C88, r7
+    mov.l   .L_06026C8C, r6
     jsr @r9
     mov #0xC, r4
     mov #0x1, r2
-    bra     .L_c2_write_active_cmd
+    bra     .L_06026BB8
     mov.w r2, @r10
-.L_c2_check_last_phase:
+.L_06026B82:
     mov.w @r14, r0
     cmp/eq #0x34, r0
-    bf      .L_c2_write_active_cmd
+    bf      .L_06026BB8
     mov.w @r14, r2
-    mov.l   .L_timing_tbl_c2, r3
-    mov.l   .L_global_tick_counter_c, r0
+    mov.l   .L_06026C84, r3
+    mov.l   .L_06026C90, r0
     shll r2
     mov.l @r0, r0
     add r3, r2
@@ -404,10 +404,10 @@ DAT_06026922:
     shll r2
     add r1, r2
     cmp/hs r2, r0
-    bf      .L_c2_write_active_cmd
-    mov.l   .L_cmd_data_c2, r7
+    bf      .L_06026BB8
+    mov.l   .L_06026C88, r7
     mov r8, r5
-    mov.l   .L_mask_nibble3_c, r6
+    mov.l   .L_06026C8C, r6
     jsr @r9
     mov #0xC, r4
     exts.w r12, r3
@@ -415,17 +415,17 @@ DAT_06026922:
     exts.w r12, r2
     mov.w r2, @r13
     mov #0x1, r3
-    mov.l   .L_anim_done_flag_c, r2
+    mov.l   .L_06026C94, r2
     mov.w r3, @r2
-.L_c2_write_active_cmd:
+.L_06026BB8:
     mov.w @r10, r0
     tst r0, r0
-    bt      .L_c2_clear_active
+    bt      .L_06026BD8
     mov.w @r14, r7
     mov r8, r5
-    mov.l   .L_seq_index_tbl_c2, r3
-    mov.l   .L_cmd_ptr_tbl_c2, r2
-    mov.l   .L_mask_nibble3_c, r6
+    mov.l   .L_06026C98, r3
+    mov.l   .L_06026C9C, r2
+    mov.l   .L_06026C8C, r6
     add #-0x1, r7
     add r3, r7
     mov.b @r7, r7
@@ -434,26 +434,26 @@ DAT_06026922:
     mov.l @r7, r7
     jsr @r9
     mov #0xC, r4
-.L_c2_clear_active:
+.L_06026BD8:
     exts.w r12, r3
     mov.w r3, @r10
     mov.w @r14, r2
     cmp/pl r2
-    bf      .L_check_anim_done
-    bra     .L_c2_substep_iter
+    bf      .L_06026C60
+    bra     .L_06026C0E
     nop
-.L_c2_substep_check:
+.L_06026BE6:
     mov #0x19, r3
     mov.w @r13, r2
     cmp/ge r3, r2
-    bf      .L_c2_write_reg_block
-    bra     .L_c2_substep_done
+    bf      .L_06026BF2
+    bra     .L_06026C44
     nop
-.L_c2_write_reg_block:
+.L_06026BF2:
     mov.w @r13, r5
     mov.w @r14, r4
-    mov.l   .L_seq_index_tbl_c2, r3
-    mov.l   .L_cmd_ptr_tbl_c2, r2
+    mov.l   .L_06026C98, r3
+    mov.l   .L_06026C9C, r2
     add #-0x1, r4
     add r3, r4
     mov.b @r4, r4
@@ -464,11 +464,11 @@ DAT_06026922:
     mov.w @r13, r3
     add #0x1, r3
     mov.w r3, @r13
-.L_c2_substep_iter:
+.L_06026C0E:
     mov #0x19, r2
-    mov.l   .L_anim_step_tbl_c2, r1
+    mov.l   .L_06026CA0, r1
     mov.w @r14, r0
-    mov.l   .L_seq_index_tbl_c2, r3
+    mov.l   .L_06026C98, r3
     mov.w @r13, r4
     add #-0x1, r0
     mov.b @(r0, r3), r0
@@ -480,7 +480,7 @@ DAT_06026922:
     shll r2
     add r1, r0
     mov.b @(r0, r4), r4
-    mov.l   .L_timing_tbl_c2, r0
+    mov.l   .L_06026C84, r0
     mov.w @(r0, r2), r3
     add r4, r3
     mov r3, r2
@@ -488,38 +488,38 @@ DAT_06026922:
     add r2, r3
     mov.l @r11, r2
     cmp/hs r3, r2
-    bf      .L_c2_substep_done
+    bf      .L_06026C44
     mov r4, r0
     cmp/eq #-0x1, r0
-    bf      .L_c2_substep_check
-.L_c2_substep_done:
-    bra     .L_check_anim_done
+    bf      .L_06026BE6
+.L_06026C44:
+    bra     .L_06026C60
     nop
-.L_dispatch_course:
+.L_06026C48:
     cmp/eq #0x0, r0
-    bf      .L_try_course1
-    bra     .L_course0_handler
+    bf      .L_06026C50
+    bra     .L_060268EC
     nop
-.L_try_course1:
+.L_06026C50:
     cmp/eq #0x1, r0
-    bf      .L_try_course2
-    bra     .L_course1_handler
+    bf      .L_06026C58
+    bra     .L_06026A14
     nop
-.L_try_course2:
+.L_06026C58:
     cmp/eq #0x2, r0
-    bf      .L_check_anim_done
-    bra     .L_course2_handler
+    bf      .L_06026C60
+    bra     .L_06026B4C
     nop
-.L_check_anim_done:
-    mov.l   .L_anim_done_flag_c, r0
+.L_06026C60:
+    mov.l   .L_06026C94, r0
     mov.w @r0, r0
     tst r0, r0
-    bt      .L_epilogue
+    bt      .L_06026C70
     mov.l r12, @r11
     exts.w r12, r3
-    mov.l   .L_anim_done_flag_c, r2
+    mov.l   .L_06026C94, r2
     mov.w r3, @r2
-.L_epilogue:
+.L_06026C70:
     lds.l @r15+, macl
     lds.l @r15+, pr
     mov.l @r15+, r8
@@ -530,21 +530,21 @@ DAT_06026922:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_timing_tbl_c2:
+.L_06026C84:
     .4byte  sym_0605956E              /* course 2 frame timing table (16-bit) */
-.L_cmd_data_c2:
+.L_06026C88:
     .4byte  sym_06059826              /* course 2 display cmd data */
-.L_mask_nibble3_c:
+.L_06026C8C:
     .4byte  0x0000F000                /* VDP priority nibble mask (dup) */
-.L_global_tick_counter_c:
+.L_06026C90:
     .4byte  sym_0607864C              /* global tick counter (dup) */
-.L_anim_done_flag_c:
+.L_06026C94:
     .4byte  sym_0606123E              /* animation-done flag (dup) */
-.L_seq_index_tbl_c2:
+.L_06026C98:
     .4byte  sym_06059186              /* course 2 sequence index byte table */
-.L_cmd_ptr_tbl_c2:
+.L_06026C9C:
     .4byte  sym_060611DC              /* course 2 cmd pointer table (dword) */
-.L_anim_step_tbl_c2:
+.L_06026CA0:
     .4byte  sym_060594A6              /* course 2 anim step sizes (stride=25) */
 
     .global vdp2_reg_block_setup
@@ -562,35 +562,35 @@ vdp2_reg_block_setup:
     mov #0x0, r0
     mov.b r3, @r14
     mov.b r0, @(1, r14)
-    mov.l   .L_mask_0xE000, r6
+    mov.l   .L_06026CD8, r6
     mov.w @r15, r5
-    mov.w   .L_reg_base_offset, r3
+    mov.w   .L_06026CD4, r3
     add r3, r5
     shll r5
-    mov.l   .L_fn_disp_cmd_write_2, r3
+    mov.l   .L_06026CDC, r3
     jsr @r3
     mov #0xC, r4
     add #0x8, r15
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-.L_reg_base_offset:
+.L_06026CD4:
     .2byte  0x0602                    /* VDP2 register base offset */
     .2byte  0xFFFF                    /* padding */
-.L_mask_0xE000:
+.L_06026CD8:
     .4byte  0x0000E000                /* VDP2 scroll priority mask */
-.L_fn_disp_cmd_write_2:
+.L_06026CDC:
     .4byte  sym_060283E0              /* display command writer (dup) */
 
     .global sym_06026CE0
 sym_06026CE0:
-    mov.l   .L_delay_countdown_reg, r1
+    mov.l   .L_06026D24, r1
     mov #0x1, r2
-    mov.l   .L_delay_result_store, r3
+    mov.l   .L_06026D28, r3
     mov #0x0, r4
     mov.l r2, @r1
     nop
-.L_delay_loop:
+.L_06026CEC:
     mov.l @r1, r0
     nop
     nop
@@ -614,14 +614,14 @@ sym_06026CE0:
     nop
     nop
     dt r0
-    bt/s    .L_delay_loop
+    bt/s    .L_06026CEC
     add #0x1, r4
     rts
     mov.l r4, @r3
     .2byte  0x0009                    /* alignment padding (nop) */
-.L_delay_countdown_reg:
+.L_06026D24:
     .4byte  sym_060635C4              /* game state active flag (countdown) */
-.L_delay_result_store:
+.L_06026D28:
     .4byte  sym_0605A010              /* delay iteration count result */
     .4byte  0xD217E000
     .4byte  0xE1010215
@@ -706,7 +706,7 @@ sym_06026E02:
     .byte   0xD0, 0x9A    /* mov.l .L_pool_0602706C, r0 */
     .byte   0xD1, 0x98    /* mov.l .L_pool_06027068, r1 */
     mov #0x0, r2
-    bra     .L_fill_identity
+    bra     .L_06026E12
     mov.l r0, @r1
 
     .global sym_06026E0C
@@ -714,7 +714,7 @@ sym_06026E0C:
     .byte   0xD0, 0x96    /* mov.l .L_pool_06027068, r0 */
     mov #0x0, r2
     mov.l @r0, r0
-.L_fill_identity:
+.L_06026E12:
     .byte   0xD1, 0x9A    /* mov.l .L_pool_0602707C, r1 */
     mov.l r2, @(4, r0)
     mov.l r1, @(0, r0)
@@ -741,7 +741,7 @@ sym_06026E2E:
     mov #0x3, r3
     mov r4, r5
     add #0x24, r5
-.L_mac_row_loop:
+.L_06026E40:
     clrmac
     mac.l @r4+, @r0+
     mac.l @r4+, @r0+
@@ -754,7 +754,7 @@ sym_06026E2E:
     xtrct r1, r2
     add r6, r2
     mov.l r2, @r5
-    bf/s    .L_mac_row_loop
+    bf/s    .L_06026E40
     add #0x4, r5
     rts
     nop

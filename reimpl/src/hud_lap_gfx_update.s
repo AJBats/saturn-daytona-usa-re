@@ -7,42 +7,42 @@
 hud_lap_gfx_update:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    mov.l   .L_fn_pre_transform, r3
+    mov.l   .L_06012588, r3
     jsr @r3
     nop
-    mov.l   .L_fn_matrix_init, r3
+    mov.l   .L_0601258C, r3
     jsr @r3
     nop
-    mov.l   .L_position_vec, r14
-    mov.l   .L_fn_transform_dispatch, r3
+    mov.l   .L_06012590, r14
+    mov.l   .L_06012594, r3
     mov.l @(8, r14), r6
     mov.l @(4, r14), r5
     jsr @r3
     mov.l @r14, r4
-    mov.l   .L_rot_angle_z, r4
-    mov.l   .L_fn_rot_z, r3
+    mov.l   .L_06012598, r4
+    mov.l   .L_0601259C, r3
     jsr @r3
     mov.w @r4, r4
-    mov.l   .L_fn_rot_y, r3
+    mov.l   .L_060125A0, r3
     jsr @r3
     mov #0x0, r4
-    mov.l   .L_fn_transform_mat, r3
+    mov.l   .L_060125A4, r3
     jsr @r3
     mov #0x0, r4
-    mov.l   .L_speed_counter, r2
+    mov.l   .L_060125A8, r2
     mov #0x64, r3
     mov.l @r2, r2
     cmp/ge r3, r2
-    bf      .L_skip_extra_transform
+    bf      .L_0601254E
     mov.w   DAT_06012586, r4
-    mov.l   .L_fn_transform_mat, r3
+    mov.l   .L_060125A4, r3
     jsr @r3
     nop
-.L_skip_extra_transform:
-    mov.l   .L_chain_a_src, r5
-    mov.l   .L_obj_counter, r4
-    mov.l   .L_chain_a_table, r3
-    mov.l   .L_fn_chain_a, r2
+.L_0601254E:
+    mov.l   .L_060125AC, r5
+    mov.l   .L_060125B0, r4
+    mov.l   .L_060125B4, r3
+    mov.l   .L_060125B8, r2
     mov.l @r5, r5
     mov.l @r4, r4
     add #-0x1, r4
@@ -50,11 +50,11 @@ hud_lap_gfx_update:
     add r3, r4
     jsr @r2
     mov.l @r4, r4
-    mov.l   .L_chain_b_src, r6
-    mov.l   .L_disp_mode, r5
-    mov.l   .L_obj_counter, r4
-    mov.l   .L_chain_b_table, r3
-    mov.l   .L_fn_chain_b, r2
+    mov.l   .L_060125BC, r6
+    mov.l   .L_060125C0, r5
+    mov.l   .L_060125B0, r4
+    mov.l   .L_060125C4, r3
+    mov.l   .L_060125C8, r2
     mov.l @r6, r6
     mov.w @r5, r5
     mov.l @r4, r4
@@ -64,46 +64,46 @@ hud_lap_gfx_update:
     jsr @r2
     mov.l @r4, r4
     lds.l @r15+, pr
-    mov.l   .L_fn_post_cleanup, r3
+    mov.l   .L_060125CC, r3
     jmp @r3
     mov.l @r15+, r14
 
     .global DAT_06012586
 DAT_06012586:
     .2byte  0x1000
-.L_fn_pre_transform:
+.L_06012588:
     .4byte  sym_06026DBC
-.L_fn_matrix_init:
+.L_0601258C:
     .4byte  sym_06026E0C
-.L_position_vec:
+.L_06012590:
     .4byte  sym_060788B4
-.L_fn_transform_dispatch:
+.L_06012594:
     .4byte  sym_06026E2E
-.L_rot_angle_z:
+.L_06012598:
     .4byte  sym_060788B2
-.L_fn_rot_z:
+.L_0601259C:
     .4byte  mat_rot_z
-.L_fn_rot_y:
+.L_060125A0:
     .4byte  mat_rot_y
-.L_fn_transform_mat:
+.L_060125A4:
     .4byte  mat_rot_x
-.L_speed_counter:
+.L_060125A8:
     .4byte  sym_0607EBCC
-.L_chain_a_src:
+.L_060125AC:
     .4byte  sym_06063558
-.L_obj_counter:
+.L_060125B0:
     .4byte  sym_0607EAD8
-.L_chain_a_table:
+.L_060125B4:
     .4byte  sym_0606354C
-.L_fn_chain_a:
+.L_060125B8:
     .4byte  sym_06031D8C
-.L_chain_b_src:
+.L_060125BC:
     .4byte  sym_06063554
-.L_disp_mode:
+.L_060125C0:
     .4byte  sym_06089EA0
-.L_chain_b_table:
+.L_060125C4:
     .4byte  sym_06063544
-.L_fn_chain_b:
+.L_060125C8:
     .4byte  sym_06031A28
-.L_fn_post_cleanup:
+.L_060125CC:
     .4byte  sym_06026DF8

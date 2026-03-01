@@ -28,12 +28,12 @@ sound_channel_mgr:
     mov.w @r10, r9
     mov #0x8, r8
     cmp/ge r8, r9
-    bt      .L_mode_high
+    bt      .L_06030EC0
     add #-0x2, r8
     cmp/ge r8, r9
-    bf      .L_apply_damping
+    bf      .L_06030EC2
     .byte   0xD4, 0x04    /* mov.l .L_pool_06030EBF, r4 */
-    bra     .L_apply_damping
+    bra     .L_06030EC2
     nop
 
     .global DAT_06030eae
@@ -45,9 +45,9 @@ DAT_06030eae:
     .4byte  0x0000DEB8                  /* 16.16 fixed-point ~0.87 (moderate damping) */
 .L_pool_06030EBF:
     .4byte  0x0000FAE1                  /* 16.16 fixed-point ~0.98 (light damping) */
-.L_mode_high:
+.L_06030EC0:
     .byte   0xD4, 0x06    /* mov.l .L_pool_06030EE0, r4 */
-.L_apply_damping:
+.L_06030EC2:
     dmuls.l r3, r4
     sts mach, r3
     sts macl, r4
@@ -71,10 +71,10 @@ sym_06030EE0:
     mov.l @r1, r3
     mov.w @(r0, r3), r2
     cmp/pl r2
-    bf      .L_timer_done
+    bf      .L_06030EF0
     add #-0x1, r2
     mov.w r2, @(r0, r3)
-.L_timer_done:
+.L_06030EF0:
     rts
     nop
 .L_wpool_06030EF9:

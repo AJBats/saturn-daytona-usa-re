@@ -14,19 +14,19 @@ vblank_int_ext:
     mov.l @r15, r4
     mov r0, r4
     tst r4, r4
-    bt      .L_edge_ok
+    bt      .L_060410E6
     add #0x14, r15
     lds.l @r15+, pr
     rts
     mov #-0xA, r0
-.L_edge_ok:
+.L_060410E6:
     mov.l @(4, r15), r5
     .byte   0xD3, 0x06    /* mov.l .L_pool_06041106, r3 */
     jsr @r3
     mov.l @r15, r4
     mov r0, r4
     tst r4, r4
-    bt      .L_width_ok
+    bt      .L_06041108
     add #0x14, r15
     lds.l @r15+, pr
     rts
@@ -36,7 +36,7 @@ vblank_int_ext:
     .4byte  track_road_edge_b                /* pool: road edge detection function */
 .L_pool_06041106:
     .4byte  track_road_width_stub            /* pool: road width validation function */
-.L_width_ok:
+.L_06041108:
     mov r15, r4
     .byte   0xD3, 0x1B    /* mov.l .L_pool_06041178, r3 */
     jsr @r3

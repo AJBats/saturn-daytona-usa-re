@@ -105,7 +105,7 @@ end_race_score:
     mov.l @r4, r4
     .byte   0xD2, 0x14    /* mov.l _pool_global_counter, r2 */
     mov.l @r2, r2
-    bra     .L_loop_tail
+    bra     .L_06013F94
     nop
 
     .global DAT_06013f46
@@ -150,18 +150,18 @@ _pool_fn_chain_b:
     .4byte  sym_06031A28
 _pool_global_counter:
     .4byte  sym_06089EDC
-.L_loop_tail:
+.L_06013F94:
     add #-0x30, r2
     add #0x20, r10
     .byte   0xD3, 0x09    /* mov.l _pool_counter_store, r3 */
     mov.l r2, @r3
     mov.l @(4, r15), r1
     cmp/hs r1, r10
-    bt/s    .L_epilog
+    bt/s    .L_06013FA8
     add #0x4, r8
     .byte   0xAF, 0x65    /* bra 0x06013E72 (external) */
     nop
-.L_epilog:
+.L_06013FA8:
     add #0x10, r15
     lds.l @r15+, macl
     lds.l @r15+, pr

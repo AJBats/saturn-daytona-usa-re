@@ -21,9 +21,9 @@ track_position_calc:
     sts.l pr, @-r15
     add #-0x1C, r15
     mov.w   DAT_0600c9e6, r9
-    mov.l   .L_p_atan2, r10
-    mov.l   .L_p_seg_data_array, r11
-    mov.l   .L_p_car_array_base, r12
+    mov.l   .L_0600C9EC, r10
+    mov.l   .L_0600C9F0, r11
+    mov.l   .L_0600C9F4, r12
     mov.w   DAT_0600c9e4, r0
     mov.l @r12, r12
     mov.l @(r0, r12), r4
@@ -49,7 +49,7 @@ track_position_calc:
     mov r15, r3
     add #0x1C, r3
     mov.l r3, @r15
-    bra     .L_loop_cond_check
+    bra     .L_0600CA2E
     shll2 r13
 
     .global DAT_0600c9e4
@@ -60,13 +60,13 @@ DAT_0600c9e4:
 DAT_0600c9e6:
     .2byte  0x0100
     .4byte  sym_0605A1E0
-.L_p_atan2:
+.L_0600C9EC:
     .4byte  atan2
-.L_p_seg_data_array:
+.L_0600C9F0:
     .4byte  sym_0607EB88
-.L_p_car_array_base:
+.L_0600C9F4:
     .4byte  sym_0607E944
-.L_compute_segment_angles:
+.L_0600C9F8:
     mov.l @r11, r8
     mov.l @(24, r12), r2
     mov.l @(16, r12), r3
@@ -94,10 +94,10 @@ DAT_0600c9e6:
     mov.w r0, @r14
     add #0x2, r14
     add #0x10, r13
-.L_loop_cond_check:
+.L_0600CA2E:
     mov.l @r15, r2
     cmp/hs r2, r14
-    bf      .L_compute_segment_angles
+    bf      .L_0600C9F8
     mov.l @(4, r15), r4
     mov.l @(8, r15), r14
     mov.w @r4, r4
@@ -107,39 +107,39 @@ DAT_0600c9e6:
     add r14, r4
     exts.w r4, r4
     cmp/pz r4
-    bt      .L_diff_positive
-    bra     .L_diff_ready
+    bt      .L_0600CA4C
+    bra     .L_0600CA4E
     neg r4, r7
-.L_diff_positive:
+.L_0600CA4C:
     mov r4, r7
-.L_diff_ready:
+.L_0600CA4E:
     extu.w r7, r7
     mov #0x0, r13
     mov r9, r5
     mov r15, r4
-    bra     .L_search_cond_check
+    bra     .L_0600CA76
     add #0xE, r4
-.L_search_compare:
+.L_0600CA5A:
     mov.w @r4, r6
     extu.w r6, r6
     add r14, r6
     exts.w r6, r6
     cmp/pz r6
-    bt      .L_abs_done
+    bt      .L_0600CA68
     neg r6, r6
-.L_abs_done:
+.L_0600CA68:
     extu.w r7, r3
     cmp/gt r6, r3
-    bf      .L_no_update
+    bf      .L_0600CA72
     extu.w r6, r7
     extu.w r5, r13
-.L_no_update:
+.L_0600CA72:
     add r9, r5
     add #0x2, r4
-.L_search_cond_check:
+.L_0600CA76:
     mov.l @r15, r3
     cmp/hs r3, r4
-    bf      .L_search_compare
+    bf      .L_0600CA5A
     extu.w r13, r13
     mov.w   DAT_0600cac0, r0
     mov.l r13, @(r0, r12)
@@ -158,7 +158,7 @@ DAT_0600c9e6:
 heading_smooth_gentle:
     mov.l r13, @-r15
     sts.l macl, @-r15
-    mov.l   .L_p_cur_car_ptr, r5
+    mov.l   .L_0600CAC4, r5
     mov.w   DAT_0600cac2, r0
     mov.l @r5, r5
     mov.l @(r0, r5), r6
@@ -167,15 +167,15 @@ heading_smooth_gentle:
     sub r3, r6
     mov #0x8, r3
     cmp/ge r3, r6
-    bt      .L_nudge_heading
+    bt      .L_0600CAC8
     mov #-0x8, r3
     cmp/gt r3, r6
-    bf      .L_nudge_heading
+    bf      .L_0600CAC8
     mov.w   DAT_0600cac2, r0
     mov.l @(r0, r5), r3
     add #0x4, r0
     mov.l r3, @(r0, r5)
-    bra     .L_after_heading_adj
+    bra     .L_0600CAE0
     nop
 
     .global DAT_0600cac0
@@ -185,26 +185,26 @@ DAT_0600cac0:
     .global DAT_0600cac2
 DAT_0600cac2:
     .2byte  0x01F8
-.L_p_cur_car_ptr:
+.L_0600CAC4:
     .4byte  sym_0607E940
-.L_nudge_heading:
+.L_0600CAC8:
     cmp/pl r6
-    bf      .L_nudge_negative
+    bf      .L_0600CAD8
     mov.w   DAT_0600cb84, r0
     mov.l @(r0, r5), r3
     add #0x4, r3
     mov.l r3, @(r0, r5)
-    bra     .L_after_heading_adj
+    bra     .L_0600CAE0
     nop
-.L_nudge_negative:
+.L_0600CAD8:
     mov.w   DAT_0600cb84, r0
     mov.l @(r0, r5), r2
     add #-0x4, r2
     mov.l r2, @(r0, r5)
-.L_after_heading_adj:
+.L_0600CAE0:
     mov.w   DAT_0600cb84, r0
     mov.w   DAT_0600cb86, r3
-    mov.l   .L_p_course_seg_data, r13
+    mov.l   .L_0600CB8C, r13
     mov.l @(r0, r5), r7
     extu.w r7, r6
     and r3, r7
@@ -213,13 +213,13 @@ DAT_0600cac2:
     shlr2 r7
     shlr2 r7
     tst r7, r7
-    bt/s    .L_no_interpolation
+    bt/s    .L_0600CB4C
     shlr8 r6
     mov #0x7, r3
     cmp/ge r3, r6
-    bt      .L_no_interpolation
+    bt      .L_0600CB4C
     mov #0x4, r1
-    mov.w   .L_off_track_seg_idx, r0
+    mov.w   .L_0600CB88, r0
     sub r7, r1
     mov.l @(r0, r5), r3
     shll2 r3
@@ -254,10 +254,10 @@ DAT_0600cac2:
     add r7, r1
     shar r1
     shar r1
-    bra     .L_copy_heading_fields
+    bra     .L_0600CB68
     mov.l r1, @(8, r4)
-.L_no_interpolation:
-    mov.w   .L_off_track_seg_idx, r0
+.L_0600CB4C:
+    mov.w   .L_0600CB88, r0
     mov.l @(r0, r5), r2
     shll2 r2
     shll r2
@@ -271,7 +271,7 @@ DAT_0600cac2:
     mov.l r2, @r4
     mov.l @(4, r5), r3
     mov.l r3, @(8, r4)
-.L_copy_heading_fields:
+.L_0600CB68:
     mov.w @(8, r5), r0
     mov.w r0, @(12, r4)
     mov.w @(10, r5), r0
@@ -294,8 +294,8 @@ DAT_0600cb84:
     .global DAT_0600cb86
 DAT_0600cb86:
     .2byte  0x00FF
-.L_off_track_seg_idx:
+.L_0600CB88:
     .2byte  0x01EC
     .2byte  0xFFFF
-.L_p_course_seg_data:
+.L_0600CB8C:
     .4byte  sym_0607EB88

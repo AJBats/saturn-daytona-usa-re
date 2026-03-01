@@ -11,14 +11,14 @@ menu_option_adj:
     mov.b @(r0, r14), r3
     extu.b r3, r3
     tst r3, r3
-    bt      .L_not_busy
+    bt      .L_0603B33E
     mov #-0x10, r4
     add #0x4, r15
     lds.l @r15+, pr
     mov.l @r15+, r8
     .byte   0xA2, 0xFF    /* bra 0x0603B93C (external) */
     mov.l @r15+, r14
-.L_not_busy:
+.L_0603B33E:
     .byte   0xB3, 0x31    /* bsr 0x0603B9A4 (external) */
     mov r14, r4
     mov #0x2, r2
@@ -35,12 +35,12 @@ menu_option_adj:
     mov.l @r15, r3
     sub r0, r4
     cmp/ge r4, r3
-    bt      .L_use_max_pos
-    bra     .L_pos_clamped
+    bt      .L_0603B364
+    bra     .L_0603B366
     mov.l @r15, r5
-.L_use_max_pos:
+.L_0603B364:
     mov r4, r5
-.L_pos_clamped:
+.L_0603B366:
     .byte   0xB5, 0x89    /* bsr 0x0603BE7C (external) */
     mov.l @r14, r4
     mov #0x0, r5

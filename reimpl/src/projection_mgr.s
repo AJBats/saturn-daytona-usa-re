@@ -13,9 +13,9 @@ projection_mgr:
     mov.l r9, @-r15
     mov.l r8, @-r15
     sts.l pr, @-r15
-    mov.l   .L_channel_table_base, r9
-    mov.l   .L_proj_param_source, r13
-    mov.l   .L_sprite_index_table, r4
+    mov.l   .L_060233C8, r9
+    mov.l   .L_060233CC, r13
+    mov.l   .L_060233D0, r4
     mov #0x3, r0
     mov.w r0, @(4, r4)
     mov #0x4, r0
@@ -157,34 +157,34 @@ projection_mgr:
     mov #0x37, r3
     mov.w r3, @r4
     extu.w r5, r11
-    mov.w   .L_vdp1_vram_base_lo, r6
-    bra     .L_copy_vdp1_data
+    mov.w   .L_060233C6, r6
+    bra     .L_060233D4
     nop
-.L_vdp1_vram_base_lo:
+.L_060233C6:
     .2byte  0x4240
-.L_channel_table_base:
+.L_060233C8:
     .4byte  sym_06056940
-.L_proj_param_source:
+.L_060233CC:
     .4byte  sym_0606A4EC
-.L_sprite_index_table:
+.L_060233D0:
     .4byte  sym_06089E44
-.L_copy_vdp1_data:
-    mov.l   .L_vdp1_vram_dest, r5
-    mov.l   .L_game_state_index_ptr, r4
-    mov.l   .L_scroll_base_table_ptr, r3
-    mov.w   .L_scroll_data_offset, r2
+.L_060233D4:
+    mov.l   .L_0602348C, r5
+    mov.l   .L_06023490, r4
+    mov.l   .L_06023494, r3
+    mov.w   .L_06023484, r2
     mov.l @r4, r4
     mov.l @r3, r3
     shll2 r4
     shll r4
     add r3, r4
     add r2, r4
-    mov.l   .L_memcpy_word_idx_fn, r2
+    mov.l   .L_06023498, r2
     jsr @r2
     nop
-    bra     .L_channel_loop_test
+    bra     .L_06023540
     mov #0x0, r12
-.L_channel_loop_body:
+.L_060233F2:
     extu.b r12, r4
     mov #0x13, r2
     mov r4, r3
@@ -198,121 +198,121 @@ projection_mgr:
     mov.l @r4, r10
     mov.w @(8, r4), r0
     cmp/gt r2, r3
-    bf/s    .L_no_extra_offset
+    bf/s    .L_06023412
     mov r0, r8
     add #0x36, r11
-.L_no_extra_offset:
+.L_06023412:
     extu.w r8, r2
     cmp/pl r2
-    bf/s    .L_primary_done
+    bf/s    .L_060234D8
     mov #0x0, r14
-.L_primary_entry_loop:
+.L_0602341A:
     extu.w r12, r0
     cmp/eq #0x13, r0
-    bf      .L_render_primary_entry
+    bf      .L_060234C2
     extu.w r14, r0
     cmp/eq #0x15, r0
-    bf      .L_check_idx_27
+    bf      .L_06023430
     mov.l @r13, r2
-    mov.l   .L_proj_param_a, r3
+    mov.l   .L_0602349C, r3
     mov.l r2, @r3
-    bra     .L_render_primary_entry
+    bra     .L_060234C2
     nop
-.L_check_idx_27:
+.L_06023430:
     extu.w r14, r0
     cmp/eq #0x27, r0
-    bf      .L_check_idx_40
+    bf      .L_06023440
     mov.l @r13, r2
-    mov.l   .L_proj_param_b, r3
+    mov.l   .L_060234A0, r3
     mov.l r2, @r3
-    bra     .L_render_primary_entry
+    bra     .L_060234C2
     nop
-.L_check_idx_40:
+.L_06023440:
     extu.w r14, r0
     cmp/eq #0x40, r0
-    bf      .L_check_idx_44
+    bf      .L_06023450
     mov.l @r13, r2
-    mov.l   .L_proj_param_x, r3
+    mov.l   .L_060234A4, r3
     mov.l r2, @r3
-    bra     .L_render_primary_entry
+    bra     .L_060234C2
     nop
-.L_check_idx_44:
+.L_06023450:
     extu.w r14, r0
     cmp/eq #0x44, r0
-    bf      .L_check_idx_82
+    bf      .L_06023460
     mov.l @r13, r2
-    mov.l   .L_proj_param_y, r3
+    mov.l   .L_060234A8, r3
     mov.l r2, @r3
-    bra     .L_render_primary_entry
+    bra     .L_060234C2
     nop
-.L_check_idx_82:
+.L_06023460:
     extu.w r14, r2
-    mov.w   .L_proj_idx_82, r3
+    mov.w   .L_06023486, r3
     cmp/eq r3, r2
-    bf      .L_check_idx_88
+    bf      .L_06023472
     mov.l @r13, r3
-    mov.l   .L_proj_config_ptr, r2
+    mov.l   .L_060234AC, r2
     mov.l r3, @r2
-    bra     .L_render_primary_entry
+    bra     .L_060234C2
     nop
-.L_check_idx_88:
+.L_06023472:
     extu.w r14, r2
-    mov.w   .L_proj_idx_88, r3
+    mov.w   .L_06023488, r3
     cmp/eq r3, r2
-    bf      .L_check_idx_a9
+    bf      .L_060234B4
     mov.l @r13, r3
-    mov.l   .L_proj_param_c, r2
+    mov.l   .L_060234B0, r2
     mov.l r3, @r2
-    bra     .L_render_primary_entry
+    bra     .L_060234C2
     nop
-.L_scroll_data_offset:
+.L_06023484:
     .2byte  0x03C0
-.L_proj_idx_82:
+.L_06023486:
     .2byte  0x0082
-.L_proj_idx_88:
+.L_06023488:
     .2byte  0x0088
     .2byte  0xFFFF
-.L_vdp1_vram_dest:
+.L_0602348C:
     .4byte  0x002A8000
-.L_game_state_index_ptr:
+.L_06023490:
     .4byte  sym_06059FFC
-.L_scroll_base_table_ptr:
+.L_06023494:
     .4byte  sym_06063F5C
-.L_memcpy_word_idx_fn:
+.L_06023498:
     .4byte  memcpy_word_idx
-.L_proj_param_a:
+.L_0602349C:
     .4byte  sym_06089E30
-.L_proj_param_b:
+.L_060234A0:
     .4byte  sym_06089E2C
-.L_proj_param_x:
+.L_060234A4:
     .4byte  sym_06089E34
-.L_proj_param_y:
+.L_060234A8:
     .4byte  sym_06089E38
-.L_proj_config_ptr:
+.L_060234AC:
     .4byte  sym_06089E28
-.L_proj_param_c:
+.L_060234B0:
     .4byte  sym_06089E3C
-.L_check_idx_a9:
+.L_060234B4:
     extu.w r14, r2
-    mov.w   .L_proj_idx_a9, r3
+    mov.w   .L_0602355E, r3
     cmp/eq r3, r2
-    bf      .L_render_primary_entry
+    bf      .L_060234C2
     mov.l @r13, r3
-    mov.l   .L_proj_param_z, r2
+    mov.l   .L_06023560, r2
     mov.l r3, @r2
-.L_render_primary_entry:
+.L_060234C2:
     extu.w r11, r5
-    mov.l   .L_sprite_render_fn, r3
-    mov.l   .L_vdp1_vram_base, r6
+    mov.l   .L_06023568, r3
+    mov.l   .L_06023564, r6
     jsr @r3
     mov r10, r4
     add #0x1, r14
     extu.w r8, r3
     extu.w r14, r2
     cmp/ge r3, r2
-    bf/s    .L_primary_entry_loop
+    bf/s    .L_0602341A
     add #0xC, r10
-.L_primary_done:
+.L_060234D8:
     extu.b r12, r14
     mov r14, r3
     shll2 r14
@@ -323,10 +323,10 @@ projection_mgr:
     add r9, r14
     mov.l @(4, r14), r14
     tst r14, r14
-    bf      .L_has_secondary
-    bra     .L_epilogue
+    bf      .L_060234F2
+    bra     .L_0602354C
     nop
-.L_has_secondary:
+.L_060234F2:
     extu.b r12, r8
     mov r8, r3
     shll2 r8
@@ -339,46 +339,46 @@ projection_mgr:
     mov r0, r8
     extu.w r12, r0
     cmp/eq #0x13, r0
-    bf      .L_no_secondary_offset
+    bf      .L_0602350E
     add #0x53, r11
-.L_no_secondary_offset:
+.L_0602350E:
     extu.w r8, r2
     cmp/pl r2
-    bf/s    .L_secondary_done
+    bf/s    .L_0602352A
     mov #0x0, r10
-.L_secondary_entry_loop:
+.L_06023516:
     extu.w r11, r5
-    mov.l   .L_secondary_render_fn, r3
+    mov.l   .L_0602356C, r3
     jsr @r3
     mov r14, r4
     add #0x1, r10
     extu.w r8, r3
     extu.w r10, r2
     cmp/ge r3, r2
-    bf/s    .L_secondary_entry_loop
+    bf/s    .L_06023516
     add #0x6, r14
-.L_secondary_done:
+.L_0602352A:
     extu.w r12, r0
     cmp/eq #0x14, r0
-    bf      .L_skip_bank_store
-    mov.l   .L_sprite_bank_base, r3
+    bf      .L_06023534
+    mov.l   .L_06023570, r3
     mov.w r11, @r3
-.L_skip_bank_store:
+.L_06023534:
     extu.w r12, r2
     mov #0x13, r3
     cmp/ge r3, r2
-    bt      .L_channel_next
+    bt      .L_0602353E
     add #0xA, r11
-.L_channel_next:
+.L_0602353E:
     add #0x1, r12
-.L_channel_loop_test:
+.L_06023540:
     extu.w r12, r3
     mov #0x14, r2
     cmp/gt r2, r3
-    bt      .L_epilogue
-    bra     .L_channel_loop_body
+    bt      .L_0602354C
+    bra     .L_060233F2
     nop
-.L_epilogue:
+.L_0602354C:
     lds.l @r15+, pr
     mov.l @r15+, r8
     mov.l @r15+, r9
@@ -388,15 +388,15 @@ projection_mgr:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_proj_idx_a9:
+.L_0602355E:
     .2byte  0x00A9
-.L_proj_param_z:
+.L_06023560:
     .4byte  sym_06089E40
-.L_vdp1_vram_base:
+.L_06023564:
     .4byte  0x002A8000
-.L_sprite_render_fn:
+.L_06023568:
     .4byte  vdp1_sprite_render_alt
-.L_secondary_render_fn:
+.L_0602356C:
     .4byte  sym_06007590
-.L_sprite_bank_base:
+.L_06023570:
     .4byte  sym_0607886C

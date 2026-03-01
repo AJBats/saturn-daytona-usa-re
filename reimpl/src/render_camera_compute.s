@@ -7,7 +7,7 @@
 render_camera_compute:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    mov.l   .L_camera_state_ptr, r0
+    mov.l   .L_0602F024, r0
     mov.l @r0, r0
     mov #0x0, r1
     mov #0x0, r2
@@ -18,41 +18,41 @@ render_camera_compute:
     mov.w   DAT_0602f01e, r1
     mov.l @(r0, r1), r1
     mov r1, r6
-    mov.w   .L_dead_zone_threshold, r2
-    mov.w   .L_max_extent_range, r3
+    mov.w   .L_0602F020, r2
+    mov.w   .L_0602F022, r3
     cmp/pz r1
-    bt      .L_skip_abs
+    bt      .L_0602F014
     neg r1, r1
-.L_skip_abs:
+.L_0602F014:
     sub r2, r1
     cmp/pz r1
-    bt      .L_clamp_upper
-    bra     .L_scale_and_divide
+    bt      .L_0602F028
+    bra     .L_0602F036
     mov #0x0, r1
 
     .global DAT_0602f01e
 DAT_0602f01e:
     .2byte  0x00AC
-.L_dead_zone_threshold:
+.L_0602F020:
     .2byte  0x0005
-.L_max_extent_range:
+.L_0602F022:
     .2byte  0x0050
-.L_camera_state_ptr:
+.L_0602F024:
     .4byte  sym_0607E944
-.L_clamp_upper:
+.L_0602F028:
     sub r2, r3
     cmp/gt r1, r3
-    bt      .L_check_sign
+    bt      .L_0602F030
     mov r3, r1
-.L_check_sign:
+.L_0602F030:
     cmp/pz r6
-    bt      .L_scale_and_divide
+    bt      .L_0602F036
     neg r1, r1
-.L_scale_and_divide:
+.L_0602F036:
     mov r0, r14
-    mov.w   .L_scale_factor_ff, r2
+    mov.w   .L_0602F060, r2
     muls.w r1, r2
-    mov.w   .L_horiz_divisor, r0
+    mov.w   .L_0602F062, r0
     sts macl, r1
     .byte   0xBE, 0x44    /* bsr 0x0602ECCC (external) */
     nop
@@ -63,16 +63,16 @@ DAT_0602f01e:
     mov.l @(r0, r6), r4
     mov.l r2, @(r0, r6)
     mov.l r4, @(r0, r1)
-    mov.w   .L_viewport_width_offset, r3
+    mov.w   .L_0602F068, r3
     mov.l @(r0, r3), r1
-    mov.l   .L_max_horiz_extent, r2
+    mov.l   .L_0602F06C, r2
     cmp/ge r1, r2
-    bt      .L_check_horiz_lower
-    bra     .L_vert_viewport_calc
+    bt      .L_0602F070
+    bra     .L_0602F078
     mov r2, r1
-.L_scale_factor_ff:
+.L_0602F060:
     .2byte  0x00FF
-.L_horiz_divisor:
+.L_0602F062:
     .2byte  0x0096
 
     .global DAT_0602f064
@@ -82,84 +82,84 @@ DAT_0602f064:
     .global DAT_0602f066
 DAT_0602f066:
     .2byte  0x00B4
-.L_viewport_width_offset:
+.L_0602F068:
     .2byte  0x0074
     .2byte  0x0000
-.L_max_horiz_extent:
+.L_0602F06C:
     .4byte  0x000000B8
-.L_check_horiz_lower:
-    mov.l   .L_min_viewport_extent, r2
+.L_0602F070:
+    mov.l   .L_0602F0A4, r2
     cmp/ge r1, r2
-    bf      .L_vert_viewport_calc
+    bf      .L_0602F078
     mov r2, r1
-.L_vert_viewport_calc:
-    mov.l   .L_min_viewport_extent, r2
+.L_0602F078:
+    mov.l   .L_0602F0A4, r2
     sub r2, r1
-    mov.w   .L_vert_scale_ff, r3
+    mov.w   .L_0602F0A0, r3
     mulu.w r3, r1
     mov.l r0, @-r15
-    mov.l   .L_vert_store_offset, r3
+    mov.l   .L_0602F0A8, r3
     sts macl, r1
-    mov.l   .L_vert_divisor, r0
+    mov.l   .L_0602F0AC, r0
     .byte   0xBE, 0x20    /* bsr 0x0602ECCC (external) */
     nop
     mov.l @r15+, r0
     mov.l @(r0, r3), r2
     mov.l r1, @(r0, r3)
-    mov.w   .L_depth_field_offset, r3
+    mov.w   .L_0602F0A2, r3
     mov.l @(r0, r3), r1
-    mov.l   .L_max_depth_extent, r2
+    mov.l   .L_0602F0B0, r2
     cmp/ge r1, r2
-    bt      .L_check_depth_lower
-    bra     .L_depth_viewport_calc
+    bt      .L_0602F0B4
+    bra     .L_0602F0BC
     mov r2, r1
-.L_vert_scale_ff:
+.L_0602F0A0:
     .2byte  0x00FF
-.L_depth_field_offset:
+.L_0602F0A2:
     .2byte  0x0090
-.L_min_viewport_extent:
+.L_0602F0A4:
     .4byte  0x00000038
-.L_vert_store_offset:
+.L_0602F0A8:
     .4byte  0x00000078
-.L_vert_divisor:
+.L_0602F0AC:
     .4byte  0x00000080
-.L_max_depth_extent:
+.L_0602F0B0:
     .4byte  0x00000098
-.L_check_depth_lower:
-    mov.l   .L_min_depth_extent, r2
+.L_0602F0B4:
+    mov.l   .L_0602F0E4, r2
     cmp/ge r1, r2
-    bf      .L_depth_viewport_calc
+    bf      .L_0602F0BC
     mov r2, r1
-.L_depth_viewport_calc:
-    mov.l   .L_min_depth_extent, r2
+.L_0602F0BC:
+    mov.l   .L_0602F0E4, r2
     sub r2, r1
-    mov.w   .L_depth_scale_ff, r3
+    mov.w   .L_0602F0DC, r3
     mulu.w r3, r1
     mov.l r0, @-r15
     sts macl, r1
-    mov.w   .L_depth_divisor, r0
+    mov.w   .L_0602F0DE, r0
     .byte   0xBD, 0xFF    /* bsr 0x0602ECCC (external) */
     nop
     mov.l @r15+, r0
-    mov.w   .L_depth_store_offset, r3
+    mov.w   .L_0602F0E0, r3
     mov.l r1, @(r0, r3)
     lds.l @r15+, pr
     mov.l @r15+, r14
     rts
     nop
-.L_depth_scale_ff:
+.L_0602F0DC:
     .2byte  0x00FF
-.L_depth_divisor:
+.L_0602F0DE:
     .2byte  0x0060
-.L_depth_store_offset:
+.L_0602F0E0:
     .2byte  0x0094
     .2byte  0x0000
-.L_min_depth_extent:
+.L_0602F0E4:
     .4byte  0x00000038
 
     .global sym_0602F0E8
 sym_0602F0E8:
-    mov.l   .L_smooth_cam_ptr, r2
+    mov.l   .L_0602F12C, r2
     mov.l @r2, r0
     mov.w   DAT_0602f11e, r1
     mov.l @(r0, r1), r2
@@ -172,14 +172,14 @@ sym_0602F0E8:
     mov.w   DAT_0602f122, r1
     mov.l @(r0, r1), r3
     tst r3, r3
-    bf      .L_render_locked
+    bf      .L_0602F134
     mov.w   DAT_0602f124, r2
     mov.l @(r0, r2), r4
     tst r4, r4
-    bf      .L_render_locked
+    bf      .L_0602F134
     mov.w   DAT_0602f126, r1
     mov.l @(r0, r1), r2
-    mov.l   .L_active_viewport_offset, r3
+    mov.l   .L_0602F130, r3
     mov.l r2, @(r0, r3)
     mov.w   DAT_0602f128, r1
     mov.l @(r0, r1), r2
@@ -214,11 +214,11 @@ DAT_0602f128:
     .global DAT_0602f12a
 DAT_0602f12a:
     .2byte  0x0068
-.L_smooth_cam_ptr:
+.L_0602F12C:
     .4byte  sym_0607E944
-.L_active_viewport_offset:
+.L_0602F130:
     .4byte  0x00000084
-.L_render_locked:
+.L_0602F134:
     mov #0x0, r5
     mov.w   DAT_0602f15a, r1
     mov.w r5, @(r0, r1)
@@ -228,15 +228,15 @@ DAT_0602f12a:
     mov.w   DAT_0602f160, r1
     mov.l r5, @(r0, r1)
     mov #0x0, r5
-    mov.w   .L_smooth_pos_offset, r1
+    mov.w   .L_0602F162, r1
     mov.l @(r0, r1), r4
-    mov.l   .L_track_length, r2
+    mov.l   .L_0602F164, r2
     cmp/pz r4
-    bt      .L_check_upper_wrap
+    bt      .L_0602F168
     add r2, r4
     cmp/pz r4
-    bt      .L_reset_pos_zero
-    bra     .L_store_wrapped_pos
+    bt      .L_0602F174
+    bra     .L_0602F16E
     nop
 
     .global DAT_0602f15a
@@ -254,19 +254,19 @@ DAT_0602f15e:
     .global DAT_0602f160
 DAT_0602f160:
     .2byte  0x0074
-.L_smooth_pos_offset:
+.L_0602F162:
     .2byte  0x00D0
-.L_track_length:
+.L_0602F164:
     .4byte  0x0000071C
-.L_check_upper_wrap:
+.L_0602F168:
     sub r2, r4
     cmp/pz r4
-    bt      .L_reset_pos_zero
-.L_store_wrapped_pos:
+    bt      .L_0602F174
+.L_0602F16E:
     mov.l r4, @(r0, r1)
     rts
     nop
-.L_reset_pos_zero:
+.L_0602F174:
     mov #0x0, r5
     mov.l r5, @(r0, r1)
     rts
@@ -276,16 +276,16 @@ DAT_0602f160:
 sym_0602F17C:
     mov r0, r14
     mov #0x0, r5
-    mov.w   .L_frame_counter_offset, r8
+    mov.w   .L_0602F1BA, r8
     mov.l @(r0, r8), r2
     tst r2, r2
-    bt      .L_counter_store
+    bt      .L_0602F190
     cmp/pz r2
-    bf      .L_counter_inc
+    bf      .L_0602F18E
     add #-0x2, r2
-.L_counter_inc:
+.L_0602F18E:
     add #0x1, r2
-.L_counter_store:
+.L_0602F190:
     mov.l r2, @(r0, r8)
     mov.w   DAT_0602f1bc, r9
     mov.w @(r0, r9), r2
@@ -294,21 +294,21 @@ sym_0602F17C:
     mov.l @(r0, r3), r4
     mov.l @(8, r0), r7
     tst r7, r7
-    bt      .L_use_default_table
-    mov.l   .L_boundary_table_a, r6
+    bt      .L_0602F1AC
+    mov.l   .L_0602F1C0, r6
     add r2, r6
     mov.l @r6, r6
     cmp/gt r6, r4
-    bt      .L_adjust_forward
-.L_use_default_table:
-    mov.l   .L_boundary_table_b, r6
+    bt      .L_0602F1C8
+.L_0602F1AC:
+    mov.l   .L_0602F1C4, r6
     add r2, r6
     mov.l @r6, r6
     cmp/ge r4, r6
-    bt      .L_adjust_backward
+    bt      .L_0602F1F8
     .byte   0xA0, 0x35    /* bra 0x0602F224 (external) */
     nop
-.L_frame_counter_offset:
+.L_0602F1BA:
     .2byte  0x00D8
 
     .global DAT_0602f1bc
@@ -318,11 +318,11 @@ DAT_0602f1bc:
     .global DAT_0602f1be
 DAT_0602f1be:
     .2byte  0x00E0
-.L_boundary_table_a:
+.L_0602F1C0:
     .4byte  sym_060477AC
-.L_boundary_table_b:
+.L_0602F1C4:
     .4byte  sym_0604779C
-.L_adjust_forward:
+.L_0602F1C8:
     mov #0x5, r1
     mov.l r1, @(r0, r8)
     mov.w @(r0, r9), r1
@@ -331,7 +331,7 @@ DAT_0602f1be:
     mov.w r1, @(r0, r9)
     mov.w   DAT_0602f1f2, r8
     mov.l @(r0, r8), r5
-    mov.l   .L_speed_table_fwd, r2
+    mov.l   .L_0602F1F4, r2
     shll16 r5
     shll2 r3
     add r2, r3
@@ -348,9 +348,9 @@ DAT_0602f1be:
     .global DAT_0602f1f2
 DAT_0602f1f2:
     .2byte  0x00E0
-.L_speed_table_fwd:
+.L_0602F1F4:
     .4byte  sym_060477CC
-.L_adjust_backward:
+.L_0602F1F8:
     mov #-0x5, r1
     mov.l r1, @(r0, r8)
     mov.w @(r0, r9), r1

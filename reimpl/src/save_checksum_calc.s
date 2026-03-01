@@ -14,16 +14,16 @@ save_checksum_calc:
     mov.l @r14, r14
     add r3, r14
     tst r13, r13
-    bt/s    .L_epilogue
+    bt/s    .L_0603B960
     mov.l r4, @(8, r14)
     mov.l @r14, r0
     tst r0, r0
-    bt      .L_epilogue
+    bt      .L_0603B960
     mov r13, r5
     mov.l @r14, r3
     jsr @r3
     mov.l @(4, r14), r4
-.L_epilogue:
+.L_0603B960:
     mov r13, r0
     lds.l @r15+, pr
     mov.l @r15+, r13

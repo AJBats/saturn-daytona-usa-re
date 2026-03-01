@@ -9,28 +9,28 @@ per_frame_race_update:
     sts.l pr, @-r15
     sts.l macl, @-r15
 
-    mov.l   .L_car_struct_ptr, r14
-    mov.l   .L_fn_gear_shift, r3
+    mov.l   .L_0600E878, r14
+    mov.l   .L_0600E87C, r3
     jsr @r3
     mov.l @r14, r14
-    mov.l   .L_fn_engine_force, r3
+    mov.l   .L_0600E880, r3
     jsr @r3
     nop
-    mov.l   .L_fn_friction, r3
+    mov.l   .L_0600E884, r3
     jsr @r3
     nop
-    mov.l   .L_fn_accel_response, r3
+    mov.l   .L_0600E888, r3
     jsr @r3
     nop
-    mov.l   .L_fn_demo_collision, r3
+    mov.l   .L_0600E88C, r3
     jsr @r3
     nop
 
-    mov.l   .L_steering_mode_byte, r0
-    bra     .L_steer_mode_dispatch
+    mov.l   .L_0600E890, r0
+    bra     .L_0600E898
     mov.b @r0, r0
 
-.L_steer_mode1_fast:
+.L_0600E7F4:
     mov.l @(40, r14), r4
     mov.w   DAT_0600e86c, r0
     mov.l @(r0, r14), r2
@@ -44,13 +44,13 @@ per_frame_race_update:
     exts.w r2, r4
     exts.w r4, r5
     mov.l r5, @(48, r14)
-    bra     .L_post_steering
+    bra     .L_0600E8A0
     mov.l r5, @(40, r14)
 
-.L_steer_mode2_smooth:
+.L_0600E812:
     mov.l @(40, r14), r4
     mov.w   DAT_0600e86c, r0
-    mov.l   .L_rounding_half, r3
+    mov.l   .L_0600E894, r3
     mov.l @(r0, r14), r2
     add #-0x54, r0
     sub r4, r2
@@ -67,13 +67,13 @@ per_frame_race_update:
 
     mov.l @(r0, r14), r0
     tst r0, r0
-    bt      .L_post_steering
+    bt      .L_0600E8A0
     mov.w   DAT_0600e86e, r0
     mov.l @(r0, r14), r3
     add #-0x1, r3
     mov.l r3, @(r0, r14)
     tst r3, r3
-    bf      .L_surface_timer_done
+    bf      .L_0600E868
 
     mov.w   DAT_0600e870, r0
     mov.l @(r0, r14), r4
@@ -88,14 +88,14 @@ per_frame_race_update:
     add r3, r4
     mov.w @(20, r4), r0
     mov r0, r3
-    mov.w   .L_off_surface_type, r0
+    mov.w   .L_0600E872, r0
     mov.l r3, @(r0, r14)
-    mov.w   .L_surface_reset_val, r3
+    mov.w   .L_0600E874, r3
     add #0xC, r0
     mov.l r3, @(r0, r14)
 
-.L_surface_timer_done:
-    bra     .L_post_steering
+.L_0600E868:
+    bra     .L_0600E8A0
     nop
 
     .global DAT_0600e86c
@@ -109,35 +109,35 @@ DAT_0600e86e:
     .global DAT_0600e870
 DAT_0600e870:
     .2byte  0x01E4                        /* car offset: surface slot index */
-.L_off_surface_type:
+.L_0600E872:
     .2byte  0x01F8                        /* car offset: surface type */
-.L_surface_reset_val:
+.L_0600E874:
     .2byte  0x0400                        /* surface timer reset constant */
     .2byte  0xFFFF
-.L_car_struct_ptr:
+.L_0600E878:
     .4byte  sym_0607E940               /* pointer to current car struct */
-.L_fn_gear_shift:
+.L_0600E87C:
     .4byte  gear_shift_handler         /* step 1: manual gear shift */
-.L_fn_engine_force:
+.L_0600E880:
     .4byte  sym_06008640               /* step 2: engine torque/force */
-.L_fn_friction:
+.L_0600E884:
     .4byte  friction_stub              /* step 3: surface friction */
-.L_fn_accel_response:
+.L_0600E888:
     .4byte  accel_response             /* step 4: acceleration curve */
-.L_fn_demo_collision:
+.L_0600E88C:
     .4byte  sym_0602D88E               /* step 5: demo/attract collision handler */
-.L_steering_mode_byte:
+.L_0600E890:
     .4byte  sym_06083261               /* steering interpolation mode (1=fast, 2=smooth) */
-.L_rounding_half:
+.L_0600E894:
     .4byte  0x00008000                  /* 0.5 rounding bias for mode 2 interpolation */
 
-.L_steer_mode_dispatch:
+.L_0600E898:
     cmp/eq #0x1, r0
-    bt      .L_steer_mode1_fast
+    bt      .L_0600E7F4
     cmp/eq #0x2, r0
-    bt      .L_steer_mode2_smooth
+    bt      .L_0600E812
 
-.L_post_steering:
+.L_0600E8A0:
     .byte   0xD3, 0x21    /* mov.l .L_pool_0600E928, r3 */
     jsr @r3
     nop
@@ -175,7 +175,7 @@ DAT_0600e870:
     mov.l @r3, r3
     and r2, r3
     tst r3, r3
-    bt      .L_epilogue
+    bt      .L_0600E8FE
 
     .byte   0xD5, 0x14    /* mov.l .L_pool_0600E938, r5 */
     .byte   0xD3, 0x14    /* mov.l .L_pool_0600E93C, r3 */
@@ -190,7 +190,7 @@ DAT_0600e870:
     add r14, r1
     mov.l r0, @r1
 
-.L_epilogue:
+.L_0600E8FE:
     lds.l @r15+, macl
     lds.l @r15+, pr
     rts

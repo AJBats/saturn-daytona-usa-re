@@ -14,38 +14,38 @@ car_proximity_check:
     mov.l r8, @-r15
     sts.l pr, @-r15
     sts.l macl, @-r15
-    mov.l   .L_proximity_threshold, r8
-    mov.l   .L_car_count, r10
-    mov.l   .L_car_array_base, r12
-    mov.w   .L_car_struct_stride, r13
-    mov.l   .L_skip_flag, r0
+    mov.l   .L_0600A9A0, r8
+    mov.l   .L_0600A9A4, r10
+    mov.l   .L_0600A9A8, r12
+    mov.w   .L_0600A99A, r13
+    mov.l   .L_0600A9AC, r0
     mov.l @r0, r0
     tst r0, r0
-    bt      .L_phase1_begin
-    bra     .L_epilogue
+    bt      .L_0600A93A
+    bra     .L_0600AA6A
     nop
-.L_phase1_begin:
-    bra     .L_outer_loop_cond
+.L_0600A93A:
+    bra     .L_0600A9E0
     mov #0x1, r9
-.L_outer_loop_body:
+.L_0600A93E:
     mul.l r13, r9
-    mov.l   .L_car_struct_ptr, r3
+    mov.l   .L_0600A9B0, r3
     sts macl, r14
     add r12, r14
     mov.l r14, @r3
     mov.l @r14, r2
-    mov.l   .L_active_flag_mask, r3
+    mov.l   .L_0600A9B4, r3
     and r3, r2
     tst r2, r2
-    bf      .L_inner_loop_entry
-    bra     .L_outer_loop_incr
+    bf      .L_0600A956
+    bra     .L_0600A9DE
     nop
-.L_inner_loop_entry:
-    bra     .L_inner_loop_cond
+.L_0600A956:
+    bra     .L_0600A9D6
     mov r9, r11
-.L_inner_loop_body:
+.L_0600A95A:
     mul.l r13, r11
-    mov.w   .L_off_track_position, r0
+    mov.w   .L_0600A99C, r0
     sts macl, r5
     mov.l @(r0, r14), r4
     add r12, r5
@@ -53,153 +53,153 @@ car_proximity_check:
     sub r3, r4
     mov #0x14, r3
     cmp/gt r3, r4
-    bt      .L_inner_loop_cond
+    bt      .L_0600A9D6
     mov #-0x14, r3
     cmp/ge r3, r4
-    bt      .L_p1_calc_3d_dist
-    bra     .L_inner_loop_cond
+    bt      .L_0600A978
+    bra     .L_0600A9D6
     nop
-.L_p1_calc_3d_dist:
+.L_0600A978:
     mov.l @(16, r5), r6
     mov.l @(16, r14), r2
     mov.l @(24, r5), r4
     mov.l @(24, r14), r3
     sub r2, r6
     cmp/pz r6
-    bt/s    .L_p1_dx_positive
+    bt/s    .L_0600A98A
     sub r3, r4
     neg r6, r6
-.L_p1_dx_positive:
+.L_0600A98A:
     cmp/pz r4
-    bt      .L_p1_dz_positive
+    bt      .L_0600A990
     neg r4, r4
-.L_p1_dz_positive:
+.L_0600A990:
     cmp/gt r4, r6
-    bf      .L_p1_dz_dominant
+    bf      .L_0600A9B8
     shar r4
-    bra     .L_p1_combine_dist
+    bra     .L_0600A9C0
     shar r4
-.L_car_struct_stride:
+.L_0600A99A:
     .2byte  0x0268                        /* car struct size (616 bytes) */
-.L_off_track_position:
+.L_0600A99C:
     .2byte  0x01EC                        /* car offset: track segment index */
     .2byte  0xFFFF
-.L_proximity_threshold:
+.L_0600A9A0:
     .4byte  0x0004B333                  /* distance threshold (~4.7 in 16.16) */
-.L_car_count:
+.L_0600A9A4:
     .4byte  sym_0607EA98               /* total car count */
-.L_car_array_base:
+.L_0600A9A8:
     .4byte  sym_06078900               /* car array start address */
-.L_skip_flag:
+.L_0600A9AC:
     .4byte  sym_0607EAE0               /* proximity check skip flag */
-.L_car_struct_ptr:
+.L_0600A9B0:
     .4byte  sym_0607E940               /* current car struct pointer */
-.L_active_flag_mask:
+.L_0600A9B4:
     .4byte  0x00E00000                  /* bits 23:21: car active flags */
-.L_p1_dz_dominant:
+.L_0600A9B8:
     mov r6, r2
     shar r2
     shar r2
     mov r2, r6
-.L_p1_combine_dist:
+.L_0600A9C0:
     add r4, r6
     cmp/ge r8, r6
-    bt      .L_inner_loop_cond
+    bt      .L_0600A9D6
     mov.w   DAT_0600aa7e, r0
-    mov.l   .L_fp_one, r3
+    mov.l   .L_0600AA84, r3
     mov.l @(r0, r5), r2
     cmp/ge r3, r2
-    bt      .L_inner_loop_cond
-    mov.l   .L_fn_collision_pair, r3
+    bt      .L_0600A9D6
+    mov.l   .L_0600AA88, r3
     jsr @r3
     mov r14, r4
-.L_inner_loop_cond:
+.L_0600A9D6:
     add #0x1, r11
     mov.l @r10, r2
     cmp/hs r2, r11
-    bf      .L_inner_loop_body
-.L_outer_loop_incr:
+    bf      .L_0600A95A
+.L_0600A9DE:
     add #0x1, r9
-.L_outer_loop_cond:
+.L_0600A9E0:
     mov.l @r10, r2
     add #-0x1, r2
     cmp/hs r2, r9
-    bf      .L_outer_loop_body
-    mov.l   .L_car_struct_ptr_2, r3
+    bf      .L_0600A93E
+    mov.l   .L_0600AA8C, r3
     mov.l r12, @r3
     mov r3, r11
     mov.l @r11, r11
-    bra     .L_p2_loop_cond
+    bra     .L_0600AA64
     mov #0x1, r9
-.L_p2_loop_body:
+.L_0600A9F4:
     mul.l r13, r9
-    mov.l   .L_active_flag_mask_2, r2
+    mov.l   .L_0600AA90, r2
     sts macl, r14
     add r12, r14
     mov.l @r14, r3
     and r2, r3
     tst r3, r3
-    bf      .L_p2_check_track_pos
-    bra     .L_p2_loop_incr
+    bf      .L_0600AA08
+    bra     .L_0600AA62
     nop
-.L_p2_check_track_pos:
-    mov.w   .L_off_track_position_2, r0
+.L_0600AA08:
+    mov.w   .L_0600AA80, r0
     mov #0x14, r3
     mov.l @(r0, r11), r4
     mov.l @(r0, r14), r2
     sub r2, r4
     cmp/gt r3, r4
-    bt      .L_p2_loop_incr
+    bt      .L_0600AA62
     mov #-0x14, r3
     cmp/ge r3, r4
-    bt      .L_p2_calc_3d_dist
-    bra     .L_p2_loop_incr
+    bt      .L_0600AA20
+    bra     .L_0600AA62
     nop
-.L_p2_calc_3d_dist:
+.L_0600AA20:
     mov.l @(16, r14), r6
     mov.l @(16, r11), r2
     mov.l @(24, r14), r4
     mov.l @(24, r11), r3
     sub r2, r6
     cmp/pz r6
-    bt/s    .L_p2_dx_positive
+    bt/s    .L_0600AA32
     sub r3, r4
     neg r6, r6
-.L_p2_dx_positive:
+.L_0600AA32:
     cmp/pz r4
-    bt      .L_p2_dz_positive
+    bt      .L_0600AA38
     neg r4, r4
-.L_p2_dz_positive:
+.L_0600AA38:
     cmp/gt r4, r6
-    bf      .L_p2_dz_dominant
+    bf      .L_0600AA42
     shar r4
-    bra     .L_p2_combine_dist
+    bra     .L_0600AA4A
     shar r4
-.L_p2_dz_dominant:
+.L_0600AA42:
     mov r6, r2
     shar r2
     shar r2
     mov r2, r6
-.L_p2_combine_dist:
+.L_0600AA4A:
     add r4, r6
     cmp/ge r8, r6
-    bt      .L_p2_loop_incr
+    bt      .L_0600AA62
     mov.w   DAT_0600aa7e, r0
-    mov.l   .L_fp_one, r3
+    mov.l   .L_0600AA84, r3
     mov.l @(r0, r14), r2
     cmp/ge r3, r2
-    bt      .L_p2_loop_incr
+    bt      .L_0600AA62
     mov r14, r5
-    mov.l   .L_fn_player_proximity, r3
+    mov.l   .L_0600AA94, r3
     jsr @r3
     mov r11, r4
-.L_p2_loop_incr:
+.L_0600AA62:
     add #0x1, r9
-.L_p2_loop_cond:
+.L_0600AA64:
     mov.l @r10, r2
     cmp/hs r2, r9
-    bf      .L_p2_loop_body
-.L_epilogue:
+    bf      .L_0600A9F4
+.L_0600AA6A:
     lds.l @r15+, macl
     lds.l @r15+, pr
     mov.l @r15+, r8
@@ -214,16 +214,16 @@ car_proximity_check:
     .global DAT_0600aa7e
 DAT_0600aa7e:
     .2byte  0x01B4                        /* car offset: collision cooldown timer */
-.L_off_track_position_2:
+.L_0600AA80:
     .2byte  0x01EC                        /* car offset: track segment index (dup) */
     .2byte  0xFFFF
-.L_fp_one:
+.L_0600AA84:
     .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
-.L_fn_collision_pair:
+.L_0600AA88:
     .4byte  sym_060316C4               /* car-to-car collision response wrapper */
-.L_car_struct_ptr_2:
+.L_0600AA8C:
     .4byte  sym_0607E940               /* car struct pointer (dup for phase 2) */
-.L_active_flag_mask_2:
+.L_0600AA90:
     .4byte  0x00E00000                  /* active flag mask (dup for phase 2) */
-.L_fn_player_proximity:
+.L_0600AA94:
     .4byte  sym_06030FC0               /* player proximity collision wrapper */

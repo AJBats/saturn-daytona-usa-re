@@ -11,16 +11,16 @@ vdp2_loop_ctrl:
     sts.l pr, @-r15
     mov #0x12, r12
     mov #0x0, r14
-.L_slot_loop:
+.L_060172C8:
     extu.b r14, r13
     bsr     sym_060172E4
     mov r13, r4
-    bsr     .L_init_scroll_entry
+    bsr     .L_06017330
     mov r13, r4
     add #0x1, r14
     extu.b r14, r2
     cmp/ge r12, r2
-    bf      .L_slot_loop
+    bf      .L_060172C8
     lds.l @r15+, pr
     mov.l @r15+, r12
     mov.l @r15+, r13
@@ -67,7 +67,7 @@ sym_060172E4:
     mov.b r2, @(r0, r4)
 .L_pool_0601732C:
     .4byte  sym_06084FC8
-.L_init_scroll_entry:
+.L_06017330:
     mov #0x8, r7
     mov #0x0, r5
     extu.b r4, r6
@@ -88,7 +88,7 @@ sym_060172E4:
     mov r3, r0
     mov.b r0, @(5, r6)
     extu.b r5, r4
-.L_word_clear_loop:
+.L_06017358:
     extu.b r4, r3
     mov r6, r2
     exts.w r5, r1
@@ -99,6 +99,6 @@ sym_060172E4:
     mov.w r1, @r3
     extu.b r4, r3
     cmp/ge r7, r3
-    bf      .L_word_clear_loop
+    bf      .L_06017358
     rts
     nop

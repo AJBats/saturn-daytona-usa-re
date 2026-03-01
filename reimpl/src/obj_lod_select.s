@@ -7,7 +7,7 @@
 obj_lod_select:
     sts.l pr, @-r15
     add #-0x8, r15
-    mov.l   .L_fn_input_proc_analog, r3
+    mov.l   .L_06036974, r3
     jsr @r3
     mov r15, r4
     mov r15, r2
@@ -29,8 +29,8 @@ obj_lod_select:
     mov r15, r3
     mov r12, r0
     mov.w r0, @(6, r3)
-    mov.w   .L_cmd_param_mask, r4
-    mov.l   .L_fn_input_proc_buttons, r3
+    mov.w   .L_06036972, r4
+    mov.l   .L_06036978, r3
     jsr @r3
     mov r15, r5
     mov r0, r4
@@ -42,9 +42,9 @@ obj_lod_select:
     rts
     mov.l @r15+, r14
     .2byte  0x0080                      /* alignment padding */
-.L_cmd_param_mask:
+.L_06036972:
     .2byte  0x0100                      /* [MEDIUM] command parameter mask — 0x100 (cf. 0x0080 in obj_visibility_check, 0x0200 in ai_master_update) */
-.L_fn_input_proc_analog:
+.L_06036974:
     .4byte  input_proc_analog           /* [HIGH] fn ptr: SMPC analog axis reader / buffer initializer */
-.L_fn_input_proc_buttons:
+.L_06036978:
     .4byte  input_proc_buttons          /* [HIGH] fn ptr: SMPC digital button reader / command dispatcher */

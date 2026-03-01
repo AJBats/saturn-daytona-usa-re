@@ -18,27 +18,27 @@ collision_dispatch:
     mov.l @r4, r14
     mov.l @(4, r14), r0
     tst r0, r0
-    bf/s    .L_collision_active
+    bf/s    .L_0600CF7A
     mov.l @r13, r13
-    bra     .L_check_collision_ended
+    bra     .L_0600D092
     nop
-.L_collision_active:
+.L_0600CF7A:
     mov.l @(8, r14), r3
     mov.w   DAT_0600cfe4, r2
     cmp/gt r2, r3
-    bt      .L_speed_sufficient
-    bra     .L_check_collision_ended
+    bt      .L_0600CF86
+    bra     .L_0600D092
     nop
-.L_speed_sufficient:
+.L_0600CF86:
     mov.l @r4, r2
     mov.l @r2, r3
     mov.l   .L_pool_0600CFF4, r2
     and r2, r3
     tst r3, r3
-    bf      .L_car_is_capable
-    bra     .L_epilogue
+    bf      .L_0600CF96
+    bra     .L_0600D09C
     nop
-.L_car_is_capable:
+.L_0600CF96:
     mov r11, r1
     mov r14, r2
     mov.l   .L_pool_0600CFF8, r3
@@ -47,38 +47,38 @@ collision_dispatch:
     mov.w   DAT_0600cfe6, r0
     mov.l @(r0, r14), r0
     tst r0, r0
-    bf      .L_severity_eval
-    bsr     .L_speed_limit_clamp
+    bf      .L_0600CFB0
+    bsr     .L_0600D0B8
     nop
-    bra     .L_epilogue
+    bra     .L_0600D09C
     nop
-.L_severity_eval:
+.L_0600CFB0:
     mov r11, r0
     mov.b @r0, r0
     tst #0x2, r0
-    bt      .L_primary_distance_check
+    bt      .L_0600CFD6
     mov.l @(8, r13), r3
     mov.l @(8, r14), r2
     cmp/ge r2, r3
-    bt      .L_copy_speed_limit
+    bt      .L_0600CFC8
     .byte   0xB0, 0xB4    /* bsr 0x0600D12C (external) */
     nop
-    bra     .L_primary_distance_check
+    bra     .L_0600CFD6
     nop
-.L_copy_speed_limit:
+.L_0600CFC8:
     mov.w   .L_wpool_0600CFE8, r0
     mov.l @(r0, r14), r2
     add #-0x4, r0
     mov.l r2, @(r0, r14)
     add #0xC, r0
-    bra     .L_epilogue
+    bra     .L_0600D09C
     mov.l r12, @(r0, r14)
-.L_primary_distance_check:
+.L_0600CFD6:
     mov.l @(8, r13), r3
     mov.l @(8, r14), r2
     cmp/ge r2, r3
-    bt      .L_detailed_state_dispatch
-    bra     .L_epilogue
+    bt      .L_0600CFFC
+    bra     .L_0600D09C
     nop
 .L_wpool_0600CFE2:
     .2byte  0x0080
@@ -101,38 +101,38 @@ DAT_0600cfe6:
     .4byte  0x00C00000
 .L_pool_0600CFF8:
     .4byte  sym_06035168
-.L_detailed_state_dispatch:
+.L_0600CFFC:
     mov r11, r0
     mov.b @r0, r0
     tst #0x1, r0
-    bt      .L_default_handler
+    bt      .L_0600D08E
     mov.w   .L_wpool_0600D0AA, r0
     mov.l @(r0, r14), r0
     cmp/eq #0x2, r0
-    bf      .L_check_state_1
+    bf      .L_0600D02E
     mov.l @(8, r13), r2
     mov.w   .L_wpool_0600D0AC, r3
     cmp/gt r3, r2
-    bf      .L_normal_collision
+    bf      .L_0600D026
     mov #0xA, r2
     mov.w   .L_wpool_0600D0AE, r0
     mov.l @(r0, r14), r3
     cmp/ge r2, r3
-    bt      .L_normal_collision
+    bt      .L_0600D026
     .byte   0xB0, 0xF7    /* bsr 0x0600D210 (external) */
     nop
-    bra     .L_state_dispatch_done
+    bra     .L_0600D08A
     nop
-.L_normal_collision:
+.L_0600D026:
     .byte   0xB0, 0x81    /* bsr 0x0600D12C (external) */
     nop
-    bra     .L_state_dispatch_done
+    bra     .L_0600D08A
     nop
-.L_check_state_1:
+.L_0600D02E:
     mov.w   .L_wpool_0600D0AA, r0
     mov.l @(r0, r14), r0
     cmp/eq #0x1, r0
-    bf      .L_state_dispatch_done
+    bf      .L_0600D08A
     mov.w   .L_wpool_0600D0B0, r0
     mov #0x2, r3
     mov.l @(r0, r13), r4
@@ -154,41 +154,41 @@ DAT_0600cfe6:
     shar r4
     shar r5
     cmp/hs r3, r4
-    bt      .L_check_high_range
+    bt      .L_0600D074
     mov #0x3, r3
     cmp/hs r3, r5
-    bt      .L_check_high_range
+    bt      .L_0600D074
     mov.w   .L_wpool_0600D0B2, r3
     mov.w   .L_wpool_0600D0B4, r0
     mov.l r3, @(r0, r14)
     add #0xC, r0
-    bra     .L_state_dispatch_done
+    bra     .L_0600D08A
     mov.l r12, @(r0, r14)
-.L_check_high_range:
+.L_0600D074:
     mov #0x5, r2
     cmp/hi r2, r4
-    bf      .L_state_dispatch_done
+    bf      .L_0600D08A
     mov #0x4, r2
     cmp/hi r2, r5
-    bf      .L_state_dispatch_done
+    bf      .L_0600D08A
     mov.w   .L_wpool_0600D0B6, r2
     mov.w   .L_wpool_0600D0B4, r0
     mov.l r2, @(r0, r14)
     add #0xC, r0
     mov.l r12, @(r0, r14)
-.L_state_dispatch_done:
-    bra     .L_epilogue
+.L_0600D08A:
+    bra     .L_0600D09C
     nop
-.L_default_handler:
+.L_0600D08E:
     .byte   0xB0, 0x4D    /* bsr 0x0600D12C (external) */
     nop
-.L_check_collision_ended:
+.L_0600D092:
     mov.l @(4, r14), r0
     tst r0, r0
-    bf      .L_epilogue
+    bf      .L_0600D09C
     .byte   0xB0, 0x48    /* bsr 0x0600D12C (external) */
     nop
-.L_epilogue:
+.L_0600D09C:
     add #0x4, r15
     lds.l @r15+, pr
     mov.l @r15+, r11
@@ -210,7 +210,7 @@ DAT_0600cfe6:
     .2byte  0x01F8
 .L_wpool_0600D0B6:
     .2byte  0x0400
-.L_speed_limit_clamp:
+.L_0600D0B8:
     mov.w   .L_wpool_0600D112, r7
     mov.l   .L_pool_0600D120, r5
     mov.l   .L_pool_0600D124, r4
@@ -220,46 +220,46 @@ DAT_0600cfe6:
     mov.l   .L_pool_0600D128, r3
     and r3, r2
     tst r2, r2
-    bt/s    .L_clamp_return
+    bt/s    .L_0600D10E
     mov.l @r5, r5
     mov.w   DAT_0600d114, r0
     mov.l @(r0, r5), r3
     mov.l @(r0, r6), r2
     cmp/ge r2, r3
-    bt      .L_clamp_decrement
+    bt      .L_0600D0E0
     mov.w   DAT_0600d114, r0
     mov.l @(r0, r5), r4
-    bra     .L_clamp_check_bounds
+    bra     .L_0600D0E8
     add r7, r4
-.L_clamp_decrement:
+.L_0600D0E0:
     mov.w   DAT_0600d114, r0
     mov.l @(r0, r5), r4
     mov.w   .L_wpool_0600D116, r2
     add r2, r4
-.L_clamp_check_bounds:
+.L_0600D0E8:
     cmp/pz r4
-    bt      .L_clamp_check_upper
+    bt      .L_0600D0F6
     mov #0x0, r2
     mov.w   .L_wpool_0600D118, r0
     mov.l r2, @(r0, r6)
-    bra     .L_clamp_write_cooldown
+    bra     .L_0600D10A
     nop
-.L_clamp_check_upper:
+.L_0600D0F6:
     mov.w   DAT_0600d11a, r3
     cmp/gt r3, r4
-    bf      .L_clamp_store_target
+    bf      .L_0600D106
     mov.w   DAT_0600d11a, r3
     mov.w   .L_wpool_0600D118, r0
     mov.l r3, @(r0, r6)
-    bra     .L_clamp_write_cooldown
+    bra     .L_0600D10A
     nop
-.L_clamp_store_target:
+.L_0600D106:
     mov.w   .L_wpool_0600D118, r0
     mov.l r4, @(r0, r6)
-.L_clamp_write_cooldown:
+.L_0600D10A:
     mov.w   .L_wpool_0600D11C, r0
     mov.l r7, @(r0, r6)
-.L_clamp_return:
+.L_0600D10E:
     rts
     nop
 .L_wpool_0600D112:

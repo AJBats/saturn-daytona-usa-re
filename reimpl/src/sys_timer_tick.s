@@ -10,23 +10,23 @@ sys_timer_tick:
     .byte   0xBF, 0xD1    /* bsr 0x06040666 (external) */
     mov.l r5, @r15
     tst r0, r0
-    bf      .L_init_check_passed
-    bra     .L_epilogue
+    bf      .L_060406CC
+    bra     .L_06040716
     mov #0x0, r0
-.L_init_check_passed:
-    mov.l   .L_ptr_boundary_acquire, r3
+.L_060406CC:
+    mov.l   .L_060406E4, r3
     jsr @r3
     nop
     mov r0, r14
     cmp/pz r14
-    bt      .L_lock_acquired
-    bra     .L_epilogue
+    bt      .L_060406E8
+    bra     .L_06040716
     mov #0x0, r0
     .4byte  sym_060409DE
     .4byte  evt_checkpoint_handler
-.L_ptr_boundary_acquire:
+.L_060406E4:
     .4byte  sym_06040FB8
-.L_lock_acquired:
+.L_060406E8:
     mov r15, r3
     mov #0x1, r2
     add #0x4, r3
@@ -36,7 +36,7 @@ sys_timer_tick:
     add #0x4, r3
     mov r3, r8
     add #0x4, r8
-    bsr     .L_compute_offset
+    bsr     .L_06040722
     mov r13, r4
     mov r14, r5
     mov r15, r4
@@ -50,12 +50,12 @@ sys_timer_tick:
     jsr @r3
     mov r14, r4
     mov #0x1, r0
-.L_epilogue:
+.L_06040716:
     add #0xC, r15
     lds.l @r15+, pr
     mov.l @r15+, r8
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_compute_offset:
+.L_06040722:
     mov #0x1E, r0

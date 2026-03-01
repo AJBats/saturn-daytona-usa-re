@@ -23,15 +23,15 @@ hud_number_render:
     or r3, r6
     sub r6, r1
     cmp/pl r1
-    bt      .L_angle_a_positive
+    bt      .L_06031046
     neg r1, r1
-.L_angle_a_positive:
+.L_06031046:
     extu.w r1, r1
     cmp/gt r1, r4
-    bt      .L_check_heading_b
+    bt      .L_06031050
     sub r4, r1
     mov #0x0, r7
-.L_check_heading_b:
+.L_06031050:
     mov.l @(48, r14), r1
     mov #0x1, r8
     mov r4, r3
@@ -40,22 +40,22 @@ hud_number_render:
     or r3, r6
     sub r6, r1
     cmp/pl r1
-    bt/s    .L_angle_b_positive
+    bt/s    .L_06031066
     mov.l @(48, r13), r2
     neg r1, r1
-.L_angle_b_positive:
+.L_06031066:
     extu.w r1, r1
-    bsr     .L_check_reverse_dir
+    bsr     .L_06031340
     nop
     cmp/gt r1, r4
-    bt      .L_compare_directions
+    bt      .L_06031074
     sub r4, r1
     mov #0x0, r8
-.L_compare_directions:
+.L_06031074:
     cmp/eq r7, r8
-    bt      .L_decompose_angle
+    bt      .L_0603107A
     mov #0x1, r9
-.L_decompose_angle:
+.L_0603107A:
     mov.l r4, @-r15
     mov r1, r4
     .byte   0xD0, 0x10    /* mov.l .L_pool_060310C1, r0 */
@@ -65,29 +65,29 @@ hud_number_render:
     sub r10, r2
     extu.w r2, r2
     cmp/gt r2, r4
-    bt/s    .L_angle_halved
+    bt/s    .L_06031092
     shlr8 r1
     sub r4, r2
-.L_angle_halved:
+.L_06031092:
     shlr r1
     mov #0x0, r7
     mov #0xA, r3
     cmp/ge r1, r3
-    bt      .L_done_validity_check
+    bt      .L_060310A4
     mov #0x37, r3
     cmp/ge r3, r1
-    bt      .L_done_validity_check
+    bt      .L_060310A4
     mov #0x1, r7
-.L_done_validity_check:
+.L_060310A4:
     shll2 r1
     shlr8 r2
     shlr r2
     shll2 r2
     tst r9, r9
-    bt      .L_force_table_lookup
+    bt      .L_060310CE
     tst r8, r8
-    bt      .L_set_approach_flag
-    bra     .L_check_validity
+    bt      .L_060310C4
+    bra     .L_060310C6
     mov #0x0, r8
 
     .global DAT_060310b8
@@ -97,14 +97,14 @@ DAT_060310b8:
     .4byte  atan2
 .L_pool_060310C1:
     .4byte  sin_lookup
-.L_set_approach_flag:
+.L_060310C4:
     mov #0x1, r8
-.L_check_validity:
+.L_060310C6:
     tst r7, r7
-    bt      .L_force_table_lookup
-    bra     .L_heading_diff_check
+    bt      .L_060310CE
+    bra     .L_060310E8
     mov r12, r4
-.L_force_table_lookup:
+.L_060310CE:
     .byte   0xD3, 0x05    /* mov.l .L_pool_060310E6, r3 */
     add r3, r1
     add r3, r2
@@ -113,12 +113,12 @@ DAT_060310b8:
     mov.l @r2, r12
     add r12, r4
     cmp/pl r4
-    bt      .L_heading_diff_check
-    bra     .L_epilogue
+    bt      .L_060310E8
+    bra     .L_06031322
     nop
 .L_pool_060310E6:
     .4byte  sym_0605BCC8
-.L_heading_diff_check:
+.L_060310E8:
     mov.l @(40, r14), r1
     mov.l @(40, r13), r2
     sub r2, r1
@@ -126,19 +126,19 @@ DAT_060310b8:
     mov.w   DAT_0603112e, r3
     mov #0x0, r11
     cmp/ge r1, r3
-    bt      .L_heading_diff_negative
+    bt      .L_06031140
     mov r3, r2
     shll r2
     add r2, r3
     cmp/ge r3, r1
-    bt      .L_heading_diff_negative
+    bt      .L_06031140
     mov #0x1, r11
     mov.l @(12, r14), r1
     mov.l @(12, r13), r3
     .byte   0xD2, 0x0A    /* mov.l .L_pool_06031139, r2 */
     add r3, r1
     cmp/ge r1, r2
-    bt      .L_apply_direction_force
+    bt      .L_060311F6
     mov.l r4, @-r15
     mov.l r0, @-r15
     mov.l @(0, r13), r0
@@ -152,7 +152,7 @@ DAT_060310b8:
     mov.w   DAT_06031132, r4
     mov.l r4, @(r0, r14)
     mov.l @r15+, r0
-    bra     .L_apply_direction_force
+    bra     .L_060311F6
     mov.l @r15+, r4
 
     .global DAT_0603112e
@@ -172,13 +172,13 @@ DAT_06031132:
     .4byte  0x08000000
 .L_pool_06031141:
     .4byte  force_steer_impact
-.L_heading_diff_negative:
+.L_06031140:
     mov.l @(12, r14), r1
     mov.l @(12, r13), r3
     .byte   0xD2, 0x11    /* mov.l .L_pool_06031195, r2 */
     sub r3, r1
     cmp/ge r1, r2
-    bt      .L_check_side_approach
+    bt      .L_06031168
     mov.l r4, @-r15
     mov.l r0, @-r15
     mov.l @(0, r13), r0
@@ -193,23 +193,23 @@ DAT_06031132:
     mov.l r4, @(r0, r14)
     mov.l @r15+, r0
     mov.l @r15+, r4
-.L_check_side_approach:
+.L_06031168:
     tst r7, r7
-    bf      .L_lateral_proximity
+    bf      .L_0603119C
     mov.l @(12, r14), r1
     mov.l @(12, r13), r3
     shlr r2
     sub r3, r1
     cmp/gt r1, r2
-    bt      .L_lateral_proximity
+    bt      .L_0603119C
     tst r8, r8
     mov.l @(0, r14), r2
     .byte   0xD3, 0x06    /* mov.l .L_pool_060311A1, r3 */
-    bt      .L_apply_steer_flag
+    bt      .L_06031182
     shlr r3
-.L_apply_steer_flag:
+.L_06031182:
     or r3, r2
-    bra     .L_apply_direction_force
+    bra     .L_060311F6
     mov.l r2, @(0, r14)
 
     .global DAT_06031188
@@ -227,36 +227,36 @@ DAT_0603118a:
     .4byte  force_steer_impact
 .L_pool_060311A1:
     .4byte  0x20000000
-.L_lateral_proximity:
+.L_0603119C:
     mov.l @(40, r14), r3
     sub r10, r3
     mov.w   DAT_060311b6, r2
     extu.w r3, r3
     cmp/ge r3, r2
-    bt      .L_apply_lateral_corr
+    bt      .L_060311B8
     mov r2, r1
     shll r1
     add r1, r2
     cmp/ge r2, r3
-    bt      .L_apply_lateral_corr
-    bra     .L_apply_direction_force
+    bt      .L_060311B8
+    bra     .L_060311F6
     nop
 
     .global DAT_060311b6
 DAT_060311b6:
     .2byte  0x4000
-.L_apply_lateral_corr:
+.L_060311B8:
     mov.l r4, @-r15
     mov.l r0, @-r15
     tst r7, r7
-    bt      .L_call_cos_lookup
+    bt      .L_060311CC
     mov.l @(48, r14), r4
     mov.l r4, @(48, r13)
     mov.w   .L_wpool_06031213, r1
     mov #0x8, r2
     add r13, r1
     mov.l r2, @r1
-.L_call_cos_lookup:
+.L_060311CC:
     .byte   0xD0, 0x0F    /* mov.l .L_pool_06031217, r0 */
     jsr @r0
     mov r3, r4
@@ -278,15 +278,15 @@ DAT_060311b6:
     mov.l r4, @(12, r14)
     mov.l @r15+, r0
     mov.l @r15+, r4
-.L_apply_direction_force:
+.L_060311F6:
     tst r7, r7
-    bf      .L_approaching_path
+    bf      .L_06031214
     .byte   0xD5, 0x05    /* mov.l .L_pool_0603121B, r5 */
     mov.b @r5, r3
     tst r3, r3
-    bf      .L_scale_correction
+    bf      .L_0603127E
     mov #0x3, r3
-    bra     .L_scale_correction
+    bra     .L_0603127E
     mov.b r3, @r5
 .L_wpool_06031213:
     .2byte  0x0208
@@ -298,22 +298,22 @@ DAT_0603120a:
     .4byte  cos_lookup
 .L_pool_0603121B:
     .4byte  sym_0602FD9A
-.L_approaching_path:
+.L_06031214:
     mov.l r0, @-r15
     mov.l r4, @-r15
     .byte   0xD5, 0x07    /* mov.l .L_pool_06031245, r5 */
     mov.l @(0, r14), r2
     tst r8, r8
     .byte   0xDA, 0x07    /* mov.l .L_pool_06031249, r10 */
-    bf      .L_read_reverse_front
+    bf      .L_06031240
     mov.w @r10, r10
     add #0x1, r5
     mov #-0x80, r3
     extu.b r3, r3
     tst r10, r10
-    bt      .L_merge_flags
+    bt      .L_0603124A
     mov.w   .L_wpool_06031241, r3
-    bra     .L_merge_flags
+    bra     .L_0603124A
     nop
 .L_wpool_06031241:
     .2byte  0x0200
@@ -322,56 +322,56 @@ DAT_0603120a:
     .4byte  sym_0602FD98
 .L_pool_06031249:
     .4byte  sym_06031A24
-.L_read_reverse_front:
+.L_06031240:
     mov.w @r10, r10
     mov #0x40, r3
     tst r10, r10
-    bt      .L_merge_flags
+    bt      .L_0603124A
     mov.w   .L_wpool_060312AA, r3
-.L_merge_flags:
+.L_0603124A:
     or r3, r2
     mov.l r2, @(0, r14)
     mov.b @r5, r4
     tst r4, r4
-    bf      .L_restore_and_compute
+    bf      .L_06031258
     mov #0x3, r4
     mov.b r4, @r5
-.L_restore_and_compute:
+.L_06031258:
     mov.l @r15+, r4
     mov.l @r15+, r0
     mov.w   .L_wpool_060312AC, r3
     tst r8, r8
     mov.l @(48, r14), r10
-    bf/s    .L_heading_blend
+    bf/s    .L_0603126C
     extu.w r10, r10
     mov r3, r7
     shll r7
     add r7, r3
-.L_heading_blend:
+.L_0603126C:
     dmuls.l r0, r4
     add r3, r10
     tst r9, r9
     sts mach, r0
     sts macl, r4
     xtrct r0, r4
-    bt      .L_scale_correction
+    bt      .L_0603127E
     .byte   0xD3, 0x0A    /* mov.l .L_pool_060312B2, r3 */
     add r3, r4
-.L_scale_correction:
+.L_0603127E:
     mov.w   .L_wpool_060312AE, r3
     add r14, r3
     mov.w @r3, r0
     mov #0x8, r5
     cmp/ge r5, r0
-    bt      .L_zero_scale
+    bt      .L_060312B0
     add #-0x2, r5
     cmp/ge r5, r0
-    bt      .L_medium_scale
+    bt      .L_060312A8
     shlr r4
     mov r4, r3
     shlr r4
     add r4, r3
-    bra     .L_apply_pos_correction
+    bra     .L_060312B4
     mov.l r4, @-r15
 .L_wpool_060312AA:
     .2byte  0x0100
@@ -382,15 +382,15 @@ DAT_0603120a:
     .2byte  0x0000
 .L_pool_060312B2:
     .4byte  0x0000D999
-.L_medium_scale:
+.L_060312A8:
     mov r4, r3
     mov #0x0, r4
-    bra     .L_apply_pos_correction
+    bra     .L_060312B4
     mov.l r4, @-r15
-.L_zero_scale:
+.L_060312B0:
     mov #0x0, r3
     mov.l r4, @-r15
-.L_apply_pos_correction:
+.L_060312B4:
     neg r10, r4
     mov r3, r9
     mov.l @(16, r13), r5
@@ -418,7 +418,7 @@ DAT_0603120a:
     add r9, r6
     mov.l r6, @(24, r13)
     mov.l @r15+, r3
-    .byte   0xD5, 0x14    /* mov.l .L_fp_half, r5 */
+    .byte   0xD5, 0x14    /* mov.l .L_0603133C, r5 */
     add r5, r10
     neg r10, r4
     mov r3, r9
@@ -446,7 +446,7 @@ DAT_0603120a:
     xtrct r8, r9
     add r9, r6
     mov.l r6, @(24, r14)
-.L_epilogue:
+.L_06031322:
     lds.l @r15+, pr
     mov.l @r15+, r14
     mov.l @r15+, r13
@@ -460,22 +460,22 @@ DAT_0603120a:
     .4byte  cos_lookup
 .L_pool_0603134B:
     .4byte  sin_lookup
-.L_fp_half:
+.L_0603133C:
     .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
-.L_check_reverse_dir:
+.L_06031340:
     mov.l r4, @-r15
     mov.l r5, @-r15
     mov.w   DAT_0603135c, r4
     mov r4, r5
     cmp/ge r1, r4
     shll r5
-    bt      .L_clear_reverse_flag
+    bt      .L_06031364
     add r5, r4
     cmp/ge r4, r1
     .byte   0xD5, 0x03    /* mov.l .L_pool_06031374, r5 */
-    bt      .L_clear_reverse_flag
+    bt      .L_06031364
     mov #0x1, r4
-    bra     .L_check_reverse_ret
+    bra     .L_06031368
     mov.w r4, @r5
 
     .global DAT_0603135c
@@ -484,10 +484,10 @@ DAT_0603135c:
     .2byte  0x0000
 .L_pool_06031374:
     .4byte  sym_06031A24
-.L_clear_reverse_flag:
+.L_06031364:
     mov #0x0, r4
     mov.w r4, @r5
-.L_check_reverse_ret:
+.L_06031368:
     mov.l @r15+, r5
     rts
     mov.l @r15+, r4

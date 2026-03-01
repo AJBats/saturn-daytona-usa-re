@@ -13,7 +13,7 @@ sys_dma_channel_init:
     mov.l @r4, r3
     mov.l @(r0, r3), r2
     cmp/eq r14, r2
-    bf      .L_not_registered
+    bf      .L_0603B8EE
     mov.l @r4, r2
     mov #0x0, r3
     mov.w   .L_wpool_0603B91C, r0
@@ -34,7 +34,7 @@ sys_dma_channel_init:
     add #0x4, r15
     jmp @r3
     mov.l @r15+, r14
-.L_not_registered:
+.L_0603B8EE:
     add #0x4, r15
     rts
     mov.l @r15+, r14

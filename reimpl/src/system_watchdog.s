@@ -192,14 +192,14 @@ sym_06007590:
     mov r0, r3
     extu.w r3, r3
     cmp/gt r2, r3
-    bf      .L_no_priority_offset
+    bf      .L_06007604
     mov.w @(4, r4), r0
     mov r0, r1
     extu.w r1, r1
     extu.w r5, r2
     shll2 r2
     add r2, r1
-    bra     .L_store_priority
+    bra     .L_06007608
     extu.w r1, r1
     .2byte  0xFFFF
 _pool_index_table_b:
@@ -208,10 +208,10 @@ _pool_slot_count_b:
     .4byte  sym_0606A4F4
 _pool_slot_table_b:
     .4byte  sym_06063F64
-.L_no_priority_offset:
+.L_06007604:
     mov.w @(4, r4), r0
     mov r0, r1
-.L_store_priority:
+.L_06007608:
     mov.l @r6, r3
     mov r1, r0
     shll2 r3

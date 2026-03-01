@@ -38,13 +38,13 @@ hud_sound_trigger:
     mov.l   .L_pool_06010B98, r0
     mov.l @r0, r0
     tst r0, r0
-    bt      .L_hud_inactive
+    bt      .L_06010BAE
     mov.l   .L_pool_06010B9C, r0
     mov.l @r0, r0
     cmp/eq #0x1, r0
-    bf      .L_scale_mode_alt
+    bf      .L_06010BA4
     mov.l   .L_pool_06010BA0, r5
-    bra     .L_call_sound_dispatch
+    bra     .L_06010BA6
     nop
     .4byte  0x06FC0200
     .4byte  0x00E100E2
@@ -63,14 +63,14 @@ hud_sound_trigger:
     .4byte  sym_06078644
 .L_pool_06010BA0:
     .4byte  0xAB110AFF
-.L_scale_mode_alt:
+.L_06010BA4:
     .byte   0xD5, 0x2B    /* mov.l .L_pool_06010C54, r5 */
-.L_call_sound_dispatch:
+.L_06010BA6:
     jsr @r14
     mov #0x0, r4
-    bra     .L_epilogue
+    bra     .L_06010BBE
     nop
-.L_hud_inactive:
+.L_06010BAE:
     .byte   0xD5, 0x2A    /* mov.l .L_pool_06010C58, r5 */
     .byte   0xD3, 0x2A    /* mov.l .L_pool_06010C5C, r3 */
     mov.l @r5, r5
@@ -79,7 +79,7 @@ hud_sound_trigger:
     mov.l @r5, r5
     jsr @r14
     mov #0x0, r4
-.L_epilogue:
+.L_06010BBE:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14

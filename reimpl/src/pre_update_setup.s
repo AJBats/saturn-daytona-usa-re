@@ -7,15 +7,15 @@
 pre_update_setup:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    mov.l   .L_ptr_current_car, r14
+    mov.l   .L_0600EA08, r14
     .byte   0xBF, 0xB0    /* bsr 0x0600E906 (external) */
     mov.l @r14, r14
-    mov.l   .L_ptr_player_mode, r0
+    mov.l   .L_0600EA0C, r0
     mov.l @r0, r0
     tst r0, r0
-    bf      .L_skip_projection
-    mov.l   .L_const_y_projection, r5
-    mov.l   .L_fn_fpmul, r3
+    bf      .L_0600E9C6
+    mov.l   .L_0600EA10, r5
+    mov.l   .L_0600E9FC, r3
     jsr @r3
     mov.l @(12, r14), r4
     shlr16 r0
@@ -26,19 +26,19 @@ pre_update_setup:
     mov.w   DAT_0600e9ea, r1
     add r14, r1
     mov.l r0, @r1
-.L_skip_projection:
+.L_0600E9C6:
     mov.w   .L_wpool_0600E9EC, r0
     mov.l @(r0, r14), r0
     tst r0, r0
-    bf      .L_done
+    bf      .L_0600E9DC
     mov #0x0, r4
-    mov.l   .L_ptr_race_end_flag, r3
+    mov.l   .L_0600EA14, r3
     mov.l r4, @r3
     mov.w   .L_wpool_0600E9E2, r0
     mov.l r4, @(r0, r14)
     add #-0xC, r0
     mov.l r4, @(r0, r14)
-.L_done:
+.L_0600E9DC:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
@@ -63,17 +63,17 @@ DAT_0600e9ea:
     .4byte  friction_stub
     .4byte  ai_orchestrator
     .4byte  0x00480000
-.L_fn_fpmul:
+.L_0600E9FC:
     .4byte  fpmul                      /* [HIGH] fixed-point multiply: (r4*r5)>>16 */
     .4byte  track_segment_advance
     .4byte  sym_0607EA9C
-.L_ptr_current_car:
+.L_0600EA08:
     .4byte  sym_0607E944               /* [HIGH] ptr to current car struct (primary) — object_management.s:87 */
-.L_ptr_player_mode:
+.L_0600EA0C:
     .4byte  sym_0607EAD8               /* [MEDIUM] player mode (0=single, nonzero=versus) — object_management.s:89, race_states.s:84 disagree on semantics */
-.L_const_y_projection:
+.L_0600EA10:
     .4byte  0x066505B3                 /* [HIGH] fixed-point Y projection scalar — per_car_loop.s:269 confirms 0x066505B3 */
-.L_ptr_race_end_flag:
+.L_0600EA14:
     .4byte  sym_0607EAD0               /* [HIGH] race-end flag (nonzero=finished) — race_states.s:83, used in states 15/17/28/29 */
     .4byte  0x7FF4952C
     .4byte  0x354C5351

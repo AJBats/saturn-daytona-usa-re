@@ -20,10 +20,10 @@ save_serialize:
     add #0x14, r4
     mov r0, r14
     tst r14, r14
-    bf      .L_init_ok
-    bra     .L_epilogue
+    bf      .L_0603BCAA
+    bra     .L_0603BD10
     mov #0x0, r0
-.L_init_ok:
+.L_0603BCAA:
     mov #0x1C, r0
     mov r14, r5
     mov.l @r15, r3
@@ -39,9 +39,9 @@ save_serialize:
     add r12, r4
     mov r0, r13
     tst r13, r13
-    bf/s    .L_decomp_ok
+    bf/s    .L_0603BCE0
     add #0x4, r15
-    bra     .L_epilogue
+    bra     .L_0603BD10
     mov #0x0, r0
 .L_wpool_0603BCD2:
     .2byte  0x00A8                      /* offset 0xA8 within block (descriptor area) */
@@ -52,7 +52,7 @@ save_serialize:
     .4byte  obj_init_validate           /* init road-segment object */
 .L_pool_0603BCDE:
     .4byte  obj_setup_decomp            /* decompose object into resource slots */
-.L_decomp_ok:
+.L_0603BCE0:
     mov r13, r5
     .byte   0xD3, 0x21    /* mov.l .L_pool_0603BD6C, r3 */
     jsr @r3
@@ -77,7 +77,7 @@ save_serialize:
     mov #0x10, r0
     mov.b r3, @(r0, r2)
     mov r4, r0
-.L_epilogue:
+.L_0603BD10:
     add #0x8, r15
     lds.l @r15+, pr
     mov.l @r15+, r12

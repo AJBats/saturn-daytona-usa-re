@@ -13,10 +13,10 @@ menu_bg_scroll:
     mov.b @(r0, r1), r0
     extu.b r0, r0
     tst #0x60, r0
-    bf      .L_commit_and_return
-    bra     .L_apply_scroll
+    bf      .L_0603B5BC
+    bra     .L_0603B5AE
     nop
-.L_apply_scroll:
+.L_0603B5AE:
     mov.l @r4, r2
     mov.l @r15, r5
     mov.l   .L_pool_0603B5CC, r3
@@ -24,7 +24,7 @@ menu_bg_scroll:
     jsr @r3
     extu.b r5, r5
     mov.l r0, @(4, r15)
-.L_commit_and_return:
+.L_0603B5BC:
     .byte   0xB1, 0xBE    /* bsr 0x0603B93C (external) */
     mov #0x0, r4
     mov.l @(4, r15), r0

@@ -20,22 +20,22 @@ camera_lerp:
     .byte   0xD3, 0x0A    /* mov.l .L_pool_0600B51E, r3 */
     mov.l r14, @r3
     .byte   0xD0, 0x0A    /* mov.l .L_pool_0600B522, r0 */
-    bra     .L_end_state_dispatch
+    bra     .L_0600B534
     mov.l @r0, r0
-.L_camera_mode_a:
+.L_0600B4F4:
     .byte   0xDC, 0x09    /* mov.l .L_pool_0600B526, r12 */
     .byte   0xDB, 0x0A    /* mov.l .L_pool_0600B52A, r11 */
-    bra     .L_position_lerp
+    bra     .L_0600B540
     nop
-.L_camera_mode_b:
+.L_0600B4FC:
     .byte   0xDC, 0x09    /* mov.l .L_pool_0600B52E, r12 */
     .byte   0xDB, 0x0A    /* mov.l .L_pool_0600B532, r11 */
-    bra     .L_position_lerp
+    bra     .L_0600B540
     nop
-.L_camera_mode_c:
+.L_0600B504:
     .byte   0xDC, 0x09    /* mov.l .L_pool_0600B536, r12 */
     .byte   0xDB, 0x0A    /* mov.l .L_pool_0600B53A, r11 */
-    bra     .L_position_lerp
+    bra     .L_0600B540
     nop
 .L_pool_0600B516:
     .4byte  sym_0607EB8C               /* camera lerp state (ptr) */
@@ -57,14 +57,14 @@ camera_lerp:
     .4byte  sym_060634C0               /* state 2 rotation source params */
 .L_pool_0600B53A:
     .4byte  sym_0606346C               /* state 2 rotation dest params */
-.L_end_state_dispatch:
+.L_0600B534:
     cmp/eq #0x0, r0
-    bt      .L_camera_mode_a
+    bt      .L_0600B4F4
     cmp/eq #0x1, r0
-    bt      .L_camera_mode_b
+    bt      .L_0600B4FC
     cmp/eq #0x2, r0
-    bt      .L_camera_mode_c
-.L_position_lerp:
+    bt      .L_0600B504
+.L_0600B540:
     .byte   0xD9, 0x3E    /* mov.l .L_pool_0600B65C, r9 */
     mov #0x0, r1
     .byte   0xDD, 0x3E    /* mov.l .L_pool_0600B660, r13 */
@@ -123,7 +123,7 @@ camera_lerp:
     .byte   0xD0, 0x2A    /* mov.l .L_pool_0600B678, r0 */
     mov.l @r0, r0
     tst r0, r0
-    bt      .L_frame_counter_dec
+    bt      .L_0600B686
     mov r9, r6
     mov r9, r5
     .byte   0xD3, 0x28    /* mov.l .L_pool_0600B67C, r3 */
@@ -154,7 +154,7 @@ camera_lerp:
     .byte   0xD3, 0x18    /* mov.l .L_pool_0600B670, r3 */
     jsr @r3
     mov.l @(r0, r14), r4
-    mov.w   .L_off_cam_pitch_b, r0
+    mov.w   .L_0600B638, r0
     .byte   0xD2, 0x1F    /* mov.l .L_pool_0600B694, r2 */
     .byte   0xD3, 0x17    /* mov.l .L_pool_0600B674, r3 */
     mov.l @(r0, r14), r4
@@ -183,7 +183,7 @@ camera_lerp:
     extu.w r5, r5
     mov.l @r15, r4
     add r11, r4
-    bra     .L_chain_final_call
+    bra     .L_0600B680
     mov.l @r4, r4
 
     .global DAT_0600b630
@@ -201,7 +201,7 @@ DAT_0600b634:
     .global DAT_0600b636
 DAT_0600b636:
     .2byte  0x01D0                        /* car offset: camera pitch A */
-.L_off_cam_pitch_b:
+.L_0600B638:
     .2byte  0x01C8                        /* car offset: camera pitch B */
     .2byte  0xFFFF
 .L_pool_0600B65C:
@@ -238,11 +238,11 @@ DAT_0600b636:
     .4byte  sym_060634F8               /* rotation chain A params */
 .L_pool_0600B69C:
     .4byte  sym_060634DC               /* rotation chain B params */
-.L_chain_final_call:
+.L_0600B680:
     .byte   0xD2, 0x11    /* mov.l .L_pool_0600B6E8, r2 */
     jsr @r2
     nop
-.L_frame_counter_dec:
+.L_0600B686:
     .byte   0xD4, 0x11    /* mov.l .L_pool_0600B6EC, r4 */
     mov.l @r4, r3
     add #-0x30, r3

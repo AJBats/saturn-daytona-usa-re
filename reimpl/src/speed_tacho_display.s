@@ -16,7 +16,7 @@ speed_tacho_display:
     add r0, r8
     mov.l   .L_pool_06031E34, r13
     mov.l   .L_pool_06031E38, r11
-.L_element_loop:
+.L_06031E16:
     add #-0x18, r8
     mov.w @(16, r8), r0
     mov #0xC, r3
@@ -27,8 +27,8 @@ speed_tacho_display:
     add r3, r7
     mov.l @(8, r7), r3
     cmp/pl r3
-    bt      .L_elem_visible
-    bra     .L_next_element
+    bt      .L_06031E40
+    bra     .L_060320BE
     nop
 
     .global DAT_06031e30
@@ -41,7 +41,7 @@ DAT_06031e30:
     .4byte  sym_06032108
 .L_pool_06031E3C:
     .4byte  sym_060961A8
-.L_elem_visible:
+.L_06031E40:
     mov.w   .L_wpool_06031EA8, r0
     mov.l r0, @(16, r12)
     mov.l r3, @(0, r12)
@@ -51,7 +51,7 @@ DAT_06031e30:
     mov.w @(12, r8), r0
     mov r8, r4
     tst #0x8, r0
-    bf      .L_setup_axis1
+    bf      .L_06031EB4
     mov.l   .L_pool_06031EAC, r5
     mov.l   .L_pool_06031EB0, r0
     mov.l @r0, r9
@@ -91,8 +91,8 @@ DAT_06031e30:
     sts macl, r0
     xtrct r1, r0
     cmp/pl r0
-    bt      .L_setup_axis1
-    bra     .L_next_element
+    bt      .L_06031EB4
+    bra     .L_060320BE
     nop
 .L_wpool_06031EA8:
     .2byte  0x00A0
@@ -101,7 +101,7 @@ DAT_06031e30:
     .4byte  sym_06032138
 .L_pool_06031EB0:
     .4byte  sym_0608A52C
-.L_setup_axis1:
+.L_06031EB4:
     mov r11, r5
     mov.l @(4, r7), r2
     mov.l @r7, r1
@@ -125,11 +125,11 @@ DAT_06031e30:
     mov.l r1, @r5
     sts mach, r2
     mov.l r2, @(4, r5)
-    bsr     .L_bounds_check
+    bsr     .L_060320E6
     nop
     cmp/pl r3
-    bt      .L_axis1_passed
-    bra     .L_next_element
+    bt      .L_06031EF4
+    bra     .L_060320BE
     nop
 
     .global DAT_06031eee
@@ -137,7 +137,7 @@ DAT_06031eee:
     .2byte  0x00A0
 .L_pool_06031EF0:
     .4byte  sym_060961A8
-.L_axis1_passed:
+.L_06031EF4:
     mov.l r3, @(4, r13)
     add #0x8, r5
     mov.l @(4, r7), r2
@@ -162,18 +162,18 @@ DAT_06031eee:
     mov.l r1, @r5
     sts mach, r2
     mov.l r2, @(4, r5)
-    bsr     .L_bounds_check
+    bsr     .L_060320E6
     nop
     cmp/pl r3
-    bt      .L_axis2_passed
-    bra     .L_next_element
+    bt      .L_06031F38
+    bra     .L_060320BE
     nop
 .L_wpool_06031F30:
     .2byte  0x00A0
     .2byte  0x0000
 .L_pool_06031F34:
     .4byte  sym_060961A8
-.L_axis2_passed:
+.L_06031F38:
     mov.l r3, @(8, r13)
     add #0x8, r5
     mov.l @(4, r7), r2
@@ -198,18 +198,18 @@ DAT_06031eee:
     mov.l r1, @r5
     sts mach, r2
     mov.l r2, @(4, r5)
-    bsr     .L_bounds_check
+    bsr     .L_060320E6
     nop
     cmp/pl r3
-    bt      .L_axis3_passed
-    bra     .L_next_element
+    bt      .L_06031F7C
+    bra     .L_060320BE
     nop
 .L_wpool_06031F74:
     .2byte  0x00A0
     .2byte  0x0000
 .L_pool_06031F78:
     .4byte  sym_060961A8
-.L_axis3_passed:
+.L_06031F7C:
     mov.l r3, @(12, r13)
     add #0x8, r5
     mov.l @(4, r7), r2
@@ -222,7 +222,7 @@ DAT_06031eee:
     mov.l r1, @r5
     sts mach, r2
     mov.l r2, @(4, r5)
-    bsr     .L_bounds_check
+    bsr     .L_060320E6
     nop
     mov.l   .L_pool_06031FC8, r0
     mov #0x18, r1
@@ -237,14 +237,14 @@ DAT_06031eee:
     mov.l @(16, r11), r4
     mov.l @(24, r11), r6
     cmp/gt r0, r12
-    bf      .L_check_right_bound
+    bf      .L_06031FD0
     cmp/gt r2, r12
-    bf      .L_check_right_bound
+    bf      .L_06031FD0
     cmp/gt r4, r12
-    bf      .L_check_right_bound
+    bf      .L_06031FD0
     cmp/gt r6, r12
-    bf      .L_check_right_bound
-    bra     .L_next_element
+    bf      .L_06031FD0
+    bra     .L_060320BE
     nop
 .L_wpool_06031FC4:
     .2byte  0xFF50
@@ -253,41 +253,41 @@ DAT_06031eee:
     .4byte  sym_060620D4
 .L_pool_06031FCC:
     .4byte  sym_0608AC20
-.L_check_right_bound:
+.L_06031FD0:
     mov.w   .L_wpool_06032048, r12
     cmp/gt r0, r12
-    bt      .L_check_y_bounds
+    bt      .L_06031FE2
     cmp/gt r2, r12
-    bt      .L_check_y_bounds
+    bt      .L_06031FE2
     cmp/gt r4, r12
-    bt      .L_check_y_bounds
+    bt      .L_06031FE2
     cmp/gt r6, r12
-    bt      .L_next_element
-.L_check_y_bounds:
+    bt      .L_060320BE
+.L_06031FE2:
     mov.w   .L_wpool_0603204A, r12
     mov.l @(4, r11), r1
     mov.l @(12, r11), r3
     mov.l @(20, r11), r5
     mov.l @(28, r11), r7
     cmp/gt r1, r12
-    bf      .L_check_y_lower
+    bf      .L_06031FFC
     cmp/gt r3, r12
-    bf      .L_check_y_lower
+    bf      .L_06031FFC
     cmp/gt r5, r12
-    bf      .L_check_y_lower
+    bf      .L_06031FFC
     cmp/gt r7, r12
-    bt      .L_next_element
-.L_check_y_lower:
+    bt      .L_060320BE
+.L_06031FFC:
     mov.w   .L_wpool_0603204C, r12
     cmp/gt r1, r12
-    bt      .L_write_sprite_entry
+    bt      .L_0603200E
     cmp/gt r3, r12
-    bt      .L_write_sprite_entry
+    bt      .L_0603200E
     cmp/gt r5, r12
-    bt      .L_write_sprite_entry
+    bt      .L_0603200E
     cmp/gt r7, r12
-    bf      .L_next_element
-.L_write_sprite_entry:
+    bf      .L_060320BE
+.L_0603200E:
     mov r9, r12
     add #0x18, r12
     mov.w r7, @-r12
@@ -332,67 +332,67 @@ loc_06032054:
     add r4, r3
     add r5, r6
     add r6, r3
-    bra     .L_store_sprite_result
+    bra     .L_060320A6
     shlr2 r3
 
     .global loc_0603205E
 loc_0603205E:
     cmp/ge r3, r4
-    bt      .L_min_skip_1
+    bt      .L_06032064
     mov r4, r3
-.L_min_skip_1:
+.L_06032064:
     cmp/ge r3, r5
-    bt      .L_min_skip_2
+    bt      .L_0603206A
     mov r5, r3
-.L_min_skip_2:
+.L_0603206A:
     cmp/ge r3, r6
-    bt      .L_min_done
+    bt      .L_06032070
     mov r6, r3
-.L_min_done:
-    bra     .L_store_sprite_result
+.L_06032070:
+    bra     .L_060320A6
     nop
 
     .global loc_06032074
 loc_06032074:
     cmp/gt r3, r4
-    bf      .L_max_skip_1
+    bf      .L_0603207A
     mov r4, r3
-.L_max_skip_1:
+.L_0603207A:
     cmp/gt r3, r5
-    bf      .L_max_skip_2
+    bf      .L_06032080
     mov r5, r3
-.L_max_skip_2:
+.L_06032080:
     cmp/gt r3, r6
-    bf      .L_max_done
+    bf      .L_06032086
     mov r6, r3
-.L_max_done:
-    bra     .L_store_sprite_result
+.L_06032086:
+    bra     .L_060320A6
     nop
 
     .global loc_0603208A
 loc_0603208A:
     mov #0x20, r0
-    bra     .L_maxofs_body
+    bra     .L_06032092
     shll16 r0
 
     .global loc_06032090
 loc_06032090:
     mov.l   .L_pool_060320C8, r0
-.L_maxofs_body:
+.L_06032092:
     cmp/gt r3, r4
-    bf      .L_maxofs_skip_1
+    bf      .L_06032098
     mov r4, r3
-.L_maxofs_skip_1:
+.L_06032098:
     cmp/gt r3, r5
-    bf      .L_maxofs_skip_2
+    bf      .L_0603209E
     mov r5, r3
-.L_maxofs_skip_2:
+.L_0603209E:
     cmp/gt r3, r6
-    bf      .L_maxofs_add
+    bf      .L_060320A4
     mov r6, r3
-.L_maxofs_add:
+.L_060320A4:
     add r0, r3
-.L_store_sprite_result:
+.L_060320A6:
     mov.l   .L_pool_060320CC, r2
     neg r3, r3
     mov.l   .L_pool_060320D0, r1
@@ -405,10 +405,10 @@ loc_06032090:
     shar r0
     add #0x1, r0
     mov.l r0, @r2
-.L_next_element:
+.L_060320BE:
     dt r14
-    bt      .L_epilogue
-    bra     .L_element_loop
+    bt      .L_060320D4
+    bra     .L_06031E16
     nop
     .2byte  0x0000
 .L_pool_060320C8:
@@ -417,7 +417,7 @@ loc_06032090:
     .4byte  sym_060620D4
 .L_pool_060320D0:
     .4byte  sym_0606A4F8
-.L_epilogue:
+.L_060320D4:
     lds.l @r15+, pr
     mov.l @r15+, r14
     mov.l @r15+, r13
@@ -427,19 +427,19 @@ loc_06032090:
     mov.l @r15+, r9
     rts
     mov.l @r15+, r8
-.L_bounds_check:
+.L_060320E6:
     mov.w   DAT_06032102, r0
     cmp/gt r0, r1
-    bt      .L_next_element
+    bt      .L_060320BE
     mov.w   DAT_06032104, r0
     cmp/gt r1, r0
-    bt      .L_next_element
+    bt      .L_060320BE
     mov.w   DAT_06032106, r0
     cmp/gt r0, r2
-    bt      .L_next_element
+    bt      .L_060320BE
     mov.w   DAT_06032104, r0
     cmp/gt r2, r0
-    bt      .L_next_element
+    bt      .L_060320BE
     rts
     nop
 
@@ -510,7 +510,7 @@ sym_06032158:
     mov #0x24, r7
     add r6, r7
     add #-0x8, r15
-.L_xform_loop:
+.L_06032164:
     clrmac
     mac.l @r4+, @r6+
     mac.l @r4+, @r6+
@@ -549,7 +549,7 @@ sym_06032158:
     mov.l r0, @r3
     mov.l r1, @(4, r3)
     add #-0x24, r6
-    bf/s    .L_xform_loop
+    bf/s    .L_06032164
     add #0xC, r3
     rts
     add #0x8, r15

@@ -15,24 +15,24 @@ replay_record_frame:
     sts.l pr, @-r15
     add #-0x10, r15
     mov r15, r1
-    mov.l   .L_fn_vdp1_draw_pos, r10
-    mov.l   .L_replay_state, r11
+    mov.l   .L_0601BB4C, r10
+    mov.l   .L_0601BB50, r11
     add #0xC, r1
     mov.b r0, @(4, r15)
     mov r6, r0
     mov.b r0, @(8, r15)
-    mov.l   .L_init_data_src, r2
-    mov.l   .L_fn_data_copy, r3
+    mov.l   .L_0601BB54, r2
+    mov.l   .L_0601BB58, r3
     jsr @r3
     mov #0x4, r0
-    mov.l   .L_fn_sprite_draw, r13
-    mov.l   .L_model_table, r14
+    mov.l   .L_0601BB5C, r13
+    mov.l   .L_0601BB60, r14
     mov.w   DAT_0601bb3a, r7
     add r14, r7
     mov.l r7, @r15
     mov.l @(4, r7), r7
-    mov.l   .L_model_offset_a, r3
-    mov.w   .L_vdp1_off_car_a, r6
+    mov.l   .L_0601BB64, r3
+    mov.w   .L_0601BB3C, r6
     mov.l @r15, r5
     add r3, r7
     mov.l @r5, r5
@@ -42,7 +42,7 @@ replay_record_frame:
     add r14, r7
     mov.l r7, @r15
     mov.l @(4, r7), r7
-    mov.l   .L_model_offset_a, r3
+    mov.l   .L_0601BB64, r3
     mov.w   DAT_0601bb40, r6
     mov.l @r15, r5
     add r3, r7
@@ -56,8 +56,8 @@ replay_record_frame:
     add r14, r7
     mov.l r7, @r15
     mov.l @(4, r7), r7
-    mov.l   .L_model_offset_b, r3
-    mov.w   .L_vdp1_off_car_c, r6
+    mov.l   .L_0601BB68, r3
+    mov.w   .L_0601BB42, r6
     mov.l @r15, r5
     add r3, r7
     mov.l @r5, r5
@@ -71,7 +71,7 @@ replay_record_frame:
     add r14, r7
     mov.l r7, @r15
     mov.l @(4, r7), r7
-    mov.l   .L_model_offset_b, r3
+    mov.l   .L_0601BB68, r3
     mov.w   DAT_0601bb44, r6
     mov.l @r15, r5
     add r3, r7
@@ -92,7 +92,7 @@ replay_record_frame:
     mov.b @(8, r15), r0
     add r3, r4
     add r2, r4
-    mov.l   .L_record_table, r3
+    mov.l   .L_0601BB6C, r3
     shll2 r4
     add r3, r4
     mov.l @r4, r4
@@ -115,18 +115,18 @@ replay_record_frame:
     extu.b r3, r3
     add r3, r14
     shll2 r14
-    mov.l   .L_frame_data_table, r2
+    mov.l   .L_0601BB70, r2
     add r2, r14
     mov.l @r14, r14
     mov r15, r7
     add #0xC, r7
-    bra     .L_pos_elem_render
+    bra     .L_0601BB74
     nop
 
     .global DAT_0601bb3a
 DAT_0601bb3a:
     .2byte  0x01B0                        /* model table offset: car element A */
-.L_vdp1_off_car_a:
+.L_0601BB3C:
     .2byte  0x0290                        /* VDP1 cmd offset: car model A */
 
     .global DAT_0601bb3e
@@ -136,7 +136,7 @@ DAT_0601bb3e:
     .global DAT_0601bb40
 DAT_0601bb40:
     .2byte  0x02AC                        /* VDP1 cmd offset: car model B */
-.L_vdp1_off_car_c:
+.L_0601BB42:
     .2byte  0x0390                        /* VDP1 cmd offset: car A specific */
 
     .global DAT_0601bb44
@@ -154,27 +154,27 @@ DAT_0601bb48:
     .global DAT_0601bb4a
 DAT_0601bb4a:
     .2byte  0x0C86                        /* VDP1 cmd offset: overlay element */
-.L_fn_vdp1_draw_pos:
+.L_0601BB4C:
     .4byte  sym_060284AE               /* VDP1 position element draw */
-.L_replay_state:
+.L_0601BB50:
     .4byte  sym_0605D4F7               /* replay playback state byte */
-.L_init_data_src:
+.L_0601BB54:
     .4byte  sym_0605DF3A               /* replay init data source */
-.L_fn_data_copy:
+.L_0601BB58:
     .4byte  sym_06035228               /* byte/word copy function */
-.L_fn_sprite_draw:
+.L_0601BB5C:
     .4byte  sym_06028400               /* sprite/model draw function */
-.L_model_table:
+.L_0601BB60:
     .4byte  sym_06063750               /* model geometry table (8 bytes per entry) */
-.L_model_offset_a:
+.L_0601BB64:
     .4byte  0x0000A000                  /* model data offset A (car elements) */
-.L_model_offset_b:
+.L_0601BB68:
     .4byte  0x00009000                  /* model data offset B (per-car models) */
-.L_record_table:
+.L_0601BB6C:
     .4byte  sym_0605DD6C               /* replay record lookup table */
-.L_frame_data_table:
+.L_0601BB70:
     .4byte  sym_0605DE24               /* per-frame animation data table */
-.L_pos_elem_render:
+.L_0601BB74:
     mov #0x60, r6
     mov.w   DAT_0601bbc0, r5
     jsr @r10
@@ -182,28 +182,28 @@ DAT_0601bb4a:
     mov.b @r14, r3
     extu.b r3, r3
     tst r3, r3
-    bt      .L_skip_overlay
+    bt      .L_0601BB8E
     mov r14, r7
     mov #0x60, r6
     mov.w   DAT_0601bbc0, r5
     jsr @r10
     mov #0x8, r4
-.L_skip_overlay:
+.L_0601BB8E:
     exts.b r12, r4
     mov.b @r11, r3
-    mov.l   .L_frame_data_table_2, r2
+    mov.l   .L_0601BBC4, r2
     shll r4
     extu.b r3, r3
     add r3, r4
     shll2 r4
-    mov.l   .L_fn_anim_transform, r3
+    mov.l   .L_0601BBC8, r3
     add r2, r4
     mov.l @r4, r4
     jsr @r3
     mov.l @(4, r4), r4
     mov r0, r7
     mov #0x78, r6
-    mov.w   .L_vdp1_off_final, r5
+    mov.w   .L_0601BBC2, r5
     jsr @r10
     mov #0x8, r4
     add #0x10, r15
@@ -218,9 +218,9 @@ DAT_0601bb4a:
     .global DAT_0601bbc0
 DAT_0601bbc0:
     .2byte  0x0CA4                        /* VDP1 cmd offset: position element */
-.L_vdp1_off_final:
+.L_0601BBC2:
     .2byte  0x0CB2                        /* VDP1 cmd offset: final indicator */
-.L_frame_data_table_2:
+.L_0601BBC4:
     .4byte  sym_0605DE24               /* per-frame data table (dup for reach) */
-.L_fn_anim_transform:
+.L_0601BBC8:
     .4byte  anim_frame_transform       /* animation frame transform */

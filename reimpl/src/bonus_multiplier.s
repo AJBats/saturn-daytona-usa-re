@@ -12,12 +12,12 @@ bonus_multiplier:
     extu.w r4, r4
     add #0x1, r4
     cmp/gt r6, r4
-    bf      .L_under_max
-    bra     .L_clamp_done
+    bf      .L_06013C34
+    bra     .L_06013C36
     mov r6, r3
-.L_under_max:
+.L_06013C34:
     mov r4, r3
-.L_clamp_done:
+.L_06013C36:
     extu.w r3, r3
     mov.w r3, @r5
     .byte   0xB1, 0xC3    /* bsr bg_obj_render_loop (external) */

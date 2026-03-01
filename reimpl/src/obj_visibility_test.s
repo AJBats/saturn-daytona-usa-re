@@ -12,74 +12,74 @@ obj_visibility_test:
     sts.l pr, @-r15
     add #-0x8, r15
     mov.b r0, @(4, r15)
-    mov.l   .L_display_timer, r2
+    mov.l   .L_06020600, r2
     mov.w r3, @r2
-    mov.l   .L_fn_render_state_commit, r3
+    mov.l   .L_06020604, r3
     jsr @r3
     nop
-    mov.l   .L_fn_gameover_channel, r3
+    mov.l   .L_06020608, r3
     jsr @r3
     nop
-    mov.l   .L_fn_display_layer_cfg, r3
+    mov.l   .L_0602060C, r3
     jsr @r3
     mov #0xC, r4
-    mov.l   .L_fn_display_layer_cfg, r3
+    mov.l   .L_0602060C, r3
     jsr @r3
     mov #0x4, r4
-    mov.l   .L_fn_memcpy_word, r14
-    mov.l   .L_pal_src_cram6E0, r5
-    mov.l   .L_vdp2_cram_0x6E0, r4
+    mov.l   .L_06020610, r14
+    mov.l   .L_06020614, r5
+    mov.l   .L_06020618, r4
     jsr @r14
     mov #0x20, r6
-    mov.l   .L_pal_src_cram300, r5
-    mov.l   .L_vdp2_cram_0x300, r4
+    mov.l   .L_0602061C, r5
+    mov.l   .L_06020620, r4
     jsr @r14
     mov #0x20, r6
     mov #0x20, r6
-    mov.l   .L_pal_src_cram400, r2
+    mov.l   .L_06020624, r2
     mov.l r2, @r15
-    mov.l   .L_vdp2_cram_0x400, r4
+    mov.l   .L_06020628, r4
     jsr @r14
     mov r2, r5
     mov #0x20, r6
-    mov.l   .L_vdp2_cram_0x060, r4
+    mov.l   .L_0602062C, r4
     jsr @r14
     mov.l @r15, r5
-    mov.l   .L_obj_struct_base, r13
+    mov.l   .L_06020630, r13
     mov #0x0, r6
-    mov.l   .L_fn_display_list_copy, r14
-    mov.w   .L_off_struct_0x558, r7
+    mov.l   .L_06020634, r14
+    mov.w   .L_060205F2, r7
     add r13, r7
     mov.l r7, @r15
     mov.l @(4, r7), r7
-    mov.l   .L_fp_half, r3
+    mov.l   .L_06020638, r3
     mov.l @r15, r5
     add r3, r7
     mov.l @r5, r5
     jsr @r14
     mov r6, r4
-    mov.w   .L_off_struct_0x560, r7
+    mov.w   .L_060205F4, r7
     add r13, r7
     mov.l r7, @r15
     mov.l @(4, r7), r7
-    mov.w   .L_copy_len_0x294, r6
+    mov.w   .L_060205F6, r6
     mov.l @r15, r5
     mov.l @r5, r5
     jsr @r14
     mov #0x4, r4
-    mov.w   .L_off_struct_0x550, r7
+    mov.w   .L_060205F8, r7
     add r13, r7
     mov.l r7, @r15
     mov.l @(4, r7), r7
-    mov.w   .L_fp_adj_0x6000, r3
-    mov.w   .L_copy_len_0x82, r6
+    mov.w   .L_060205FA, r3
+    mov.w   .L_060205FC, r6
     mov.l @r15, r5
     add r3, r7
     mov.l @r5, r5
     jsr @r14
     mov #0xC, r4
     mov #0x0, r6
-    mov.l   .L_fn_display_channel_b, r14
+    mov.l   .L_0602063C, r14
     mov r6, r5
     jsr @r14
     mov #0x20, r4
@@ -91,8 +91,8 @@ obj_visibility_test:
     mov r6, r5
     jsr @r14
     mov #0x4, r4
-    mov.l   .L_fn_channel_nibble, r14
-    mov.w   .L_chan_id_0x100, r4
+    mov.l   .L_06020640, r14
+    mov.w   .L_060205FE, r4
     jsr @r14
     mov #0x0, r5
     mov #0x4, r5
@@ -102,154 +102,154 @@ obj_visibility_test:
     jsr @r14
     mov #0x8, r4
     mov #0x6, r5
-    bra     .L_channel_setup_cont
+    bra     .L_06020644
     mov #0x10, r4
-.L_off_struct_0x558:
+.L_060205F2:
     .2byte  0x0558                          /* struct offset: display list A ptr */
-.L_off_struct_0x560:
+.L_060205F4:
     .2byte  0x0560                          /* struct offset: display list B ptr */
-.L_copy_len_0x294:
+.L_060205F6:
     .2byte  0x0294                          /* copy length for list B */
-.L_off_struct_0x550:
+.L_060205F8:
     .2byte  0x0550                          /* struct offset: display list C ptr */
-.L_fp_adj_0x6000:
+.L_060205FA:
     .2byte  0x6000                          /* size adjustment for list C */
-.L_copy_len_0x82:
+.L_060205FC:
     .2byte  0x0082                          /* copy length for list C */
-.L_chan_id_0x100:
+.L_060205FE:
     .2byte  0x0100                          /* channel ID for nibble config */
-.L_display_timer:
+.L_06020600:
     .4byte  sym_06087804                    /* display timer (16-bit word) */
-.L_fn_render_state_commit:
+.L_06020604:
     .4byte  sym_06028560                    /* render state commit / clear */
-.L_fn_gameover_channel:
+.L_06020608:
     .4byte  gameover_channel_setup          /* game-over channel setup */
-.L_fn_display_layer_cfg:
+.L_0602060C:
     .4byte  sym_0602853E                    /* display layer fill config */
-.L_fn_memcpy_word:
+.L_06020610:
     .4byte  memcpy_word_idx                 /* word-indexed memcpy */
-.L_pal_src_cram6E0:
+.L_06020614:
     .4byte  sym_0604898C                    /* palette source for CRAM +0x6E0 */
-.L_vdp2_cram_0x6E0:
+.L_06020618:
     .4byte  0x25F006E0                      /* VDP2 color RAM +0x6E0 */
-.L_pal_src_cram300:
+.L_0602061C:
     .4byte  sym_060489AC                    /* palette source for CRAM +0x300 */
-.L_vdp2_cram_0x300:
+.L_06020620:
     .4byte  0x25F00300                      /* VDP2 color RAM +0x300 */
-.L_pal_src_cram400:
+.L_06020624:
     .4byte  sym_060489CC                    /* palette source for CRAM +0x400 */
-.L_vdp2_cram_0x400:
+.L_06020628:
     .4byte  0x25F00400                      /* VDP2 color RAM +0x400 */
-.L_vdp2_cram_0x060:
+.L_0602062C:
     .4byte  0x25F00060                      /* VDP2 color RAM +0x060 */
-.L_obj_struct_base:
+.L_06020630:
     .4byte  sym_06063750                    /* obj/replay struct base ptr */
-.L_fn_display_list_copy:
+.L_06020634:
     .4byte  sym_06028400                    /* display list copy function */
-.L_fp_half:
+.L_06020638:
     .4byte  0x00008000                      /* 0.5 (16.16 fixed-point) */
-.L_fn_display_channel_b:
+.L_0602063C:
     .4byte  display_channel_b               /* display channel enable */
-.L_fn_channel_nibble:
+.L_06020640:
     .4byte  channel_nibble_config           /* channel nibble configuration */
-.L_channel_setup_cont:
+.L_06020644:
     jsr @r14
     nop
     mov #0x7, r5
     jsr @r14
     mov #0x20, r4
     mov #0x1, r2
-    mov.l   .L_obj_mode_flag, r3
+    mov.l   .L_060206C8, r3
     mov.b r2, @r3
     mov.b @(4, r15), r0
     mov r0, r4
     .byte   0xB3, 0xC9    /* bsr 0x06020DEE (external) */
     extu.b r4, r4
-    mov.l   .L_obj_scale_z, r14
-    mov.l   .L_fp_four, r2
+    mov.l   .L_060206CC, r14
+    mov.l   .L_060206D0, r2
     mov.l r2, @r14
     mov r2, r3
-    mov.l   .L_obj_scale_x, r2
+    mov.l   .L_060206D4, r2
     mov.l r3, @r2
     mov.l @r14, r3
-    mov.l   .L_obj_scale_y, r2
+    mov.l   .L_060206D8, r2
     mov.l r3, @r2
-    mov.l   .L_fp_three, r5
-    mov.l   .L_fp_176, r4
-    mov.l   .L_fn_fpmul, r3
+    mov.l   .L_060206DC, r5
+    mov.l   .L_060206E0, r4
+    mov.l   .L_060206E4, r3
     jsr @r3
     nop
     mov r0, r4
-    mov.l   .L_fn_fpdiv, r3
+    mov.l   .L_060206E8, r3
     jsr @r3
     mov.l @r14, r5
-    mov.l   .L_obj_draw_x, r3
+    mov.l   .L_060206EC, r3
     mov.l r0, @r3
     mov.l @r14, r5
-    mov.l   .L_fp_neg_one, r2
-    mov.l   .L_fp_112, r4
-    mov.l   .L_fn_fpmul, r3
+    mov.l   .L_060206F0, r2
+    mov.l   .L_060206F4, r4
+    mov.l   .L_060206E4, r3
     jsr @r3
     add r2, r5
     mov r0, r4
-    mov.l   .L_fn_fpdiv, r3
+    mov.l   .L_060206E8, r3
     jsr @r3
     mov.l @r14, r5
-    mov.l   .L_obj_draw_y, r3
+    mov.l   .L_060206F8, r3
     mov.l r0, @r3
-    mov.l   .L_fn_cmd_queue_init, r3
+    mov.l   .L_060206FC, r3
     jsr @r3
     mov #0x8, r4
-    mov.l   .L_obj_scale_y, r5
-    mov.l   .L_obj_scale_x, r4
-    mov.l   .L_fn_color_intensity, r3
+    mov.l   .L_060206D8, r5
+    mov.l   .L_060206D4, r4
+    mov.l   .L_06020700, r3
     mov.l @r5, r5
     jsr @r3
     mov.l @r4, r4
     mov #0x0, r6
-    mov.l   .L_obj_draw_y, r5
-    mov.l   .L_obj_draw_x, r4
-    mov.l   .L_fn_scene_write_add, r3
+    mov.l   .L_060206F8, r5
+    mov.l   .L_060206EC, r4
+    mov.l   .L_06020704, r3
     mov.l @r5, r5
     jsr @r3
     mov.l @r4, r4
     add #0x8, r15
     lds.l @r15+, pr
     mov.l @r15+, r13
-    mov.l   .L_fn_cmd_queue_commit, r3
+    mov.l   .L_06020708, r3
     jmp @r3
     mov.l @r15+, r14
-.L_obj_mode_flag:
+.L_060206C8:
     .4byte  sym_06059F6F                    /* obj visibility mode flag (byte) */
-.L_obj_scale_z:
+.L_060206CC:
     .4byte  sym_06087820                    /* obj scale Z (16.16 fp) */
-.L_fp_four:
+.L_060206D0:
     .4byte  0x00040000                      /* 4.0 (16.16 fixed-point) */
-.L_obj_scale_x:
+.L_060206D4:
     .4byte  sym_06087818                    /* obj scale X (16.16 fp) */
-.L_obj_scale_y:
+.L_060206D8:
     .4byte  sym_0608781C                    /* obj scale Y (16.16 fp) */
-.L_fp_three:
+.L_060206DC:
     .4byte  0x00030000                      /* 3.0 (16.16 fixed-point) */
-.L_fp_176:
+.L_060206E0:
     .4byte  0x00B00000                      /* 176.0 (16.16 fp) — half screen width */
-.L_fn_fpmul:
+.L_060206E4:
     .4byte  fpmul                           /* fixed-point multiply */
-.L_fn_fpdiv:
+.L_060206E8:
     .4byte  fpdiv_setup                     /* fixed-point divide */
-.L_obj_draw_x:
+.L_060206EC:
     .4byte  sym_06087810                    /* obj draw X coordinate (16.16 fp) */
-.L_fp_neg_one:
+.L_060206F0:
     .4byte  0xFFFF0000                      /* -1.0 (16.16 fixed-point) */
-.L_fp_112:
+.L_060206F4:
     .4byte  0x00700000                      /* 112.0 (16.16 fp) — half screen height */
-.L_obj_draw_y:
+.L_060206F8:
     .4byte  sym_06087814                    /* obj draw Y coordinate (16.16 fp) */
-.L_fn_cmd_queue_init:
+.L_060206FC:
     .4byte  sym_0603850C                    /* display cmd queue: init */
-.L_fn_color_intensity:
+.L_06020700:
     .4byte  scene_color_intensity           /* scene color intensity */
-.L_fn_scene_write_add:
+.L_06020704:
     .4byte  scene_data_write_add            /* scene data write (additive) */
-.L_fn_cmd_queue_commit:
+.L_06020708:
     .4byte  sym_06038520                    /* display cmd queue: commit */

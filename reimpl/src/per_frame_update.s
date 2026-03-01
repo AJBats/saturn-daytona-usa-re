@@ -23,16 +23,16 @@ per_frame_update:
     and r0, r14
     mov r14, r0
     cmp/eq #0x6, r0
-    bf      .L_tray_ok
+    bf      .L_0600A3B6
     .byte   0xD3, 0x0E    /* mov.l .L_pool_0600A3EE, r3 */
     mov.l @r3, r3
     jsr @r3
     nop
-.L_tray_ok:
+.L_0600A3B6:
     .byte   0xDC, 0x0D    /* mov.l .L_pool_0600A3F2, r12 */
     mov.b @r12, r0
     tst r0, r0
-    bf      .L_sync_not_zero
+    bf      .L_0600A3F8
     .byte   0xD3, 0x0C    /* mov.l .L_pool_0600A3F6, r3 */
     jsr @r3
     mov r15, r4
@@ -42,10 +42,10 @@ per_frame_update:
     mov r0, r4
     extu.b r4, r3
     cmp/ge r2, r3
-    bt      .L_check_buttons
+    bt      .L_0600A40E
     .byte   0xD3, 0x08    /* mov.l .L_pool_0600A3FA, r3 */
     mov.b r4, @r3
-    bra     .L_check_buttons
+    bra     .L_0600A40E
     nop
     .2byte  0xFFFF
     .4byte  sym_06078644
@@ -61,19 +61,19 @@ per_frame_update:
     .4byte  cd_block_read_safe
 .L_pool_0600A3FA:
     .4byte  sym_06078649
-.L_sync_not_zero:
+.L_0600A3F8:
     mov.b @r12, r0
     cmp/eq #0x1, r0
-    bf      .L_check_buttons
+    bf      .L_0600A40E
     mov r14, r0
     cmp/eq #0x1, r0
-    bf      .L_check_buttons
+    bf      .L_0600A40E
     .byte   0xD3, 0x17    /* mov.l .L_pool_0600A46E, r3 */
     jsr @r3
     nop
     mov #0x2, r2
     mov.b r2, @r12
-.L_check_buttons:
+.L_0600A40E:
     .byte   0xD5, 0x16    /* mov.l .L_pool_0600A472, r5 */
     mov.w   DAT_0600a460, r2
     mov.w @(2, r5), r0
@@ -81,37 +81,37 @@ per_frame_update:
     extu.w r3, r3
     and r2, r3
     tst r3, r3
-    bt      .L_epilogue
+    bt      .L_0600A454
     mov.w   .L_wpool_0600A46C, r4
     mov.w @r5, r3
     extu.w r3, r3
     and r4, r3
     cmp/eq r4, r3
-    bf      .L_epilogue
+    bf      .L_0600A454
     .byte   0xBD, 0xE7    /* bsr 0x06009FFC (external) */
     nop
     mov #0x6, r3
     mov.l @r13, r2
     cmp/hs r3, r2
-    bf      .L_state_lt_6
+    bf      .L_0600A44C
     .byte   0xBE, 0xBF    /* bsr 0x0600A1B8 (external) */
     nop
     mov.l @r13, r0
     cmp/eq #0x17, r0
-    bf      .L_reset_state
+    bf      .L_0600A446
     .byte   0xD3, 0x0A    /* mov.l .L_pool_0600A476, r3 */
     jsr @r3
     nop
-.L_reset_state:
+.L_0600A446:
     mov #0x0, r2
-    bra     .L_epilogue
+    bra     .L_0600A454
     mov.l r2, @r13
-.L_state_lt_6:
+.L_0600A44C:
     .byte   0xD2, 0x08    /* mov.l .L_pool_0600A47A, r2 */
     mov.l @r2, r2
     jsr @r2
     nop
-.L_epilogue:
+.L_0600A454:
     add #0xC, r15
     lds.l @r15+, pr
     mov.l @r15+, r12

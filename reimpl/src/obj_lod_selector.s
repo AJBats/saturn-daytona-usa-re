@@ -15,7 +15,7 @@ obj_lod_selector:
     jsr @r3
     mov #0x5C, r0
     mov #0x0, r14
-.L_lod_loop:
+.L_06020964:
     mov #0x0, r7
     extu.b r14, r6
     mov r13, r5
@@ -38,7 +38,7 @@ obj_lod_selector:
     add #0x1, r14
     extu.b r14, r3
     cmp/ge r11, r3
-    bf      .L_lod_loop
+    bf      .L_06020964
     add #0x5C, r15
     lds.l @r15+, pr
     mov.l @r15+, r11

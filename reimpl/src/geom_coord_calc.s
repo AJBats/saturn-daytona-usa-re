@@ -24,12 +24,12 @@ geom_coord_calc:
     mov.l   .L_pool_0601EAE8, r6
     mov #0x7, r2
     cmp/ge r2, r4
-    bf      .L_priority_active
+    bf      .L_0601EAEC
     mov.b @r14, r0
     extu.b r0, r0
     mov #0x0, r3
     mov.b r3, @(r0, r6)
-    bra     .L_epilogue
+    bra     .L_0601EB12
     nop
     .4byte  sym_060877D9
 .L_pool_0601EAD8:
@@ -40,7 +40,7 @@ geom_coord_calc:
     .4byte  sym_060877D8
 .L_pool_0601EAE8:
     .4byte  sym_060877DD
-.L_priority_active:
+.L_0601EAEC:
     mov #0x1, r5
     mov #0x3, r2
     mov.b @r14, r0
@@ -48,20 +48,20 @@ geom_coord_calc:
     mov.b r5, @(r0, r6)
     .byte   0xD6, 0x19    /* mov.l .L_pool_0601EB5C, r6 */
     cmp/ge r2, r4
-    bf      .L_low_priority
+    bf      .L_0601EB08
     mov.b @r14, r0
     extu.b r0, r0
     add #-0x3, r4
     extu.b r4, r4
-    bra     .L_epilogue
+    bra     .L_0601EB12
     mov.b r4, @(r0, r6)
-.L_low_priority:
+.L_0601EB08:
     mov.b @r14, r0
     extu.b r0, r0
     extu.b r4, r4
     mov.b r4, @(r0, r6)
     extu.b r5, r13
-.L_epilogue:
+.L_0601EB12:
     mov r13, r0
     lds.l @r15+, pr
     mov.l @r15+, r13

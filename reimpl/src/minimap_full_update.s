@@ -7,7 +7,7 @@
 minimap_full_update:
     sts.l pr, @-r15
     mov r4, r3
-    mov.l   .L_slot_data_base, r13
+    mov.l   .L_060157C8, r13
     shll2 r4
     shll2 r3
     shll2 r3
@@ -37,7 +37,7 @@ minimap_full_update:
     .word 0x0129
     or r1, r3
     tst r3, r3
-    bt      .L_decay_clamp
+    bt      .L_060157CC
     extu.b r14, r4
     mov r4, r3
     shll2 r4
@@ -50,7 +50,7 @@ minimap_full_update:
     mov.l @(4, r4), r2
     mov.l @(52, r4), r3
     cmp/ge r3, r2
-    bf      .L_clamp_x_done
+    bf      .L_060157FC
     extu.b r14, r4
     mov r4, r3
     shll2 r4
@@ -61,11 +61,11 @@ minimap_full_update:
     exts.w r4, r4
     add r13, r4
     mov.l @(52, r4), r2
-    bra     .L_clamp_x_done
+    bra     .L_060157FC
     mov.l r2, @(4, r4)
-.L_slot_data_base:
+.L_060157C8:
     .4byte  sym_06084FC8
-.L_decay_clamp:
+.L_060157CC:
     extu.b r14, r4
     mov r4, r3
     shll2 r4
@@ -78,7 +78,7 @@ minimap_full_update:
     mov.l @(4, r4), r2
     mov.l @(52, r4), r3
     cmp/gt r3, r2
-    bt      .L_clamp_x_done
+    bt      .L_060157FC
     extu.b r14, r4
     mov r4, r3
     shll2 r4
@@ -90,7 +90,7 @@ minimap_full_update:
     add r13, r4
     mov.l @(52, r4), r2
     mov.l r2, @(4, r4)
-.L_clamp_x_done:
+.L_060157FC:
     extu.b r14, r3
     mov r3, r2
     shll2 r3
@@ -102,7 +102,7 @@ minimap_full_update:
     add r13, r3
     mov.l @(8, r3), r3
     cmp/pz r3
-    bf      .L_clamp_y_done
+    bf      .L_0601582A
     extu.b r14, r3
     mov r3, r2
     shll2 r3
@@ -114,9 +114,9 @@ minimap_full_update:
     add r13, r3
     mov #0x0, r1
     mov.l r1, @(8, r3)
-.L_clamp_y_done:
+.L_0601582A:
     extu.b r14, r3
-    mov.l   .L_fp_one, r4
+    mov.l   .L_060158A8, r4
     mov r3, r2
     shll2 r3
     shll2 r2
@@ -127,7 +127,7 @@ minimap_full_update:
     add r13, r3
     mov.l @(12, r3), r3
     cmp/ge r4, r3
-    bf      .L_clamp_z_done
+    bf      .L_06015858
     extu.b r14, r3
     mov r3, r2
     shll2 r3
@@ -138,8 +138,8 @@ minimap_full_update:
     exts.w r3, r3
     add r13, r3
     mov.l r4, @(12, r3)
-.L_clamp_z_done:
-    mov.l   .L_track_vtx_builder, r3
+.L_06015858:
+    mov.l   .L_060158AC, r3
     jsr @r3
     extu.b r14, r4
     extu.b r14, r4
@@ -158,7 +158,7 @@ minimap_full_update:
     mov.b @(r0, r4), r3
     extu.b r3, r3
     cmp/pl r3
-    bt      .L_epilogue
+    bt      .L_0601589C
     extu.b r14, r14
     mov r14, r2
     shll2 r14
@@ -173,7 +173,7 @@ minimap_full_update:
     add #0x1, r3
     mov r3, r0
     mov.b r0, @(2, r14)
-.L_epilogue:
+.L_0601589C:
     lds.l @r15+, pr
     mov.l @r15+, r13
     rts
@@ -183,9 +183,9 @@ minimap_full_update:
 loc_060158A4:
     rts
     nop
-.L_fp_one:
+.L_060158A8:
     .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
-.L_track_vtx_builder:
+.L_060158AC:
     .4byte  track_vtx_builder
 
     .global loc_060158B0

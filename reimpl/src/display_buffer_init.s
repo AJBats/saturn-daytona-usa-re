@@ -10,32 +10,32 @@ display_buffer_init:
     mov #0x0, r14
     mov r4, r7
     mov r5, r13
-    bra     .L_copy_test
+    bra     .L_06036DF4
     mov r14, r5
-.L_copy_byte:
+.L_06036DEA:
     mov r7, r2
     add #0x1, r7
     mov.b @r13+, r1
     mov.b r1, @r2
     add #0x1, r5
-.L_copy_test:
+.L_06036DF4:
     cmp/hs r6, r5
-    bt      .L_pad_check
+    bt      .L_06036E00
     mov.b @r13, r2
     extu.b r2, r2
     tst r2, r2
-    bf      .L_copy_byte
-.L_pad_check:
+    bf      .L_06036DEA
+.L_06036E00:
     cmp/hs r6, r5
-    bt      .L_done
-.L_pad_loop:
+    bt      .L_06036E10
+.L_06036E04:
     extu.b r14, r3
     add #0x1, r5
     mov.b r3, @r7
     cmp/hs r6, r5
-    bf/s    .L_pad_loop
+    bf/s    .L_06036E04
     add #0x1, r7
-.L_done:
+.L_06036E10:
     mov r4, r0
     mov.l @r15+, r13
     rts

@@ -10,26 +10,26 @@ sprite_frame_select:
     sts.l macl, @-r15
     mov.b @r4, r14
     tst r5, r5
-    bf/s    .L_check_frame_match
+    bf/s    .L_0600554E
     mov #0x1, r4
-    bra     .L_do_frame_update
+    bra     .L_06005558
     nop
-.L_check_frame_match:
+.L_0600554E:
     exts.b r14, r2
     mov.b @r5, r3
     cmp/eq r3, r2
-    bf      .L_do_frame_update
+    bf      .L_06005558
     mov #0x0, r4
-.L_do_frame_update:
+.L_06005558:
     exts.b r4, r4
     tst r4, r4
-    bt      .L_early_return
+    bt      .L_06005598
     mov.l   .L_pool_060055A4, r3
     jsr @r3
     nop
     exts.b r14, r0
     cmp/eq #-0x1, r0
-    bt      .L_early_return
+    bt      .L_06005598
     exts.b r14, r14
     mov.w   .L_wpool_060055A0, r2
     mov.l   .L_pool_060055A8, r3
@@ -53,7 +53,7 @@ sprite_frame_select:
     mov.l   .L_pool_060055B8, r3
     jmp @r3
     mov.l @r15+, r14
-.L_early_return:
+.L_06005598:
     lds.l @r15+, macl
     lds.l @r15+, pr
     rts

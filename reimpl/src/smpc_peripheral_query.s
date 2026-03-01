@@ -13,8 +13,8 @@ smpc_peripheral_query:
     sts.l pr, @-r15
     add #-0x4, r15
 
-    .byte   0xDE, 0x09    /* mov.l .L_hirq_status_cache, r14 */
-    .byte   0xD3, 0x09    /* mov.l .L_cd_hirq_reg, r3 */
+    .byte   0xDE, 0x09    /* mov.l .L_06035D90, r14 */
+    .byte   0xD3, 0x09    /* mov.l .L_06035D94, r3 */
     mov.w @r14, r2
     mov.w @r3, r3
     extu.w r3, r3
@@ -25,27 +25,27 @@ smpc_peripheral_query:
     extu.w r3, r3
     and r12, r3
     cmp/eq r12, r3
-    bt/s    .L_hirq_bits_ready
+    bt/s    .L_06035D98
     mov r6, r11
-    bra     .L_epilogue_return
+    bra     .L_06035DF2
     mov #-0x1, r0
 
     .4byte  0xFF0FFFFF
     .4byte  ai_brake_zone_main
-.L_hirq_status_cache:
+.L_06035D90:
     .4byte  sym_06063590
-.L_cd_hirq_reg:
+.L_06035D94:
     .4byte  0x25890008
 
-.L_hirq_bits_ready:
+.L_06035D98:
     mov.w @r14, r0
     extu.w r0, r0
     tst #0x1, r0
-    bf      .L_not_busy
-    bra     .L_epilogue_return
+    bf      .L_06035DA4
+    bra     .L_06035DF2
     mov #-0x2, r0
 
-.L_not_busy:
+.L_06035DA4:
     mov #0x1, r4
     or r12, r4
     not r4, r4
@@ -66,11 +66,11 @@ smpc_peripheral_query:
 
     mov r0, r13
     tst r13, r13
-    bt      .L_validate_response
-    bra     .L_epilogue_return
+    bt      .L_06035DCA
+    bra     .L_06035DF2
     mov r13, r0
 
-.L_validate_response:
+.L_06035DCA:
     .byte   0xB0, 0x48    /* bsr sym_06035E5E (read CD command registers into buffer) */
     mov r11, r4
 
@@ -78,27 +78,27 @@ smpc_peripheral_query:
     .byte   0x93, 0x27    /* mov.w .L_wpool_06035E22, r3 */
     extu.b r4, r2
     cmp/eq r3, r2
-    bf      .L_check_error_bit
-    bra     .L_check_clear_hirq
+    bf      .L_06035DDC
+    bra     .L_06035DE4
     mov #-0x5, r13
 
-.L_check_error_bit:
+.L_06035DDC:
     extu.b r4, r0
     tst #0x80, r0
-    bt      .L_check_clear_hirq
+    bt      .L_06035DE4
     mov #-0x6, r13
 
-.L_check_clear_hirq:
+.L_06035DE4:
     tst r13, r13
-    bf      .L_set_return_value
+    bf      .L_06035DF0
     not r12, r12
     mov.w @r14, r3
     and r12, r3
     mov.w r3, @r14
 
-.L_set_return_value:
+.L_06035DF0:
     mov r13, r0
-.L_epilogue_return:
+.L_06035DF2:
     add #0x4, r15
     lds.l @r15+, pr
     mov.l @r15+, r11

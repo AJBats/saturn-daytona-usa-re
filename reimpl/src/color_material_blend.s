@@ -26,9 +26,9 @@ color_material_blend:
     .byte   0xD3, 0x07    /* mov.l _pool_clamp_lower, r3 */
     .byte   0xD4, 0x07    /* mov.l _pool_clamp_upper, r4 */
     cmp/gt r3, r5
-    bt      .L_check_upper_clamp
+    bt      .L_0602F600
     mov r3, r5
-    bra     .L_after_clamp
+    bra     .L_0602F606
     nop
 
     .global DAT_0602f5e8
@@ -48,11 +48,11 @@ _pool_clamp_lower:
     .4byte  0x00000000                  /* lower clamp bound (0) */
 _pool_clamp_upper:
     .4byte  0x00002134                  /* upper clamp bound (8500 decimal) */
-.L_check_upper_clamp:
+.L_0602F600:
     cmp/gt r5, r4
-    bt      .L_after_clamp
+    bt      .L_0602F606
     mov r4, r5
-.L_after_clamp:
+.L_0602F606:
     shlr2 r5
     shlr2 r5
     shlr2 r5
@@ -125,9 +125,9 @@ _pool_clamp_upper:
     mov.w   DAT_0602f6ee, r1
     mov.l @(r0, r1), r4
     cmp/ge r4, r10
-    bt      .L_after_vert_adjust
+    bt      .L_0602F69A
     shar r4
-.L_after_vert_adjust:
+.L_0602F69A:
     .byte   0xD5, 0x1D    /* mov.l _pool_heading_factor, r5 */
     .byte   0xD0, 0x1D    /* mov.l _pool_fn_sin_lookup, r0 */
     jsr @r0
@@ -149,14 +149,14 @@ _pool_clamp_upper:
     mov.w   DAT_0602f6f2, r2
     mov.w @(r0, r2), r3
     cmp/pl r3
-    bf      .L_skip_fog_scale
+    bf      .L_0602F6D0
     mov.w   DAT_0602f6f4, r4
     dmuls.l r4, r5
     sts mach, r4
     sts macl, r5
     xtrct r4, r5
-.L_skip_fog_scale:
-    bsr     .L_activation_weight_calc
+.L_0602F6D0:
+    bsr     .L_0602F71C
     nop
     add r4, r5
     shar r5
@@ -230,7 +230,7 @@ _pool_fn_sin_lookup:
     .4byte  sin_lookup                 /* sine table lookup function */
 _pool_accel_curve:
     .4byte  sym_060454CC               /* acceleration curve table B */
-.L_activation_weight_calc:
+.L_0602F71C:
     mov #0x0, r4
     mov.w   _wpool_flag_bit_mask, r3
     mov.w   _wpool_flag_base_offset, r1
@@ -238,49 +238,49 @@ _pool_accel_curve:
     mov.l @r1, r2
     tst r3, r2
     mov r2, r12
-    bt      .L_check_slot_1
+    bt      .L_0602F72E
     add #0x1, r4
-.L_check_slot_1:
+.L_0602F72E:
     mov.l @(4, r1), r2
     tst r3, r2
     or r2, r12
-    bt      .L_check_slot_2
+    bt      .L_0602F738
     add #0x1, r4
-.L_check_slot_2:
+.L_0602F738:
     mov.l @(8, r1), r2
     tst r3, r2
     or r2, r12
-    bt      .L_check_slot_3
+    bt      .L_0602F742
     add #0x1, r4
-.L_check_slot_3:
+.L_0602F742:
     mov.l @(12, r1), r2
     tst r3, r2
     or r2, r12
-    bt      .L_after_flag_scan
+    bt      .L_0602F74C
     add #0x1, r4
-.L_after_flag_scan:
+.L_0602F74C:
     tst r4, r4
-    bt      .L_return_halved
+    bt      .L_0602F79A
     mov #0x10, r1
     tst r1, r12
-    bf      .L_return_zero_weight
+    bf      .L_0602F7A4
     mov.w   _wpool_render_type_offset, r1
     mov.w @(r0, r1), r2
     mov #0xA, r1
     cmp/ge r1, r2
-    bt      .L_return_zero_weight
+    bt      .L_0602F7A4
     mov #0x8, r1
     cmp/ge r1, r2
-    bt      .L_return_doubled_weight
+    bt      .L_0602F7A8
     mov #0x4, r1
     cmp/eq r1, r2
-    bt      .L_return_zero_weight
+    bt      .L_0602F7A4
     mov #0x5, r1
     cmp/eq r1, r2
-    bt      .L_return_zero_weight
+    bt      .L_0602F7A4
     mov #0x2, r7
     cmp/ge r4, r7
-    bt      .L_use_table_b
+    bt      .L_0602F790
     mov.l @(8, r0), r2
     .byte   0xD3, 0x04    /* mov.l _pool_weight_tbl_a, r3 */
     shll2 r2
@@ -296,22 +296,22 @@ _wpool_render_type_offset:
     .2byte  0x007C                      /* car+0x7C: render type selector */
 _pool_weight_tbl_a:
     .4byte  sym_0604679C               /* weight table A (high-count path) */
-.L_use_table_b:
+.L_0602F790:
     mov.l @(8, r0), r2
     .byte   0xD3, 0x03    /* mov.l _pool_weight_tbl_b, r3 */
     shll2 r2
     add r2, r3
     mov.l @r3, r4
-.L_return_halved:
+.L_0602F79A:
     rts
     shar r4
     .2byte  0x0000                      /* alignment padding */
 _pool_weight_tbl_b:
     .4byte  sym_06046F9C               /* weight table B (low-count path) */
-.L_return_zero_weight:
+.L_0602F7A4:
     rts
     mov #0x0, r4
-.L_return_doubled_weight:
+.L_0602F7A8:
     mov.l @(8, r0), r2
     .byte   0xD3, 0x03    /* mov.l _pool_weight_tbl_a_dup, r3 */
     shll2 r2
@@ -328,24 +328,24 @@ sym_0602F7BC:
     mov.w   DAT_0602f7e4, r1
     mov.w @(r0, r1), r2
     tst r2, r2
-    bt      .L_check_timer_b
+    bt      .L_0602F7C8
     add #-0x1, r2
     mov.w r2, @(r0, r1)
-.L_check_timer_b:
+.L_0602F7C8:
     mov.w   DAT_0602f7e6, r1
     mov.w @(r0, r1), r2
     tst r2, r2
-    bt      .L_check_timer_c
+    bt      .L_0602F7D4
     add #-0x1, r2
     mov.w r2, @(r0, r1)
-.L_check_timer_c:
+.L_0602F7D4:
     mov.w   DAT_0602f7e8, r1
     mov.l @(r0, r1), r2
     tst r2, r2
-    bt      .L_timers_done
+    bt      .L_0602F7E0
     add #-0x1, r2
     mov.l r2, @(r0, r1)
-.L_timers_done:
+.L_0602F7E0:
     rts
     nop
 

@@ -8,46 +8,46 @@ track_utility_misc:
     mov.l r14, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   .L_game_mode, r0
+    mov.l   .L_06018668, r0
     mov.b @r0, r0
     extu.b r0, r0
     cmp/eq #0x3, r0
-    bf      .L_skip_camera_setup
-    mov.l   .L_fn_camera_init, r3
+    bf      .L_0601862C
+    mov.l   .L_0601866C, r3
     jsr @r3
     nop
-    mov.l   .L_camera_param_table, r14
-    mov.l   .L_fn_camera_pos, r3
+    mov.l   .L_06018670, r14
+    mov.l   .L_06018674, r3
     mov.l @(8, r14), r6
     mov.l @(4, r14), r5
     jsr @r3
     mov.l @r14, r4
     mov.w   DAT_06018660, r4
-    mov.l   .L_fn_rot_y, r3
+    mov.l   .L_06018678, r3
     jsr @r3
     nop
-    mov.w   .L_vec_copy_size, r5
-    mov.l   .L_wram_low, r2
-    mov.l   .L_wram_offset_a, r3
+    mov.w   .L_06018662, r5
+    mov.l   .L_0601867C, r2
+    mov.l   .L_06018680, r3
     mov r2, r4
     add r3, r4
-    mov.l   .L_fn_vec_copy, r3
+    mov.l   .L_06018684, r3
     jsr @r3
     mov.l r2, @r15
-    mov.w   .L_vec_scale_size, r6
-    mov.l   .L_scale_factor, r5
+    mov.w   .L_06018664, r6
+    mov.l   .L_06018688, r5
     mov.l @r15, r4
-    mov.l   .L_wram_offset_b, r2
-    mov.l   .L_fn_vec_scale, r3
+    mov.l   .L_0601868C, r2
+    mov.l   .L_06018690, r3
     mov.w @r5, r5
     jsr @r3
     add r2, r4
     add #0x4, r15
     lds.l @r15+, pr
-    mov.l   .L_fn_camera_finalize, r3
+    mov.l   .L_06018694, r3
     jmp @r3
     mov.l @r15+, r14
-.L_skip_camera_setup:
+.L_0601862C:
     add #0x4, r15
     lds.l @r15+, pr
     rts
@@ -55,104 +55,104 @@ track_utility_misc:
 
     .global sym_06018634
 sym_06018634:
-    mov.l   .L_scroll_pos_a, r6
-    mov.l   .L_scroll_pos_b, r5
+    mov.l   .L_06018698, r6
+    mov.l   .L_0601869C, r5
     mov #0x0, r4
-    mov.l   .L_race_end_state, r0
-    bra     .L_end_state_dispatch
+    mov.l   .L_060186A0, r0
+    bra     .L_060186AC
     mov.l @r0, r0
-.L_state0_entry:
-    bra     .L_clear_all_scroll_regs
+.L_06018640:
+    bra     .L_060186BC
     nop
-.L_state1_entry:
+.L_06018644:
     extu.w r4, r2
-    mov.l   .L_scroll_offset_a, r3
+    mov.l   .L_060186A4, r3
     mov.w r2, @r3
     extu.w r4, r1
-    mov.l   .L_scroll_offset_b, r3
+    mov.l   .L_060186A8, r3
     mov.w r1, @r3
     extu.w r4, r0
-    bra     .L_clear_pos_b_then_a
+    bra     .L_0601865A
     mov.w r0, @r5
-.L_state2_entry:
+.L_06018656:
     extu.w r4, r2
     mov.w r2, @r5
-.L_clear_pos_b_then_a:
+.L_0601865A:
     extu.w r4, r4
-    bra     .L_done_scroll_reset
+    bra     .L_060186B8
     mov.w r4, @r6
 
     .global DAT_06018660
 DAT_06018660:
     .2byte  0x38E3                        /* fixed rotation angle for track camera */
-.L_vec_copy_size:
+.L_06018662:
     .2byte  0x0178                        /* vector copy byte count (376 bytes) */
-.L_vec_scale_size:
+.L_06018664:
     .2byte  0x0145                        /* vector scale byte count (325 bytes) */
     .2byte  0xFFFF
-.L_game_mode:
+.L_06018668:
     .4byte  sym_06083254               /* game rendering mode (byte) */
-.L_fn_camera_init:
+.L_0601866C:
     .4byte  sym_06026DBC               /* camera state initialization */
-.L_camera_param_table:
+.L_06018670:
     .4byte  sym_06048140               /* camera position parameters (X/Y/Z) */
-.L_fn_camera_pos:
+.L_06018674:
     .4byte  sym_06026E2E               /* set camera base position */
-.L_fn_rot_y:
+.L_06018678:
     .4byte  mat_rot_y                  /* Y-axis rotation */
-.L_wram_low:
+.L_0601867C:
     .4byte  0x00200000                  /* Work RAM Low base */
-.L_wram_offset_a:
+.L_06018680:
     .4byte  0x000BABE0                  /* WRAM offset A (vec copy dest) */
-.L_fn_vec_copy:
+.L_06018684:
     .4byte  sym_06031D8C               /* vector copy function */
-.L_scale_factor:
+.L_06018688:
     .4byte  sym_06089E98               /* per-mode scale factor (16-bit) */
-.L_wram_offset_b:
+.L_0601868C:
     .4byte  0x000BBD80                  /* WRAM offset B (vec scale dest) */
-.L_fn_vec_scale:
+.L_06018690:
     .4byte  sym_06031A28               /* scaled vector copy function */
-.L_fn_camera_finalize:
+.L_06018694:
     .4byte  sym_06026DF8               /* camera state finalization */
-.L_scroll_pos_a:
+.L_06018698:
     .4byte  sym_0605BE38               /* scroll position register A (16-bit) */
-.L_scroll_pos_b:
+.L_0601869C:
     .4byte  sym_0605BE36               /* scroll position register B (16-bit) */
-.L_race_end_state:
+.L_060186A0:
     .4byte  sym_0607EAD8               /* race end state (0/1/2 dispatch) */
-.L_scroll_offset_a:
+.L_060186A4:
     .4byte  sym_0605BE1C               /* scroll offset A (16-bit) */
-.L_scroll_offset_b:
+.L_060186A8:
     .4byte  sym_0605BE1E               /* scroll offset B (16-bit) */
-.L_end_state_dispatch:
+.L_060186AC:
     cmp/eq #0x0, r0
-    bt      .L_state0_entry
+    bt      .L_06018640
     cmp/eq #0x1, r0
-    bt      .L_state1_entry
+    bt      .L_06018644
     cmp/eq #0x2, r0
-    bt      .L_state2_entry
-.L_done_scroll_reset:
+    bt      .L_06018656
+.L_060186B8:
     rts
     nop
-.L_clear_all_scroll_regs:
+.L_060186BC:
     mov #0x0, r4
-    mov.l   .L_scroll_reg_0, r2
+    mov.l   .L_060186FC, r2
     exts.w r4, r0
     mov.w r4, @r2
-    mov.l   .L_scroll_reg_1, r2
+    mov.l   .L_06018700, r2
     mov.w r4, @r2
-    mov.l   .L_scroll_reg_2, r2
+    mov.l   .L_06018704, r2
     mov.w r0, @r2
-    mov.l   .L_scroll_reg_3, r2
+    mov.l   .L_06018708, r2
     exts.w r4, r0
     mov.w r4, @r2
-    mov.l   .L_scroll_reg_4, r2
+    mov.l   .L_0601870C, r2
     mov.w r4, @r2
-    mov.l   .L_scroll_reg_5, r2
+    mov.l   .L_06018710, r2
     mov.w r0, @r2
-    mov.l   .L_scroll_reg_6, r2
+    mov.l   .L_06018714, r2
     mov.w r4, @r2
-    mov.l   .L_scroll_reg_7, r2
+    mov.l   .L_06018718, r2
     rts
     mov.w r4, @r2
     .4byte  0xE400D20D                  /* (embedded sub-fn: raw bytes) */
@@ -161,21 +161,21 @@ DAT_06018660:
     .4byte  0x2241D208
     .4byte  0x2201D308
     .4byte  0x000B2341
-.L_scroll_reg_0:
+.L_060186FC:
     .4byte  sym_0605BE24               /* scroll register 0 (16-bit) */
-.L_scroll_reg_1:
+.L_06018700:
     .4byte  sym_0605BE22               /* scroll register 1 (16-bit) */
-.L_scroll_reg_2:
+.L_06018704:
     .4byte  sym_0605BE20               /* scroll register 2 (16-bit) */
-.L_scroll_reg_3:
+.L_06018708:
     .4byte  sym_0605BE2A               /* scroll register 3 (16-bit) */
-.L_scroll_reg_4:
+.L_0601870C:
     .4byte  sym_0605BE26               /* scroll register 4 (16-bit) */
-.L_scroll_reg_5:
+.L_06018710:
     .4byte  sym_0605BE28               /* scroll register 5 (16-bit) */
-.L_scroll_reg_6:
+.L_06018714:
     .4byte  sym_0605BE36               /* scroll register 6 (16-bit) */
-.L_scroll_reg_7:
+.L_06018718:
     .4byte  sym_0605BE38               /* scroll register 7 (16-bit) */
     .4byte  sym_0605BE1C               /* (embedded pool: scroll offset A) */
     .4byte  sym_0605BE1E               /* (embedded pool: scroll offset B) */

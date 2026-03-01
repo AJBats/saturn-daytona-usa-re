@@ -18,8 +18,8 @@ save_block_copy:
     jsr @r3
     mov r14, r12
     tst r0, r0
-    bf      .L_condition_passed
-    bra     .L_epilogue
+    bf      .L_0603BB0C
+    bra     .L_0603BB76
     mov #0x0, r0
 
     .global DAT_0603bae6
@@ -35,7 +35,7 @@ DAT_0603bae6:
     .4byte  attract_replay_loader
 .L_pool_0603BB09:
     .4byte  evt_condition_test
-.L_condition_passed:
+.L_0603BB0C:
     mov r15, r3
     add #0x4, r3
     mov r3, r8
@@ -76,21 +76,21 @@ DAT_0603bae6:
     mov r0, r4
     mov r0, r14
     tst r14, r14
-    bt      .L_commit
+    bt      .L_0603BB6E
     mov r11, r7
     mov #0x1, r5
     mov.l @r15, r6
     .byte   0xBB, 0x5A    /* bsr 0x0603B21C (external) */
     mov r14, r4
     cmp/eq r11, r0
-    bf      .L_commit
+    bf      .L_0603BB6E
     mov #0x1, r12
-.L_commit:
+.L_0603BB6E:
     mov r14, r5
     .byte   0xB1, 0xD7    /* bsr 0x0603BF22 (external) */
     mov r13, r4
     mov r12, r0
-.L_epilogue:
+.L_0603BB76:
     add #0x10, r15
     lds.l @r15+, pr
     mov.l @r15+, r8

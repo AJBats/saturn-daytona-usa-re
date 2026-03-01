@@ -13,140 +13,140 @@ evt_checkpoint_handler:
     mov.l r11, @-r15
     sts.l pr, @-r15
     add #-0x8, r15
-    .byte   0xDB, 0x0D    /* mov.l .L_ptr_state_field_read, r11 */
+    .byte   0xDB, 0x0D    /* mov.l .L_06040A2C, r11 */
     cmp/pz r13
-    bt/s    .L_check_mode
+    bt/s    .L_06040A00
     mov r4, r14
     mov r12, r13
-.L_check_mode:
+.L_06040A00:
     mov r6, r0
     cmp/eq #0x1, r0
-    bf      .L_range_check
+    bf      .L_06040A14
     mov.l r13, @r15
     mov.l @(8, r14), r13
     mov.l @(16, r14), r3
     add r3, r13
     mov.l @r15, r2
-    bra     .L_forward_update
+    bra     .L_06040A60
     add r2, r13
-.L_range_check:
+.L_06040A14:
     mov.l @(8, r14), r2
     mov.l @(16, r14), r3
     add r3, r2
     cmp/eq r13, r2
-    bf      .L_not_at_target
-    bra     .L_epilogue
+    bf      .L_06040A30
+    bra     .L_06040AEA
     mov r13, r0
     .2byte  0xFFFF                                      /* padding */
     .4byte  0x0000FFFF                                  /* padding / alignment */
     .4byte  evt_checkpoint_validate                     /* pool: &evt_checkpoint_validate */
-.L_ptr_state_field_read:
+.L_06040A2C:
     .4byte  state_field_read                            /* pool: &state_field_read */
-.L_not_at_target:
+.L_06040A30:
     mov.l r12, @-r15
     mov #0x0, r5
     mov r15, r7
-    .byte   0xD6, 0x26    /* mov.l .L_mask_low16, r6 */
-    .byte   0xD3, 0x26    /* mov.l .L_ptr_cmd_enqueue, r3 */
+    .byte   0xD6, 0x26    /* mov.l .L_06040AD0, r6 */
+    .byte   0xD3, 0x26    /* mov.l .L_06040AD4, r3 */
     add #0x4, r7
     jsr @r3
     mov.l @(4, r14), r4
     mov r0, r4
     tst r4, r4
-    bt/s    .L_enqueue_ok
+    bt/s    .L_06040A4C
     add #0x4, r15
-    bra     .L_epilogue
+    bra     .L_06040AEA
     mov #-0x1, r0
-.L_enqueue_ok:
+.L_06040A4C:
     jsr @r11
     nop
     tst r0, r0
-    bt      .L_state_ok
-    bra     .L_epilogue
+    bt      .L_06040A58
+    bra     .L_06040AEA
     mov #-0x1, r0
-.L_state_ok:
+.L_06040A58:
     mov.l @r15, r3
     cmp/pz r3
-    bt      .L_forward_update
+    bt      .L_06040A60
     mov.l r12, @r15
-.L_forward_update:
+.L_06040A60:
     mov.l @(36, r14), r0
     tst r0, r0
-    bf      .L_reverse_direction
+    bf      .L_06040A9E
     mov.l @(8, r14), r4
     cmp/gt r13, r4
-    bt      .L_fwd_check_range
+    bt      .L_06040A7C
     mov.l @(16, r14), r2
     add r4, r2
     cmp/ge r2, r13
-    bt      .L_fwd_check_range
+    bt      .L_06040A7C
     mov.l @(8, r14), r2
     mov r13, r3
     sub r2, r3
     mov.l r3, @r15
-.L_fwd_check_range:
+.L_06040A7C:
     mov.l @r15, r3
     cmp/pl r3
-    bf      .L_fwd_store_result
+    bf      .L_06040A98
     mov.l @r15, r6
     mov #0x0, r5
-    .byte   0xD3, 0x14    /* mov.l .L_ptr_validate, r3 */
+    .byte   0xD3, 0x14    /* mov.l .L_06040AD8, r3 */
     jsr @r3
     mov.l @(4, r14), r4
     jsr @r11
     nop
     tst r0, r0
-    bt      .L_fwd_store_result
-    bra     .L_epilogue
+    bt      .L_06040A98
+    bra     .L_06040AEA
     mov #-0x1, r0
-.L_fwd_store_result:
+.L_06040A98:
     mov.l r13, @(8, r14)
-    bra     .L_compute_return
+    bra     .L_06040AE4
     mov.l r12, @(16, r14)
-.L_reverse_direction:
+.L_06040A9E:
     mov.l @(36, r14), r0
     cmp/eq #0x1, r0
-    bf      .L_compute_return
+    bf      .L_06040AE4
     mov.l @(8, r14), r4
     cmp/ge r4, r13
-    bf      .L_rev_out_of_range
+    bf      .L_06040AB4
     mov.l @(16, r14), r2
     add r4, r2
     add #0x1, r2
     cmp/gt r2, r13
-    bf      .L_rev_update_span
-.L_rev_out_of_range:
+    bf      .L_06040ADE
+.L_06040AB4:
     mov.l r14, @(4, r15)
     mov #0x0, r5
     mov r14, r4
-    .byte   0xD6, 0x05    /* mov.l .L_mask_low16, r6 */
-    .byte   0xD3, 0x06    /* mov.l .L_ptr_validate, r3 */
+    .byte   0xD6, 0x05    /* mov.l .L_06040AD0, r6 */
+    .byte   0xD3, 0x06    /* mov.l .L_06040AD8, r3 */
     jsr @r3
     mov.l @(4, r4), r4
     jsr @r11
     nop
     mov r0, r4
     tst r4, r4
-    bf      .L_rev_store_base
-    bra     .L_epilogue
+    bf      .L_06040ADC
+    bra     .L_06040AEA
     mov #-0x1, r0
-.L_mask_low16:
+.L_06040AD0:
     .4byte  0x0000FFFF                  /* low 16-bit mask */
-.L_ptr_cmd_enqueue:
+.L_06040AD4:
     .4byte  cmd_enqueue                 /* pool: &cmd_enqueue */
-.L_ptr_validate:
+.L_06040AD8:
     .4byte  evt_checkpoint_validate     /* pool: &evt_checkpoint_validate */
-.L_rev_store_base:
+.L_06040ADC:
     mov.l r13, @(8, r14)
-.L_rev_update_span:
+.L_06040ADE:
     mov.l @(8, r14), r3
     sub r3, r13
     mov.l r13, @(16, r14)
-.L_compute_return:
+.L_06040AE4:
     mov.l @(8, r14), r0
     mov.l @(16, r14), r2
     add r2, r0
-.L_epilogue:
+.L_06040AEA:
     add #0x8, r15
     lds.l @r15+, pr
     mov.l @r15+, r11

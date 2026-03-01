@@ -16,29 +16,29 @@ track_obj_placement:
     add #-0x14, r15
     mov.w   DAT_06021520, r8
     mov.w   DAT_06021522, r9
-    mov.w   .L_obj_struct_size, r10
-    mov.l   .L_obj_pos_array, r11
-    mov.l   .L_obj_state_a, r12
-    mov.l   .L_obj_state_b, r13
-    mov.l   .L_obj_state_c, r14
-    mov.l   .L_obj_state_d, r7
-    mov.l   .L_obj_config, r5
-    mov.l   .L_course_type_ptr, r0
+    mov.w   .L_06021524, r10
+    mov.l   .L_0602152C, r11
+    mov.l   .L_06021530, r12
+    mov.l   .L_06021534, r13
+    mov.l   .L_06021538, r14
+    mov.l   .L_0602153C, r7
+    mov.l   .L_06021540, r5
+    mov.l   .L_06021544, r0
     mov r10, r6
     mov.l @r0, r0
     add #0x28, r6
     tst r0, r0
-    bf/s    .L_check_course_type
+    bf/s    .L_0602156A
     mov #0x0, r4
-    mov.l   .L_wram_low, r3
+    mov.l   .L_06021548, r3
     mov.l r3, @r15
-    mov.l   .L_obj_data_off, r2
+    mov.l   .L_0602154C, r2
     add r2, r3
     mov.l r3, @r5
     mov #0xC, r3
     mov.l r3, @(28, r5)
     mov.l @r15, r2
-    mov.l   .L_obj_palette_off, r3
+    mov.l   .L_06021550, r3
     add r3, r2
     mov.l r2, @(56, r5)
     mov r5, r3
@@ -47,22 +47,22 @@ track_obj_placement:
     mov.l r2, @r3
     mov r5, r3
     add #0x70, r3
-    mov.l   .L_fp_one, r2
+    mov.l   .L_06021554, r2
     mov.l r2, @r3
     mov #0xA, r3
     mov.w   DAT_06021526, r0
     mov.l r3, @(r0, r5)
     mov.l r4, @(8, r15)
-    mov.l   .L_obj_geom_table, r3
+    mov.l   .L_06021558, r3
     add r4, r3
     mov.l r3, @(12, r15)
     mov r11, r2
     add r4, r2
     mov.l r2, @r15
-    mov.w   .L_obj_array_end_off, r1
+    mov.w   .L_06021528, r1
     add r11, r1
     mov.l r1, @(16, r15)
-.L_obj_copy_loop:
+.L_060214C2:
     exts.w r4, r0
     mov.l @r15, r5
     mov.l @(12, r15), r3
@@ -80,7 +80,7 @@ track_obj_placement:
     mov.l r4, @(16, r5)
     mov.w r0, @(20, r5)
     mov.l @(4, r15), r1
-    mov.l   .L_fn_model_lookup, r3
+    mov.l   .L_0602155C, r3
     mov.l @(12, r1), r1
     exts.w r1, r1
     jsr @r3
@@ -108,7 +108,7 @@ track_obj_placement:
     mov.l @r15, r1
     add #0x18, r1
     mov.l r1, @r15
-    bra     .L_obj_copy_check
+    bra     .L_06021560
     nop
 
     .global DAT_06021520
@@ -118,64 +118,64 @@ DAT_06021520:
     .global DAT_06021522
 DAT_06021522:
     .2byte  0x0800
-.L_obj_struct_size:
+.L_06021524:
     .2byte  0x0140
 
     .global DAT_06021526
 DAT_06021526:
     .2byte  0x008C
-.L_obj_array_end_off:
+.L_06021528:
     .2byte  0x00F0
     .2byte  0xFFFF
-.L_obj_pos_array:
+.L_0602152C:
     .4byte  sym_060897D0                /* object position array base */
-.L_obj_state_a:
+.L_06021530:
     .4byte  sym_0608962C                /* object state array A */
-.L_obj_state_b:
+.L_06021534:
     .4byte  sym_06089744                /* object state array B */
-.L_obj_state_c:
+.L_06021538:
     .4byte  sym_060895A0                /* object state array C */
-.L_obj_state_d:
+.L_0602153C:
     .4byte  sym_060896B8                /* object state array D */
-.L_obj_config:
+.L_06021540:
     .4byte  sym_06089D98                /* object config struct */
-.L_course_type_ptr:
+.L_06021544:
     .4byte  sym_0607EAD8                /* course type (0/1/2) */
-.L_wram_low:
+.L_06021548:
     .4byte  0x00200000                  /* Work RAM Low base */
-.L_obj_data_off:
+.L_0602154C:
     .4byte  0x00037F08
-.L_obj_palette_off:
+.L_06021550:
     .4byte  0x00037F98
-.L_fp_one:
+.L_06021554:
     .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
-.L_obj_geom_table:
+.L_06021558:
     .4byte  sym_060507A4                /* course 0 geometry table */
-.L_fn_model_lookup:
+.L_0602155C:
     .4byte  sym_06034FE0                /* model data lookup function */
-.L_obj_copy_check:
+.L_06021560:
     mov.l @(16, r15), r3
     cmp/hs r3, r1
-    bf      .L_obj_copy_loop
-    bra     .L_finalize_placement
+    bf      .L_060214C2
+    bra     .L_06021B8C
     nop
-.L_check_course_type:
-    mov.l   .L_course_type_ptr_2, r0
+.L_0602156A:
+    mov.l   .L_06021670, r0
     mov.l @r0, r0
     cmp/eq #0x1, r0
-    bt      .L_course_1_setup
-    bra     .L_course_2_setup
+    bt      .L_06021576
+    bra     .L_060217D4
     nop
-.L_course_1_setup:
-    mov.l   .L_wram_low_06021674, r3
+.L_06021576:
+    mov.l   .L_06021674, r3
     mov.l r3, @r15
-    mov.l   .L_c1_obj_data_off_a, r2
+    mov.l   .L_06021678, r2
     add r2, r3
     mov.l r3, @(4, r5)
     mov #0x12, r3
     mov.l r3, @(32, r5)
     mov.l @r15, r2
-    mov.l   .L_c1_obj_palette_off_a, r3
+    mov.l   .L_0602167C, r3
     add r3, r2
     mov.l r2, @(60, r5)
     mov r5, r3
@@ -184,10 +184,10 @@ DAT_06021526:
     mov.l r2, @r3
     mov r5, r3
     add #0x74, r3
-    mov.l   .L_fp_one_06021680, r2
+    mov.l   .L_06021680, r2
     mov.l r2, @r3
     mov.l @r15, r3
-    mov.l   .L_c1_obj_data_off_b, r2
+    mov.l   .L_06021684, r2
     add r2, r3
     mov.l r3, @(8, r5)
     mov #0x1C, r3
@@ -195,7 +195,7 @@ DAT_06021526:
     mov r5, r2
     add #0x40, r2
     mov.l @r15, r3
-    mov.l   .L_c1_obj_palette_off_b, r1
+    mov.l   .L_06021688, r1
     add r1, r3
     mov.l r3, @r2
     mov r5, r3
@@ -204,10 +204,10 @@ DAT_06021526:
     mov.l r2, @r3
     mov r5, r3
     add #0x78, r3
-    mov.l   .L_fp_scale_08, r2
+    mov.l   .L_0602168C, r2
     mov.l r2, @r3
     mov.l @r15, r3
-    mov.l   .L_c1_obj_data_off_c, r2
+    mov.l   .L_06021690, r2
     add r2, r3
     mov.l r3, @(12, r5)
     mov #0x34, r3
@@ -215,7 +215,7 @@ DAT_06021526:
     mov r5, r2
     add #0x44, r2
     mov.l @r15, r3
-    mov.l   .L_c1_obj_palette_off_c, r1
+    mov.l   .L_06021694, r1
     add r1, r3
     mov.l r3, @r2
     mov r5, r3
@@ -224,14 +224,14 @@ DAT_06021526:
     mov.l r2, @r3
     mov r5, r3
     add #0x7C, r3
-    mov.l   .L_fp_scale_095, r2
+    mov.l   .L_06021698, r2
     mov.l r2, @r3
     mov #0xF, r3
     mov r3, r0
     add #0x7D, r0
     mov.l r3, @(r0, r5)
     mov r4, r5
-.L_c1_inner_loop:
+.L_060215F6:
     exts.w r5, r3
     mov r3, r2
     shll2 r3
@@ -249,7 +249,7 @@ DAT_06021526:
     shll r1
     add r1, r2
     exts.b r2, r2
-    mov.l   .L_c1_obj_geom_table, r0
+    mov.l   .L_0602169C, r0
     add r0, r2
     mov.l r2, @(4, r15)
     mov.l @r2, r1
@@ -290,37 +290,37 @@ DAT_06021526:
     mov.l r2, @r3
     mov #0x4, r3
     cmp/hs r3, r5
-    bf      .L_c1_inner_loop
-    bra     .L_c1_ext_obj_start
+    bf      .L_060215F6
+    bra     .L_060216A0
     mov.l r4, @(8, r15)
-.L_course_type_ptr_2:
+.L_06021670:
     .4byte  sym_0607EAD8                /* course type (0/1/2) */
-.L_wram_low_06021674:
+.L_06021674:
     .4byte  0x00200000                  /* Work RAM Low base */
-.L_c1_obj_data_off_a:
+.L_06021678:
     .4byte  0x00089364
-.L_c1_obj_palette_off_a:
+.L_0602167C:
     .4byte  0x0008943C
-.L_fp_one_06021680:
+.L_06021680:
     .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
-.L_c1_obj_data_off_b:
+.L_06021684:
     .4byte  0x00089124
-.L_c1_obj_palette_off_b:
+.L_06021688:
     .4byte  0x00089274
-.L_fp_scale_08:
+.L_0602168C:
     .4byte  0x0000CCCC                  /* 0.8 (16.16 fixed-point) */
-.L_c1_obj_data_off_c:
+.L_06021690:
     .4byte  0x00089544
-.L_c1_obj_palette_off_c:
+.L_06021694:
     .4byte  0x000897B4
-.L_fp_scale_095:
+.L_06021698:
     .4byte  0x0000F333                  /* 0.95 (16.16 fixed-point) */
-.L_c1_obj_geom_table:
+.L_0602169C:
     .4byte  sym_06050844                /* course 1 geometry table */
-.L_c1_ext_obj_start:
+.L_060216A0:
     mov #0xC, r3
     cmp/hs r3, r5
-    bt/s    .L_c1_check_max
+    bt/s    .L_06021738
     nop
     exts.w r5, r3
     mov r3, r2
@@ -340,7 +340,7 @@ DAT_06021526:
     shll2 r1
     add r1, r2
     extu.b r2, r2
-    mov.l   .L_c1_obj_geom_ext, r0
+    mov.l   .L_060217A8, r0
     add r0, r2
     mov.l r2, @(4, r15)
     .2byte  0x6122
@@ -369,14 +369,14 @@ DAT_06021526:
     .4byte  0xE20C53F2
     .4byte  0x73013522
     .4byte  0x8FB81F32
-.L_c1_check_max:
+.L_06021738:
     mov #0xF, r3
     cmp/hs r3, r5
-    bf/s    .L_c1_ext_obj_place
+    bf/s    .L_06021744
     mov.l r4, @(8, r15)
-    bra     .L_finalize_placement
+    bra     .L_06021B8C
     nop
-.L_c1_ext_obj_place:
+.L_06021744:
     exts.w r5, r3
     .2byte  0x6233
     .4byte  0x43084300
@@ -403,7 +403,7 @@ DAT_06021526:
     .4byte  0x630333CC
     .4byte  0x07462342
     .4byte  0xA0060009
-.L_c1_obj_geom_ext:
+.L_060217A8:
     .4byte  sym_06050874
     .4byte  sym_06034FE0
     .4byte  sym_06050914
@@ -415,17 +415,17 @@ DAT_06021526:
     .4byte  0x73013522
     .4byte  0x8FBA1F32
     .4byte  0xA1DC0009
-.L_course_2_setup:
-    mov.l   .L_wram_low_060218E4, r2
+.L_060217D4:
+    mov.l   .L_060218E4, r2
     mov.l r2, @r15
     mov r2, r3
-    mov.l   .L_c2_obj_data_off, r2
+    mov.l   .L_060218E8, r2
     add r2, r3
     mov.l r3, @r5
     mov #0xC, r3
     mov.l r3, @(28, r5)
     mov.l @r15, r2
-    mov.l   .L_c2_obj_palette_off, r3
+    mov.l   .L_060218EC, r3
     add r3, r2
     mov.l r2, @(56, r5)
     mov r5, r3
@@ -434,10 +434,10 @@ DAT_06021526:
     mov.l r2, @r3
     mov r5, r3
     add #0x70, r3
-    mov.l   .L_fp_one_060218F0, r2
+    mov.l   .L_060218F0, r2
     mov.l r2, @r3
     mov.l @r15, r3
-    mov.l   .L_c2_obj_config_off, r2
+    mov.l   .L_060218F4, r2
     add r2, r3
     .2byte  0x1532
     .4byte  0xE31C1539
@@ -503,15 +503,15 @@ DAT_060218de:
     .global DAT_060218e0
 DAT_060218e0:
     .4byte  0x00840088
-.L_wram_low_060218E4:
+.L_060218E4:
     .4byte  0x00200000                  /* Work RAM Low base */
-.L_c2_obj_data_off:
+.L_060218E8:
     .4byte  0x000BE1F8
-.L_c2_obj_palette_off:
+.L_060218EC:
     .4byte  0x000BE288
-.L_fp_one_060218F0:
+.L_060218F0:
     .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
-.L_c2_obj_config_off:
+.L_060218F4:
     .4byte  0x000BE360
     .4byte  0x000BE4B0
     .4byte  0x0000CCCC
@@ -678,15 +678,15 @@ DAT_060218e0:
     .4byte  0x53F2E223
     .4byte  0x73013522
     .4byte  0x8FB91F32
-.L_finalize_placement:
-    mov.l   .L_obj_config_struct, r3
+.L_06021B8C:
+    mov.l   .L_06021C38, r3
     mov.l r3, @r15
     mov.l r4, @r3
     mov.l @r15, r3
     mov.w   DAT_06021c2e, r0
     mov.w r0, @(4, r3)
     mov.l @r15, r3
-    mov.w   .L_pos_y_default, r0
+    mov.w   .L_06021C30, r0
     mov.w r0, @(6, r3)
     mov.l @r15, r3
     add #0x8, r3
@@ -721,7 +721,7 @@ DAT_060218e0:
     exts.w r5, r0
     mov.w r0, @(6, r3)
     mov #0x4, r5
-    mov.l   .L_obj_config_struct, r3
+    mov.l   .L_06021C38, r3
     mov.l r3, @r15
     mov r5, r3
     mov r5, r0
@@ -732,83 +732,83 @@ DAT_060218e0:
     add r2, r3
     mov.l r3, @(4, r15)
     add #-0x20, r15
-    mov.l   .L_fn_float_op, r2
+    mov.l   .L_06021C3C, r2
     jsr @r2
     mov.l r15, @-r15
-    mov.l   .L_float_operand_a, r1
+    mov.l   .L_06021C40, r1
     mov.l r1, @-r15
-    mov.l   .L_float_operand_b, r1
+    mov.l   .L_06021C44, r1
     mov.l r1, @-r15
     mov r15, r2
-    mov.l   .L_fn_float_div, r1
+    mov.l   .L_06021C48, r1
     add #0x10, r2
     jsr @r1
     mov.l r2, @-r15
     mov r5, r0
     add #-0x18, r15
     add #-0x4, r0
-    mov.l   .L_fn_float_op, r2
+    mov.l   .L_06021C3C, r2
     jsr @r2
     mov.l r15, @-r15
     mov r5, r0
     add #-0x8, r15
     add #-0x4, r0
-    mov.l   .L_fn_float_op, r2
+    mov.l   .L_06021C3C, r2
     jsr @r2
     mov.l r15, @-r15
     mov r15, r1
     add #0x10, r1
-    bra     .L_transform_continue
+    bra     .L_06021C4C
     mov.l r1, @-r15
 
     .global DAT_06021c2e
 DAT_06021c2e:
     .2byte  0xF6B0
-.L_pos_y_default:
+.L_06021C30:
     .2byte  0x4000
 
     .global DAT_06021c32
 DAT_06021c32:
     .2byte  0x8000
     .4byte  sym_06034FE0
-.L_obj_config_struct:
+.L_06021C38:
     .4byte  sym_06089B18                /* final object config struct */
-.L_fn_float_op:
+.L_06021C3C:
     .4byte  sym_06035BC8                /* float stack operation */
-.L_float_operand_a:
+.L_06021C40:
     .4byte  0x33333333                  /* IEEE 754: 4.172...e-8 (low dword) */
-.L_float_operand_b:
+.L_06021C44:
     .4byte  0x4054D333                  /* IEEE 754: 3.3250... */
-.L_fn_float_div:
+.L_06021C48:
     .4byte  sym_060359E4                /* float division */
-.L_transform_continue:
-    mov.l   .L_fn_float_div_2, r2
+.L_06021C4C:
+    mov.l   .L_06021D7C, r2
     jsr @r2
     nop
-    mov.l   .L_float_operand_c, r1
+    mov.l   .L_06021D80, r1
     mov.l r1, @-r15
-    mov.l   .L_float_operand_d, r1
+    mov.l   .L_06021D84, r1
     mov.l r1, @-r15
     mov r15, r2
-    mov.l   .L_fn_float_div_2, r1
+    mov.l   .L_06021D7C, r1
     add #0x10, r2
     jsr @r1
     mov.l r2, @-r15
     mov r15, r2
-    mov.l   .L_fn_float_mul, r1
+    mov.l   .L_06021D88, r1
     add #0x10, r2
     jsr @r1
     mov.l r2, @-r15
     mov #0x0, r2
     mov.l r2, @-r15
-    mov.l   .L_float_height, r2
+    mov.l   .L_06021D8C, r2
     mov.l r2, @-r15
     mov r15, r1
-    mov.l   .L_fn_float_div_2, r2
+    mov.l   .L_06021D7C, r2
     add #0x10, r1
     jsr @r2
     mov.l r1, @-r15
-    mov.l   .L_fn_float_to_fix, r1
+    mov.l   .L_06021D90, r1
     jsr @r1
     nop
     add #0x1, r5
@@ -828,36 +828,36 @@ DAT_06021c32:
     add r2, r3
     mov.l r3, @(4, r15)
     add #-0x20, r15
-    mov.l   .L_fn_float_op_2, r2
+    mov.l   .L_06021D94, r2
     jsr @r2
     mov.l r15, @-r15
-    mov.l   .L_float_operand_e, r1
+    mov.l   .L_06021D98, r1
     mov.l r1, @-r15
-    mov.l   .L_float_operand_f, r1
+    mov.l   .L_06021D9C, r1
     mov.l r1, @-r15
     mov r15, r2
-    mov.l   .L_fn_float_div_2, r1
+    mov.l   .L_06021D7C, r1
     add #0x10, r2
     jsr @r1
     mov.l r2, @-r15
     mov r5, r0
     add #-0x18, r15
     add #-0x4, r0
-    mov.l   .L_fn_float_op_2, r2
+    mov.l   .L_06021D94, r2
     jsr @r2
     mov.l r15, @-r15
     mov r5, r0
     add #-0x8, r15
     add #-0x4, r0
-    mov.l   .L_fn_float_op_2, r2
+    mov.l   .L_06021D94, r2
     jsr @r2
     mov.l r15, @-r15
     mov r15, r1
-    mov.l   .L_fn_float_div_2, r2
+    mov.l   .L_06021D7C, r2
     add #0x10, r1
     jsr @r2
     mov.l r1, @-r15
-    mov.l   .L_float_operand_c, r1
+    mov.l   .L_06021D80, r1
     .4byte  0x2F16D127
     .4byte  0x2F1662F3
     .4byte  0xD1237210
@@ -896,23 +896,23 @@ DAT_06021c32:
     .4byte  0x2F16D103
     .4byte  0x2F16A013
     .4byte  0x0009FFFF
-.L_fn_float_div_2:
+.L_06021D7C:
     .4byte  sym_060359E4                /* float division */
-.L_float_operand_c:
+.L_06021D80:
     .4byte  0x9999999A                  /* IEEE 754: low dword of double */
-.L_float_operand_d:
+.L_06021D84:
     .4byte  0x40139999                  /* IEEE 754: 2.3... */
-.L_fn_float_mul:
+.L_06021D88:
     .4byte  sym_06035460                /* float multiply */
-.L_float_height:
+.L_06021D8C:
     .4byte  0x40680000                  /* IEEE 754: 3.625 (object height) */
-.L_fn_float_to_fix:
+.L_06021D90:
     .4byte  sym_060357B8                /* float-to-fixed conversion */
-.L_fn_float_op_2:
+.L_06021D94:
     .4byte  sym_06035BC8                /* float stack operation */
-.L_float_operand_e:
+.L_06021D98:
     .4byte  0x33333333                  /* IEEE 754: low dword of double */
-.L_float_operand_f:
+.L_06021D9C:
     .4byte  0x4054D333                  /* IEEE 754: 3.3250... */
     .4byte  0xD13E2F16
     .4byte  0x62F3D13E

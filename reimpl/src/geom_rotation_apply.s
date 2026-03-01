@@ -15,7 +15,7 @@ geom_rotation_apply:
     mov.b @r3, r0
     extu.b r0, r0
     tst r0, r0
-    bt      .L_skip_dispatch
+    bt      .L_0601EB56
     mov.l   .L_pool_0601EB68, r6
     mov.b @r14, r5
     mov.l   .L_pool_0601EB6C, r2
@@ -34,7 +34,7 @@ geom_rotation_apply:
     mov.b @r4, r4
     .byte   0xBE, 0x5D    /* bsr 0x0601E810 (hud_handler_main) */
     extu.b r4, r4
-.L_skip_dispatch:
+.L_0601EB56:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14

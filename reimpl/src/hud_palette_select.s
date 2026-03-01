@@ -13,12 +13,12 @@ hud_palette_select:
     sts.l pr, @-r15
     mov.l @(48, r14), r3
     cmp/gt r2, r3
-    bf/s    .L_multi_phase
+    bf/s    .L_0603FCFE
     mov r6, r12
     mov.l @(4, r14), r5
-    bra     .L_do_palette_lookup
+    bra     .L_0603FD1C
     mov.l @(8, r5), r5
-.L_multi_phase:
+.L_0603FCFE:
     mov.l @(4, r14), r13
     mov.l @(28, r14), r3
     mov.l @(8, r13), r13
@@ -27,15 +27,15 @@ hud_palette_select:
     jsr @r3
     mov r12, r4
     cmp/ge r0, r13
-    bt      .L_clamp_to_available
-    bra     .L_do_palette_lookup
+    bt      .L_0603FD14
+    bra     .L_0603FD1C
     mov r13, r5
-.L_clamp_to_available:
+.L_0603FD14:
     mov.l   .L_pool_0603FD38, r3
     jsr @r3
     mov r12, r4
     mov r0, r5
-.L_do_palette_lookup:
+.L_0603FD1C:
     mov.l   .L_pool_0603FD3C, r3
     jsr @r3
     mov r12, r4

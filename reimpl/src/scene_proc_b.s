@@ -10,58 +10,58 @@ scene_proc_b:
     mov r4, r8
     mov r5, r14
     mov r6, r13
-    mov.l   .L_cache_array_base, r12
+    mov.l   .L_0602AC04, r12
     mov #0x40, r4
     mov #-0x1, r0
-.L_cache_clear_loop:
+.L_0602ABD4:
     mov.l r0, @r12
     dt r4
-    bf/s    .L_cache_clear_loop
+    bf/s    .L_0602ABD4
     add #0x10, r12
-    mov.l   .L_view_matrix_ptr, r10
+    mov.l   .L_0602AC08, r10
     mov.l @r10, r10
     mov #0x18, r0
     mul.l r7, r0
     sts macl, r0
     add r0, r8
-.L_node_loop_top:
+.L_0602ABE8:
     mov.l r7, @-r15
     add #-0x18, r8
-    mov.l   .L_scene_active_flag, r12
+    mov.l   .L_0602AC0C, r12
     mov.w @r12, r0
     cmp/eq #0x0, r0
-    bt      .L_process_node
+    bt      .L_0602AC10
     mov.w @(14, r8), r0
-    mov.w   .L_texture_id_match, r1
+    mov.w   .L_0602AC00, r1
     cmp/eq r0, r1
-    bf      .L_process_node
-    bra     .L_next_node
+    bf      .L_0602AC10
+    bra     .L_0602ADF8
     nop
-.L_texture_id_match:
+.L_0602AC00:
     .2byte  0x0097
     .2byte  0x0000
-.L_cache_array_base:
+.L_0602AC04:
     .4byte  sym_06094220
-.L_view_matrix_ptr:
+.L_0602AC08:
     .4byte  sym_06063F08
-.L_scene_active_flag:
+.L_0602AC0C:
     .4byte  sym_0605BE36
-.L_process_node:
-    mov.l   .L_scratch_xy_buf, r11
-    mov.l   .L_cached_xyz_out, r5
-    mov.l   .L_scene_matrix_ptr, r0
+.L_0602AC10:
+    mov.l   .L_0602AC80, r11
+    mov.l   .L_0602AC84, r5
+    mov.l   .L_0602AC88, r0
     mov.l @r0, r6
     mov.w @(16, r8), r0
     mov r0, r9
-    bsr     .L_view_transform
+    bsr     .L_0602AE24
     nop
     mov.l r1, @r5
     mov.l r2, @(4, r5)
     mov.l r3, @(8, r5)
     mov.w @(12, r8), r0
     tst #0x8, r0
-    bf      .L_skip_matrix_mul
-    mov.l   .L_rotated_row_buf, r7
+    bf      .L_0602AC90
+    mov.l   .L_0602AC8C, r7
     mov r8, r4
     clrmac
     mac.l @r4+, @r6+
@@ -99,70 +99,70 @@ scene_proc_b:
     sts macl, r0
     xtrct r9, r0
     cmp/pl r0
-    bt      .L_skip_matrix_mul
-    bra     .L_next_node
+    bt      .L_0602AC90
+    bra     .L_0602ADF8
     nop
     .2byte  0x0000
-.L_scratch_xy_buf:
+.L_0602AC80:
     .4byte  sym_0602AEEC
-.L_cached_xyz_out:
+.L_0602AC84:
     .4byte  sym_0602AF0C
-.L_scene_matrix_ptr:
+.L_0602AC88:
     .4byte  sym_0608A52C
-.L_rotated_row_buf:
+.L_0602AC8C:
     .4byte  sym_0602AF1C
-.L_skip_matrix_mul:
+.L_0602AC90:
     mov.w @(16, r8), r0
-    mov.l   .L_stage_child_1, r7
-    bsr     .L_cache_lookup
+    mov.l   .L_0602AD04, r7
+    bsr     .L_0602AEBE
     mov r0, r9
     mov.l r3, @r5
-    bsr     .L_depth_scale_store
+    bsr     .L_0602AE84
     add #0x4, r5
 
     .global sym_0602AC9E
 sym_0602AC9E:
     mov.w @(18, r8), r0
-    mov.l   .L_stage_child_2, r7
-    bsr     .L_cache_lookup
+    mov.l   .L_0602AD08, r7
+    bsr     .L_0602AEBE
     mov r0, r9
-    bsr     .L_view_transform
+    bsr     .L_0602AE24
     nop
     mov.l r3, @r5
-    bsr     .L_depth_scale_store
+    bsr     .L_0602AE84
     add #0x4, r5
 
     .global sym_0602ACB0
 sym_0602ACB0:
     mov.w @(20, r8), r0
-    mov.l   .L_stage_child_3, r7
-    bsr     .L_cache_lookup
+    mov.l   .L_0602AD0C, r7
+    bsr     .L_0602AEBE
     mov r0, r9
-    bsr     .L_view_transform
+    bsr     .L_0602AE24
     nop
     mov.l r3, @r5
-    bsr     .L_depth_scale_store
+    bsr     .L_0602AE84
     add #0x4, r5
 
     .global sym_0602ACC2
 sym_0602ACC2:
     mov.w @(22, r8), r0
-    mov.l   .L_stage_frustum, r7
-    bsr     .L_cache_lookup
+    mov.l   .L_0602AD10, r7
+    bsr     .L_0602AEBE
     mov r0, r9
-    bsr     .L_view_transform
+    bsr     .L_0602AE24
     nop
     mov.l r3, @r5
-    bsr     .L_depth_scale_store
+    bsr     .L_0602AE84
     add #0x4, r5
 
     .global sym_0602ACD4
 sym_0602ACD4:
-    mov.l   .L_sort_write_idx_ptr, r0
+    mov.l   .L_0602AD14, r0
     mov #0x18, r1
     mov.l @r0, r0
     mulu.w r0, r1
-    mov.l   .L_sort_buf_base, r2
+    mov.l   .L_0602AD18, r2
     sts macl, r9
     add r2, r9
     add #-0x20, r11
@@ -172,66 +172,66 @@ sym_0602ACD4:
     mov.l @(16, r11), r4
     mov.l @(24, r11), r6
     cmp/gt r0, r12
-    bf      .L_z_not_all_behind
+    bf      .L_0602AD1C
     cmp/gt r2, r12
-    bf      .L_z_not_all_behind
+    bf      .L_0602AD1C
     cmp/gt r4, r12
-    bf      .L_z_not_all_behind
+    bf      .L_0602AD1C
     cmp/gt r6, r12
-    bf      .L_z_not_all_behind
-    bra     .L_next_node
+    bf      .L_0602AD1C
+    bra     .L_0602ADF8
     nop
 
     .global DAT_0602ad02
 DAT_0602ad02:
     .2byte  0xFF50
-.L_stage_child_1:
+.L_0602AD04:
     .4byte  sym_0602AC9E
-.L_stage_child_2:
+.L_0602AD08:
     .4byte  sym_0602ACB0
-.L_stage_child_3:
+.L_0602AD0C:
     .4byte  sym_0602ACC2
-.L_stage_frustum:
+.L_0602AD10:
     .4byte  sym_0602ACD4
-.L_sort_write_idx_ptr:
+.L_0602AD14:
     .4byte  sym_060620D4
-.L_sort_buf_base:
+.L_0602AD18:
     .4byte  sym_0608AC20
-.L_z_not_all_behind:
+.L_0602AD1C:
     mov.w   DAT_0602ad96, r12
     cmp/gt r0, r12
-    bt      .L_z_partly_visible
+    bt      .L_0602AD2E
     cmp/gt r2, r12
-    bt      .L_z_partly_visible
+    bt      .L_0602AD2E
     cmp/gt r4, r12
-    bt      .L_z_partly_visible
+    bt      .L_0602AD2E
     cmp/gt r6, r12
-    bt      .L_next_node
-.L_z_partly_visible:
+    bt      .L_0602ADF8
+.L_0602AD2E:
     mov.w   DAT_0602ad98, r12
     mov.l @(4, r11), r1
     mov.l @(12, r11), r3
     mov.l @(20, r11), r5
     mov.l @(28, r11), r7
     cmp/gt r1, r12
-    bf      .L_y_not_all_above
+    bf      .L_0602AD48
     cmp/gt r3, r12
-    bf      .L_y_not_all_above
+    bf      .L_0602AD48
     cmp/gt r5, r12
-    bf      .L_y_not_all_above
+    bf      .L_0602AD48
     cmp/gt r7, r12
-    bt      .L_next_node
-.L_y_not_all_above:
+    bt      .L_0602ADF8
+.L_0602AD48:
     mov.w   DAT_0602ad9a, r12
     cmp/gt r1, r12
-    bt      .L_y_partly_visible
+    bt      .L_0602AD5A
     cmp/gt r3, r12
-    bt      .L_y_partly_visible
+    bt      .L_0602AD5A
     cmp/gt r5, r12
-    bt      .L_y_partly_visible
+    bt      .L_0602AD5A
     cmp/gt r7, r12
-    bf      .L_next_node
-.L_y_partly_visible:
+    bf      .L_0602ADF8
+.L_0602AD5A:
     mov r9, r12
     add #0x18, r12
     mov.w r7, @-r12
@@ -252,7 +252,7 @@ DAT_0602ad02:
     mov r13, r0
     mov.b r0, @(5, r9)
     mov.w @(12, r8), r0
-    mov.l   .L_sort_jump_table, r1
+    mov.l   .L_0602AD9C, r1
     and #0x7, r0
     shll2 r0
     mov.l @(r0, r1), r2
@@ -274,7 +274,7 @@ DAT_0602ad98:
     .global DAT_0602ad9a
 DAT_0602ad9a:
     .2byte  0x0051
-.L_sort_jump_table:
+.L_0602AD9C:
     .4byte  sym_0602AF28
 
     .global loc_0602ADA0
@@ -282,58 +282,58 @@ loc_0602ADA0:
     add r4, r3
     add r5, r6
     add r6, r3
-    bra     .L_store_sort_key
+    bra     .L_0602ADE0
     shlr2 r3
 
     .global loc_0602ADAA
 loc_0602ADAA:
     cmp/ge r3, r4
-    bt      .L_min_skip_r4
+    bt      .L_0602ADB0
     mov r4, r3
-.L_min_skip_r4:
+.L_0602ADB0:
     cmp/ge r3, r5
-    bt      .L_min_skip_r5
+    bt      .L_0602ADB6
     mov r5, r3
-.L_min_skip_r5:
+.L_0602ADB6:
     cmp/ge r3, r6
-    bt      .L_min_done
+    bt      .L_0602ADBC
     mov r6, r3
-.L_min_done:
-    bra     .L_store_sort_key
+.L_0602ADBC:
+    bra     .L_0602ADE0
     nop
 
     .global loc_0602ADC0
 loc_0602ADC0:
-    bra     .L_bias_max_loop
+    bra     .L_0602ADCC
     mov #0x0, r0
 
     .global loc_0602ADC4
 loc_0602ADC4:
     mov #0x1, r0
-    bra     .L_bias_max_loop
+    bra     .L_0602ADCC
     shll16 r0
 
     .global loc_0602ADCA
 loc_0602ADCA:
-    mov.l   .L_large_depth_bias, r0
-.L_bias_max_loop:
+    mov.l   .L_0602AE04, r0
+.L_0602ADCC:
     cmp/gt r3, r4
-    bf      .L_bias_skip_r4
+    bf      .L_0602ADD2
     mov r4, r3
-.L_bias_skip_r4:
+.L_0602ADD2:
     cmp/gt r3, r5
-    bf      .L_bias_skip_r5
+    bf      .L_0602ADD8
     mov r5, r3
-.L_bias_skip_r5:
+.L_0602ADD8:
     cmp/gt r3, r6
-    bf      .L_bias_done
+    bf      .L_0602ADDE
     mov r6, r3
-.L_bias_done:
+.L_0602ADDE:
     add r0, r3
-.L_store_sort_key:
-    mov.l   .L_sort_idx_ptr, r2
+.L_0602ADE0:
+    mov.l   .L_0602AE08, r2
     neg r3, r3
-    mov.l   .L_sort_key_array, r1
+    mov.l   .L_0602AE0C, r1
     shlr8 r3
     mov.l @r2, r0
     shlr2 r3
@@ -343,20 +343,20 @@ loc_0602ADCA:
     shar r0
     add #0x1, r0
     mov.l r0, @r2
-.L_next_node:
+.L_0602ADF8:
     mov.l @r15+, r7
     dt r7
-    bt      .L_all_nodes_done
-    bra     .L_node_loop_top
+    bt      .L_0602AE10
+    bra     .L_0602ABE8
     nop
     .2byte  0x0000
-.L_large_depth_bias:
+.L_0602AE04:
     .4byte  0x000B8000
-.L_sort_idx_ptr:
+.L_0602AE08:
     .4byte  sym_060620D4
-.L_sort_key_array:
+.L_0602AE0C:
     .4byte  sym_0606A4F8
-.L_all_nodes_done:
+.L_0602AE10:
     lds.l @r15+, pr
     mov.l @r15+, r14
     mov.l @r15+, r13
@@ -367,7 +367,7 @@ loc_0602ADCA:
     rts
     mov.l @r15+, r8
     .2byte  0x0009
-.L_view_transform:
+.L_0602AE24:
     mov #0xC, r0
     mul.l r0, r9
     mov #0x18, r7
@@ -385,9 +385,9 @@ loc_0602ADCA:
     xtrct r0, r3
     add r2, r3
     cmp/gt r10, r3
-    bf      .L_next_node
-    mov.w   .L_emit_cache_offset, r2
-    mov.w   .L_emit_init_marker, r0
+    bf      .L_0602ADF8
+    mov.w   .L_0602AE7E, r2
+    mov.w   .L_0602AE80, r0
     mov.l r0, @(16, r2)
     mov.l r3, @(0, r2)
     mov #0x0, r0
@@ -413,12 +413,12 @@ loc_0602ADCA:
     xtrct r0, r2
     rts
     add r7, r2
-.L_emit_cache_offset:
+.L_0602AE7E:
     .2byte  0xFF00
-.L_emit_init_marker:
+.L_0602AE80:
     .2byte  0x00A0
     .2byte  0x0009
-.L_depth_scale_store:
+.L_0602AE84:
     mov.w   DAT_0602aeba, r0
     mov.l @(28, r0), r4
     dmuls.l r1, r4
@@ -431,15 +431,15 @@ loc_0602ADCA:
     add #0x8, r11
     mov.w   DAT_0602aebc, r7
     cmp/gt r7, r1
-    bt      .L_next_node
+    bt      .L_0602ADF8
     neg r7, r0
     cmp/gt r1, r0
-    bt      .L_next_node
+    bt      .L_0602ADF8
     cmp/gt r2, r0
-    bt      .L_next_node
+    bt      .L_0602ADF8
     shlr r7
     cmp/gt r7, r2
-    bt      .L_next_node
+    bt      .L_0602ADF8
     mov.l r9, @r12
     mov.l r1, @(4, r12)
     mov.l r2, @(8, r12)
@@ -454,17 +454,17 @@ DAT_0602aeba:
     .global DAT_0602aebc
 DAT_0602aebc:
     .2byte  0x0190
-.L_cache_lookup:
+.L_0602AEBE:
     and #0x3F, r0
-    mov.l   .L_cache_base_lookup, r12
+    mov.l   .L_0602AEE4, r12
     shll2 r0
     shll2 r0
     add r0, r12
     mov.l @r12, r0
     cmp/pz r0
-    bf      .L_cache_miss
+    bf      .L_0602AEE8
     cmp/eq r0, r9
-    bf      .L_cache_miss
+    bf      .L_0602AEE8
     mov.l @(4, r12), r1
     mov.l @(8, r12), r2
     mov.l @(12, r12), r3
@@ -474,9 +474,9 @@ DAT_0602aebc:
     mov.l r3, @r5
     jmp @r7
     add #0x4, r5
-.L_cache_base_lookup:
+.L_0602AEE4:
     .4byte  sym_06094220
-.L_cache_miss:
+.L_0602AEE8:
     rts
     nop
 

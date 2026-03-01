@@ -20,12 +20,12 @@ throttle_state_toggle:
     and #0xFF, r0
     extu.w r0, r4
     cmp/gt r14, r4
-    bf/s    .L_copy_counter
+    bf/s    .L_06010498
     mov.l r2, @r13
     mov.l @r13, r2
     add #0x1, r2
     mov.l r2, @r13
-.L_copy_counter:
+.L_06010498:
     .byte   0xD4, 0x1F    /* mov.l .L_pool_06010518, r4 */
     mov.l @r13, r3
     mov.l r3, @r4
@@ -35,7 +35,7 @@ throttle_state_toggle:
     .byte   0xDC, 0x1E    /* mov.l .L_pool_06010520, r12 */
     mov.l @r4, r0
     tst r0, r0
-    bt      .L_throttle_off
+    bt      .L_060104BE
     mov r14, r6
     .byte   0xD5, 0x1D    /* mov.l .L_pool_06010524, r5 */
     .byte   0xD4, 0x1D    /* mov.l .L_pool_06010528, r4 */
@@ -43,9 +43,9 @@ throttle_state_toggle:
     jsr @r12
     mov.l @r4, r4
     .byte   0xD5, 0x1C    /* mov.l .L_pool_0601052C, r5 */
-    bra     .L_dma_second_tile
+    bra     .L_060104CE
     mov r14, r6
-.L_throttle_off:
+.L_060104BE:
     mov r14, r6
     .byte   0xD5, 0x1B    /* mov.l .L_pool_06010530, r5 */
     .byte   0xD4, 0x19    /* mov.l .L_pool_06010528, r4 */
@@ -54,7 +54,7 @@ throttle_state_toggle:
     mov.l @r4, r4
     mov r14, r6
     .byte   0xD5, 0x19    /* mov.l .L_pool_06010534, r5 */
-.L_dma_second_tile:
+.L_060104CE:
     mov.l @r5, r5
     .byte   0xD4, 0x19    /* mov.l .L_pool_06010538, r4 */
     jsr @r12

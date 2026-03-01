@@ -29,11 +29,11 @@ track_vtx_builder:
     mov.l   .L_pool_06016EE0, r0
     mov.l @r0, r0
     cmp/eq #0x15, r0
-    bf/s    .L_extents_ready
+    bf/s    .L_06016E10
     mov #0xC, r5
     mov #0x20, r4
     mov #0x18, r5
-.L_extents_ready:
+.L_06016E10:
     exts.w r4, r2
     neg r2, r2
     exts.w r2, r2
@@ -77,7 +77,7 @@ track_vtx_builder:
     jsr @r3
     mov.l @(48, r4), r4
     mov #0x0, r12
-.L_corner_loop_top:
+.L_06016E66:
     extu.b r12, r11
     mov r15, r3
     extu.b r12, r4
@@ -134,7 +134,7 @@ track_vtx_builder:
     mov.l r2, @r11
     extu.b r12, r3
     cmp/ge r13, r3
-    bra     .L_corner_loop_check
+    bra     .L_06016EEC
     nop
 .L_wpool_06016EDA:
     .2byte  0xFF74                     /* -140: stack frame allocation size */
@@ -146,8 +146,8 @@ track_vtx_builder:
     .4byte  sym_06084FC8               /* per-car slot data array base */
 .L_pool_06016EE8:
     .4byte  sincos_pair                /* sincos_pair(angle, &sin, &cos) */
-.L_corner_loop_check:
-    bf      .L_corner_loop_top
+.L_06016EEC:
+    bf      .L_06016E66
     mov.b @(12, r15), r0
     mov.l   .L_pool_06016FFC, r1
     mov r0, r3
@@ -165,7 +165,7 @@ track_vtx_builder:
     mov.l   .L_pool_06017000, r0
     mov.b @r0, r0
     tst r0, r0
-    bt      .L_no_angle_bias
+    bt      .L_06016F32
     mov.b @(12, r15), r0
     mov r0, r3
     extu.b r3, r3
@@ -178,11 +178,11 @@ track_vtx_builder:
     exts.w r3, r3
     mov.l   .L_pool_06016FFC, r1
     add r1, r3
-    mov.l   .L_fp_half, r2
+    mov.l   .L_06017004, r2
     mov.l @(44, r3), r1
     add r2, r1
     mov.l r1, @(44, r3)
-.L_no_angle_bias:
+.L_06016F32:
     mov r15, r6
     mov r15, r5
     mov.b @(12, r15), r0
@@ -202,7 +202,7 @@ track_vtx_builder:
     jsr @r3
     mov.l @(44, r4), r4
     mov #0x0, r11
-.L_y_delta_loop_top:
+.L_06016F58:
     extu.b r11, r12
     mov r15, r3
     shll2 r12
@@ -255,7 +255,7 @@ track_vtx_builder:
     mov.l @(8, r15), r3
     mov.l @r3, r0
     tst r0, r0
-    bt      .L_y_delta_next
+    bt      .L_06017026
     extu.b r11, r12
     shll2 r12
     mov r12, r3
@@ -282,7 +282,7 @@ track_vtx_builder:
     mov.l @r3, r2
     mov.l r2, @(8, r15)
     mov.l @(16, r15), r5
-    bra     .L_adjust_y_delta
+    bra     .L_06017010
     nop
 
     .global DAT_06016ffa
@@ -292,13 +292,13 @@ DAT_06016ffa:
     .4byte  sym_06084FC8               /* per-car slot data array base (dup) */
 .L_pool_06017000:
     .4byte  sym_06078663               /* direction flip flag (byte) */
-.L_fp_half:
+.L_06017004:
     .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
 .L_pool_06017008:
     .4byte  sincos_pair                /* sincos_pair (dup pool entry) */
 .L_pool_0601700C:
     .4byte  fpdiv_setup                /* 16.16 fixed-point divide */
-.L_adjust_y_delta:
+.L_06017010:
     mov.l @r5, r5
     mov.l   .L_pool_060170E8, r3
     jsr @r3
@@ -310,11 +310,11 @@ DAT_06016ffa:
     mov.l @(8, r15), r3
     sub r0, r3
     mov.l r3, @r12
-.L_y_delta_next:
+.L_06017026:
     add #0x1, r11
     extu.b r11, r3
     cmp/ge r13, r3
-    bf      .L_y_delta_loop_top
+    bf      .L_06016F58
     mov.b @(12, r15), r0
     mov.l   .L_pool_060170F0, r1
     mov r0, r3
@@ -356,7 +356,7 @@ DAT_06016ffa:
     exts.w r12, r12
     mov.l   .L_pool_060170F0, r1
     add r1, r12
-.L_screen_vtx_loop_top:
+.L_06017080:
     extu.b r11, r3
     extu.b r11, r0
     mov.l @(16, r15), r2
@@ -395,7 +395,7 @@ DAT_06016ffa:
     extu.b r11, r3
     mov.w r0, @r2
     cmp/ge r13, r3
-    bf      .L_screen_vtx_loop_top
+    bf      .L_06017080
     mov.w   .L_wpool_060170E4, r1
     add r1, r15
     lds.l @r15+, pr

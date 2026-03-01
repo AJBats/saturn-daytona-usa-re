@@ -11,27 +11,27 @@ per_vtx_lighting:
     lds.l @r15+, pr
     mov r0, r7
     cmp/pz r7
-    bt      .L_abs_done
+    bt      .L_0602E778
     neg r7, r7
-.L_abs_done:
-    mov.l   .L_intensity_threshold, r11
+.L_0602E778:
+    mov.l   .L_0602E788, r11
     cmp/ge r11, r7
-    bt      .L_high_intensity_exit
-    bra     .L_compute_vertex_deltas
+    bt      .L_0602E78C
+    bra     .L_0602E7C0
     nop
     .2byte  0x0000
     .4byte  isqrt
-.L_intensity_threshold:
+.L_0602E788:
     .4byte  0x000F0000
 
-.L_high_intensity_exit:
-    mov.l   .L_vtx_offset_x, r0
+.L_0602E78C:
+    mov.l   .L_0602E7B0, r0
     mov.l @(r0, r9), r3
-    mov.l   .L_light_output_x, r1
+    mov.l   .L_0602E7B4, r1
     mov.l r3, @r1
-    mov.l   .L_vtx_offset_y, r0
+    mov.l   .L_0602E7B8, r0
     mov.l @(r0, r9), r3
-    mov.l   .L_light_output_y, r1
+    mov.l   .L_0602E7BC, r1
     mov.l r3, @r1
     mov.l @r15+, r14
     mov.l @r15+, r13
@@ -43,16 +43,16 @@ per_vtx_lighting:
     rts
     nop
     .2byte  0x0000
-.L_vtx_offset_x:
+.L_0602E7B0:
     .4byte  0x00000238
-.L_light_output_x:
+.L_0602E7B4:
     .4byte  DAT_06083264
-.L_vtx_offset_y:
+.L_0602E7B8:
     .4byte  0x0000023C
-.L_light_output_y:
+.L_0602E7BC:
     .4byte  DAT_06083268
 
-.L_compute_vertex_deltas:
+.L_0602E7C0:
     mov.l @(16, r9), r6
     mov.l @(24, r9), r7
     mov.l @(16, r10), r11

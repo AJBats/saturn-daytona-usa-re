@@ -13,130 +13,130 @@
 render_orchestrator:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    mov.l   .L_pipeline_prologue, r13
+    mov.l   .L_0602EF00, r13
     jsr @r13
     nop
-    mov.l   .L_render_camera_compute, r13
+    mov.l   .L_0602EF04, r13
     jsr @r13
     nop
-    mov.l   .L_render_state_scratch, r1
+    mov.l   .L_0602EF08, r1
     mov #0x0, r2
     mov.l r2, @r1
-    mov.w   .L_off_collision_state, r1
+    mov.w   .L_0602EEFA, r1
     mov.w @(r0, r1), r2
     add #0x2, r1
     mov.w r2, @(r0, r1)
-    mov.l   .L_damage_mac_core, r13
+    mov.l   .L_0602EF0C, r13
     jsr @r13
     nop
-    mov.l   .L_timer_tick, r13
+    mov.l   .L_0602EF10, r13
     jsr @r13
     nop
-    mov.l   .L_perspective_project, r13
+    mov.l   .L_0602EF14, r13
     jsr @r13
     nop
-    mov.w   .L_off_collision_flag, r1
+    mov.w   .L_0602EEFC, r1
     mov.w @(r0, r1), r2
     tst r2, r2
-    bt      .L_collision_path_a
-    mov.l   .L_collision_response_b, r13
+    bt      .L_0602EF1C
+    mov.l   .L_0602EF18, r13
     jsr @r13
     nop
-    bra     .L_after_collision
+    bra     .L_0602EF22
     nop
-.L_off_collision_state:
+.L_0602EEFA:
     .2byte  0x0250
-.L_off_collision_flag:
+.L_0602EEFC:
     .2byte  0x009C
     .2byte  0x0000
-.L_pipeline_prologue:
+.L_0602EF00:
     .4byte  sym_0602FDA4
-.L_render_camera_compute:
+.L_0602EF04:
     .4byte  render_camera_compute
-.L_render_state_scratch:
+.L_0602EF08:
     .4byte  sym_0607EAC8
-.L_damage_mac_core:
+.L_0602EF0C:
     .4byte  sym_0602F3EC
-.L_timer_tick:
+.L_0602EF10:
     .4byte  sym_0602F7BC
-.L_perspective_project:
+.L_0602EF14:
     .4byte  sym_0602F0E8
-.L_collision_response_b:
+.L_0602EF18:
     .4byte  collision_response_b
-.L_collision_path_a:
-    mov.l   .L_collision_response_a, r13
+.L_0602EF1C:
+    mov.l   .L_0602EF64, r13
     jsr @r13
     nop
-.L_after_collision:
-    mov.l   .L_lighting_select, r13
+.L_0602EF22:
+    mov.l   .L_0602EF68, r13
     jsr @r13
     nop
-    mov.l   .L_distance_fog, r13
+    mov.l   .L_0602EF6C, r13
     jsr @r13
     nop
-    mov.l   .L_color_material_blend, r13
+    mov.l   .L_0602EF70, r13
     jsr @r13
     nop
-    mov.l   .L_orientation_sincos, r13
+    mov.l   .L_0602EF74, r13
     jsr @r13
     nop
-    mov.l   .L_vdp1_display_list_setup, r13
+    mov.l   .L_0602EF78, r13
     jsr @r13
     nop
-    mov.l   .L_vdp1_color_setup, r13
+    mov.l   .L_0602EF7C, r13
     jsr @r13
     nop
-    mov.l   .L_vdp1_coord_setup, r13
+    mov.l   .L_0602EF80, r13
     jsr @r13
     nop
-    mov.w   .L_off_display_flag, r1
-    mov.l   .L_vdp1_sprite_cmd, r12
+    mov.w   .L_0602EF60, r1
+    mov.l   .L_0602EF84, r12
     mov.w @(r0, r1), r2
-    mov.l   .L_vdp1_display_submit, r13
+    mov.l   .L_0602EF88, r13
     tst r2, r2
-    bt      .L_submit_list_path
+    bt      .L_0602EF8C
     jsr @r12
     nop
-    bra     .L_after_display_submit
+    bra     .L_0602EF90
     nop
-.L_off_display_flag:
+.L_0602EF60:
     .2byte  0x009E
     .2byte  0x0000
-.L_collision_response_a:
+.L_0602EF64:
     .4byte  sym_0602F17C
-.L_lighting_select:
+.L_0602EF68:
     .4byte  sym_0602F474
-.L_distance_fog:
+.L_0602EF6C:
     .4byte  sym_0602F4B4
-.L_color_material_blend:
+.L_0602EF70:
     .4byte  color_material_blend
-.L_orientation_sincos:
+.L_0602EF74:
     .4byte  sym_0602EFCC
-.L_vdp1_display_list_setup:
+.L_0602EF78:
     .4byte  vdp1_display_list_setup
-.L_vdp1_color_setup:
+.L_0602EF7C:
     .4byte  vdp1_color_setup
-.L_vdp1_coord_setup:
+.L_0602EF80:
     .4byte  vdp1_coord_setup
-.L_vdp1_sprite_cmd:
+.L_0602EF84:
     .4byte  vdp1_sprite_cmd
-.L_vdp1_display_submit:
+.L_0602EF88:
     .4byte  vdp1_display_submit
-.L_submit_list_path:
+.L_0602EF8C:
     jsr @r13
     nop
-.L_after_display_submit:
-    mov.l   .L_vdp1_cmd_list_mgr, r13
+.L_0602EF90:
+    mov.l   .L_0602EFBC, r13
     jsr @r13
     nop
-    mov.l   .L_render_state_cleanup, r13
+    mov.l   .L_0602EFC0, r13
     jsr @r13
     nop
-    mov.l   .L_final_cleanup, r13
+    mov.l   .L_0602EFC4, r13
     jsr @r13
     nop
     mov.l @(0, r0), r2
-    mov.l   .L_flag_mask, r3
+    mov.l   .L_0602EFC8, r3
     and r3, r2
     mov.l r2, @(0, r0)
     lds.l @r15+, pr
@@ -148,13 +148,13 @@ render_orchestrator:
     mov.l @r15+, r9
     rts
     mov.l @r15+, r8
-.L_vdp1_cmd_list_mgr:
+.L_0602EFBC:
     .4byte  vdp1_cmd_list_mgr
-.L_render_state_cleanup:
+.L_0602EFC0:
     .4byte  sym_0602D814
-.L_final_cleanup:
+.L_0602EFC4:
     .4byte  sym_0602D8BC
-.L_flag_mask:
+.L_0602EFC8:
     .4byte  0xFFFFFC3F
 
     .global sym_0602EFCC

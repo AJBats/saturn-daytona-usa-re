@@ -15,12 +15,12 @@ spring_damper:
     mov.l   .L_pool_06027744, r14
     mov.l @r14, r14
     cmp/eq #0x1, r0
-    bf      .L_axis1_dispatch
+    bf      .L_0602779A
     mov.l @(20, r4), r6
     mov.l @(44, r4), r7
     cmp/ge r7, r6
-    bf      .L_axis0_reverse
-.L_axis0_forward:
+    bf      .L_06027748
+.L_060276EA:
     mov.l @r4, r7
     dmuls.l r7, r1
     mov.l @(12, r4), r6
@@ -59,8 +59,8 @@ spring_damper:
     add #0x4, r9
     mov.l r9, @(8, r4)
     cmp/ge r14, r9
-    bf      .L_axis0_forward
-    bra     .L_epilogue
+    bf      .L_060276EA
+    bra     .L_060279A6
     nop
 .L_pool_0602773C:
     .4byte  0x0000E666
@@ -68,7 +68,7 @@ spring_damper:
     .4byte  0x00001999
 .L_pool_06027744:
     .4byte  sym_06063F04
-.L_axis0_reverse:
+.L_06027748:
     mov.l @r4, r7
     dmuls.l r7, r1
     mov.l @(36, r4), r6
@@ -107,18 +107,18 @@ spring_damper:
     add #0x4, r9
     mov.l r9, @(8, r4)
     cmp/ge r14, r9
-    bf      .L_axis0_reverse
-    bra     .L_epilogue
+    bf      .L_06027748
+    bra     .L_060279A6
     nop
-.L_axis1_dispatch:
+.L_0602779A:
     mov.w @r5+, r0
     cmp/eq #0x1, r0
-    bf      .L_axis2_dispatch
+    bf      .L_0602784C
     mov.l @(32, r4), r6
     mov.l @(8, r4), r7
     cmp/ge r7, r6
-    bf      .L_axis1_reverse
-.L_axis1_forward:
+    bf      .L_060277FA
+.L_060277A8:
     mov.l @(12, r4), r7
     dmuls.l r7, r1
     mov.l @(24, r4), r6
@@ -157,10 +157,10 @@ spring_damper:
     add #0x4, r9
     mov.l r9, @(20, r4)
     cmp/ge r14, r9
-    bf      .L_axis1_forward
-    bra     .L_epilogue
+    bf      .L_060277A8
+    bra     .L_060279A6
     nop
-.L_axis1_reverse:
+.L_060277FA:
     mov.l @(12, r4), r7
     dmuls.l r7, r1
     mov.l @r4, r6
@@ -199,18 +199,18 @@ spring_damper:
     add #0x4, r9
     mov.l r9, @(20, r4)
     cmp/ge r14, r9
-    bf      .L_axis1_reverse
-    bra     .L_epilogue
+    bf      .L_060277FA
+    bra     .L_060279A6
     nop
-.L_axis2_dispatch:
+.L_0602784C:
     mov.w @r5+, r0
     cmp/eq #0x1, r0
-    bf      .L_axis3_entry
+    bf      .L_060278FE
     mov.l @(44, r4), r6
     mov.l @(20, r4), r7
     cmp/ge r7, r6
-    bf      .L_axis2_reverse
-.L_axis2_forward:
+    bf      .L_060278AC
+.L_0602785A:
     mov.l @(24, r4), r7
     dmuls.l r7, r1
     mov.l @(36, r4), r6
@@ -249,10 +249,10 @@ spring_damper:
     add #0x4, r9
     mov.l r9, @(32, r4)
     cmp/ge r14, r9
-    bf      .L_axis2_forward
-    bra     .L_epilogue
+    bf      .L_0602785A
+    bra     .L_060279A6
     nop
-.L_axis2_reverse:
+.L_060278AC:
     mov.l @(24, r4), r7
     dmuls.l r7, r1
     mov.l @(12, r4), r6
@@ -291,15 +291,15 @@ spring_damper:
     add #0x4, r9
     mov.l r9, @(32, r4)
     cmp/ge r14, r9
-    bf      .L_axis2_reverse
-    bra     .L_epilogue
+    bf      .L_060278AC
+    bra     .L_060279A6
     nop
-.L_axis3_entry:
+.L_060278FE:
     mov.l @(8, r4), r6
     mov.l @(32, r4), r7
     cmp/ge r7, r6
-    bf      .L_axis3_reverse
-.L_axis3_forward:
+    bf      .L_06027958
+.L_06027906:
     mov.l @(36, r4), r7
     dmuls.l r7, r1
     mov.l @r4, r6
@@ -338,10 +338,10 @@ spring_damper:
     add #0x4, r9
     mov.l r9, @(44, r4)
     cmp/ge r14, r9
-    bf      .L_axis3_forward
-    bra     .L_epilogue
+    bf      .L_06027906
+    bra     .L_060279A6
     nop
-.L_axis3_reverse:
+.L_06027958:
     mov.l @(36, r4), r7
     dmuls.l r7, r1
     mov.l @(24, r4), r6
@@ -380,8 +380,8 @@ spring_damper:
     add #0x4, r9
     mov.l r9, @(44, r4)
     cmp/ge r14, r9
-    bf      .L_axis3_reverse
-.L_epilogue:
+    bf      .L_06027958
+.L_060279A6:
     lds.l @r15+, pr
     mov.l @r15+, r8
     mov.l @r15+, r9

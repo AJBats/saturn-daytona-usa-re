@@ -24,22 +24,22 @@ perspective_project:
     add #0x20, r14
     mov.w @r14, r2
     cmp/ge r2, r3
-    bf      .L_begin_projection
+    bf      .L_060055FE
     mov.w @r14, r0
     cmp/eq #-0x1, r0
-    bf      .L_advance_node
+    bf      .L_060055EC
     mov.l @(4, r14), r14
-.L_advance_node:
+.L_060055EC:
     mov r14, r13
     mov.l   _pool_obj_list_head, r3
     mov.l r13, @r3
     mov.w @r13, r2
     tst r2, r2
-    bf/s    .L_begin_projection
+    bf/s    .L_060055FE
     add #0x20, r14
     mov #0x0, r3
     mov.w r3, @r10
-.L_begin_projection:
+.L_060055FE:
     mov.w @r14, r5
     mov.w @r13, r3
     mov.l r3, @r15
@@ -114,7 +114,7 @@ perspective_project:
     mov r13, r5
     add #0x3, r5
     mov r14, r4
-    bra     .L_second_pass_xform
+    bra     .L_060056B0
     add #0x3, r4
     .2byte  0xFFFF
 _pool_camera_target_vec:
@@ -129,7 +129,7 @@ _pool_fn_mat_vec_transform:
     .4byte  mat_vec_transform              /* 3x3 matrix-vector multiply */
 _pool_fn_fpmul:
     .4byte  fpmul                          /* 16.16 fixed-point multiply */
-.L_second_pass_xform:
+.L_060056B0:
     .byte   0xBF, 0x44    /* bsr 0x0600553C (external) */
     nop
     mov r15, r5
@@ -180,22 +180,22 @@ _pool_fn_fpmul:
     mov.l   _pool_cam_dir_flip_flag, r0
     mov.b @r0, r0
     tst r0, r0
-    bt      .L_negative_direction
+    bt      .L_06005724
     mov.l @(4, r9), r14
     shll8 r14
     shll2 r14
     mov.l   _pool_positive_y_base, r3
     add r3, r14
-    bra     .L_write_scene_data
+    bra     .L_06005730
     nop
-.L_negative_direction:
+.L_06005724:
     mov.l @(4, r9), r14
     shll8 r14
     shll2 r14
     neg r14, r14
     mov.l   _pool_negative_y_base, r3
     add r3, r14
-.L_write_scene_data:
+.L_06005730:
     mov.l   _pool_fn_cmd_queue_write, r3
     jsr @r3
     mov #0x4, r4

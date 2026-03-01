@@ -7,66 +7,66 @@
 credits_scroll:
     sts.l pr, @-r15
     add #-0xC, r15
-    mov.l   .L_dma_handler, r11
-    mov.l   .L_checkpoint_check, r12
-    mov.l   .L_game_state_ptr, r13
-    mov.w   .L_state_field_offset, r0
+    mov.l   .L_0603F2C4, r11
+    mov.l   .L_0603F2C8, r12
+    mov.l   .L_0603F2CC, r13
+    mov.w   .L_0603F2C2, r0
     mov.l @r13, r5
     jsr @r12
     mov.l @(r0, r5), r5
     cmp/eq #-0x5, r0
-    bf/s    .L_initial_state_ok
+    bf/s    .L_0603F260
     mov r0, r14
-    bra     .L_return
+    bra     .L_0603F2B2
     mov #-0x1, r0
-.L_initial_state_ok:
-    mov.l   .L_fp_half, r4
-    mov.l   .L_init_callback_param, r3
+.L_0603F260:
+    mov.l   .L_0603F2D0, r4
+    mov.l   .L_0603F2D4, r3
     jsr @r3
     nop
-    bra     .L_check_scroll_done
+    bra     .L_0603F284
     nop
-.L_process_frame:
+.L_0603F26C:
     jsr @r11
     nop
     cmp/eq #-0xC, r0
-    bf      .L_frame_ok
-    bra     .L_return
+    bf      .L_0603F278
+    bra     .L_0603F2B2
     mov #-0x1, r0
-.L_frame_ok:
+.L_0603F278:
     mov.l @r13, r5
-    mov.w   .L_state_field_offset, r0
+    mov.w   .L_0603F2C2, r0
     mov.l @(r0, r5), r5
     jsr @r12
     mov r10, r4
     mov r0, r14
-.L_check_scroll_done:
+.L_0603F284:
     tst r14, r14
-    bf      .L_process_frame
-    mov.l   .L_state_field_read, r3
+    bf      .L_0603F26C
+    mov.l   .L_0603F2D8, r3
     jsr @r3
     nop
     tst r0, r0
-    bt      .L_state_ok
-    bra     .L_return
+    bt      .L_0603F296
+    bra     .L_0603F2B2
     mov #-0x1, r0
-.L_state_ok:
+.L_0603F296:
     mov r15, r6
     mov r15, r5
     mov r15, r4
-    mov.l   .L_track_shadow_ground, r3
+    mov.l   .L_0603F2DC, r3
     add #0x8, r6
     jsr @r3
     add #0x4, r4
     mov r0, r4
     tst r4, r4
-    bt      .L_shadow_ok
-    bra     .L_return
+    bt      .L_0603F2AE
+    bra     .L_0603F2B2
     mov #-0x1, r0
-.L_shadow_ok:
+.L_0603F2AE:
     mov.l @r15, r0
     add #0x2, r0
-.L_return:
+.L_0603F2B2:
     add #0xC, r15
     lds.l @r15+, pr
     mov.l @r15+, r10
@@ -75,19 +75,19 @@ credits_scroll:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_state_field_offset:
+.L_0603F2C2:
     .2byte  0x00C8
-.L_dma_handler:
+.L_0603F2C4:
     .4byte  large_prologue_save
-.L_checkpoint_check:
+.L_0603F2C8:
     .4byte  checkpoint_state_check
-.L_game_state_ptr:
+.L_0603F2CC:
     .4byte  sym_060A4D14
-.L_fp_half:
+.L_0603F2D0:
     .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
-.L_init_callback_param:
+.L_0603F2D4:
     .4byte  sym_06041884
-.L_state_field_read:
+.L_0603F2D8:
     .4byte  state_field_read
-.L_track_shadow_ground:
+.L_0603F2DC:
     .4byte  track_shadow_ground

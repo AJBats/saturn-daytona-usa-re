@@ -24,9 +24,9 @@ obj_collision_update:
     mov #0x1, r4
     mov.l   .L_pool_06020CE0, r0
     mov.w @r0, r0
-    bra     .L_dispatch_timer
+    bra     .L_06020CAA
     extu.w r0, r0
-.L_case_timer_1:
+.L_06020C66:
     mov #0xF, r3
     extu.w r4, r4
     mov.l   .L_pool_06020CE4, r0
@@ -38,9 +38,9 @@ obj_collision_update:
     mov.l   .L_pool_06020CE8, r3
     jsr @r3
     add #0x10, r4
-    bra     .L_epilogue
+    bra     .L_06020CBA
     nop
-.L_case_timer_2:
+.L_06020C80:
     mov.l   .L_pool_06020CEC, r0
     mov #0xF, r3
     extu.w r4, r4
@@ -51,29 +51,29 @@ obj_collision_update:
     mov.l   .L_pool_06020CE8, r3
     jsr @r3
     mov r15, r4
-    bra     .L_epilogue
+    bra     .L_06020CBA
     nop
-.L_case_timer_3:
+.L_06020C98:
     .byte   0xBE, 0x55    /* bsr 0x06020946 (external) */
     nop
-    bra     .L_epilogue
+    bra     .L_06020CBA
     nop
-.L_case_timer_4:
+.L_06020CA0:
     mov.l   .L_pool_06020CF0, r3
     jsr @r3
     mov #0x4, r4
-    bra     .L_epilogue
+    bra     .L_06020CBA
     nop
-.L_dispatch_timer:
+.L_06020CAA:
     cmp/eq #0x1, r0
-    bt      .L_case_timer_1
+    bt      .L_06020C66
     cmp/eq #0x2, r0
-    bt      .L_case_timer_2
+    bt      .L_06020C80
     cmp/eq #0x3, r0
-    bt      .L_case_timer_3
+    bt      .L_06020C98
     cmp/eq #0x4, r0
-    bt      .L_case_timer_4
-.L_epilogue:
+    bt      .L_06020CA0
+.L_06020CBA:
     mov #0x0, r2
     mov.l   .L_pool_06020CE0, r3
     add #0x20, r15

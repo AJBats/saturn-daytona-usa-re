@@ -13,23 +13,23 @@ game_init_master:
     mov.l r9, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   .L_data_block_a, r3
-    mov.l   .L_state_slot_a, r2
+    mov.l   .L_0601306C, r3
+    mov.l   .L_06013070, r2
     mov.l r3, @r2
-    mov.l   .L_data_block_b, r3
-    mov.l   .L_state_slot_b, r2
+    mov.l   .L_06013074, r3
+    mov.l   .L_06013078, r2
     mov.l r3, @r2
-    mov.l   .L_data_block_c, r3
-    mov.l   .L_state_slot_c, r2
+    mov.l   .L_0601307C, r3
+    mov.l   .L_06013080, r2
     mov.l r3, @r2
-    mov.l   .L_fn_init_subsys_a, r3
+    mov.l   .L_06013084, r3
     jsr @r3
     nop
-    mov.l   .L_fn_init_subsys_b, r3
+    mov.l   .L_06013088, r3
     jsr @r3
     nop
-    mov.l   .L_vdp1_config_ptr, r4
-    mov.l   .L_fn_scroll_update, r3
+    mov.l   .L_0601308C, r4
+    mov.l   .L_06013090, r3
     jsr @r3
     nop
     mov #0x0, r6
@@ -37,17 +37,17 @@ game_init_master:
     mov r6, r5
     mov.l r2, @-r15
     mov.w   DAT_06013052, r7
-    mov.l   .L_fn_init_subsys_c, r3
+    mov.l   .L_06013094, r3
     jsr @r3
     mov r6, r4
     mov #0x0, r2
-    mov.l   .L_init_clear_flag, r3
+    mov.l   .L_06013098, r3
     mov.l r2, @r3
-    mov.l   .L_vdp1_config_ptr, r2
-    mov.l   .L_fp_half, r3
+    mov.l   .L_0601308C, r2
+    mov.l   .L_0601309C, r3
     mov.l @r2, r2
     mov.w r3, @r2
-    mov.l   .L_fn_display_channel_cfg, r14
+    mov.l   .L_060130A0, r14
     jsr @r14
     mov #0x0, r4
     jsr @r14
@@ -56,34 +56,34 @@ game_init_master:
     mov #0x8, r4
     jsr @r14
     mov #0xC, r4
-    mov.l   .L_indirect_fn_ptr, r2
-    mov.w   .L_param_0x0083, r5
+    mov.l   .L_060130A4, r2
+    mov.w   .L_06013054, r5
     mov.l @r2, r2
     jsr @r2
     mov #-0x1, r4
-    mov.l   .L_fn_pre_sprite_init, r3
+    mov.l   .L_060130A8, r3
     jsr @r3
     nop
-    mov.l   .L_indirect_fn_ptr, r2
-    mov.w   .L_param_neg_0x84, r4
+    mov.l   .L_060130A4, r2
+    mov.w   .L_06013056, r4
     mov.l @r2, r2
     jsr @r2
     mov #0x0, r5
     mov #0x0, r3
     mov #0x2, r0
-    mov.l   .L_state_word_a, r2
+    mov.l   .L_060130AC, r2
     mov.l r3, @r2
     mov.w   DAT_06013058, r3
-    mov.l   .L_state_word_b, r2
+    mov.l   .L_060130B0, r2
     mov.l r3, @r2
     mov #0x0, r3
-    mov.l   .L_sprite_table_base, r10
+    mov.l   .L_060130B4, r10
     mov r3, r6
     mov.w r0, @(6, r10)
     mov.w r3, @r10
-    mov.w   .L_spr_size_0x0108, r12
-    mov.l   .L_fn_sprite_render, r13
-    mov.l   .L_cdrom_base, r14
+    mov.w   .L_0601305A, r12
+    mov.l   .L_060130B8, r13
+    mov.l   .L_060130BC, r14
     mov.w   DAT_0601305c, r7
     mov r12, r5
     add r14, r7
@@ -91,7 +91,7 @@ game_init_master:
     mov #0x1, r4
     mov.w   DAT_0601305e, r7
     mov #0x0, r6
-    mov.w   .L_spr_size_0x0810, r5
+    mov.w   .L_06013060, r5
     add r14, r7
     jsr @r13
     mov #0x2, r4
@@ -107,7 +107,7 @@ game_init_master:
     add r14, r7
     jsr @r13
     mov #0x4, r4
-    bra     .L_sprite_batch_1
+    bra     .L_060130C0
     nop
 
     .global DAT_06013050
@@ -117,15 +117,15 @@ DAT_06013050:
     .global DAT_06013052
 DAT_06013052:
     .2byte  0x015F
-.L_param_0x0083:
+.L_06013054:
     .2byte  0x0083
-.L_param_neg_0x84:
+.L_06013056:
     .2byte  0xFF7C
 
     .global DAT_06013058
 DAT_06013058:
     .2byte  0x20D8
-.L_spr_size_0x0108:
+.L_0601305A:
     .2byte  0x0108
 
     .global DAT_0601305c
@@ -135,7 +135,7 @@ DAT_0601305c:
     .global DAT_0601305e
 DAT_0601305e:
     .2byte  0x29A3
-.L_spr_size_0x0810:
+.L_06013060:
     .2byte  0x0810
 
     .global DAT_06013062
@@ -154,52 +154,52 @@ DAT_06013066:
 DAT_06013068:
     .2byte  0x083C
     .2byte  0xFFFF
-.L_data_block_a:
+.L_0601306C:
     .4byte  sym_06084B28
-.L_state_slot_a:
+.L_06013070:
     .4byte  sym_06084FA8
-.L_data_block_b:
+.L_06013074:
     .4byte  sym_06084CA8
-.L_state_slot_b:
+.L_06013078:
     .4byte  sym_06084FAC
-.L_data_block_c:
+.L_0601307C:
     .4byte  sym_06084E28
-.L_state_slot_c:
+.L_06013080:
     .4byte  sym_06084FB0
-.L_fn_init_subsys_a:
+.L_06013084:
     .4byte  sym_060149E0
-.L_fn_init_subsys_b:
+.L_06013088:
     .4byte  sym_06026CE0
-.L_vdp1_config_ptr:
+.L_0601308C:
     .4byte  sym_06063F5C
-.L_fn_scroll_update:
+.L_06013090:
     .4byte  vdp2_scroll_update
-.L_fn_init_subsys_c:
+.L_06013094:
     .4byte  sym_060393FC
-.L_init_clear_flag:
+.L_06013098:
     .4byte  sym_0605A008
-.L_fp_half:
+.L_0601309C:
     .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
-.L_fn_display_channel_cfg:
+.L_060130A0:
     .4byte  sym_0602853E
-.L_indirect_fn_ptr:
+.L_060130A4:
     .4byte  sym_06000344
-.L_fn_pre_sprite_init:
+.L_060130A8:
     .4byte  sym_06012E00
-.L_state_word_a:
+.L_060130AC:
     .4byte  sym_0606A4F4
-.L_state_word_b:
+.L_060130B0:
     .4byte  sym_0606A4EC
-.L_sprite_table_base:
+.L_060130B4:
     .4byte  sym_06089E44
-.L_fn_sprite_render:
+.L_060130B8:
     .4byte  vdp1_sprite_render
-.L_cdrom_base:
+.L_060130BC:
     .4byte  0x002A0000
-.L_sprite_batch_1:
+.L_060130C0:
     mov.w   DAT_060131b4, r7
     mov #0x0, r6
-    mov.w   .L_spr_size_0x0519, r5
+    mov.w   .L_060131B6, r5
     add r14, r7
     jsr @r13
     mov #0x5, r4
@@ -211,73 +211,73 @@ DAT_06013068:
     mov #0x6, r4
     mov.w   DAT_060131bc, r7
     mov #0x4, r6
-    mov.w   .L_spr_size_0x0738, r5
+    mov.w   .L_060131BE, r5
     add r14, r7
     jsr @r13
     mov #0x7, r4
     mov.w   DAT_060131c0, r7
     mov #0x4, r6
-    mov.w   .L_spr_size_0x0738, r5
+    mov.w   .L_060131BE, r5
     add r14, r7
     jsr @r13
     mov #0x8, r4
     mov.w   DAT_060131c2, r7
     mov #0x0, r6
-    mov.w   .L_spr_size_0x0208, r5
+    mov.w   .L_060131C4, r5
     add r14, r7
     jsr @r13
     mov #0x9, r4
     mov.w   DAT_060131c6, r7
     mov #0x3C, r6
-    mov.w   .L_spr_size_0x0A28, r5
+    mov.w   .L_060131C8, r5
     add r14, r7
     jsr @r13
     mov #0xA, r4
     mov.w   DAT_060131ca, r7
     mov #0x8, r6
-    mov.w   .L_spr_size_0x0228, r5
+    mov.w   .L_060131CC, r5
     add r14, r7
     jsr @r13
     mov #0x10, r4
     mov.w   DAT_060131ce, r7
     mov #0x8, r6
-    mov.w   .L_spr_size_0x0428, r5
+    mov.w   .L_060131D0, r5
     add r14, r7
     jsr @r13
     mov #0x11, r4
     mov.w   DAT_060131d2, r7
     mov #0x8, r6
-    mov.w   .L_spr_size_0x0418, r5
+    mov.w   .L_060131D4, r5
     add r14, r7
     jsr @r13
     mov #0x12, r4
     mov.w   DAT_060131d6, r7
     mov #0x8, r6
-    mov.w   .L_spr_size_0x0820, r5
+    mov.w   .L_060131D8, r5
     add r14, r7
     jsr @r13
     mov #0x13, r4
     mov.w   DAT_060131da, r7
     mov #0x8, r6
-    mov.w   .L_spr_size_0x0518, r5
+    mov.w   .L_060131DC, r5
     add r14, r7
     jsr @r13
     mov #0x14, r4
     mov.w   DAT_060131de, r7
     mov #0x8, r6
-    mov.w   .L_spr_size_0x0518, r5
+    mov.w   .L_060131DC, r5
     add r14, r7
     jsr @r13
     mov #0x15, r4
     mov.w   DAT_060131e0, r7
     mov #0xC, r6
-    mov.w   .L_spr_size_0x0508, r5
+    mov.w   .L_060131E2, r5
     add r14, r7
     jsr @r13
     mov #0x16, r4
     mov.w   DAT_060131e4, r7
     mov #0x8, r6
-    mov.w   .L_spr_size_0x0D10, r5
+    mov.w   .L_060131E6, r5
     add r14, r7
     jsr @r13
     mov #0x17, r4
@@ -287,7 +287,7 @@ DAT_06013068:
     add r14, r7
     jsr @r13
     mov #0x18, r4
-    mov.w   .L_spr_size_0x0348, r11
+    mov.w   .L_060131EC, r11
     mov #0x10, r6
     mov.w   DAT_060131ee, r7
     mov r11, r5
@@ -307,7 +307,7 @@ DAT_06013068:
     jsr @r13
     mov #0x1B, r4
     mov #0x1C, r6
-    mov.w   .L_spr_size_0x0630, r11
+    mov.w   .L_060131F4, r11
     mov.w   DAT_060131f6, r7
     mov r11, r5
     add r14, r7
@@ -316,14 +316,14 @@ DAT_06013068:
     mov.w   DAT_060131f8, r7
     add r14, r7
     mov #0x10, r6
-    mov.w   .L_spr_size_0x0A28, r5
-    bra     .L_sprite_batch_2
+    mov.w   .L_060131C8, r5
+    bra     .L_060131FA
     nop
 
     .global DAT_060131b4
 DAT_060131b4:
     .2byte  0x2E73
-.L_spr_size_0x0519:
+.L_060131B6:
     .2byte  0x0519
 
     .global DAT_060131b8
@@ -337,7 +337,7 @@ DAT_060131ba:
     .global DAT_060131bc
 DAT_060131bc:
     .2byte  0x3027
-.L_spr_size_0x0738:
+.L_060131BE:
     .2byte  0x0738
 
     .global DAT_060131c0
@@ -347,43 +347,43 @@ DAT_060131c0:
     .global DAT_060131c2
 DAT_060131c2:
     .2byte  0x3433
-.L_spr_size_0x0208:
+.L_060131C4:
     .2byte  0x0208
 
     .global DAT_060131c6
 DAT_060131c6:
     .2byte  0x3457
-.L_spr_size_0x0A28:
+.L_060131C8:
     .2byte  0x0A28
 
     .global DAT_060131ca
 DAT_060131ca:
     .2byte  0x0640
-.L_spr_size_0x0228:
+.L_060131CC:
     .2byte  0x0228
 
     .global DAT_060131ce
 DAT_060131ce:
     .2byte  0x06AC
-.L_spr_size_0x0428:
+.L_060131D0:
     .2byte  0x0428
 
     .global DAT_060131d2
 DAT_060131d2:
     .2byte  0x074C
-.L_spr_size_0x0418:
+.L_060131D4:
     .2byte  0x0418
 
     .global DAT_060131d6
 DAT_060131d6:
     .2byte  0x07E4
-.L_spr_size_0x0820:
+.L_060131D8:
     .2byte  0x0820
 
     .global DAT_060131da
 DAT_060131da:
     .2byte  0x09B4
-.L_spr_size_0x0518:
+.L_060131DC:
     .2byte  0x0518
 
     .global DAT_060131de
@@ -393,13 +393,13 @@ DAT_060131de:
     .global DAT_060131e0
 DAT_060131e0:
     .2byte  0x0AA4
-.L_spr_size_0x0508:
+.L_060131E2:
     .2byte  0x0508
 
     .global DAT_060131e4
 DAT_060131e4:
     .2byte  0x0AD8
-.L_spr_size_0x0D10:
+.L_060131E6:
     .2byte  0x0D10
 
     .global DAT_060131e8
@@ -409,7 +409,7 @@ DAT_060131e8:
     .global DAT_060131ea
 DAT_060131ea:
     .2byte  0x041C
-.L_spr_size_0x0348:
+.L_060131EC:
     .2byte  0x0348
 
     .global DAT_060131ee
@@ -423,7 +423,7 @@ DAT_060131f0:
     .global DAT_060131f2
 DAT_060131f2:
     .2byte  0x1140
-.L_spr_size_0x0630:
+.L_060131F4:
     .2byte  0x0630
 
     .global DAT_060131f6
@@ -433,23 +433,23 @@ DAT_060131f6:
     .global DAT_060131f8
 DAT_060131f8:
     .2byte  0x1484
-.L_sprite_batch_2:
+.L_060131FA:
     jsr @r13
     mov #0x1D, r4
     mov #0x18, r6
-    mov.w   .L_spr_size_0x0C08, r5
+    mov.w   .L_060132F4, r5
     mov.w   DAT_060132f2, r7
     add r14, r7
     jsr @r13
     mov #0x1E, r4
     mov #0x18, r6
-    mov.w   .L_spr_size_0x0C10, r5
+    mov.w   .L_060132F8, r5
     mov.w   DAT_060132f6, r7
     add r14, r7
     jsr @r13
     mov #0x1F, r4
     mov #0xC, r6
-    mov.w   .L_spr_size_0x0308, r9
+    mov.w   .L_060132FA, r9
     mov.w   DAT_060132fc, r7
     mov r9, r5
     add r14, r7
@@ -457,7 +457,7 @@ DAT_060131f8:
     mov #0x20, r4
     mov.w   DAT_060132fe, r7
     mov #0xC, r6
-    mov.w   .L_spr_size_0x0410, r5
+    mov.w   .L_06013300, r5
     add r14, r7
     jsr @r13
     mov #0x21, r4
@@ -475,7 +475,7 @@ DAT_060131f8:
     mov #0x23, r4
     mov.w   DAT_06013306, r7
     mov #0xC, r6
-    mov.w   .L_spr_size_0x0410, r5
+    mov.w   .L_06013300, r5
     add r14, r7
     jsr @r13
     mov #0x24, r4
@@ -493,17 +493,17 @@ DAT_060131f8:
     mov #0x26, r4
     mov.w   DAT_0601330e, r7
     mov #0xC, r6
-    mov.w   .L_spr_size_0x0610, r5
+    mov.w   .L_06013310, r5
     add r14, r7
     jsr @r13
     mov #0x27, r4
     mov.w   DAT_06013312, r7
     mov #0x14, r6
-    mov.w   .L_spr_size_0x0510, r5
+    mov.w   .L_06013314, r5
     add r14, r7
     jsr @r13
     mov #0x28, r4
-    mov.w   .L_spr_size_0x0310, r9
+    mov.w   .L_06013316, r9
     mov #0x14, r6
     mov.w   DAT_06013318, r7
     mov r9, r5
@@ -523,19 +523,19 @@ DAT_060131f8:
     jsr @r13
     mov #0x2B, r4
     mov #0xC, r6
-    mov.w   .L_spr_size_0x0110, r5
+    mov.w   .L_06013324, r5
     mov.w   DAT_06013322, r7
     add r14, r7
     jsr @r13
     mov #0x2C, r4
     mov #0xC, r6
-    mov.w   .L_spr_size_0x0110, r5
+    mov.w   .L_06013324, r5
     mov.w   DAT_06013326, r7
     add r14, r7
     jsr @r13
     mov #0x2D, r4
     mov #0x14, r6
-    mov.w   .L_spr_size_0x0510, r5
+    mov.w   .L_06013314, r5
     mov.w   DAT_06013328, r7
     add r14, r7
     jsr @r13
@@ -556,21 +556,21 @@ DAT_060131f8:
     add r14, r7
     mov #0x14, r6
     mov.w   DAT_06013320, r5
-    bra     .L_sprite_batch_3
+    bra     .L_06013330
     mov #0x31, r4
 
     .global DAT_060132f2
 DAT_060132f2:
     .2byte  0x1890
-.L_spr_size_0x0C08:
+.L_060132F4:
     .2byte  0x0C08
 
     .global DAT_060132f6
 DAT_060132f6:
     .2byte  0x1908
-.L_spr_size_0x0C10:
+.L_060132F8:
     .2byte  0x0C10
-.L_spr_size_0x0308:
+.L_060132FA:
     .2byte  0x0308
 
     .global DAT_060132fc
@@ -580,7 +580,7 @@ DAT_060132fc:
     .global DAT_060132fe
 DAT_060132fe:
     .2byte  0x1B04
-.L_spr_size_0x0410:
+.L_06013300:
     .2byte  0x0410
 
     .global DAT_06013302
@@ -610,15 +610,15 @@ DAT_0601330c:
     .global DAT_0601330e
 DAT_0601330e:
     .2byte  0x1D84
-.L_spr_size_0x0610:
+.L_06013310:
     .2byte  0x0610
 
     .global DAT_06013312
 DAT_06013312:
     .2byte  0x1E20
-.L_spr_size_0x0510:
+.L_06013314:
     .2byte  0x0510
-.L_spr_size_0x0310:
+.L_06013316:
     .2byte  0x0310
 
     .global DAT_06013318
@@ -644,7 +644,7 @@ DAT_06013320:
     .global DAT_06013322
 DAT_06013322:
     .2byte  0x2060
-.L_spr_size_0x0110:
+.L_06013324:
     .2byte  0x0110
 
     .global DAT_06013326
@@ -666,7 +666,7 @@ DAT_0601332c:
     .global DAT_0601332e
 DAT_0601332e:
     .2byte  0x225C
-.L_sprite_batch_3:
+.L_06013330:
     jsr @r13
     nop
     mov.w   DAT_06013440, r7
@@ -721,7 +721,7 @@ DAT_0601332e:
     mov #0x0, r6
     mov.w r0, @(2, r10)
     mov r0, r5
-    mov.l   .L_fn_disp_elem_register, r12
+    mov.l   .L_06013450, r12
     jsr @r12
     mov #0x41, r4
     mov #0x0, r6
@@ -801,7 +801,7 @@ DAT_0601332e:
     jsr @r12
     mov #0x59, r4
     mov #0x28, r6
-    bra     .L_disp_elem_batch
+    bra     .L_06013454
     nop
 
     .global DAT_06013440
@@ -835,9 +835,9 @@ DAT_0601344c:
     .global DAT_0601344e
 DAT_0601344e:
     .2byte  0x232C
-.L_fn_disp_elem_register:
+.L_06013450:
     .4byte  sym_06007540
-.L_disp_elem_batch:
+.L_06013454:
     mov #0x1A, r5
     jsr @r12
     mov #0x5A, r4
@@ -965,20 +965,20 @@ DAT_0601344e:
     mov #0x39, r5
     jsr @r12
     mov #0x79, r4
-    mov.w   .L_spr_size_0x0730, r12
+    mov.w   .L_06013560, r12
     mov.w   DAT_06013562, r7
     add r14, r7
     mov #0x74, r6
     mov r12, r5
-    bra     .L_ext_sprite_batch
+    bra     .L_06013564
     nop
-.L_spr_size_0x0730:
+.L_06013560:
     .2byte  0x0730
 
     .global DAT_06013562
 DAT_06013562:
     .2byte  0x63F6
-.L_ext_sprite_batch:
+.L_06013564:
     mov r6, r4
     jsr @r13
     add #0x16, r4
@@ -1025,20 +1025,20 @@ DAT_06013562:
     jsr @r13
     add #0x1C, r4
     mov.w   DAT_0601368e, r7
-    mov.w   .L_spr_size_0x0830, r5
-    mov.w   .L_spr_slot_0x91, r4
+    mov.w   .L_06013690, r5
+    mov.w   .L_06013692, r4
     add r14, r7
     jsr @r13
     mov #0x74, r6
     mov.w   DAT_06013694, r7
-    mov.w   .L_spr_size_0x0430, r5
-    mov.w   .L_spr_slot_0x92, r4
+    mov.w   .L_06013696, r5
+    mov.w   .L_06013698, r4
     add r14, r7
     jsr @r13
     mov #0x74, r6
     mov.w   DAT_0601369a, r7
-    mov.w   .L_spr_size_0x0540, r5
-    mov.w   .L_spr_slot_0x93, r4
+    mov.w   .L_0601369C, r5
+    mov.w   .L_0601369E, r4
     add r14, r7
     jsr @r13
     mov #0x74, r6
@@ -1050,13 +1050,13 @@ DAT_06013562:
     jsr @r13
     add #0x20, r4
     mov.w   DAT_060136a2, r7
-    mov.w   .L_spr_size_0x0530, r5
+    mov.w   .L_060136A4, r5
     mov.w   DAT_060136a6, r4
     add r14, r7
     jsr @r13
     mov #0x74, r6
     mov.w   DAT_060136a8, r7
-    mov.w   .L_spr_size_0x0830, r5
+    mov.w   .L_06013690, r5
     mov.w   DAT_060136aa, r4
     add r14, r7
     jsr @r13
@@ -1083,8 +1083,8 @@ DAT_06013562:
     jsr @r13
     add #0x25, r4
     mov.w   DAT_060136b2, r7
-    mov.w   .L_spr_size_0x0840, r5
-    mov.w   .L_spr_slot_0x9A, r4
+    mov.w   .L_060136B4, r5
+    mov.w   .L_060136B6, r4
     add r14, r7
     jsr @r13
     mov #0x74, r6
@@ -1096,7 +1096,7 @@ DAT_06013562:
     jsr @r13
     add #0x27, r4
     mov.w   DAT_060136ba, r7
-    mov.w   .L_spr_size_0x0530, r5
+    mov.w   .L_060136A4, r5
     mov.w   DAT_060136bc, r4
     add r14, r7
     jsr @r13
@@ -1120,7 +1120,7 @@ DAT_06013562:
     mov #0x74, r6
     mov r11, r5
     mov r6, r4
-    bra     .L_ext_sprite_batch_2
+    bra     .L_060136C4
     add #0x2B, r4
 
     .global DAT_06013682
@@ -1150,25 +1150,25 @@ DAT_0601368c:
     .global DAT_0601368e
 DAT_0601368e:
     .2byte  0x6928
-.L_spr_size_0x0830:
+.L_06013690:
     .2byte  0x0830
-.L_spr_slot_0x91:
+.L_06013692:
     .2byte  0x0091
 
     .global DAT_06013694
 DAT_06013694:
     .2byte  0x69FB
-.L_spr_size_0x0430:
+.L_06013696:
     .2byte  0x0430
-.L_spr_slot_0x92:
+.L_06013698:
     .2byte  0x0092
 
     .global DAT_0601369a
 DAT_0601369a:
     .2byte  0x6A6A
-.L_spr_size_0x0540:
+.L_0601369C:
     .2byte  0x0540
-.L_spr_slot_0x93:
+.L_0601369E:
     .2byte  0x0093
 
     .global DAT_060136a0
@@ -1178,7 +1178,7 @@ DAT_060136a0:
     .global DAT_060136a2
 DAT_060136a2:
     .2byte  0x6BE9
-.L_spr_size_0x0530:
+.L_060136A4:
     .2byte  0x0530
 
     .global DAT_060136a6
@@ -1208,9 +1208,9 @@ DAT_060136b0:
     .global DAT_060136b2
 DAT_060136b2:
     .2byte  0x6FFE
-.L_spr_size_0x0840:
+.L_060136B4:
     .2byte  0x0840
-.L_spr_slot_0x9A:
+.L_060136B6:
     .2byte  0x009A
 
     .global DAT_060136b8
@@ -1236,12 +1236,12 @@ DAT_060136c0:
     .global DAT_060136c2
 DAT_060136c2:
     .2byte  0x7408
-.L_ext_sprite_batch_2:
+.L_060136C4:
     jsr @r13
     nop
     mov.w   DAT_060137b0, r7
-    mov.w   .L_spr_size_0x0930, r5
-    mov.w   .L_spr_slot_0xA0, r4
+    mov.w   .L_060137B2, r5
+    mov.w   .L_060137B4, r4
     add r14, r7
     jsr @r13
     mov #0x74, r6
@@ -1294,74 +1294,74 @@ DAT_060136c2:
     mov r6, r4
     jsr @r13
     add #0x37, r4
-    mov.l   .L_fn_memcpy_word_idx, r14
-    mov.l   .L_palette_main, r5
-    mov.l   .L_vdp2_cram_0x000, r4
+    mov.l   .L_060137C8, r14
+    mov.l   .L_060137CC, r5
+    mov.l   .L_060137D0, r4
     jsr @r14
     mov #0x20, r6
-    mov.l   .L_palette_nbg0, r5
-    mov.l   .L_vdp2_cram_0x600, r4
+    mov.l   .L_060137D4, r5
+    mov.l   .L_060137D8, r4
     jsr @r14
     mov #0x60, r6
-    mov.l   .L_palette_nbg1, r5
-    mov.l   .L_vdp2_cram_0x660, r4
+    mov.l   .L_060137DC, r5
+    mov.l   .L_060137E0, r4
     jsr @r14
     mov #0x40, r6
-    mov.l   .L_palette_nbg2, r5
-    mov.l   .L_vdp2_cram_0x6A0, r4
+    mov.l   .L_060137E4, r5
+    mov.l   .L_060137E8, r4
     jsr @r14
     mov #0x40, r6
     mov #0x40, r6
-    mov.l   .L_palette_nbg3, r3
+    mov.l   .L_060137EC, r3
     mov.l r3, @(4, r15)
-    mov.l   .L_vdp2_cram_0x6E0, r4
+    mov.l   .L_060137F0, r4
     jsr @r14
     mov r3, r5
     mov #0x40, r6
-    mov.l   .L_vdp2_cram_0x4E0, r4
+    mov.l   .L_060137F4, r4
     jsr @r14
     mov.l @(4, r15), r5
-    mov.l   .L_palette_sprite, r5
-    mov.l   .L_vdp2_cram_0x720, r4
+    mov.l   .L_060137F8, r5
+    mov.l   .L_060137FC, r4
     jsr @r14
     mov #0x20, r6
-    mov.l   .L_fn_channel_config, r14
+    mov.l   .L_06013800, r14
     mov #0x4, r5
     jsr @r14
     mov #0x10, r4
-    mov.w   .L_channel_id_0x100, r4
+    mov.w   .L_060137C4, r4
     jsr @r14
     mov #0x5, r5
     mov #0x6, r5
     jsr @r14
     mov #0x8, r4
-    mov.l   .L_course_select_var, r4
-    mov.l   .L_course_table_a, r3
-    mov.l   .L_course_ptr_slot_a, r1
+    mov.l   .L_06013804, r4
+    mov.l   .L_06013808, r3
+    mov.l   .L_0601380C, r1
     mov.l @r4, r4
     shll2 r4
     add r4, r3
     mov.l @r3, r2
     mov.l r2, @r1
-    mov.l   .L_course_table_b, r3
-    mov.l   .L_course_ptr_slot_b, r1
+    mov.l   .L_06013810, r3
+    mov.l   .L_06013814, r1
     add r3, r4
     mov.l @r4, r2
     mov.l r2, @r1
     .byte   0xB2, 0x59    /* bsr 0x06013C58 (external) */
     nop
-    mov.l   .L_init_flags_addr, r6
+    mov.l   .L_06013818, r6
     mov #0xF, r4
     mov.l r4, @r6
-    bra     .L_post_sprite_setup
+    bra     .L_0601381C
     nop
 
     .global DAT_060137b0
 DAT_060137b0:
     .2byte  0x74D0
-.L_spr_size_0x0930:
+.L_060137B2:
     .2byte  0x0930
-.L_spr_slot_0xA0:
+.L_060137B4:
     .2byte  0x00A0
 
     .global DAT_060137b6
@@ -1391,52 +1391,52 @@ DAT_060137c0:
     .global DAT_060137c2
 DAT_060137c2:
     .2byte  0x7D47
-.L_channel_id_0x100:
+.L_060137C4:
     .2byte  0x0100
     .2byte  0xFFFF
-.L_fn_memcpy_word_idx:
+.L_060137C8:
     .4byte  memcpy_word_idx
-.L_palette_main:
+.L_060137CC:
     .4byte  sym_0604878C
-.L_vdp2_cram_0x000:
+.L_060137D0:
     .4byte  0x25F00000                  /* VDP2 color RAM +0x000 */
-.L_palette_nbg0:
+.L_060137D4:
     .4byte  sym_0604814C
-.L_vdp2_cram_0x600:
+.L_060137D8:
     .4byte  0x25F00600                  /* VDP2 color RAM +0x600 */
-.L_palette_nbg1:
+.L_060137DC:
     .4byte  sym_0604848C
-.L_vdp2_cram_0x660:
+.L_060137E0:
     .4byte  0x25F00660                  /* VDP2 color RAM +0x660 */
-.L_palette_nbg2:
+.L_060137E4:
     .4byte  sym_060484CC
-.L_vdp2_cram_0x6A0:
+.L_060137E8:
     .4byte  0x25F006A0                  /* VDP2 color RAM +0x6A0 */
-.L_palette_nbg3:
+.L_060137EC:
     .4byte  sym_060485AC
-.L_vdp2_cram_0x6E0:
+.L_060137F0:
     .4byte  0x25F006E0                  /* VDP2 color RAM +0x6E0 */
-.L_vdp2_cram_0x4E0:
+.L_060137F4:
     .4byte  0x25F004E0                  /* VDP2 color RAM +0x4E0 */
-.L_palette_sprite:
+.L_060137F8:
     .4byte  sym_0605CD9C
-.L_vdp2_cram_0x720:
+.L_060137FC:
     .4byte  0x25F00720                  /* VDP2 color RAM +0x720 */
-.L_fn_channel_config:
+.L_06013800:
     .4byte  channel_nibble_config
-.L_course_select_var:
+.L_06013804:
     .4byte  sym_0607EAD8
-.L_course_table_a:
+.L_06013808:
     .4byte  sym_0605AD14
-.L_course_ptr_slot_a:
+.L_0601380C:
     .4byte  sym_06084B00
-.L_course_table_b:
+.L_06013810:
     .4byte  sym_0605AD20
-.L_course_ptr_slot_b:
+.L_06013814:
     .4byte  sym_06084B1C
-.L_init_flags_addr:
+.L_06013818:
     .4byte  sym_06084B08
-.L_post_sprite_setup:
+.L_0601381C:
     .byte   0xD3, 0x2F    /* mov.l .L_game_timer_addr, r3 */
     mov.l r4, @r3
     mov #0x0, r2

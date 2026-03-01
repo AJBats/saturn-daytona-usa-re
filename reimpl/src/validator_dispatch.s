@@ -7,7 +7,7 @@
 validator_dispatch:
     sts.l pr, @-r15
     add #-0x4, r15
-    mov.l   .L_fn_read_hirq, r3
+    mov.l   .L_06042310, r3
     jsr @r3
     mov.l r4, @r15
     mov r0, r4
@@ -15,8 +15,8 @@ validator_dispatch:
     exts.w r4, r0
     and r3, r0
     tst r0, r0
-    bt      .L_no_match
-    bra     .L_return
+    bt      .L_06042314
+    bra     .L_06042316
     mov #0x1, r0
 
     .global DAT_0604230a
@@ -27,11 +27,11 @@ DAT_0604230a:
 DAT_0604230c:
     mov.b @(r0, r13), r1
     .word 0x01E0
-.L_fn_read_hirq:
+.L_06042310:
     .4byte  sym_06035C4E
-.L_no_match:
+.L_06042314:
     mov #0x0, r0
-.L_return:
+.L_06042316:
     add #0x4, r15
     lds.l @r15+, pr
     rts
@@ -41,10 +41,10 @@ DAT_0604230c:
     .global sym_0604231E
 sym_0604231E:
     mov #0x17, r7
-    mov.l   .L_game_state_ptr, r5
+    mov.l   .L_0604239C, r5
     mov #0x0, r4
     mov r4, r6
-.L_clear_loop:
+.L_06042326:
     exts.b r4, r2
     mov.l @r5, r0
     mov.b r4, @(r0, r6)
@@ -55,7 +55,7 @@ sym_0604231E:
     mov.b r2, @r3
     add #0x1, r6
     cmp/ge r7, r6
-    bf      .L_clear_loop
+    bf      .L_06042326
     mov.l @r5, r2
     mov.l r4, @(48, r2)
     mov.l @r5, r3
@@ -110,5 +110,5 @@ DAT_06042398:
     .global DAT_0604239a
 DAT_0604239a:
     .2byte  0x01DC
-.L_game_state_ptr:
+.L_0604239C:
     .4byte  sym_060A5400

@@ -31,22 +31,22 @@ vec3_angle_calc:
     jsr @r3
     mov r13, r4
     cmp/pz r13
-    bt/s    .L_dx_positive
+    bt/s    .L_060052D0
     mov r0, r9
-    bra     .L_have_abs_dx
+    bra     .L_060052D2
     neg r13, r11
-.L_dx_positive:
+.L_060052D0:
     mov r13, r11
-.L_have_abs_dx:
+.L_060052D2:
     cmp/pz r12
-    bt      .L_dz_positive
-    bra     .L_have_abs_dz
+    bt      .L_060052DA
+    bra     .L_060052DC
     neg r12, r13
-.L_dz_positive:
+.L_060052DA:
     mov r12, r13
-.L_have_abs_dz:
+.L_060052DC:
     cmp/gt r13, r11
-    bf      .L_dz_dominant
+    bf      .L_06005304
     mov.l   .L_pool_060052FC, r4
     mov.l   .L_pool_06005300, r3
     jsr @r3
@@ -56,7 +56,7 @@ vec3_angle_calc:
     mov.l   .L_pool_06005300, r3
     jsr @r3
     mov r13, r5
-    bra     .L_have_horiz_dist
+    bra     .L_06005316
     nop
 
     .global DAT_060052f6
@@ -68,7 +68,7 @@ DAT_060052f6:
     .4byte  0x0000EC83                     /* cos(22.5 deg) in 16.16 fp (~0.9239) */
 .L_pool_06005300:
     .4byte  fpmul                          /* 16.16 fixed-point multiply */
-.L_dz_dominant:
+.L_06005304:
     mov.l   .L_pool_0600537C, r4
     mov.l   .L_pool_06005380, r3
     jsr @r3
@@ -78,7 +78,7 @@ DAT_060052f6:
     mov.l   .L_pool_06005380, r3
     jsr @r3
     mov r11, r5
-.L_have_horiz_dist:
+.L_06005316:
     mov r8, r5
     mov.l   .L_pool_06005384, r3
     add r0, r5
@@ -88,13 +88,13 @@ DAT_060052f6:
     mov.l   .L_pool_06005388, r0
     mov.b @r0, r0
     tst r0, r0
-    bt      .L_no_cam_flip
-    mov.l   .L_fp_one, r6
-    mov.l   .L_fp_neg_one, r4
+    bt      .L_06005334
+    mov.l   .L_0600538C, r6
+    mov.l   .L_06005390, r4
     mov.l   .L_pool_06005394, r3
     jsr @r3
     mov r6, r5
-.L_no_cam_flip:
+.L_06005334:
     mov.l   .L_pool_06005398, r3
     jsr @r3
     mov r13, r4
@@ -142,9 +142,9 @@ DAT_0600537a:
     .4byte  atan2                          /* fixed-point atan2(y, x) */
 .L_pool_06005388:
     .4byte  sym_06078663                   /* camera direction flip flag (byte) */
-.L_fp_one:
+.L_0600538C:
     .4byte  0x00010000                     /* 1.0 (16.16 fixed-point) */
-.L_fp_neg_one:
+.L_06005390:
     .4byte  0xFFFF0000                     /* -1.0 (16.16 fixed-point) */
 .L_pool_06005394:
     .4byte  mat_scale_columns              /* scale matrix columns (for Y flip) */

@@ -8,37 +8,37 @@ geom_batch_transform:
     mov.l r14, @-r15
     mov.l r12, @-r15
     mov.l r11, @-r15
-    mov.w   .L_const_batch_stride, r5
-    mov.l   .L_ptr_geom_busy_flag, r0
+    mov.w   .L_0601EFDA, r5
+    mov.l   .L_0601EFF0, r0
     mov.b @r0, r0
     extu.b r0, r0
     tst r0, r0
-    bt      .L_begin_copy
-    bra     .L_epilogue
+    bt      .L_0601EFF4
+    bra     .L_0601F3E4
     nop
-.L_const_batch_stride:
+.L_0601EFDA:
     .2byte  0x00F0
     .4byte  sym_06060D68
     .4byte  sym_06060D6A
     .4byte  sym_06060D70
     .4byte  sym_06060D74
     .4byte  sym_06060D6C
-.L_ptr_geom_busy_flag:
+.L_0601EFF0:
     .4byte  sym_06087080
-.L_begin_copy:
-    mov.l   .L_ptr_output_buf, r4
+.L_0601EFF4:
+    mov.l   .L_0601F2E4, r4
     mov.l @r4, r4
     add #0x10, r4
-    mov.l   .L_ptr_vtx_row_table, r6
+    mov.l   .L_0601F2E8, r6
     mov r6, r7
     mov r6, r11
     add #0x48, r11
-.L_row_table_outer:
+.L_0601F002:
     mov.l @r7, r14
     mov r14, r6
     mov r14, r12
     add r5, r12
-.L_row_table_inner:
+.L_0601F00A:
     mov r6, r0
     mov r6, r14
     mov.b @r14+, r1
@@ -82,15 +82,15 @@ geom_batch_transform:
     mov.b @r14, r2
     mov.b r2, @r4
     cmp/hs r12, r6
-    bf/s    .L_row_table_inner
+    bf/s    .L_0601F00A
     add #0x1, r4
     add #0x8, r7
     cmp/hs r11, r7
-    bf      .L_row_table_outer
-    mov.l   .L_ptr_model_desc_table, r6
+    bf      .L_0601F002
+    mov.l   .L_0601F2EC, r6
     mov r6, r7
     add #0x18, r7
-.L_copy_model_desc:
+.L_0601F070:
     mov.l @r6, r0
     add #0x4, r6
     mov r0, r14
@@ -120,12 +120,12 @@ geom_batch_transform:
     mov.b @r14, r2
     mov.b r2, @r4
     cmp/hs r7, r6
-    bf/s    .L_copy_model_desc
+    bf/s    .L_0601F070
     add #0x1, r4
-    mov.l   .L_ptr_vtx_scale_a, r6
+    mov.l   .L_0601F2F0, r6
     mov r6, r7
     add #0x20, r7
-.L_copy_scale_a:
+.L_0601F0B4:
     mov r6, r14
     add #0x4, r6
     mov.b @r14+, r1
@@ -154,12 +154,12 @@ geom_batch_transform:
     mov.b @r14, r2
     mov.b r2, @r4
     cmp/hs r7, r6
-    bf/s    .L_copy_scale_a
+    bf/s    .L_0601F0B4
     add #0x1, r4
-    mov.l   .L_ptr_vtx_scale_b, r6
+    mov.l   .L_0601F2F4, r6
     mov r6, r7
     add #0x20, r7
-.L_copy_scale_b:
+.L_0601F0F6:
     mov r6, r14
     mov.b @r14+, r1
     add #0x4, r6
@@ -188,13 +188,13 @@ geom_batch_transform:
     mov.b @r14, r2
     mov.b r2, @r4
     cmp/hs r7, r6
-    bf/s    .L_copy_scale_b
+    bf/s    .L_0601F0F6
     add #0x1, r4
-    mov.l   .L_ptr_coord_extents, r6
+    mov.l   .L_0601F2F8, r6
     mov r6, r7
     mov r6, r14
     add #0x24, r14
-.L_copy_extents:
+.L_0601F13A:
     mov r7, r6
     mov.b @r6+, r1
     mov.b r1, @r4
@@ -233,9 +233,9 @@ geom_batch_transform:
     mov.b @r6, r2
     mov.b r2, @r4
     cmp/hs r14, r7
-    bf/s    .L_copy_extents
+    bf/s    .L_0601F13A
     add #0x1, r4
-    mov.l   .L_ptr_course_data_a, r6
+    mov.l   .L_0601F2FC, r6
     mov.b @r6+, r1
     mov.b r1, @r4
     add #0x1, r4
@@ -248,7 +248,7 @@ geom_batch_transform:
     mov.b @r6, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_ptr_course_data_b, r6
+    mov.l   .L_0601F300, r6
     mov.b @r6+, r1
     mov.b r1, @r4
     add #0x1, r4
@@ -261,7 +261,7 @@ geom_batch_transform:
     mov.b @r6, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_ptr_course_data_c, r6
+    mov.l   .L_0601F304, r6
     mov.b @r6+, r1
     mov.b r1, @r4
     add #0x1, r4
@@ -274,92 +274,79 @@ geom_batch_transform:
     mov.b @r6, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_ptr_anim_flag_a, r2
+    mov.l   .L_0601F308, r2
     mov.b @r2, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_ptr_anim_flag_b, r2
+    mov.l   .L_0601F30C, r2
     mov.b @r2, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_ptr_disp_flag_a, r2
+    mov.l   .L_0601F310, r2
     mov.b @r2, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_ptr_disp_flag_b, r2
+    mov.l   .L_0601F314, r2
     mov.b @r2, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_ptr_xform_param_00, r6
+    mov.l   .L_0601F318, r6
     mov.b @r6+, r1
     mov.b r1, @r4
     add #0x1, r4
     mov.b @r6, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_ptr_xform_param_02, r6
+    mov.l   .L_0601F31C, r6
     mov.b @r6+, r1
     mov.b r1, @r4
     add #0x1, r4
     mov.b @r6, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_ptr_xform_param_04, r6
+    mov.l   .L_0601F320, r6
     mov.b @r6+, r1
     mov.b r1, @r4
     add #0x1, r4
     mov.b @r6, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_ptr_xform_param_06, r6
+    mov.l   .L_0601F324, r6
     mov.b @r6+, r1
     mov.b r1, @r4
     add #0x1, r4
     mov.b @r6, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_ptr_xform_param_08, r6
+    mov.l   .L_0601F328, r6
     mov.b @r6+, r1
     mov.b r1, @r4
     add #0x1, r4
     mov.b @r6, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_ptr_xform_param_0A, r6
+    mov.l   .L_0601F32C, r6
     mov.b @r6+, r1
     mov.b r1, @r4
     add #0x1, r4
     mov.b @r6, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_ptr_xform_param_0C, r6
+    mov.l   .L_0601F330, r6
     mov.b @r6+, r1
     mov.b r1, @r4
     add #0x1, r4
     mov.b @r6, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_ptr_xform_param_0E, r6
+    mov.l   .L_0601F334, r6
     mov.b @r6+, r1
     mov.b r1, @r4
     add #0x1, r4
     mov.b @r6, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_ptr_xform_param_10, r6
-    mov.b @r6+, r1
-    mov.b r1, @r4
-    add #0x1, r4
-    mov.b @r6+, r1
-    mov.b r1, @r4
-    add #0x1, r4
-    mov.b @r6+, r1
-    mov.b r1, @r4
-    add #0x1, r4
-    mov.b @r6, r2
-    mov.b r2, @r4
-    add #0x1, r4
-    mov.l   .L_ptr_xform_param_14, r6
+    mov.l   .L_0601F338, r6
     mov.b @r6+, r1
     mov.b r1, @r4
     add #0x1, r4
@@ -372,7 +359,20 @@ geom_batch_transform:
     mov.b @r6, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_ptr_xform_param_18, r6
+    mov.l   .L_0601F33C, r6
+    mov.b @r6+, r1
+    mov.b r1, @r4
+    add #0x1, r4
+    mov.b @r6+, r1
+    mov.b r1, @r4
+    add #0x1, r4
+    mov.b @r6+, r1
+    mov.b r1, @r4
+    add #0x1, r4
+    mov.b @r6, r2
+    mov.b r2, @r4
+    add #0x1, r4
+    mov.l   .L_0601F340, r6
     mov.b @r6+, r1
     mov.b r1, @r4
     add #0x1, r4
@@ -386,133 +386,120 @@ geom_batch_transform:
     mov.b @r6, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_ptr_xform_param_1C, r6
+    mov.l   .L_0601F344, r6
     mov.b @r6+, r1
     mov.b r1, @r4
     add #0x1, r4
     mov.b @r6, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_ptr_xform_param_1E, r6
+    mov.l   .L_0601F348, r6
     mov.b @r6+, r1
     mov.b r1, @r4
     add #0x1, r4
     mov.b @r6, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_ptr_xform_param_20, r6
+    mov.l   .L_0601F34C, r6
     mov.b @r6+, r1
     mov.b r1, @r4
     add #0x1, r4
     mov.b @r6, r2
     mov.b r2, @r4
-    bra     .L_copy_tail_params
+    bra     .L_0601F350
     nop
-.L_ptr_output_buf:
+.L_0601F2E4:
     .4byte  sym_0605E098
-.L_ptr_vtx_row_table:
+.L_0601F2E8:
     .4byte  sym_0605DD6C
-.L_ptr_model_desc_table:
+.L_0601F2EC:
     .4byte  sym_0605DE24
-.L_ptr_vtx_scale_a:
+.L_0601F2F0:
     .4byte  sym_0605DDB4
-.L_ptr_vtx_scale_b:
+.L_0601F2F4:
     .4byte  sym_0605DDD4
-.L_ptr_coord_extents:
+.L_0601F2F8:
     .4byte  sym_0605DE40
-.L_ptr_course_data_a:
+.L_0601F2FC:
     .4byte  sym_0605AD00
-.L_ptr_course_data_b:
+.L_0601F300:
     .4byte  sym_0605AD04
-.L_ptr_course_data_c:
+.L_0601F304:
     .4byte  sym_0605AD0C
-.L_ptr_anim_flag_a:
+.L_0601F308:
     .4byte  sym_0605AB16
-.L_ptr_anim_flag_b:
+.L_0601F30C:
     .4byte  sym_0605AB17
-.L_ptr_disp_flag_a:
+.L_0601F310:
     .4byte  sym_0605D240
-.L_ptr_disp_flag_b:
+.L_0601F314:
     .4byte  sym_0605D241
-.L_ptr_xform_param_00:
+.L_0601F318:
     .4byte  sym_06060D44
-.L_ptr_xform_param_02:
+.L_0601F31C:
     .4byte  sym_06060D46
-.L_ptr_xform_param_04:
+.L_0601F320:
     .4byte  sym_06060D40
-.L_ptr_xform_param_06:
+.L_0601F324:
     .4byte  sym_06060D42
-.L_ptr_xform_param_08:
+.L_0601F328:
     .4byte  sym_06060D48
-.L_ptr_xform_param_0A:
+.L_0601F32C:
     .4byte  sym_06060D4A
-.L_ptr_xform_param_0C:
+.L_0601F330:
     .4byte  sym_06060D4C
-.L_ptr_xform_param_0E:
+.L_0601F334:
     .4byte  sym_06060D4E
-.L_ptr_xform_param_10:
+.L_0601F338:
     .4byte  sym_06060D54
-.L_ptr_xform_param_14:
+.L_0601F33C:
     .4byte  sym_06060D58
-.L_ptr_xform_param_18:
+.L_0601F340:
     .4byte  sym_06060D50
-.L_ptr_xform_param_1C:
+.L_0601F344:
     .4byte  sym_06060D60
-.L_ptr_xform_param_1E:
+.L_0601F348:
     .4byte  sym_06060D62
-.L_ptr_xform_param_20:
+.L_0601F34C:
     .4byte  sym_06060D5C
-.L_copy_tail_params:
+.L_0601F350:
     add #0x1, r4
-    mov.l   .L_ptr_xform_param_22, r6
+    mov.l   .L_0601F3EC, r6
     mov.b @r6+, r1
     mov.b r1, @r4
     add #0x1, r4
     mov.b @r6, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_ptr_xform_param_24, r6
+    mov.l   .L_0601F3F0, r6
     mov.b @r6+, r1
     mov.b r1, @r4
     add #0x1, r4
     mov.b @r6, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_ptr_xform_param_26, r6
+    mov.l   .L_0601F3F4, r6
     mov.b @r6+, r1
     mov.b r1, @r4
     add #0x1, r4
     mov.b @r6, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_ptr_xform_param_28, r6
+    mov.l   .L_0601F3F8, r6
     mov.b @r6+, r1
     mov.b r1, @r4
     add #0x1, r4
     mov.b @r6, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_ptr_xform_param_2A, r6
+    mov.l   .L_0601F3FC, r6
     mov.b @r6+, r1
     mov.b r1, @r4
     add #0x1, r4
     mov.b @r6, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_ptr_xform_param_2C, r6
-    mov.b @r6+, r1
-    mov.b r1, @r4
-    add #0x1, r4
-    mov.b @r6+, r1
-    mov.b r1, @r4
-    add #0x1, r4
-    mov.b @r6+, r1
-    mov.b r1, @r4
-    add #0x1, r4
-    mov.b @r6, r2
-    mov.b r2, @r4
-    add #0x1, r4
-    mov.l   .L_ptr_xform_param_30, r6
+    mov.l   .L_0601F400, r6
     mov.b @r6+, r1
     mov.b r1, @r4
     add #0x1, r4
@@ -525,7 +512,20 @@ geom_batch_transform:
     mov.b @r6, r2
     mov.b r2, @r4
     add #0x1, r4
-    mov.l   .L_ptr_xform_param_34, r6
+    mov.l   .L_0601F404, r6
+    mov.b @r6+, r1
+    mov.b r1, @r4
+    add #0x1, r4
+    mov.b @r6+, r1
+    mov.b r1, @r4
+    add #0x1, r4
+    mov.b @r6+, r1
+    mov.b r1, @r4
+    add #0x1, r4
+    mov.b @r6, r2
+    mov.b r2, @r4
+    add #0x1, r4
+    mov.l   .L_0601F408, r6
     mov.b @r6+, r1
     mov.b r1, @r4
     add #0x1, r4
@@ -537,24 +537,24 @@ geom_batch_transform:
     add #0x1, r4
     mov.b @r6, r3
     mov.b r3, @r4
-.L_epilogue:
+.L_0601F3E4:
     mov.l @r15+, r11
     mov.l @r15+, r12
     rts
     mov.l @r15+, r14
-.L_ptr_xform_param_22:
+.L_0601F3EC:
     .4byte  sym_06060D5E
-.L_ptr_xform_param_24:
+.L_0601F3F0:
     .4byte  sym_06060D64
-.L_ptr_xform_param_26:
+.L_0601F3F4:
     .4byte  sym_06060D66
-.L_ptr_xform_param_28:
+.L_0601F3F8:
     .4byte  sym_06060D68
-.L_ptr_xform_param_2A:
+.L_0601F3FC:
     .4byte  sym_06060D6A
-.L_ptr_xform_param_2C:
+.L_0601F400:
     .4byte  sym_06060D70
-.L_ptr_xform_param_30:
+.L_0601F404:
     .4byte  sym_06060D74
-.L_ptr_xform_param_34:
+.L_0601F408:
     .4byte  sym_06060D6C
