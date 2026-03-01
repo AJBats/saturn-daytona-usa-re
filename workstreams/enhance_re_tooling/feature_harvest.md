@@ -146,8 +146,8 @@ Define structs in JSON, parse memory at address. Uses `binary-parser` JS library
 | E2 | ~~Code/Data Logging~~ | ~~Per-byte bitfield: code vs data. Hooks instruction fetch + memory access. Coverage %.~~ | **DONE** |
 | E3 | ~~Runtime DMA logging~~ | ~~Hook SCU DMA start. Log source/dest/length/initiating-PC for every transfer.~~ | **DONE** |
 | E4 | ~~Memory write profiling~~ | ~~Log {pc, target_addr, value} for writes to configurable address ranges.~~ | **DONE** |
-| E5 | Interrupt logging | Log ISR entry: vector, PC at interrupt, frame number. | **LOW** |
-| E6 | Full execution trace | Log every instruction (PC + opcode). Expensive, use for short windows. | **LOW** |
+| E5 | Interrupt logging | Log ISR entry: vector, PC at interrupt, frame number. | LOW (skipped — non-regular exceptions already logged to stderr) |
+| E6 | ~~Full execution trace~~ | ~~Log every instruction (PC + opcode). Expensive, use for short windows.~~ | **DONE** (pre-existing: insn_trace, pc_trace_frame) |
 
 ### To Build — Host-Side (Python)
 
@@ -157,7 +157,7 @@ Define structs in JSON, parse memory at address. Uses `binary-parser` JS library
 | H2 | ~~Memory diff pipeline~~ | ~~Dump before/after event → diff → changed regions with symbol resolution.~~ | **DONE** |
 | H3 | ~~Persistent function DB~~ | ~~JSON DB aggregating all tool outputs. Survives across sessions.~~ | **DONE** |
 | H4 | ~~Coverage reporter~~ | ~~From CDL data: what % of binary is code, what % exercised.~~ | **DONE** |
-| H5 | Data structure parser | Define structs, parse WRAM dump at offset. Visualize game state. | **LOW** |
+| H5 | ~~Data structure parser~~ | ~~Define structs, parse WRAM dump at offset. Visualize game state.~~ | **DONE** |
 
 ### Skip (not useful for us)
 
