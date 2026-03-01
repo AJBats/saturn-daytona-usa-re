@@ -52,11 +52,11 @@ transition_full_exec:
 .L_060192A4:
     .4byte  0x0026D000
 .L_060192A8:
-    .4byte  0x25A03000                  /* Sound RAM +0x03000 */
+    .4byte  0x25A03000
 .L_060192AC:
     .4byte  memcpy_byte_idx
 .L_060192B0:
-    .4byte  0x25A02DBE                  /* Sound RAM +0x02DBE */
+    .4byte  0x25A02DBE
     .4byte  0xE500D611
     .4byte  0xD4116363
     .4byte  0x625E7601

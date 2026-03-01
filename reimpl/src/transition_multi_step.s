@@ -49,10 +49,10 @@ transition_multi_step:
 .L_06019234:
     .4byte  0x0006D000
 .L_06019238:
-    .4byte  0x00200000                  /* Work RAM Low base */
+    .4byte  0x00200000
 .L_0601923C:
-    .4byte  0x25A03000                  /* Sound RAM +0x03000 */
+    .4byte  0x25A03000
 .L_06019240:
     .4byte  memcpy_byte_idx
 .L_06019244:
-    .4byte  0x25A02DBE                  /* Sound RAM +0x02DBE */
+    .4byte  0x25A02DBE

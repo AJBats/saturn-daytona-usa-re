@@ -122,17 +122,17 @@ anim_frame_transform:
     nop
 
 .L_06005EAE:
-    .2byte  0xFF04                  /* 0xFFFFFF04 = DVDNT — dividend reg, triggers 32/32 div [HIGH] */
+    .2byte  0xFF04
 .L_06005EB0:
-    .2byte  0xFF00                  /* 0xFFFFFF00 = DVSR — divisor register [HIGH] */
+    .2byte  0xFF00
 .L_06005EB2:
-    .2byte  0xFF18                  /* 0xFFFFFF18 = DVDNTH_S — remainder after 32/32 division [HIGH] */
+    .2byte  0xFF18
 .L_06005EB4:
-    .2byte  0xFF1C                  /* 0xFFFFFF1C = DVDNTL_S — quotient after 32/32 division [HIGH] */
-    .2byte  0xFFFF                  /* pool alignment padding */
+    .2byte  0xFF1C
+    .2byte  0xFFFF
 
 .L_pool_06005EB8:
-    .4byte  sym_06063E14            /* &digit_buffer — 9-byte HUD time display buffer [HIGH] */
+    .4byte  sym_06063E14
 
 .L_06005EBC:
     mov #0xB, r4

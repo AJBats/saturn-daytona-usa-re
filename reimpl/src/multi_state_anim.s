@@ -197,9 +197,9 @@ DAT_0601064a:
 .L_06010650:
     .4byte  sym_0607889C
 .L_06010654:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000
 .L_06010658:
-    .4byte  0xFFFF0000                  /* -1.0 (16.16 fixed-point) */
+    .4byte  0xFFFF0000
 .L_0601065C:
     .4byte  0x40280000
 .L_06010660:
@@ -217,7 +217,7 @@ DAT_0601064a:
 .L_06010678:
     .4byte  sym_060788A4
 .L_0601067C:
-    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
+    .4byte  0x00010000
 .L_06010680:
     .4byte  0xFFF40000
 .L_06010684:
@@ -332,10 +332,10 @@ DAT_0601064a:
 .L_0601074C:
     .4byte  dma_transfer
 .L_06010750:
-    .4byte  0x0000C000                  /* bits 15:14 mask */
+    .4byte  0x0000C000
 .L_06010754:
     .4byte  sym_0605CA9C
 .L_06010758:
-    .4byte  0x25F00000                  /* VDP2 color RAM +0x000 */
+    .4byte  0x25F00000
 .L_0601075C:
     .4byte  memcpy_word_idx

@@ -118,17 +118,17 @@ perspective_project:
     add #0x3, r4
     .2byte  0xFFFF
 .L_pool_06005698:
-    .4byte  sym_06063EEC                   /* camera target vector */
+    .4byte  sym_06063EEC
 .L_pool_0600569C:
-    .4byte  sym_06063E08                   /* object list cursor index (word) */
+    .4byte  sym_06063E08
 .L_pool_060056A0:
-    .4byte  sym_06063E04                   /* object list head pointer */
+    .4byte  sym_06063E04
 .L_pool_060056A4:
-    .4byte  fpdiv_setup                    /* 16.16 fixed-point divide */
+    .4byte  fpdiv_setup
 .L_pool_060056A8:
-    .4byte  mat_vec_transform              /* 3x3 matrix-vector multiply */
+    .4byte  mat_vec_transform
 .L_pool_060056AC:
-    .4byte  fpmul                          /* 16.16 fixed-point multiply */
+    .4byte  fpmul
 .L_060056B0:
     .byte   0xBF, 0x44    /* bsr 0x0600553C (external) */
     nop
@@ -223,20 +223,20 @@ perspective_project:
     rts
     mov.l @r15+, r14
 .L_pool_06005764:
-    .4byte  sym_06026E0C                   /* matrix entry init from current ptr */
+    .4byte  sym_06026E0C
 .L_pool_06005768:
-    .4byte  sym_06063EEC                   /* camera target vector (output) */
+    .4byte  sym_06063EEC
 .L_pool_0600576C:
-    .4byte  sym_06078663                   /* camera direction flip flag (byte) */
+    .4byte  sym_06078663
 .L_pool_06005770:
-    .4byte  0x01A00000                     /* positive Y base offset (16.16 fixed-point) */
+    .4byte  0x01A00000
 .L_pool_06005774:
-    .4byte  0xFFA00000                     /* negative Y base offset (16.16 fixed-point) */
+    .4byte  0xFFA00000
 .L_pool_06005778:
-    .4byte  sym_0603850C                   /* cmd queue: write channel ID */
+    .4byte  sym_0603850C
 .L_pool_0600577C:
-    .4byte  0x003A0000                     /* screen X position offset (16.16) */
+    .4byte  0x003A0000
 .L_pool_06005780:
-    .4byte  scene_data_write_abs           /* scene data: write absolute coords */
+    .4byte  scene_data_write_abs
 .L_pool_06005784:
-    .4byte  sym_06038520                   /* cmd queue: commit */
+    .4byte  sym_06038520

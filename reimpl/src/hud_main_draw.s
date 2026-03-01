@@ -156,21 +156,21 @@ hud_main_draw:
     nop
 
 .L_060117DC:
-    .4byte  sincos_pair                 /* sin/cos lookup function */
+    .4byte  sincos_pair
 .L_060117E0:
-    .4byte  sym_060786CC                /* HUD record array base address */
+    .4byte  sym_060786CC
 .L_060117E4:
-    .4byte  sym_0605AAA0                /* HUD record count/index (16-bit) */
+    .4byte  sym_0605AAA0
 .L_060117E8:
-    .4byte  swap_sign_ext               /* extract int16 from 16.16 fixed-point */
+    .4byte  swap_sign_ext
 .L_060117EC:
-    .4byte  fpmul                       /* 16.16 fixed-point multiply */
+    .4byte  fpmul
 .L_060117F0:
-    .4byte  0xFFC80000                  /* -56.0 in 16.16 fixed-point */
+    .4byte  0xFFC80000
 .L_060117F4:
-    .4byte  0x001E0000                  /* +30.0 in 16.16 fixed-point */
+    .4byte  0x001E0000
 .L_060117F8:
-    .4byte  0x00380000                  /* +56.0 in 16.16 fixed-point */
+    .4byte  0x00380000
 
 .L_060117FC:
     mov.l @r15+, r3
@@ -368,8 +368,8 @@ hud_main_draw:
     mov.l @r15+, r14
 
 .L_0601196C:
-    .4byte  0x00380000                  /* +56.0 in 16.16 fixed-point */
+    .4byte  0x00380000
 .L_06011970:
-    .4byte  0xFFE20000                  /* -30.0 in 16.16 fixed-point */
+    .4byte  0xFFE20000
 .L_06011974:
-    .4byte  0xFFC80000                  /* -56.0 in 16.16 fixed-point */
+    .4byte  0xFFC80000

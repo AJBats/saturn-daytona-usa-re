@@ -28,7 +28,7 @@ obj_render_cleanup:
     lds.l @r15+, pr
     rts
     mov.l r4, @r3
-    .2byte  0xFFFF                         /* padding to align constant pool */
+    .2byte  0xFFFF
 .L_06021158:
     .4byte  sym_0603850C
 .L_0602115C:

@@ -73,7 +73,7 @@ DAT_0602d48e:
 DAT_0602d496:
     .2byte  0x010C
 .L_0602D498:
-    .4byte  0x00006800                  /* far clip distance threshold */
+    .4byte  0x00006800
 .L_0602D49C:
     cmp/gt r8, r2
     bt      .L_0602D4A2
@@ -173,7 +173,7 @@ DAT_0602d542:
 DAT_0602d544:
     .2byte  0x010C
 .L_0602D546:
-    .2byte  0xFF00                      /* -> 0xFFFFFF00 (SH-2 hw divider) */
+    .2byte  0xFF00
 
     .global DAT_0602d548
 DAT_0602d548:
@@ -186,13 +186,13 @@ DAT_0602d54a:
     .2byte  0x00CE
     .2byte  0x0000
 .L_0602D550:
-    .4byte  0x000A0000                  /* 10.0 in 16.16 fixed-point */
+    .4byte  0x000A0000
 .L_0602D554:
     .4byte  cos_lookup
 .L_0602D558:
-    .4byte  0x00000100                  /* 256 — min sq_dist for atan path */
+    .4byte  0x00000100
 .L_0602D55C:
-    .4byte  0x00004000                  /* 0.25 (16.16 fixed-point) */
+    .4byte  0x00004000
 .L_0602D560:
     mov r2, r3
     dmuls.l r2, r3
@@ -270,7 +270,7 @@ DAT_0602d54a:
     bra     .L_0602D610
     nop
 .L_0602D5F0:
-    .2byte  0xFF00                      /* -> 0xFFFFFF00 (SH-2 hw divider) */
+    .2byte  0xFF00
 
     .global DAT_0602d5f2
 DAT_0602d5f2:
@@ -368,7 +368,7 @@ DAT_0602d67c:
 DAT_0602d682:
     .2byte  0x00CC
 .L_0602D684:
-    .4byte  0x00004000                  /* 0.25 (16.16 fixed-point) */
+    .4byte  0x00004000
 .L_0602D688:
     mov.w   .L_0602D6BE, r2
     mov r4, r1
@@ -400,7 +400,7 @@ DAT_0602d682:
     bra     .L_0602D6CE
     nop
 .L_0602D6BE:
-    .2byte  0xFF00                      /* -> 0xFFFFFF00 (SH-2 hw divider) */
+    .2byte  0xFF00
 .L_0602D6C0:
     .2byte  0x007E
 
@@ -474,7 +474,7 @@ DAT_0602d732:
 .L_0602D734:
     .4byte  sym_0602ECCC
 .L_0602D738:
-    .4byte  0x00000FE0                  /* ~180 degrees in angle units */
+    .4byte  0x00000FE0
 .L_0602D73C:
     neg r6, r6
     cmp/gt r6, r5
@@ -532,11 +532,11 @@ DAT_0602d790:
 .L_0602D798:
     .4byte  sym_0602ECCC
 .L_0602D79C:
-    .4byte  0xFFFFCD80                  /* -0x3280 lateral distance threshold */
+    .4byte  0xFFFFCD80
 .L_0602D7A0:
-    .4byte  0x20000000                  /* cache-through render flag */
+    .4byte  0x20000000
 .L_0602D7A4:
-    .4byte  0x40000000                  /* 0.25 (2.30) or 16384.0 (16.16) */
+    .4byte  0x40000000
 .L_0602D7A8:
     mov.l @(0, r0), r2
     mov.l   .L_0602D7B8, r3
@@ -547,9 +547,9 @@ DAT_0602d790:
     mov.l r2, @(0, r0)
     .2byte  0x0000
 .L_0602D7B8:
-    .4byte  0x10000000                  /* near-object render flag */
+    .4byte  0x10000000
 .L_0602D7BC:
-    .4byte  0x40000000                  /* 0.25 (2.30) or 16384.0 (16.16) */
+    .4byte  0x40000000
 .L_0602D7C0:
     mov.l @(r0, r7), r6
     mov.l   .L_0602D7E0, r3
@@ -571,7 +571,7 @@ DAT_0602d790:
     .2byte  0x00D4
     .2byte  0x0000
 .L_0602D7E0:
-    .4byte  0xFFFFCC00                  /* -0x3400 velocity clamp limit */
+    .4byte  0xFFFFCC00
 .L_0602D7E4:
     mov.l r3, @-r15
     mov.l @(8, r0), r3
@@ -600,7 +600,7 @@ DAT_0602d790:
     .2byte  0x0166
     .2byte  0x0000
 .L_0602D810:
-    .4byte  0x0000000A                  /* 10 = visibility counter reset */
+    .4byte  0x0000000A
 
     .global sym_0602D814
 sym_0602D814:
@@ -661,9 +661,9 @@ DAT_0602d866:
 .L_0602D868:
     .4byte  sym_060477BC
 .L_0602D86C:
-    .4byte  0x0221AC91                  /* global intensity scale constant */
+    .4byte  0x0221AC91
 .L_0602D870:
-    .4byte  0x00002134                  /* max display intensity value */
+    .4byte  0x00002134
 .L_0602D874:
     cmp/gt r5, r4
     bt      .L_0602D87A

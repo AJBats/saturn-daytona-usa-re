@@ -37,21 +37,21 @@ transform_heading_alt:
     bra     .L_0602644C
     extu.w r0, r0
     .2byte  0xA001                          /* branch instruction embedded in stream (not executed inline) */
-    .4byte  0x627D626D                      /* embedded dispatch path bytes */
-    .4byte  0xA0262D21                      /* embedded dispatch path bytes */
-    .4byte  0xA001627D                      /* embedded dispatch path bytes */
-    .4byte  0x626DA021                      /* embedded dispatch path bytes */
-    .2byte  0x2E21                          /* embedded dispatch path bytes */
+    .4byte  0x627D626D
+    .4byte  0xA0262D21
+    .4byte  0xA001627D
+    .4byte  0x626DA021
+    .2byte  0x2E21
 .L_0602643A:
     bra     .L_0602647C
     nop
-    .2byte  0xFFFF                          /* alignment padding */
+    .2byte  0xFFFF
 .L_pool_06026440:
-    .4byte  sym_0606107C                    /* [HIGH] slot data table B (8-byte stride, 8 slots) */
+    .4byte  sym_0606107C
 .L_pool_06026444:
-    .4byte  sym_06089ED6                    /* [HIGH] &course_id_a word */
+    .4byte  sym_06089ED6
 .L_pool_06026448:
-    .4byte  sym_06089ED4                    /* [HIGH] &course_id_b word */
+    .4byte  sym_06089ED4
 .L_0602644C:
     mov.w   .L_wpool_06026462, r1
     sub r1, r0
@@ -65,7 +65,7 @@ transform_heading_alt:
     braf r0
     nop
 .L_wpool_06026462:
-    .2byte  0x008A                          /* [HIGH] dispatch base: lowest valid render_type */
+    .2byte  0x008A
     .4byte  0xFFC4FFC4                      /* dispatch offsets for render_type 0x008A and 0x008C */
     .4byte  0xFFCEFFCE                      /* dispatch offsets for render_type 0x008E and 0x0090 */
     .4byte  0xFFC8FFC8                      /* dispatch offsets for render_type 0x0092 and 0x0094 */

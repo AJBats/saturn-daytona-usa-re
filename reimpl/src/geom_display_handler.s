@@ -67,24 +67,24 @@ geom_display_handler:
     rts
     mov.l @r15+, r14
 .L_0601FE96:
-    .2byte  0x0268                         /* car struct stride (616 bytes) */
+    .2byte  0x0268
 .L_0601FE98:
-    .4byte  sym_0607E940                   /* &current_car_ptr (active car) */
+    .4byte  sym_0607E940
 .L_0601FE9C:
-    .4byte  sym_06078900                   /* car struct array base address */
+    .4byte  sym_06078900
 .L_0601FEA0:
-    .4byte  sym_0607EA98                   /* &car_count_store (loop bound) */
+    .4byte  sym_0607EA98
 .L_0601FEA4:
-    .4byte  sym_060877F4                   /* &display_list_desc_ptr (indirect) */
+    .4byte  sym_060877F4
 .L_0601FEA8:
-    .4byte  sym_060877FC                   /* &display_data_word (from descriptor) */
+    .4byte  sym_060877FC
 .L_0601FEAC:
-    .4byte  sym_060054EA                   /* obj_list_state_reset function */
+    .4byte  sym_060054EA
 .L_0601FEB0:
-    .4byte  sym_06087800                   /* entry count (16-bit) */
+    .4byte  sym_06087800
 .L_0601FEB4:
-    .4byte  sym_06087802                   /* iteration counter (16-bit) */
+    .4byte  sym_06087802
 .L_0601FEB8:
-    .4byte  sym_0600D280                   /* car_ptr_list_init function */
+    .4byte  sym_0600D280
 .L_0601FEBC:
-    .4byte  sym_06087804                   /* handler mode (16-bit) */
+    .4byte  sym_06087804

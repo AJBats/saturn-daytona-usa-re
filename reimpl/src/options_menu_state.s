@@ -146,26 +146,26 @@ options_menu_state:
     bra     .L_0603D8EC
     mov #0x1, r1
 .L_0603D8C4:
-    .2byte  0x0100                          /* bit 8 value (0x0100) */
-    .2byte  0xFFFF                          /* padding */
+    .2byte  0x0100
+    .2byte  0xFFFF
 .L_0603D8C8:
-    .4byte  0x0000FFFE                      /* clear-mask for bit 0 */
+    .4byte  0x0000FFFE
 .L_0603D8CC:
-    .4byte  sym_060A4D58                    /* bitfield RMW target ptr */
+    .4byte  sym_060A4D58
 .L_0603D8D0:
-    .4byte  sym_060A4D18                    /* config word array base */
+    .4byte  sym_060A4D18
 .L_0603D8D4:
-    .4byte  sym_06034F78                    /* bitfield RMW function */
+    .4byte  sym_06034F78
 .L_0603D8D8:
-    .4byte  0x0000FEFF                      /* clear-mask for bit 8 */
+    .4byte  0x0000FEFF
 .L_0603D8DC:
-    .4byte  0x0000FFFB                      /* clear-mask for bit 2 */
+    .4byte  0x0000FFFB
 .L_0603D8E0:
-    .4byte  0x0000FFF7                      /* clear-mask for bit 3 */
+    .4byte  0x0000FFF7
 .L_0603D8E4:
-    .4byte  0x0000FFEF                      /* clear-mask for bit 4 */
+    .4byte  0x0000FFEF
 .L_0603D8E8:
-    .4byte  0x0000FFDF                      /* clear-mask for bit 5 */
+    .4byte  0x0000FFDF
 .L_0603D8EC:
     mov.l   .L_0603D9D4, r3
     jsr @r3
@@ -289,17 +289,17 @@ options_menu_state:
     rts
     mov.l @r15+, r14
 .L_0603D9D0:
-    .2byte  0x0080                          /* test mask for opt bit 7 */
-    .2byte  0xFFFF                          /* padding */
+    .2byte  0x0080
+    .2byte  0xFFFF
 .L_0603D9D4:
-    .4byte  sym_06034F78                    /* bitfield RMW function (2nd pool) */
+    .4byte  sym_06034F78
 .L_0603D9D8:
-    .4byte  0x0000FFFB                      /* clear-mask for bit 2 (2nd pool) */
+    .4byte  0x0000FFFB
 .L_0603D9DC:
-    .4byte  0x0000FFF7                      /* clear-mask for bit 3 (2nd pool) */
+    .4byte  0x0000FFF7
 .L_0603D9E0:
-    .4byte  0x0000FFEF                      /* clear-mask for bit 4 (2nd pool) */
+    .4byte  0x0000FFEF
 .L_0603D9E4:
-    .4byte  0x00080000                      /* test mask for opt bit 19 (0x80000) */
+    .4byte  0x00080000
 .L_0603D9E8:
-    .4byte  0x0000FFDF                      /* clear-mask for bit 5 (2nd pool) */
+    .4byte  0x0000FFDF

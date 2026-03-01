@@ -937,15 +937,15 @@ loc_0602C3D4:
     bra     .L_0602BDF0
     nop
 .L_0602C420:
-    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
+    .4byte  0x00010000
 .L_0602C424:
     .4byte  sym_06094FA4
 .L_0602C428:
     .4byte  sym_06063F54
 .L_0602C42C:
-    .4byte  0x00020000                  /* 2.0 (16.16 fixed-point) */
+    .4byte  0x00020000
 .L_0602C430:
-    .4byte  0x000A0000                  /* 10.0 (16.16 fixed-point) -- distance bias */
+    .4byte  0x000A0000
 .L_0602C434:
     .4byte  sym_060620D4
 .L_0602C438:

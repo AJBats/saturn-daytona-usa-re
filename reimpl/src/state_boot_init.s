@@ -43,22 +43,22 @@ loc_0600890A:
     jmp @r3
     nop
 .L_pool_06008910:
-    .4byte  handler_init_reset  /* init pipeline reset function */
+    .4byte  handler_init_reset
 .L_pool_06008914:
-    .4byte  render_stage_1      /* primary render stage init */
+    .4byte  render_stage_1
 .L_06008918:
-    .4byte  0xFFFF0000                  /* -1.0 (16.16 fixed-point) */
+    .4byte  0xFFFF0000
 .L_pool_0600891C:
-    .4byte  display_channel_b   /* display channel B config function */
+    .4byte  display_channel_b
 .L_pool_06008920:
-    .4byte  handler_dispatch    /* handler slot dispatcher */
+    .4byte  handler_dispatch
 .L_pool_06008924:
-    .4byte  obj_render_update   /* object render subsystem init */
+    .4byte  obj_render_update
 .L_pool_06008928:
-    .4byte  g_game_state        /* game_state — current game phase (32-bit) */
+    .4byte  g_game_state
 .L_pool_0600892C:
-    .4byte  sym_06026CE0        /* display subsystem update function */
+    .4byte  sym_06026CE0
 .L_pool_06008930:
-    .4byte  sym_06059F44        /* vblank_out_counter — cleared on boot */
+    .4byte  sym_06059F44
 .L_pool_06008934:
-    .4byte  render_stage_2      /* secondary render stage (trampoline target) */
+    .4byte  render_stage_2

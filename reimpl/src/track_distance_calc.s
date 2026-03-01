@@ -33,7 +33,7 @@ track_distance_calc:
     rts
     mov.l @r15+, r14
 .L_pool_06036646:
-    .4byte  input_proc_analog           /* [HIGH] SMPC analog axis reader function */
-    .4byte  input_proc_buttons          /* [HIGH] SMPC digital button reader function */
+    .4byte  input_proc_analog
+    .4byte  input_proc_buttons
 .L_0603664C:
-    .4byte  0x00FFFFFF                  /* [MEDIUM] low 24-bit mask (strips top byte from result) */
+    .4byte  0x00FFFFFF

@@ -64,7 +64,7 @@ sym_060149E0:
     .2byte  0x7FFF
     .2byte  0xFFFF
 .L_pool_060149F8:
-    .4byte  0x00008000                  /* bit 15 mask — display enable */
+    .4byte  0x00008000
 .L_pool_060149FC:
     .4byte  sym_060A3D88
 .L_pool_06014A00:

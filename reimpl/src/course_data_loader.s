@@ -62,43 +62,43 @@ course_data_loader:
     rts
     mov.l @r15+, r14
 .L_0601B5F4:
-    .2byte  0x0180                      /* 384 bytes = full CRAM init block size */
+    .2byte  0x0180
     .2byte  0xFFFF
 .L_0601B5F8:
-    .4byte  memcpy_word_idx            /* word-indexed memcpy */
+    .4byte  memcpy_word_idx
 .L_0601B5FC:
-    .4byte  sym_0604866C               /* source: course main palette (48 colors) */
+    .4byte  sym_0604866C
 .L_0601B600:
-    .4byte  0x25F006C0                  /* VDP2 color RAM +0x6C0 — course palette bank */
+    .4byte  0x25F006C0
 .L_0601B604:
-    .4byte  sym_0604862C               /* source: course extended palette A */
+    .4byte  sym_0604862C
 .L_0601B608:
-    .4byte  0x25F00720                  /* VDP2 color RAM +0x720 — course ext A */
+    .4byte  0x25F00720
 .L_0601B60C:
-    .4byte  sym_060485EC               /* source: course extended palette B */
+    .4byte  sym_060485EC
 .L_0601B610:
-    .4byte  0x25F00740                  /* VDP2 color RAM +0x740 — course ext B */
+    .4byte  0x25F00740
 .L_0601B614:
-    .4byte  sym_0604996C               /* source: full CRAM init palette data */
+    .4byte  sym_0604996C
 .L_0601B618:
-    .4byte  0x25F00000                  /* VDP2 color RAM +0x000 — base */
+    .4byte  0x25F00000
 .L_0601B61C:
-    .4byte  dma_transfer               /* DMA memory transfer */
+    .4byte  dma_transfer
 .L_0601B620:
-    .4byte  sym_0602853E               /* display channel configure */
+    .4byte  sym_0602853E
 .L_0601B624:
-    .4byte  sym_06028560               /* display channel init */
+    .4byte  sym_06028560
 .L_0601B628:
-    .4byte  sym_060638C8               /* course display list descriptor */
+    .4byte  sym_060638C8
 .L_0601B62C:
-    .4byte  0x0000C000                  /* offset into display list (0xC000) */
+    .4byte  0x0000C000
 .L_0601B630:
-    .4byte  sym_06028400               /* display list loader */
+    .4byte  sym_06028400
 .L_0601B634:
-    .4byte  sym_0605D4F5               /* course scroll parameter B (byte) */
+    .4byte  sym_0605D4F5
 .L_0601B638:
-    .4byte  sym_0605D4F4               /* course scroll parameter A (byte) */
+    .4byte  sym_0605D4F4
 .L_0601B63C:
-    .4byte  sym_0605D4FA               /* course state flag A */
+    .4byte  sym_0605D4FA
 .L_0601B640:
-    .4byte  sym_0608600D               /* course state flag B (init = 4) */
+    .4byte  sym_0608600D

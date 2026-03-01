@@ -72,25 +72,25 @@ scene_invalidate_a:
     rts
     mov.l @r15+, r14
 .L_0603DA60:
-    .4byte  0x80000000                  /* min negative / sign bit */
+    .4byte  0x80000000
 .L_0603DA64:
-    .4byte  0x01680000                  /* 360.0 (16.16 fixed-point) */
+    .4byte  0x01680000
 .L_0603DA68:
-    .4byte  sym_06036BE4                /* ! fixed-point modulo */
+    .4byte  sym_06036BE4
 .L_0603DA6C:
-    .4byte  sym_060424A2                /* ! core sine computation */
+    .4byte  sym_060424A2
 .L_0603DA70:
-    .4byte  0x010E0000                  /* 270.0 (16.16 fixed-point) */
+    .4byte  0x010E0000
 .L_0603DA74:
-    .4byte  0x00B40000                  /* 180.0 (16.16 fixed-point) */
+    .4byte  0x00B40000
 .L_0603DA78:
-    .4byte  0xFF4C0000                  /* -180.0 (16.16 fixed-point) */
+    .4byte  0xFF4C0000
 .L_0603DA7C:
-    .4byte  0x005A0000                  /* 90.0 (16.16 fixed-point) */
+    .4byte  0x005A0000
 .L_0603DA80:
-    .4byte  0x0000FFFF                  /* low 16-bit mask */
+    .4byte  0x0000FFFF
 .L_0603DA84:
-    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
+    .4byte  0x00010000
 
     .global scene_invalidate_b
     .type scene_invalidate_b, @function
@@ -164,25 +164,25 @@ scene_invalidate_b:
     mov.l @r15+, r14
     .2byte  0xFFFF
 .L_0603DB00:
-    .4byte  0x80000000                  /* min negative / sign bit */
+    .4byte  0x80000000
 .L_0603DB04:
-    .4byte  0x01680000                  /* 360.0 (16.16 fixed-point) */
+    .4byte  0x01680000
 .L_0603DB08:
-    .4byte  sym_06036BE4                /* ! fixed-point modulo */
+    .4byte  sym_06036BE4
 .L_0603DB0C:
-    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
+    .4byte  0x00010000
 .L_0603DB10:
-    .4byte  sym_0604249C                /* ! core cosine computation */
+    .4byte  sym_0604249C
 .L_0603DB14:
-    .4byte  0x010E0000                  /* 270.0 (16.16 fixed-point) */
+    .4byte  0x010E0000
 .L_0603DB18:
-    .4byte  0x00B40000                  /* 180.0 (16.16 fixed-point) */
+    .4byte  0x00B40000
 .L_0603DB1C:
-    .4byte  0xFF4C0000                  /* -180.0 (16.16 fixed-point) */
+    .4byte  0xFF4C0000
 .L_0603DB20:
-    .4byte  0xFFFF0000                  /* -1.0 (16.16 fixed-point) */
+    .4byte  0xFFFF0000
 .L_0603DB24:
-    .4byte  0x005A0000                  /* 90.0 (16.16 fixed-point) */
+    .4byte  0x005A0000
 
     .global controller_config
     .type controller_config, @function
@@ -251,13 +251,13 @@ controller_config:
     bra     .L_0603DBAE
     mov #0x1, r2
 .L_0603DB9E:
-    .2byte  0x0100                      /* analog pad type ID */
+    .2byte  0x0100
 .L_0603DBA0:
-    .4byte  sym_060A4C80                /* ! controller config state */
+    .4byte  sym_060A4C80
 .L_0603DBA4:
-    .4byte  sym_060A4C58                /* ! port A controller type byte */
+    .4byte  sym_060A4C58
 .L_0603DBA8:
-    .4byte  sym_060A4C59                /* ! port B controller type byte */
+    .4byte  sym_060A4C59
 .L_0603DBAC:
     extu.w r13, r2
 .L_0603DBAE:
@@ -398,39 +398,39 @@ controller_config:
     nop
     .2byte  0xFFFF
 .L_0603DCBC:
-    .4byte  sym_060A3E38                /* ! menu display status */
+    .4byte  sym_060A3E38
 .L_0603DCC0:
-    .4byte  sym_060A4C70                /* ! view transform array A */
+    .4byte  sym_060A4C70
 .L_0603DCC4:
-    .4byte  sym_060A4C60                /* ! view offset array A */
+    .4byte  sym_060A4C60
 .L_0603DCC8:
-    .4byte  sym_060A4C68                /* ! view offset array B */
+    .4byte  sym_060A4C68
 .L_0603DCCC:
-    .4byte  sym_060A53A8                /* ! projection param set A */
+    .4byte  sym_060A53A8
 .L_0603DCD0:
-    .4byte  sym_060635AE                /* ! screen width (ROM) */
+    .4byte  sym_060635AE
 .L_0603DCD4:
-    .4byte  sym_060358EC                /* ! int-to-float conversion */
+    .4byte  sym_060358EC
 .L_0603DCD8:
-    .4byte  0x40F00000                  /* IEEE 754 float constant */
+    .4byte  0x40F00000
 .L_0603DCDC:
-    .4byte  sym_060359E4                /* ! float division */
+    .4byte  sym_060359E4
 .L_0603DCE0:
-    .4byte  sym_060357B8                /* ! float-to-fixed conversion */
+    .4byte  sym_060357B8
 .L_0603DCE4:
-    .4byte  sym_060A53B0                /* ! projection param set B */
+    .4byte  sym_060A53B0
 .L_0603DCE8:
-    .4byte  sym_060635B0                /* ! screen height (ROM) */
+    .4byte  sym_060635B0
 .L_0603DCEC:
-    .4byte  sym_060A4C5C                /* ! saved input state */
+    .4byte  sym_060A4C5C
 .L_0603DCF0:
-    .4byte  sym_060635B2                /* ! screen mode (ROM) */
+    .4byte  sym_060635B2
 .L_0603DCF4:
-    .4byte  display_scene_update        /* ! scene update function */
+    .4byte  display_scene_update
 .L_0603DCF8:
-    .4byte  sym_060A3E68                /* ! view matrix array base */
+    .4byte  sym_060A3E68
 .L_0603DCFC:
-    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
+    .4byte  0x00010000
 .L_0603DD00:
     mov #0x34, r0
     mov.w r2, @(r0, r14)
@@ -552,15 +552,15 @@ controller_config:
     rts
     mov.l @r15+, r14
 .L_0603DDEA:
-    .2byte  0x0190                      /* default view depth = 400 */
+    .2byte  0x0190
 .L_0603DDEC:
-    .4byte  sym_060635AE                /* ! screen width (ROM) */
+    .4byte  sym_060635AE
 .L_0603DDF0:
-    .4byte  sym_060A3EE8                /* ! split-screen view matrix */
+    .4byte  sym_060A3EE8
 .L_0603DDF4:
-    .4byte  0x0007FF80                  /* VRAM address alignment mask */
+    .4byte  0x0007FF80
 .L_0603DDF8:
-    .4byte  sym_060A3E44                /* ! VRAM write target */
+    .4byte  sym_060A3E44
 
     .global scene_color_matrix
     .type scene_color_matrix, @function
@@ -676,13 +676,13 @@ scene_color_matrix:
 .L_0603DEC0:
     .4byte  sym_060635A8
 .L_0603DEC4:
-    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
+    .4byte  0x00010000
 .L_0603DEC8:
     .4byte  sym_060A4C44
 .L_0603DECC:
     .4byte  sym_060A3E38
 .L_0603DED0:
-    .4byte  0x0000FF00                  /* byte 1 mask */
+    .4byte  0x0000FF00
 .L_0603DED4:
     cmp/eq #0x1, r0
     bt      .L_0603DE9C
@@ -880,7 +880,7 @@ scene_color_matrix:
 .L_0603E03C:
     .4byte  sym_060A3E3C
 .L_0603E040:
-    .4byte  0x0000FF00                  /* byte 1 mask */
+    .4byte  0x0000FF00
 .L_0603E044:
     .4byte  sym_060A4C78
 .L_0603E048:
@@ -951,17 +951,17 @@ sound_test_player:
 DAT_0603e0b2:
     .2byte  0x0300
 .L_0603E0B4:
-    .4byte  0x00040000                  /* 4.0 (16.16 fixed-point) */
+    .4byte  0x00040000
 .L_0603E0B8:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000
 .L_0603E0BC:
-    .4byte  sym_0603C0A0                /* ! scene update dispatch */
+    .4byte  sym_0603C0A0
 .L_0603E0C0:
-    .4byte  sym_060A3E38                /* ! menu display status */
+    .4byte  sym_060A3E38
 .L_0603E0C4:
-    .4byte  sym_060635A8                /* ! current display mode */
+    .4byte  sym_060635A8
 .L_0603E0C8:
-    .4byte  0x0000FF00                  /* byte 1 mask */
+    .4byte  0x0000FF00
 .L_0603E0CC:
     bsr     scene_invalidate_a
     mov.l @(8, r15), r4
@@ -1228,7 +1228,7 @@ DAT_0603e0b2:
 .L_0603E2D4:
     .4byte  sym_060A4C70
 .L_0603E2D8:
-    .4byte  0x012C0000                  /* 300.0 (16.16 fixed-point) */
+    .4byte  0x012C0000
 .L_0603E2DC:
     mov.l r4, @(4, r15)
     bsr     scene_invalidate_b
@@ -1698,7 +1698,7 @@ DAT_0603e61e:
 .L_0603E624:
     .4byte  sym_060A4C40
 .L_0603E628:
-    .4byte  0x00040000                  /* 4.0 (16.16 fixed-point) */
+    .4byte  0x00040000
 .L_0603E62C:
     .4byte  sym_0603C0A0
 .L_0603E630:
@@ -1706,7 +1706,7 @@ DAT_0603e61e:
 .L_0603E634:
     .4byte  sym_060635A8
 .L_0603E638:
-    .4byte  0x0000FF00                  /* byte 1 mask */
+    .4byte  0x0000FF00
 .L_0603E63C:
     bsr     scene_invalidate_a
     mov.l @(8, r15), r4
@@ -1979,9 +1979,9 @@ DAT_0603e61e:
 .L_0603E850:
     .4byte  sym_060A4C70
 .L_0603E854:
-    .4byte  0x012C0000                  /* 300.0 (16.16 fixed-point) */
+    .4byte  0x012C0000
 .L_0603E858:
-    .4byte  0x005A0000                  /* 90.0 (16.16 fixed-point) */
+    .4byte  0x005A0000
 .L_0603E85C:
     mov.l   .L_0603E944, r3
     add r3, r4
@@ -2112,7 +2112,7 @@ DAT_0603e93e:
     .2byte  0x0100
     .2byte  0xFFFF
 .L_0603E944:
-    .4byte  0x005A0000                  /* 90.0 (16.16 fixed-point) */
+    .4byte  0x005A0000
 .L_0603E948:
     .4byte  sym_060A4C38
 .L_0603E94C:
@@ -2256,7 +2256,7 @@ DAT_0603ea46:
 .L_0603EA4C:
     .4byte  sym_060A3E68
 .L_0603EA50:
-    .4byte  0x005A0000                  /* 90.0 (16.16 fixed-point) */
+    .4byte  0x005A0000
 .L_0603EA54:
     .4byte  sym_060A4C38
 .L_0603EA58:
@@ -2715,7 +2715,7 @@ hud_update_main:
     rts
     mov.l @r15+, r14
 .L_0603EDA8:
-    .4byte  0x01680000                  /* 360.0 (16.16 fixed-point) */
+    .4byte  0x01680000
 .L_0603EDAC:
     .4byte  display_scene_update
 .L_0603EDB0:

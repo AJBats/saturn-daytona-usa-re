@@ -120,44 +120,44 @@ score_calculator:
     rts
     mov.l @r15+, r14
 .L_06013A28:
-    .2byte  0x4CCC                      /* ~0.3 uniform scale factor (16.16) */
+    .2byte  0x4CCC
 .L_06013A2A:
-    .2byte  0x03A0                      /* total animation entry array size */
+    .2byte  0x03A0
 .L_06013A2C:
-    .2byte  0x8000                      /* 180° base Z rotation angle */
+    .2byte  0x8000
 .L_06013A2E:
-    .2byte  0x07AE                      /* Y angle scale factor */
+    .2byte  0x07AE
 .L_06013A30:
-    .4byte  sym_06026E2E               /* transform dispatch function */
+    .4byte  sym_06026E2E
 .L_06013A34:
-    .4byte  sym_06084AF4               /* animation timer (16-bit, decrements each frame) */
+    .4byte  sym_06084AF4
 .L_06013A38:
-    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
+    .4byte  0x00010000
 .L_06013A3C:
-    .4byte  sym_06084AF2               /* animation state: 2 = complete (byte) */
+    .4byte  sym_06084AF2
 .L_06013A40:
-    .4byte  sym_06026E0C               /* pre-animation setup */
+    .4byte  sym_06026E0C
 .L_06013A44:
-    .4byte  sym_0605AD5C               /* animation entry array (0x20 bytes each) */
+    .4byte  sym_0605AD5C
 .L_06013A48:
-    .4byte  sym_06089E4A               /* display table base pointer */
+    .4byte  sym_06089E4A
 .L_06013A4C:
-    .4byte  sym_06026DBC               /* per-object pre-transform setup */
+    .4byte  sym_06026DBC
 .L_06013A50:
-    .4byte  mat_rot_z                  /* Z-axis rotation */
+    .4byte  mat_rot_z
 .L_06013A54:
-    .4byte  fpmul                      /* fixed-point multiply */
+    .4byte  fpmul
 .L_06013A58:
-    .4byte  mat_rot_y                  /* Y-axis rotation */
+    .4byte  mat_rot_y
 .L_06013A5C:
-    .4byte  mat_scale_columns          /* uniform column scale */
+    .4byte  mat_scale_columns
 .L_06013A60:
-    .4byte  sym_06062338               /* object transform table A */
+    .4byte  sym_06062338
 .L_06013A64:
-    .4byte  sym_06031D8C               /* transform chain dispatch A */
+    .4byte  sym_06031D8C
 .L_06013A68:
-    .4byte  sym_060622C0               /* display transform table B */
+    .4byte  sym_060622C0
 .L_06013A6C:
-    .4byte  sym_06031A28               /* transform chain dispatch B */
+    .4byte  sym_06031A28
 .L_06013A70:
-    .4byte  sym_06089EDC               /* global animation counter (dec by 0x30/iter) */
+    .4byte  sym_06089EDC

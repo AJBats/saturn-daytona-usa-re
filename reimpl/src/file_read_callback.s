@@ -75,43 +75,43 @@ file_read_callback:
 
     .global DAT_0601214e
 DAT_0601214e:
-    .2byte  0x1000                          /* initial animation counter value */
+    .2byte  0x1000
 .L_pool_06012150:
-    .4byte  sym_06078636                    /* replay mode flag (byte) */
+    .4byte  sym_06078636
 .L_pool_06012154:
-    .4byte  sym_060788F8                    /* menu scroll position (dword) */
+    .4byte  sym_060788F8
 .L_pool_06012158:
-    .4byte  display_channel_b               /* display channel enable function */
+    .4byte  display_channel_b
 .L_pool_0601215C:
-    .4byte  sym_060788B4                    /* position vector A: primary HUD element XYZ */
+    .4byte  sym_060788B4
 .L_06012160:
-    .4byte  0x00080000                      /* 8.0 (16.16 fixed-point) */
+    .4byte  0x00080000
 .L_pool_06012164:
-    .4byte  0x000F3333                      /* ~15.2 (16.16 fixed-point) */
+    .4byte  0x000F3333
 .L_pool_06012168:
-    .4byte  sym_060788C0                    /* position vector B: secondary HUD element XYZ */
+    .4byte  sym_060788C0
 .L_pool_0601216C:
-    .4byte  0x00053333                      /* ~5.2 (16.16 fixed-point) */
+    .4byte  0x00053333
 .L_pool_06012170:
-    .4byte  sym_060788CC                    /* position vector C (initialized as copy of B) */
+    .4byte  sym_060788CC
 .L_pool_06012174:
-    .4byte  sym_06035168                    /* memcpy_long(r0=nbytes, r1=dst, r2=src) */
+    .4byte  sym_06035168
 .L_pool_06012178:
-    .4byte  sym_060788D8                    /* position vector D (initialized as copy of B) */
+    .4byte  sym_060788D8
 .L_pool_0601217C:
-    .4byte  sym_060788E4                    /* position vector E (initialized as copy of B) */
+    .4byte  sym_060788E4
 .L_pool_06012180:
-    .4byte  sym_060788B0                    /* animation counter (16-bit) */
+    .4byte  sym_060788B0
 .L_pool_06012184:
-    .4byte  sym_060788B2                    /* Z rotation angle state (16-bit) */
+    .4byte  sym_060788B2
 .L_pool_06012188:
-    .4byte  sym_060788F0                    /* file read initialized flag (byte) */
+    .4byte  sym_060788F0
 .L_pool_0601218C:
-    .4byte  sym_060788F4                    /* menu state counter (dword) */
+    .4byte  sym_060788F4
 .L_pool_06012190:
-    .4byte  sym_060788AC                    /* frame timer / state counter (dword) */
+    .4byte  sym_060788AC
 .L_pool_06012194:
-    .4byte  sym_0607EAD8                    /* race end state (0=racing, nonzero=ended) */
+    .4byte  sym_0607EAD8
 
     .global sym_06012198
 sym_06012198:

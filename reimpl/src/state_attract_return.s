@@ -67,30 +67,30 @@ state_attract_return:
     jmp @r3
     mov.l @r15+, r14
 .L_wpool_06009EDA:
-    .2byte  0x03E8                          /* 1000 — attract countdown frames */
+    .2byte  0x03E8
 .L_pool_06009EDC:
-    .4byte  race_state_pair_2               /* race state pair reset */
+    .4byte  race_state_pair_2
 .L_pool_06009EE0:
-    .4byte  sym_0602853E                    /* display layer fill (VRAM block copy) */
+    .4byte  sym_0602853E
 .L_pool_06009EE4:
-    .4byte  sym_06028560                    /* render state commit (clear/flush) */
+    .4byte  sym_06028560
 .L_pool_06009EE8:
-    .4byte  display_channel_b               /* display channel B enable */
+    .4byte  display_channel_b
 .L_pool_06009EEC:
-    .4byte  gameover_channel_setup          /* game-over display channel setup */
+    .4byte  gameover_channel_setup
 .L_pool_06009EF0:
-    .4byte  sym_0607EBCC                    /* &state_countdown (32-bit, WRAM High) */
+    .4byte  sym_0607EBCC
 .L_pool_06009EF4:
-    .4byte  g_game_state                    /* &game_state (32-bit dispatch value) */
+    .4byte  g_game_state
 .L_pool_06009EF8:
-    .4byte  sym_06087804                    /* &display_timer (16-bit) */
+    .4byte  sym_06087804
 .L_pool_06009EFC:
-    .4byte  race_init_master                /* race subsystem reinit */
+    .4byte  race_init_master
 .L_pool_06009F00:
-    .4byte  hud_subsystem_init              /* HUD subsystem reinit */
+    .4byte  hud_subsystem_init
 .L_pool_06009F04:
-    .4byte  sym_0605A016                    /* &display_mode (16-bit) */
+    .4byte  sym_0605A016
 .L_pool_06009F08:
-    .4byte  sym_06078648                    /* &course_index (byte, 0-2) */
+    .4byte  sym_06078648
 .L_pool_06009F0C:
-    .4byte  handler_dispatch                /* course-specific handler dispatch */
+    .4byte  handler_dispatch

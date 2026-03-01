@@ -35,15 +35,15 @@ disc_sector_read:
     rts
     mov.l @r15+, r14
 .L_0601B05E:
-    .2byte  0x00A7                               /* color offset value (167) */
+    .2byte  0x00A7
 .L_0601B060:
-    .2byte  0x0160                               /* color component value (352) */
-    .2byte  0xFFFF                               /* alignment padding */
+    .2byte  0x0160
+    .2byte  0xFFFF
 .L_0601B064:
-    .4byte  sym_06086014                         /* attract color state word (byte/long) */
+    .4byte  sym_06086014
 .L_0601B068:
-    .4byte  color_transform_calc                 /* VDP2 color transform calculator */
+    .4byte  color_transform_calc
 .L_0601B06C:
-    .4byte  sym_06086011                         /* current attract phase index (byte) */
+    .4byte  sym_06086011
 .L_0601B070:
-    .4byte  sym_0608600F                         /* phase countdown timer (byte) */
+    .4byte  sym_0608600F

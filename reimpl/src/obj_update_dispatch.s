@@ -107,36 +107,36 @@ obj_update_dispatch:
     rts
     mov.l @r15+, r14
 .L_060207D0:
-    .4byte  sym_06087818                        /* obj scale X (16.16 fp) */
+    .4byte  sym_06087818
 .L_060207D4:
-    .4byte  sym_0603850C                        /* display cmd queue: select channel */
+    .4byte  sym_0603850C
 .L_060207D8:
-    .4byte  0x00008000                          /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000
 .L_060207DC:
-    .4byte  sym_0608781C                        /* obj scale Y (16.16 fp) */
+    .4byte  sym_0608781C
 .L_060207E0:
-    .4byte  scene_color_intensity               /* scene color intensity */
+    .4byte  scene_color_intensity
 .L_060207E4:
-    .4byte  sym_06087820                        /* obj scale Z (16.16 fp) */
+    .4byte  sym_06087820
 .L_060207E8:
-    .4byte  sym_06087810                        /* obj draw X coordinate (16.16 fp) */
+    .4byte  sym_06087810
 .L_060207EC:
-    .4byte  0x00010000                          /* 1.0 (16.16 fixed-point) */
+    .4byte  0x00010000
 .L_060207F0:
-    .4byte  0xFFFF0000                          /* -1.0 (16.16 fixed-point) */
+    .4byte  0xFFFF0000
 .L_060207F4:
-    .4byte  0x00B00000                          /* 176.0 (16.16 fp) — half screen width */
+    .4byte  0x00B00000
 .L_060207F8:
-    .4byte  fpmul                               /* fixed-point multiply */
+    .4byte  fpmul
 .L_060207FC:
-    .4byte  fpdiv_setup                         /* fixed-point divide */
+    .4byte  fpdiv_setup
 .L_06020800:
-    .4byte  0x00700000                          /* 112.0 (16.16 fp) — half screen height */
+    .4byte  0x00700000
 .L_06020804:
-    .4byte  sym_06087814                        /* obj draw Y coordinate (16.16 fp) */
+    .4byte  sym_06087814
 .L_06020808:
-    .4byte  scene_data_write_add                /* scene data write (additive) */
+    .4byte  scene_data_write_add
 .L_0602080C:
-    .4byte  display_channel_b                   /* display channel enable */
+    .4byte  display_channel_b
 .L_06020810:
-    .4byte  sym_06038520                        /* display cmd queue: commit */
+    .4byte  sym_06038520

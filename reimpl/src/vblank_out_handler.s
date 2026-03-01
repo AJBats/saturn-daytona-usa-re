@@ -67,7 +67,7 @@ vblank_out_handler:
 .L_pool_060072D8:
     .4byte  sym_060A4C92
 .L_060072DC:
-    .4byte  0x25D00002                  /* VDP1 FBCR — framebuffer control */
+    .4byte  0x25D00002
 .L_pool_060072E0:
     .4byte  sym_060635C4
 

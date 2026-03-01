@@ -103,17 +103,17 @@ name_entry_state:
     rts
     mov.l @r15+, r14
 .L_0603D4FE:
-    .2byte  0x0301                     /* [HIGH] chan 3 field 1 descriptor */
+    .2byte  0x0301
 
     .global DAT_0603d500
 DAT_0603d500:
     .2byte  0x00FF
     .2byte  0xFFFF
 .L_0603D504:
-    .4byte  0x0000FF00                 /* [HIGH] byte 1 mask */
+    .4byte  0x0000FF00
 .L_pool_0603D508:
-    .4byte  sym_060A4D58               /* [MEDIUM] scroll config byte ptr */
+    .4byte  sym_060A4D58
 .L_pool_0603D50C:
-    .4byte  sym_060A4D36               /* [MEDIUM] scroll config block B base */
+    .4byte  sym_060A4D36
 .L_pool_0603D510:
-    .4byte  sym_06034F78               /* [HIGH] bitfield read-modify-write utility */
+    .4byte  sym_06034F78

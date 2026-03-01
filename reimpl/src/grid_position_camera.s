@@ -97,15 +97,15 @@ grid_position_camera:
     .byte   0xAF, 0x0E    /* bra 0x06019FB2 (external) */
     mov.l @r15+, r14
 .L_0601A196:
-    .2byte  0x4000                          /* Down button bit mask (bit 14) */
+    .2byte  0x4000
 .L_pool_0601A198:
-    .4byte  g_pad_state                    /* &input_state (+0=held, +2=newly pressed) */
+    .4byte  g_pad_state
 .L_pool_0601A19C:
-    .4byte  sym_0605AD04                    /* &grid_slot_counter (32-bit) */
+    .4byte  sym_0605AD04
 .L_0601A1A0:
-    .4byte  0x00008000                      /* Up button bit mask (bit 15, 32-bit for AND) */
+    .4byte  0x00008000
 .L_pool_0601A1A4:
-    .4byte  sym_0605D243                    /* &grid_slot_byte (byte output) */
+    .4byte  sym_0605D243
 
     .global loc_0601A1A8
 loc_0601A1A8:

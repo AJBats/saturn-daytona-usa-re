@@ -72,31 +72,31 @@ state_race_setup:
     bra     .L_06008F82
     nop
 .L_06008F3C:
-    .4byte  race_resource_init         /* course/car resource loader */
+    .4byte  race_resource_init
 .L_06008F40:
-    .4byte  sym_06078635               /* race result (0=in progress) */
+    .4byte  sym_06078635
 .L_06008F44:
-    .4byte  sym_06078634               /* race active flag (1=active) */
+    .4byte  sym_06078634
 .L_06008F48:
-    .4byte  sym_0607ED88               /* physics warmup frame counter */
+    .4byte  sym_0607ED88
 .L_06008F4C:
-    .4byte  sym_0607865E               /* game mode selector (16-bit) */
+    .4byte  sym_0607865E
 .L_06008F50:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000
 .L_06008F54:
-    .4byte  sym_0605AD08               /* special game mode flag */
+    .4byte  sym_0605AD08
 .L_06008F58:
-    .4byte  sym_0605AB18               /* menu overlay active flag (byte) */
+    .4byte  sym_0605AB18
 .L_06008F5C:
-    .4byte  g_pad_state               /* input/status register (16-bit) */
+    .4byte  g_pad_state
 .L_06008F60:
-    .4byte  sym_06078648               /* current course index (byte) */
+    .4byte  sym_06078648
 .L_06008F64:
-    .4byte  sym_06078656               /* course 0 selection bit mask */
+    .4byte  sym_06078656
 .L_06008F68:
-    .4byte  sym_06078658               /* course 1 selection bit mask */
+    .4byte  sym_06078658
 .L_06008F6C:
-    .4byte  sym_0607865A               /* course 2 selection bit mask */
+    .4byte  sym_0607865A
 .L_06008F70:
     exts.w r4, r4
     mov.l   .L_0600902C, r2
@@ -194,59 +194,59 @@ state_race_setup:
     rts
     mov.l @r15+, r14
 .L_06009028:
-    .2byte  0x0096                        /* 150 frames countdown */
-    .2byte  0xFFFF                        /* padding for 4-byte alignment */
+    .2byte  0x0096
+    .2byte  0xFFFF
 .L_0600902C:
-    .4byte  sym_0607865C               /* course 3 selection bit mask */
+    .4byte  sym_0607865C
 .L_06009030:
-    .4byte  vdp2_config_extended       /* VDP2 extended configuration */
+    .4byte  vdp2_config_extended
 .L_06009034:
-    .4byte  geom_output_finalize       /* geometry output finalization */
+    .4byte  geom_output_finalize
 .L_06009038:
-    .4byte  sym_06078662               /* sound mode (3=normal, 4=enhanced) */
+    .4byte  sym_06078662
 .L_0600903C:
-    .4byte  sym_06078635               /* race result byte (dup for reach) */
+    .4byte  sym_06078635
 .L_06009040:
-    .4byte  sym_0607ED8C               /* mode register (16-bit) */
+    .4byte  sym_0607ED8C
 .L_06009044:
-    .4byte  race_init_master           /* race state machine initialization */
+    .4byte  race_init_master
 .L_06009048:
-    .4byte  sym_0607ED91               /* HUD variant index (byte) */
+    .4byte  sym_0607ED91
 .L_0600904C:
-    .4byte  hud_post_update            /* HUD post-update handler */
+    .4byte  hud_post_update
 .L_06009050:
-    .4byte  hud_subsystem_init         /* HUD subsystem initialization */
+    .4byte  hud_subsystem_init
 .L_06009054:
-    .4byte  disp_init_setup            /* display initialization */
+    .4byte  disp_init_setup
 .L_06009058:
-    .4byte  sym_0607EBCC               /* race countdown timer */
+    .4byte  sym_0607EBCC
 .L_0600905C:
-    .4byte  sym_0607EAD8               /* race end state (dispatch index) */
+    .4byte  sym_0607EAD8
 .L_06009060:
-    .4byte  sym_0605E158               /* race variant function table */
+    .4byte  sym_0605E158
 .L_06009064:
-    .4byte  sym_060054EA               /* variant setup dispatch function */
+    .4byte  sym_060054EA
 .L_06009068:
-    .4byte  race_start_init            /* race start sequence initialization */
+    .4byte  race_start_init
 .L_0600906C:
-    .4byte  bg_layer_init              /* background layer initialization */
+    .4byte  bg_layer_init
 .L_06009070:
-    .4byte  geom_matrix_setup          /* geometry matrix initialization */
+    .4byte  geom_matrix_setup
 .L_06009074:
-    .4byte  sym_0605AB18               /* overlay active flag (dup for reach) */
+    .4byte  sym_0605AB18
 .L_06009078:
-    .4byte  menu_overlay_render        /* menu overlay renderer */
+    .4byte  menu_overlay_render
 .L_0600907C:
-    .4byte  g_game_state               /* game phase state */
+    .4byte  g_game_state
 .L_06009080:
-    .4byte  sym_0605B6D8               /* global render flags */
+    .4byte  sym_0605B6D8
 .L_06009084:
-    .4byte  0x40000000                  /* bit 30: race render enable */
+    .4byte  0x40000000
 .L_06009088:
-    .4byte  sym_06026CE0               /* initialization finalization */
+    .4byte  sym_06026CE0
 .L_0600908C:
-    .4byte  sym_06059F44               /* camera follow mode flag */
+    .4byte  sym_06059F44
 .L_06009090:
-    .4byte  sym_0605A016               /* game state word (16-bit) */
+    .4byte  sym_0605A016
 .L_06009094:
-    .4byte  sym_0607864A               /* course loaded flag (byte) */
+    .4byte  sym_0607864A

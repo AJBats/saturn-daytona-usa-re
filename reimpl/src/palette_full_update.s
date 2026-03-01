@@ -22,7 +22,7 @@ palette_full_update:
     .2byte  0x0000
     .4byte  isqrt
 .L_0602E6E4:
-    .4byte  0x000F0000                  /* nibble 4 mask */
+    .4byte  0x000F0000
     .4byte  0xD3176332
     .4byte  0xD0170A9E
     .4byte  0x3A308B4B

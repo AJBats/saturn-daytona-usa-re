@@ -44,11 +44,11 @@ results_bonus_calc:
     .byte   0xA4, 0xBF    /* bra 0x06016DD8 (external: hud_sprite_vertex_project) */
     mov.l @r15+, r14
 .L_0601645A:
-    .2byte  0x0800                     /* [HIGH] countdown step per frame */
+    .2byte  0x0800
 .L_pool_0601645C:
-    .4byte  sym_06085F89               /* [MEDIUM] results-active flag (byte) */
+    .4byte  sym_06085F89
 .L_pool_06016460:
-    .4byte  sym_06084FC8               /* [HIGH] HUD element slot data array base */
+    .4byte  sym_06084FC8
 .L_06016464:
     rts
     mov.l @r15+, r14

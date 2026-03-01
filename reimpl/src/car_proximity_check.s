@@ -80,22 +80,22 @@ car_proximity_check:
     bra     .L_0600A9C0
     shar r4
 .L_0600A99A:
-    .2byte  0x0268                        /* car struct size (616 bytes) */
+    .2byte  0x0268
 .L_0600A99C:
-    .2byte  0x01EC                        /* car offset: track segment index */
+    .2byte  0x01EC
     .2byte  0xFFFF
 .L_0600A9A0:
-    .4byte  0x0004B333                  /* distance threshold (~4.7 in 16.16) */
+    .4byte  0x0004B333
 .L_0600A9A4:
-    .4byte  sym_0607EA98               /* total car count */
+    .4byte  sym_0607EA98
 .L_0600A9A8:
-    .4byte  sym_06078900               /* car array start address */
+    .4byte  sym_06078900
 .L_0600A9AC:
-    .4byte  sym_0607EAE0               /* proximity check skip flag */
+    .4byte  sym_0607EAE0
 .L_0600A9B0:
-    .4byte  sym_0607E940               /* current car struct pointer */
+    .4byte  sym_0607E940
 .L_0600A9B4:
-    .4byte  0x00E00000                  /* bits 23:21: car active flags */
+    .4byte  0x00E00000
 .L_0600A9B8:
     mov r6, r2
     shar r2
@@ -213,17 +213,17 @@ car_proximity_check:
 
     .global DAT_0600aa7e
 DAT_0600aa7e:
-    .2byte  0x01B4                        /* car offset: collision cooldown timer */
+    .2byte  0x01B4
 .L_0600AA80:
-    .2byte  0x01EC                        /* car offset: track segment index (dup) */
+    .2byte  0x01EC
     .2byte  0xFFFF
 .L_0600AA84:
-    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
+    .4byte  0x00010000
 .L_0600AA88:
-    .4byte  sym_060316C4               /* car-to-car collision response wrapper */
+    .4byte  sym_060316C4
 .L_0600AA8C:
-    .4byte  sym_0607E940               /* car struct pointer (dup for phase 2) */
+    .4byte  sym_0607E940
 .L_0600AA90:
-    .4byte  0x00E00000                  /* active flag mask (dup for phase 2) */
+    .4byte  0x00E00000
 .L_0600AA94:
-    .4byte  sym_06030FC0               /* player proximity collision wrapper */
+    .4byte  sym_06030FC0

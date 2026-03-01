@@ -60,15 +60,15 @@ DAT_060100f6:
 DAT_060100f8:
     .2byte  0x8000
     .2byte  0xFFFF
-    .4byte  sym_0605AB19            /* "MIRROR MODE" string (adjacent data) */
+    .4byte  sym_0605AB19
 .L_06010100:
-    .4byte  sym_060447C8            /* sprite animation parameter table (16 bytes/car) */
+    .4byte  sym_060447C8
 .L_06010104:
-    .4byte  0x00010000              /* 1.0 (16.16 fixed-point) */
+    .4byte  0x00010000
 .L_06010108:
-    .4byte  sym_0607EAD8            /* player car index (dword) */
+    .4byte  sym_0607EAD8
 .L_0601010C:
-    .4byte  sym_0605D0BC            /* alternate sprite palette/data (non-player) */
+    .4byte  sym_0605D0BC
 .L_06010110:
     mov #0x20, r6
     extu.b r14, r5
@@ -158,21 +158,21 @@ DAT_060100f8:
 
     .global DAT_060101b2
 DAT_060101b2:
-    .2byte  0x020C                  /* player alpha decay rate per frame */
+    .2byte  0x020C
 .L_060101B4:
-    .4byte  sym_0605D0BC            /* sprite palette/data source */
+    .4byte  sym_0605D0BC
 .L_060101B8:
-    .4byte  sym_06078888            /* per-car DMA destination pointer table */
+    .4byte  sym_06078888
 .L_060101BC:
-    .4byte  dma_transfer            /* DMA transfer function */
+    .4byte  dma_transfer
 .L_060101C0:
-    .4byte  sym_0607887F            /* game state byte (>4 = racing) */
+    .4byte  sym_0607887F
 .L_060101C4:
-    .4byte  sym_06078870            /* per-car animation counters (16-bit each) */
+    .4byte  sym_06078870
 .L_060101C8:
-    .4byte  sym_0607EAD8            /* player car index (dword) */
+    .4byte  sym_0607EAD8
 .L_060101CC:
-    .4byte  sym_060447F8            /* per-car XY velocity table (12 bytes/entry) */
+    .4byte  sym_060447F8
 .L_060101D0:
     extu.b r14, r0
     shll r0
@@ -246,27 +246,27 @@ DAT_060101b2:
     .4byte  0x6142D30D
     .4byte  0x000B2312
 .L_06010274:
-    .2byte  0x072B                  /* non-player alpha decay rate per frame */
+    .2byte  0x072B
     .2byte  0x0080
     .4byte  0x00C0FFFF
 .L_0601027C:
-    .4byte  sym_0607887F            /* game state byte (>=0xC -> fixed Y override) */
+    .4byte  sym_0607887F
 .L_06010280:
-    .4byte  0x00960000              /* fixed Y offset for state >= 0xC (16.16) */
+    .4byte  0x00960000
 .L_06010284:
-    .4byte  sym_0605AA98            /* display mode index (dword) */
+    .4byte  sym_0605AA98
 .L_06010288:
-    .4byte  sym_06044844            /* Z-depth ordering table (dword per mode) */
+    .4byte  sym_06044844
 .L_0601028C:
-    .4byte  0x00200000              /* Work RAM Low base */
+    .4byte  0x00200000
 .L_06010290:
-    .4byte  rigid_body_transform    /* rigid body transform function */
-    .4byte  sym_0607EADC            /* frame counter (dword) */
-    .4byte  sym_06063D9C            /* input state word */
+    .4byte  rigid_body_transform
+    .4byte  sym_0607EADC
+    .4byte  sym_06063D9C
     .4byte  0x0000FFFF
-    .4byte  sym_0607887E            /* game sub-state byte */
-    .4byte  sym_0607EAD8            /* player car index (dword) */
-    .4byte  0xD519634D              /* following TU code (byte blob) */
+    .4byte  sym_0607887E
+    .4byte  sym_0607EAD8
+    .4byte  0xD519634D
     .4byte  0xD2192329
     .4byte  0x23388907
     .4byte  0xE202D316

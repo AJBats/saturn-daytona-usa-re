@@ -90,65 +90,65 @@ main_loop_timing:
 
     .global DAT_06007412
 DAT_06007412:
-    .2byte  0x2468                        /* timing/scroll constant */
+    .2byte  0x2468
 
     .global DAT_06007414
 DAT_06007414:
-    .2byte  0x00DF                        /* 223 = screen bottom Y coordinate */
+    .2byte  0x00DF
 
     .global DAT_06007416
 DAT_06007416:
-    .2byte  0x015F                        /* 351 = screen right X coordinate */
+    .2byte  0x015F
 .L_06007418:
-    .2byte  0x03C0                        /* primary tile copy: 960 bytes */
+    .2byte  0x03C0
 .L_0600741A:
-    .2byte  0x0080                        /* secondary tile copy: 128 bytes */
+    .2byte  0x0080
 .L_0600741C:
-    .2byte  0x0300                        /* secondary tile destination offset */
+    .2byte  0x0300
     .2byte  0xFFFF
 .L_06007420:
-    .4byte  sym_06063F5C               /* display/scroll base table (ptr) */
+    .4byte  sym_06063F5C
 .L_06007424:
-    .4byte  sym_0606A4F4               /* config parameter store (32-bit) */
+    .4byte  sym_0606A4F4
 .L_06007428:
-    .4byte  sym_0606A4EC               /* timing register (32-bit) */
+    .4byte  sym_0606A4EC
 .L_0600742C:
-    .4byte  vdp2_scroll_update         /* VDP2 scroll position update */
+    .4byte  vdp2_scroll_update
 .L_06007430:
-    .4byte  polygon_param_setup        /* polygon rendering parameter setup */
+    .4byte  polygon_param_setup
 .L_06007434:
-    .4byte  sym_060393FC               /* screen coordinate bounds setup */
+    .4byte  sym_060393FC
 .L_06007438:
-    .4byte  0x0000FFFF                  /* low 16-bit mask */
+    .4byte  0x0000FFFF
 .L_0600743C:
-    .4byte  display_param_set          /* display parameter configuration */
+    .4byte  display_param_set
 .L_06007440:
-    .4byte  sym_06012E00               /* display initialization */
+    .4byte  sym_06012E00
 .L_06007444:
-    .4byte  0x002A0000                  /* primary tile data source address */
+    .4byte  0x002A0000
 .L_06007448:
-    .4byte  sym_06059FFC               /* tile index value (ptr, *8 for offset) */
+    .4byte  sym_06059FFC
 .L_0600744C:
-    .4byte  memcpy_word_idx            /* word-indexed memory copy */
+    .4byte  memcpy_word_idx
 .L_06007450:
-    .4byte  sym_0607EAB8               /* display mode flags (bit 0 = extended) */
+    .4byte  sym_0607EAB8
 .L_06007454:
-    .4byte  sym_06059F78               /* secondary tile data source */
+    .4byte  sym_06059F78
 .L_06007458:
-    .4byte  sym_0605A018               /* DMA destination address */
+    .4byte  sym_0605A018
 .L_0600745C:
-    .4byte  dma_transfer               /* SCU DMA transfer */
+    .4byte  dma_transfer
 .L_06007460:
-    .4byte  sym_0605A008               /* display mode state (32-bit) */
+    .4byte  sym_0605A008
 .L_06007464:
-    .4byte  0x00008000                  /* 0.5 / 0x8000 (scroll midpoint) */
+    .4byte  0x00008000
 .L_06007468:
-    .4byte  scene_setup_master         /* master scene setup */
+    .4byte  scene_setup_master
 .L_0600746C:
-    .4byte  sym_0606B178               /* scene data DMA destination */
+    .4byte  sym_0606B178
 .L_06007470:
-    .4byte  0x002A3457                  /* scene tile data source address */
+    .4byte  0x002A3457
 .L_06007474:
-    .4byte  dma_memory_transfer        /* DMA memory transfer */
+    .4byte  dma_memory_transfer
 .L_06007478:
-    .4byte  sym_06026CE0               /* camera state finalization */
+    .4byte  sym_06026CE0

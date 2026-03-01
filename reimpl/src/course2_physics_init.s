@@ -37,15 +37,15 @@ course2_physics_init:
     .2byte  0xFFFF
 
 .L_pool_06019FED:
-    .4byte  sym_06049B2C        /* car model index table (word array, course 2) */
+    .4byte  sym_06049B2C
 .L_pool_06019FF1:
-    .4byte  sym_06028400        /* block_copy function */
+    .4byte  sym_06028400
 .L_pool_06019FF5:
-    .4byte  sym_0605D242        /* animation counter byte */
+    .4byte  sym_0605D242
 .L_pool_06019FF9:
-    .4byte  sym_06085FF0        /* game config / course selection byte */
+    .4byte  sym_06085FF0
 .L_pool_06019FFD:
-    .4byte  sym_0605AD04        /* player car index (long) for course 2 */
+    .4byte  sym_0605AD04
 
 .L_06019FFC:
     extu.b r14, r10
@@ -184,8 +184,8 @@ course2_physics_init:
     .2byte  0xFFFF
 
 .L_pool_0601A0EE:
-    .4byte  sym_06063750        /* physics data table base (8-byte records per car model) */
+    .4byte  sym_06063750
 .L_pool_0601A0F2:
-    .4byte  sym_06049B22        /* course 2 per-car parameter offset table */
+    .4byte  sym_06049B22
 .L_pool_0601A0F6:
-    .4byte  sym_0605AD04        /* player car index (long) for course 2 (expert path copy) */
+    .4byte  sym_0605AD04

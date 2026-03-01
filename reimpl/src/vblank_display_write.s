@@ -72,11 +72,11 @@ vblank_display_write:
 .L_06038FF4:
     .4byte  sym_060A4C92
 .L_06038FF8:
-    .4byte  0x25D00002                  /* VDP1 FBCR — framebuffer control */
+    .4byte  0x25D00002
 .L_06038FFC:
     .4byte  sym_060A4C90
 .L_06039000:
-    .4byte  0x25D00000                  /* VDP1 TVMR — TV mode */
+    .4byte  0x25D00000
 .L_06039004:
     mov.l @r14, r2
     add #0x1, r2

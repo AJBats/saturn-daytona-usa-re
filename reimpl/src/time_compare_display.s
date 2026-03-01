@@ -121,11 +121,11 @@ time_compare_display:
 .L_wpool_06015C22:
     .2byte  0x0C00
 .L_pool_06015C24:
-    .4byte  sym_06084FC8         /* [HIGH] slot data array base — 68-byte structs */
+    .4byte  sym_06084FC8
 .L_pool_06015C28:
-    .4byte  track_vtx_builder    /* [HIGH] rebuild vertex data for slot */
+    .4byte  track_vtx_builder
 .L_pool_06015C2C:
-    .4byte  sym_060172E4         /* [HIGH] clear VDP2 registers / HUD element finalizer */
+    .4byte  sym_060172E4
 
     .global loc_06015C30
 loc_06015C30:

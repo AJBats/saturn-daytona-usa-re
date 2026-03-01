@@ -49,7 +49,7 @@ sys_dma_channel_init:
     .4byte  0xD303432B
     .4byte  0x7F0400F0
 .L_wpool_0603B91C:
-    .2byte  0x00A8                      /* [HIGH] channel slot offset in game state (+0xA8) */
+    .2byte  0x00A8
 
     .global DAT_0603b91e
 DAT_0603b91e:

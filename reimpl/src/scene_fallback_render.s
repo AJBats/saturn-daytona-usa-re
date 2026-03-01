@@ -52,34 +52,34 @@ scene_fallback_render:
     mov.l r3, @r13
     bra     .L_06006780
     nop
-    .4byte  0x00DCFFFF                     /* unreferenced alignment data */
-    .4byte  sym_060620D0                   /* unreferenced — binary_final_func data */
+    .4byte  0x00DCFFFF
+    .4byte  sym_060620D0
 .L_06006554:
-    .4byte  sym_06063E1C                   /* &camera_mode (32-bit) */
-    .4byte  sym_06059F30                   /* unreferenced — camera follow flag */
+    .4byte  sym_06063E1C
+    .4byte  sym_06059F30
 .L_0600655C:
-    .4byte  channel_nibble_config          /* display channel config function */
-    .4byte  0x00058000                     /* unreferenced — 5.5 fp */
+    .4byte  channel_nibble_config
+    .4byte  0x00058000
 .L_06006564:
-    .4byte  sym_06063E24                   /* &camera_eye_y (16.16 fp) */
-    .4byte  0x0000F300                     /* unreferenced — shared pool entry */
-    .4byte  sym_06063E34                   /* unreferenced — near clip */
-    .4byte  0x006E0000                     /* unreferenced — 110.0 fp */
-    .4byte  sym_06063E28                   /* unreferenced — heading */
-    .4byte  0x00100000                     /* unreferenced — 16.0 fp */
-    .4byte  sym_06063E2C                   /* unreferenced — zoom factor */
-    .4byte  sym_06063E30                   /* unreferenced — z offset */
-    .4byte  sym_06063EEC                   /* unreferenced — camera target vec */
+    .4byte  sym_06063E24
+    .4byte  0x0000F300
+    .4byte  sym_06063E34
+    .4byte  0x006E0000
+    .4byte  sym_06063E28
+    .4byte  0x00100000
+    .4byte  sym_06063E2C
+    .4byte  sym_06063E30
+    .4byte  sym_06063EEC
 .L_06006588:
-    .4byte  sym_06063E20                   /* &camera_state_idx */
+    .4byte  sym_06063E20
 .L_0600658C:
-    .4byte  0x00008000                     /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000
 .L_06006590:
-    .4byte  sym_06063F4C                   /* &target_eye_y (result of table lookup) */
+    .4byte  sym_06063F4C
 .L_06006594:
-    .4byte  sym_060446B8                   /* car table base (palette_render_main data) */
+    .4byte  sym_060446B8
 .L_06006598:
-    .4byte  sym_06078654                   /* &camera mode byte */
+    .4byte  sym_06078654
 .L_0600659C:
     .byte   0xD0, 0x33    /* mov.l .L_0600666C, r0 */
     .byte   0xD1, 0x34    /* mov.l .L_06006670, r1 */
@@ -186,45 +186,45 @@ scene_fallback_render:
     bra     .L_06006780
     nop
 .L_06006662:
-    .2byte  0xFDC0                         /* signed -576: near_clip += 576 */
+    .2byte  0xFDC0
 .L_06006664:
-    .2byte  0x4000                         /* 0.25 fp: eye_y delta */
+    .2byte  0x4000
 
     .global DAT_06006666
 DAT_06006666:
-    .2byte  0xE000                         /* signed -8192: z_offset += 8192 */
+    .2byte  0xE000
 
     .global DAT_06006668
 DAT_06006668:
-    .2byte  0x1000                         /* 0.0625 fp: eye_y delta */
+    .2byte  0x1000
 .L_0600666A:
-    .2byte  0xFEA0                         /* signed -352: near_clip += 352 */
+    .2byte  0xFEA0
 .L_0600666C:
-    .4byte  0x00058000                     /* 5.5 (16.16 fp) — stage 3 threshold */
+    .4byte  0x00058000
 .L_06006670:
-    .4byte  0x00010000                     /* 1.0 (16.16 fp) — stage 4 eye delta */
+    .4byte  0x00010000
 .L_06006674:
-    .4byte  sym_06063E30                   /* &camera_z_offset */
+    .4byte  sym_06063E30
 .L_06006678:
-    .4byte  sym_06063E2C                   /* &camera_zoom_factor */
+    .4byte  sym_06063E2C
 .L_0600667C:
-    .4byte  sym_06063E28                   /* &camera_heading */
+    .4byte  sym_06063E28
 .L_06006680:
-    .4byte  sym_06063E34                   /* &camera_near_clip */
+    .4byte  sym_06063E34
 .L_06006684:
-    .4byte  0x00078000                     /* 7.5 (16.16 fp) — stage 4 threshold */
+    .4byte  0x00078000
 .L_06006688:
-    .4byte  0x0003C000                     /* 3.75 fp: heading delta (stage 4) */
+    .4byte  0x0003C000
 .L_0600668C:
-    .4byte  0x0001C000                     /* 1.75 fp: heading delta (stage 3) */
+    .4byte  0x0001C000
 .L_06006690:
-    .4byte  0x0000A000                     /* 0.625 fp: eye_y delta (stage 2) */
+    .4byte  0x0000A000
 .L_06006694:
-    .4byte  0x000D0000                     /* 13.0 fp: zoom delta (stage 1) */
+    .4byte  0x000D0000
 .L_06006698:
-    .4byte  sym_06083255                   /* &terrain_rendering_flag */
+    .4byte  sym_06083255
 .L_0600669C:
-    .4byte  0x000A0000                     /* 10.0 fp: extra zoom if terrain active */
+    .4byte  0x000A0000
 .L_060066A0:
     mov.l @r12, r2
     mov.l @r14, r3
@@ -321,35 +321,35 @@ DAT_06006668:
 
     .global DAT_06006752
 DAT_06006752:
-    .2byte  0x1000                         /* 0.0625 fp: eye_y delta (stage 0) */
+    .2byte  0x1000
 .L_06006754:
-    .2byte  0xFEA0                         /* signed -352: near_clip -= 352 */
+    .2byte  0xFEA0
 
     .global DAT_06006756
 DAT_06006756:
-    .2byte  0xE000                         /* signed -8192: z_offset -= 8192 */
+    .2byte  0xE000
 
     .global DAT_06006758
 DAT_06006758:
-    .2byte  0x4000                         /* 0.25 fp: eye_y delta (stage 2) */
+    .2byte  0x4000
 .L_0600675A:
-    .2byte  0xFDC0                         /* signed -576: near_clip -= 576 */
+    .2byte  0xFDC0
 .L_0600675C:
-    .4byte  0x000D0000                     /* 13.0 fp: zoom delta (stage 0) */
+    .4byte  0x000D0000
 .L_06006760:
-    .4byte  sym_06083255                   /* &terrain_rendering_flag */
+    .4byte  sym_06083255
 .L_06006764:
-    .4byte  0x000A0000                     /* 10.0 fp: extra zoom if terrain active */
+    .4byte  0x000A0000
 .L_06006768:
-    .4byte  0x0000A000                     /* 0.625 fp: eye_y delta (stage 1) */
+    .4byte  0x0000A000
 .L_0600676C:
-    .4byte  0x00078000                     /* 7.5 fp: stage 2 threshold */
+    .4byte  0x00078000
 .L_06006770:
-    .4byte  0x0001C000                     /* 1.75 fp: heading delta (stage 2) */
+    .4byte  0x0001C000
 .L_06006774:
-    .4byte  0x00178000                     /* 23.5 fp: stage 3 threshold */
+    .4byte  0x00178000
 .L_06006778:
-    .4byte  0x0003C000                     /* 3.75 fp: heading delta (stage 3) */
+    .4byte  0x0003C000
 .L_0600677C:
     mov #0x4, r2
     mov.l r2, @r13

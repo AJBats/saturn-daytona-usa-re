@@ -112,61 +112,61 @@ lap_display_anim:
     rts
     mov.l @r15+, r14
 .L_060126A2:
-    .2byte  0x0390                        /* VDP1 sprite display list offset */
+    .2byte  0x0390
 
     .global DAT_060126a4
 DAT_060126a4:
-    .2byte  0x1000                        /* animation counter adjustment step */
+    .2byte  0x1000
     .2byte  0xFFFF
 .L_060126A8:
-    .4byte  sym_060788B0               /* animation counter (16-bit, per frame) */
+    .4byte  sym_060788B0
 .L_060126AC:
-    .4byte  sym_0605ACF8               /* initialization data source (8 bytes) */
+    .4byte  sym_0605ACF8
 .L_060126B0:
-    .4byte  sym_06035228               /* byte/word copy function */
+    .4byte  sym_06035228
 .L_060126B4:
-    .4byte  sym_06026DBC               /* per-object pre-transform setup */
+    .4byte  sym_06026DBC
 .L_060126B8:
-    .4byte  sym_06026E0C               /* pre-animation setup */
+    .4byte  sym_06026E0C
 .L_060126BC:
-    .4byte  sym_060788B4               /* object position vector (XYZ triplet) */
+    .4byte  sym_060788B4
 .L_060126C0:
-    .4byte  sym_06026E2E               /* transform dispatch function */
+    .4byte  sym_06026E2E
 .L_060126C4:
-    .4byte  sym_060788B2               /* Z rotation angle state (16-bit) */
+    .4byte  sym_060788B2
 .L_060126C8:
-    .4byte  mat_rot_z                  /* Z-axis rotation */
+    .4byte  mat_rot_z
 .L_060126CC:
-    .4byte  sym_0607EBCC               /* stack/model base pointer (indirect) */
+    .4byte  sym_0607EBCC
 .L_060126D0:
-    .4byte  sym_06034FE0               /* model data lookup function */
+    .4byte  sym_06034FE0
 .L_060126D4:
-    .4byte  sym_06063750               /* model geometry table (8 bytes per entry) */
+    .4byte  sym_06063750
 .L_060126D8:
-    .4byte  0x0000B000                  /* model data base offset */
+    .4byte  0x0000B000
 .L_060126DC:
-    .4byte  sym_06028400               /* sprite/model draw function */
+    .4byte  sym_06028400
 .L_060126E0:
-    .4byte  sym_0605AC94               /* animation counter reference table */
+    .4byte  sym_0605AC94
 .L_060126E4:
-    .4byte  mat_rot_y                  /* Y-axis rotation */
+    .4byte  mat_rot_y
 .L_060126E8:
-    .4byte  mat_rot_x           /* apply transform matrix */
+    .4byte  mat_rot_x
 .L_060126EC:
-    .4byte  sym_06063558               /* chain A source data */
+    .4byte  sym_06063558
 .L_060126F0:
-    .4byte  sym_0607EAD8               /* object/car counter (indexed -1) */
+    .4byte  sym_0607EAD8
 .L_060126F4:
-    .4byte  sym_0606354C               /* chain A dispatch table */
+    .4byte  sym_0606354C
 .L_060126F8:
-    .4byte  sym_06031D8C               /* transform chain dispatch A */
+    .4byte  sym_06031D8C
 .L_060126FC:
-    .4byte  sym_06063554               /* chain B source data */
+    .4byte  sym_06063554
 .L_06012700:
-    .4byte  sym_06089EA0               /* display mode selector (16-bit) */
+    .4byte  sym_06089EA0
 .L_06012704:
-    .4byte  sym_06063544               /* chain B dispatch table */
+    .4byte  sym_06063544
 .L_06012708:
-    .4byte  sym_06031A28               /* transform chain dispatch B */
+    .4byte  sym_06031A28
 .L_0601270C:
-    .4byte  sym_06026DF8               /* post-animation cleanup */
+    .4byte  sym_06026DF8

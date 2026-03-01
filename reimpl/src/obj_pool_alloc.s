@@ -98,16 +98,16 @@ obj_pool_alloc:
     .byte   0xA0, 0x0D    /* bra 0x06020284 (external) */
     mov.l @r15+, r14
 .L_0602026A:
-    .2byte  0x0800                         /* [HIGH] start-button bitmask (bit 11) */
+    .2byte  0x0800
 .L_pool_0602026C:
-    .4byte  sym_06087808               /* [MEDIUM] position counter (word) */
+    .4byte  sym_06087808
 .L_pool_06020270:
-    .4byte  sym_06087806               /* [MEDIUM] active object count (word) */
+    .4byte  sym_06087806
 .L_pool_06020274:
-    .4byte  sym_06063D9A               /* [HIGH] new button presses (edge-triggered) */
+    .4byte  sym_06063D9A
 .L_pool_06020278:
-    .4byte  sym_0608780A               /* [MEDIUM] lap counter (word) */
+    .4byte  sym_0608780A
 .L_pool_0602027C:
-    .4byte  sym_0605F4A8               /* [MEDIUM] object type/param table (6 bytes/row) */
+    .4byte  sym_0605F4A8
 .L_pool_06020280:
-    .4byte  sym_0608782C               /* [MEDIUM] object slot array base */
+    .4byte  sym_0608782C

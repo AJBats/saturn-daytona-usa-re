@@ -102,21 +102,21 @@ obj_position_update:
 .L_06004FDC:
     .4byte  sym_06063750                 /* display command table base */
 .L_06004FE0:
-    .4byte  sym_06059F1C                 /* counter B (init_counter) */
+    .4byte  sym_06059F1C
 .L_06004FE4:
-    .4byte  sym_06059F18                 /* counter A (dispatch_flags) */
+    .4byte  sym_06059F18
 .L_06004FE8:
-    .4byte  sym_06059F10                 /* mode flag / entry index */
+    .4byte  sym_06059F10
 .L_06004FEC:
-    .4byte  sym_06063D90                 /* heap write cursor */
+    .4byte  sym_06063D90
 .L_06004FF0:
-    .4byte  memcpy_word_idx              /* CPU word-copy function */
+    .4byte  memcpy_word_idx
 .L_06004FF4:
-    .4byte  sym_06063D94                 /* secondary heap cursor */
+    .4byte  sym_06063D94
 .L_06004FF8:
-    .4byte  0x25E00000                   /* VDP2 VRAM +0x00000 */
+    .4byte  0x25E00000
 .L_06004FFC:
-    .4byte  dma_memory_transfer          /* DMA transfer function */
+    .4byte  dma_memory_transfer
 .L_06005000:
     mov.l @r14, r2
     and r4, r9

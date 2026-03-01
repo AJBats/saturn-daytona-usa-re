@@ -19,9 +19,9 @@ disc_error_handler:
     .byte   0xD3, 0x0F    /* mov.l .L_0601B52C, r3 */
     jmp @r3
     lds.l @r15+, pr
-    .2byte  0x0080                      /* padding */
+    .2byte  0x0080
 .L_0601B4F4:
-    .2byte  0x0100                      /* CD status bit 8: fatal disc error */
+    .2byte  0x0100
     .2byte  0xFFFF
     .4byte  sym_060485EC
     .4byte  0x25F00020
@@ -35,11 +35,11 @@ disc_error_handler:
     .4byte  sym_06028400
     .4byte  sym_0608600D
 .L_0601B524:
-    .4byte  sym_06063D9A               /* CD block status word (16-bit) */
+    .4byte  sym_06063D9A
 .L_0601B528:
-    .4byte  sym_0608600C               /* disc error flag (byte) */
+    .4byte  sym_0608600C
 .L_0601B52C:
-    .4byte  handler_init_reset         /* system reset handler */
+    .4byte  handler_init_reset
 .L_0601B530:
     .byte   0xB1, 0x60    /* bsr 0x0601B7F4 */
     nop
@@ -78,14 +78,14 @@ loc_0601B566:
     rts
     mov.b r3, @r2
 .L_0601B56E:
-    .2byte  0x0E00                      /* CD status bits 11:9: recoverable errors */
+    .2byte  0x0E00
 .L_0601B570:
-    .4byte  sym_06063D9A               /* CD block status word (16-bit) */
+    .4byte  sym_06063D9A
 .L_0601B574:
-    .4byte  sym_0608600E               /* disc type: 2 = game disc */
+    .4byte  sym_0608600E
 .L_0601B578:
-    .4byte  sym_0608600C               /* disc error flag (byte) */
+    .4byte  sym_0608600C
 .L_0601B57C:
-    .4byte  handler_init_reset         /* system reset handler */
+    .4byte  handler_init_reset
 .L_0601B580:
-    .4byte  sym_0608600D               /* error code: 0=none, 1=fatal, 2=wrong, 3=removed */
+    .4byte  sym_0608600D

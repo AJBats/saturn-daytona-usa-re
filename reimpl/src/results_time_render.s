@@ -11,10 +11,10 @@ results_time_render:
     lds.l @r15+, pr
     rts
     nop
-    .4byte  0x07E00000                       /* VDP1 VRAM base address */
-    .4byte  sym_060430CE                     /* palette/render helper */
-    .4byte  sym_060629AC                     /* element source data buffer */
-    .4byte  memcpy_word_idx                  /* word-indexed memcpy routine */
+    .4byte  0x07E00000
+    .4byte  sym_060430CE
+    .4byte  sym_060629AC
+    .4byte  memcpy_word_idx
 
     .global sym_06033354
 sym_06033354:

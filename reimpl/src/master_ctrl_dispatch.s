@@ -65,7 +65,7 @@ master_ctrl_dispatch:
 .L_0601C44C:
     .4byte  sym_0605DF44
 .L_0601C450:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000
 .L_0601C454:
     .4byte  sym_0608A52C
 .L_0601C458:
@@ -191,9 +191,9 @@ DAT_0601c510:
 .L_0601C530:
     .4byte  sym_06063E20
 .L_0601C534:
-    .4byte  0xFFFE4000                  /* -1.75 (16.16 fixed-point) */
+    .4byte  0xFFFE4000
 .L_0601C538:
-    .4byte  0x00014872                  /* 1.28 (16.16 fixed-point) */
+    .4byte  0x00014872
 .L_0601C53C:
     .4byte  sym_060270F2
 .L_0601C540:
@@ -302,9 +302,9 @@ DAT_0601c5f8:
 DAT_0601c5fa:
     .2byte  0x6666
 .L_0601C5FC:
-    .4byte  0xFFFF0000                  /* -1.0 (16.16 fixed-point) */
+    .4byte  0xFFFF0000
 .L_0601C600:
-    .4byte  0x00014872                  /* 1.28 (16.16 fixed-point) */
+    .4byte  0x00014872
 .L_0601C604:
     .4byte  sym_060270F2
 .L_0601C608:
@@ -334,9 +334,9 @@ DAT_0601c5fa:
 .L_0601C638:
     .4byte  sym_06063E20
 .L_0601C63C:
-    .4byte  0xFFFE4000                  /* -1.75 (16.16 fixed-point) */
+    .4byte  0xFFFE4000
 .L_0601C640:
-    .4byte  0xFFFEB78E                  /* -1.28 (16.16 fixed-point) */
+    .4byte  0xFFFEB78E
 .L_0601C644:
     .4byte  mat_scale_b
 .L_0601C648:
@@ -408,9 +408,9 @@ DAT_0601c6c0:
     .2byte  0x7000
     .2byte  0xFFFF
 .L_0601C6C4:
-    .4byte  0xFFFF0000                  /* -1.0 (16.16 fixed-point) */
+    .4byte  0xFFFF0000
 .L_0601C6C8:
-    .4byte  0xFFFEB78E                  /* -1.28 (16.16 fixed-point) */
+    .4byte  0xFFFEB78E
 .L_0601C6CC:
     .4byte  sym_060270F2
 .L_0601C6D0:
@@ -511,9 +511,9 @@ DAT_0601c77c:
 .L_0601C784:
     .4byte  sym_06027080
 .L_0601C788:
-    .4byte  0x00013333                  /* 1.2 (16.16 fixed-point) */
+    .4byte  0x00013333
 .L_0601C78C:
-    .4byte  0x0001620C                  /* 1.38 (16.16 fixed-point) */
+    .4byte  0x0001620C
 .L_0601C790:
     .4byte  sym_060270F2
 .L_0601C794:
@@ -617,9 +617,9 @@ DAT_0601c844:
 .L_0601C84C:
     .4byte  sym_06027080
 .L_0601C850:
-    .4byte  0x00013333                  /* 1.2 (16.16 fixed-point) */
+    .4byte  0x00013333
 .L_0601C854:
-    .4byte  0xFFFE9DF4                  /* -1.38 (16.16 fixed-point) */
+    .4byte  0xFFFE9DF4
 .L_0601C858:
     .4byte  sym_060270F2
 .L_0601C85C:
@@ -747,14 +747,14 @@ DAT_0601c93c:
 DAT_0601c93e:
     .2byte  0x0152
 .L_0601C940:
-    .2byte  0xCCCD                      /* -0x3333 signed = -13107 */
+    .2byte  0xCCCD
     .2byte  0xFFFF
 .L_0601C944:
     .4byte  sym_06027080
 .L_0601C948:
     .4byte  sym_06044670
 .L_0601C94C:
-    .4byte  0xFFFF6000                  /* -0.625 (16.16 fixed-point) */
+    .4byte  0xFFFF6000
 .L_0601C950:
     .4byte  sym_060270F2
 .L_0601C954:

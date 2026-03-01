@@ -40,22 +40,22 @@ display_hw_init:
     mov.l r2, @(4, r5)
     .byte   0xA0, 0x13    /* bra 0x0603836C (external */
     lds.l @r15+, pr
-    .2byte  0xFFFF              /* padding */
+    .2byte  0xFFFF
 .L_pool_06038348:
-    .4byte  sym_06038F34        /* display_param_reset function */
+    .4byte  sym_06038F34
 .L_pool_0603834C:
-    .4byte  sym_060A4C60        /* view offset structure A (8 bytes) */
+    .4byte  sym_060A4C60
 .L_pool_06038350:
-    .4byte  sym_060A4C68        /* view offset structure B (8 bytes) */
+    .4byte  sym_060A4C68
 .L_pool_06038354:
-    .4byte  sym_060A4C78        /* color accumulator (8 bytes) */
+    .4byte  sym_060A4C78
 .L_pool_06038358:
-    .4byte  sym_060A4C40        /* scene pending flags (4 bytes, word pairs) */
+    .4byte  sym_060A4C40
 .L_pool_0603835C:
-    .4byte  sym_060A4C54        /* scene render state (4 bytes, word pairs) */
+    .4byte  sym_060A4C54
 .L_pool_06038360:
-    .4byte  sym_060A4C44        /* scene source A data (8 bytes) */
+    .4byte  sym_060A4C44
 .L_pool_06038364:
-    .4byte  sym_060A4C4C        /* scene dirty flags (8 bytes) */
+    .4byte  sym_060A4C4C
 .L_pool_06038368:
-    .4byte  display_init_chain  /* display init chain function */
+    .4byte  display_init_chain

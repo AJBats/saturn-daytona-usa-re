@@ -125,55 +125,55 @@ replay_record_frame:
 
     .global DAT_0601bb3a
 DAT_0601bb3a:
-    .2byte  0x01B0                        /* model table offset: car element A */
+    .2byte  0x01B0
 .L_0601BB3C:
-    .2byte  0x0290                        /* VDP1 cmd offset: car model A */
+    .2byte  0x0290
 
     .global DAT_0601bb3e
 DAT_0601bb3e:
-    .2byte  0x01B8                        /* model table offset: car element B */
+    .2byte  0x01B8
 
     .global DAT_0601bb40
 DAT_0601bb40:
-    .2byte  0x02AC                        /* VDP1 cmd offset: car model B */
+    .2byte  0x02AC
 .L_0601BB42:
-    .2byte  0x0390                        /* VDP1 cmd offset: car A specific */
+    .2byte  0x0390
 
     .global DAT_0601bb44
 DAT_0601bb44:
-    .2byte  0x03AC                        /* VDP1 cmd offset: car B specific */
+    .2byte  0x03AC
 
     .global DAT_0601bb46
 DAT_0601bb46:
-    .2byte  0x01D8                        /* model table offset: overlay entry */
+    .2byte  0x01D8
 
     .global DAT_0601bb48
 DAT_0601bb48:
-    .2byte  0x6000                        /* model data offset for overlay */
+    .2byte  0x6000
 
     .global DAT_0601bb4a
 DAT_0601bb4a:
-    .2byte  0x0C86                        /* VDP1 cmd offset: overlay element */
+    .2byte  0x0C86
 .L_0601BB4C:
-    .4byte  sym_060284AE               /* VDP1 position element draw */
+    .4byte  sym_060284AE
 .L_0601BB50:
-    .4byte  sym_0605D4F7               /* replay playback state byte */
+    .4byte  sym_0605D4F7
 .L_0601BB54:
-    .4byte  sym_0605DF3A               /* replay init data source */
+    .4byte  sym_0605DF3A
 .L_0601BB58:
-    .4byte  sym_06035228               /* byte/word copy function */
+    .4byte  sym_06035228
 .L_0601BB5C:
-    .4byte  sym_06028400               /* sprite/model draw function */
+    .4byte  sym_06028400
 .L_0601BB60:
-    .4byte  sym_06063750               /* model geometry table (8 bytes per entry) */
+    .4byte  sym_06063750
 .L_0601BB64:
-    .4byte  0x0000A000                  /* model data offset A (car elements) */
+    .4byte  0x0000A000
 .L_0601BB68:
-    .4byte  0x00009000                  /* model data offset B (per-car models) */
+    .4byte  0x00009000
 .L_0601BB6C:
-    .4byte  sym_0605DD6C               /* replay record lookup table */
+    .4byte  sym_0605DD6C
 .L_0601BB70:
-    .4byte  sym_0605DE24               /* per-frame animation data table */
+    .4byte  sym_0605DE24
 .L_0601BB74:
     mov #0x60, r6
     mov.w   DAT_0601bbc0, r5
@@ -217,10 +217,10 @@ DAT_0601bb4a:
 
     .global DAT_0601bbc0
 DAT_0601bbc0:
-    .2byte  0x0CA4                        /* VDP1 cmd offset: position element */
+    .2byte  0x0CA4
 .L_0601BBC2:
-    .2byte  0x0CB2                        /* VDP1 cmd offset: final indicator */
+    .2byte  0x0CB2
 .L_0601BBC4:
-    .4byte  sym_0605DE24               /* per-frame data table (dup for reach) */
+    .4byte  sym_0605DE24
 .L_0601BBC8:
-    .4byte  anim_frame_transform       /* animation frame transform */
+    .4byte  anim_frame_transform

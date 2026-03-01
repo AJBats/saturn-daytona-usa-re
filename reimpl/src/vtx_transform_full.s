@@ -85,22 +85,22 @@ vtx_transform_full:
     rts
     nop
 .L_0602D9D0:
-    .2byte  0x0248                  /* car struct +0x248: angular velocity */
+    .2byte  0x0248
 .L_0602D9D2:
-    .2byte  0x0250                  /* car struct +0x250: scene table index */
+    .2byte  0x0250
 .L_0602D9D4:
-    .4byte  sym_0602E8B8            /* scene scale lookup table (main_scene_render) */
+    .4byte  sym_0602E8B8
 .L_0602D9D8:
-    .4byte  0x00006AAA              /* default scale when frame_count <= 0x28 */
+    .4byte  0x00006AAA
 .L_0602D9DC:
-    .4byte  cos_lookup              /* cosine lookup function */
+    .4byte  cos_lookup
 .L_0602D9E0:
-    .4byte  sin_lookup              /* sine lookup function */
+    .4byte  sin_lookup
 .L_0602D9E4:
-    .4byte  0x0000018C              /* car struct +0x18C: X rotation delta */
+    .4byte  0x0000018C
 .L_0602D9E8:
-    .4byte  0x00000190              /* car struct +0x190: Z rotation delta */
-    .4byte  0x000B0009              /* (padding / out-of-TU data) */
+    .4byte  0x00000190
+    .4byte  0x000B0009
 
     .global sym_0602D9F0
 sym_0602D9F0:
@@ -191,69 +191,69 @@ sym_0602D9F0:
     rts
     nop
 .L_0602DA98:
-    .2byte  0x0150                  /* car struct +0x150: clip flags A */
+    .2byte  0x0150
 .L_0602DA9A:
-    .2byte  0x0250                  /* car struct +0x250: clip flags B */
+    .2byte  0x0250
 .L_0602DA9C:
-    .2byte  0x00B8                  /* car struct +0xB8: visibility flags */
+    .2byte  0x00B8
 .L_0602DA9E:
-    .2byte  0x0120                  /* car struct +0x120: vertex bounding box */
+    .2byte  0x0120
 .L_0602DAA0:
-    .2byte  0x0041                  /* required AND result for all-in-view */
+    .2byte  0x0041
 .L_0602DAA2:
-    .2byte  0x025C                  /* car struct +0x25C: track section Z */
+    .2byte  0x025C
 .L_0602DAA4:
-    .2byte  0x3FFF                  /* bias to shift signed delta positive */
+    .2byte  0x3FFF
 .L_0602DAA6:
-    .2byte  0x2800                  /* minimum biased Z distance */
+    .2byte  0x2800
 .L_0602DAA8:
-    .2byte  0x47FF                  /* maximum biased Z distance */
+    .2byte  0x47FF
 .L_0602DAAA:
-    .2byte  0x003C                  /* 60 (checkpoint timer frames) */
+    .2byte  0x003C
 .L_0602DAAC:
-    .2byte  0x0001                  /* 1 (race complete flag value) */
-    .2byte  0x0000                  /* (alignment padding) */
+    .2byte  0x0001
+    .2byte  0x0000
 .L_0602DAB0:
-    .4byte  sym_0607E944            /* car array base pointer */
+    .4byte  sym_0607E944
 .L_0602DAB4:
-    .4byte  sym_06063F28            /* maximum lap count for current race */
+    .4byte  sym_06063F28
 .L_0602DAB8:
-    .4byte  0x00000228              /* car struct +0x228: current lap */
+    .4byte  0x00000228
 .L_0602DABC:
-    .4byte  sym_0607EAD8            /* race end state (0/1/2) */
+    .4byte  sym_0607EAD8
 .L_0602DAC0:
-    .4byte  0x00000001              /* constant 1 */
+    .4byte  0x00000001
 .L_0602DAC4:
-    .4byte  0x00000018              /* car struct +0x18: Z position */
+    .4byte  0x00000018
 .L_0602DAC8:
-    .4byte  0xFF000000              /* upper byte mask (Z out-of-range guard) */
+    .4byte  0xFF000000
 .L_0602DACC:
-    .4byte  0x000001BC              /* car struct +0x1BC: terrain type */
+    .4byte  0x000001BC
 .L_0602DAD0:
-    .4byte  0x00000000              /* constant 0 */
+    .4byte  0x00000000
 .L_0602DAD4:
-    .4byte  sym_0607E940            /* current car struct pointer */
+    .4byte  sym_0607E940
 .L_0602DAD8:
-    .4byte  0x00000008              /* bit 3 flag mask */
+    .4byte  0x00000008
 .L_0602DADC:
-    .4byte  sym_06083260            /* race mode byte */
+    .4byte  sym_06083260
 .L_0602DAE0:
-    .4byte  0x00020000              /* bit 17 flag (0x20000) */
+    .4byte  0x00020000
 .L_0602DAE4:
-    .4byte  sym_0607EAC8            /* checkpoint counter (32-bit) */
+    .4byte  sym_0607EAC8
 .L_0602DAE8:
-    .4byte  sym_0605A1C4            /* race complete flag (32-bit) */
+    .4byte  sym_0605A1C4
 .L_0602DAEC:
     mov.l   .L_0602DAF8, r1
     mov.l   .L_0602DAFC, r2
     mov.b r2, @r1
     rts
     nop
-    .2byte  0x0000                  /* (alignment padding) */
+    .2byte  0x0000
 .L_0602DAF8:
-    .4byte  sym_06083260            /* race mode byte (duplicate ref) */
+    .4byte  sym_06083260
 .L_0602DAFC:
-    .4byte  0xFFFFFFFF              /* -1 (byte-stored as 0xFF) */
+    .4byte  0xFFFFFFFF
 
     .global sym_0602DB00
 sym_0602DB00:

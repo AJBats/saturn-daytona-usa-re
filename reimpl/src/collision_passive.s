@@ -68,16 +68,16 @@ collision_passive:
 
     .global DAT_0600d192
 DAT_0600d192:
-    .2byte  0x0118                      /* car struct offset: collision partner A pointer */
+    .2byte  0x0118
 .L_wpool_0600D194:
-    .2byte  0x0234                      /* car struct offset: collision partner B pointer */
-    .2byte  0xFFFF                      /* alignment padding */
+    .2byte  0x0234
+    .2byte  0xFFFF
 .L_pool_0600D198:
-    .4byte  sym_0607E940                /* &current_car_ptr — points to active car struct */
+    .4byte  sym_0607E940
 .L_pool_0600D19C:
-    .4byte  0x000F0000                  /* 15.0 in 16.16 fixed-point — diagonal separation threshold */
+    .4byte  0x000F0000
 .L_pool_0600D1A0:
-    .4byte  0x00080000                  /* 8.0 in 16.16 fixed-point — close proximity threshold */
+    .4byte  0x00080000
 .L_0600D1A4:
     mov.l   .L_pool_0600D20C, r6
     mov.w   DAT_0600d1fa, r0
@@ -131,34 +131,34 @@ DAT_0600d192:
 
     .global DAT_0600d1fa
 DAT_0600d1fa:
-    .2byte  0x01FC                      /* car struct offset: speed/heading field */
+    .2byte  0x01FC
 
     .global DAT_0600d1fc
 DAT_0600d1fc:
-    .2byte  0xFD00                      /* -768 (signed) — lower bound for speed delta */
+    .2byte  0xFD00
 
     .global DAT_0600d1fe
 DAT_0600d1fe:
-    .2byte  0x0300                      /* 768 — upper bound for speed delta / push magnitude */
+    .2byte  0x0300
 
     .global DAT_0600d200
 DAT_0600d200:
-    .2byte  0x0400                      /* 1024 — direction threshold for push direction */
+    .2byte  0x0400
 
     .global DAT_0600d202
 DAT_0600d202:
-    .2byte  0x01F8                      /* car struct offset: force/push accumulator field */
+    .2byte  0x01F8
 
     .global DAT_0600d204
 DAT_0600d204:
-    .2byte  0x0800                      /* 2048 — maximum push value (clamp ceiling) */
+    .2byte  0x0800
 .L_wpool_0600D206:
-    .2byte  0x0100                      /* 256 — collision timer duration (frames) */
+    .2byte  0x0100
 .L_wpool_0600D208:
-    .2byte  0x0204                      /* car struct offset: collision timer / steering countdown */
-    .2byte  0xFFFF                      /* alignment padding */
+    .2byte  0x0204
+    .2byte  0xFFFF
 .L_pool_0600D20C:
-    .4byte  sym_0607E940                /* &current_car_ptr (duplicate for push handler reach) */
+    .4byte  sym_0607E940
     .4byte  0xD519D41A
     .4byte  0x90296552
     .4byte  0x6442035E
@@ -189,26 +189,26 @@ friction_stub:
 
     .global DAT_0600d26a
 DAT_0600d26a:
-    .2byte  0x01FC                      /* car struct offset: speed field (for standalone push) */
+    .2byte  0x01FC
 
     .global DAT_0600d26c
 DAT_0600d26c:
-    .2byte  0xFD00                      /* -768 (signed) — lower bound (standalone push pool) */
+    .2byte  0xFD00
 
     .global DAT_0600d26e
 DAT_0600d26e:
-    .2byte  0x0300                      /* 768 — upper bound / push magnitude (standalone pool) */
+    .2byte  0x0300
 
     .global DAT_0600d270
 DAT_0600d270:
-    .2byte  0x01F8                      /* car struct offset: force field (standalone push pool) */
+    .2byte  0x01F8
 
     .global DAT_0600d272
 DAT_0600d272:
-    .2byte  0x0800                      /* 2048 — max push value (standalone push pool) */
-    .4byte  0x0204FFFF                  /* 0x0204 = timer offset, 0xFFFF = padding (standalone pool) */
-    .4byte  sym_0607E940                /* &current_car_ptr (standalone push: self car) */
-    .4byte  sym_0607E944                /* &car_base_ptr (standalone push: other car) */
+    .2byte  0x0800
+    .4byte  0x0204FFFF
+    .4byte  sym_0607E940
+    .4byte  sym_0607E944
 
     .global sym_0600D280
 sym_0600D280:
@@ -287,15 +287,15 @@ sym_0600D280:
     rts
     mov.l @r15+, r12
 .L_wpool_0600D304:
-    .2byte  0x0268                      /* car struct stride (616 bytes) */
-    .2byte  0xFFFF                      /* alignment padding */
+    .2byte  0x0268
+    .2byte  0xFFFF
 .L_pool_0600D308:
-    .4byte  sym_06078900                /* car struct array base address */
+    .4byte  sym_06078900
 .L_pool_0600D30C:
-    .4byte  sym_0607EA98                /* &total_car_count (long) */
+    .4byte  sym_0607EA98
 .L_pool_0600D310:
-    .4byte  sym_0607E94C                /* car_ptr_list_a — primary sorted pointer array */
+    .4byte  sym_0607E94C
 .L_pool_0600D314:
-    .4byte  sym_0607E9EC                /* car_ptr_list_b — secondary sorted pointer array */
+    .4byte  sym_0607E9EC
 .L_pool_0600D318:
-    .4byte  sym_0607EA8C                /* race position scratch state (3 longs) */
+    .4byte  sym_0607EA8C

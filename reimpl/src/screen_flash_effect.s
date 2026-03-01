@@ -25,7 +25,7 @@ screen_flash_effect:
     lds.l @r15+, pr
     rts
     nop
-    .2byte  0x0000                        /* alignment padding */
+    .2byte  0x0000
 .L_pool_060283AC:
     .4byte  sym_06028614
     .4byte  0xA003E302
@@ -55,7 +55,7 @@ sym_060283E0:
     mov.w r3, @r2
     bra     .L_060283E8
     add #0x2, r2
-    .2byte  0x0000                        /* alignment padding */
+    .2byte  0x0000
 .L_pool_060283F8:
     .4byte  sym_06028614
 .L_060283FC:

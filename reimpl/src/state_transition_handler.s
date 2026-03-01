@@ -81,7 +81,7 @@ state_transition_handler:
     rts
     mov.l @r15+, r14
 .L_wpool_06041D58:
-    .2byte  0x0328                      /* [HIGH] offset to transition_state in game state struct */
+    .2byte  0x0328
 
     .global DAT_06041d5a
 DAT_06041d5a:

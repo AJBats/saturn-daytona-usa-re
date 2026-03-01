@@ -124,17 +124,17 @@ DAT_06006da6:
 .L_06006DB8:
     .4byte  sym_06063EF0
 .L_06006DBC:
-    .4byte  0x0000FFFF                  /* low 16-bit mask */
+    .4byte  0x0000FFFF
 .L_06006DC0:
     .4byte  sym_06062248
 .L_06006DC4:
-    .4byte  0x002F0000                  /* vis table base address offset */
+    .4byte  0x002F0000
 .L_06006DC8:
     .4byte  sym_06062260
 .L_06006DCC:
     .4byte  sym_06063DF8
 .L_06006DD0:
-    .4byte  0x04000000                  /* angle-to-column rounding bias */
+    .4byte  0x04000000
 .L_06006DD4:
     mov #0x5, r3
     cmp/hs r3, r5

@@ -83,34 +83,34 @@ vdp2_scroll_update:
 
     .global DAT_060392e6
 DAT_060392e6:
-    .2byte  0xFF0F                      /* SR mask: clear IRQ level bits */
+    .2byte  0xFF0F
 .L_060392E8:
-    .2byte  0x0080                      /* VDP1 VRAM cmd byte 0: 0x80 (normal sprite) */
-    .2byte  0xFFFF                      /* alignment padding */
+    .2byte  0x0080
+    .2byte  0xFFFF
 .L_060392EC:
-    .4byte  sym_060A4C92               /* cached FBCR / interlace value */
+    .4byte  sym_060A4C92
 .L_060392F0:
-    .4byte  0x25D00002                  /* VDP1 FBCR -- framebuffer control */
+    .4byte  0x25D00002
 .L_060392F4:
-    .4byte  0x25D00004                  /* VDP1 PTMR -- plot trigger */
+    .4byte  0x25D00004
 .L_060392F8:
-    .4byte  0x00008000                  /* erase fill: 0x8000 (black in RGB555) */
+    .4byte  0x00008000
 .L_060392FC:
-    .4byte  0x25D00006                  /* VDP1 EWDR -- erase fill color */
+    .4byte  0x25D00006
 .L_06039300:
-    .4byte  0x25D00008                  /* VDP1 EWLR -- erase upper-left */
+    .4byte  0x25D00008
 .L_06039304:
-    .4byte  0x0000FFFF                  /* default lower-right (full screen) */
+    .4byte  0x0000FFFF
 .L_06039308:
-    .4byte  0x25D0000A                  /* VDP1 EWRR -- erase lower-right */
+    .4byte  0x25D0000A
 .L_0603930C:
-    .4byte  sym_060A4C8C               /* cached display height */
+    .4byte  sym_060A4C8C
 .L_06039310:
-    .4byte  sym_060A4C88               /* cached display width */
+    .4byte  sym_060A4C88
 .L_06039314:
-    .4byte  0x25C00000                  /* VDP1 VRAM base address */
+    .4byte  0x25C00000
 .L_06039318:
-    .4byte  sym_060635CC               /* frame-ready flag (1 = setup complete) */
+    .4byte  sym_060635CC
 
     .global polygon_param_setup
     .type polygon_param_setup, @function
@@ -185,21 +185,21 @@ polygon_param_setup:
     mov.l @r15+, r14
     .2byte  0xFFFF
 .L_06039398:
-    .4byte  sym_060A4C8C               /* cached display height */
+    .4byte  sym_060A4C8C
 .L_0603939C:
-    .4byte  sym_060A4C90               /* cached TVMR value */
+    .4byte  sym_060A4C90
 .L_060393A0:
-    .4byte  0x25D00000                  /* VDP1 TVMR -- TV mode */
+    .4byte  0x25D00000
 .L_060393A4:
-    .4byte  sym_060635E0               /* resolution table (8 entries: W,H) */
+    .4byte  sym_060635E0
 .L_060393A8:
-    .4byte  sym_060A4C88               /* cached display width */
+    .4byte  sym_060A4C88
 .L_060393AC:
-    .4byte  sym_060635DE               /* high-res mode flag */
+    .4byte  sym_060635DE
 .L_060393B0:
-    .4byte  sym_060A4C94               /* high-color interlace enable */
+    .4byte  sym_060A4C94
 .L_060393B4:
-    .4byte  sym_060A4C96               /* reserved display parameter */
+    .4byte  sym_060A4C96
     .4byte  0xD31C6331
     .4byte  0x2431D21C
     .4byte  0x6222622D
@@ -244,23 +244,23 @@ sym_060393FC:
     bra     .L_0603945A
     shlr2 r5
     .2byte  0xFFFF
-    .4byte  sym_060635B4               /* VDP framebuffer mode selector (unreferenced pool) */
+    .4byte  sym_060635B4
     .4byte  sym_060635B8               /* framebuffer swap enable (unreferenced pool) */
     .4byte  sym_060635BC               /* framebuffer swap delay (unreferenced pool) */
 .L_06039438:
-    .4byte  sym_060635D4               /* erase window color working var */
+    .4byte  sym_060635D4
 .L_0603943C:
-    .4byte  sym_060635D6               /* erase window top-left Y */
+    .4byte  sym_060635D6
 .L_06039440:
-    .4byte  sym_060635D8               /* erase window top-left X */
+    .4byte  sym_060635D8
 .L_06039444:
-    .4byte  sym_060635DA               /* erase window bottom-right X */
+    .4byte  sym_060635DA
 .L_06039448:
-    .4byte  sym_060635DC               /* erase window bottom-right Y */
+    .4byte  sym_060635DC
 .L_0603944C:
-    .4byte  0x25D00006                  /* VDP1 EWDR -- erase fill color */
+    .4byte  0x25D00006
 .L_06039450:
-    .4byte  sym_060635DE               /* high-res mode flag */
+    .4byte  sym_060635DE
 .L_06039454:
     extu.w r5, r5
     shlr2 r5
@@ -336,19 +336,19 @@ sym_060394C2:
     rts
     nop
 .L_060394D4:
-    .4byte  sym_060A4C94               /* high-color interlace enable */
+    .4byte  sym_060A4C94
 .L_060394D8:
-    .4byte  sym_060635D0               /* EWLR packed working value */
+    .4byte  sym_060635D0
 .L_060394DC:
-    .4byte  0x25D00008                  /* VDP1 EWLR -- erase upper-left */
+    .4byte  0x25D00008
 .L_060394E0:
-    .4byte  sym_060635DE               /* high-res mode flag */
+    .4byte  sym_060635DE
 .L_060394E4:
-    .4byte  sym_060635D2               /* EWRR packed working value */
+    .4byte  sym_060635D2
 .L_060394E8:
-    .4byte  0x25D0000A                  /* VDP1 EWRR -- erase lower-right */
+    .4byte  0x25D0000A
 .L_060394EC:
-    .4byte  0x25D00010                  /* VDP1 EDSR -- draw end status */
+    .4byte  0x25D00010
 .L_060394F0:
     tst r4, r4
     bt      .L_060394FE
@@ -365,4 +365,4 @@ sym_060394C2:
     rts
     nop
 .L_06039508:
-    .4byte  sym_060A4C92               /* cached FBCR / interlace flag */
+    .4byte  sym_060A4C92

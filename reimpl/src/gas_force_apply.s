@@ -126,7 +126,7 @@ DAT_060082b2:
 .L_pool_060082C4:
     .4byte  sym_0607EBC4
 .L_pool_060082C8:
-    .4byte  0x00020000                  /* 2.0 (16.16 fixed-point) */
+    .4byte  0x00020000
 .L_pool_060082CC:
     .4byte  0xAE111BFF
 .L_pool_060082D0:

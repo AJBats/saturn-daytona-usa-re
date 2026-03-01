@@ -21,7 +21,7 @@ vtx_clip_flag_set:
     rts
     mov.l @r15+, r8
 .L_pool_0602D8B9:
-    .4byte  sym_0607E944                  /* [MEDIUM] current car state pointer (per scene_camera.s) */
+    .4byte  sym_0607E944
 
     .global sym_0602D8BC
 sym_0602D8BC:

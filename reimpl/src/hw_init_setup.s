@@ -45,11 +45,11 @@ sym_06040220:
     bra     .L_06040250
     nop
 .L_pool_0604023C:
-    .4byte  0x7FFFFFFF                  /* max positive 16.16 */
+    .4byte  0x7FFFFFFF
 .L_pool_06040240:
     .4byte  evt_cmd_enqueue
 .L_pool_06040244:
-    .4byte  0x40000000                  /* 0.25 (2.30) or 16384.0 (16.16) */
+    .4byte  0x40000000
 .L_pool_06040248:
     .4byte  0x3FFFFFFF
 .L_0604024C:

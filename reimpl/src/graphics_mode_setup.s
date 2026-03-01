@@ -80,31 +80,31 @@ graphics_mode_setup:
     bra     .L_06010C90
     mov.l r4, @r5
 .L_06010C4C:
-    .2byte  0xFE11                       /* hw status register addr low 16 bits */
+    .2byte  0xFE11
 
     .global DAT_06010c4e
 DAT_06010c4e:
-    .2byte  0x0080                       /* bit 7 poll mask for hw status */
+    .2byte  0x0080
 .L_06010C50:
-    .2byte  0x0100                       /* rotation angle step per frame */
-    .2byte  0xFFFF                       /* padding */
-    .4byte  0xAB110BFF                   /* unreferenced pool data */
-    .4byte  sym_0607EAB8                 /* unreferenced pool ptr */
-    .4byte  sym_0604483C                 /* hw status register full addr */
+    .2byte  0x0100
+    .2byte  0xFFFF
+    .4byte  0xAB110BFF
+    .4byte  sym_0607EAB8
+    .4byte  sym_0604483C
 .L_06010C60:
-    .4byte  sym_06078894                 /* scroll X position accumulator */
+    .4byte  sym_06078894
 .L_06010C64:
-    .4byte  sym_06078898                 /* scroll Y position accumulator */
+    .4byte  sym_06078898
 .L_06010C68:
-    .4byte  sym_0608A52C                 /* render budget counter */
+    .4byte  sym_0608A52C
 .L_06010C6C:
-    .4byte  sym_06078878                 /* current Y rotation angle (16-bit) */
+    .4byte  sym_06078878
 .L_06010C70:
-    .4byte  sym_06085FF4                 /* display active flag (byte) */
+    .4byte  sym_06085FF4
 .L_06010C74:
-    .4byte  sym_0607889C                 /* per-frame scroll delta */
+    .4byte  sym_0607889C
 .L_06010C78:
-    .4byte  sym_060788A8                 /* scroll direction / split-screen flag */
+    .4byte  sym_060788A8
 .L_06010C7C:
     mov.l @r11, r2
     cmp/pl r2
@@ -217,38 +217,38 @@ DAT_06010c4e:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0xFFFF                       /* padding */
+    .2byte  0xFFFF
 .L_06010D50:
-    .4byte  sym_060270D0                 /* mat_vec_transform function */
+    .4byte  sym_060270D0
 .L_06010D54:
-    .4byte  sym_0607884C                 /* rendering active flag */
+    .4byte  sym_0607884C
 .L_06010D58:
-    .4byte  sym_06078850                 /* scroll Y parameter output */
+    .4byte  sym_06078850
 .L_06010D5C:
-    .4byte  0xFFFF3334                   /* -0.8 (16.16 fixed-point Z position) */
+    .4byte  0xFFFF3334
 .L_06010D60:
-    .4byte  sym_06078854                 /* config Z position output */
+    .4byte  sym_06078854
 .L_06010D64:
-    .4byte  0x00063333                   /* 6.2 (16.16 fixed-point X position) */
+    .4byte  0x00063333
 .L_06010D68:
-    .4byte  sym_06078858                 /* config X position output */
+    .4byte  sym_06078858
 .L_06010D6C:
-    .4byte  race_position_track          /* secondary SH-2 callback function */
+    .4byte  race_position_track
 .L_06010D70:
-    .4byte  sym_06063574                 /* secondary SH-2 callback pointer */
+    .4byte  sym_06063574
 .L_06010D74:
-    .4byte  0x0000FFFF                   /* low 16-bit mask (0xFFFF for VDP2) */
+    .4byte  0x0000FFFF
 .L_06010D78:
-    .4byte  0x21000000                   /* VDP2 TVMD register (cache-through) */
+    .4byte  0x21000000
 .L_06010D7C:
-    .4byte  sym_0603C000                 /* render finalize function */
+    .4byte  sym_0603C000
 .L_06010D80:
-    .4byte  sym_060788A0                 /* game state counter */
+    .4byte  sym_060788A0
 .L_06010D84:
-    .4byte  0x00038000                   /* 3.5 (16.16 fixed-point Y, path B) */
+    .4byte  0x00038000
 .L_06010D88:
-    .4byte  0xFFFF0000                   /* -1.0 (16.16 fixed-point Z, path B) */
+    .4byte  0xFFFF0000
 .L_06010D8C:
-    .4byte  0x0006B333                   /* 6.7 (16.16 fixed-point X, path B) */
+    .4byte  0x0006B333
 .L_06010D90:
-    .4byte  0xFFFC8000                   /* -3.5 (16.16 fixed-point Y, path B) */
+    .4byte  0xFFFC8000

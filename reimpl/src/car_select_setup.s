@@ -30,14 +30,14 @@ car_select_setup:
     lds.l @r15+, pr
     .2byte  0xFFFF
 .L_06019910:
-    .4byte  sym_0602853E                     /* display_layer_config */
+    .4byte  sym_0602853E
 .L_06019914:
-    .4byte  sym_06028560                     /* render_state_commit */
+    .4byte  sym_06028560
 .L_06019918:
-    .4byte  sym_06085FF1                     /* input dirty flag (byte) */
+    .4byte  sym_06085FF1
 .L_0601991C:
-    .4byte  sym_06085FF6                     /* course active flag (byte) */
+    .4byte  sym_06085FF6
 .L_06019920:
-    .4byte  sym_06085FF7                     /* variant init flag (byte) */
+    .4byte  sym_06085FF7
 .L_06019924:
-    .4byte  course_init_pipeline             /* course selection input handler */
+    .4byte  course_init_pipeline

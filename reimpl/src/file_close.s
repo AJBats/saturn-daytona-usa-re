@@ -23,6 +23,6 @@ file_close:
     rts
     mov.l @r15+, r14
 .L_wpool_060120C2:
-    .2byte  0x0100                          /* [MEDIUM] bitmask for array_a[0] low nibble field */
+    .2byte  0x0100
 .L_pool_060120C4:
-    .4byte  channel_nibble_config           /* [HIGH] channel nibble config function pointer */
+    .4byte  channel_nibble_config

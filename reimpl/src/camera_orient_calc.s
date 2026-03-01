@@ -97,28 +97,28 @@ camera_orient_calc:
     mov.l @r15+, r14
     .2byte  0xFFFF
 .L_06005460:
-    .4byte  sym_06026E0C              /* camera_push — save/init camera state */
+    .4byte  sym_06026E0C
 .L_06005464:
-    .4byte  sym_06089EDC              /* rendering budget counter struct ptr (write [+44] = scale) */
+    .4byte  sym_06089EDC
 .L_06005468:
-    .4byte  sym_06078663              /* camera direction flip flag (byte; 0=normal, !0=flip Y) */
+    .4byte  sym_06078663
 .L_0600546C:
-    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
+    .4byte  0x00010000
 .L_06005470:
-    .4byte  0xFFFF0000                  /* -1.0 (16.16 fixed-point) */
+    .4byte  0xFFFF0000
 .L_06005474:
-    .4byte  mat_scale_columns           /* matrix column scale: mat_scale_columns(x, y, z) */
+    .4byte  mat_scale_columns
 .L_06005478:
-    .4byte  mat_rot_x            /* general rotation matrix transform */
+    .4byte  mat_rot_x
 .L_0600547C:
-    .4byte  mat_rot_z                   /* Z-axis rotation matrix */
+    .4byte  mat_rot_z
 .L_06005480:
-    .4byte  mat_rot_y                   /* Y-axis rotation matrix */
+    .4byte  mat_rot_y
 .L_06005484:
-    .4byte  sym_06026E2E               /* mat_vec_multiply_accumulate — translate view */
+    .4byte  sym_06026E2E
 .L_06005488:
-    .4byte  sincos_pair                 /* sincos_pair(angle, &sin_out, &cos_out) */
+    .4byte  sincos_pair
 .L_0600548C:
-    .4byte  sym_06063DF8               /* camera position/orientation state (XYZ output) */
+    .4byte  sym_06063DF8
 .L_06005490:
-    .4byte  fpmul                       /* 16.16 fixed-point multiply: fpmul(r4, r5) → r0 */
+    .4byte  fpmul

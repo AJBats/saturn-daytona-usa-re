@@ -42,12 +42,12 @@ DAT_0602f24c:
 DAT_0602f24e:
     .2byte  0x00E4
 .L_wpool_0602F250:
-    .2byte  0x00C0                       /* [HIGH] struct offset 0xC0 = segment length field */
-    .2byte  0x0000                       /* alignment padding */
+    .2byte  0x00C0
+    .2byte  0x0000
     .4byte  sym_060477CC                 /* [MEDIUM] course speed table (shared pool, not referenced in this TU) */
-    .4byte  fpdiv_setup                  /* [MEDIUM] fpdiv_setup fn ptr (shared pool, caller loads r12) */
+    .4byte  fpdiv_setup
 .L_pool_0602F25C:
-    .4byte  sym_0602F3CC                 /* [HIGH] per-segment render distance clamp table (min/max pairs) */
+    .4byte  sym_0602F3CC
 .L_0602F260:
     cmp/ge r5, r2
     bt      .L_0602F266
@@ -58,4 +58,4 @@ DAT_0602f24e:
     rts
     mov.l r4, @(r0, r1)
 .L_wpool_0602F26E:
-    .2byte  0x00E4                       /* [HIGH] struct offset 0xE4 = seg_end position field */
+    .2byte  0x00E4

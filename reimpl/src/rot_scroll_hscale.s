@@ -36,21 +36,21 @@ DAT_0602e5a4:
     mov.b @(r0, r0), r0
     .word 0x0010
 .L_wpool_0602E5A8:
-    .2byte  0x025C                         /* car struct offset: heading reference */
-    .2byte  0x0000                         /* padding */
-    .4byte  0x00000100                     /* constant 256 */
-    .4byte  0x00000030                     /* constant 48 */
-    .4byte  0x00000028                     /* constant 40 */
-    .4byte  0x00000008                     /* constant 8 */
-    .4byte  0x0000038E                     /* constant 910 */
-    .4byte  sym_0608325C                   /* countdown/race state */
-    .4byte  sym_0602CCD0                   /* function pointer (scene handler) */
+    .2byte  0x025C
+    .2byte  0x0000
+    .4byte  0x00000100
+    .4byte  0x00000030
+    .4byte  0x00000028
+    .4byte  0x00000008
+    .4byte  0x0000038E
+    .4byte  sym_0608325C
+    .4byte  sym_0602CCD0
 .L_pool_0602E5C8:
-    .4byte  0x00003FFF                     /* half-range bias for unsigned check */
+    .4byte  0x00003FFF
 .L_pool_0602E5CC:
-    .4byte  0x00000000                     /* lower bound (0) */
+    .4byte  0x00000000
 .L_pool_0602E5D0:
-    .4byte  0x00007FFF                     /* upper bound (full range) */
+    .4byte  0x00007FFF
 .L_0602E5D4:
     mov.l   .L_pool_0602E5E0, r1
     mov.l @(r0, r1), r3
@@ -59,7 +59,7 @@ DAT_0602e5a4:
     rts
     nop
 .L_pool_0602E5E0:
-    .4byte  0x00000244                     /* car struct offset: hscale clamp counter */
+    .4byte  0x00000244
 
     .global sym_0602E5E4
 sym_0602E5E4:
@@ -76,15 +76,15 @@ sym_0602E5E4:
     rts
     nop
 .L_pool_0602E5FC:
-    .4byte  sym_0607E944                   /* car array base pointer */
+    .4byte  sym_0607E944
 .L_pool_0602E600:
-    .4byte  0x00000238                     /* car struct offset: scroll param A */
+    .4byte  0x00000238
 .L_pool_0602E604:
-    .4byte  DAT_06083264                   /* global dest: scroll param A */
+    .4byte  DAT_06083264
 .L_pool_0602E608:
-    .4byte  0x0000023C                     /* car struct offset: scroll param B */
+    .4byte  0x0000023C
 .L_pool_0602E60C:
-    .4byte  DAT_06083268                   /* global dest: scroll param B */
+    .4byte  DAT_06083268
 
     .global sym_0602E610
 sym_0602E610:

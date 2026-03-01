@@ -203,4 +203,4 @@ DAT_0603c07a:
 .L_0603C084:
     .4byte  0x1FFFFFF0
 .L_0603C088:
-    .4byte  0x40000000                  /* associative purge region base address */
+    .4byte  0x40000000

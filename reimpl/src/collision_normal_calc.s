@@ -44,7 +44,7 @@ collision_normal_calc:
     rts
     mov.l @r15+, r14
 .L_pool_060367A0:
-    .4byte  input_proc_analog           /* [HIGH] fn ptr: SMPC analog axis reader */
-    .4byte  input_proc_buttons          /* [HIGH] fn ptr: SMPC button state reader */
+    .4byte  input_proc_analog
+    .4byte  input_proc_buttons
 .L_060367A8:
-    .4byte  0x00FFFFFF                  /* low 24-bit mask */
+    .4byte  0x00FFFFFF

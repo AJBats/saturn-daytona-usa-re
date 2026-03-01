@@ -40,13 +40,13 @@ state_memory_route:
     nop
     .2byte  0xFFFF
 .L_pool_06008CBA:
-    .4byte  sym_0605E0A2                  /* preview_camera_flag (byte) */
-    .4byte  sym_0605A016                  /* display_mode (16-bit, fb resolution selector) */
+    .4byte  sym_0605E0A2
+    .4byte  sym_0605A016
 .L_pool_06008CC2:
-    .4byte  geom_output_dispatch          /* VDP2 status check / geometry dispatch */
+    .4byte  geom_output_dispatch
 .L_pool_06008CC6:
-    .4byte  g_game_state                  /* game_state_dispatch (32-bit) */
+    .4byte  g_game_state
 .L_pool_06008CCA:
-    .4byte  sym_060149E0                  /* disable_display -- clear bit 15 */
+    .4byte  sym_060149E0
 .L_pool_06008CCE:
-    .4byte  sym_06026CE0                  /* camera_finalize -- render/display update */
+    .4byte  sym_06026CE0

@@ -60,13 +60,13 @@ menu_sound_trigger:
     rts
     mov.l @r15+, r14
 .L_wpool_0603AED8:
-    .2byte  0x00A0                          /* [HIGH] struct offset: active entry count */
+    .2byte  0x00A0
 .L_wpool_0603AEDA:
-    .2byte  0x0098                          /* [HIGH] struct offset: queue mode flag (0=narrow, 1=wide) */
+    .2byte  0x0098
 .L_wpool_0603AEDC:
-    .2byte  0x00A4                          /* [HIGH] struct offset: entry capacity (max index) */
+    .2byte  0x00A4
     .2byte  0xFFFF
 .L_pool_0603AEE0:
-    .4byte  sym_060A4D14                    /* [HIGH] pointer to global command/display state struct */
+    .4byte  sym_060A4D14
 .L_pool_0603AEE4:
-    .4byte  sym_0603F1F0                    /* [HIGH] index_mul24: idx*24 + base */
+    .4byte  sym_0603F1F0

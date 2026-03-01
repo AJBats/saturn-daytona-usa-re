@@ -334,7 +334,7 @@ DAT_0602d020:
     .2byte  0x0444
     .2byte  0x0000
 .L_0602D028:
-    .4byte  0xFFFF0000                  /* -1.0 (16.16 fixed-point) */
+    .4byte  0xFFFF0000
 .L_0602D02C:
     mov.w   DAT_0602d04e, r7
     cmp/pz r5

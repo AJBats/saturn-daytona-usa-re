@@ -105,53 +105,53 @@ obj_visibility_test:
     bra     .L_06020644
     mov #0x10, r4
 .L_060205F2:
-    .2byte  0x0558                          /* struct offset: display list A ptr */
+    .2byte  0x0558
 .L_060205F4:
-    .2byte  0x0560                          /* struct offset: display list B ptr */
+    .2byte  0x0560
 .L_060205F6:
-    .2byte  0x0294                          /* copy length for list B */
+    .2byte  0x0294
 .L_060205F8:
-    .2byte  0x0550                          /* struct offset: display list C ptr */
+    .2byte  0x0550
 .L_060205FA:
-    .2byte  0x6000                          /* size adjustment for list C */
+    .2byte  0x6000
 .L_060205FC:
-    .2byte  0x0082                          /* copy length for list C */
+    .2byte  0x0082
 .L_060205FE:
-    .2byte  0x0100                          /* channel ID for nibble config */
+    .2byte  0x0100
 .L_06020600:
-    .4byte  sym_06087804                    /* display timer (16-bit word) */
+    .4byte  sym_06087804
 .L_06020604:
-    .4byte  sym_06028560                    /* render state commit / clear */
+    .4byte  sym_06028560
 .L_06020608:
-    .4byte  gameover_channel_setup          /* game-over channel setup */
+    .4byte  gameover_channel_setup
 .L_0602060C:
-    .4byte  sym_0602853E                    /* display layer fill config */
+    .4byte  sym_0602853E
 .L_06020610:
-    .4byte  memcpy_word_idx                 /* word-indexed memcpy */
+    .4byte  memcpy_word_idx
 .L_06020614:
-    .4byte  sym_0604898C                    /* palette source for CRAM +0x6E0 */
+    .4byte  sym_0604898C
 .L_06020618:
-    .4byte  0x25F006E0                      /* VDP2 color RAM +0x6E0 */
+    .4byte  0x25F006E0
 .L_0602061C:
-    .4byte  sym_060489AC                    /* palette source for CRAM +0x300 */
+    .4byte  sym_060489AC
 .L_06020620:
-    .4byte  0x25F00300                      /* VDP2 color RAM +0x300 */
+    .4byte  0x25F00300
 .L_06020624:
-    .4byte  sym_060489CC                    /* palette source for CRAM +0x400 */
+    .4byte  sym_060489CC
 .L_06020628:
-    .4byte  0x25F00400                      /* VDP2 color RAM +0x400 */
+    .4byte  0x25F00400
 .L_0602062C:
-    .4byte  0x25F00060                      /* VDP2 color RAM +0x060 */
+    .4byte  0x25F00060
 .L_06020630:
-    .4byte  sym_06063750                    /* obj/replay struct base ptr */
+    .4byte  sym_06063750
 .L_06020634:
-    .4byte  sym_06028400                    /* display list copy function */
+    .4byte  sym_06028400
 .L_06020638:
-    .4byte  0x00008000                      /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000
 .L_0602063C:
-    .4byte  display_channel_b               /* display channel enable */
+    .4byte  display_channel_b
 .L_06020640:
-    .4byte  channel_nibble_config           /* channel nibble configuration */
+    .4byte  channel_nibble_config
 .L_06020644:
     jsr @r14
     nop
@@ -220,36 +220,36 @@ obj_visibility_test:
     jmp @r3
     mov.l @r15+, r14
 .L_060206C8:
-    .4byte  sym_06059F6F                    /* obj visibility mode flag (byte) */
+    .4byte  sym_06059F6F
 .L_060206CC:
-    .4byte  sym_06087820                    /* obj scale Z (16.16 fp) */
+    .4byte  sym_06087820
 .L_060206D0:
-    .4byte  0x00040000                      /* 4.0 (16.16 fixed-point) */
+    .4byte  0x00040000
 .L_060206D4:
-    .4byte  sym_06087818                    /* obj scale X (16.16 fp) */
+    .4byte  sym_06087818
 .L_060206D8:
-    .4byte  sym_0608781C                    /* obj scale Y (16.16 fp) */
+    .4byte  sym_0608781C
 .L_060206DC:
-    .4byte  0x00030000                      /* 3.0 (16.16 fixed-point) */
+    .4byte  0x00030000
 .L_060206E0:
-    .4byte  0x00B00000                      /* 176.0 (16.16 fp) — half screen width */
+    .4byte  0x00B00000
 .L_060206E4:
-    .4byte  fpmul                           /* fixed-point multiply */
+    .4byte  fpmul
 .L_060206E8:
-    .4byte  fpdiv_setup                     /* fixed-point divide */
+    .4byte  fpdiv_setup
 .L_060206EC:
-    .4byte  sym_06087810                    /* obj draw X coordinate (16.16 fp) */
+    .4byte  sym_06087810
 .L_060206F0:
-    .4byte  0xFFFF0000                      /* -1.0 (16.16 fixed-point) */
+    .4byte  0xFFFF0000
 .L_060206F4:
-    .4byte  0x00700000                      /* 112.0 (16.16 fp) — half screen height */
+    .4byte  0x00700000
 .L_060206F8:
-    .4byte  sym_06087814                    /* obj draw Y coordinate (16.16 fp) */
+    .4byte  sym_06087814
 .L_060206FC:
-    .4byte  sym_0603850C                    /* display cmd queue: init */
+    .4byte  sym_0603850C
 .L_06020700:
-    .4byte  scene_color_intensity           /* scene color intensity */
+    .4byte  scene_color_intensity
 .L_06020704:
-    .4byte  scene_data_write_add            /* scene data write (additive) */
+    .4byte  scene_data_write_add
 .L_06020708:
-    .4byte  sym_06038520                    /* display cmd queue: commit */
+    .4byte  sym_06038520

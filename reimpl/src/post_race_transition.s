@@ -72,46 +72,46 @@ post_race_transition:
     bra     .L_0600F728
     mov #0x22, r12
 .L_0600F6D4:
-    .2byte  0x00C0                        /* palette copy size (192 bytes) */
+    .2byte  0x00C0
     .2byte  0xFFFF
 .L_0600F6D8:
-    .4byte  sym_06028400               /* display layer setup function */
+    .4byte  sym_06028400
 .L_0600F6DC:
-    .4byte  audio_display_init         /* audio display initialization */
+    .4byte  audio_display_init
 .L_0600F6E0:
-    .4byte  0xAE0003FF                  /* sound command: results music */
+    .4byte  0xAE0003FF
 .L_0600F6E4:
     .4byte  sound_cmd_dispatch         /* sound command dispatcher */
 .L_0600F6E8:
-    .4byte  sound_init_race            /* race sound state initialization */
+    .4byte  sound_init_race
 .L_0600F6EC:
-    .4byte  sym_06078870               /* display slot array (4×16-bit) */
+    .4byte  sym_06078870
 .L_0600F6F0:
-    .4byte  sym_060484EC               /* results palette source data */
+    .4byte  sym_060484EC
 .L_0600F6F4:
-    .4byte  0x25F00460                  /* VDP2 color RAM +0x460 */
+    .4byte  0x25F00460
 .L_0600F6F8:
-    .4byte  memcpy_word_idx            /* word-indexed memory copy */
+    .4byte  memcpy_word_idx
 .L_0600F6FC:
-    .4byte  sym_06094FA8               /* results tile source data */
+    .4byte  sym_06094FA8
 .L_0600F700:
-    .4byte  0x25E75DDC                  /* VDP2 VRAM +0x75DDC */
+    .4byte  0x25E75DDC
 .L_0600F704:
-    .4byte  dma_memory_transfer        /* DMA memory transfer */
+    .4byte  dma_memory_transfer
 .L_0600F708:
-    .4byte  0x0000E000                  /* display layer priority mask */
+    .4byte  0x0000E000
 .L_0600F70C:
-    .4byte  sym_0601143E               /* scroll layer configuration */
+    .4byte  sym_0601143E
 .L_0600F710:
-    .4byte  0xAB1103FF                  /* sound command: secondary trigger */
+    .4byte  0xAB1103FF
 .L_0600F714:
-    .4byte  sym_06011494               /* UI element setup */
+    .4byte  sym_06011494
 .L_0600F718:
-    .4byte  anim_ui_transition         /* animated UI transition */
+    .4byte  anim_ui_transition
 .L_0600F71C:
-    .4byte  hud_course_render          /* course HUD element renderer */
+    .4byte  hud_course_render
 .L_0600F720:
-    .4byte  g_pad_state               /* game status word (16-bit array) */
+    .4byte  g_pad_state
 .L_0600F724:
     mov #0x29, r10
     mov #0x26, r12

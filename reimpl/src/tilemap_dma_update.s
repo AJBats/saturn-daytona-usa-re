@@ -57,16 +57,16 @@ tilemap_dma_update:
     rts
     mov.l @r15+, r14
 .L_06036EF0:
-    .4byte  sym_060635B0                /* &screen_height (16-bit, init=224) */
+    .4byte  sym_060635B0
 .L_06036EF4:
-    .4byte  sym_060A3DF8                /* &scene_transform_struct (rotation params, 64 bytes) */
+    .4byte  sym_060A3DF8
 .L_06036EF8:
-    .4byte  0x0007FFFF                  /* 19-bit VDP2 VRAM offset mask */
+    .4byte  0x0007FFFF
 .L_06036EFC:
-    .4byte  0x25E00000                  /* VDP2 VRAM +0x00000 */
+    .4byte  0x25E00000
 .L_06036F00:
-    .4byte  sym_06038A48                /* word_copy_helper (copies r6 bytes as words) */
+    .4byte  sym_06038A48
 .L_06036F04:
-    .4byte  0x80000000                  /* sign bit / multi-word transfer flag */
+    .4byte  0x80000000
 .L_06036F08:
-    .4byte  sym_060635AC                /* scene-ready flag (0=idle, 1=pending) */
+    .4byte  sym_060635AC

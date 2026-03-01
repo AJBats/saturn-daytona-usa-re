@@ -86,10 +86,10 @@ race_pos_interp:
     rts
     mov.l @r15+, r14
 .L_0600CC2A:
-    .2byte  0x01F8                     /* [HIGH] car struct offset: segment table base (+0x1F8) */
+    .2byte  0x01F8
 .L_0600CC2C:
-    .4byte  sym_0607EB88               /* [HIGH] course segment data array ptr */
+    .4byte  sym_0607EB88
 .L_0600CC30:
-    .4byte  sym_0607E940               /* [HIGH] current car struct pointer (player) */
+    .4byte  sym_0607E940
 .L_0600CC34:
-    .4byte  sym_0607EA9C               /* [HIGH] track section count (wrap limit) */
+    .4byte  sym_0607EA9C

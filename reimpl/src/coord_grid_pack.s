@@ -43,27 +43,27 @@ DAT_06006802:
 
     .global DAT_06006804
 DAT_06006804:
-    .2byte  0x4000              /* half-grid X bias constant (0x4000) */
-    .2byte  0xFFFF              /* padding / sentinel */
-    .4byte  fpmul               /* pointer: fpmul (16.16 fixed-point multiply) */
-    .4byte  sym_06063F04        /* pointer: sym_06063F04 (camera/physics data ptr A) */
-    .4byte  sym_06063F08        /* pointer: sym_06063F08 (camera/physics data ptr B) */
-    .4byte  sym_06059F30        /* pointer: sym_06059F30 (split-screen / 2P enable flag) */
-    .4byte  sym_06063E20        /* pointer: sym_06063E20 (race state flag B) */
+    .2byte  0x4000
+    .2byte  0xFFFF
+    .4byte  fpmul
+    .4byte  sym_06063F04
+    .4byte  sym_06063F08
+    .4byte  sym_06059F30
+    .4byte  sym_06063E20
 .L_pool_0600681C:
-    .4byte  sym_0601A5F8        /* pointer: sym_0601A5F8 (car data utility fn) */
+    .4byte  sym_0601A5F8
 .L_pool_06006820:
-    .4byte  sym_0605D240        /* pointer: sym_0605D240 (sprite parameter table base) */
+    .4byte  sym_0605D240
 .L_pool_06006824:
-    .4byte  sprite_pair_render  /* pointer: sprite_pair_render (VDP1 sprite pair draw fn) */
+    .4byte  sprite_pair_render
 .L_pool_06006828:
-    .4byte  sym_06063F4A        /* pointer: sym_06063F4A (grid Z output word) */
+    .4byte  sym_06063F4A
 .L_pool_0600682C:
-    .4byte  sym_06063F48        /* pointer: sym_06063F48 (grid X output word) */
+    .4byte  sym_06063F48
 .L_06006830:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000
 .L_pool_06006834:
-    .4byte  sym_06078663        /* pointer: sym_06078663 (display mode / camera flip byte flag) */
+    .4byte  sym_06078663
 
     .global sym_06006838
 sym_06006838:
@@ -86,8 +86,8 @@ sym_06006838:
     mov r5, r0
     rts
     add r4, r0
-    .2byte  0xFFFF              /* padding */
+    .2byte  0xFFFF
 .L_pool_06006860:
-    .4byte  0x03FFFFFF          /* world Z-axis upper bound (for axis inversion) */
+    .4byte  0x03FFFFFF
 .L_pool_06006864:
-    .4byte  0x04000000          /* world X-axis bias (shifts X origin to positive range) */
+    .4byte  0x04000000

@@ -153,25 +153,25 @@ vdp2_regs_setup:
     bra     .L_060384B4
     nop
 .L_pool_0603848C:
-    .4byte  0x0000FFFF                  /* low 16-bit mask / 0xFFFF cycle pattern fill */
+    .4byte  0x0000FFFF
 .L_pool_06038490:
-    .4byte  sym_060A3D88                /* shadow block A (TVMD-SFCODE, 40 bytes) */
+    .4byte  sym_060A3D88
 .L_pool_06038494:
-    .4byte  sym_060A3DB0                /* shadow block B (CHCTLA-scroll, 72 bytes) */
+    .4byte  sym_060A3DB0
 .L_pool_06038498:
-    .4byte  0x25F80000                  /* VDP2 TVMD — TV mode/display enable */
+    .4byte  0x25F80000
 .L_pool_0603849C:
-    .4byte  sym_060A3D84                /* stores VDP2 TVMD HW address for VBlank */
+    .4byte  sym_060A3D84
 .L_pool_060384A0:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) / 0x8000 TVMD value */
+    .4byte  0x00008000
 .L_pool_060384A4:
-    .4byte  sym_060A3DF8                /* rotation parameter / transform struct (64 bytes) */
+    .4byte  sym_060A3DF8
 .L_pool_060384A8:
-    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
+    .4byte  0x00010000
 .L_pool_060384AC:
-    .4byte  sym_060A3E38                /* scene enable flags (16 bytes) */
+    .4byte  sym_060A3E38
 .L_pool_060384B0:
-    .4byte  sym_060A3E48                /* scene config block (32 bytes) */
+    .4byte  sym_060A3E48
 .L_060384B4:
     extu.w r4, r0
     mov.w r0, @(2, r6)

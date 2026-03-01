@@ -87,20 +87,20 @@ audio_dist_calc:
 
     .global DAT_0600de1e
 DAT_0600de1e:
-    .2byte  0x01E0                           /* car_struct offset to audio data array pointer */
+    .2byte  0x01E0
 .L_0600DE20:
-    .4byte  sym_0607E940                     /* → current car struct pointer */
+    .4byte  sym_0607E940
 .L_0600DE24:
-    .4byte  sym_06063F3C                     /* → current course data entry pointer */
+    .4byte  sym_06063F3C
 .L_0600DE28:
-    .4byte  sym_0607869C                     /* → audio_elapsed output (scaled distance) */
+    .4byte  sym_0607869C
 .L_0600DE2C:
-    .4byte  sym_06034FE0                     /* → scale/divide function */
+    .4byte  sym_06034FE0
 .L_0600DE30:
-    .4byte  sym_060786B0                     /* → audio_remaining output (frame_counter*5 - elapsed) */
+    .4byte  sym_060786B0
 .L_0600DE34:
-    .4byte  sym_0607EBD0                     /* → frame counter (32-bit) */
+    .4byte  sym_0607EBD0
 .L_0600DE38:
-    .4byte  sym_0605A21C                     /* → previous remaining value (in/out) */
+    .4byte  sym_0605A21C
 .L_0600DE3C:
-    .4byte  sym_060786A0                     /* → remaining_delta output (remaining - prev_remaining) */
+    .4byte  sym_060786A0

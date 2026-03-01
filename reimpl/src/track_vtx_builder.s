@@ -137,15 +137,15 @@ track_vtx_builder:
     bra     .L_06016EEC
     nop
 .L_wpool_06016EDA:
-    .2byte  0xFF74                     /* -140: stack frame allocation size */
+    .2byte  0xFF74
 .L_pool_06016EDC:
-    .4byte  fpmul                      /* 16.16 fixed-point multiply */
+    .4byte  fpmul
 .L_pool_06016EE0:
-    .4byte  g_game_state               /* game state variable (0-31) */
+    .4byte  g_game_state
 .L_pool_06016EE4:
-    .4byte  sym_06084FC8               /* per-car slot data array base */
+    .4byte  sym_06084FC8
 .L_pool_06016EE8:
-    .4byte  sincos_pair                /* sincos_pair(angle, &sin, &cos) */
+    .4byte  sincos_pair
 .L_06016EEC:
     bf      .L_06016E66
     mov.b @(12, r15), r0
@@ -287,17 +287,17 @@ track_vtx_builder:
 
     .global DAT_06016ffa
 DAT_06016ffa:
-    .2byte  0x0080                     /* 128: stack offset to X result area */
+    .2byte  0x0080
 .L_pool_06016FFC:
-    .4byte  sym_06084FC8               /* per-car slot data array base (dup) */
+    .4byte  sym_06084FC8
 .L_pool_06017000:
-    .4byte  sym_06078663               /* direction flip flag (byte) */
+    .4byte  sym_06078663
 .L_06017004:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000
 .L_pool_06017008:
-    .4byte  sincos_pair                /* sincos_pair (dup pool entry) */
+    .4byte  sincos_pair
 .L_pool_0601700C:
-    .4byte  fpdiv_setup                /* 16.16 fixed-point divide */
+    .4byte  fpdiv_setup
 .L_06017010:
     mov.l @r5, r5
     mov.l   .L_pool_060170E8, r3
@@ -408,15 +408,15 @@ DAT_06016ffa:
     rts
     mov.l @r15+, r14
 .L_wpool_060170E4:
-    .2byte  0x008C                     /* +140: stack frame deallocation size */
-    .2byte  0xFFFF                     /* padding to 4-byte alignment */
+    .2byte  0x008C
+    .2byte  0xFFFF
 .L_pool_060170E8:
-    .4byte  fpdiv_setup                /* 16.16 fixed-point divide (dup) */
+    .4byte  fpdiv_setup
 .L_pool_060170EC:
-    .4byte  sym_06034FE0               /* geometry transform helper */
+    .4byte  sym_06034FE0
 .L_pool_060170F0:
-    .4byte  sym_06084FC8               /* per-car slot data array base (dup) */
+    .4byte  sym_06084FC8
 .L_pool_060170F4:
-    .4byte  sym_06085490               /* per-car vertex output table */
+    .4byte  sym_06085490
 .L_pool_060170F8:
     .4byte  swap_sign_ext              /* swap.w + exts.w (>>16 with sign) */

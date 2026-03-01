@@ -24,15 +24,15 @@ tachometer_ctrl:
     mov.b r3, @r2
     bra     .L_06010B4C
     nop
-    .4byte  0x00C00800                      /* [LOW] unreferenced from this TU — preceding function's pool residue */
+    .4byte  0x00C00800
 .L_wpool_06010ACC:
     .2byte  0x0100
-    .2byte  0xFFFF                          /* [LOW] unreferenced from this TU — padding or adjacent pool entry */
-    .4byte  sym_0605D05C                    /* [LOW] unreferenced from this TU — ptr to unknown data */
-    .4byte  sym_06059FFC                    /* [MEDIUM] unreferenced from this TU — ptr to VDP1 cmd index (game state index) */
-    .4byte  sym_06063F5C                    /* [MEDIUM] unreferenced from this TU — ptr to VDP1 cmd buffer base */
-    .4byte  memcpy_word_idx                 /* [HIGH] unreferenced from this TU — fn ptr to memcpy_word_idx */
-    .4byte  sym_0607EAE0                    /* [MEDIUM] unreferenced from this TU — ptr to demo/hud_active flag */
+    .2byte  0xFFFF
+    .4byte  sym_0605D05C
+    .4byte  sym_06059FFC
+    .4byte  sym_06063F5C
+    .4byte  memcpy_word_idx
+    .4byte  sym_0607EAE0
 .L_06010AE4:
     .4byte  sym_0607EBCC
 .L_06010AE8:

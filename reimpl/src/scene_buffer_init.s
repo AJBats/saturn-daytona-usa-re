@@ -35,13 +35,13 @@ scene_buffer_init:
     bra     .L_060382E2
     nop
 .L_wpool_0603815A:
-    .2byte  0x0200                      /* 512 = max entries for scene A loop */
+    .2byte  0x0200
 .L_pool_0603815C:
-    .4byte  sym_060A3DF8                /* scene transform struct (64 bytes) */
+    .4byte  sym_060A3DF8
 .L_pool_06038160:
-    .4byte  sym_060A3C70                /* scene buffer B output (for loop 2) */
+    .4byte  sym_060A3C70
 .L_pool_06038164:
-    .4byte  sym_060A2470                /* scene buffer A output (for loop 1) */
+    .4byte  sym_060A2470
 .L_pool_06038168:
     .4byte  sym_060635A8                /* scene mode / command slot selector */
 .L_0603816C:
@@ -210,15 +210,15 @@ scene_buffer_init:
     bra     .L_060382B4
     nop
 .L_060382A0:
-    .4byte  0x0000FF00                  /* byte 1 mask (for mode 8 bitmask shift) */
+    .4byte  0x0000FF00
 .L_pool_060382A4:
-    .4byte  sym_060A3D70                /* scene A config: size + dest pointer pair */
+    .4byte  sym_060A3D70
 .L_pool_060382A8:
-    .4byte  sym_060A3D78                /* scene B config: size + dest pointer pair */
+    .4byte  sym_060A3D78
 .L_pool_060382AC:
-    .4byte  0x0007FFFF                  /* 19-bit mask for half-size viewport dimension */
+    .4byte  0x0007FFFF
 .L_pool_060382B0:
-    .4byte  sym_060635A0                /* scene A entry count (word) */
+    .4byte  sym_060635A0
 .L_060382B4:
     mov.b @(3, r4), r0
     extu.b r0, r0
@@ -255,9 +255,9 @@ scene_buffer_init:
     rts
     mov.l @r15+, r14
 .L_wpool_060382F4:
-    .2byte  0x1810                      /* offset from config base to coord array */
-    .2byte  0xFFFF                      /* padding */
+    .2byte  0x1810
+    .2byte  0xFFFF
 .L_pool_060382F8:
-    .4byte  sym_060635A2                /* scene B entry count (word) */
+    .4byte  sym_060635A2
 .L_pool_060382FC:
-    .4byte  sym_060635AC                /* scene ready flag (2 = data ready for dispatch) */
+    .4byte  sym_060635AC

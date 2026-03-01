@@ -78,17 +78,17 @@ ai_orchestrator:
 
     .global DAT_0600c7be
 DAT_0600c7be:
-    .2byte  0x01EC                         /* offset to track position index in AI state */
+    .2byte  0x01EC
 
     .global DAT_0600c7c0
 DAT_0600c7c0:
-    .2byte  0x4000                         /* fixed override heading for speed zone */
-    .2byte  0xFFFF                         /* alignment padding */
+    .2byte  0x4000
+    .2byte  0xFFFF
 .L_pool_0600C7C8:
-    .4byte  sym_06006838                   /* coord_grid_pack — terrain elevation query */
+    .4byte  sym_06006838
 .L_pool_0600C7CC:
-    .4byte  scene_render_alt               /* AI car sprite/render update */
+    .4byte  scene_render_alt
 .L_pool_0600C7D0:
-    .4byte  sym_0607E940                   /* pointer to current AI car state struct */
+    .4byte  sym_0607E940
 .L_pool_0600C7D4:
-    .4byte  sym_06078680                   /* course/track data base */
+    .4byte  sym_06078680

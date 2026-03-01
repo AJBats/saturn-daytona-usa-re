@@ -49,18 +49,18 @@ pre_race_camera:
     bra     .L_06019F96
     mov.b r2, @r4
 .L_wpool_06019F40:
-    .2byte  0x4000                  /* Down button mask (16-bit) */
-    .2byte  0xFFFF                  /* padding */
-    .4byte  sym_06063750            /* car object table base (unused here, pool alignment) */
-    .4byte  sym_06049B18            /* course 1 dlist offset table (unused here, pool alignment) */
+    .2byte  0x4000
+    .2byte  0xFFFF
+    .4byte  sym_06063750
+    .4byte  sym_06049B18
 .L_pool_06019F4C:
-    .4byte  g_pad_state            /* &input_state struct (word[0]=held, word[+2]=new_press) */
+    .4byte  g_pad_state
 .L_pool_06019F50:
-    .4byte  sym_0605AD0C            /* &camera_angle_index for course 1 (32-bit) */
+    .4byte  sym_0605AD0C
 .L_06019F54:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000
 .L_pool_06019F58:
-    .4byte  sym_0605D243            /* &anim_timer / mode variant byte (reset on angle change) */
+    .4byte  sym_0605D243
 .L_06019F5C:
     mov.w @r13, r2
     extu.w r2, r2

@@ -102,28 +102,28 @@ obj_render_setup:
 
     .global DAT_06020f2e
 DAT_06020f2e:
-    .2byte  0x0214                          /* car state struct view mode offset */
+    .2byte  0x0214
 .L_06020F30:
-    .2byte  0x0900                          /* VRAM destination offset for tile blit */
-    .2byte  0xFFFF                          /* padding */
+    .2byte  0x0900
+    .2byte  0xFFFF
 .L_06020F34:
-    .4byte  sym_06089594                    /* render countdown timer (byte) */
+    .4byte  sym_06089594
 .L_06020F38:
-    .4byte  sym_06078663                    /* camera direction flip flag (byte) */
+    .4byte  sym_06078663
 .L_06020F3C:
-    .4byte  sym_06087C84                    /* scene config struct base */
+    .4byte  sym_06087C84
 .L_06020F40:
-    .4byte  sym_06089595                    /* render trigger flag (byte) */
+    .4byte  sym_06089595
 .L_06020F44:
-    .4byte  sym_0607E944                    /* car array base pointer */
+    .4byte  sym_0607E944
 .L_06020F48:
-    .4byte  sym_06089598                    /* previous car state (for change detect) */
+    .4byte  sym_06089598
 .L_06020F4C:
-    .4byte  sym_06083255                    /* secondary SH-2 processing flag */
+    .4byte  sym_06083255
 .L_06020F50:
-    .4byte  sym_06063750                    /* scene tile config table */
+    .4byte  sym_06063750
 .L_06020F54:
-    .4byte  sym_06028400                    /* tile_rect_blit function */
+    .4byte  sym_06028400
 .L_06020F58:
     mov #0xB, r7
 .L_06020F5A:
@@ -187,23 +187,23 @@ DAT_06020f2e:
     bra     .L_06021084
     nop
 .L_06020FC6:
-    .2byte  0x0088                          /* view mode: rear-view mirror */
+    .2byte  0x0088
 
     .global DAT_06020fc8
 DAT_06020fc8:
-    .2byte  0x00CC                          /* view mode: replay camera */
+    .2byte  0x00CC
 
     .global DAT_06020fca
 DAT_06020fca:
-    .2byte  0x0214                          /* car state struct view mode offset (dup) */
+    .2byte  0x0214
 .L_06020FCC:
-    .4byte  sym_06028400                    /* tile_rect_blit function (pool B copy) */
+    .4byte  sym_06028400
 .L_06020FD0:
-    .4byte  sym_0607E944                    /* car array base pointer (pool B copy) */
+    .4byte  sym_0607E944
 .L_06020FD4:
-    .4byte  sym_06089598                    /* current car state store (for secondary) */
+    .4byte  sym_06089598
 .L_06020FD8:
-    .4byte  sym_06063E20                    /* game state flag (1 = active race) */
+    .4byte  sym_06063E20
 .L_06020FDC:
     mov r13, r12
     mov r13, r6
@@ -306,28 +306,28 @@ DAT_06020fca:
 
     .global DAT_06021098
 DAT_06021098:
-    .2byte  0x1000                          /* heading step positive clamp (+4096) */
+    .2byte  0x1000
 
     .global DAT_0602109a
 DAT_0602109a:
-    .2byte  0xF000                          /* heading step negative clamp (-4096 sign-ext) */
+    .2byte  0xF000
 
     .global DAT_0602109c
 DAT_0602109c:
-    .2byte  0x1868                          /* config clear field offset */
+    .2byte  0x1868
 
     .global DAT_0602109e
 DAT_0602109e:
-    .2byte  0x1810                          /* scene coord array offset in config */
+    .2byte  0x1810
 .L_060210A0:
-    .4byte  sym_0604D3E0                    /* heading-to-Y lookup table (indexed by timer) */
+    .4byte  sym_0604D3E0
 .L_060210A4:
-    .4byte  sym_0607E944                    /* car array base pointer (pool C copy) */
+    .4byte  sym_0607E944
 .L_060210A8:
     .4byte  sym_0603850C                    /* cmd_slot_write (command queue channel write) */
 .L_060210AC:
-    .4byte  sym_06087C84                    /* scene config base (arg for scene_buffer_init) */
+    .4byte  sym_06087C84
 .L_060210B0:
-    .4byte  scene_buffer_init               /* scene buffer initialization function */
+    .4byte  scene_buffer_init
 .L_060210B4:
     .4byte  sym_06038520                    /* cmd_queue_commit (signal command ready) */

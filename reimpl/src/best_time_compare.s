@@ -74,16 +74,16 @@ loc_06013ADA:
     .byte   0xA0, 0x0D    /* bra 0x06013B04 (external) */
     nop
 .L_wpool_06013AEA:
-    .2byte  0x0800                        /* button mask: bit 11 (Start / action button) */
+    .2byte  0x0800
 .L_pool_06013AEC:
-    .4byte  sym_06063D9E                  /* game mode word (0x10 = attract/demo mode) */
+    .4byte  sym_06063D9E
 .L_pool_06013AF0:
-    .4byte  sym_06063D9A                  /* new button presses (edge-triggered, per-frame) */
+    .4byte  sym_06063D9A
 .L_pool_06013AF4:
-    .4byte  sym_06084B18                  /* active car count in race (32-bit) */
+    .4byte  sym_06084B18
 .L_pool_06013AF8:
-    .4byte  sym_06084AF0                  /* post-race countdown timer (16-bit, counts down to 0) */
+    .4byte  sym_06084AF0
 .L_pool_06013AFC:
-    .4byte  sym_06084AF2                  /* post-race mode byte (set to 0x05 at loc_06013ADA) */
+    .4byte  sym_06084AF2
 .L_pool_06013B00:
-    .4byte  sym_06084AF6                  /* post-race wait counter (reset to 0 at loc_06013ADA) */
+    .4byte  sym_06084AF6

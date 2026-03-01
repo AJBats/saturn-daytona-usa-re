@@ -108,7 +108,7 @@ scene_state_process:
 .L_060395CC:
     .4byte  sym_060A4CB0
 .L_060395D0:
-    .4byte  0x20100079                  /* SMPC DDR1 — port direction 1 */
+    .4byte  0x20100079
 .L_060395D4:
     .4byte  sym_06000300
 .L_060395D8:
@@ -510,7 +510,7 @@ smpc_data_manage:
 .L_060398B0:
     .4byte  sym_06063608
 .L_060398B4:
-    .4byte  0x20100061                  /* SMPC SR — status */
+    .4byte  0x20100061
 .L_060398B8:
     .4byte  sym_060A4CB8
 .L_060398BC:
@@ -607,7 +607,7 @@ master_menu_render:
 .L_06039960:
     .4byte  sym_060A4CBC
 .L_06039964:
-    .4byte  0x20100061                  /* SMPC SR — status */
+    .4byte  0x20100061
 .L_06039968:
     .4byte  sym_060A4CF4
 .L_0603996C:
@@ -741,23 +741,23 @@ master_menu_render:
 .L_06039A5C:
     .4byte  sym_060A4C9C
 .L_06039A60:
-    .4byte  0x20100031                  /* SMPC register #24 */
+    .4byte  0x20100031
 .L_06039A64:
-    .4byte  0x20100033                  /* SMPC register #25 */
+    .4byte  0x20100033
 .L_06039A68:
-    .4byte  0x20100035                  /* SMPC register #26 */
+    .4byte  0x20100035
 .L_06039A6C:
-    .4byte  0x20100037                  /* SMPC register #27 */
+    .4byte  0x20100037
 .L_06039A70:
-    .4byte  0x20100039                  /* SMPC register #28 */
+    .4byte  0x20100039
 .L_06039A74:
-    .4byte  0x2010003B                  /* SMPC register #29 */
+    .4byte  0x2010003B
 .L_06039A78:
-    .4byte  0x2010003D                  /* SMPC register #30 */
+    .4byte  0x2010003D
 .L_06039A7C:
-    .4byte  0x2010003F                  /* SMPC register #31 */
+    .4byte  0x2010003F
 .L_06039A80:
-    .4byte  0x20100021                  /* SMPC OREG0 */
+    .4byte  0x20100021
 .L_06039A84:
     .4byte  sym_060A4CA8
 .L_06039A88:
@@ -1289,7 +1289,7 @@ master_menu_render:
 .L_06039E54:
     .4byte  sym_060A4CD0
 .L_06039E58:
-    .4byte  0x20100021                  /* SMPC OREG0 */
+    .4byte  0x20100021
 .L_06039E5C:
     .4byte  sym_060A4CD4
 .L_06039E60:
@@ -1496,7 +1496,7 @@ master_menu_render:
 .L_06039FC8:
     .4byte  sym_060A4CA9
 .L_06039FCC:
-    .4byte  0x20100001                  /* SMPC IREG0 (cache-through) */
+    .4byte  0x20100001
     .4byte  0xD30DD20E
     .4byte  0x63316222
     .4byte  0x633D3233
@@ -1526,7 +1526,7 @@ master_menu_render:
 .L_0603A010:
     .4byte  sym_060A4CF4
 .L_0603A014:
-    .4byte  0x20100061                  /* SMPC SR — status */
+    .4byte  0x20100061
 .L_0603A018:
     .4byte  sym_060A4CEC
 
@@ -2559,11 +2559,11 @@ display_channel_iter:
 .L_0603A79A:
     .2byte  0x00FF
 .L_0603A79C:
-    .4byte  0x20100063                  /* SMPC SF — status flag */
+    .4byte  0x20100063
 .L_0603A7A0:
     .4byte  sym_06063602
 .L_0603A7A4:
-    .4byte  0x20100001                  /* SMPC IREG0 (cache-through) */
+    .4byte  0x20100001
 .L_0603A7A8:
     .4byte  sym_060A4CAC
 .L_0603A7AC:
@@ -2723,7 +2723,7 @@ DAT_0603a8bc:
 .L_0603A8C8:
     .4byte  sym_060A4CC0
 .L_0603A8CC:
-    .4byte  0x0000FFFF                  /* low 16-bit mask */
+    .4byte  0x0000FFFF
 .L_0603A8D0:
     .4byte  sym_060A4CAF
 .L_0603A8D4:

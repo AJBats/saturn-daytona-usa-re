@@ -52,15 +52,15 @@ vdp2_config_extended:
     nop
     .2byte  0xFFFF
 .L_06018A90:
-    .4byte  sym_0607EAD8                        /* → course ID word */
+    .4byte  sym_0607EAD8
 .L_06018A94:
-    .4byte  sym_06078868                        /* loading progress counter */
+    .4byte  sym_06078868
 .L_06018A98:
-    .4byte  sym_0607867C                        /* 1 when progress >= 12 */
+    .4byte  sym_0607867C
 .L_06018A9C:
-    .4byte  sym_06083255                        /* 1 enables secondary CPU rendering */
+    .4byte  sym_06083255
 .L_06018AA0:
-    .4byte  sym_0605AD08                        /* nonzero = init already done */
+    .4byte  sym_0605AD08
 
 .L_06018AA4:
     mov.l   .L_06018B90, r3
@@ -191,39 +191,39 @@ vdp2_config_extended:
 
     .global DAT_06018b8e
 DAT_06018b8e:
-    .2byte  0x4000                              /* game state bit 14 mask */
+    .2byte  0x4000
 .L_06018B90:
-    .4byte  render_obj_stub                     /* clear render object list */
+    .4byte  render_obj_stub
 .L_06018B94:
-    .4byte  cd_texture_loader                   /* load course textures from CD */
+    .4byte  cd_texture_loader
 .L_06018B98:
-    .4byte  sym_0605D1BC                        /* course-specific init jump table */
+    .4byte  sym_0605D1BC
 .L_06018B9C:
-    .4byte  cd_course_loader                    /* load course data from CD */
+    .4byte  cd_course_loader
 .L_06018BA0:
-    .4byte  sym_06078635                        /* nonzero = demo/attract mode */
+    .4byte  sym_06078635
 .L_06018BA4:
-    .4byte  sym_06012E7C                        /* normal (non-demo) race init */
+    .4byte  sym_06012E7C
 .L_06018BA8:
-    .4byte  sym_0607ED8C                        /* nonzero = replay playback mode */
+    .4byte  sym_0607ED8C
 .L_06018BAC:
-    .4byte  race_state_pair_1                   /* race state setup */
+    .4byte  race_state_pair_1
 .L_06018BB0:
-    .4byte  handler_dispatch                    /* handler mode dispatcher */
+    .4byte  handler_dispatch
 .L_06018BB4:
-    .4byte  sym_0607EBC4                        /* game state bitmask */
+    .4byte  sym_0607EBC4
 .L_06018BB8:
-    .4byte  sym_06078648                        /* course selection index (byte) */
+    .4byte  sym_06078648
 .L_06018BBC:
-    .4byte  sym_0605AB18                        /* nonzero = menu overlay active */
+    .4byte  sym_0605AB18
 .L_06018BC0:
-    .4byte  sym_0605D23C                        /* handler offset lookup table */
+    .4byte  sym_0605D23C
 .L_06018BC4:
-    .4byte  sym_0605AD00                        /* course variant (0/1/2) */
+    .4byte  sym_0605AD00
 .L_06018BC8:
-    .4byte  sym_06018E1E                        /* TU-local variant helper */
+    .4byte  sym_06018E1E
 .L_06018BCC:
-    .4byte  ai_throttle_modulate                /* AI throttle config dispatch */
+    .4byte  ai_throttle_modulate
 
 .L_06018BD0:
     mov #0x0, r6
@@ -360,79 +360,79 @@ DAT_06018b8e:
     bra     .L_06018D58
     nop
 .L_06018CC6:
-    .2byte  0x00A0                              /* 160 bytes to copy */
+    .2byte  0x00A0
 .L_06018CC8:
-    .4byte  sym_0607EBE4                        /* 0 = rendering disabled */
+    .4byte  sym_0607EBE4
 .L_06018CCC:
-    .4byte  sym_0604806C                        /* word table: sprites per course */
+    .4byte  sym_0604806C
 .L_06018CD0:
-    .4byte  sym_0607EA9C                        /* stored VDP1 sprite count */
+    .4byte  sym_0607EA9C
 .L_06018CD4:
-    .4byte  sym_060D5840                        /* texture bank A base address */
+    .4byte  sym_060D5840
 .L_06018CD8:
-    .4byte  sym_0607EB84                        /* → texture bank A pointer */
+    .4byte  sym_0607EB84
 .L_06018CDC:
-    .4byte  sym_060C6000                        /* texture bank B base address */
+    .4byte  sym_060C6000
 .L_06018CE0:
-    .4byte  sym_0607EB88                        /* → texture bank B pointer */
+    .4byte  sym_0607EB88
 .L_06018CE4:
-    .4byte  sym_06063F3C                        /* → current course data entry */
+    .4byte  sym_06063F3C
 .L_06018CE8:
-    .4byte  sym_0604800C                        /* course table, 8-byte stride */
+    .4byte  sym_0604800C
 .L_06018CEC:
-    .4byte  sym_06035280                        /* track segment initialization */
+    .4byte  sym_06035280
 .L_06018CF0:
-    .4byte  sym_06063F18                        /* segment count (result - 1) */
+    .4byte  sym_06063F18
 .L_06018CF4:
-    .4byte  sym_060786AC                        /* physics init state */
+    .4byte  sym_060786AC
 .L_06018CF8:
-    .4byte  sym_06063F1C                        /* 1 = segments ready */
+    .4byte  sym_06063F1C
 .L_06018CFC:
-    .4byte  sym_06063F20                        /* current segment index A */
+    .4byte  sym_06063F20
 .L_06018D00:
-    .4byte  sym_06063F24                        /* current segment index B */
+    .4byte  sym_06063F24
 .L_06018D04:
-    .4byte  sym_06086034                        /* checkpoint counter */
+    .4byte  sym_06086034
 .L_06018D08:
-    .4byte  sym_06063F28                        /* track width result */
+    .4byte  sym_06063F28
 .L_06018D0C:
-    .4byte  sym_0605AD00                        /* course variant A (byte) */
+    .4byte  sym_0605AD00
 .L_06018D10:
-    .4byte  sym_0604805A                        /* width table A [variant×6+course×2] */
+    .4byte  sym_0604805A
 .L_06018D14:
-    .4byte  sym_06048072                        /* elevation table [course×2] */
+    .4byte  sym_06048072
 .L_06018D18:
-    .4byte  sym_0607EA98                        /* track elevation result */
+    .4byte  sym_0607EA98
 .L_06018D1C:
-    .4byte  sym_06048024                        /* segment count table [course×2] */
+    .4byte  sym_06048024
 .L_06018D20:
-    .4byte  sym_0607EAA0                        /* segment count B result */
+    .4byte  sym_0607EAA0
 .L_06018D24:
-    .4byte  sym_0607EAAC                        /* track length result */
+    .4byte  sym_0607EAAC
 .L_06018D28:
-    .4byte  sym_0604802A                        /* length table [variant×6+course×2] */
+    .4byte  sym_0604802A
 .L_06018D2C:
-    .4byte  sym_0605AD0C                        /* course variant B (byte) */
+    .4byte  sym_0605AD0C
 .L_06018D30:
-    .4byte  sym_0604803C                        /* width table B [variant×6+course×2] */
+    .4byte  sym_0604803C
 .L_06018D34:
-    .4byte  sym_0605CDDC                        /* VDP1 sprite source data */
+    .4byte  sym_0605CDDC
 .L_06018D38:
-    .4byte  sym_06059FFC                        /* sprite bank index */
+    .4byte  sym_06059FFC
 .L_06018D3C:
-    .4byte  0x25C00220                          /* VDP1 VRAM +0x00220 */
+    .4byte  0x25C00220
 .L_06018D40:
-    .4byte  memcpy_word_idx                     /* word-indexed memcpy */
+    .4byte  memcpy_word_idx
 .L_06018D44:
-    .4byte  sym_060149E0                        /* display hardware init */
+    .4byte  sym_060149E0
 .L_06018D48:
-    .4byte  display_channels_clear              /* clear all display channels */
+    .4byte  display_channels_clear
 .L_06018D4C:
-    .4byte  sym_06026CE0                        /* render/display update */
+    .4byte  sym_06026CE0
 .L_06018D50:
-    .4byte  sym_06059F44                        /* audio enable flag (cleared) */
+    .4byte  sym_06059F44
 .L_06018D54:
-    .4byte  audio_display_init                  /* audio subsystem init */
+    .4byte  audio_display_init
 
 .L_06018D58:
     mov.l   .L_06018DB0, r3
@@ -480,24 +480,24 @@ DAT_06018b8e:
     mov.l @r15+, r14
     .2byte  0xFFFF
 .L_06018DB0:
-    .4byte  sym_0605AD08                        /* init_done flag (cleared on exit) */
+    .4byte  sym_0605AD08
 .L_06018DB4:
-    .4byte  sym_06078900                        /* car struct array base */
+    .4byte  sym_06078900
 .L_06018DB8:
-    .4byte  sym_0607E944                        /* → active player car pointer */
+    .4byte  sym_0607E944
 .L_06018DBC:
-    .4byte  hud_coord_calc                      /* HUD coordinate calculation */
+    .4byte  hud_coord_calc
 .L_06018DC0:
-    .4byte  dma_vram_init                       /* DMA VRAM initialization */
+    .4byte  dma_vram_init
 .L_06018DC4:
-    .4byte  dma_config_dispatch                 /* DMA configuration dispatch */
+    .4byte  dma_config_dispatch
 .L_06018DC8:
-    .4byte  sym_0605D1CC                        /* course post-init jump table */
+    .4byte  sym_0605D1CC
 .L_06018DCC:
-    .4byte  gameover_channel_setup              /* game-over display channel */
+    .4byte  gameover_channel_setup
 .L_06018DD0:
-    .4byte  sym_06003430                        /* system cleanup / finalize */
+    .4byte  sym_06003430
 .L_06018DD4:
-    .4byte  channel_config_b                    /* display channel config */
+    .4byte  channel_config_b
 .L_06018DD8:
-    .4byte  obj_render_cleanup                  /* object render cleanup */
+    .4byte  obj_render_cleanup

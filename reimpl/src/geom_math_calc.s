@@ -98,39 +98,39 @@ geom_math_calc:
 
     .global DAT_06018212
 DAT_06018212:
-    .2byte  0x1618                           /* track data offset: primary slot index */
+    .2byte  0x1618
 
     .global DAT_06018214
 DAT_06018214:
-    .2byte  0x021C                           /* car struct offset: position field */
+    .2byte  0x021C
 
     .global DAT_06018216
 DAT_06018216:
-    .2byte  0x1630                           /* track data offset: secondary slot index */
+    .2byte  0x1630
 .L_wpool_06018220:
-    .2byte  0x0090                           /* per-frame slot value increment */
+    .2byte  0x0090
 
     .global DAT_0601821a
 DAT_0601821a:
-    .2byte  0x056C                           /* slot flag value: above-threshold marker */
-    .4byte  sym_06026DF8                     /* (out-of-TU pool) pop matrix frame cleanup */
-    .4byte  obj_overlay_render               /* (out-of-TU pool) overlay render function */
+    .2byte  0x056C
+    .4byte  sym_06026DF8
+    .4byte  obj_overlay_render
 .L_pool_0601822C:
-    .4byte  sym_0605BE2C                     /* segment frame counter (16-bit) */
+    .4byte  sym_0605BE2C
 .L_pool_06018230:
-    .4byte  sym_06063F64                     /* per-slot data table base (8-byte stride) */
+    .4byte  sym_06063F64
 .L_pool_06018234:
-    .4byte  sym_060684EC                     /* track data / index mapping table */
+    .4byte  sym_060684EC
 .L_pool_06018238:
-    .4byte  sym_0607E944                     /* car array base pointer */
+    .4byte  sym_0607E944
 .L_pool_0601823C:
-    .4byte  sym_06063F28                     /* maximum lap count for current race */
+    .4byte  sym_06063F28
 .L_pool_06018240:
-    .4byte  sym_06089E2C                     /* projection param B (above-threshold config) */
+    .4byte  sym_06089E2C
 .L_pool_06018244:
-    .4byte  sym_06089E28                     /* projection config (below-threshold config) */
+    .4byte  sym_06089E28
 .L_pool_06018248:
-    .4byte  sym_06089E30                     /* projection param A (reset target for secondary slot) */
+    .4byte  sym_06089E30
 .L_06018244:
     mov r14, r2
     add r11, r2

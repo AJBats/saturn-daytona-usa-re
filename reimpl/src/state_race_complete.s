@@ -96,42 +96,42 @@ state_race_complete:
     bra     .L_06009B66
     or r11, r2
 .L_06009B10:
-    .2byte  0x0224                           /* car struct offset: sound ID / race result */
-    .2byte  0xFFFF                           /* padding to 4-byte alignment */
+    .2byte  0x0224
+    .2byte  0xFFFF
 .L_06009B14:
-    .4byte  sym_06078637                     /* race result byte */
+    .4byte  sym_06078637
 .L_06009B18:
-    .4byte  sym_0607E944                     /* car array base pointer variable */
+    .4byte  sym_0607E944
 .L_06009B1C:
-    .4byte  sym_0605AB17                     /* post-race mode flags (byte) */
+    .4byte  sym_0605AB17
 .L_06009B20:
     .4byte  vdp1_cmd_update                  /* VDP1 command table update fn */
 .L_06009B24:
-    .4byte  obj_render_update                /* object render update fn */
+    .4byte  obj_render_update
 .L_06009B28:
-    .4byte  sym_06078648                     /* current course index (byte, 0-2) */
+    .4byte  sym_06078648
 .L_06009B2C:
-    .4byte  handler_dispatch                 /* course-specific handler dispatch fn */
+    .4byte  handler_dispatch
 .L_06009B30:
-    .4byte  sym_06078638                     /* race time storage (32-bit) */
+    .4byte  sym_06078638
 .L_06009B34:
-    .4byte  sym_060786A4                     /* previous lap time (32-bit) */
+    .4byte  sym_060786A4
 .L_06009B38:
-    .4byte  sym_0607863C                     /* race time copy destination (32-bit) */
+    .4byte  sym_0607863C
 .L_06009B3C:
-    .4byte  sym_06083255                     /* terrain rendering mode flag (byte) */
+    .4byte  sym_06083255
 .L_06009B40:
-    .4byte  sym_0605AD00                     /* race phase counter A (32-bit) */
+    .4byte  sym_0605AD00
 .L_06009B44:
-    .4byte  sym_0607EAE0                     /* race finish flag (32-bit, nonzero = done) */
+    .4byte  sym_0607EAE0
 .L_06009B48:
-    .4byte  sym_06085FF4                     /* continue eligibility flag (byte) */
+    .4byte  sym_06085FF4
 .L_06009B4C:
-    .4byte  sym_0605AD04                     /* race phase counter B (32-bit) */
+    .4byte  sym_0605AD04
 .L_06009B50:
-    .4byte  sym_0605AB16                     /* result flags byte */
+    .4byte  sym_0605AB16
 .L_06009B54:
-    .4byte  sym_0607EAD8                     /* race end state (0/1/2 dispatch) */
+    .4byte  sym_0607EAD8
 .L_06009B58:
     mov.b @r4, r0
     or #0x2, r0
@@ -258,18 +258,18 @@ state_race_complete:
     rts
     mov.l @r15+, r14
 .L_06009C28:
-    .4byte  sym_0607EAD8                     /* race end state — second pool entry for reach */
+    .4byte  sym_0607EAD8
 .L_06009C2C:
-    .4byte  sym_06083261                     /* continue flag byte (0=no, 1=yes, 2=forced) */
+    .4byte  sym_06083261
 .L_06009C30:
-    .4byte  0xFFB80000                       /* -0x480000: Z position continue threshold */
+    .4byte  0xFFB80000
 .L_06009C34:
-    .4byte  0xFEC60000                       /* -0x13A0000: X position continue threshold */
+    .4byte  0xFEC60000
 .L_06009C38:
-    .4byte  g_game_state                     /* game phase state (32-bit) */
+    .4byte  g_game_state
 .L_06009C3C:
-    .4byte  sym_0607EBCC                     /* race countdown timer (32-bit) */
+    .4byte  sym_0607EBCC
 .L_06009C40:
-    .4byte  sym_06078654                     /* camera mode (byte) */
+    .4byte  sym_06078654
 .L_06009C44:
-    .4byte  sym_0605A016                     /* game state word (16-bit) */
+    .4byte  sym_0605A016

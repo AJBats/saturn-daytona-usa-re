@@ -65,4 +65,4 @@ distance_3d_calc:
 .L_060366FC:
     .4byte  input_proc_analog               /* [HIGH] jsr target: analog input processor */
 .L_06036700:
-    .4byte  0x00FFFFFF                  /* low 24-bit mask */
+    .4byte  0x00FFFFFF

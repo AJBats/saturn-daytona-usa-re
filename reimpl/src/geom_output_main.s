@@ -532,7 +532,7 @@ DAT_0601f964:
 .L_0601F968:
     .4byte  sym_06063D9A
 .L_0601F96C:
-    .4byte  0x25E7FFFE                  /* VDP2 VRAM +0x7FFFE */
+    .4byte  0x25E7FFFE
 .L_0601F970:
     .4byte  tilemap_dma_update
 .L_0601F974:
@@ -642,11 +642,11 @@ DAT_0601fa26:
     .2byte  0x02C0
     .2byte  0xFFFF
 .L_0601FA2C:
-    .4byte  0x80000000                  /* min negative / sign bit */
+    .4byte  0x80000000
 .L_0601FA30:
     .4byte  sym_06026CE0
 .L_0601FA34:
-    .4byte  0x40000000                  /* 0.25 (2.30) or 16384.0 (16.16) */
+    .4byte  0x40000000
 .L_0601FA38:
     .4byte  sym_06063D9A
 .L_0601FA3C:
@@ -662,13 +662,13 @@ DAT_0601fa26:
 .L_0601FA50:
     .4byte  0x00017700
 .L_0601FA54:
-    .4byte  0x25E72194                  /* VDP2 VRAM +0x72194 */
+    .4byte  0x25E72194
 .L_0601FA58:
     .4byte  sym_0600511E
 .L_0601FA5C:
     .4byte  sym_0604894C
 .L_0601FA60:
-    .4byte  0x25F00600                  /* VDP2 color RAM +0x600 */
+    .4byte  0x25F00600
 .L_0601FA64:
     .4byte  memcpy_word_idx
 .L_0601FA68:
@@ -741,7 +741,7 @@ DAT_0601fac8:
 .L_0601FAD0:
     .4byte  sym_0605CD9C
 .L_0601FAD4:
-    .4byte  0x25F00600                  /* VDP2 color RAM +0x600 */
+    .4byte  0x25F00600
 .L_0601FAD8:
     .4byte  memcpy_word_idx
 .L_0601FADC:
@@ -1115,7 +1115,7 @@ geom_display_ctrl_a:
 .L_0601FD4C:
     .4byte  channel_nibble_config
 .L_0601FD50:
-    .4byte  0x25E7FFFE                  /* VDP2 VRAM +0x7FFFE */
+    .4byte  0x25E7FFFE
 .L_0601FD54:
     .4byte  tilemap_dma_update
 .L_0601FD58:

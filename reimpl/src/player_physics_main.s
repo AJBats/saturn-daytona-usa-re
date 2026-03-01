@@ -83,31 +83,31 @@ player_physics_main:
 
     .global DAT_0600e79c
 DAT_0600e79c:
-    .2byte  0x0208                        /* car struct offset: surface change timer */
+    .2byte  0x0208
 
     .global DAT_0600e79e
 DAT_0600e79e:
-    .2byte  0x01E4                        /* car struct offset: surface slot index */
+    .2byte  0x01E4
 .L_0600E7A0:
-    .2byte  0x01F8                        /* car struct offset: surface type */
+    .2byte  0x01F8
 .L_0600E7A2:
-    .2byte  0x0400                        /* surface timer reset constant */
+    .2byte  0x0400
 .L_0600E7A4:
-    .2byte  0x0228                        /* car struct offset: forward speed */
+    .2byte  0x0228
     .2byte  0xFFFF
 .L_0600E7A8:
-    .4byte  sym_0607E940               /* pointer to current car struct */
+    .4byte  sym_0607E940
 .L_0600E7AC:
-    .4byte  gear_shift_handler         /* step 1: manual gear shift */
+    .4byte  gear_shift_handler
 .L_0600E7B0:
-    .4byte  sym_06008640               /* step 2: engine torque/force */
+    .4byte  sym_06008640
 .L_0600E7B4:
-    .4byte  friction_stub              /* step 3: surface friction */
+    .4byte  friction_stub
 .L_0600E7B8:
-    .4byte  accel_response             /* step 4: acceleration curve */
+    .4byte  accel_response
 .L_0600E7BC:
-    .4byte  player_collision           /* step 5: collision detection */
+    .4byte  player_collision
 .L_0600E7C0:
-    .4byte  track_segment_advance      /* step 6: track segment tracking */
+    .4byte  track_segment_advance
 .L_0600E7C4:
-    .4byte  sym_0607EA9C               /* speed integration coefficient */
+    .4byte  sym_0607EA9C

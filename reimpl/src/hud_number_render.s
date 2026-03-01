@@ -461,7 +461,7 @@ DAT_0603120a:
 .L_pool_0603134B:
     .4byte  sin_lookup
 .L_0603133C:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000
 .L_06031340:
     mov.l r4, @-r15
     mov.l r5, @-r15

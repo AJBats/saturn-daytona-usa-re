@@ -91,30 +91,30 @@ hud_course_render:
     .global DAT_0601112c
 .L_0601112C:
 DAT_0601112c:
-    .2byte  0x00D4                          /* display struct offset for VDP1 base A */
+    .2byte  0x00D4
 .L_0601112E:
-    .2byte  0x0282                          /* VDP1 cmd offset: group 1 element A */
+    .2byte  0x0282
 .L_06011130:
-    .2byte  0x048C                          /* VDP1 cmd offset: group 1 element B */
-    .2byte  0xFFFF                          /* padding */
+    .2byte  0x048C
+    .2byte  0xFFFF
 .L_06011134:
-    .4byte  sym_0607EBC8                    /* mode configuration flags (32-bit) */
+    .4byte  sym_0607EBC8
 .L_06011138:
-    .4byte  sym_0607887F                    /* game mode byte (0x3 = race) */
+    .4byte  sym_0607887F
 .L_0601113C:
-    .4byte  sym_06063750                    /* display/object table base struct */
+    .4byte  sym_06063750
 .L_06011140:
-    .4byte  sym_0607EADC                    /* transition state (32-bit) */
+    .4byte  sym_0607EADC
 .L_06011144:
-    .4byte  sym_06028400                    /* HUD element draw function */
+    .4byte  sym_06028400
 .L_06011148:
-    .4byte  sym_06078644                    /* course type index A (dword) */
+    .4byte  sym_06078644
 .L_0601114C:
-    .4byte  sym_0605AC70                    /* course sprite table A (9 entries, 3 per course) */
+    .4byte  sym_0605AC70
 .L_06011150:
-    .4byte  sym_0605AD00                    /* course type index B (dword) */
+    .4byte  sym_0605AD00
 .L_06011154:
-    .4byte  sym_0605AB98                    /* course sprite table C (indexed by course_type) */
+    .4byte  sym_0605AB98
 .L_06011158:
     mov.l r12, @(4, r15)
 .L_0601115A:

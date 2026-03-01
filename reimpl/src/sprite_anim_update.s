@@ -53,35 +53,35 @@ sprite_anim_update:
     bra     .L_06026752
     mov #0x1, r3
 .L_wpool_06026728:
-    .2byte  0x0090                  /* display list size parameter */
+    .2byte  0x0090
 
     .global DAT_0602672a
 DAT_0602672a:
-    .2byte  0x0926                  /* OK text display list offset */
+    .2byte  0x0926
 
     .global DAT_0602672c
 DAT_0602672c:
-    .2byte  0x0A26                  /* CANCEL text display list offset */
+    .2byte  0x0A26
 
     .global DAT_0602672e
 DAT_0602672e:
-    .2byte  0x0E00                  /* confirm button mask (A/B/C buttons) */
+    .2byte  0x0E00
 .L_pool_06026730:
-    .4byte  sym_06059128            /* blank text "  " */
+    .4byte  sym_06059128
 .L_pool_06026734:
-    .4byte  sym_060284AE            /* geom_dispatch_final function */
+    .4byte  sym_060284AE
 .L_pool_06026738:
-    .4byte  sym_06089EDA            /* game mode (word) */
+    .4byte  sym_06089EDA
 .L_pool_0602673C:
-    .4byte  sym_0605912C            /* "  OK" text string */
+    .4byte  sym_0605912C
 .L_pool_06026740:
-    .4byte  sym_06059134            /* "CANCEL" text string */
+    .4byte  sym_06059134
 .L_pool_06026744:
-    .4byte  sym_06063D9A            /* button state register (word) */
+    .4byte  sym_06063D9A
 .L_pool_06026748:
-    .4byte  sym_06061198            /* animation state byte */
+    .4byte  sym_06061198
 .L_pool_0602674C:
-    .4byte  sym_06089ED8            /* palette copy pending flag (word) */
+    .4byte  sym_06089ED8
 .L_06026750:
     mov #0x0, r3
 .L_06026752:
@@ -215,20 +215,20 @@ DAT_0602672e:
     bra     .L_06026892
     nop
 .L_wpool_06026848:
-    .2byte  0x0100                  /* accept/start button exact match */
+    .2byte  0x0100
 
     .global DAT_0602684a
 DAT_0602684a:
-    .2byte  0x1000                  /* scroll-up button mask */
+    .2byte  0x1000
 .L_wpool_0602684C:
-    .2byte  0x2000                  /* scroll-down button mask */
-    .2byte  0xFFFF                  /* pool alignment padding */
+    .2byte  0x2000
+    .2byte  0xFFFF
 .L_pool_06026850:
-    .4byte  sym_0605913C            /* blank text "    " (clears OK slot) */
+    .4byte  sym_0605913C
 .L_pool_06026854:
-    .4byte  sym_06059144            /* blank text "      " (clears CANCEL slot) */
+    .4byte  sym_06059144
 .L_pool_06026858:
-    .4byte  sym_06089EC6            /* slot count (word) */
+    .4byte  sym_06089EC6
 .L_0602685C:
     mov.l   .L_pool_060268A8, r2
     mov.l r2, @r15
@@ -271,8 +271,8 @@ DAT_0602684a:
 
     .global DAT_060268a6
 DAT_060268a6:
-    .2byte  0x7000                  /* VRAM base offset for dlist copy */
+    .2byte  0x7000
 .L_pool_060268A8:
-    .4byte  sym_06063B88            /* display list entry struct */
+    .4byte  sym_06063B88
 .L_pool_060268AC:
-    .4byte  sym_06028400            /* display_list_loader function */
+    .4byte  sym_06028400

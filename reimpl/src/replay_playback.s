@@ -61,7 +61,7 @@ replay_playback:
 .L_0601BEC6:
     .2byte  0x1601
 .L_0601BEC8:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000
 .L_0601BECC:
     .4byte  sym_06089EDC
 .L_0601BED0:
@@ -167,7 +167,7 @@ replay_playback:
 .L_0601BF88:
     .2byte  0x1601
 .L_0601BF8A:
-    .2byte  0x6666                      /* 0.4 (16.16 scale factor) */
+    .2byte  0x6666
 .L_0601BF8C:
     .4byte  sym_0605DF4E
 .L_0601BF90:
@@ -185,9 +185,9 @@ replay_playback:
 .L_0601BFA8:
     .4byte  sym_06063E20
 .L_0601BFAC:
-    .4byte  0xFFFE4000                  /* -1.75 (16.16 fixed-point) */
+    .4byte  0xFFFE4000
 .L_0601BFB0:
-    .4byte  0x00014872                  /* 1.28 (16.16 fixed-point) */
+    .4byte  0x00014872
 .L_0601BFB4:
     .4byte  sym_06026E2E
 .L_0601BFB8:
@@ -292,7 +292,7 @@ replay_playback:
     .2byte  0x1000
     .2byte  0xFFFF
 .L_0601C074:
-    .4byte  0x00014872                  /* 1.28 (16.16 fixed-point) */
+    .4byte  0x00014872
 .L_0601C078:
     .4byte  sym_06026E2E
 .L_0601C07C:
@@ -322,9 +322,9 @@ replay_playback:
 .L_0601C0AC:
     .4byte  sym_06063E20
 .L_0601C0B0:
-    .4byte  0xFFFE4000                  /* -1.75 (16.16 fixed-point) */
+    .4byte  0xFFFE4000
 .L_0601C0B4:
-    .4byte  0xFFFEB78E                  /* -1.28 (16.16 fixed-point) */
+    .4byte  0xFFFEB78E
 .L_0601C0B8:
     .4byte  mat_scale_columns
 .L_0601C0BC:
@@ -395,7 +395,7 @@ replay_playback:
     .2byte  0x7000
     .2byte  0xFFFF
 .L_0601C138:
-    .4byte  0xFFFEB78E                  /* -1.28 (16.16 fixed-point) */
+    .4byte  0xFFFEB78E
 .L_0601C13C:
     .4byte  sym_06026E2E
 .L_0601C140:
@@ -497,7 +497,7 @@ replay_playback:
 .L_0601C1F8:
     .4byte  mat_scale_columns
 .L_0601C1FC:
-    .4byte  0x00014872                  /* 1.28 (16.16 fixed-point) */
+    .4byte  0x00014872
 .L_0601C200:
     .4byte  sym_06026E2E
 .L_0601C204:
@@ -606,7 +606,7 @@ replay_playback:
 .L_0601C2C8:
     .4byte  mat_scale_columns
 .L_0601C2CC:
-    .4byte  0xFFFEB78E                  /* -1.28 (16.16 fixed-point) */
+    .4byte  0xFFFEB78E
 .L_0601C2D0:
     .4byte  sym_06026E2E
 .L_0601C2D4:
@@ -723,7 +723,7 @@ replay_playback:
 .L_0601C3A8:
     .2byte  0x0152
 .L_0601C3AA:
-    .2byte  0xCCCD                      /* -0x3333 signed = -13107 */
+    .2byte  0xCCCD
 .L_0601C3AC:
     .4byte  sym_0605DF44
 .L_0601C3B0:
@@ -731,7 +731,7 @@ replay_playback:
 .L_0601C3B4:
     .4byte  sym_06044670
 .L_0601C3B8:
-    .4byte  0xFFFF6000                  /* -0.625 (16.16 fixed-point) */
+    .4byte  0xFFFF6000
 .L_0601C3BC:
     .4byte  sym_06026E2E
 .L_0601C3C0:

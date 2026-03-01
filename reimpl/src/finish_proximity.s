@@ -109,27 +109,27 @@ finish_proximity:
 
     .global DAT_0600db40
 DAT_0600db40:
-    .2byte  0x00B8                      /* car struct offset: proximity state */
+    .2byte  0x00B8
 .L_0600DB42:
-    .2byte  0x1C01                      /* bitfield param: bit_pos=28, count=1 -> bit 3 (proximity) */
+    .2byte  0x1C01
 
     .global DAT_0600db44
 DAT_0600db44:
-    .2byte  0x01E4                      /* car struct offset: checkpoint index */
+    .2byte  0x01E4
 
     .global DAT_0600db46
 DAT_0600db46:
-    .2byte  0x4000                      /* angular distance lower threshold */
+    .2byte  0x4000
 .L_0600DB48:
-    .4byte  sym_0607E940                /* -> car object pointer */
+    .4byte  sym_0607E940
 .L_0600DB4C:
-    .4byte  sym_0607869A                /* -> proximity flag word */
+    .4byte  sym_0607869A
 .L_0600DB50:
-    .4byte  sym_06078698                /* -> proximity counter */
+    .4byte  sym_06078698
 .L_0600DB54:
-    .4byte  sym_06034F78                /* -> bitfield write utility */
+    .4byte  sym_06034F78
 .L_0600DB58:
-    .4byte  0x0000C000                  /* angular distance upper threshold */
+    .4byte  0x0000C000
 .L_0600DB5C:
     add #0x8, r15
     lds.l @r15+, pr
@@ -209,33 +209,33 @@ finish_display:
 
     .global DAT_0600dbda
 DAT_0600dbda:
-    .2byte  0x015C                      /* car struct offset: lap counter */
+    .2byte  0x015C
 
     .global DAT_0600dbdc
 DAT_0600dbdc:
-    .2byte  0x4000                      /* VDP Y offset for overlay */
+    .2byte  0x4000
 .L_0600DBDE:
-    .2byte  0x0AC0                      /* screen position Y (course 1) */
+    .2byte  0x0AC0
 .L_0600DBE0:
-    .4byte  sym_0607E940                /* -> car object pointer */
+    .4byte  sym_0607E940
 .L_0600DBE4:
-    .4byte  sym_0607EABC                /* -> lap display timer (frames) */
+    .4byte  sym_0607EABC
 .L_0600DBE8:
-    .4byte  sym_0607EAAC                /* -> accumulated race time */
+    .4byte  sym_0607EAAC
 .L_0600DBEC:
-    .4byte  sym_0607EAA0                /* -> current lap time delta */
+    .4byte  sym_0607EAA0
 .L_0600DBF0:
-    .4byte  sound_notify_handler        /* -> lap complete sound handler */
+    .4byte  sound_notify_handler
 .L_0600DBF4:
-    .4byte  sym_060786A8                /* -> animation frame counter */
+    .4byte  sym_060786A8
 .L_0600DBF8:
-    .4byte  sym_06078698                /* -> proximity counter (word) */
+    .4byte  sym_06078698
 .L_0600DBFC:
-    .4byte  sym_06078644                /* -> course type selector */
+    .4byte  sym_06078644
 .L_0600DC00:
-    .4byte  sym_060637F8                /* -> overlay sprite data (course 1) */
+    .4byte  sym_060637F8
 .L_0600DC04:
-    .4byte  sym_06028400                /* -> overlay rendering function */
+    .4byte  sym_06028400
 .L_0600DC08:
     mov.l   .L_0600DCA0, r2
     mov.l r2, @r15
@@ -322,36 +322,36 @@ checkpoint_sound_trigger:
 
     .global DAT_0600dc98
 DAT_0600dc98:
-    .2byte  0x4000                      /* VDP Y offset (other courses) */
+    .2byte  0x4000
 
     .global DAT_0600dc9a
 DAT_0600dc9a:
-    .2byte  0x0B3C                      /* screen position Y (other courses) */
+    .2byte  0x0B3C
 
     .global DAT_0600dc9c
 DAT_0600dc9c:
-    .2byte  0x0ABC                      /* checkpoint sound screen position 1 */
+    .2byte  0x0ABC
 
     .global DAT_0600dc9e
 DAT_0600dc9e:
-    .2byte  0x0BBC                      /* checkpoint sound screen position 2 */
+    .2byte  0x0BBC
 .L_0600DCA0:
-    .4byte  sym_06063808                /* -> overlay sprite data (other courses) */
+    .4byte  sym_06063808
 .L_0600DCA4:
-    .4byte  sym_06028400                /* -> overlay rendering function */
+    .4byte  sym_06028400
 .L_0600DCA8:
-    .4byte  sym_06078698                /* -> proximity counter (word) */
+    .4byte  sym_06078698
 .L_0600DCAC:
     .4byte  sound_cmd_dispatch          /* -> sound command dispatcher */
 .L_0600DCB0:
-    .4byte  0xAE1138FF                  /* standard lap/countdown SFX data */
+    .4byte  0xAE1138FF
 .L_0600DCB4:
-    .4byte  sym_06078644                /* -> course type selector */
+    .4byte  sym_06078644
 .L_0600DCB8:
-    .4byte  0xAE1139FF                  /* course 1 specific SFX variant */
+    .4byte  0xAE1139FF
 .L_0600DCBC:
-    .4byte  sym_06086054                /* -> sound/display timer */
+    .4byte  sym_06086054
 .L_0600DCC0:
-    .4byte  sym_0605ACE8                /* -> checkpoint SFX data block */
+    .4byte  sym_0605ACE8
 .L_0600DCC4:
-    .4byte  sym_060284AE                /* -> VDP number+text renderer */
+    .4byte  sym_060284AE

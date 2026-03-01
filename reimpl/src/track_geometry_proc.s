@@ -114,7 +114,7 @@ DAT_060178ac:
 .L_060178E0:
     .4byte  mat_rot_y
 .L_060178E4:
-    .4byte  0x00200000                  /* Work RAM Low base */
+    .4byte  0x00200000
 .L_060178E8:
     .4byte  0x00037D88
 .L_060178EC:
@@ -239,7 +239,7 @@ DAT_060178ac:
 .L_060179D0:
     .4byte  mat_rot_z
 .L_060179D4:
-    .4byte  0x00200000                  /* Work RAM Low base */
+    .4byte  0x00200000
 .L_060179D8:
     .4byte  0x00037E78
 .L_060179DC:
@@ -592,7 +592,7 @@ DAT_06017c52:
 .L_06017C54:
     .4byte  sym_0607EBC4
 .L_06017C58:
-    .4byte  0x00020000                  /* 2.0 (16.16 fixed-point) */
+    .4byte  0x00020000
 .L_06017C5C:
     .4byte  sym_0605BE24
 .L_06017C60:

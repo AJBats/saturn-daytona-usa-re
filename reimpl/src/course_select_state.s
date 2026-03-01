@@ -95,48 +95,48 @@ course_select_state:
     .byte   0xAF, 0x3A    /* bra 0x06019324 (external tail-call) */
     mov.l @r15+, r14
 .L_060194B0:
-    .4byte  sym_06085FF0               /* course select flag A (byte) */
+    .4byte  sym_06085FF0
 .L_060194B4:
-    .4byte  sym_0605D245               /* course select flag B (byte) */
+    .4byte  sym_0605D245
 .L_060194B8:
-    .4byte  sym_06085FF1               /* course select flag C (byte) */
+    .4byte  sym_06085FF1
 .L_060194BC:
-    .4byte  sym_06085FF2               /* course select flag D (byte) */
+    .4byte  sym_06085FF2
 .L_060194C0:
-    .4byte  sym_06085FF3               /* course select flag E (byte) */
+    .4byte  sym_06085FF3
 .L_060194C4:
-    .4byte  sym_06085FF5               /* course select flag F (byte) */
+    .4byte  sym_06085FF5
 .L_060194C8:
-    .4byte  0xAE0003FF                  /* sound command: course select music */
+    .4byte  0xAE0003FF
 .L_060194CC:
     .4byte  sound_cmd_dispatch         /* sound command dispatcher */
 .L_060194D0:
-    .4byte  sym_0605B6D8               /* render mode flags (32-bit) */
+    .4byte  sym_0605B6D8
 .L_060194D4:
-    .4byte  0x80000000                  /* min negative / sign bit */
+    .4byte  0x80000000
 .L_060194D8:
-    .4byte  sym_06026CE0               /* camera state finalization */
+    .4byte  sym_06026CE0
 .L_060194DC:
-    .4byte  sym_0601A73E               /* course name rendering */
+    .4byte  sym_0601A73E
 .L_060194E0:
-    .4byte  0x00014000                  /* tile set A source address */
+    .4byte  0x00014000
 .L_060194E4:
-    .4byte  0x25E76174                  /* VDP2 VRAM +0x76174 */
+    .4byte  0x25E76174
 .L_060194E8:
-    .4byte  sym_0600511E               /* VRAM tile data copy */
+    .4byte  sym_0600511E
 .L_060194EC:
-    .4byte  0x00017700                  /* tile set B source address */
+    .4byte  0x00017700
 .L_060194F0:
-    .4byte  0x25E761FC                  /* VDP2 VRAM +0x761FC */
+    .4byte  0x25E761FC
 .L_060194F4:
-    .4byte  display_channel_b          /* display channel B enable */
+    .4byte  display_channel_b
 .L_060194F8:
-    .4byte  sym_0602853E               /* display layer configuration */
+    .4byte  sym_0602853E
 .L_060194FC:
-    .4byte  sym_06028560               /* render state commit */
+    .4byte  sym_06028560
 .L_06019500:
-    .4byte  sym_06063AF8               /* display layer parameters */
+    .4byte  sym_06063AF8
 .L_06019504:
-    .4byte  0x0000A000                  /* tile VRAM offset (+0xA000) */
+    .4byte  0x0000A000
 .L_06019508:
-    .4byte  sym_06028400               /* display layer setup */
+    .4byte  sym_06028400

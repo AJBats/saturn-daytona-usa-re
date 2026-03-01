@@ -38,7 +38,7 @@ save_checksum_calc:
     .4byte  0x8B04A008
     .2byte  0x0009
 .L_wpool_0603B986:
-    .2byte  0x00B8                      /* [HIGH] notification sub-struct offset within game state */
+    .2byte  0x00B8
 .L_pool_0603B988:
     .4byte  sym_060A4D14
     .4byte  0x7501E060

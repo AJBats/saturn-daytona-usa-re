@@ -56,14 +56,14 @@ dma_memory_transfer:
     and r14, r6
 
 .L_wpool_060286AC:
-    .2byte  0x0100                      /* [HIGH] bit 8 mask: flag byte still has valid bits */
-    .2byte  0x0000                      /* padding */
+    .2byte  0x0100
+    .2byte  0x0000
 
 .L_pool_060286B0:
     .4byte  sym_0602872C
 
 .L_060286B4:
-    .4byte  0x0000FF00                  /* byte 1 mask */
+    .4byte  0x0000FF00
 
 .L_pool_060286B8:
     .4byte  0x00000FFF

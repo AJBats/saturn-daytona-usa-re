@@ -41,7 +41,7 @@ display_extra_config:
 DAT_06038a9a:
     .2byte  0x0FFF
 .L_wpool_06038A9C:
-    .2byte  0x1000                      /* [HIGH] bit 12 set mask (mode 1 — low-nibble channel select) */
+    .2byte  0x1000
 
     .global DAT_06038a9e
 DAT_06038a9e:

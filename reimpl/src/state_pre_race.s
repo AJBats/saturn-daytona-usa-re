@@ -41,20 +41,20 @@ state_pre_race:
     .4byte  race_resource_init
     .4byte  race_prep_init
 .L_06008E8C:
-    .4byte  g_game_state               /* game phase state */
-    .4byte  car_physics_init           /* (unreferenced pool entry) */
-    .4byte  obj_render_update          /* (unreferenced pool entry) */
-    .4byte  sym_0605B6D8               /* (unreferenced — render flags) */
-    .4byte  0x40000000                 /* (unreferenced — render flag bit 30) */
+    .4byte  g_game_state
+    .4byte  car_physics_init
+    .4byte  obj_render_update
+    .4byte  sym_0605B6D8
+    .4byte  0x40000000
 .L_06008EA0:
-    .4byte  sym_06026CE0               /* initialization finalization function */
+    .4byte  sym_06026CE0
 .L_06008EA4:
-    .4byte  sym_06059F44               /* camera follow mode flag */
-    .4byte  sym_0605A016               /* (unreferenced — game state word) */
-    .4byte  handler_dispatch           /* (unreferenced pool entry) */
+    .4byte  sym_06059F44
+    .4byte  sym_0605A016
+    .4byte  handler_dispatch
 .L_06008EB0:
-    .4byte  sym_0607EBCC               /* race countdown timer */
+    .4byte  sym_0607EBCC
 .L_06008EB4:
-    .4byte  game_state_dispatch        /* main game state machine dispatcher */
+    .4byte  game_state_dispatch
 .L_06008EB8:
-    .4byte  handler_init_reset         /* initialization pipeline continuation */
+    .4byte  handler_init_reset

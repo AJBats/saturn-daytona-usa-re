@@ -35,18 +35,18 @@ transition_handler_a:
     .2byte  0x0B04
     .4byte  0x0B380170
     .4byte  0x0C2604B0
-    .4byte  sym_06063750        /* display config table */
+    .4byte  sym_06063750
     .4byte  0x00009000
     .4byte  0x0000A000
-    .4byte  sym_0607EADC        /* transition frame counter (dword) */
-    .4byte  sym_0607EBCC        /* state countdown timer (dword) */
-    .4byte  sym_0607887F        /* game state byte */
+    .4byte  sym_0607EADC
+    .4byte  sym_0607EBCC
+    .4byte  sym_0607887F
 .L_pool_0600F7E4:
-    .4byte  g_pad_state        /* &input/button state struct */
+    .4byte  g_pad_state
 .L_pool_0600F7E8:
-    .4byte  anim_ui_transition  /* UI transition animation function */
+    .4byte  anim_ui_transition
 .L_pool_0600F7EC:
-    .4byte  hud_course_render   /* course HUD renderer function */
+    .4byte  hud_course_render
 
 .L_0600F7F0:
     .byte   0xB5, 0x5A    /* bsr 0x060102A8 (external) */

@@ -49,38 +49,38 @@ camera_car_transform:
     mov.l @r3, r2
     bra     .L_0600AE94
     add r2, r4
-    .4byte  sym_06027080             /* (adj pool FUN_0600AC44: mat_push_B — Stack B push matrix) */
-    .4byte  sym_06044670             /* (adj pool FUN_0600AC44: static object position table) */
-    .4byte  sym_060270F2             /* (adj pool FUN_0600AC44: mat_xform_trans_B — Stack B transform) */
-    .4byte  mat_rot_xz_b            /* (adj pool FUN_0600AC44: XZ rotation) */
-    .4byte  sym_060621D8             /* (adj pool FUN_0600AC44: car 3 data struct base) */
-    .4byte  sym_06032158             /* (adj pool FUN_0600AC44: distance check / visibility cull B) */
-    .4byte  sym_06062180             /* (adj pool FUN_0600AC44: car 2 data struct base) */
-    .4byte  sym_06031DF4             /* (adj pool FUN_0600AC44: render submission / VDP1 submit B) */
+    .4byte  sym_06027080
+    .4byte  sym_06044670
+    .4byte  sym_060270F2
+    .4byte  mat_rot_xz_b
+    .4byte  sym_060621D8
+    .4byte  sym_06032158
+    .4byte  sym_06062180
+    .4byte  sym_06031DF4
 .L_0600AE4C:
-    .4byte  sym_06063F46             /* camera mode index, 16-bit (MEDIUM) */
+    .4byte  sym_06063F46
 .L_0600AE50:
-    .4byte  mat_rot_x         /* apply accumulated rotation matrix (HIGH) */
+    .4byte  mat_rot_x
 .L_0600AE54:
-    .4byte  sym_0607E944             /* car array base pointer (HIGH — used across rendering/AI/collision) */
+    .4byte  sym_0607E944
 .L_0600AE58:
-    .4byte  sym_0607E940             /* current car struct pointer (HIGH — published for other subsystems) */
+    .4byte  sym_0607E940
 .L_0600AE5C:
-    .4byte  sym_06026DBC             /* mat_push_A — push matrix onto Stack A (HIGH) */
+    .4byte  sym_06026DBC
 .L_0600AE60:
-    .4byte  sym_06026E2E             /* mat_xform_trans_A — vector transform + translate (HIGH) */
+    .4byte  sym_06026E2E
 .L_0600AE64:
-    .4byte  0x00008000               /* 0x8000 = 180 degrees in 16-bit angle space (HIGH) */
+    .4byte  0x00008000
 .L_0600AE68:
-    .4byte  mat_rot_y                /* Y-axis rotation (HIGH) */
+    .4byte  mat_rot_y
 .L_0600AE6C:
-    .4byte  mat_rot_z                /* Z-axis rotation (HIGH) */
+    .4byte  mat_rot_z
 .L_0600AE70:
-    .4byte  sym_0607EBC4             /* game mode flags word (HIGH — confirmed across multiple TUs) */
+    .4byte  sym_0607EBC4
 .L_0600AE74:
-    .4byte  0x00800008               /* bits: 0x00800000 | 0x00000008 — special camera mode (MEDIUM) */
+    .4byte  0x00800008
 .L_0600AE78:
-    .4byte  sym_0605BDCC             /* per-mode bank angle offset table, 4 bytes/entry (MEDIUM) */
+    .4byte  sym_0605BDCC
 .L_0600AE7C:
     mov.l @(28, r14), r4
     neg r4, r4
@@ -160,46 +160,46 @@ camera_car_transform:
     bra     .L_0600AF60
     add r2, r4
 .L_0600AF12:
-    .2byte  0x01D8                   /* car offset: camera yaw */
+    .2byte  0x01D8
 .L_0600AF14:
-    .2byte  0x01B4                   /* car offset: camera roll */
+    .2byte  0x01B4
 .L_0600AF16:
-    .2byte  0x01D0                   /* car offset: camera pitch A */
+    .2byte  0x01D0
 .L_0600AF18:
-    .2byte  0x01C8                   /* car offset: camera pitch B */
-    .2byte  0xFFFF                       /* alignment padding */
+    .2byte  0x01C8
+    .2byte  0xFFFF
 .L_0600AF1C:
-    .4byte  sym_06078668             /* camera height offset value (MEDIUM) */
+    .4byte  sym_06078668
 .L_0600AF20:
-    .4byte  sym_0605BDCC             /* bank angle offset table (dup for reach) (MEDIUM) */
+    .4byte  sym_0605BDCC
 .L_0600AF24:
-    .4byte  mat_rot_y                /* Y rotation (dup for reach) (HIGH) */
+    .4byte  mat_rot_y
 .L_0600AF28:
-    .4byte  sym_06059F30             /* camera follow mode flag (MEDIUM — also used in course-specific renderer) */
+    .4byte  sym_06059F30
 .L_0600AF2C:
-    .4byte  sym_060621E8             /* car 3 data struct + 0x10 (rotation source A) (MEDIUM) */
+    .4byte  sym_060621E8
 .L_0600AF30:
-    .4byte  sym_0606213C             /* car 1 data struct + 0x10 (rotation dest A) (MEDIUM) */
+    .4byte  sym_0606213C
 .L_0600AF34:
-    .4byte  sym_06031D8C             /* vec_matrix_xform_A — distance/visibility (Stack A) (MEDIUM) */
+    .4byte  sym_06031D8C
 .L_0600AF38:
-    .4byte  sym_06062190             /* car 2 data struct + 0x10 (rotation source B) (MEDIUM) */
+    .4byte  sym_06062190
 .L_0600AF3C:
-    .4byte  sym_06089E44             /* indexed sprite/scale table (16-bit entries) (MEDIUM) */
+    .4byte  sym_06089E44
 .L_0600AF40:
-    .4byte  sym_060620E8             /* car 0 data struct + 0x10 (rotation dest B) (MEDIUM) */
+    .4byte  sym_060620E8
 .L_0600AF44:
-    .4byte  sym_06031A28             /* vec_scaled_xform_A — sprite submit / scaled transform (MEDIUM) */
+    .4byte  sym_06031A28
 .L_0600AF48:
-    .4byte  sym_06026E2E             /* mat_xform_trans_A (dup for reach) (HIGH) */
+    .4byte  sym_06026E2E
 .L_0600AF4C:
-    .4byte  mat_rot_z                /* Z rotation (dup for reach) (HIGH) */
+    .4byte  mat_rot_z
 .L_0600AF50:
-    .4byte  sym_06082A25             /* camera shake flags byte — bit 1 = shake active (MEDIUM) */
+    .4byte  sym_06082A25
 .L_0600AF54:
-    .4byte  sym_06044740             /* per-mode LOD lookup table, byte entries indexed by mode (LOW) */
+    .4byte  sym_06044740
 .L_0600AF58:
-    .4byte  sym_06083258             /* camera LOD offset base pointer (LOW) */
+    .4byte  sym_06083258
 .L_0600AF5C:
     .byte   0xD4, 0x2B    /* mov.l @(0x0600B00C), r4 */
     mov.l @r4, r4

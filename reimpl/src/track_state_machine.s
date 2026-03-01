@@ -93,46 +93,46 @@ track_state_machine:
 
     .global DAT_06017d92
 DAT_06017d92:
-    .2byte  0x021C                       /* car struct position field offset */
+    .2byte  0x021C
 
     .global DAT_06017d94
 DAT_06017d94:
-    .2byte  0x1692                       /* track_data offset: primary slot index */
+    .2byte  0x1692
 
     .global DAT_06017d96
 DAT_06017d96:
-    .2byte  0x03BC                       /* seg status: at segment end */
+    .2byte  0x03BC
 
     .global DAT_06017d98
 DAT_06017d98:
-    .2byte  0x03A8                       /* seg status: normal */
+    .2byte  0x03A8
 
     .global DAT_06017d9a
 DAT_06017d9a:
-    .2byte  0x16AA                       /* track_data offset: secondary slot index */
+    .2byte  0x16AA
 .L_06017D9C:
-    .2byte  0x0090                       /* per-frame position increment */
-    .2byte  0xFFFF                       /* alignment pad */
+    .2byte  0x0090
+    .2byte  0xFFFF
 .L_06017DA0:
-    .4byte  0x00088734                   /* WRAM offset base for chain A */
+    .4byte  0x00088734
 .L_06017DA4:
-    .4byte  sym_0605BE10                 /* projection state base (8 bytes) */
+    .4byte  sym_0605BE10
 .L_06017DA8:
-    .4byte  sym_060684EC                 /* track data table base */
+    .4byte  sym_060684EC
 .L_06017DAC:
-    .4byte  sym_06063F64                 /* per-slot data table base */
+    .4byte  sym_06063F64
 .L_06017DB0:
-    .4byte  sym_0607E944                 /* car array base pointer */
+    .4byte  sym_0607E944
 .L_06017DB4:
-    .4byte  sym_06089E28                 /* course config pointer */
+    .4byte  sym_06089E28
 .L_06017DB8:
-    .4byte  sym_0605BE2C                 /* segment frame counter (16-bit) */
+    .4byte  sym_0605BE2C
 .L_06017DBC:
-    .4byte  sym_0605BE2E                 /* segment step counter (16-bit) */
+    .4byte  sym_0605BE2E
 .L_06017DC0:
-    .4byte  sym_06063F28                 /* maximum lap count */
+    .4byte  sym_06063F28
 .L_06017DC4:
-    .4byte  sym_06089E2C                 /* alternate course config pointer */
+    .4byte  sym_06089E2C
 .L_06017DC8:
     mov.w   DAT_06017ea6, r0
     add r13, r6
@@ -249,25 +249,25 @@ DAT_06017d9a:
 
     .global DAT_06017ea6
 DAT_06017ea6:
-    .2byte  0x1692                       /* track_data offset: primary slot index (dup) */
+    .2byte  0x1692
 
     .global DAT_06017ea8
 DAT_06017ea8:
-    .2byte  0x1718                       /* track_data offset C (proj entry group) */
+    .2byte  0x1718
 
     .global DAT_06017eaa
 DAT_06017eaa:
-    .2byte  0x1708                       /* track_data offset A (proj init group) */
+    .2byte  0x1708
 .L_06017EAC:
-    .4byte  sym_06089E30                 /* alternate segment base pointer */
+    .4byte  sym_06089E30
 .L_06017EB0:
-    .4byte  sym_0605BE2C                 /* segment frame counter (for reset) */
+    .4byte  sym_0605BE2C
 .L_06017EB4:
-    .4byte  sym_0605BE2E                 /* segment step counter (for flag test) */
+    .4byte  sym_0605BE2E
 .L_06017EB8:
-    .4byte  sym_06089E34                 /* projection param X */
+    .4byte  sym_06089E34
 .L_06017EBC:
-    .4byte  sym_06089E38                 /* projection param Y */
+    .4byte  sym_06089E38
 .L_06017EC0:
     mov.w   DAT_06017fdc, r0
     add r13, r6
@@ -419,33 +419,33 @@ DAT_06017eaa:
 
     .global DAT_06017fdc
 DAT_06017fdc:
-    .2byte  0x1708                       /* track_data offset A (dup for proj advance) */
+    .2byte  0x1708
 
     .global DAT_06017fde
 DAT_06017fde:
-    .2byte  0x16B8                       /* track_data offset: Z slot index */
+    .2byte  0x16B8
 .L_06017FE0:
-    .2byte  0x0100                       /* scroll mode Z offset (+256) */
+    .2byte  0x0100
 
     .global DAT_06017fe2
 DAT_06017fe2:
-    .2byte  0x01EC                       /* car struct offset: road section index */
+    .2byte  0x01EC
 
     .global DAT_06017fe4
 DAT_06017fe4:
-    .2byte  0x00A8                       /* near-surface zone minimum section */
+    .2byte  0x00A8
 
     .global DAT_06017fe6
 DAT_06017fe6:
-    .2byte  0x00C1                       /* near-surface zone maximum section */
+    .2byte  0x00C1
 .L_06017FE8:
-    .4byte  sym_06089E40                 /* projection param Z */
+    .4byte  sym_06089E40
 .L_06017FEC:
-    .4byte  sym_0605BE2E                 /* segment step counter (for scroll mode) */
+    .4byte  sym_0605BE2E
 .L_06017FF0:
-    .4byte  sym_0605BE36                 /* near-surface zone flag (16-bit) */
+    .4byte  sym_0605BE36
 .L_06017FF4:
-    .4byte  sym_0605BE38                 /* pit lane zone flag (16-bit) */
+    .4byte  sym_0605BE38
 .L_06017FF8:
     mov #0x0, r2
     mov.w r2, @r5
@@ -584,46 +584,46 @@ DAT_06017fe6:
 
     .global DAT_060180fc
 DAT_060180fc:
-    .2byte  0x0089                       /* obj section range minimum */
+    .2byte  0x0089
 
     .global DAT_060180fe
 DAT_060180fe:
-    .2byte  0x00B6                       /* obj section range maximum */
+    .2byte  0x00B6
 .L_06018100:
-    .2byte  0x0333                       /* per-frame proj X delta */
+    .2byte  0x0333
 
     .global DAT_06018102
 DAT_06018102:
-    .2byte  0x0666                       /* per-frame proj Y delta */
+    .2byte  0x0666
 
     .global DAT_06018104
 DAT_06018104:
-    .2byte  0x1555                       /* Z rotation stride multiplier */
-    .2byte  0xFFFF                       /* alignment pad */
+    .2byte  0x1555
+    .2byte  0xFFFF
 .L_06018108:
-    .4byte  sym_06089E98                 /* per-mode scale factor table (16-bit) */
+    .4byte  sym_06089E98
 .L_0601810C:
-    .4byte  sym_06026DBC                 /* pre-transform setup function */
+    .4byte  sym_06026DBC
 .L_06018110:
-    .4byte  sym_06048078                 /* track object array (12 bytes/entry) */
+    .4byte  sym_06048078
 .L_06018114:
-    .4byte  sym_06026E2E                 /* transform dispatch function */
+    .4byte  sym_06026E2E
 .L_06018118:
-    .4byte  0x0000C000                   /* bits 15:14 mask (Y rotation) */
+    .4byte  0x0000C000
 .L_0601811C:
-    .4byte  mat_rot_y                    /* Y-axis matrix rotation */
+    .4byte  mat_rot_y
 .L_06018120:
-    .4byte  mat_rot_z                    /* Z-axis matrix rotation */
+    .4byte  mat_rot_z
 .L_06018124:
-    .4byte  0x00200000                   /* Work RAM Low base */
+    .4byte  0x00200000
 .L_06018128:
-    .4byte  sym_06031D8C                 /* transform chain A (vector copy) */
+    .4byte  sym_06031D8C
 .L_0601812C:
-    .4byte  0x000887C4                   /* WRAM offset for chain B source */
+    .4byte  0x000887C4
 .L_06018130:
-    .4byte  sym_06031A28                 /* transform chain B (scaled copy) */
+    .4byte  sym_06031A28
 .L_06018134:
-    .4byte  sym_06026DF8                 /* camera state finalization */
+    .4byte  sym_06026DF8
 .L_06018138:
     .byte   0xD3, 0x38    /* mov.l .L_pool_0601821C, r3 */
     jsr @r3

@@ -375,7 +375,7 @@ loc_0602B15C:
 .L_0602B1B0:
     .4byte  sym_06063F54
 .L_0602B1B4:
-    .4byte  0x00020000                  /* 2.0 (16.16 fixed-point) */
+    .4byte  0x00020000
 .L_0602B1B8:
     .4byte  0x000A0000
 .L_0602B1BC:

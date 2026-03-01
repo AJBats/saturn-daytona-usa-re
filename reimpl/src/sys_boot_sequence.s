@@ -185,7 +185,7 @@ sys_boot_sequence:
 .L_060403D8:
     .4byte  sym_06041014
 .L_060403DC:
-    .4byte  0x7FFFFFFF                  /* max positive 16.16 */
+    .4byte  0x7FFFFFFF
 .L_060403E0:
     .4byte  evt_cmd_enqueue
 .L_060403E4:

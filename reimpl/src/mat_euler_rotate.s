@@ -68,10 +68,10 @@ mat_euler_rotate:
     mov.l @r15+, r14
     .2byte  0xFFFF
 .L_0601E754:
-    .4byte  0x20100063                  /* SMPC SF — status flag */
+    .4byte  0x20100063
 .L_0601E758:
-    .4byte  0x2010001F                  /* SMPC COMREG (cache-through) */
+    .4byte  0x2010001F
 .L_0601E75C:
-    .4byte  sym_06000354                /* function dispatch table pointer */
+    .4byte  sym_06000354
 .L_0601E760:
-    .4byte  sym_06087094                /* HUD element array (0x20 bytes per element) */
+    .4byte  sym_06087094

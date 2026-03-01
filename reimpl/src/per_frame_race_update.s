@@ -100,36 +100,36 @@ per_frame_race_update:
 
     .global DAT_0600e86c
 DAT_0600e86c:
-    .2byte  0x025C                        /* car offset: target steering angle */
+    .2byte  0x025C
 
     .global DAT_0600e86e
 DAT_0600e86e:
-    .2byte  0x0208                        /* car offset: surface change timer */
+    .2byte  0x0208
 
     .global DAT_0600e870
 DAT_0600e870:
-    .2byte  0x01E4                        /* car offset: surface slot index */
+    .2byte  0x01E4
 .L_0600E872:
-    .2byte  0x01F8                        /* car offset: surface type */
+    .2byte  0x01F8
 .L_0600E874:
-    .2byte  0x0400                        /* surface timer reset constant */
+    .2byte  0x0400
     .2byte  0xFFFF
 .L_0600E878:
-    .4byte  sym_0607E940               /* pointer to current car struct */
+    .4byte  sym_0607E940
 .L_0600E87C:
-    .4byte  gear_shift_handler         /* step 1: manual gear shift */
+    .4byte  gear_shift_handler
 .L_0600E880:
-    .4byte  sym_06008640               /* step 2: engine torque/force */
+    .4byte  sym_06008640
 .L_0600E884:
-    .4byte  friction_stub              /* step 3: surface friction */
+    .4byte  friction_stub
 .L_0600E888:
-    .4byte  accel_response             /* step 4: acceleration curve */
+    .4byte  accel_response
 .L_0600E88C:
-    .4byte  sym_0602D88E               /* step 5: demo/attract collision handler */
+    .4byte  sym_0602D88E
 .L_0600E890:
-    .4byte  sym_06083261               /* steering interpolation mode (1=fast, 2=smooth) */
+    .4byte  sym_06083261
 .L_0600E894:
-    .4byte  0x00008000                  /* 0.5 rounding bias for mode 2 interpolation */
+    .4byte  0x00008000
 
 .L_0600E898:
     cmp/eq #0x1, r0

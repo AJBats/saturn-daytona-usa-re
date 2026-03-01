@@ -28,9 +28,9 @@ track_poly_build:
     .4byte  0x001E0000
     .4byte  atan2
 .L_pool_0602F580:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) / bit 15 mask */
+    .4byte  0x00008000
 .L_pool_0602F584:
-    .4byte  0xFFFF0000                  /* -1.0 (16.16 fixed-point) / sign extend */
+    .4byte  0xFFFF0000
 .L_0602F588:
     mov.l   .L_pool_0602F5A0, r10
     and r10, r11
@@ -47,9 +47,9 @@ track_poly_build:
     mov.w r12, @(r0, r1)
     .2byte  0x0000
 .L_pool_0602F5A0:
-    .4byte  0x0000FFFF                  /* low 16-bit mask */
+    .4byte  0x0000FFFF
 .L_pool_0602F5A4:
-    .4byte  0x0000071C                  /* angle threshold ~10 degrees (16-bit angle) */
+    .4byte  0x0000071C
 .L_0602F5A8:
     mov.w   DAT_0602f5b4, r11
     add r11, r6

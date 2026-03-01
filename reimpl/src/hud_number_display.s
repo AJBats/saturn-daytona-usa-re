@@ -19,4 +19,4 @@ hud_number_display:
     mov #0x0, r0
     .2byte  0x0000
 .L_06028364:
-    .4byte  sym_06028614                   /* [MEDIUM] effect dispatch table base */
+    .4byte  sym_06028614

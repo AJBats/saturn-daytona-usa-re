@@ -116,14 +116,14 @@ position_change_anim:
     bra     .L_06015A56
     nop
 .L_06015A2C:
-    .2byte  0x2000                     /* [HIGH] animation step per frame (16.16 FP) */
+    .2byte  0x2000
     .2byte  0xFFFF
 .L_06015A30:
-    .4byte  0x00008000                 /* [HIGH] 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000
 .L_06015A34:
-    .4byte  0x00010000                 /* [HIGH] 1.0 (16.16 fixed-point) */
+    .4byte  0x00010000
 .L_06015A38:
-    .4byte  sym_06084FC8               /* [HIGH] HUD element slot data array base */
+    .4byte  sym_06084FC8
 .L_06015A3C:
     extu.b r14, r2
     mov r2, r3
@@ -176,6 +176,6 @@ position_change_anim:
     rts
     mov.l @r15+, r14
 .L_06015A9C:
-    .4byte  track_vtx_builder          /* [HIGH] rotated minimap vertex builder */
+    .4byte  track_vtx_builder
 .L_06015AA0:
-    .4byte  sym_060172E4               /* [MEDIUM] VDP2 register clear / slot reset */
+    .4byte  sym_060172E4

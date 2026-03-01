@@ -51,23 +51,23 @@ vram_alloc_mgr:
     lds.l @r15+, pr
     rts
     nop
-    .2byte  0xFFFF                        /* padding / alignment */
-    .4byte  sym_0605F498                  /* function table: [vram_alloc_mgr, geom_display_handler, vram_ptr_get, loc_06020090] */
+    .2byte  0xFFFF
+    .4byte  sym_0605F498
     .4byte  sym_06035168                  /* secondary SH-2 command handler entry */
-    .4byte  sym_06087804                  /* handler mode word (geom_display_handler state) */
+    .4byte  sym_06087804
 .L_0601FE00:
-    .4byte  sym_060877F8                  /* &active_alloc_ptr (selected descriptor) */
+    .4byte  sym_060877F8
 .L_0601FE04:
-    .4byte  sym_0607EBC4                  /* &mode_flags (bit 23 = table A vs B select) */
+    .4byte  sym_0607EBC4
 .L_0601FE08:
-    .4byte  0x00800000                    /* bit-23 isolation mask for table select */
+    .4byte  0x00800000
 .L_0601FE0C:
-    .4byte  sym_0607EAD8                  /* &slot_index (current car slot, used as table row) */
+    .4byte  sym_0607EAD8
 .L_0601FE10:
-    .4byte  sym_0605F62C                  /* alloc table A base (video mode A, 3 entries) */
+    .4byte  sym_0605F62C
 .L_0601FE14:
-    .4byte  sym_0605F5EC                  /* alloc table B base (video mode B, 3 entries) */
+    .4byte  sym_0605F5EC
 .L_0601FE18:
-    .4byte  sym_060877F4                  /* &disp_desc_ptr (written before geom call) */
+    .4byte  sym_060877F4
 .L_0601FE1C:
-    .4byte  g_game_state                  /* &game_state word (0x16/0x17 = race-start) */
+    .4byte  g_game_state

@@ -37,13 +37,13 @@ transition_anim_drive:
 .L_pool_06019130:
     .4byte  sound_cmd_dispatch                  /* sound command dispatch function */
 .L_pool_06019134:
-    .4byte  sym_06086050                        /* sound busy/timeout flag — nonzero = error */
+    .4byte  sym_06086050
 .L_pool_06019138:
     .4byte  0xAE0001FF                          /* sound stop command (channel 00, cmd 01) */
 .L_pool_0601913C:
     .4byte  0xAE0005FF                          /* system variant command (channel 00, cmd 05) */
-    .4byte  sym_06012F20                        /* (unused in this TU) load_namd_sndram */
+    .4byte  sym_06012F20
 .L_pool_06019144:
-    .4byte  0x25A02DBE                          /* Sound RAM driver-ready mailbox */
+    .4byte  0x25A02DBE
 .L_pool_06019148:
-    .4byte  sym_06012F50                        /* load_musicd_sndram — loads MUSICD.BIN to Sound RAM +0x3000 */
+    .4byte  sym_06012F50

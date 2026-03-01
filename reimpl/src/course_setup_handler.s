@@ -40,11 +40,11 @@ loc_0601B096:
     .4byte  0x65F0A583
     .2byte  0x7F04
 .L_0601B0C6:
-    .2byte  0x0100                          /* [HIGH] color intensity / offset value (256) */
+    .2byte  0x0100
 .L_0601B0C8:
-    .2byte  0x0160                          /* [HIGH] color component value (352) */
-    .2byte  0xFFFF                          /* alignment padding */
+    .2byte  0x0160
+    .2byte  0xFFFF
 .L_0601B0CC:
-    .4byte  color_transform_calc            /* [HIGH] VDP2 color transform calculator */
-    .4byte  sym_0605D4F7                    /* (cross-TU pool for course_state_setup) replay/attract state byte */
-    .4byte  sym_0605DD6C                    /* (cross-TU pool for course_state_setup) course data pointer table */
+    .4byte  color_transform_calc
+    .4byte  sym_0605D4F7
+    .4byte  sym_0605DD6C

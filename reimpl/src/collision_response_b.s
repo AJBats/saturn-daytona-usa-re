@@ -16,7 +16,7 @@ collision_response_b:
     bra     .L_0602F298
     mov.l r3, @(r0, r1)
 .L_0602F284:
-    .2byte  0x00D8                   /* car+0xD8: gear_rotation state */
+    .2byte  0x00D8
 .L_0602F286:
     add #0x1, r3
     mov.l r3, @(r0, r1)
@@ -39,15 +39,15 @@ collision_response_b:
     bra     .L_0602F304
     nop
 .L_0602F2AC:
-    .2byte  0x00C4                   /* car+0xC4: velocity rate */
+    .2byte  0x00C4
 .L_0602F2AE:
-    .2byte  0x00E0                   /* car+0xE0: drive wheel speed */
+    .2byte  0x00E0
 .L_0602F2B0:
-    .2byte  0x00FA                   /* car+0xFA: force auxiliary */
+    .2byte  0x00FA
 .L_0602F2B2:
-    .2byte  0x00DC                   /* car+0xDC: zone timer (16-bit) */
+    .2byte  0x00DC
 .L_0602F2B4:
-    .2byte  0x00DE                   /* car+0xDE: zone target (16-bit) */
+    .2byte  0x00DE
 .L_0602F2B6:
     mov #0x3, r3
     cmp/eq r3, r2
@@ -83,13 +83,13 @@ collision_response_b:
     bra     .L_0602F34C
     mov.l r5, @(r0, r1)
 .L_0602F2F8:
-    .2byte  0x00E0                   /* car+0xE0: drive_speed (duplicate pool) */
+    .2byte  0x00E0
 .L_0602F2FA:
-    .2byte  0x00D8                   /* car+0xD8: gear_rotation (duplicate pool) */
+    .2byte  0x00D8
 .L_0602F2FC:
-    .4byte  sym_060477BC             /* gear ratio lookup table */
+    .4byte  sym_060477BC
 .L_0602F300:
-    .4byte  fpdiv_setup              /* 16.16 fixed-point divide */
+    .4byte  fpdiv_setup
 .L_0602F304:
     tst r2, r2
     bt      .L_0602F34C
@@ -160,30 +160,30 @@ collision_response_b:
     bra     .L_0602F3AE
     nop
 .L_0602F388:
-    .2byte  0x00E0                   /* car+0xE0: drive_speed (duplicate pool) */
+    .2byte  0x00E0
 .L_0602F38A:
-    .2byte  0x04E2                   /* extended speed bias constant */
+    .2byte  0x04E2
 .L_0602F38C:
-    .2byte  0x00C4                   /* car+0xC4: vel_rate (duplicate pool) */
+    .2byte  0x00C4
 .L_0602F38E:
-    .2byte  0x00D8                   /* car+0xD8: gear_rotation (duplicate pool) */
+    .2byte  0x00D8
 .L_0602F390:
-    .2byte  0x2134                   /* maximum drive wheel speed */
+    .2byte  0x2134
 .L_0602F392:
-    .2byte  0x0084                   /* car+0x84: ext_check / overflow flag */
+    .2byte  0x0084
 .L_0602F394:
-    .2byte  0x00E4                   /* car+0xE4: projected value B */
+    .2byte  0x00E4
 .L_0602F396:
-    .2byte  0x00C0                   /* car+0xC0: drag override flag */
+    .2byte  0x00C0
 .L_0602F398:
-    .2byte  0x00DC                   /* car+0xDC: zone_timer (duplicate pool) */
-    .2byte  0x0000                   /* alignment padding */
+    .2byte  0x00DC
+    .2byte  0x0000
 .L_0602F39C:
-    .4byte  sym_060477BC             /* gear ratio table (duplicate pool) */
+    .4byte  sym_060477BC
 .L_0602F3A0:
-    .4byte  fpdiv_setup              /* 16.16 fixed-point divide (duplicate pool) */
+    .4byte  fpdiv_setup
 .L_0602F3A4:
-    .4byte  sym_0602F3CC             /* collision clamp limit table */
+    .4byte  sym_0602F3CC
 .L_0602F3A8:
     cmp/ge r4, r9
     bt      .L_0602F3AE
@@ -198,7 +198,7 @@ collision_response_b:
     bra     .L_0602F3C6
     nop
 .L_0602F3BE:
-    .2byte  0x2134                   /* max drive speed (duplicate pool) */
+    .2byte  0x2134
 .L_0602F3C0:
     cmp/ge r3, r9
     bt      .L_0602F3C6
@@ -244,11 +244,11 @@ sym_0602F3EC:
     mov r3, r2
     bra     .L_0602F41A
     nop
-    .2byte  0x0000                   /* alignment padding */
+    .2byte  0x0000
 .L_0602F40C:
-    .4byte  0x00480000               /* damage scale: 72.0 in 16.16 */
+    .4byte  0x00480000
 .L_0602F410:
-    .4byte  0x00000158               /* max raw damage = 344 */
+    .4byte  0x00000158
 .L_0602F414:
     cmp/gt r2, r4
     bt      .L_0602F41A
@@ -262,18 +262,18 @@ sym_0602F3EC:
     bt      .L_0602F430
     bra     .L_0602F448
     mov r4, r2
-    .2byte  0x0000                   /* alignment padding */
+    .2byte  0x0000
 .L_0602F42C:
-    .4byte  0x00000000               /* attenuation floor = 0 */
+    .4byte  0x00000000
 .L_0602F430:
     mov.l   .L_0602F43C, r4
     cmp/ge r2, r4
     bt      .L_0602F440
     bra     .L_0602F448
     mov r4, r2
-    .2byte  0x0000                   /* alignment padding */
+    .2byte  0x0000
 .L_0602F43C:
-    .4byte  0x00002AAA               /* mid-stage max = 10922 (1/3 of 0x7FFF) */
+    .4byte  0x00002AAA
 .L_0602F440:
     mov.l   .L_0602F46C, r4
     cmp/ge r2, r4
@@ -298,18 +298,18 @@ sym_0602F3EC:
 
     .global DAT_0602f464
 DAT_0602f464:
-    .2byte  0x0048                   /* car+0x48: collision friction speed */
+    .2byte  0x0048
 
     .global DAT_0602f466
 DAT_0602f466:
-    .2byte  0x00C0                   /* car+0xC0: drag override flag */
+    .2byte  0x00C0
 .L_0602F468:
-    .2byte  0x0050                   /* car+0x50: speed copy */
-    .2byte  0x0000                   /* alignment padding */
+    .2byte  0x0050
+    .2byte  0x0000
 .L_0602F46C:
-    .4byte  0x00000AAA               /* fine-stage max = 2730 (1/10 of 0x7FFF) */
+    .4byte  0x00000AAA
 .L_0602F470:
-    .4byte  0x00002AAA               /* boosted attn when drag active */
+    .4byte  0x00002AAA
 
     .global sym_0602F474
 sym_0602F474:
@@ -347,12 +347,12 @@ sym_0602F474:
 
     .global DAT_0602f4aa
 DAT_0602f4aa:
-    .2byte  0x00D4                   /* car+0xD4: mode field (countdown timer) */
+    .2byte  0x00D4
 .L_0602F4AC:
-    .2byte  0x0114                   /* car+0x114: lighting output value */
-    .2byte  0x0000                   /* alignment padding */
+    .2byte  0x0114
+    .2byte  0x0000
 .L_0602F4B0:
-    .4byte  sym_060477D8             /* 4-entry intensity lookup table */
+    .4byte  sym_060477D8
 
     .global sym_0602F4B4
 sym_0602F4B4:
@@ -363,9 +363,9 @@ sym_0602F4B4:
     bt      .L_0602F4C8
     rts
     nop
-    .2byte  0x0000                   /* alignment padding */
+    .2byte  0x0000
 .L_0602F4C4:
-    .4byte  sym_0607EAE0             /* demo_mode_flag (nonzero = skip) */
+    .4byte  sym_0607EAE0
 .L_0602F4C8:
     mov.w   DAT_0602f51a, r1
     mov.w @(r0, r1), r3
@@ -414,19 +414,19 @@ sym_0602F4B4:
 
     .global DAT_0602f51a
 DAT_0602f51a:
-    .2byte  0x00D6                   /* car+0xD6: fog countdown timer */
+    .2byte  0x00D6
 
     .global DAT_0602f51c
 DAT_0602f51c:
-    .2byte  0x0010                   /* car+0x10: X position */
+    .2byte  0x0010
 
     .global DAT_0602f51e
 DAT_0602f51e:
-    .2byte  0x0018                   /* car+0x18: Z position */
+    .2byte  0x0018
 .L_0602F520:
-    .4byte  sym_0607EA98             /* half car count for iteration */
+    .4byte  sym_0607EA98
 .L_0602F524:
-    .4byte  sym_0607E948             /* target car struct pointer */
+    .4byte  sym_0607E948
 .L_0602F528:
     shar r4
     add r1, r4

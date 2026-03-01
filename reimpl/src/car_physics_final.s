@@ -104,26 +104,26 @@ car_physics_final:
     bra     .L_0601A4D2
     extu.b r4, r10
 .L_0601A4A8:
-    .2byte  0x00A8                        /* mode A identifier value */
+    .2byte  0x00A8
     .2byte  0xFFFF
 .L_0601A4AC:
-    .4byte  sym_06049B36               /* mode B lookup table base */
+    .4byte  sym_06049B36
 .L_0601A4B0:
-    .4byte  sym_060283E0               /* geometry render dispatch function */
+    .4byte  sym_060283E0
 .L_0601A4B4:
-    .4byte  sym_06049E54               /* render parameter table */
+    .4byte  sym_06049E54
 .L_0601A4B8:
-    .4byte  sym_06049CD4               /* mode A start offset table (per slot) */
+    .4byte  sym_06049CD4
 .L_0601A4BC:
-    .4byte  sym_06049CCC               /* mode A iteration count table (per slot) */
+    .4byte  sym_06049CCC
 .L_0601A4C0:
-    .4byte  sym_06049C28               /* mode A byte-pair lookup table */
+    .4byte  sym_06049C28
 .L_0601A4C4:
-    .4byte  sym_06049E58               /* mode A final render parameters */
+    .4byte  sym_06049E58
 .L_0601A4C8:
-    .4byte  sym_06059084               /* mode A final byte-pair offset base */
+    .4byte  sym_06059084
 .L_0601A4CC:
-    .4byte  sym_06049C1E               /* mode B start offset table (per slot) */
+    .4byte  sym_06049C1E
 .L_0601A4D0:
     extu.b r6, r10
 .L_0601A4D2:
@@ -205,10 +205,10 @@ car_physics_final:
     jmp @r2
     mov.l @r15+, r14
 .L_0601A564:
-    .4byte  sym_06049C14               /* mode B iteration count table (per slot) */
+    .4byte  sym_06049C14
 .L_0601A568:
-    .4byte  sym_06049E58               /* mode B final render parameters */
+    .4byte  sym_06049E58
 .L_0601A56C:
-    .4byte  sym_06059060               /* mode B final byte-pair offset base */
+    .4byte  sym_06059060
 .L_0601A570:
-    .4byte  sym_060284AE               /* final geometry dispatch (tail call) */
+    .4byte  sym_060284AE

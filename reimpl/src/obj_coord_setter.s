@@ -43,14 +43,14 @@ obj_coord_setter:
     mov.l r3, @r4
     bra     .L_060050EE
     nop
-    .4byte  0x25E20000                       /* VDP2 VRAM +0x20000 (cache-through) */
-    .4byte  dma_memory_transfer              /* DMA transfer function */
+    .4byte  0x25E20000
+    .4byte  dma_memory_transfer
 .L_060050E0:
-    .4byte  memcpy_word_idx                  /* CPU word-copy function */
+    .4byte  memcpy_word_idx
 .L_060050E4:
-    .4byte  sym_06063D90                     /* heap write cursor */
+    .4byte  sym_06063D90
 .L_060050E8:
-    .4byte  sym_06063D94                     /* secondary heap cursor */
+    .4byte  sym_06063D94
 .L_060050EC:
     mov r13, r14
 .L_060050EE:

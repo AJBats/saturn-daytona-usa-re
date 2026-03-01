@@ -80,20 +80,20 @@ obj_pool_dealloc:
     rts
     nop
 .L_wpool_06020310:
-    .2byte  0x4000                       /* bit 14: decrement button flag */
+    .2byte  0x4000
 .L_wpool_06020312:
-    .2byte  0x0200                       /* bit 9: confirm/select button flag */
+    .2byte  0x0200
 .L_pool_06020314:
-    .4byte  g_pad_state                 /* &input_state struct (+2 = button flags) */
+    .4byte  g_pad_state
 .L_pool_06020318:
-    .4byte  sym_06087826                 /* &anim_state_A byte (pool slot index) */
+    .4byte  sym_06087826
 .L_pool_0602031C:
-    .4byte  sym_06087825                 /* &lap_init_counter byte (0..25) */
+    .4byte  sym_06087825
 .L_pool_06020320:
-    .4byte  sym_0605F526                 /* &pool_data_table (4 bytes, src for copy) */
+    .4byte  sym_0605F526
 .L_pool_06020324:
-    .4byte  sym_06035228                 /* memcpy_byte(r0=count, r1=dst, r2=src) */
+    .4byte  sym_06035228
 .L_06020328:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000
 .L_pool_0602032C:
-    .4byte  sym_06087824                 /* &anim_state_B byte (completion flag) */
+    .4byte  sym_06087824

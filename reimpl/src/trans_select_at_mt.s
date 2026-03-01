@@ -85,12 +85,12 @@ trans_select_at_mt:
     .byte   0xAF, 0x11    /* bra 0x06019BC8 (external) */
     mov.l @r15+, r14
 .L_wpool_06019DA6:
-    .2byte  0x4000                      /* [HIGH] D-pad down button mask */
+    .2byte  0x4000
 .L_pool_06019DA8:
-    .4byte  sym_0605AD00                /* [HIGH] &selection index (0-2, AT/MT menu position) */
+    .4byte  sym_0605AD00
 .L_pool_06019DAC:
-    .4byte  0x00008000                  /* [HIGH] D-pad up button mask (bit 15) */
+    .4byte  0x00008000
 .L_pool_06019DB0:
-    .4byte  g_pad_state                /* [HIGH] &held/new button state base (+0=held, +2=new) */
+    .4byte  g_pad_state
 .L_pool_06019DB4:
-    .4byte  sym_0605D243                /* [MEDIUM] &hold repeat counter byte (AT/MT selection) */
+    .4byte  sym_0605D243

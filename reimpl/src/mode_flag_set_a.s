@@ -24,4 +24,4 @@ mode_flag_set_a:
     nop
     .4byte  ai_throttle_modulate
 .L_06018E48:
-    .4byte  ai_recovery_handler            /* [HIGH] AI recovery/event handler function */
+    .4byte  ai_recovery_handler

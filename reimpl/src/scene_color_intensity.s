@@ -86,21 +86,21 @@ scene_color_intensity:
 
     .global DAT_0603881a
 DAT_0603881a:
-    .2byte  0x4000                              /* 0.25 in 16.16 fixed-point (clamp floor) */
+    .2byte  0x4000
 .L_0603881C:
-    .4byte  0x00FF0000                          /* 255.0 in 16.16 fp (clamp ceiling) */
+    .4byte  0x00FF0000
 .L_06038820:
-    .4byte  sym_0603C0A0                        /* fpdiv: fixed-point divide r4/r5 */
+    .4byte  sym_0603C0A0
 .L_06038824:
-    .4byte  0x00010000                          /* 1.0 (16.16 fixed-point) */
+    .4byte  0x00010000
 .L_06038828:
-    .4byte  sym_060635A8                        /* display cmd queue slot (channel ID) */
+    .4byte  sym_060635A8
 .L_0603882C:
-    .4byte  sym_060A3E38                        /* scene enable flags (render dirty bits) */
+    .4byte  sym_060A3E38
 .L_06038830:
-    .4byte  sym_060A3E68                        /* scene view struct A (viewport A) */
+    .4byte  sym_060A3E68
 .L_06038834:
-    .4byte  sym_060A3DF8                        /* scene transform struct (color slots) */
+    .4byte  sym_060A3DF8
 .L_06038838:
     mov r5, r4
     mov #0x4C, r0
@@ -168,9 +168,9 @@ DAT_0603881a:
     rts
     mov.l @r15+, r14
 .L_060388B4:
-    .2byte  0x0080                              /* 128-byte offset: scene_view_B = view_A + 0x80 */
-    .2byte  0xFFFF                              /* padding (unused) */
+    .2byte  0x0080
+    .2byte  0xFFFF
 .L_060388B8:
-    .4byte  scene_color_matrix                  /* scene color matrix setup + render trigger */
+    .4byte  scene_color_matrix
 .L_060388BC:
-    .4byte  0x0000FF00                          /* high byte mask for scene B enable bits */
+    .4byte  0x0000FF00

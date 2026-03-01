@@ -98,23 +98,23 @@ checkpoint_detect:
 
     .global DAT_0600d82a
 DAT_0600d82a:
-    .2byte  0x01EC                        /* car offset: current track position */
+    .2byte  0x01EC
 .L_0600D82C:
-    .2byte  0x0228                        /* car offset: crossing counter */
+    .2byte  0x0228
 
     .global DAT_0600d82e
 DAT_0600d82e:
-    .2byte  0x01E8                        /* car offset: validated track position */
+    .2byte  0x01E8
 .L_0600D830:
-    .4byte  sym_0607E940               /* current car struct pointer */
+    .4byte  sym_0607E940
 .L_0600D834:
-    .4byte  sym_06063F1C               /* section boundary store (written on crossing) */
+    .4byte  sym_06063F1C
 .L_0600D838:
-    .4byte  sym_0607EA9C               /* total section count for current track */
+    .4byte  sym_0607EA9C
 .L_0600D83C:
-    .4byte  sym_06063F18               /* section identifier value */
+    .4byte  sym_06063F18
 .L_0600D840:
-    .4byte  sym_0605DE3C               /* crossing direction flag (0=backward, 1=forward) */
+    .4byte  sym_0605DE3C
 
 .L_0600D844:
     lds.l @r15+, pr
@@ -168,12 +168,12 @@ DAT_0600d82e:
 
     .global DAT_0600d894
 DAT_0600d894:
-    .2byte  0x01EC                        /* car offset: current track position */
+    .2byte  0x01EC
 .L_0600D896:
-    .2byte  0x01E8                        /* car offset: validated track position */
+    .2byte  0x01E8
 .L_0600D898:
-    .4byte  sym_0607E940               /* car struct pointer (dup for reach) */
+    .4byte  sym_0607E940
 .L_0600D89C:
-    .4byte  sym_0607EA9C               /* section count (dup for reach) */
+    .4byte  sym_0607EA9C
 .L_0600D8A0:
-    .4byte  sym_06063F20               /* section boundary crossing counter store */
+    .4byte  sym_06063F20

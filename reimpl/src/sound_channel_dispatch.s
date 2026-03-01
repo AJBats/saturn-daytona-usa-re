@@ -75,21 +75,21 @@ sound_cmd_dispatch:
     bra     .L_0601D6AC
     nop
 .L_0601D670:
-    .4byte  sym_06086050                    /* busy flag: nonzero = sound driver busy */
+    .4byte  sym_06086050
 .L_0601D674:
-    .4byte  0xA0000000                      /* top-nibble validation mask */
+    .4byte  0xA0000000
 .L_0601D678:
-    .4byte  0x25A02C20                  /* Sound RAM +0x02C20 */
+    .4byte  0x25A02C20
 .L_0601D67C:
     .4byte  sym_0608604C                    /* last-command mirror */
 .L_0601D680:
-    .4byte  0xA07000FF                      /* chan A base: A0=chanA, 70=cmd, 00FF=param */
+    .4byte  0xA07000FF
 .L_0601D684:
-    .4byte  0xA17000FF                      /* chan B base */
+    .4byte  0xA17000FF
 .L_0601D688:
-    .4byte  0xA27000FF                      /* chan C base */
+    .4byte  0xA27000FF
 .L_0601D68C:
-    .4byte  0xA37000FF                      /* chan D base */
+    .4byte  0xA37000FF
 .L_0601D690:
     cmp/eq #0x0, r0
     bt      .L_0601D608
@@ -127,7 +127,7 @@ sound_write_direct:
     rts
     mov.l r2, @r3
 .L_0601D6CC:
-    .4byte  0x25A02C20                  /* Sound RAM +0x02C20 */
+    .4byte  0x25A02C20
 .L_0601D6D0:
     .4byte  sym_0608604C
 
@@ -187,9 +187,9 @@ snd_channel_b_body:
 .L_0601D71C:
     .4byte  sym_0605DF94                    /* chan A last-command cache */
 .L_0601D720:
-    .4byte  sym_0608604C                    /* cmd mirror (shared A/B) */
+    .4byte  sym_0608604C
 .L_0601D724:
-    .4byte  0x25A02C20                      /* Sound RAM mailbox (shared A/B) */
+    .4byte  0x25A02C20
 .L_0601D728:
     .4byte  sym_0605DF98                    /* chan B last-command cache */
 
@@ -240,9 +240,9 @@ sound_channel_c2:
 .L_0601D76C:
     .4byte  sym_0605DF9C                    /* chan C last-command cache */
 .L_0601D770:
-    .4byte  sym_0608604C                    /* cmd mirror (chan C) */
+    .4byte  sym_0608604C
 .L_0601D774:
-    .4byte  0x25A02C20                      /* Sound RAM mailbox (chan C) */
+    .4byte  0x25A02C20
 
     .global sound_pass_direct
     .type sound_pass_direct, @function
@@ -300,9 +300,9 @@ snd_channel_d_handler:
 .L_0601D7C0:
     .4byte  sym_0605DFA4                    /* direct pass last-command cache */
 .L_0601D7C4:
-    .4byte  sym_0608604C                    /* cmd mirror (direct/chan D) */
+    .4byte  sym_0608604C
 .L_0601D7C8:
-    .4byte  0x25A02C20                      /* Sound RAM mailbox (direct/chan D) */
+    .4byte  0x25A02C20
 .L_0601D7CC:
     .4byte  sym_0605DFA8                    /* chan D last-command cache */
 
@@ -402,7 +402,7 @@ sound_notify_handler:
     bra     .L_0601D8BE
     nop
 .L_0601D884:
-    .2byte  0x021C                          /* offset 0x21C into race data = lap count */
+    .2byte  0x021C
     .2byte  0xFFFF
 .L_0601D888:
     .4byte  sym_06086054
@@ -425,9 +425,9 @@ sound_notify_handler:
 .L_0601D8AC:
     .4byte  sym_06086034
 .L_0601D8B0:
-    .4byte  0xAE1121FF                      /* "final lap" jingle */
+    .4byte  0xAE1121FF
 .L_0601D8B4:
-    .4byte  0xAE1146FF                      /* "lap complete" jingle */
+    .4byte  0xAE1146FF
 .L_0601D8B8:
     mov.w @r14, r2
     add #0x1, r2
@@ -542,13 +542,13 @@ DAT_0601d976:
 .L_0601D97C:
     .4byte  sym_06086056
 .L_0601D980:
-    .4byte  0xAE1126FF                      /* halfway through race */
+    .4byte  0xAE1126FF
 .L_0601D984:
     .4byte  sym_06063F28
 .L_0601D988:
     .4byte  sym_06086034
 .L_0601D98C:
-    .4byte  0xAE1121FF                      /* "final lap" jingle (pool dup) */
+    .4byte  0xAE1121FF
 .L_0601D990:
     mov.l   .L_0601DA40, r5
     bsr     sound_cmd_dispatch
@@ -653,7 +653,7 @@ snd_race_update:
     .2byte  0x04B0
     .2byte  0xFFFF
 .L_0601DA40:
-    .4byte  0xAE1127FF                      /* default race notify sound */
+    .4byte  0xAE1127FF
 .L_0601DA44:
     .4byte  sym_06086054
 .L_0601DA48:
@@ -667,11 +667,11 @@ snd_race_update:
 .L_0601DA58:
     .4byte  sym_06086058
 .L_0601DA5C:
-    .4byte  0xAE112BFF                      /* race loop/repeat music */
+    .4byte  0xAE112BFF
 .L_0601DA60:
-    .4byte  0xAE1129FF                      /* race state 1 sound */
+    .4byte  0xAE1129FF
 .L_0601DA64:
-    .4byte  0xAE112AFF                      /* race state 3 sound */
+    .4byte  0xAE112AFF
 .L_0601DA68:
     mov.l   .L_0601DB64, r3
     mov r11, r5
@@ -818,15 +818,15 @@ snd_race_update:
 .L_0601DB64:
     .4byte  sym_06086056
 .L_0601DB68:
-    .4byte  0xAE112CFF                      /* race state 5 sound */
+    .4byte  0xAE112CFF
 .L_0601DB6C:
-    .4byte  0xAE112DFF                      /* mode 1, state 6 sound */
+    .4byte  0xAE112DFF
 .L_0601DB70:
-    .4byte  0xAE112FFF                      /* mode 2, state 8 sound */
+    .4byte  0xAE112FFF
 .L_0601DB74:
     .4byte  sym_0608605A
 .L_0601DB78:
-    .4byte  0xAE1120FF                      /* fade-out complete sound */
+    .4byte  0xAE1120FF
     .4byte  0x000B0009
     .4byte  0x000B0009
 .L_0601DB84:
@@ -848,11 +848,11 @@ snd_race_update:
     nop
     .2byte  0xFFFF
 .L_0601DBA0:
-    .4byte  sym_06086050                    /* &busy_flag */
+    .4byte  sym_06086050
 .L_0601DBA4:
-    .4byte  0x25A02C20                      /* Sound RAM mailbox */
+    .4byte  0x25A02C20
 .L_0601DBA8:
-    .4byte  0x000186A0                      /* 100,000 = max spin iterations */
+    .4byte  0x000186A0
     .4byte  0xE300D201
     .4byte  0x000B2230
     .4byte  0x25A02D97

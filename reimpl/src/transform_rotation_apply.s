@@ -32,13 +32,13 @@ transform_rotation_apply:
     bra     .L_060263DC
     nop
 .L_pool_060263A0:
-    .4byte  sym_06060F2C                    /* [MEDIUM] rotation data table base (8-byte stride, 10 slots) */
+    .4byte  sym_06060F2C
 .L_pool_060263A4:
-    .4byte  sym_06060D2A                    /* [MEDIUM] &rotation_out_a (word output) */
+    .4byte  sym_06060D2A
 .L_pool_060263A8:
-    .4byte  sym_06060D34                    /* [MEDIUM] &rotation_out_b (word output) */
+    .4byte  sym_06060D34
 .L_060263A8:
-    .4byte  0x00008000                      /* [HIGH] 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000
 .L_060263AC:
     mov.w   .L_wpool_060263C6, r1
     sub r1, r0
@@ -52,13 +52,13 @@ transform_rotation_apply:
     braf r0
     nop
 .L_wpool_060263C6:
-    .2byte  0x008A                          /* [HIGH] rotation base value to subtract */
-    .4byte  0xFFC2FFC2                      /* index 0,1: offset -62 -> case A (rotation_out_a = 0) */
-    .4byte  0xFFCCFFCC                      /* index 2,3: offset -52 -> case B (rotation_out_b = 0) */
-    .4byte  0xFFC6FFC6                      /* index 4,5: offset -58 -> case C (rotation_out_a = fp_half) */
-    .4byte  0xFFC6FFC6                      /* index 6,7: offset -58 -> case C (rotation_out_a = fp_half) */
-    .4byte  0xFFD0FFD0                      /* index 8,9: offset -48 -> case D (rotation_out_b = fp_half) */
-    .4byte  0xFFD0FFD0                      /* index 10,11: offset -48 -> case D (rotation_out_b = fp_half) */
+    .2byte  0x008A
+    .4byte  0xFFC2FFC2
+    .4byte  0xFFCCFFCC
+    .4byte  0xFFC6FFC6
+    .4byte  0xFFC6FFC6
+    .4byte  0xFFD0FFD0
+    .4byte  0xFFD0FFD0
 .L_060263DC:
     add #0x1, r6
     extu.w r6, r2

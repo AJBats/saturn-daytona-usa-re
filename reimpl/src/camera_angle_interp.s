@@ -101,49 +101,49 @@ camera_angle_interp:
 
     .global DAT_06014306
 DAT_06014306:
-    .2byte  0x8000                        /* initial Y position (half-rotation) */
+    .2byte  0x8000
 .L_06014308:
-    .2byte  0x020C                        /* distance interpolation bias */
+    .2byte  0x020C
     .2byte  0xFFFF
 .L_0601430C:
-    .4byte  sym_06026E0C               /* camera state push/save */
+    .4byte  sym_06026E0C
 .L_06014310:
-    .4byte  sym_06026DBC               /* camera state initialization */
+    .4byte  sym_06026DBC
 .L_06014314:
-    .4byte  0x000108F5                  /* fixed Z camera position */
+    .4byte  0x000108F5
 .L_06014318:
-    .4byte  sym_06026E2E               /* set camera base position */
+    .4byte  sym_06026E2E
 .L_0601431C:
-    .4byte  sym_06084B08               /* active car slot index (32-bit ptr) */
+    .4byte  sym_06084B08
 .L_06014320:
-    .4byte  sym_0605AD5C               /* car data table base */
+    .4byte  sym_0605AD5C
 .L_06014324:
-    .4byte  sym_06084AF8               /* interpolated angle state (16-bit) */
+    .4byte  sym_06084AF8
 .L_06014328:
-    .4byte  mat_rot_z                  /* Z-axis rotation */
+    .4byte  mat_rot_z
 .L_0601432C:
-    .4byte  sym_06084AFC               /* camera distance state (32-bit) */
+    .4byte  sym_06084AFC
 .L_06014330:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000
 .L_06014334:
-    .4byte  fpmul                      /* fixed-point multiply */
+    .4byte  fpmul
 .L_06014338:
-    .4byte  sym_0607EBC8               /* wind/environment direction (5-bit used) */
+    .4byte  sym_0607EBC8
 .L_0601433C:
-    .4byte  mat_rot_y                  /* Y-axis rotation */
+    .4byte  mat_rot_y
 .L_06014340:
-    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
+    .4byte  0x00010000
 .L_06014344:
-    .4byte  mat_scale_columns          /* matrix column scaling */
+    .4byte  mat_scale_columns
 .L_06014348:
-    .4byte  sym_060623AC               /* vector source A (ptr to data) */
+    .4byte  sym_060623AC
 .L_0601434C:
-    .4byte  sym_06031D8C               /* vector copy function */
+    .4byte  sym_06031D8C
 .L_06014350:
-    .4byte  sym_06089E4A               /* per-mode scale factor (16-bit) */
+    .4byte  sym_06089E4A
 .L_06014354:
-    .4byte  sym_06062334               /* vector source B (ptr to data) */
+    .4byte  sym_06062334
 .L_06014358:
-    .4byte  sym_06031A28               /* scaled vector copy function */
+    .4byte  sym_06031A28
 .L_0601435C:
-    .4byte  sym_06089EDC               /* frame/position counter (32-bit) */
+    .4byte  sym_06089EDC

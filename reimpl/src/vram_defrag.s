@@ -97,31 +97,31 @@ vram_defrag:
     rts
     mov.l @r15+, r14
 .L_wpool_06020064:
-    .2byte  0x0268                          /* car struct size: 616 bytes */
+    .2byte  0x0268
 .L_wpool_06020066:
-    .2byte  0x035A                          /* fpmul arg: fractional multiplier */
+    .2byte  0x035A
 .L_wpool_06020068:
-    .2byte  0x0194                          /* car struct field offset: fpmul result dest */
+    .2byte  0x0194
 .L_wpool_0602006A:
-    .2byte  0x01F8                          /* car struct field offset: size attribute */
+    .2byte  0x01F8
 .L_pool_0602006C:
-    .4byte  sym_06087802                    /* iteration counter (16-bit) */
+    .4byte  sym_06087802
 .L_pool_06020070:
-    .4byte  sym_06087800                    /* entry count (16-bit) */
+    .4byte  sym_06087800
 .L_pool_06020074:
-    .4byte  sym_060877FC                    /* VRAM block pointer (indirect) */
+    .4byte  sym_060877FC
 .L_pool_06020078:
-    .4byte  sym_060877F8                    /* VRAM pointer lookup table base */
+    .4byte  sym_060877F8
 .L_pool_0602007C:
-    .4byte  sym_060877F4                    /* resolved VRAM destination address */
+    .4byte  sym_060877F4
 .L_pool_06020080:
-    .4byte  sym_06087804                    /* handler mode / display timer (16-bit) */
+    .4byte  sym_06087804
 .L_pool_06020084:
-    .4byte  sym_06078900                    /* car struct array base */
+    .4byte  sym_06078900
 .L_pool_06020088:
-    .4byte  fpmul                           /* fixed-point multiply routine */
+    .4byte  fpmul
 .L_pool_0602008C:
-    .4byte  g_game_state                    /* game state dispatch value */
+    .4byte  g_game_state
 
     .global loc_06020090
 loc_06020090:
@@ -135,4 +135,4 @@ loc_06020090:
     rts
     nop
 .L_pool_060200A0:
-    .4byte  g_game_state                    /* game state dispatch value */
+    .4byte  g_game_state

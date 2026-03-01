@@ -50,7 +50,7 @@ queue_validator:
 DAT_06041174:
     .2byte  0x00FF
 .L_06041176:
-    .2byte  0x0304                     /* [HIGH] state struct offset: validated flag (+0x304) */
-    .4byte  ai_checkpoint_validate     /* (adjacent TU pool entry) */
+    .2byte  0x0304
+    .4byte  ai_checkpoint_validate
 .L_pool_0604117C:
-    .4byte  sym_060A5400               /* [HIGH] game state base pointer (indirect) */
+    .4byte  sym_060A5400

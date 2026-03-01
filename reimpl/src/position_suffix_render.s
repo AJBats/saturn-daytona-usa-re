@@ -18,7 +18,7 @@ position_suffix_render:
     .4byte  0x0000000D
     .4byte  sym_06026DBC
 .L_pool_06032675:
-    .4byte  sym_06089EDC               /* [HIGH] matrix stack A pointer (VDP1 display list) */
+    .4byte  sym_06089EDC
     .4byte  sym_06026F72
     .4byte  0x000002DE
     .4byte  camera_push_save

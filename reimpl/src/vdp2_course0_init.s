@@ -37,27 +37,27 @@ vdp2_course0_init:
     mov.l @r15+, r14
     .4byte  0x09000490
 .L_0600349C:
-    .2byte  0x2000                     /* offset into ROM pattern data */
+    .2byte  0x2000
     .2byte  0xFFFF
     .4byte  sym_06083255
     .4byte  sym_06063798
     .4byte  sym_06028400
     .4byte  sym_06063790
 .L_060034B0:
-    .4byte  0x25F00800                  /* VDP2 color RAM +0x800 */
+    .4byte  0x25F00800
 .L_060034B4:
-    .4byte  0x25F00200                  /* VDP2 color RAM +0x200 */
+    .4byte  0x25F00200
 .L_060034B8:
-    .4byte  memcpy_word_idx            /* word-indexed memcpy */
+    .4byte  memcpy_word_idx
 .L_060034BC:
-    .4byte  dma_memory_transfer        /* SCU DMA transfer function */
+    .4byte  dma_memory_transfer
 .L_060034C0:
-    .4byte  0x25E34000                  /* VDP2 VRAM bank B0 +0x34000 (tilemap staging) */
+    .4byte  0x25E34000
 .L_060034C4:
-    .4byte  0x25E4363C                  /* VDP2 VRAM bank B0 +0x4363C (tilemap dest) */
+    .4byte  0x25E4363C
 .L_060034C8:
-    .4byte  sym_060612AC               /* ROM source: course 0 character patterns */
+    .4byte  sym_060612AC
 .L_060034CC:
-    .4byte  0x25E40000                  /* VDP2 VRAM bank B0 +0x40000 (NBG pattern A) */
+    .4byte  0x25E40000
 .L_060034D0:
-    .4byte  0x25E407F0                  /* VDP2 VRAM bank B0 +0x407F0 (NBG pattern B) */
+    .4byte  0x25E407F0

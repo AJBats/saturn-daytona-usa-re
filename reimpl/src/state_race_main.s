@@ -75,33 +75,33 @@ state_race_main:
     bra     .L_06009162
     mov.l r2, @r9
 .L_0600911A:
-    .2byte  0x0800                        /* traffic light change bit mask */
+    .2byte  0x0800
 .L_0600911C:
-    .4byte  sym_0607ED88               /* race score/points counter */
+    .4byte  sym_0607ED88
 .L_06009120:
-    .4byte  sym_0607E940               /* current car struct pointer variable */
+    .4byte  sym_0607E940
 .L_06009124:
-    .4byte  g_game_state               /* game phase state (0x10/0x12/0x15) */
+    .4byte  g_game_state
 .L_06009128:
-    .4byte  sym_0607ED8C               /* per-frame race state flag (16-bit) */
+    .4byte  sym_0607ED8C
 .L_0600912C:
-    .4byte  sym_0607E944               /* car array base pointer variable */
+    .4byte  sym_0607E944
 .L_06009130:
-    .4byte  sym_06063D9A               /* traffic light state register */
+    .4byte  sym_06063D9A
 .L_06009134:
-    .4byte  sym_0607EACC               /* race event flag (0xF on light change) */
+    .4byte  sym_0607EACC
 .L_06009138:
-    .4byte  sym_0607EBCC               /* race countdown timer (decremented per frame) */
+    .4byte  sym_0607EBCC
 .L_0600913C:
-    .4byte  sym_0605AB18               /* menu overlay active flag (byte) */
+    .4byte  sym_0605AB18
 .L_06009140:
-    .4byte  menu_overlay_render        /* draw menu overlay */
+    .4byte  menu_overlay_render
 .L_06009144:
-    .4byte  sym_060033E6               /* state change notification handler */
+    .4byte  sym_060033E6
 .L_06009148:
-    .4byte  sym_06078B68               /* default car data pointer */
+    .4byte  sym_06078B68
 .L_0600914C:
-    .4byte  sym_06078635               /* per-car update trigger flag (byte) */
+    .4byte  sym_06078635
 .L_06009150:
     mov #0x0, r2
     mov.w r2, @r11
@@ -218,58 +218,58 @@ state_race_main:
     jmp @r3
     mov.l @r15+, r14
 .L_06009222:
-    .2byte  0x0082                        /* VDP1 cmd offset for debug display */
+    .2byte  0x0082
 .L_06009224:
-    .4byte  sym_06078900               /* car array start (first car struct) */
+    .4byte  sym_06078900
 .L_06009228:
-    .4byte  sym_060302C6               /* per-car frame update (physics/state) */
+    .4byte  sym_060302C6
 .L_0600922C:
-    .4byte  render_camera_compute      /* camera matrix computation */
+    .4byte  render_camera_compute
 .L_06009230:
-    .4byte  sym_0602F0E8               /* pre-render state preparation */
+    .4byte  sym_0602F0E8
 .L_06009234:
-    .4byte  race_state_update          /* race progress (laps, checkpoints) */
+    .4byte  race_state_update
 .L_06009238:
-    .4byte  sym_0607EAD8               /* race end trigger flag */
+    .4byte  sym_0607EAD8
 .L_0600923C:
-    .4byte  sym_0600C302               /* race end sequence handler */
+    .4byte  sym_0600C302
 .L_06009240:
-    .4byte  sym_0607EBCC               /* countdown timer (dup for reach) */
+    .4byte  sym_0607EBCC
 .L_06009244:
-    .4byte  sym_0607EAD0               /* race timeout counter */
+    .4byte  sym_0607EAD0
 .L_06009248:
-    .4byte  sym_06078634               /* total car count (byte) */
+    .4byte  sym_06078634
 .L_0600924C:
-    .4byte  sym_06083255               /* terrain rendering mode flag (byte) */
+    .4byte  sym_06083255
 .L_06009250:
-    .4byte  terrain_data_lookup        /* terrain-based rendering */
+    .4byte  terrain_data_lookup
 .L_06009254:
-    .4byte  sprite_transform           /* sprite-based rendering */
+    .4byte  sprite_transform
 .L_06009258:
-    .4byte  sym_06012198               /* scene data preparation */
+    .4byte  sym_06012198
 .L_0600925C:
-    .4byte  sym_06078654               /* camera mode (1=full, else=simple) */
+    .4byte  sym_06078654
 .L_06009260:
-    .4byte  camera_system              /* full camera system update */
+    .4byte  camera_system
 .L_06009264:
-    .4byte  sym_06063E24               /* camera parameter table A (ptr) */
+    .4byte  sym_06063E24
 .L_06009268:
-    .4byte  sym_06063EEC               /* camera parameter B */
+    .4byte  sym_06063EEC
 .L_0600926C:
-    .4byte  sym_06063EF8               /* camera parameter C */
+    .4byte  sym_06063EF8
 .L_06009270:
-    .4byte  camera_orient_calc         /* camera orientation computation */
+    .4byte  camera_orient_calc
 .L_06009274:
-    .4byte  perspective_project        /* simple perspective projection */
+    .4byte  perspective_project
 .L_06009278:
-    .4byte  scene_master               /* master scene renderer */
+    .4byte  scene_master
 .L_0600927C:
-    .4byte  sym_06086030               /* debug HUD display flag (byte) */
+    .4byte  sym_06086030
 .L_06009280:
-    .4byte  sym_0605A1C8               /* debug display data struct */
+    .4byte  sym_0605A1C8
 .L_06009284:
-    .4byte  0x0000F000                  /* nibble 3 mask */
+    .4byte  0x0000F000
 .L_06009288:
-    .4byte  sym_060283E0               /* debug HUD draw function */
+    .4byte  sym_060283E0
 .L_0600928C:
-    .4byte  frame_end_commit           /* frame end / VDP commit */
+    .4byte  frame_end_commit

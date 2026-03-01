@@ -44,6 +44,6 @@ transition_sound_trigger:
     .4byte  0xAE0005FF
     .4byte  sym_06012F58
 .L_pool_060191D8:
-    .4byte  0x25A02DBE                  /* Sound RAM +0x02DBE */
+    .4byte  0x25A02DBE
 .L_pool_060191DC:
     .4byte  sym_06012F60

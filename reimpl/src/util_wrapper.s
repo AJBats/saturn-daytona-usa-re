@@ -21,4 +21,4 @@ util_wrapper:
     .4byte  sym_06085F90
     .4byte  sym_06085F94
 .L_pool_06014A71:
-    .4byte  vdp2_util_loop                /* [HIGH] tail-call target (per hud_ui.s annotation) */
+    .4byte  vdp2_util_loop

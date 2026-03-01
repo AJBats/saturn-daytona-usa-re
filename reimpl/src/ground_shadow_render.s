@@ -30,7 +30,7 @@ ground_shadow_render:
     rts
     mov.l @r15+, r14
 .L_06036A8C:
-    .2byte  0x0200                      /* [HIGH] peripheral port A digital mask -- same value as ai_master_update */
+    .2byte  0x0200
     .2byte  0xFFFF                      /* alignment padding between word and longword pools */
 .L_06036A90:
     .4byte  input_proc_analog           /* [HIGH] -> SMPC analog axis reader / command struct initializer */

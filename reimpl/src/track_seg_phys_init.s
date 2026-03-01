@@ -153,21 +153,21 @@ track_seg_phys_init:
     mov.l @r15+, r14
 
 .L_06019A24:
-    .2byte  0x0090                      /* 144 = display list base index constant */
-    .2byte  0xFFFF                      /* padding to align pool */
+    .2byte  0x0090
+    .2byte  0xFFFF
 .L_06019A28:
-    .4byte  sym_0605D294                /* car display list pointer table (8 entries) */
+    .4byte  sym_0605D294
 .L_06019A2C:
-    .4byte  sym_06049AFC                /* car slot param table (2 bytes/entry) */
+    .4byte  sym_06049AFC
 .L_06019A30:
-    .4byte  sym_060284AE                /* display element renderer function */
+    .4byte  sym_060284AE
 .L_06019A34:
-    .4byte  sym_06085FF1                /* init pending flag (byte, 1 = pending) */
+    .4byte  sym_06085FF1
 .L_06019A38:
-    .4byte  sym_0605B6D8                /* render mode flags (32-bit) */
+    .4byte  sym_0605B6D8
 .L_06019A3C:
-    .4byte  sym_06085FF0                /* current car/course index (byte, 0-7) */
+    .4byte  sym_06085FF0
 .L_06019A40:
-    .4byte  sym_06049E44                /* secondary display list base (variant +1) */
+    .4byte  sym_06049E44
 .L_06019A44:
-    .4byte  sym_0605D4F0                /* car display data pointer (indirect) */
+    .4byte  sym_0605D4F0

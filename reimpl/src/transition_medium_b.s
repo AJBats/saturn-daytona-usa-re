@@ -52,36 +52,36 @@ transition_medium_b:
     jmp @r3
     lds.l @r15+, pr
 .L_wpool_0600FE92:
-    .2byte  0x00AB                 /* countdown trigger threshold (171 frames) */
+    .2byte  0x00AB
 .L_wpool_0600FE94:
-    .2byte  0x0090                 /* split-screen tile size */
+    .2byte  0x0090
 .L_wpool_0600FE96:
-    .2byte  0x07A2                 /* split-screen tile data size */
+    .2byte  0x07A2
 .L_pool_0600FE98:
-    .4byte  sym_0607EBCC           /* &state_countdown (32-bit, WRAM High) */
+    .4byte  sym_0607EBCC
 .L_pool_0600FE9C:
-    .4byte  sym_06094FA8           /* tilemap source data (WRAM) */
+    .4byte  sym_06094FA8
 .L_pool_0600FEA0:
-    .4byte  sym_060EFB24           /* DMA source: VDP2 tilemap data */
+    .4byte  sym_060EFB24
 .L_pool_0600FEA4:
-    .4byte  dma_memory_transfer    /* DMA memory-to-memory transfer */
+    .4byte  dma_memory_transfer
 .L_pool_0600FEA8:
-    .4byte  sym_06063838           /* tile table entry (struct base) */
+    .4byte  sym_06063838
 .L_pool_0600FEAC:
-    .4byte  0x00009000             /* tile data offset (+0x9000) */
+    .4byte  0x00009000
 .L_pool_0600FEB0:
-    .4byte  sym_06028400           /* display list loader / tile writer */
+    .4byte  sym_06028400
 .L_pool_0600FEB4:
-    .4byte  sym_06078864           /* transition state word (32-bit) */
+    .4byte  sym_06078864
 .L_pool_0600FEB8:
-    .4byte  sym_0607887F           /* game_state_byte (8-bit) */
+    .4byte  sym_0607887F
 .L_pool_0600FEBC:
-    .4byte  sym_0605ACE4           /* split-screen tile data source */
+    .4byte  sym_0605ACE4
 .L_pool_0600FEC0:
-    .4byte  sym_060284AE           /* display channel handler / tile writer */
+    .4byte  sym_060284AE
 .L_0600FEC4:
-    .4byte  0x25F001E0             /* VDP2 color RAM +0x1E0 */
+    .4byte  0x25F001E0
 .L_pool_0600FEC8:
-    .4byte  sym_06011F1C           /* palette_color_fade (from dual_hud_render) */
+    .4byte  sym_06011F1C
 .L_0600FECC:
-    .4byte  0x25F00520             /* VDP2 color RAM +0x520 */
+    .4byte  0x25F00520

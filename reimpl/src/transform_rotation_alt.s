@@ -23,22 +23,22 @@ transform_rotation_alt:
     mov.w @(6, r0), r0
     bra     .L_060264D8
     extu.w r0, r0
-    .4byte  0xA001624D                      /* embedded dispatch path bytes */
-    .4byte  0x625DA027                      /* embedded dispatch path bytes */
-    .4byte  0x2E21A001                      /* embedded dispatch path bytes */
-    .4byte  0x624D625D                      /* embedded dispatch path bytes */
-    .4byte  0xA0222721                      /* embedded dispatch path bytes */
+    .4byte  0xA001624D
+    .4byte  0x625DA027
+    .4byte  0x2E21A001
+    .4byte  0x624D625D
+    .4byte  0xA0222721
 .L_060264C4:
     bra     .L_06026508
     nop
 .L_pool_060264CC:
-    .4byte  sym_0606107C                    /* [MEDIUM] slot data table B (8-byte stride, 8 slots) */
+    .4byte  sym_0606107C
 .L_pool_060264D0:
-    .4byte  sym_06060D2A                    /* [MEDIUM] &rotation_state_a (word) */
+    .4byte  sym_06060D2A
 .L_pool_060264D4:
-    .4byte  sym_06060D34                    /* [MEDIUM] &rotation_state_b (word) */
+    .4byte  sym_06060D34
 .L_pool_060264D8:
-    .4byte  0x00008000                  /* [HIGH] 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000
 .L_060264D8:
     mov.w   .L_wpool_060264F2, r1
     sub r1, r0
@@ -52,7 +52,7 @@ transform_rotation_alt:
     braf r0
     nop
 .L_wpool_060264F2:
-    .2byte  0x008A                          /* [HIGH] dispatch base: lowest valid render_type */
+    .2byte  0x008A
     .4byte  0xFFC2FFC2                      /* dispatch offsets for render_type 0x008A and 0x008B */
     .4byte  0xFFCCFFCC                      /* dispatch offsets for render_type 0x008C and 0x008D */
     .4byte  0xFFC6FFC6                      /* dispatch offsets for render_type 0x008E and 0x008F */

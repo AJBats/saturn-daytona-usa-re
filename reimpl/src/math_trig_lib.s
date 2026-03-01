@@ -130,17 +130,17 @@ math_trig_lib:
     .2byte  0x0009                          /* padding (nop encoding) */
 
 .L_pool_06042703:
-    .4byte  0xFFFFFF00                  /* SH-2 division unit base (DVSR register) */
+    .4byte  0xFFFFFF00
 .L_pool_06042707:
-    .4byte  sym_06042714                /* pointer to 91-entry tangent lookup table */
+    .4byte  sym_06042714
 .L_pool_0604270B:
-    .4byte  0x7FFF0000                  /* tangent clamp: max value when denominator too small (~32767.0) */
+    .4byte  0x7FFF0000
 .L_pool_0604270F:
-    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) — interpolation clamp */
+    .4byte  0x00010000
 .L_pool_06042713:
-    .4byte  0x00B40000                  /* 180.0 degrees (16.16 FP: 0xB4 = 180 decimal) */
+    .4byte  0x00B40000
 .L_pool_06042717:
-    .4byte  0xFF4C0000                  /* -180.0 degrees (16.16 FP: 0xFF4C = -180 as signed 16-bit) */
+    .4byte  0xFF4C0000
 
     .global sym_06042714
 sym_06042714:
@@ -230,7 +230,7 @@ sym_06042714:
     .4byte  0x000071FA
     .4byte  0x002F70CD
 .L_wpool_060427E3:
-    .2byte  0x0000                      /* 0 */
+    .2byte  0x0000
     .2byte  0x775F
     .4byte  0x002EACB2
     .4byte  0x00007CDC

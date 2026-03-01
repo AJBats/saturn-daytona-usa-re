@@ -31,12 +31,12 @@ results_ranking_table:
     mov.b r0, @(2, r4)
     .2byte  0xFFFF
 .L_06016500:
-    .4byte  sym_06084FC8               /* [HIGH] results entry table base */
-    .4byte  0x000B0000                 /* [MEDIUM] 11.0 (16.16 FP) */
-    .4byte  0x00040000                 /* [MEDIUM] 4.0 (16.16 FP) */
-    .4byte  0x0000C000                 /* [MEDIUM] 0.75 (16.16 FP) */
+    .4byte  sym_06084FC8
+    .4byte  0x000B0000
+    .4byte  0x00040000
+    .4byte  0x0000C000
 .L_06016510:
-    .4byte  sym_06085F89               /* [MEDIUM] bonus mode flag (byte) */
+    .4byte  sym_06085F89
 .L_06016514:
     .byte   0xD5, 0x44    /* mov.l .L_06016628, r5 */
     extu.b r14, r2
@@ -179,9 +179,9 @@ results_ranking_table:
     .byte   0xA3, 0xDA    /* bra 0x06016DD8 (external) */
     mov.l @r15+, r14
 .L_06016624:
-    .2byte  0x0600                     /* [MEDIUM] countdown reset value */
+    .2byte  0x0600
     .2byte  0xFFFF
 .L_06016628:
-    .4byte  0x00010000                 /* [HIGH] 1.0 (16.16 fixed-point) */
+    .4byte  0x00010000
 .L_0601662C:
-    .4byte  0x00020000                 /* [HIGH] 2.0 (16.16 fixed-point) */
+    .4byte  0x00020000

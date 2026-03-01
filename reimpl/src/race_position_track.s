@@ -28,11 +28,11 @@ race_position_track:
     bra     .L_06011002
     nop
 .L_06010F30:
-    .4byte  sym_0607884C               /* channel index pointer */
+    .4byte  sym_0607884C
 .L_06010F34:
-    .4byte  sym_0603C000               /* position display initialization */
+    .4byte  sym_0603C000
 .L_06010F38:
-    .4byte  sym_060788A4               /* active position display count */
+    .4byte  sym_060788A4
 .L_06010F3C:
     mov.l   .L_0601101C, r12
     mov.l   .L_06011020, r6
@@ -148,62 +148,62 @@ race_position_track:
     rts
     mov.l @r15+, r14
 .L_0601101C:
-    .4byte  sym_060270F2               /* fixed-point divide */
+    .4byte  sym_060270F2
 .L_06011020:
-    .4byte  sym_06078858               /* position Z array (ptr) */
+    .4byte  sym_06078858
 .L_06011024:
-    .4byte  sym_06078854               /* position Y array (ptr) */
+    .4byte  sym_06078854
 .L_06011028:
-    .4byte  sym_06078850               /* position X array (ptr) */
+    .4byte  sym_06078850
 .L_0601102C:
-    .4byte  sym_06078878               /* rotation angle (16-bit) */
+    .4byte  sym_06078878
 .L_06011030:
-    .4byte  mat_rot_xy_b               /* XY plane rotation matrix */
+    .4byte  mat_rot_xy_b
 .L_06011034:
-    .4byte  sym_0606212C               /* matrix destination array (4 slots) */
+    .4byte  sym_0606212C
 .L_06011038:
-    .4byte  sym_060621D8               /* matrix source array (4 slots) */
+    .4byte  sym_060621D8
 .L_0601103C:
-    .4byte  sym_06032158               /* vector matrix transform */
+    .4byte  sym_06032158
 .L_06011040:
-    .4byte  sym_06031DF4               /* scaled vector transform */
+    .4byte  sym_06031DF4
 .L_06011044:
-    .4byte  sym_06062180               /* rotation data array (ptr) */
+    .4byte  sym_06062180
 .L_06011048:
-    .4byte  sym_06089E44               /* per-channel scale factor table */
+    .4byte  sym_06089E44
 .L_0601104C:
-    .4byte  sym_060620D8               /* output vector array (ptr) */
+    .4byte  sym_060620D8
 .L_06011050:
-    .4byte  sym_06027080               /* fixed-point multiply */
+    .4byte  sym_06027080
 .L_06011054:
-    .4byte  sym_06044640               /* channel 1 position parameters (X/Y/Z) */
+    .4byte  sym_06044640
 .L_06011058:
-    .4byte  sym_06062184               /* channel 1 rotation data (ptr) */
+    .4byte  sym_06062184
 .L_0601105C:
-    .4byte  sym_060620DC               /* channel 1 output vector (ptr) */
+    .4byte  sym_060620DC
 .L_06011060:
-    .4byte  sym_0608A52C               /* position counter (decremented by 0x30) */
+    .4byte  sym_0608A52C
 .L_06011064:
-    .4byte  sym_06044654               /* channel 2 Z parameter (ptr) */
+    .4byte  sym_06044654
 .L_06011068:
-    .4byte  sym_06044650               /* channel 2 Y parameter (ptr) */
+    .4byte  sym_06044650
 .L_0601106C:
-    .4byte  sym_0604464C               /* channel 2 X parameter (ptr) */
+    .4byte  sym_0604464C
 .L_06011070:
-    .4byte  sym_06062188               /* channel 2 rotation data (ptr) */
+    .4byte  sym_06062188
 .L_06011074:
-    .4byte  sym_060620E0               /* channel 2 output vector (ptr) */
+    .4byte  sym_060620E0
 .L_06011078:
-    .4byte  sym_06044678               /* channel 3 Z parameter (ptr) */
+    .4byte  sym_06044678
 .L_0601107C:
-    .4byte  sym_06044674               /* channel 3 Y parameter (ptr) */
+    .4byte  sym_06044674
 .L_06011080:
-    .4byte  sym_06044670               /* channel 3 X parameter (ptr) */
+    .4byte  sym_06044670
 .L_06011084:
-    .4byte  sym_0606218C               /* channel 3 rotation data (ptr) */
+    .4byte  sym_0606218C
 .L_06011088:
-    .4byte  sym_060620E4               /* channel 3 output vector (ptr) */
+    .4byte  sym_060620E4
 .L_0601108C:
-    .4byte  0x0000FFFF                  /* low 16-bit mask */
+    .4byte  0x0000FFFF
 .L_06011090:
-    .4byte  0x21800000                  /* VDP2 scroll position register (cache-through) */
+    .4byte  0x21800000

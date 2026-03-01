@@ -49,6 +49,6 @@ state_snapshot_compare:
 .L_pool_060190AC:
     .4byte  sym_06012F10
 .L_pool_060190B0:
-    .4byte  0x25A02DBE                  /* Sound RAM +0x02DBE */
+    .4byte  0x25A02DBE
 .L_pool_060190B4:
     .4byte  0xAE0600FF

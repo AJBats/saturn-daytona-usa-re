@@ -141,9 +141,9 @@ ai_steering_update:
 DAT_0600c8b6:
     .2byte  0x01B0
 .L_wpool_0600C8B8:
-    .2byte  0x0118                         /* [HIGH] speed threshold: 280 (heavy damping) */
+    .2byte  0x0118
 .L_wpool_0600C8BA:
-    .2byte  0x00FA                         /* [HIGH] speed threshold: 250 (medium damping) */
+    .2byte  0x00FA
 
     .global DAT_0600c8bc
 DAT_0600c8bc:

@@ -133,7 +133,7 @@ vdp2_frame_update:
 DAT_0601729e:
     .2byte  0x00A8
 .L_wpool_060172A0:
-    .2byte  0x0090                      /* [HIGH] offset 0x90 into scroll data table (layer 5) */
+    .2byte  0x0090
     .2byte  0xFFFF
 .L_pool_060172A4:
     .4byte  sym_06085490

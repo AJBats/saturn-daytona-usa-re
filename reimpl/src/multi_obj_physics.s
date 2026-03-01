@@ -97,35 +97,35 @@ multi_obj_physics:
 
     .global DAT_0601440e
 DAT_0601440e:
-    .2byte  0x8000                        /* 180° base Z rotation angle */
+    .2byte  0x8000
 .L_06014410:
-    .2byte  0x4CCC                        /* ~0.3 uniform scale factor (16.16) */
+    .2byte  0x4CCC
     .2byte  0xFFFF
 .L_06014414:
-    .4byte  mat_rot_z                  /* Z-axis rotation */
+    .4byte  mat_rot_z
 .L_06014418:
-    .4byte  sym_06026E2E               /* transform dispatch function */
+    .4byte  sym_06026E2E
 .L_0601441C:
-    .4byte  sym_06089EDC               /* global animation counter (dec by 0x30/iter) */
+    .4byte  sym_06089EDC
 .L_06014420:
-    .4byte  sym_06026E0C               /* pre-animation setup (called once) */
+    .4byte  sym_06026E0C
 .L_06014424:
-    .4byte  sym_06089E4A               /* display table base pointer */
+    .4byte  sym_06089E4A
 .L_06014428:
-    .4byte  sym_0605AD5C               /* animation entry array (32 bytes each) */
+    .4byte  sym_0605AD5C
 .L_0601442C:
-    .4byte  sym_06026DBC               /* per-object pre-transform setup */
+    .4byte  sym_06026DBC
 .L_06014430:
-    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
+    .4byte  0x00010000
 .L_06014434:
-    .4byte  sym_06084B08               /* special object index (triggers BSR handler) */
+    .4byte  sym_06084B08
 .L_06014438:
-    .4byte  mat_scale_columns          /* uniform column scale */
+    .4byte  mat_scale_columns
 .L_0601443C:
-    .4byte  sym_06062338               /* object transform table A */
+    .4byte  sym_06062338
 .L_06014440:
-    .4byte  sym_06031D8C               /* transform chain dispatch A */
+    .4byte  sym_06031D8C
 .L_06014444:
-    .4byte  sym_060622C0               /* display transform table B */
+    .4byte  sym_060622C0
 .L_06014448:
-    .4byte  sym_06031A28               /* transform chain dispatch B */
+    .4byte  sym_06031A28

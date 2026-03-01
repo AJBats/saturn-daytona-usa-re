@@ -61,8 +61,8 @@ mem_test_verify:
     rts
     mov.l @r15+, r14
 .L_060405A4:
-    .2byte  0x00B0                           /* [HIGH] offset to validation counter in state struct */
-    .2byte  0xFFFF                           /* alignment padding */
+    .2byte  0x00B0
+    .2byte  0xFFFF
 .L_pool_060405AD:
     .4byte  sym_060A4D14
 .L_060405AC:

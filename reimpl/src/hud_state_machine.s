@@ -48,7 +48,7 @@ hud_state_machine:
     .4byte  sym_060877D8
     .4byte  sym_0604A5C0
 .L_0601E52C:
-    .4byte  0x2010001F             /* SMPC COMREG (cache-through) */
+    .4byte  0x2010001F
 
 .L_0601E530:
     mov r12, r11

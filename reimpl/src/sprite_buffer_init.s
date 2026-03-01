@@ -28,6 +28,6 @@ sprite_buffer_init:
     rts
     mov.l @r15+, r14
 .L_wpool_060116A2:
-    .2byte  0x0100                      /* [MEDIUM] sprite buffer entry count (256 longwords) */
+    .2byte  0x0100
 .L_060116A4:
-    .4byte  0x25E5F800                  /* VDP2 VRAM +0x5F800 */
+    .4byte  0x25E5F800

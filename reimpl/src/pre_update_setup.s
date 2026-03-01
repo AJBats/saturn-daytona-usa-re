@@ -43,7 +43,7 @@ pre_update_setup:
     rts
     mov.l @r15+, r14
 .L_wpool_0600E9E2:
-    .2byte  0x0228                     /* [HIGH] car offset: camera target A — per_car_loop.s:276 confirms +0x228 */
+    .2byte  0x0228
 
     .global DAT_0600e9e4
 DAT_0600e9e4:
@@ -58,23 +58,23 @@ DAT_0600e9e8:
 DAT_0600e9ea:
     .2byte  0x00E0
 .L_wpool_0600E9EC:
-    .2byte  0x01EC                     /* [MEDIUM] car offset: active-state field — per_car_loop.s:250, gates cleanup path */
+    .2byte  0x01EC
     .2byte  0xFFFF
     .4byte  friction_stub
     .4byte  ai_orchestrator
     .4byte  0x00480000
 .L_0600E9FC:
-    .4byte  fpmul                      /* [HIGH] fixed-point multiply: (r4*r5)>>16 */
+    .4byte  fpmul
     .4byte  track_segment_advance
     .4byte  sym_0607EA9C
 .L_0600EA08:
-    .4byte  sym_0607E944               /* [HIGH] ptr to current car struct (primary) — object_management.s:87 */
+    .4byte  sym_0607E944
 .L_0600EA0C:
-    .4byte  sym_0607EAD8               /* [MEDIUM] player mode (0=single, nonzero=versus) — object_management.s:89, race_states.s:84 disagree on semantics */
+    .4byte  sym_0607EAD8
 .L_0600EA10:
-    .4byte  0x066505B3                 /* [HIGH] fixed-point Y projection scalar — per_car_loop.s:269 confirms 0x066505B3 */
+    .4byte  0x066505B3
 .L_0600EA14:
-    .4byte  sym_0607EAD0               /* [HIGH] race-end flag (nonzero=finished) — race_states.s:83, used in states 15/17/28/29 */
+    .4byte  sym_0607EAD0
     .4byte  0x7FF4952C
     .4byte  0x354C5351
     .4byte  0x2F325352

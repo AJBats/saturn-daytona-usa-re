@@ -88,38 +88,38 @@ input_event_handler:
 
 
 .L_wpool_06005ABA:
-    .2byte  0x00B0                            /* 2P mode display element index (176) */
+    .2byte  0x00B0
 
     .global DAT_06005abc
 DAT_06005abc:
-    .2byte  0x5000                            /* VRAM offset for car object table entry */
+    .2byte  0x5000
 
     .global DAT_06005abe
 DAT_06005abe:
-    .2byte  0x049C                            /* element size A (anim active / first elem) */
+    .2byte  0x049C
 
     .global DAT_06005ac0
 DAT_06005ac0:
-    .2byte  0x059C                            /* element size B (anim idle / second elem) */
+    .2byte  0x059C
 
 .L_wpool_06005AC2:
-    .2byte  0x0090                            /* static element size */
+    .2byte  0x0090
 
 
 .L_pool_06005AC4:
-    .4byte  sym_0607EABC                      /* -> lap display timer (32-bit countdown) */
+    .4byte  sym_0607EABC
 .L_pool_06005AC8:
-    .4byte  sym_06085FF4                      /* -> 2-player mode flag (byte) */
+    .4byte  sym_06085FF4
 .L_pool_06005ACC:
-    .4byte  sym_0607EAC0                      /* -> anim countdown timer (32-bit) */
+    .4byte  sym_0607EAC0
 .L_pool_06005AD0:
-    .4byte  sym_06063750                      /* -> car object table base (8 bytes/entry) */
+    .4byte  sym_06063750
 .L_pool_06005AD4:
-    .4byte  sym_06028400                      /* -> display_list_loader function */
+    .4byte  sym_06028400
 .L_pool_06005AD8:
-    .4byte  sym_0605ACDD                      /* -> static rendering data pointer */
+    .4byte  sym_0605ACDD
 .L_pool_06005ADC:
-    .4byte  sym_060284AE                      /* -> geom_dispatch_final function */
+    .4byte  sym_060284AE
 
 
 .L_06005AE0:

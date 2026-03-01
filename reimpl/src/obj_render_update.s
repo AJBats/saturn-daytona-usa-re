@@ -21,12 +21,12 @@ obj_render_update:
     lds.l @r15+, pr
     .2byte  0x1810
 .L_pool_06021119:
-    .4byte  sym_06087C84                /* scene config struct base */
+    .4byte  sym_06087C84
 .L_pool_0602111D:
-    .4byte  sym_0603850C                /* cmd_slot_write function */
+    .4byte  sym_0603850C
 .L_pool_06021121:
-    .4byte  scene_buffer_init           /* scene_buffer_init function */
+    .4byte  scene_buffer_init
 .L_pool_06021125:
-    .4byte  sym_06038520                /* cmd_queue_commit function */
+    .4byte  sym_06038520
 .L_pool_06021129:
-    .4byte  sym_06087C87                /* channel_flag_D config byte */
+    .4byte  sym_06087C87

@@ -31,23 +31,23 @@ vdp1_scaled_sprite:
     mov.l r2, @r1
     bra     .L_0602DCC6
     nop
-    .4byte  sym_06082A2C               /* (unreachable pool) RBG coefficient ptr */
-    .4byte  0x00000028                 /* (unreachable pool) offset 0x28 */
-    .4byte  disp_init_setup            /* (unreachable pool) fn ptr: disp_init_setup */
+    .4byte  sym_06082A2C
+    .4byte  0x00000028
+    .4byte  disp_init_setup
 .L_0602DCA8:
-    .4byte  sym_06082A26               /* render state byte */
+    .4byte  sym_06082A26
 .L_0602DCAC:
-    .4byte  0x00000001                 /* 1 = scaled sprite mode */
+    .4byte  0x00000001
 .L_0602DCB0:
-    .4byte  sym_06063EEC               /* camera smoothed heading param base */
+    .4byte  sym_06063EEC
 .L_0602DCB4:
-    .4byte  0x00000004                 /* byte offset to heading[1] */
+    .4byte  0x00000004
 .L_0602DCB8:
-    .4byte  sym_0607EAD8               /* attract cycle counter (0/1/2) */
+    .4byte  sym_0607EAD8
 .L_0602DCBC:
-    .4byte  sym_0602ECAC               /* VDP1 cmd limit table (per attract cycle) */
+    .4byte  sym_0602ECAC
 .L_0602DCC0:
-    .4byte  0x00000100                 /* 256: increment per frame */
+    .4byte  0x00000100
 .L_0602DCC4:
     mov.l r0, @r1
 .L_0602DCC6:
@@ -72,23 +72,23 @@ vdp1_scaled_sprite:
     nop
     .2byte  0x0000
 .L_0602DCEC:
-    .4byte  sym_0607E940               /* pointer to current car struct */
+    .4byte  sym_0607E940
 .L_0602DCF0:
-    .4byte  0x00000008                 /* byte offset to car VDP1 draw pointer */
+    .4byte  0x00000008
 .L_0602DCF4:
-    .4byte  0x00000000                 /* NULL comparison value */
+    .4byte  0x00000000
 .L_0602DCF8:
-    .4byte  sym_06082A24               /* VDP1 cmd state byte */
+    .4byte  sym_06082A24
 .L_0602DCFC:
-    .4byte  0xFFFFFFFF                  /* -1: clear/reset marker */
+    .4byte  0xFFFFFFFF
 .L_0602DD00:
-    .4byte  sym_06082A26               /* render state byte (second ref) */
+    .4byte  sym_06082A26
 .L_0602DD04:
-    .4byte  0x00000002                 /* 2 = skip/inactive mode */
+    .4byte  0x00000002
 .L_0602DD08:
-    .4byte  sym_06082A30               /* render mode (32-bit state) */
+    .4byte  sym_06082A30
 .L_0602DD0C:
-    .4byte  0x00000001                 /* 1 = idle mode */
+    .4byte  0x00000001
 
     .global loc_0602DD10
 loc_0602DD10:
@@ -117,19 +117,19 @@ loc_0602DD10:
     nop
     .2byte  0x0000
 .L_0602DD40:
-    .4byte  sym_0607EAD8               /* attract cycle counter (0/1/2) */
+    .4byte  sym_0607EAD8
 .L_0602DD44:
-    .4byte  sym_0602ECBC               /* cmd list base table (per attract cycle) */
+    .4byte  sym_0602ECBC
 .L_0602DD48:
-    .4byte  sym_06082A38               /* current cmd slot index */
+    .4byte  sym_06082A38
 .L_0602DD4C:
-    .4byte  0xFFFFFFFF                  /* -1: end-of-list sentinel */
+    .4byte  0xFFFFFFFF
 .L_0602DD50:
-    .4byte  0x00000000                 /* 0: reset value */
+    .4byte  0x00000000
 .L_0602DD54:
-    .4byte  sym_06082A30               /* render mode (second ref) */
+    .4byte  sym_06082A30
 .L_0602DD58:
-    .4byte  0x00000003                 /* 3 = rendering done */
+    .4byte  0x00000003
 .L_0602DD5C:
     .byte   0xD0, 0x46    /* mov.l .L_xpool_ptr_render_mode, r0 */
     .byte   0xD2, 0x47    /* mov.l .L_xpool_const_0x2, r2 */

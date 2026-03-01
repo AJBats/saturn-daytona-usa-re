@@ -59,33 +59,33 @@ state_mode_select_setup:
     rts
     mov.l @r15+, r14
 .L_wpool_06008D38:
-    .2byte  0x0258                          /* 600 frames (10 seconds at 60fps) */
-    .2byte  0xFFFF                          /* alignment padding */
+    .2byte  0x0258
+    .2byte  0xFFFF
 .L_pool_06008D3C:
-    .4byte  sym_06078644                    /* &course_type (32-bit) */
+    .4byte  sym_06078644
 .L_pool_06008D40:
-    .4byte  sym_060149E0                    /* disable_display — clear bit 15 */
+    .4byte  sym_060149E0
 .L_pool_06008D44:
-    .4byte  sym_06026CE0                    /* camera_finalize / display update */
+    .4byte  sym_06026CE0
 .L_pool_06008D48:
-    .4byte  sym_06059F44                    /* &animation_state (32-bit) */
+    .4byte  sym_06059F44
 .L_pool_06008D4C:
-    .4byte  render_coord_transform          /* render coordinate transform */
+    .4byte  render_coord_transform
 .L_pool_06008D50:
-    .4byte  course_setup_handler            /* course data setup */
+    .4byte  course_setup_handler
 .L_pool_06008D54:
-    .4byte  sym_0607EBCC                    /* &attract_countdown (32-bit timer) */
+    .4byte  sym_0607EBCC
 .L_pool_06008D58:
-    .4byte  sym_06086024                    /* &dma_pending_flag (32-bit) */
+    .4byte  sym_06086024
 .L_pool_06008D5C:
-    .4byte  g_game_state                    /* &game_state_dispatch (32-bit) */
+    .4byte  g_game_state
 .L_pool_06008D60:
-    .4byte  sym_0605B6D8                    /* &render_mode_flags (32-bit bitmask) */
+    .4byte  sym_0605B6D8
 .L_pool_06008D64:
-    .4byte  0x40000000                      /* bit 30 — mode select active flag */
+    .4byte  0x40000000
 .L_pool_06008D68:
-    .4byte  sym_0605A016                    /* &display_mode (16-bit) */
+    .4byte  sym_0605A016
 .L_pool_06008D6C:
-    .4byte  sym_0607864B                    /* &demo_flag_b (byte) */
+    .4byte  sym_0607864B
 .L_pool_06008D70:
-    .4byte  race_state_pair_1               /* race state teardown */
+    .4byte  race_state_pair_1

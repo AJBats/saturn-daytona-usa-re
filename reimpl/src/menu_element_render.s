@@ -33,7 +33,7 @@ menu_element_render:
     mov.l @r15+, r14
     .2byte  0x043C
 .L_0603F42C:
-    .2byte  0x0800                      /* [HIGH] ring buffer size constant (2048 bytes) */
+    .2byte  0x0800
     .2byte  0xFFFF
     .4byte  sym_06036D94
     .4byte  sym_060A4D14

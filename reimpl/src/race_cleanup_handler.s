@@ -63,34 +63,34 @@ race_cleanup_handler:
     jmp @r3
     mov.l @r15+, r14
 .L_wpool_06012218:
-    .2byte  0x0390                          /* VDP1 sprite cmd list offset (car model) */
+    .2byte  0x0390
 .L_wpool_0601221A:
-    .2byte  0x0090                          /* VDP text layer A offset */
+    .2byte  0x0090
 .L_wpool_0601221C:
-    .2byte  0x0490                          /* VDP text layer B offset */
+    .2byte  0x0490
 .L_wpool_0601221E:
-    .2byte  0x0590                          /* VDP text layer C offset */
-    .4byte  sym_0607EAD8                    /* race end state flag (read by adjacent TU) */
+    .2byte  0x0590
+    .4byte  sym_0607EAD8
 .L_pool_06012224:
-    .4byte  sym_060788AC                    /* cleanup frame counter (dword) */
+    .4byte  sym_060788AC
 .L_pool_06012228:
-    .4byte  sym_06063AF0                    /* car model geometry table base */
+    .4byte  sym_06063AF0
 .L_pool_0601222C:
-    .4byte  0x0000B000                      /* offset into model data block */
+    .4byte  0x0000B000
 .L_pool_06012230:
-    .4byte  sym_06028400                    /* display list loader / DMA dispatch */
+    .4byte  sym_06028400
 .L_pool_06012234:
-    .4byte  0xAE110EFF                      /* sound cmd: race end cleanup SFX */
+    .4byte  0xAE110EFF
 .L_pool_06012238:
     .4byte  sound_cmd_dispatch              /* sound command dispatch function */
 .L_pool_0601223C:
-    .4byte  sym_0605ACF0                    /* HUD text string source data */
+    .4byte  sym_0605ACF0
 .L_pool_06012240:
-    .4byte  sym_060284AE                    /* VDP number/text renderer */
+    .4byte  sym_060284AE
 .L_06012244:
-    .4byte  0x0000E000                      /* priority bits mask (bits 15:13) */
+    .4byte  0x0000E000
 .L_pool_06012248:
-    .4byte  sym_060283E0                    /* VDP text dispatch (tail call target) */
+    .4byte  sym_060283E0
 .L_0601224C:
     mov.l @r14, r2
     mov #0x28, r3

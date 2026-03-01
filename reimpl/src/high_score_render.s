@@ -103,14 +103,14 @@ high_score_render:
     rts
     mov.l @r15+, r14
 .L_0603D392:
-    .2byte  0x0101                          /* [MEDIUM] nibble position/count param for bitfield RMW */
+    .2byte  0x0101
 .L_0603D394:
-    .4byte  0x0000FFF0                      /* mask to clear low nibble (bits 0-3) */
+    .4byte  0x0000FFF0
 .L_0603D398:
-    .4byte  sym_060A4D58                    /* source parameter table */
+    .4byte  sym_060A4D58
 .L_0603D39C:
-    .4byte  sym_060A4D28                    /* config word array (4 words at offsets 0/2/4/6) */
+    .4byte  sym_060A4D28
 .L_0603D3A0:
-    .4byte  sym_06034F78                    /* bitfield read-modify-write utility */
+    .4byte  sym_06034F78
 .L_0603D3A4:
-    .4byte  0x0000F0FF                      /* mask to clear mid nibble (bits 8-11) */
+    .4byte  0x0000F0FF

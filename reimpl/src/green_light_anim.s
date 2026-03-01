@@ -67,30 +67,30 @@ green_light_anim:
     rts
     mov.l @r15+, r14
 .L_0601A3BE:
-    .2byte  0x1000                      /* display list offset for alternate frame */
+    .2byte  0x1000
 .L_0601A3C0:
-    .4byte  memcpy_word_idx            /* word-indexed memcpy */
+    .4byte  memcpy_word_idx
 .L_0601A3C4:
-    .4byte  sym_0605CF9C               /* source: traffic light palette (48 colors) */
+    .4byte  sym_0605CF9C
 .L_0601A3C8:
-    .4byte  0x25F00020                  /* VDP2 color RAM +0x020 — traffic light low */
+    .4byte  0x25F00020
 .L_0601A3CC:
-    .4byte  0x25F00620                  /* VDP2 color RAM +0x620 — traffic light high mirror */
+    .4byte  0x25F00620
 .L_0601A3D0:
-    .4byte  sym_0605D01C               /* source: start sequence sprite palette */
+    .4byte  sym_0605D01C
 .L_0601A3D4:
-    .4byte  0x25F00400                  /* VDP2 color RAM +0x400 — sprite bank */
+    .4byte  0x25F00400
 .L_0601A3D8:
-    .4byte  race_data_handler          /* race state update */
+    .4byte  race_data_handler
 .L_0601A3DC:
-    .4byte  sym_06063D9E               /* game timer (16-bit) — 0x10 = green light moment */
+    .4byte  sym_06063D9E
 .L_0601A3E0:
-    .4byte  sym_06063C90               /* display list descriptor A (green ON) */
+    .4byte  sym_06063C90
 .L_0601A3E4:
-    .4byte  sym_06028400               /* display list loader */
+    .4byte  sym_06028400
 .L_0601A3E8:
-    .4byte  sym_06063C98               /* display list descriptor B (alternate) */
+    .4byte  sym_06063C98
 .L_0601A3EC:
-    .4byte  sym_06026CE0               /* post-process display commit */
+    .4byte  sym_06026CE0
 .L_0601A3F0:
-    .4byte  sym_06085FF2               /* animation frame counter (byte) */
+    .4byte  sym_06085FF2

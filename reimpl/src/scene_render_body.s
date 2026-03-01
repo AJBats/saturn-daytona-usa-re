@@ -74,44 +74,44 @@ scene_render_body:
     bra     .L_0600C0E2
     nop
 .L_wpool_0600C090:
-    .2byte  0xFE11                      /* hardware status address mask fragment */
-    .2byte  0xFFFF                      /* padding / alignment */
+    .2byte  0xFE11
+    .2byte  0xFFFF
 .L_pool_0600C094:
-    .4byte  sym_0607EBC4                /* game state bitmask (read by @r8) */
+    .4byte  sym_0607EBC4
 .L_pool_0600C098:
-    .4byte  sym_0608A52C                /* render budget counter (frame alloc tracking) */
+    .4byte  sym_0608A52C
 .L_pool_0600C09C:
-    .4byte  sym_0605A1DD                /* LOD config byte (object detail level) */
+    .4byte  sym_0605A1DD
 .L_pool_0600C0A0:
-    .4byte  sym_06083255                /* secondary SH-2 processing flag (byte) */
+    .4byte  sym_06083255
 .L_pool_0600C0A4:
-    .4byte  sym_0607EB8C                /* argument pointer for secondary dispatch */
+    .4byte  sym_0607EB8C
 .L_pool_0600C0A8:
-    .4byte  vblank_handler              /* per-frame update / secondary dispatch */
+    .4byte  vblank_handler
 .L_pool_0600C0AC:
-    .4byte  0x02000000                  /* state 25 bitmask (bit 25) */
+    .4byte  0x02000000
 .L_pool_0600C0B0:
-    .4byte  sym_06078635                /* render mode flag (byte: 0=path B, else=path A) */
+    .4byte  sym_06078635
 .L_pool_0600C0B4:
-    .4byte  sym_0600D336                /* render path A function */
+    .4byte  sym_0600D336
 .L_pool_0600C0B8:
-    .4byte  physics_calc_dispatch       /* render path B / physics calc dispatch */
+    .4byte  physics_calc_dispatch
 .L_pool_0600C0BC:
-    .4byte  0x00020000                  /* state 17 bitmask (0x20000) — 2.0 in 16.16 fixed-point */
+    .4byte  0x00020000
 .L_pool_0600C0C0:
-    .4byte  sym_0607EAE0                /* state 17 guard (long: 0 = allow special render) */
+    .4byte  sym_0607EAE0
 .L_pool_0600C0C4:
-    .4byte  sym_0602E610                /* state 17 special rendering function */
+    .4byte  sym_0602E610
 .L_pool_0600C0C8:
-    .4byte  sym_06089EDC                /* source data for render budget copy */
+    .4byte  sym_06089EDC
 .L_pool_0600C0CC:
-    .4byte  memcpy_long_idx             /* indexed long memory copy function */
+    .4byte  memcpy_long_idx
 .L_pool_0600C0D0:
-    .4byte  sym_06078664                /* object iteration count target (halfword) */
+    .4byte  sym_06078664
 .L_pool_0600C0D4:
-    .4byte  sym_06059F30                /* object count mode (0=compute, else=use config) */
+    .4byte  sym_06059F30
 .L_pool_0600C0D8:
-    .4byte  sym_0607EA98                /* total renderable object count */
+    .4byte  sym_0607EA98
 .L_0600C0DC:
     mov.b @r13, r2
     extu.b r2, r2

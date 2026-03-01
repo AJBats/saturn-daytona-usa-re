@@ -70,9 +70,9 @@ obj_init_defaults:
     rts
     mov.l @r15+, r14
 .L_060204A8:
-    .2byte  0x3C79                     /* [MEDIUM] texture data constant */
+    .2byte  0x3C79
     .2byte  0xFFFF
 .L_pool_060204AC:
-    .4byte  sym_0605F44E               /* [HIGH] object display list base table */
+    .4byte  sym_0605F44E
 .L_pool_060204B0:
-    .4byte  sym_06028400               /* [HIGH] display_list_loader function */
+    .4byte  sym_06028400

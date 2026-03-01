@@ -65,8 +65,8 @@ DAT_06020db2:
     .4byte  sym_060280F8
     .4byte  sym_0605A008
 .L_pool_06020DC4:
-    .4byte  sym_0608782C                /* object slot array base */
+    .4byte  sym_0608782C
 .L_pool_06020DC8:
-    .4byte  sym_0605F5A8                /* handler function pointer table */
+    .4byte  sym_0605F5A8
 .L_pool_06020DCC:
-    .4byte  sym_06035168                /* memcpy_long utility */
+    .4byte  sym_06035168

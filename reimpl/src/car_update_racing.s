@@ -27,33 +27,33 @@ car_update_racing:
     bra     .L_0600E192
     mov #0x1, r13
 .L_0600E0EA:
-    .2byte  0x0268                        /* car struct size: 616 bytes */
-    .4byte  sym_0607E944               /* secondary car struct pointer */
-    .4byte  sym_0607EA98               /* total car count */
-    .4byte  sym_060786CA               /* car visibility state */
+    .2byte  0x0268
+    .4byte  sym_0607E944
+    .4byte  sym_0607EA98
+    .4byte  sym_060786CA
 .L_0600E0F8:
-    .4byte  sym_0607E940               /* pointer to current car struct */
-    .4byte  sym_06078B68               /* car additional data table */
-    .4byte  sym_0607E948               /* tertiary car struct pointer */
-    .4byte  sym_0602DC18               /* car init/setup function A */
-    .4byte  sym_06006838               /* car init/setup function B */
-    .4byte  sym_060786B8               /* car state flags */
-    .4byte  segment_position_track     /* track segment tracking */
+    .4byte  sym_0607E940
+    .4byte  sym_06078B68
+    .4byte  sym_0607E948
+    .4byte  sym_0602DC18
+    .4byte  sym_06006838
+    .4byte  sym_060786B8
+    .4byte  segment_position_track
 .L_0600E114:
-    .4byte  scene_3d_processor         /* 3D scene rendering dispatch */
-    .4byte  sym_06063EB0               /* display table entry 0 */
-    .4byte  sym_06063E9C               /* display table entry 1 */
-    .4byte  sym_06063ED8               /* display table entry 2 */
-    .4byte  sym_06063EC4               /* display table entry 3 */
-    .4byte  disp_mode_switch           /* display mode finalize */
+    .4byte  scene_3d_processor
+    .4byte  sym_06063EB0
+    .4byte  sym_06063E9C
+    .4byte  sym_06063ED8
+    .4byte  sym_06063EC4
+    .4byte  disp_mode_switch
 .L_0600E12C:
-    .4byte  sym_0607EBC4               /* game state flags (bit 15 = AI mode) */
+    .4byte  sym_0607EBC4
 .L_0600E130:
-    .4byte  sym_06078900               /* car struct array base */
+    .4byte  sym_06078900
 .L_0600E134:
-    .4byte  0x00008000                  /* bitmask: bit 15 (AI vs player flag) */
+    .4byte  0x00008000
 .L_0600E138:
-    .4byte  sym_0607EAE0               /* race end flag (nonzero = ended) */
+    .4byte  sym_0607EAE0
 .L_0600E13C:
     mul.l r10, r13
     mov.l   .L_0600E1B0, r3
@@ -118,20 +118,20 @@ car_update_racing:
     mov.l @r15+, r14
     .2byte  0xFFFF
 .L_0600E1B0:
-    .4byte  sym_06030A06               /* per-car initialization */
+    .4byte  sym_06030A06
 .L_0600E1B4:
-    .4byte  sym_06030EE0               /* per-car state update */
+    .4byte  sym_06030EE0
 .L_0600E1B8:
-    .4byte  pre_render_transform       /* pre-render 3D transform setup */
+    .4byte  pre_render_transform
 .L_0600E1BC:
-    .4byte  sym_06063EB0               /* display table entry 0 */
+    .4byte  sym_06063EB0
 .L_0600E1C0:
-    .4byte  sym_06063E9C               /* display table entry 1 */
+    .4byte  sym_06063E9C
 .L_0600E1C4:
-    .4byte  sym_06063ED8               /* display table entry 2 */
+    .4byte  sym_06063ED8
 .L_0600E1C8:
-    .4byte  sym_06063EC4               /* display table entry 3 */
+    .4byte  sym_06063EC4
 .L_0600E1CC:
-    .4byte  sym_0603053C               /* display mode finalize */
+    .4byte  sym_0603053C
 .L_0600E1D0:
-    .4byte  sym_0607EA98               /* total active car count */
+    .4byte  sym_0607EA98

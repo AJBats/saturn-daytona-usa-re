@@ -43,23 +43,23 @@ car_update_simple:
 
     .global DAT_0600e456
 DAT_0600e456:
-    .2byte  0x00E4              /* car struct offset: display speed B */
+    .2byte  0x00E4
 .L_wpool_0600E458:
-    .2byte  0x00E0              /* [HIGH] car struct offset: display speed A */
-    .2byte  0xFFFF              /* padding */
+    .2byte  0x00E0
+    .2byte  0xFFFF
 .L_pool_0600E45C:
-    .4byte  sym_0607E944        /* car array base pointer */
+    .4byte  sym_0607E944
 .L_pool_0600E460:
-    .4byte  sym_0607E940        /* active car pointer (global) */
+    .4byte  sym_0607E940
 .L_pool_0600E464:
-    .4byte  gas_force_apply     /* throttle force computation */
+    .4byte  gas_force_apply
 .L_pool_0600E468:
-    .4byte  brake_force_apply   /* brake force computation */
+    .4byte  brake_force_apply
 .L_pool_0600E46C:
-    .4byte  sym_06030A06        /* car setup/config step */
+    .4byte  sym_06030A06
 .L_pool_0600E470:
-    .4byte  sym_06030EE0        /* car state update step */
+    .4byte  sym_06030EE0
 .L_pool_0600E474:
-    .4byte  0x066505B3          /* speed→display conversion coefficient */
+    .4byte  0x066505B3
 .L_pool_0600E478:
-    .4byte  fpmul               /* fixed-point multiply */
+    .4byte  fpmul

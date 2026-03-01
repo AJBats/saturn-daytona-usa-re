@@ -58,18 +58,18 @@ save_integrity_check:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0x00A8                      /* alignment padding (unreachable) */
+    .2byte  0x00A8
 .L_wpool_0603BE10:
-    .2byte  0x00B4                      /* [HIGH] offset to active-block slot in global state */
-    .2byte  0xFFFF                      /* alignment padding */
+    .2byte  0x00B4
+    .2byte  0xFFFF
 .L_pool_0603BE14:
-    .4byte  scene_buffer_update         /* process save block scene data */
+    .4byte  scene_buffer_update
 .L_pool_0603BE18:
-    .4byte  sym_060A4D14                /* global game state base pointer */
+    .4byte  sym_060A4D14
 .L_pool_0603BE1C:
-    .4byte  sym_0603EFD4                /* interp_linear_remainder — validate timing */
+    .4byte  sym_0603EFD4
 .L_pool_0603BE20:
-    .4byte  race_timer_sync             /* invalidate/sync race timer */
+    .4byte  race_timer_sync
     .4byte  0x2F864F22
     .4byte  0x4F127FF0
     .4byte  0x2F5265F3

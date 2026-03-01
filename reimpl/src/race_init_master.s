@@ -107,71 +107,71 @@ race_init_master:
 
     .global DAT_0600ebd8
 DAT_0600ebd8:
-    .2byte  0x1810                        /* dword count = 40 cars × 0x268/4 */
+    .2byte  0x1810
 .L_0600EBDA:
-    .2byte  0x0120                        /* offset to car slot enable flags */
+    .2byte  0x0120
 .L_0600EBDC:
-    .4byte  sym_06078900               /* car data array (40 × 0x268 bytes) */
+    .4byte  sym_06078900
 .L_0600EBE0:
-    .4byte  sym_06026E02               /* camera state reset */
+    .4byte  sym_06026E02
 .L_0600EBE4:
-    .4byte  sym_060270C6               /* view matrix reset */
+    .4byte  sym_060270C6
 .L_0600EBE8:
-    .4byte  car_array_init             /* car array structure initialization */
+    .4byte  car_array_init
 .L_0600EBEC:
-    .4byte  sym_06063F46               /* HUD overlay enable flag (16-bit) */
+    .4byte  sym_06063F46
 .L_0600EBF0:
-    .4byte  sym_0607EAE4               /* race timer A (32-bit) */
+    .4byte  sym_0607EAE4
 .L_0600EBF4:
-    .4byte  sym_0607EAE8               /* race timer B (32-bit) */
+    .4byte  sym_0607EAE8
 .L_0600EBF8:
-    .4byte  sym_0607EAEC               /* race timer C (32-bit) */
+    .4byte  sym_0607EAEC
 .L_0600EBFC:
-    .4byte  sym_0607EBD0               /* frame counter (32-bit) */
+    .4byte  sym_0607EBD0
 .L_0600EC00:
-    .4byte  sym_0607EBF4               /* race event bitfield (32-bit) */
+    .4byte  sym_0607EBF4
 .L_0600EC04:
-    .4byte  sym_06078654               /* lap count (byte, default 5) */
+    .4byte  sym_06078654
 .L_0600EC08:
-    .4byte  sym_0605A1C4               /* race complete flag (32-bit) */
+    .4byte  sym_0605A1C4
 .L_0600EC0C:
-    .4byte  sym_06082A30               /* physics state A (32-bit) */
+    .4byte  sym_06082A30
 .L_0600EC10:
-    .4byte  sym_0607EABC               /* checkpoint state A (32-bit) */
+    .4byte  sym_0607EABC
 .L_0600EC14:
-    .4byte  sym_0607EAC0               /* checkpoint state B (32-bit) */
+    .4byte  sym_0607EAC0
 .L_0600EC18:
-    .4byte  sym_06083260               /* race mode (byte) */
+    .4byte  sym_06083260
 .L_0600EC1C:
-    .4byte  sym_06082A26               /* AI state (byte) */
+    .4byte  sym_06082A26
 .L_0600EC20:
-    .4byte  sym_060788FC               /* collision state (32-bit) */
+    .4byte  sym_060788FC
 .L_0600EC24:
-    .4byte  sym_06082A38               /* physics state B (32-bit) */
+    .4byte  sym_06082A38
 .L_0600EC28:
-    .4byte  sym_06083261               /* race phase (byte) */
+    .4byte  sym_06083261
 .L_0600EC2C:
-    .4byte  sym_0608325C               /* countdown state (32-bit) */
+    .4byte  sym_0608325C
 .L_0600EC30:
-    .4byte  sym_06083258               /* render state (32-bit) */
+    .4byte  sym_06083258
 .L_0600EC34:
-    .4byte  sym_0605A21C               /* display state (32-bit) */
+    .4byte  sym_0605A21C
 .L_0600EC38:
-    .4byte  sym_06086058               /* score display A (16-bit) */
+    .4byte  sym_06086058
 .L_0600EC3C:
-    .4byte  sym_0608605A               /* score display B (byte) */
+    .4byte  sym_0608605A
 .L_0600EC40:
-    .4byte  sym_0605DE3C               /* transition state (byte) */
+    .4byte  sym_0605DE3C
 .L_0600EC44:
-    .4byte  sym_060786A8               /* replay state (32-bit) */
+    .4byte  sym_060786A8
 .L_0600EC48:
-    .4byte  sym_060786BC               /* replay buffer pointer (32-bit) */
+    .4byte  sym_060786BC
 .L_0600EC4C:
-    .4byte  sym_06085FCC               /* input state (byte) */
+    .4byte  sym_06085FCC
 .L_0600EC50:
-    .4byte  sym_06087060               /* sound state (byte) */
+    .4byte  sym_06087060
 .L_0600EC54:
-    .4byte  sym_0602FD98               /* timing registers (5 × 16-bit) */
+    .4byte  sym_0602FD98
 .L_0600EC58:
     extu.w r14, r0
     mov.w r0, @(4, r4)
@@ -186,6 +186,6 @@ DAT_0600ebd8:
     jmp @r3
     mov.l @r15+, r14
 .L_0600EC70:
-    .4byte  track_obj_placement        /* track object placement */
+    .4byte  track_obj_placement
 .L_0600EC74:
-    .4byte  sym_06018634               /* scroll position reset (track_utility_misc) */
+    .4byte  sym_06018634

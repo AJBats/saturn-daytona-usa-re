@@ -10,4 +10,4 @@ hud_toggle_ctrl:
     nop
     .2byte  0xFFFF
 .L_0603F234:
-    .4byte  0x00FFFFFF                  /* low 24-bit mask */
+    .4byte  0x00FFFFFF

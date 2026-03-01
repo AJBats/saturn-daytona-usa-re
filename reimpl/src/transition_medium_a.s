@@ -48,23 +48,23 @@ transition_medium_a:
     .byte   0xD3, 0x07    /* mov.l .L_pool_0600FDEC, r3 */
     jmp @r3
     lds.l @r15+, pr
-    .2byte  0xFFFF                       /* alignment padding */
-    .4byte  0xAB1101FF                   /* sound ID: transition sound (unused by this TU) */
-    .4byte  sound_cmd_dispatch           /* sound_cmd_dispatch function ptr (unused by this TU) */
+    .2byte  0xFFFF
+    .4byte  0xAB1101FF
+    .4byte  sound_cmd_dispatch
 .L_pool_0600FDDC:
-    .4byte  sym_0607887A                 /* &transition countdown timer (16-bit word) */
+    .4byte  sym_0607887A
 .L_pool_0600FDE0:
-    .4byte  sym_0607887F                 /* &game_mode_byte (8-bit game state) */
+    .4byte  sym_0607887F
 .L_pool_0600FDE4:
-    .4byte  sym_06011EB4                 /* dual_hud_render_dispatch function */
+    .4byte  sym_06011EB4
 .L_pool_0600FDE8:
-    .4byte  sym_06085FF4                 /* &2-player mode flag (byte, 0=1P, 1=2P) */
+    .4byte  sym_06085FF4
 .L_pool_0600FDEC:
-    .4byte  anim_ui_transition           /* UI animation transition function */
+    .4byte  anim_ui_transition
 .L_pool_0600FDF0:
-    .4byte  sym_0602853E                 /* display_layer_config function */
+    .4byte  sym_0602853E
 .L_pool_0600FDF4:
-    .4byte  sym_0607EBCC                 /* &attract mode timer (32-bit countdown) */
+    .4byte  sym_0607EBCC
 .L_0600FDF8:
     lds.l @r15+, pr
     rts

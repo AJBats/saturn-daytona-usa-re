@@ -76,54 +76,54 @@ dma_vram_init:
     rts
     mov.l @r15+, r14
 .L_06003960:
-    .4byte  dma_transfer               /* word-indexed memcpy */
+    .4byte  dma_transfer
 .L_06003964:
-    .4byte  sym_0604814C               /* source: NBG0 base palette (48 colors) */
+    .4byte  sym_0604814C
 .L_06003968:
-    .4byte  0x25F00000                  /* VDP2 color RAM +0x000 — bank 0 */
+    .4byte  0x25F00000
 .L_0600396C:
-    .4byte  sym_0604848C               /* source: NBG0 extended palette (32 colors) */
+    .4byte  sym_0604848C
 .L_06003970:
-    .4byte  0x25F00060                  /* VDP2 color RAM +0x060 — bank 1 */
+    .4byte  0x25F00060
 .L_06003974:
-    .4byte  sym_060484CC               /* source: NBG1 palette */
+    .4byte  sym_060484CC
 .L_06003978:
-    .4byte  0x25F000A0                  /* VDP2 color RAM +0x0A0 — bank 2 */
+    .4byte  0x25F000A0
 .L_0600397C:
-    .4byte  sym_060485AC               /* source: NBG2 palette */
+    .4byte  sym_060485AC
 .L_06003980:
-    .4byte  0x25F000E0                  /* VDP2 color RAM +0x0E0 — bank 3 */
+    .4byte  0x25F000E0
 .L_06003984:
-    .4byte  sym_0604892C               /* source: NBG3 palette */
+    .4byte  sym_0604892C
 .L_06003988:
-    .4byte  0x25F00100                  /* VDP2 color RAM +0x100 — bank 4 */
+    .4byte  0x25F00100
 .L_0600398C:
-    .4byte  sym_060488EC               /* source: RBG0 palette */
+    .4byte  sym_060488EC
 .L_06003990:
-    .4byte  0x25F00120                  /* VDP2 color RAM +0x120 — bank 5 */
+    .4byte  0x25F00120
 .L_06003994:
-    .4byte  sym_0604890C               /* source: sprite palette A */
+    .4byte  sym_0604890C
 .L_06003998:
-    .4byte  0x25F00140                  /* VDP2 color RAM +0x140 — bank 6 */
+    .4byte  0x25F00140
 .L_0600399C:
-    .4byte  sym_0605CDBC               /* source: sprite palette B */
+    .4byte  sym_0605CDBC
 .L_060039A0:
-    .4byte  0x25F00160                  /* VDP2 color RAM +0x160 — bank 7 */
+    .4byte  0x25F00160
 .L_060039A4:
-    .4byte  sym_060487EC               /* source: course UI palette */
+    .4byte  sym_060487EC
 .L_060039A8:
-    .4byte  0x25F001A0                  /* VDP2 color RAM +0x1A0 — bank 8 */
+    .4byte  0x25F001A0
 .L_060039AC:
-    .4byte  sym_060483EC               /* source: HUD palette */
+    .4byte  sym_060483EC
 .L_060039B0:
-    .4byte  0x25F001C0                  /* VDP2 color RAM +0x1C0 — bank 9 */
+    .4byte  0x25F001C0
 .L_060039B4:
-    .4byte  0x25F00600                  /* VDP2 color RAM +0x600 — high bank (sprite B mirror) */
+    .4byte  0x25F00600
 .L_060039B8:
-    .4byte  sym_0604888C               /* source: sprite palette C */
+    .4byte  sym_0604888C
 .L_060039BC:
-    .4byte  0x25F00660                  /* VDP2 color RAM +0x660 — high bank (sprite C) */
+    .4byte  0x25F00660
 .L_060039C0:
-    .4byte  0x25F007A0                  /* VDP2 color RAM +0x7A0 — high bank (course UI mirror) */
+    .4byte  0x25F007A0
 .L_060039C4:
-    .4byte  0x25F007C0                  /* VDP2 color RAM +0x7C0 — high bank (HUD mirror) */
+    .4byte  0x25F007C0

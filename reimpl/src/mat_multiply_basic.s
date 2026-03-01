@@ -52,9 +52,9 @@ mat_multiply_basic:
     jmp @r3
     lds.l @r15+, pr
 .L_wpool_06026572:
-    .2byte  0x0090                          /* [MEDIUM] display list element size (0x0090 = 144 bytes) */
+    .2byte  0x0090
 .L_wpool_06026574:
-    .2byte  0x02A0                          /* [MEDIUM] layer D geometry offset (VDP display list slot) */
+    .2byte  0x02A0
 
     .global DAT_06026576
 DAT_06026576:
@@ -65,12 +65,12 @@ DAT_06026578:
     .2byte  0x7000
     .2byte  0xFFFF
 .L_pool_0602657C:
-    .4byte  sym_06059128                    /* [HIGH] blank text "  " — static texture data for geom_dispatch_final */
+    .4byte  sym_06059128
 .L_pool_06026580:
-    .4byte  sym_060284AE                    /* [HIGH] geom_dispatch_final — VDP geometry/text renderer */
+    .4byte  sym_060284AE
 .L_pool_06026584:
-    .4byte  sym_06063B80                    /* [HIGH] display list entry struct — layer D (render_fn + frame_data) */
+    .4byte  sym_06063B80
 .L_pool_06026588:
-    .4byte  sym_06028400                    /* [HIGH] display_list_loader — DMA transfer from dlist to VDP */
+    .4byte  sym_06028400
 .L_pool_0602658C:
-    .4byte  sym_06063B88                    /* [HIGH] display list entry struct — layer E (render_fn + frame_data) */
+    .4byte  sym_06063B88

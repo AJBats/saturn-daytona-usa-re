@@ -59,7 +59,7 @@ sprite_frame_select:
     rts
     mov.l @r15+, r14
 .L_wpool_060055A0:
-    .2byte  0x0268              /* [HIGH] animation table entry stride: 0x268 bytes per entry */
+    .2byte  0x0268
     .2byte  0xFFFF
 .L_pool_060055A4:
     .4byte  sym_06026E0C

@@ -68,16 +68,16 @@ bus_lock_table_ctrl:
     rts
     nop
 .L_wpool_0603D424:
-    .2byte  0x0201                      /* field descriptor: array B bitfield RMW param */
+    .2byte  0x0201
 
     .global DAT_0603d426
 DAT_0603d426:
-    .2byte  0x0200                      /* high byte OR value: 0x0200 */
+    .2byte  0x0200
 .L_pool_0603D428:
-    .4byte  0x0000FF00                  /* mask: keep high byte, clear low byte */
+    .4byte  0x0000FF00
 .L_pool_0603D42C:
-    .4byte  sym_060A4D58                /* &cfg_final: target struct for bitfield RMW */
+    .4byte  sym_060A4D58
 .L_pool_0603D430:
-    .4byte  sym_060A4D30                /* &cfg_array_b: config word array B (3 words) */
+    .4byte  sym_060A4D30
 .L_pool_0603D434:
-    .4byte  sym_06034F78                /* &bitfield_rmw: read-modify-write utility */
+    .4byte  sym_06034F78

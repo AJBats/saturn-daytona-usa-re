@@ -36,4 +36,4 @@ speed_value_format:
     rts
     mov.b r0, @(2, r2)
 .L_pool_06015EB4:
-    .4byte  sym_06084FC8                /* [HIGH] text object array base (68 bytes/entry) */
+    .4byte  sym_06084FC8

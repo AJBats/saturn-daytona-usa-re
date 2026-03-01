@@ -56,24 +56,24 @@ scu_dma_transfer:
     bra     .L_0603FEFE
     mov #0x0, r5
 .L_0603FEDC:
-    .2byte  0x0800                      /* SCU IST bit 11: DMA L0 end interrupt */
+    .2byte  0x0800
 .L_0603FEDE:
-    .2byte  0xF7FF                      /* IST write mask: clear DMA L0 end bit */
+    .2byte  0xF7FF
 .L_0603FEE0:
-    .2byte  0x0100                      /* D0AD source address add value */
-    .2byte  0xFFFF                      /* padding */
+    .2byte  0x0100
+    .2byte  0xFFFF
 .L_0603FEE4:
-    .4byte  0x25FE00A4                  /* SCU IST — interrupt status */
+    .4byte  0x25FE00A4
 .L_0603FEE8:
     .4byte  sym_06000348
 .L_0603FEEC:
     .4byte  0x10041004
 .L_0603FEF0:
-    .4byte  0x25FE00B4                  /* SCU ASR1 — A-bus timing CS1 */
+    .4byte  0x25FE00B4
 .L_0603FEF4:
     .4byte  sym_06000340
 .L_0603FEF8:
-    .4byte  0x25FE0000                  /* SCU D0R — DMA level 0 read addr */
+    .4byte  0x25FE0000
 .L_0603FEFC:
     mov #0x2, r5
 .L_0603FEFE:

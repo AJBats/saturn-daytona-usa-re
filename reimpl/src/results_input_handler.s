@@ -79,11 +79,11 @@ results_input_handler:
     bra     .L_060168A6
     nop
 .L_0601686C:
-    .2byte  0x0F00                          /* 0x0F00 = scroll step per frame [HIGH] */
+    .2byte  0x0F00
 .L_0601686E:
-    .2byte  0x1800                          /* 0x1800 = bounce velocity delta per frame [HIGH] */
+    .2byte  0x1800
 .L_pool_06016870:
-    .4byte  sym_06084FC8                    /* results element array base (0x44-byte structs) [HIGH] */
+    .4byte  sym_06084FC8
 .L_06016874:
     extu.b r14, r5
     mov r5, r3
@@ -191,8 +191,8 @@ loc_060168DA:
     rts
     mov.b r0, @(2, r4)
 .L_06016938:
-    .2byte  0xC000                          /* 0xC000 = target Y for high-index elements (idx >= 7) [HIGH] */
+    .2byte  0xC000
 .L_0601693A:
-    .2byte  0x4000                          /* 0x4000 = target Y for low-index elements (idx < 7) [HIGH] */
+    .2byte  0x4000
 .L_pool_0601693C:
-    .4byte  sym_06084FC8                    /* results element array base (0x44-byte structs) [HIGH] */
+    .4byte  sym_06084FC8

@@ -86,7 +86,7 @@ best_lap_display:
     rts
     mov.l @r15+, r14
 .L_wpool_06015B40:
-    .2byte  0xE000                                     /* [HIGH] cap/threshold constant for results display */
+    .2byte  0xE000
     .2byte  0xFFFF
 .L_pool_06015B44:
     .4byte  sym_06084FC8

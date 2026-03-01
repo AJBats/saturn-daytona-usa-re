@@ -106,22 +106,22 @@ ai_waypoint_pathfind:
 
     .global DAT_06014de4
 DAT_06014de4:
-    .2byte  0x0800                        /* traffic light state bit 11 mask */
+    .2byte  0x0800
     .2byte  0xFFFF
 .L_pool_06014DE8:
-    .4byte  sym_06085F94               /* waypoint state word (16-bit) */
+    .4byte  sym_06085F94
 .L_pool_06014DEC:
-    .4byte  sym_06063F64               /* per-slot data table base */
+    .4byte  sym_06063F64
 .L_pool_06014DF0:
-    .4byte  sym_06085F90               /* waypoint phase counter (16-bit) */
+    .4byte  sym_06085F90
 .L_pool_06014DF4:
-    .4byte  sym_06085F89               /* waypoint disable flag (byte) */
+    .4byte  sym_06085F89
 .L_pool_06014DF8:
-    .4byte  sym_06063D9A               /* traffic light state register */
+    .4byte  sym_06063D9A
 .L_pool_06014DFC:
-    .4byte  sym_0607EBF4               /* race complete flag (bit 0 checked) */
+    .4byte  sym_0607EBF4
 .L_pool_06014E00:
-    .4byte  sym_060172E4               /* waypoint handler function */
+    .4byte  sym_060172E4
 .L_06014E04:
     mov.w @r14, r5
     extu.w r5, r5
@@ -268,18 +268,18 @@ DAT_06014de4:
     mov.l @r15+, r14
     .2byte  0xFFFF
 .L_pool_06014F14:
-    .4byte  sym_060172E4               /* waypoint handler (dup for reach) */
+    .4byte  sym_060172E4
 .L_pool_06014F18:
-    .4byte  sym_06085F8A               /* object compaction needed flag (byte) */
+    .4byte  sym_06085F8A
 .L_pool_06014F1C:
-    .4byte  obj_data_compact           /* object data compaction function */
+    .4byte  obj_data_compact
 .L_pool_06014F20:
-    .4byte  vdp2_util_loop             /* VDP2 utility loop */
+    .4byte  vdp2_util_loop
 .L_pool_06014F24:
-    .4byte  sym_06085F98               /* active slot index (ptr, dereferenced) */
+    .4byte  sym_06085F98
 .L_pool_06014F28:
-    .4byte  sym_06084FC8               /* slot data array base */
+    .4byte  sym_06084FC8
 .L_pool_06014F2C:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000
 .L_pool_06014F30:
-    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
+    .4byte  0x00010000

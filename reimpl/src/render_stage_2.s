@@ -63,25 +63,25 @@ DAT_0601cb48:
     .4byte  sym_06026CE0
     .4byte  sym_06059F44
 .L_0601CB68:
-    .4byte  sym_06086020                    /* render stage step counter */
+    .4byte  sym_06086020
 .L_0601CB6C:
-    .4byte  0x25F00200                      /* VDP2 color RAM bank 1 */
+    .4byte  0x25F00200
 .L_0601CB70:
-    .4byte  0x25F00400                      /* VDP2 color RAM bank 2 */
+    .4byte  0x25F00400
 .L_0601CB74:
-    .4byte  dma_transfer                    /* SCU DMA transfer function */
+    .4byte  dma_transfer
 .L_0601CB78:
-    .4byte  sym_06086024                    /* DMA pending flag (non-zero = busy) */
+    .4byte  sym_06086024
 .L_0601CB7C:
-    .4byte  sym_0608601C                    /* frame countdown for render cycle */
+    .4byte  sym_0608601C
 .L_0601CB80:
-    .4byte  g_pad_state                    /* game status word (bit 0x0800) */
+    .4byte  g_pad_state
 .L_0601CB84:
-    .4byte  sym_060358EC                    /* render setup / parameter load */
+    .4byte  sym_060358EC
 .L_0601CB88:
-    .4byte  0x40680000                      /* VDP2 config value for pass 1 */
+    .4byte  0x40680000
 .L_0601CB8C:
-    .4byte  sym_06035844                    /* render execute / commit */
+    .4byte  sym_06035844
 .L_0601CB90:
     mov.l @r14, r0
     add #-0x8, r15
@@ -308,23 +308,23 @@ DAT_0601cb48:
     nop
     .2byte  0xFFFF
 .L_0601CD34:
-    .4byte  sym_060358EC                    /* render parameter setup */
+    .4byte  sym_060358EC
 .L_0601CD38:
-    .4byte  0x40568000                      /* VDP2 config: pass 1 */
+    .4byte  0x40568000
 .L_0601CD3C:
-    .4byte  sym_06035844                    /* render execute */
+    .4byte  sym_06035844
 .L_0601CD40:
-    .4byte  0x40726000                      /* VDP2 config: pass 2 */
+    .4byte  0x40726000
 .L_0601CD44:
-    .4byte  0x406D4000                      /* VDP2 config: pass 3 */
+    .4byte  0x406D4000
 .L_0601CD48:
-    .4byte  sym_06035B34                    /* render pass check/validate */
+    .4byte  sym_06035B34
 .L_0601CD4C:
-    .4byte  0x40680000                      /* VDP2 config: pass 4 */
+    .4byte  0x40680000
 .L_0601CD50:
-    .4byte  0x40608000                      /* VDP2 config: pass 5 */
+    .4byte  0x40608000
 .L_0601CD54:
-    .4byte  0x403E0000                      /* VDP2 config: pass 6 */
+    .4byte  0x403E0000
 .L_0601CD58:
     mov.l @r13, r0
     cmp/eq #0x1, r0
@@ -417,29 +417,29 @@ render_stage_3:
     bra     .L_0601CEB4
     mov #0x0, r9
 .L_0601CDFC:
-    .4byte  sym_0604880C                    /* palette source A, CRAM bank 1 */
+    .4byte  sym_0604880C
 .L_0601CE00:
-    .4byte  sym_0604882C                    /* palette source A, CRAM bank 2 */
+    .4byte  sym_0604882C
 .L_0601CE04:
-    .4byte  sym_0604884C                    /* palette source B, CRAM bank 1 */
+    .4byte  sym_0604884C
 .L_0601CE08:
-    .4byte  sym_0604886C                    /* palette source B, CRAM bank 2 */
+    .4byte  sym_0604886C
 .L_0601CE0C:
-    .4byte  sym_0605D17C                    /* palette source C, CRAM bank 1 */
+    .4byte  sym_0605D17C
 .L_0601CE10:
-    .4byte  sym_0605D19C                    /* palette source C, CRAM bank 2 */
+    .4byte  sym_0605D19C
 .L_0601CE14:
-    .4byte  g_game_state                    /* game state dispatch value */
+    .4byte  g_game_state
 .L_0601CE18:
-    .4byte  sym_06026CE0                    /* display update function */
+    .4byte  sym_06026CE0
 .L_0601CE1C:
-    .4byte  sym_06059F44                    /* animation state (32-bit) */
+    .4byte  sym_06059F44
 .L_0601CE20:
-    .4byte  sym_06086020                    /* render stage step counter */
+    .4byte  sym_06086020
 .L_0601CE24:
-    .4byte  sym_0605DF58                    /* palette lerp weight table (18 entries) */
+    .4byte  sym_0605DF58
 .L_0601CE28:
-    .4byte  0x25F00000                      /* VDP2 color RAM base */
+    .4byte  0x25F00000
 .L_0601CE2C:
     mov r15, r7
     mov r15, r6
@@ -540,13 +540,13 @@ render_stage_3:
     mov.l @r15+, r14
     .2byte  0xFFFF
 .L_0601CEEC:
-    .4byte  sym_06034FE0                    /* color linear interpolation function */
+    .4byte  sym_06034FE0
 .L_0601CEF0:
-    .4byte  0x25F00200                      /* VDP2 CRAM bank 1 */
+    .4byte  0x25F00200
 .L_0601CEF4:
-    .4byte  dma_transfer                    /* SCU DMA transfer function */
+    .4byte  dma_transfer
 .L_0601CEF8:
-    .4byte  0x25F00400                      /* VDP2 CRAM bank 2 */
+    .4byte  0x25F00400
 
     .global render_stage_4
     .type render_stage_4, @function
@@ -586,7 +586,7 @@ render_stage_4:
 .L_0601CF3C:
     .4byte  sym_0605DF58
 .L_0601CF40:
-    .4byte  0x25F00000                  /* VDP2 color RAM +0x000 */
+    .4byte  0x25F00000
 .L_0601CF44:
     mov r15, r7
     mov r15, r6
@@ -687,13 +687,13 @@ render_stage_4:
     mov.l @r15+, r14
     .2byte  0xFFFF
 .L_0601D004:
-    .4byte  sym_06034FE0                    /* color linear interpolation function */
+    .4byte  sym_06034FE0
 .L_0601D008:
-    .4byte  0x25F00200                      /* VDP2 CRAM bank 1 */
+    .4byte  0x25F00200
 .L_0601D00C:
-    .4byte  dma_transfer                    /* SCU DMA transfer function */
+    .4byte  dma_transfer
 .L_0601D010:
-    .4byte  0x25F00400                      /* VDP2 CRAM bank 2 */
+    .4byte  0x25F00400
 
     .global render_stage_5
     .type render_stage_5, @function
@@ -732,21 +732,21 @@ render_stage_5:
     rts
     mov.l r2, @r3
 .L_0601D056:
-    .2byte  0x0518                          /* display list transfer size */
+    .2byte  0x0518
 .L_0601D058:
-    .4byte  sym_0604884C                    /* CRAM source data (bank A) */
+    .4byte  sym_0604884C
 .L_0601D05C:
-    .4byte  0x25F00000                      /* VDP2 CRAM base address */
+    .4byte  0x25F00000
 .L_0601D060:
-    .4byte  dma_transfer                    /* SCU DMA transfer function */
+    .4byte  dma_transfer
 .L_0601D064:
-    .4byte  sym_06063968                    /* display list descriptor A */
+    .4byte  sym_06063968
 .L_0601D068:
-    .4byte  sym_06028400                    /* display list loader function */
+    .4byte  sym_06028400
 .L_0601D06C:
-    .4byte  sym_06063970                    /* display list descriptor B */
+    .4byte  sym_06063970
 .L_0601D070:
-    .4byte  sym_06086020                    /* render stage step counter */
+    .4byte  sym_06086020
 
     .global render_stage_6
     .type render_stage_6, @function
@@ -816,23 +816,23 @@ render_stage_6:
     rts
     mov.w r0, @r7
 .L_0601D0F2:
-    .2byte  0x0518                          /* display list transfer size */
+    .2byte  0x0518
 .L_0601D0F4:
-    .4byte  sym_0602853E                    /* display channel configure */
+    .4byte  sym_0602853E
 .L_0601D0F8:
-    .4byte  sym_0605D17C                    /* CRAM source data (bank B) */
+    .4byte  sym_0605D17C
 .L_0601D0FC:
-    .4byte  0x25F00000                      /* VDP2 CRAM base address */
+    .4byte  0x25F00000
 .L_0601D100:
-    .4byte  dma_transfer                    /* SCU DMA transfer function */
+    .4byte  dma_transfer
 .L_0601D104:
-    .4byte  sym_06063CF8                    /* display list descriptor A (bank B) */
+    .4byte  sym_06063CF8
 .L_0601D108:
-    .4byte  sym_06028400                    /* display list loader function */
+    .4byte  sym_06028400
 .L_0601D10C:
-    .4byte  sym_06063D00                    /* display list descriptor B (bank B) */
+    .4byte  sym_06063D00
 .L_0601D110:
-    .4byte  sym_06086020                    /* render stage step counter */
+    .4byte  sym_06086020
     .4byte  0x606D635D
     .4byte  0x624D4018
     .4byte  0x43084008
@@ -902,9 +902,9 @@ DAT_0601d18c:
 DAT_0601d18e:
     .2byte  0x2000
 .L_0601D190:
-    .4byte  sym_0608602C                    /* render state machine variable */
+    .4byte  sym_0608602C
 .L_0601D194:
-    .4byte  sym_06063D9A                    /* input/button state word */
+    .4byte  sym_06063D9A
 .L_0601D198:
     mov.l @r14, r0
     cmp/eq #0x3, r0
@@ -1013,9 +1013,9 @@ DAT_0601d24e:
     .2byte  0x0400
     .2byte  0xFFFF
 .L_0601D254:
-    .4byte  sym_06063D9A                    /* input/button state word (pool 2) */
+    .4byte  sym_06063D9A
 .L_0601D258:
-    .4byte  0x00008000                      /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000
 .L_0601D25C:
     mov.l @r14, r0
     cmp/eq #0x9, r0
@@ -1082,10 +1082,10 @@ DAT_0601d2c6:
     .2byte  0x0200
     .2byte  0xFFFF
 .L_0601D2CC:
-    .4byte  sym_06063D9A                    /* input/button state word (pool 3) */
+    .4byte  sym_06063D9A
 .L_0601D2D0:
-    .4byte  sym_06086030                    /* render cycle completion flag */
+    .4byte  sym_06086030
 .L_0601D2D4:
-    .4byte  0xAE1146FF                      /* sound effect parameter (completion jingle) */
+    .4byte  0xAE1146FF
 .L_0601D2D8:
     .4byte  sound_cmd_dispatch              /* sound command dispatch function */

@@ -141,7 +141,7 @@ DAT_06027f56:
 .L_06027FCC:
     .4byte  sym_060A6000
 .L_06027FD0:
-    .4byte  0x01000000                  /* MINIT — primary SH-2 init comm */
+    .4byte  0x01000000
 .L_06027FD4:
     mov r5, r0
     mov.l @(24, r0), r6

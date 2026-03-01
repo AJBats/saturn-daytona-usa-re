@@ -51,22 +51,22 @@ start_light_render:
     .4byte  sym_06049AFC
     .4byte  sym_060284AE
 .L_0601A31C:
-    .4byte  sym_0605B6D8                    /* render mode flags (32-bit) */
+    .4byte  sym_0605B6D8
 .L_0601A320:
-    .4byte  0x80000000                      /* sign bit — triggers display state change */
+    .4byte  0x80000000
 .L_0601A324:
-    .4byte  sym_06026CE0                    /* camera state finalization */
+    .4byte  sym_06026CE0
 .L_0601A328:
-    .4byte  sym_0602853E                    /* display channel configure */
+    .4byte  sym_0602853E
 .L_0601A32C:
-    .4byte  sym_06028560                    /* render state commit / flush */
+    .4byte  sym_06028560
 .L_0601A330:
-    .4byte  0x00017700                      /* tile pattern data size (96000 bytes) */
+    .4byte  0x00017700
 .L_0601A334:
-    .4byte  0x25E76EFC                      /* VDP2 VRAM +0x76EFC (tile block A dest) */
+    .4byte  0x25E76EFC
 .L_0601A338:
-    .4byte  sym_0600511E                    /* VRAM tile/pattern upload function */
+    .4byte  sym_0600511E
 .L_0601A33C:
-    .4byte  0x25E77B18                      /* VDP2 VRAM +0x77B18 (tile block B dest) */
+    .4byte  0x25E77B18
 .L_0601A340:
-    .4byte  sym_06085FF2                    /* animation frame counter (byte) */
+    .4byte  sym_06085FF2

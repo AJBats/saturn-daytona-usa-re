@@ -247,7 +247,7 @@ DAT_0600bab8:
 .L_0600BACC:
     .4byte  sym_060270F2
 .L_0600BAD0:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000
 .L_0600BAD4:
     .4byte  mat_rot_xy_b
 .L_0600BAD8:

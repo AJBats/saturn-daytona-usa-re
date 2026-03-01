@@ -80,15 +80,15 @@ track_segment_advance:
 DAT_0600cf3a:
     .2byte  0x0184
 .L_0600CF3C:
-    .2byte  0x0162                              /* car[+0x162]: previous heading component [HIGH] */
+    .2byte  0x0162
 .L_0600CF3E:
-    .2byte  0x0160                              /* car[+0x160]: current heading component [HIGH] */
+    .2byte  0x0160
 
     .global DAT_0600cf40
 DAT_0600cf40:
     .2byte  0x01F0
 .L_0600CF42:
-    .2byte  0x0228                              /* car[+0x228]: segment crossing counter [HIGH] */
+    .2byte  0x0228
 .L_0600CF44:
     .4byte  sym_0607EB84
 .L_0600CF48:

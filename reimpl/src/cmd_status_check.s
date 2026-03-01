@@ -53,14 +53,14 @@ cmd_status_check:
     rts
     mov.l @r15+, r14
 .L_0603AE60:
-    .2byte  0x00A0                          /* [HIGH] struct offset: active entry count (+0xA0) */
+    .2byte  0x00A0
 .L_0603AE62:
-    .2byte  0x0098                          /* [HIGH] struct offset: mode flag (+0x98) */
+    .2byte  0x0098
 .L_0603AE64:
-    .2byte  0x009C                          /* [HIGH] struct offset: max entries for lookup (+0x9C) */
-    .2byte  0xFFFF                          /* alignment padding */
-    .4byte  sym_06035168                    /* [HIGH] memcpy_long — unreferenced dead pool entry */
+    .2byte  0x009C
+    .2byte  0xFFFF
+    .4byte  sym_06035168
 .L_pool_0603AE6C:
     .4byte  sym_060A4D14                    /* [HIGH] global command state struct pointer */
 .L_pool_0603AE70:
-    .4byte  slave_sh2_setup                 /* [HIGH] directory entry lookup function */
+    .4byte  slave_sh2_setup

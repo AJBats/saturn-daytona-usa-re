@@ -85,7 +85,7 @@ hud_menu_system:
     .2byte  0x0301
     .4byte  sym_060A4DA6
 .L_0603C244:
-    .4byte  0x0000FF00                  /* byte 1 mask */
+    .4byte  0x0000FF00
 .L_0603C248:
     .4byte  sym_060A4D3E
 .L_0603C24C:
@@ -520,7 +520,7 @@ DAT_0603c49c:
 .L_0603C564:
     .4byte  sym_06034F78
 .L_0603C568:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000
 .L_0603C56C:
     .4byte  0x0000FFFE
 .L_0603C570:
@@ -1296,7 +1296,7 @@ DAT_0603cae2:
 .L_0603CAE4:
     .4byte  sym_060A4D84
 .L_0603CAE8:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000
 .L_0603CAEC:
     mov.l   .L_0603CBA4, r0
     mov.l @r0, r0

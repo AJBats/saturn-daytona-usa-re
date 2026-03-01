@@ -53,21 +53,21 @@ replay_cam_main_loop:
     bra     .L_0601AD30
     nop
 .L_0601ACE4:
-    .2byte  0x00E8                          /* 0xE8 = 232 = 0x13 * 0xC + 4 (last entry frame offset) */
-    .2byte  0xFFFF                          /* alignment padding */
+    .2byte  0x00E8
+    .2byte  0xFFFF
 .L_0601ACE8:
-    .4byte  sym_0607EAD8                    /* race end state (0/1/2 = attract cycle) */
+    .4byte  sym_0607EAD8
 .L_0601ACEC:
-    .4byte  sym_0605AD00                    /* render state variable */
+    .4byte  sym_0605AD00
 .L_0601ACF0:
-    .4byte  sym_0605DD6C                    /* camera target array base */
+    .4byte  sym_0605DD6C
 .L_0601ACF4:
-    .4byte  sym_060786A4                    /* replay frame counter (32-bit) */
-    .4byte  sym_06085FF8                    /* fastest lap flag (byte) -- unused pool slot */
+    .4byte  sym_060786A4
+    .4byte  sym_06085FF8
 .L_0601ACFC:
-    .4byte  sym_0605DE24                    /* camera target position array */
+    .4byte  sym_0605DE24
 .L_0601AD00:
-    .4byte  sym_0607EBF4                    /* race event bitfield (bit 0 = complete) */
+    .4byte  sym_0607EBF4
 .L_0601AD04:
     extu.b r14, r1
     extu.b r14, r2
@@ -147,19 +147,19 @@ replay_cam_main_loop:
     rts
     mov.l @r15+, r14
 .L_0601AD94:
-    .4byte  sym_06035168                    /* memcpy_long (unrolled longword copy) */
+    .4byte  sym_06035168
 .L_0601AD98:
-    .4byte  sym_0605DE3C                    /* crossing direction flag (byte) */
+    .4byte  sym_0605DE3C
 .L_0601AD9C:
-    .4byte  sym_0607EAE0                    /* attract timer (32-bit) */
+    .4byte  sym_0607EAE0
 .L_0601ADA0:
-    .4byte  sym_06085FFC                    /* active camera cut-point entry pointer */
+    .4byte  sym_06085FFC
 .L_0601ADA4:
-    .4byte  sym_06086012                    /* camera cut-point index (byte) */
+    .4byte  sym_06086012
 .L_0601ADA8:
-    .4byte  sym_06086000                    /* camera override pointer */
+    .4byte  sym_06086000
 .L_0601ADAC:
-    .4byte  sym_06078638                    /* race time storage (32-bit) */
+    .4byte  sym_06078638
     .4byte  0xD523D624
     .4byte  0xD2246452
     .4byte  0x63624400
@@ -204,20 +204,20 @@ replay_cam_main_loop:
 
     .global DAT_0601ae3e
 DAT_0601ae3e:
-    .2byte  0x0240                          /* constant: car struct offset 0x240 */
-    .4byte  sym_0607EAD8                    /* race end state (0/1/2) */
-    .4byte  sym_0607EAE0                    /* attract timer (32-bit) */
-    .4byte  sym_0605DE24                    /* camera target position array */
-    .4byte  sym_06078638                    /* race time storage */
-    .4byte  sym_06078900                    /* car array base */
-    .4byte  sym_060786A4                    /* replay frame counter */
-    .4byte  sym_0605AD00                    /* render state variable */
-    .4byte  sym_0605DE40                    /* coordinate extent table */
-    .4byte  sym_0607EBF4                    /* race event bitfield */
+    .2byte  0x0240
+    .4byte  sym_0607EAD8
+    .4byte  sym_0607EAE0
+    .4byte  sym_0605DE24
+    .4byte  sym_06078638
+    .4byte  sym_06078900
+    .4byte  sym_060786A4
+    .4byte  sym_0605AD00
+    .4byte  sym_0605DE40
+    .4byte  sym_0607EBF4
 .L_0601AE64:
-    .4byte  sym_06083255                    /* secondary SH-2 processing flag (byte) */
+    .4byte  sym_06083255
 .L_0601AE68:
-    .4byte  sym_0607EAB8                    /* frame output (odd/even selector) */
+    .4byte  sym_0607EAB8
 .L_0601AE6C:
     .byte   0xD4, 0x17    /* mov.l .L_pool_0601AECC, r4 */
     mov.l @r4, r4

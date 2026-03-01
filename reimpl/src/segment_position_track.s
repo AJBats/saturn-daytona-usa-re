@@ -128,49 +128,49 @@ segment_position_track:
     nop
     .2byte  0xFFFF
 .L_06005FC0:
-    .4byte  sym_06063E88                /* geometry channel 3 position data */
+    .4byte  sym_06063E88
 .L_06005FC4:
-    .4byte  sym_06063E4C                /* geometry channel 0 position data */
+    .4byte  sym_06063E4C
 .L_06005FC8:
-    .4byte  sym_06063E74                /* geometry channel 2 position data */
+    .4byte  sym_06063E74
 .L_06005FCC:
-    .4byte  sym_06063E60                /* geometry channel 1 position data */
+    .4byte  sym_06063E60
 .L_06005FD0:
-    .4byte  sym_0607E944                /* car array base pointer (ptr-to-ptr) */
+    .4byte  sym_0607E944
 .L_06005FD4:
-    .4byte  sym_06026DBC                /* per-object pre-transform setup */
+    .4byte  sym_06026DBC
 .L_06005FD8:
-    .4byte  sym_06026E0C                /* push/save current transform state */
+    .4byte  sym_06026E0C
 .L_06005FDC:
-    .4byte  sym_06063F10                /* global Y-rotation angle offset */
+    .4byte  sym_06063F10
 .L_06005FE0:
-    .4byte  mat_rot_y                   /* build Y-axis rotation matrix */
+    .4byte  mat_rot_y
 .L_06005FE4:
-    .4byte  sym_0604464C                /* channel 1 XYZ transform params */
+    .4byte  sym_0604464C
 .L_06005FE8:
-    .4byte  mat_vec_transform           /* matrix-vector transform */
+    .4byte  mat_vec_transform
 .L_06005FEC:
-    .4byte  sym_06044640                /* channel 0 XYZ transform params */
+    .4byte  sym_06044640
 .L_06005FF0:
-    .4byte  sym_06044658                /* channel 3 XYZ transform params */
+    .4byte  sym_06044658
 .L_06005FF4:
-    .4byte  sym_06044664                /* channel 2 XYZ transform params */
+    .4byte  sym_06044664
 .L_06005FF8:
-    .4byte  sym_06063E9C                /* geometry channel 4 position data */
+    .4byte  sym_06063E9C
 .L_06005FFC:
-    .4byte  sym_06044688                /* channel 4 XYZ transform params */
+    .4byte  sym_06044688
 .L_06006000:
-    .4byte  sym_06063EB0                /* geometry channel 5 position data */
+    .4byte  sym_06063EB0
 .L_06006004:
-    .4byte  sym_0604467C                /* channel 5 XYZ transform params */
+    .4byte  sym_0604467C
 .L_06006008:
-    .4byte  sym_06063ED8                /* geometry channel 7 position data */
+    .4byte  sym_06063ED8
 .L_0600600C:
-    .4byte  sym_06044694                /* channel 7 XYZ transform params */
+    .4byte  sym_06044694
 .L_06006010:
-    .4byte  sym_06063EC4                /* geometry channel 6 position data */
+    .4byte  sym_06063EC4
 .L_06006014:
-    .4byte  sym_060446A0                /* channel 6 XYZ transform params */
+    .4byte  sym_060446A0
 .L_06006018:
     mov.l r3, @(8, r4)
     mov r9, r6
@@ -303,30 +303,30 @@ segment_position_track:
 
     .global DAT_06006116
 DAT_06006116:
-    .2byte  0x01EC                      /* car array offset for segment distance */
+    .2byte  0x01EC
 .L_06006118:
-    .2byte  0x00DC                      /* 220 — min segment distance for close scale */
-    .2byte  0xFFFF                      /* alignment padding */
+    .2byte  0x00DC
+    .2byte  0xFFFF
 .L_0600611C:
-    .4byte  sym_06063ED8                /* geometry channel 7 (dup for pool 2) */
+    .4byte  sym_06063ED8
 .L_06006120:
-    .4byte  sym_06063EC4                /* geometry channel 6 (dup for pool 2) */
+    .4byte  sym_06063EC4
 .L_06006124:
-    .4byte  sym_06006838                /* atan2(x, z) — heading computation */
+    .4byte  sym_06006838
 .L_06006128:
-    .4byte  scene_render_alt            /* store heading + trigger render update */
+    .4byte  scene_render_alt
 .L_0600612C:
-    .4byte  sym_060446AC                /* averaged position transform params */
+    .4byte  sym_060446AC
 .L_06006130:
-    .4byte  mat_vec_transform           /* matrix-vector transform (dup) */
+    .4byte  mat_vec_transform
 .L_06006134:
-    .4byte  sym_0607EAD8                /* attract mode cycle counter (0/1/2) */
+    .4byte  sym_0607EAD8
 .L_06006138:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000
 .L_0600613C:
-    .4byte  fpmul                       /* 16.16 fixed-point multiply */
+    .4byte  fpmul
 .L_06006140:
-    .4byte  0x0002CCCC                  /* ~2.8 (16.16) — close angle scale */
+    .4byte  0x0002CCCC
 .L_06006144:
     mov.l @(20, r15), r11
     mov.l   .L_060061B0, r13
@@ -384,14 +384,14 @@ DAT_06006116:
     rts
     mov.l @r15+, r14
 .L_060061B0:
-    .4byte  0x000D6666                  /* ~13.4 (16.16) — wide angle scale */
+    .4byte  0x000D6666
 .L_060061B4:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000
 .L_060061B8:
-    .4byte  fpmul                       /* 16.16 fixed-point multiply (dup) */
+    .4byte  fpmul
 .L_060061BC:
-    .4byte  atan2                       /* atan2(y, x) — angle computation */
+    .4byte  atan2
 .L_060061C0:
-    .4byte  0x00011998                  /* ~1.1 (16.16) — pitch angle divisor */
+    .4byte  0x00011998
 .L_060061C4:
-    .4byte  sym_06089EDC                /* global position counter (decremented by 0x30) */
+    .4byte  sym_06089EDC

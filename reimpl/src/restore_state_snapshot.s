@@ -49,6 +49,6 @@ restore_state_snapshot:
 .L_pool_0601904C:
     .4byte  sym_06012EBC
 .L_pool_06019050:
-    .4byte  0x25A02DBE                  /* Sound RAM +0x02DBE */
+    .4byte  0x25A02DBE
 .L_pool_06019054:
     .4byte  0xAE0600FF

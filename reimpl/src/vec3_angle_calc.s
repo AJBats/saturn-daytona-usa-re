@@ -61,13 +61,13 @@ vec3_angle_calc:
 
     .global DAT_060052f6
 DAT_060052f6:
-    .2byte  0x61F7                         /* sin(22.5 deg) in 16.16 fp (~0.3827) */
+    .2byte  0x61F7
 .L_pool_060052F8:
-    .4byte  atan2                          /* fixed-point atan2(y, x) */
+    .4byte  atan2
 .L_pool_060052FC:
-    .4byte  0x0000EC83                     /* cos(22.5 deg) in 16.16 fp (~0.9239) */
+    .4byte  0x0000EC83
 .L_pool_06005300:
-    .4byte  fpmul                          /* 16.16 fixed-point multiply */
+    .4byte  fpmul
 .L_06005304:
     mov.l   .L_pool_0600537C, r4
     mov.l   .L_pool_06005380, r3
@@ -133,28 +133,28 @@ DAT_060052f6:
 
     .global DAT_0600537a
 DAT_0600537a:
-    .2byte  0x61F7                         /* sin(22.5 deg) in 16.16 fp (~0.3827) */
+    .2byte  0x61F7
 .L_pool_0600537C:
-    .4byte  0x0000EC83                     /* cos(22.5 deg) in 16.16 fp (~0.9239) */
+    .4byte  0x0000EC83
 .L_pool_06005380:
-    .4byte  fpmul                          /* 16.16 fixed-point multiply */
+    .4byte  fpmul
 .L_pool_06005384:
-    .4byte  atan2                          /* fixed-point atan2(y, x) */
+    .4byte  atan2
 .L_pool_06005388:
-    .4byte  sym_06078663                   /* camera direction flip flag (byte) */
+    .4byte  sym_06078663
 .L_0600538C:
-    .4byte  0x00010000                     /* 1.0 (16.16 fixed-point) */
+    .4byte  0x00010000
 .L_06005390:
-    .4byte  0xFFFF0000                     /* -1.0 (16.16 fixed-point) */
+    .4byte  0xFFFF0000
 .L_pool_06005394:
-    .4byte  mat_scale_columns              /* scale matrix columns (for Y flip) */
+    .4byte  mat_scale_columns
 .L_pool_06005398:
-    .4byte  mat_rot_x               /* apply rotation by angle */
+    .4byte  mat_rot_x
 .L_pool_0600539C:
-    .4byte  mat_rot_y                      /* Y-axis rotation matrix */
+    .4byte  mat_rot_y
 .L_pool_060053A0:
-    .4byte  sym_06026E2E                   /* position transform dispatch */
+    .4byte  sym_06026E2E
 .L_pool_060053A4:
-    .4byte  sym_06063DF8                   /* camera position/orientation state */
+    .4byte  sym_06063DF8
 .L_pool_060053A8:
-    .4byte  sym_06035168                   /* memcpy_long (unrolled longword copy) */
+    .4byte  sym_06035168

@@ -45,7 +45,7 @@ sym_06035C2C:
     rts
     mov.l @r15+, r2
 .L_wpool_06035C46:
-    .2byte  0xFF00                      /* [HIGH] SH-2 division unit base (DVSR register at 0xFFFFFF00) */
+    .2byte  0xFF00
 
     .global sym_06035C48
 sym_06035C48:

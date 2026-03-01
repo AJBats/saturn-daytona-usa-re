@@ -179,7 +179,7 @@ DAT_06013068:
 .L_06013098:
     .4byte  sym_0605A008
 .L_0601309C:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000
 .L_060130A0:
     .4byte  sym_0602853E
 .L_060130A4:
@@ -1399,29 +1399,29 @@ DAT_060137c2:
 .L_060137CC:
     .4byte  sym_0604878C
 .L_060137D0:
-    .4byte  0x25F00000                  /* VDP2 color RAM +0x000 */
+    .4byte  0x25F00000
 .L_060137D4:
     .4byte  sym_0604814C
 .L_060137D8:
-    .4byte  0x25F00600                  /* VDP2 color RAM +0x600 */
+    .4byte  0x25F00600
 .L_060137DC:
     .4byte  sym_0604848C
 .L_060137E0:
-    .4byte  0x25F00660                  /* VDP2 color RAM +0x660 */
+    .4byte  0x25F00660
 .L_060137E4:
     .4byte  sym_060484CC
 .L_060137E8:
-    .4byte  0x25F006A0                  /* VDP2 color RAM +0x6A0 */
+    .4byte  0x25F006A0
 .L_060137EC:
     .4byte  sym_060485AC
 .L_060137F0:
-    .4byte  0x25F006E0                  /* VDP2 color RAM +0x6E0 */
+    .4byte  0x25F006E0
 .L_060137F4:
-    .4byte  0x25F004E0                  /* VDP2 color RAM +0x4E0 */
+    .4byte  0x25F004E0
 .L_060137F8:
     .4byte  sym_0605CD9C
 .L_060137FC:
-    .4byte  0x25F00720                  /* VDP2 color RAM +0x720 */
+    .4byte  0x25F00720
 .L_06013800:
     .4byte  channel_nibble_config
 .L_06013804:

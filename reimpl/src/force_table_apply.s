@@ -84,29 +84,29 @@ force_steer_impact:
 
     .global DAT_060084a2
 DAT_060084a2:
-    .2byte  0x01BC                        /* car struct: collision timer offset */
+    .2byte  0x01BC
 
     .global DAT_060084a4
 DAT_060084a4:
-    .2byte  0x00CC                        /* constant 0xCC (written to flags) */
+    .2byte  0x00CC
 
     .global DAT_060084a6
 DAT_060084a6:
-    .2byte  0x0214                        /* car struct: flags word offset */
+    .2byte  0x0214
 .L_060084A8:
-    .4byte  sym_0607E944               /* player car state pointer */
+    .4byte  sym_0607E944
 .L_060084AC:
-    .4byte  sym_0607EBC4               /* race flags (32-bit) */
+    .4byte  sym_0607EBC4
 .L_060084B0:
-    .4byte  0x00020000                  /* 2.0 (16.16 fixed-point) */
+    .4byte  0x00020000
 .L_060084B4:
-    .4byte  0xAE1102FF                  /* sound command: collision */
+    .4byte  0xAE1102FF
 .L_060084B8:
     .4byte  sound_cmd_dispatch         /* sound command dispatcher */
 .L_060084BC:
-    .4byte  sym_060453B4               /* force config table A */
+    .4byte  sym_060453B4
 .L_060084C0:
-    .4byte  sym_060453BC               /* force config table B */
+    .4byte  sym_060453BC
 .L_060084C4:
     lds.l @r15+, pr
     rts
@@ -194,52 +194,52 @@ race_config_physics:
 
     .global DAT_0600855e
 DAT_0600855e:
-    .2byte  0x01D4                        /* car struct: collision count offset */
+    .2byte  0x01D4
 .L_06008560:
-    .2byte  0x01BC                        /* car struct: collision timer offset */
+    .2byte  0x01BC
     .2byte  0xFFFF
 .L_06008564:
-    .4byte  sym_0607E944               /* player car state pointer */
+    .4byte  sym_0607E944
 .L_06008568:
-    .4byte  sym_06078900               /* player car array base */
+    .4byte  sym_06078900
 .L_0600856C:
-    .4byte  sym_0607EBC4               /* race flags (32-bit) */
+    .4byte  sym_0607EBC4
 .L_06008570:
-    .4byte  0x00020000                  /* 2.0 (16.16 fixed-point) */
+    .4byte  0x00020000
 .L_06008574:
-    .4byte  sym_06078635               /* demo mode flag (byte) */
+    .4byte  sym_06078635
 .L_06008578:
-    .4byte  sym_0607ED8C               /* special render enable (16-bit) */
+    .4byte  sym_0607ED8C
 .L_0600857C:
-    .4byte  sym_0605A016               /* display mode (16-bit) */
+    .4byte  sym_0605A016
 .L_06008580:
-    .4byte  sym_06078654               /* lap count (byte) */
+    .4byte  sym_06078654
 .L_06008584:
-    .4byte  sym_06063E1C               /* camera mode (32-bit) */
+    .4byte  sym_06063E1C
 .L_06008588:
-    .4byte  sym_06059F30               /* camera follow flag (32-bit) */
+    .4byte  sym_06059F30
 .L_0600858C:
-    .4byte  channel_nibble_config      /* channel configuration function */
+    .4byte  channel_nibble_config
 .L_06008590:
-    .4byte  0x00058000                  /* view z near start (5.5 in 16.16) */
+    .4byte  0x00058000
 .L_06008594:
-    .4byte  sym_06063E24               /* camera yaw parameter */
+    .4byte  sym_06063E24
 .L_06008598:
-    .4byte  0x0000F300                  /* near clip distance */
+    .4byte  0x0000F300
 .L_0600859C:
-    .4byte  sym_06063E34               /* camera near clip store */
+    .4byte  sym_06063E34
 .L_060085A0:
-    .4byte  0x006E0000                  /* far clip distance */
+    .4byte  0x006E0000
 .L_060085A4:
-    .4byte  sym_06063E28               /* camera far clip store */
+    .4byte  sym_06063E28
 .L_060085A8:
-    .4byte  0x00100000                  /* 16.0 (16.16 fixed-point) */
+    .4byte  0x00100000
 .L_060085AC:
-    .4byte  sym_06063E2C               /* camera z-scale store */
+    .4byte  sym_06063E2C
 .L_060085B0:
-    .4byte  sym_06063E30               /* camera clear register */
+    .4byte  sym_06063E30
 .L_060085B4:
-    .4byte  sym_0607866C               /* course section byte */
+    .4byte  sym_0607866C
 
     .global brake_force_apply
     .type brake_force_apply, @function
@@ -304,27 +304,27 @@ brake_force_apply:
 
     .global DAT_06008624
 DAT_06008624:
-    .2byte  0x01BC                        /* car struct: collision timer offset */
+    .2byte  0x01BC
 
     .global DAT_06008626
 DAT_06008626:
-    .2byte  0x00BC                        /* car struct: timer offset */
+    .2byte  0x00BC
 .L_06008628:
-    .2byte  0x0160                        /* car struct: flags at +0x160 */
+    .2byte  0x0160
 
     .global DAT_0600862a
 DAT_0600862a:
-    .2byte  0x01EC                        /* car struct: velocity B offset */
+    .2byte  0x01EC
 .L_0600862C:
-    .4byte  sym_0607E940               /* active car state pointer */
+    .4byte  sym_0607E940
 .L_06008630:
-    .4byte  sym_0607EBD4               /* brake timeout counter (32-bit) */
+    .4byte  sym_0607EBD4
 .L_06008634:
-    .4byte  sym_06078654               /* lap count (byte) */
+    .4byte  sym_06078654
 .L_06008638:
-    .4byte  sym_0607EBC4               /* race flags (32-bit) */
+    .4byte  sym_0607EBC4
 .L_0600863C:
-    .4byte  0x00200000                  /* Work RAM Low base */
+    .4byte  0x00200000
 
     .global sym_06008640
 sym_06008640:
@@ -383,21 +383,21 @@ sym_06008640:
     rts
     nop
 .L_060086A4:
-    .2byte  0x01BC                        /* car struct: collision timer offset */
+    .2byte  0x01BC
 .L_060086A6:
-    .2byte  0x00D4                        /* car struct: display timer offset */
+    .2byte  0x00D4
 .L_060086A8:
-    .4byte  sym_0607E940               /* active car state pointer */
+    .4byte  sym_0607E940
 .L_060086AC:
-    .4byte  sym_0607EBC4               /* race flags (32-bit) */
+    .4byte  sym_0607EBC4
 .L_060086B0:
-    .4byte  0x00800000                  /* race flag bit 23 */
+    .4byte  0x00800000
 .L_060086B4:
-    .4byte  sym_060453C4               /* force config table C */
+    .4byte  sym_060453C4
 .L_060086B8:
-    .4byte  sym_0607EBD0               /* frame counter (32-bit) */
+    .4byte  sym_0607EBD0
 .L_060086BC:
-    .4byte  sym_060453B4               /* force config table base */
+    .4byte  sym_060453B4
 
     .global force_table_apply
     .type force_table_apply, @function
@@ -445,29 +445,29 @@ force_table_apply:
     bra     .L_06008730
     lds.l @r15+, pr
 .L_06008714:
-    .2byte  0x01C0                        /* car struct: force state offset */
+    .2byte  0x01C0
 .L_06008716:
-    .2byte  0x0101                        /* channel ID 0x0101 */
+    .2byte  0x0101
 .L_06008718:
-    .2byte  0x01B8                        /* car struct: force pointer offset */
+    .2byte  0x01B8
 
     .global DAT_0600871a
 DAT_0600871a:
-    .2byte  0x01BC                        /* car struct: collision timer offset */
+    .2byte  0x01BC
 
     .global DAT_0600871c
 DAT_0600871c:
-    .2byte  0x00BC                        /* car struct: timer offset */
+    .2byte  0x00BC
 .L_0600871E:
-    .2byte  0x0208                        /* car struct: alt force pointer offset */
+    .2byte  0x0208
 .L_06008720:
-    .4byte  sym_0607EBD0               /* frame counter (32-bit) */
+    .4byte  sym_0607EBD0
 .L_06008724:
-    .4byte  sym_0607E940               /* active car state pointer */
+    .4byte  sym_0607E940
 .L_06008728:
-    .4byte  sym_06034F78               /* channel data commit */
+    .4byte  sym_06034F78
 .L_0600872C:
-    .4byte  sym_0607EBEC               /* force apply count (byte) */
+    .4byte  sym_0607EBEC
 .L_06008730:
     mov.l   .L_060087F8, r4
     mov.w   DAT_060087e8, r0
@@ -568,29 +568,29 @@ DAT_0600871c:
 
     .global DAT_060087e8
 DAT_060087e8:
-    .2byte  0x01BC                        /* car struct: collision timer */
+    .2byte  0x01BC
 
     .global DAT_060087ea
 DAT_060087ea:
-    .2byte  0x00BC                        /* car struct: timer */
+    .2byte  0x00BC
 
     .global DAT_060087ec
 DAT_060087ec:
-    .2byte  0x00D4                        /* car struct: display timer */
+    .2byte  0x00D4
 .L_060087EE:
-    .2byte  0x01B8                        /* car struct: force pointer */
+    .2byte  0x01B8
 .L_060087F0:
-    .2byte  0x01C0                        /* car struct: direction flags */
+    .2byte  0x01C0
 .L_060087F2:
-    .2byte  0x01C8                        /* car struct: force X vector */
+    .2byte  0x01C8
 
     .global DAT_060087f4
 DAT_060087f4:
-    .2byte  0x01CC                        /* car struct: force Y vector */
+    .2byte  0x01CC
 .L_060087F6:
-    .2byte  0x01D0                        /* car struct: force Z vector */
+    .2byte  0x01D0
 .L_060087F8:
-    .4byte  sym_0607E940               /* active car state pointer */
+    .4byte  sym_0607E940
 .L_060087FC:
     mov.l @r4, r2
     mov.w @(6, r5), r0
@@ -687,36 +687,36 @@ DAT_060087f4:
     rts
     nop
 .L_060088AA:
-    .2byte  0x01C8                        /* car struct: force X vector */
+    .2byte  0x01C8
 
     .global DAT_060088ac
 DAT_060088ac:
-    .2byte  0x01CC                        /* car struct: force Y vector */
+    .2byte  0x01CC
 .L_060088AE:
-    .2byte  0x01D0                        /* car struct: force Z vector */
+    .2byte  0x01D0
 
     .global DAT_060088b0
 DAT_060088b0:
-    .2byte  0x01C4                        /* car struct: force counter */
+    .2byte  0x01C4
 
     .global DAT_060088b2
 DAT_060088b2:
-    .2byte  0x0100                        /* force threshold (256) */
+    .2byte  0x0100
 
     .global DAT_060088b4
 DAT_060088b4:
-    .2byte  0x01BC                        /* car struct: collision timer */
+    .2byte  0x01BC
 
     .global DAT_060088b6
 DAT_060088b6:
-    .2byte  0x01B4                        /* car struct: force data pointer */
+    .2byte  0x01B4
 .L_060088B8:
-    .4byte  sym_0607EBBC               /* force direction byte */
+    .4byte  sym_0607EBBC
 .L_060088BC:
-    .4byte  sym_0607866C               /* course section byte */
+    .4byte  sym_0607866C
 .L_060088C0:
-    .4byte  sym_06078635               /* demo mode flag (byte) */
+    .4byte  sym_06078635
 .L_060088C4:
-    .4byte  sym_0607ED8C               /* special render enable (16-bit) */
+    .4byte  sym_0607ED8C
 .L_060088C8:
-    .4byte  sym_0605A016               /* display mode (16-bit) */
+    .4byte  sym_0605A016

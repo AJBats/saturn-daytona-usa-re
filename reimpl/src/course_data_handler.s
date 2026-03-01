@@ -45,34 +45,34 @@ sym_0601AEB6:
     jmp @r3
     nop
 .L_wpool_0601AEC8:
-    .2byte  0x0180                           /* 384 bytes — full CRAM init block size */
-    .2byte  0xFFFF                           /* padding */
-    .4byte  sym_06078868                     /* (unused pool — sprite/frame index) */
-    .4byte  sym_06078663                     /* (unused pool — camera direction flip) */
+    .2byte  0x0180
+    .2byte  0xFFFF
+    .4byte  sym_06078868
+    .4byte  sym_06078663
 .L_pool_0601AED4:
-    .4byte  sym_06086010                     /* attract frame counter (byte) */
+    .4byte  sym_06086010
 .L_pool_0601AED8:
-    .4byte  sym_0608600F                     /* phase countdown timer (byte) */
+    .4byte  sym_0608600F
 .L_pool_0601AEDC:
-    .4byte  sym_06086011                     /* current attract phase index (byte) */
+    .4byte  sym_06086011
 .L_pool_0601AEE0:
-    .4byte  sym_0604866C                     /* course main palette data (48 colors) */
+    .4byte  sym_0604866C
 .L_pool_0601AEE4:
-    .4byte  0x25F006C0                       /* VDP2 color RAM +0x6C0 */
+    .4byte  0x25F006C0
 .L_pool_0601AEE8:
-    .4byte  memcpy_word_idx                  /* word-indexed memcpy routine */
+    .4byte  memcpy_word_idx
 .L_pool_0601AEEC:
-    .4byte  sym_060485CC                     /* course extended palette data */
+    .4byte  sym_060485CC
 .L_pool_0601AEF0:
-    .4byte  0x25F00180                       /* VDP2 color RAM +0x180 */
+    .4byte  0x25F00180
 .L_pool_0601AEF4:
-    .4byte  sym_0604996C                     /* full CRAM init palette data */
+    .4byte  sym_0604996C
 .L_pool_0601AEF8:
-    .4byte  0x25F00000                       /* VDP2 color RAM +0x000 */
+    .4byte  0x25F00000
 .L_pool_0601AEFC:
-    .4byte  dma_transfer                     /* SCU DMA transfer routine */
+    .4byte  dma_transfer
 .L_pool_0601AF00:
-    .4byte  sym_0605DEC8                     /* attract phase jump table base */
+    .4byte  sym_0605DEC8
 
     .global loc_0601AF04
 loc_0601AF04:

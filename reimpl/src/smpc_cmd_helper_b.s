@@ -26,6 +26,6 @@ sym_06035C6E:
     mov.w r4, @r3
     .4byte  0x25818000
 .L_06035C78:
-    .4byte  0x25890008                  /* CD HIRQ — interrupt request */
+    .4byte  0x25890008
 .L_pool_06035C7C:
-    .4byte  sym_06063590                /* [MEDIUM] cached HIRQ status word in RAM */
+    .4byte  sym_06063590

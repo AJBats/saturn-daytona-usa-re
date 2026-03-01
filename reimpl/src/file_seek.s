@@ -25,6 +25,6 @@ file_seek:
     rts
     mov.l @r15+, r14
 .L_wpool_0601207A:
-    .2byte  0x0100                  /* [HIGH] bitmask 0x0100: channel array_a[0] low nibble selector */
+    .2byte  0x0100
 .L_pool_0601207C:
-    .4byte  channel_nibble_config   /* [HIGH] &channel_nibble_config -- display channel nibble-pack setter */
+    .4byte  channel_nibble_config

@@ -98,11 +98,11 @@ hud_overlay_render:
 .L_0601E35C:
     .4byte  sym_0605E068
 .L_0601E360:
-    .4byte  0x20100063                  /* SMPC SF — status flag */
+    .4byte  0x20100063
 .L_0601E364:
     .4byte  sym_06087080
 .L_0601E368:
-    .4byte  0x2010001F                  /* SMPC COMREG (cache-through) */
+    .4byte  0x2010001F
 .L_0601E36C:
     .4byte  sym_06000358
 .L_0601E370:

@@ -241,7 +241,7 @@ DAT_06005c76:
 .L_pool_06005C7C:
     .4byte  sym_0607EBC4
 .L_06005C80:
-    .4byte  0x00020000                  /* 2.0 (16.16 fixed-point) */
+    .4byte  0x00020000
     .4byte  0xAE1114FF
     .4byte  sound_cmd_dispatch
 .L_pool_06005C8C:

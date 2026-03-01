@@ -110,33 +110,33 @@ vdp1_attr_setup:
     bra     .L_0602CDDE
     nop
 .L_0602CDB6:
-    .2byte  0x2134               /* 0x2134 = max drive speed (high 16 bits) */
+    .2byte  0x2134
 .L_0602CDB8:
-    .2byte  0x00E0               /* car+0xE0 = drive_speed (longword, 16.16 FP) */
+    .2byte  0x00E0
 .L_0602CDBA:
-    .2byte  0x011C               /* car+0x11C = decel_coeff (longword, 16.16 FP) */
+    .2byte  0x011C
 .L_0602CDBC:
-    .2byte  0x010C               /* car+0x10C = perspective_scale (longword, 16.16 FP) */
+    .2byte  0x010C
 .L_0602CDBE:
-    .2byte  0x0144               /* car+0x144 = color intensity (longword, 16.16 FP) */
+    .2byte  0x0144
 .L_0602CDC0:
-    .2byte  0x00DC               /* car+0xDC = display flag (word, table column index) */
+    .2byte  0x00DC
 .L_0602CDC2:
-    .2byte  0x007C               /* car+0x7C = render type (word, table row selector) */
+    .2byte  0x007C
 .L_0602CDC4:
-    .2byte  0x0264               /* car+0x264 = attr_result output (longword) */
+    .2byte  0x0264
 .L_0602CDC6:
-    .2byte  0x016C               /* car+0x16C = render_mode timer (word) */
+    .2byte  0x016C
 .L_0602CDC8:
-    .2byte  0x0110               /* car+0x110 = depth_offset (longword, 16.16 FP) */
+    .2byte  0x0110
 .L_0602CDCA:
-    .2byte  0x2B85               /* 0x2B85 = 11141 (minimum net depth, signed) */
+    .2byte  0x2B85
 .L_0602CDCC:
-    .4byte  fpdiv_setup          /* 16.16 fixed-point hardware divide (r4/r5 -> r0) */
+    .4byte  fpdiv_setup
 .L_0602CDD0:
-    .4byte  sym_0602E938         /* attr threshold table base (rows=type, cols=flag) */
+    .4byte  sym_0602E938
 .L_0602CDD4:
-    .4byte  0x23280000           /* 0x23280000 = large FP denominator for depth calc */
+    .4byte  0x23280000
 .L_0602CDD8:
     cmp/ge r3, r5
     bt      .L_0602CDDE
@@ -154,6 +154,6 @@ vdp1_attr_setup:
     rts
     mov.l r7, @(r0, r2)
 .L_0602CDF2:
-    .2byte  0x05C2               /* 0x05C2 = 1474 (depth offset decay per frame) */
+    .2byte  0x05C2
 .L_0602CDF4:
-    .2byte  0x00C0               /* car+0xC0 = draw_param output (longword) */
+    .2byte  0x00C0

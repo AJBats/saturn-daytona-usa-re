@@ -368,7 +368,7 @@ DAT_0601de26:
 .L_0601DE44:
     .4byte  sym_060284AE
 .L_0601DE48:
-    .4byte  0x0000E000                  /* bits 15:13 mask */
+    .4byte  0x0000E000
 .L_0601DE4C:
     .4byte  sym_060283E0
 
@@ -550,7 +550,7 @@ DAT_0601df1c:
 .L_0601DF7C:
     .4byte  sym_0605ACE3
 .L_0601DF80:
-    .4byte  0x0000E000                  /* bits 15:13 mask */
+    .4byte  0x0000E000
 .L_0601DF84:
     .4byte  sym_060283E0
 
@@ -777,7 +777,7 @@ DAT_0601e0e4:
 .L_0601E0F4:
     .4byte  sym_0605ACE3
 .L_0601E0F8:
-    .4byte  0x0000E000                  /* bits 15:13 mask */
+    .4byte  0x0000E000
 .L_0601E0FC:
     .4byte  sym_060283E0
 
@@ -854,13 +854,13 @@ DAT_0601e166:
 .L_0601E170:
     .4byte  sym_06028400
 .L_0601E174:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000
 .L_0601E178:
     .4byte  sym_0607EAE0
 .L_0601E17C:
     .4byte  sym_0604892C
 .L_0601E180:
-    .4byte  0x25F00100                  /* VDP2 color RAM +0x100 */
+    .4byte  0x25F00100
 .L_0601E184:
     .4byte  memcpy_word_idx
 .L_0601E188:

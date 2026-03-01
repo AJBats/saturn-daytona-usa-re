@@ -35,25 +35,25 @@ state_results_screen:
     bra     .L_060095E0
     nop
 .L_06009596:
-    .2byte  0x0800                        /* start button bit mask */
+    .2byte  0x0800
 .L_06009598:
-    .4byte  sym_0607EBF4               /* race event bitfield (32-bit) */
+    .4byte  sym_0607EBF4
 .L_0600959C:
-    .4byte  g_game_state               /* current game state dispatch pointer */
-    .4byte  sym_0607EAD0               /* (adjacent pool: race timer) */
-    .4byte  sym_0607EBD0               /* (adjacent pool: frame counter) */
-    .4byte  race_update_abort          /* (adjacent pool: abort handler) */
-    .4byte  camera_system              /* (adjacent pool: camera system) */
-    .4byte  sym_06063E24               /* (adjacent pool: camera yaw ptr) */
-    .4byte  sym_06063EEC               /* (adjacent pool: camera pitch ptr) */
-    .4byte  sym_06063EF8               /* (adjacent pool: camera params ptr) */
-    .4byte  camera_orient_calc         /* (adjacent pool: camera orient fn) */
-    .4byte  scene_update               /* (adjacent pool: scene update) */
-    .4byte  frame_end_commit           /* (adjacent pool: frame commit) */
+    .4byte  g_game_state
+    .4byte  sym_0607EAD0
+    .4byte  sym_0607EBD0
+    .4byte  race_update_abort
+    .4byte  camera_system
+    .4byte  sym_06063E24
+    .4byte  sym_06063EEC
+    .4byte  sym_06063EF8
+    .4byte  camera_orient_calc
+    .4byte  scene_update
+    .4byte  frame_end_commit
 .L_060095C8:
-    .4byte  sym_06063D9A               /* input status word (16-bit) */
+    .4byte  sym_06063D9A
 .L_060095CC:
-    .4byte  sym_0607EACC               /* countdown timer target (32-bit) */
+    .4byte  sym_0607EACC
 .L_060095D0:
     .byte   0xD0, 0x2C    /* mov.l .L_06009684, r0 */
     mov.l @r0, r0
@@ -149,54 +149,54 @@ state_results_screen:
     rts
     mov.l @r15+, r14
 .L_0600967C:
-    .2byte  0x0082                        /* geometry tile size parameter */
+    .2byte  0x0082
 .L_0600967E:
-    .2byte  0x00BC                        /* car struct offset: timer value */
+    .2byte  0x00BC
 .L_06009680:
-    .2byte  0x0214                        /* car struct offset: flags word */
+    .2byte  0x0214
 .L_06009682:
-    .2byte  0x0900                        /* display layer priority value */
+    .2byte  0x0900
 .L_06009684:
-    .4byte  sym_0607EAD0               /* race timer (32-bit) */
+    .4byte  sym_0607EAD0
 .L_06009688:
-    .4byte  sym_0607EBD0               /* frame counter (32-bit) */
+    .4byte  sym_0607EBD0
 .L_0600968C:
-    .4byte  sym_0605AB18               /* overlay active flag (byte) */
+    .4byte  sym_0605AB18
 .L_06009690:
-    .4byte  menu_overlay_render        /* menu overlay render function */
+    .4byte  menu_overlay_render
 .L_06009694:
-    .4byte  race_update_ending         /* race ending update */
+    .4byte  race_update_ending
 .L_06009698:
-    .4byte  camera_system              /* camera system update */
+    .4byte  camera_system
 .L_0600969C:
-    .4byte  sym_06063E24               /* camera yaw data pointer */
+    .4byte  sym_06063E24
 .L_060096A0:
-    .4byte  sym_06063EEC               /* camera pitch data pointer */
+    .4byte  sym_06063EEC
 .L_060096A4:
-    .4byte  sym_06063EF8               /* camera parameters pointer */
+    .4byte  sym_06063EF8
 .L_060096A8:
-    .4byte  camera_orient_calc         /* camera orientation calculation */
+    .4byte  camera_orient_calc
 .L_060096AC:
-    .4byte  scene_update               /* 3D scene update */
+    .4byte  scene_update
 .L_060096B0:
-    .4byte  sym_0607ED8C               /* special render enable (16-bit) */
+    .4byte  sym_0607ED8C
 .L_060096B4:
-    .4byte  sym_060033E6               /* special render function */
+    .4byte  sym_060033E6
 .L_060096B8:
-    .4byte  sym_06086030               /* geometry render enable (byte) */
+    .4byte  sym_06086030
 .L_060096BC:
-    .4byte  sym_0605A1C8               /* geometry data pointer */
+    .4byte  sym_0605A1C8
 .L_060096C0:
-    .4byte  0x0000F000                  /* nibble 3 mask */
+    .4byte  0x0000F000
 .L_060096C4:
-    .4byte  sym_060283E0               /* geometry render dispatch */
+    .4byte  sym_060283E0
 .L_060096C8:
-    .4byte  sym_0607E944               /* car state base pointer */
+    .4byte  sym_0607E944
 .L_060096CC:
-    .4byte  frame_end_commit           /* frame end commit */
+    .4byte  frame_end_commit
 .L_060096D0:
-    .4byte  sym_06063798               /* display layer parameters */
+    .4byte  sym_06063798
 .L_060096D4:
-    .4byte  sym_06028400               /* display layer setup */
+    .4byte  sym_06028400
 .L_060096D8:
-    .4byte  sym_0605A1C4               /* race complete flag (32-bit) */
+    .4byte  sym_0605A1C4

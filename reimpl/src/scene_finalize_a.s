@@ -114,10 +114,10 @@ scene_finalize_a:
 DAT_06025136:
     .2byte  0x00B4
 .L_pool_06025138:
-    .4byte  sym_060610BC                /* render channel descriptor table: 14 entries x 12 bytes */
+    .4byte  sym_060610BC
 .L_pool_0602513C:
-    .4byte  sym_06060F2C                /* scene output table A: 10 slots x 8 bytes */
+    .4byte  sym_06060F2C
 .L_pool_06025140:
-    .4byte  sym_06059094                /* render bitmask array A: 10 x 2-byte slot enable masks */
+    .4byte  sym_06059094
 .L_pool_06025144:
-    .4byte  sym_06060D7C                /* scene data table A: 14 entries x 8 bytes (ptr, data_ptr) */
+    .4byte  sym_06060D7C

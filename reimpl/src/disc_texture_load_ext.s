@@ -77,7 +77,7 @@ disc_texture_load_ext:
 
     .global DAT_0601b87e
 DAT_0601b87e:
-    .2byte  0x4000                          /* bit 14 mask -- scroll-down flag */
+    .2byte  0x4000
 .L_0601B880:
     .4byte  sym_06063750
 .L_0601B884:
@@ -187,11 +187,11 @@ DAT_0601b87e:
 .L_0601B946:
     .2byte  0x0100
 .L_0601B948:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000
 .L_0601B94C:
     .4byte  sym_0605D4F4
 .L_0601B950:
-    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
+    .4byte  0x00010000
 .L_0601B954:
     .4byte  0x001C0000
 .L_0601B958:

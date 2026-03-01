@@ -41,7 +41,7 @@ time_delta_format:
     .2byte  0xE000
     .2byte  0xFFFF
 .L_pool_06015CA2:
-    .4byte  sym_06084FC8                  /* [HIGH] slot data array base — 68-byte structs */
-    .4byte  sym_0605B8B0                  /* [MEDIUM] display handler fn ptr table (unused by this TU) */
+    .4byte  sym_06084FC8
+    .4byte  sym_0605B8B0
 .L_pool_06015CAA:
-    .4byte  sym_060172E4                  /* [HIGH] clear VDP2 registers — confirmed in track_geometry.s */
+    .4byte  sym_060172E4

@@ -38,4 +38,4 @@ attract_transition:
     .2byte  0x000B
     .4byte  0x145CFFFF
 .L_pool_0603F9B4:
-    .4byte  sym_0606364C                /* [MEDIUM] attract mode transition data table */
+    .4byte  sym_0606364C

@@ -429,7 +429,7 @@ DAT_0603f8ae:
     .2byte  0x1000
     .4byte  0x2000FFFF
 .L_0603F8B4:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000
 
     .global sym_0603F8B8
 sym_0603F8B8:

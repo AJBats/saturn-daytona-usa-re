@@ -97,35 +97,35 @@ position_ranking_display:
     bra     .L_060113E6
     mov.l r12, @r15
 .L_060113B2:
-    .2byte  0x0288                          /* VDP1 cmd offset: position elem 1 */
+    .2byte  0x0288
 
     .global DAT_060113b4
 DAT_060113b4:
-    .2byte  0x051C                          /* VDP1 cmd offset: position elem 2 */
+    .2byte  0x051C
 .L_060113B6:
-    .2byte  0x0518                          /* VDP1 cmd offset: position elem 3 */
+    .2byte  0x0518
 .L_060113B8:
-    .4byte  sym_0607EBC8                    /* mode configuration flags (32-bit) */
+    .4byte  sym_0607EBC8
 .L_060113BC:
-    .4byte  sym_0607887F                    /* game mode byte (0xB = variant) */
+    .4byte  sym_0607887F
 .L_060113C0:
-    .4byte  sym_0607EADC                    /* transition state (32-bit) */
+    .4byte  sym_0607EADC
 .L_060113C4:
-    .4byte  sym_06028400                    /* HUD element draw function */
+    .4byte  sym_06028400
 .L_060113C8:
-    .4byte  sym_06063828                    /* display structure (VDP1 base at +4) */
+    .4byte  sym_06063828
 .L_060113CC:
-    .4byte  sym_0605A7FC                    /* position sprite data (group 1) */
+    .4byte  sym_0605A7FC
 .L_060113D0:
-    .4byte  sym_06078644                    /* transmission type flag (nonzero = AT) */
+    .4byte  sym_06078644
 .L_060113D4:
-    .4byte  sym_0605A9B0                    /* active state sprite (AT, elem 2) */
+    .4byte  sym_0605A9B0
 .L_060113D8:
-    .4byte  sym_0605A9B8                    /* inactive state sprite (MT, elem 2) */
+    .4byte  sym_0605A9B8
 .L_060113DC:
-    .4byte  sym_0605A998                    /* active state sprite (AT, elem 3) */
+    .4byte  sym_0605A998
 .L_060113E0:
-    .4byte  sym_0605A978                    /* inactive state sprite (MT, elem 3) */
+    .4byte  sym_0605A978
 .L_060113E4:
     mov.l r11, @r15
 .L_060113E6:
@@ -204,35 +204,35 @@ sym_06011450:
 
     .global DAT_06011462
 DAT_06011462:
-    .2byte  0x02B6                          /* VDP1 cmd offset: position elem 4 */
+    .2byte  0x02B6
 .L_06011464:
-    .2byte  0x054A                          /* VDP1 cmd offset: position elem 5 */
+    .2byte  0x054A
 
     .global DAT_06011466
 DAT_06011466:
-    .2byte  0x0546                          /* VDP1 cmd offset: position elem 6 */
+    .2byte  0x0546
 .L_06011468:
-    .4byte  sym_0605A8B6                    /* position sprite data (group 2) */
+    .4byte  sym_0605A8B6
 .L_0601146C:
-    .4byte  sym_0605A9B0                    /* active state sprite (AT, elem 5) */
+    .4byte  sym_0605A9B0
 .L_06011470:
-    .4byte  sym_0605A9B8                    /* inactive state sprite (MT, elem 5) */
+    .4byte  sym_0605A9B8
 .L_06011474:
-    .4byte  sym_0605A9A0                    /* active state sprite (AT, elem 6) */
+    .4byte  sym_0605A9A0
 .L_06011478:
-    .4byte  sym_0605A980                    /* inactive state sprite (MT, elem 6) */
+    .4byte  sym_0605A980
 .L_0601147C:
-    .4byte  sym_06063828                    /* display structure (VDP1 base at +4) */
+    .4byte  sym_06063828
 .L_06011480:
-    .4byte  0x0000D000                      /* VDP1 display offset for 14px elem */
+    .4byte  0x0000D000
 .L_06011484:
-    .4byte  sym_0605A634                    /* sprite data for 14-pixel position icon */
+    .4byte  sym_0605A634
 .L_06011488:
-    .4byte  sym_06028400                    /* HUD element draw function */
+    .4byte  sym_06028400
 .L_0601148C:
-    .4byte  0x0000E000                      /* VDP1 display offset for 16px elem */
+    .4byte  0x0000E000
 .L_06011490:
-    .4byte  sym_0605A718                    /* sprite data for 16-pixel position icon */
+    .4byte  sym_0605A718
 
     .global sym_06011494
 sym_06011494:

@@ -18,22 +18,22 @@ disp_digit_pair_render:
     .byte   0xD0, 0x0C    /* mov.l .L_pool_060325F8, r0 */
     bra     .L_060325FA
     add r0, r1
-    .4byte  sym_06026DBC                    /* pre-transform setup function */
-    .4byte  sym_06089EDC                    /* global rendering budget counter */
-    .4byte  0x00000000                      /* constant 0 (adjacent pool padding) */
-    .4byte  0x00000004                      /* constant 4 (adjacent pool) */
-    .4byte  0x00000008                      /* constant 8 (adjacent pool) */
-    .4byte  sym_06026E2E                    /* transform dispatch function */
-    .4byte  0x0000000C                      /* constant 12 (adjacent pool) */
-    .4byte  mat_rot_y                       /* Y-axis rotation matrix function */
+    .4byte  sym_06026DBC
+    .4byte  sym_06089EDC
+    .4byte  0x00000000
+    .4byte  0x00000004
+    .4byte  0x00000008
+    .4byte  sym_06026E2E
+    .4byte  0x0000000C
+    .4byte  mat_rot_y
 .L_pool_060325EC:
-    .4byte  0x00000054                      /* offset into struct for data source base */
+    .4byte  0x00000054
 .L_pool_060325F0:
-    .4byte  0x000002DC                      /* offset into struct for flags byte */
+    .4byte  0x000002DC
 .L_pool_060325F4:
-    .4byte  0xFFFFFFFC                      /* mask: upper flag bits (all except bit 0-1) */
+    .4byte  0xFFFFFFFC
 .L_pool_060325F8:
-    .4byte  sym_06081898                    /* global digit data table base address */
+    .4byte  sym_06081898
 .L_060325F8:
     add r14, r1
 .L_060325FA:

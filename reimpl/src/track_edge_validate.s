@@ -96,27 +96,27 @@ track_edge_validate:
 DAT_06041f90:
     .word 0x0338
 .L_06041F92:
-    .2byte  0x0348                       /* car state offset: validation phase (0-5) */
+    .2byte  0x0348
 
     .global DAT_06041f94
 DAT_06041f94:
-    .2byte  0x035C                       /* car state offset: road edge data */
+    .2byte  0x035C
 
     .global DAT_06041f96
 DAT_06041f96:
-    .2byte  0x034C                       /* car state offset: road parameters */
-    .4byte  0x0000FFF7                   /* (adjacent pool data) */
-    .4byte  smpc_cmd_helper_b            /* (adjacent pool: SMPC helper) */
+    .2byte  0x034C
+    .4byte  0x0000FFF7
+    .4byte  smpc_cmd_helper_b
 .L_06041FA0:
-    .4byte  ai_checkpoint_validate       /* AI checkpoint validation function */
+    .4byte  ai_checkpoint_validate
 .L_06041FA4:
-    .4byte  sym_060A5400                 /* AI car state base (ptr to struct) */
+    .4byte  sym_060A5400
 .L_06041FA8:
-    .4byte  track_road_edge_b            /* track road edge detection */
+    .4byte  track_road_edge_b
 .L_06041FAC:
-    .4byte  track_road_width_main        /* track road width validation */
+    .4byte  track_road_width_main
 .L_06041FB0:
-    .4byte  track_post_collision         /* post-collision track recovery */
+    .4byte  track_post_collision
 .L_06041FB4:
     mov r15, r4
     jsr @r12
@@ -228,16 +228,16 @@ DAT_06041f96:
     rts
     mov.l @r15+, r14
 .L_0604207A:
-    .2byte  0x0348                       /* state phase offset (dup for PC-relative reach) */
+    .2byte  0x0348
 
     .global DAT_0604207c
 DAT_0604207c:
-    .2byte  0x0100                       /* input bit mask: state 3 check */
+    .2byte  0x0100
 
     .global DAT_0604207e
 DAT_0604207e:
-    .2byte  0x035C                       /* road data offset (dup for PC-relative reach) */
+    .2byte  0x035C
 .L_06042080:
-    .4byte  sym_06035C4E                 /* input status check function */
+    .4byte  sym_06035C4E
 .L_06042084:
-    .4byte  track_road_width_main        /* road width validation (dup for reach) */
+    .4byte  track_road_width_main

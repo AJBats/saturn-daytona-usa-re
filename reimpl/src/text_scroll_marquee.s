@@ -116,14 +116,14 @@ text_scroll_marquee:
     rts
     mov.l @r15+, r14
 .L_pool_06016DC6:
-    .4byte  sym_06084FC8                /* slot data array base (68-byte structs) */
+    .4byte  sym_06084FC8
 .L_pool_06016DCA:
-    .4byte  sym_06085F89                /* bonus mode flag (byte) */
+    .4byte  sym_06085F89
 .L_pool_06016DCE:
-    .4byte  sym_0607EBF4                /* race event bitfield (32-bit) */
+    .4byte  sym_0607EBF4
 .L_06016DCC:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000
 .L_pool_06016DD6:
-    .4byte  sym_0605BB74                /* character glyph table (16-bit sprite coords) */
+    .4byte  sym_0605BB74
 .L_pool_06016DDA:
-    .4byte  sym_06085490                /* scroll data table (24-byte entries) */
+    .4byte  sym_06085490

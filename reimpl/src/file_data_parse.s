@@ -93,16 +93,16 @@ DAT_060123e0:
 DAT_060123e2:
     .2byte  0x2666
 .L_pool_060123E4:
-    .4byte  sym_060788AC                    /* frame timer / animation state counter */
+    .4byte  sym_060788AC
 .L_pool_060123E8:
-    .4byte  fpmul                           /* 16.16 fixed-point multiply: fpmul(r4, r5) -> r0 */
+    .4byte  fpmul
 .L_pool_060123EC:
-    .4byte  sym_060788C0                    /* position vector B (XYZ triplet, 12 bytes) */
+    .4byte  sym_060788C0
 .L_pool_060123F0:
-    .4byte  sym_060788CC                    /* position vector C (XYZ triplet, 12 bytes) */
+    .4byte  sym_060788CC
 .L_pool_060123F4:
-    .4byte  sym_060788D8                    /* position vector D (XYZ triplet, 12 bytes) */
+    .4byte  sym_060788D8
 .L_pool_060123F8:
-    .4byte  sym_06034FE0                    /* hw_divide(r0=divisor, r1=dividend) -> r0=quotient */
+    .4byte  sym_06034FE0
 .L_pool_060123FC:
-    .4byte  sym_060788E4                    /* position vector E (XYZ triplet, 12 bytes) */
+    .4byte  sym_060788E4

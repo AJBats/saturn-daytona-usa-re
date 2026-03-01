@@ -33,16 +33,16 @@ file_block_read:
     .byte   0xA0, 0x0E    /* bra 0x06012450 (external) */
     lds.l @r15+, pr
 .L_pool_06012434:
-    .4byte  sym_060788F0                    /* file read initialized flag (byte) */
+    .4byte  sym_060788F0
 .L_pool_06012438:
-    .4byte  0xAE110FFF                      /* SCSP sound command: file-init SFX */
+    .4byte  0xAE110FFF
 .L_pool_0601243C:
     .4byte  sound_cmd_dispatch              /* sound command dispatch function */
 .L_pool_06012440:
-    .4byte  sym_060788C0                    /* position vector B (XYZ triplet, 12 bytes) */
+    .4byte  sym_060788C0
 .L_pool_06012444:
-    .4byte  sym_060788CC                    /* position vector C (XYZ triplet, 12 bytes) */
+    .4byte  sym_060788CC
 .L_pool_06012448:
-    .4byte  sym_060788D8                    /* position vector D (XYZ triplet, 12 bytes) */
+    .4byte  sym_060788D8
 .L_pool_0601244C:
-    .4byte  sym_060788E4                    /* position vector E (XYZ triplet, 12 bytes) */
+    .4byte  sym_060788E4

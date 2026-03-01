@@ -137,7 +137,7 @@ hud_handler_main:
 .L_pool_0601E908:
     .4byte  sym_060877D8
 .L_0601E90C:
-    .4byte  0x20100063                  /* SMPC SF — status flag */
+    .4byte  0x20100063
 .L_pool_0601E910:
     .4byte  sym_06035C1C
 .L_pool_0601E914:
@@ -151,7 +151,7 @@ hud_handler_main:
 .L_pool_0601E924:
     .4byte  sym_0604A5C0
 .L_0601E928:
-    .4byte  0x2010001F                  /* SMPC COMREG (cache-through) */
+    .4byte  0x2010001F
 .L_pool_0601E92C:
     .4byte  sym_06087094
 .L_0601E930:

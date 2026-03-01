@@ -83,46 +83,46 @@ state_demo_setup:
     mov.l   .L_06009FF8, r3
     jmp @r3
     lds.l @r15+, pr
-    .2byte  0x4F26                        /* (dead code / alignment) */
+    .2byte  0x4F26
     .4byte  0x000B0009
 .L_06009FAC:
-    .2byte  0x0224                        /* car struct offset: demo param A */
+    .2byte  0x0224
     .2byte  0xFFFF
 .L_06009FB0:
-    .4byte  sym_0607EBCC               /* attract mode countdown (32-bit) */
+    .4byte  sym_0607EBCC
 .L_06009FB4:
-    .4byte  sym_0607E944               /* car state base pointer */
+    .4byte  sym_0607E944
 .L_06009FB8:
-    .4byte  sym_06078637               /* demo parameter A (byte) */
+    .4byte  sym_06078637
 .L_06009FBC:
-    .4byte  sym_06078638               /* demo parameter B (32-bit ptr) */
+    .4byte  sym_06078638
 .L_06009FC0:
-    .4byte  sym_0607863C               /* course selection source */
+    .4byte  sym_0607863C
 .L_06009FC4:
-    .4byte  sym_060786A4               /* replay course store */
+    .4byte  sym_060786A4
 .L_06009FC8:
-    .4byte  g_game_state               /* game state dispatch value */
+    .4byte  g_game_state
 .L_06009FCC:
-    .4byte  sym_06087804               /* display timer (16-bit) */
+    .4byte  sym_06087804
 .L_06009FD0:
-    .4byte  sym_0607EAD8               /* race end state (0/1/2) */
+    .4byte  sym_0607EAD8
 .L_06009FD4:
-    .4byte  disp_score_renderer        /* score display renderer */
+    .4byte  disp_score_renderer
 .L_06009FD8:
-    .4byte  geom_display_ctrl_b        /* geometry display control */
+    .4byte  geom_display_ctrl_b
 .L_06009FDC:
-    .4byte  sym_06078900               /* car data array base */
+    .4byte  sym_06078900
 .L_06009FE0:
-    .4byte  race_countdown_update      /* race countdown timer update */
+    .4byte  race_countdown_update
 .L_06009FE4:
-    .4byte  car_proximity_check        /* car proximity/collision check */
+    .4byte  car_proximity_check
 .L_06009FE8:
-    .4byte  perspective_project        /* 3D perspective projection */
+    .4byte  perspective_project
 .L_06009FEC:
-    .4byte  scene_master               /* scene rendering master */
+    .4byte  scene_master
 .L_06009FF0:
-    .4byte  frame_end_commit           /* frame end commit */
+    .4byte  frame_end_commit
 .L_06009FF4:
-    .4byte  sym_0605A00C               /* animation state (32-bit) */
+    .4byte  sym_0605A00C
 .L_06009FF8:
-    .4byte  sym_06026CE0               /* camera state finalization */
+    .4byte  sym_06026CE0

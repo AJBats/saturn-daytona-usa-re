@@ -126,13 +126,13 @@ DAT_06038efc:
 .L_06038F04:
     .4byte  sym_060A4C92
 .L_06038F08:
-    .4byte  0x25D00002                  /* VDP1 FBCR — framebuffer control */
+    .4byte  0x25D00002
 .L_06038F0C:
     .4byte  sym_060635B4
 .L_06038F10:
     .4byte  sym_060635B8
 .L_06038F14:
-    .4byte  0x0000FFFF                  /* low 16-bit mask */
+    .4byte  0x0000FFFF
 .L_06038F18:
     .4byte  0x0000FFFE
     .4byte  0xD40DD00E

@@ -72,6 +72,6 @@ time_digit_update:
     .2byte  0x0800
     .2byte  0xFFFF
 .L_pool_06015D28:
-    .4byte  sym_06084FC8                    /* [HIGH] HUD digit element array base — 68-byte structs */
+    .4byte  sym_06084FC8
 .L_pool_06015D2C:
-    .4byte  sym_060172E4                    /* [HIGH] clear VDP2 registers — confirmed in track_geometry.s */
+    .4byte  sym_060172E4

@@ -111,7 +111,7 @@ scene_finalize_b:
     rts
     mov.l @r15+, r14
 .L_wpool_06025210:
-    .2byte  0x00B4                      /* [MEDIUM] default render attribute value (init slot attr field) */
+    .2byte  0x00B4
     .2byte  0xFFFF
 .L_pool_06025214:
     .4byte  sym_060610BC

@@ -74,26 +74,26 @@ scene_physics_variant:
     .global DAT_06025c6e
 .L_06025C6E:
 DAT_06025c6e:
-    .2byte  0x00A8                       /* render parameter (physics mode) */
+    .2byte  0x00A8
 .L_06025C70:
-    .2byte  0x00B4                       /* alternate render type ID */
+    .2byte  0x00B4
     .2byte  0xFFFF
 .L_06025C74:
-    .4byte  sym_06028400                /* layer setup / geometry dispatch */
+    .4byte  sym_06028400
 .L_06025C78:
-    .4byte  sym_0606107C                /* slot data array (8-byte per slot) */
+    .4byte  sym_0606107C
 .L_06025C7C:
-    .4byte  sym_06089ECC                /* &active_slot_index (dword) */
+    .4byte  sym_06089ECC
 .L_06025C80:
-    .4byte  sym_06089ED0                /* &anim_frame_index (dword) */
+    .4byte  sym_06089ED0
 .L_06025C84:
-    .4byte  sym_06061199                /* variant active flag (byte) */
+    .4byte  sym_06061199
 .L_06025C88:
-    .4byte  sym_06089EC6                /* slot count (word) */
+    .4byte  sym_06089EC6
 .L_06025C8C:
-    .4byte  sym_06035C2C                /* slot availability check */
+    .4byte  sym_06035C2C
 .L_06025C90:
-    .4byte  car_physics_final           /* per-car physics final update */
+    .4byte  car_physics_final
 .L_06025C94:
     mov #0x9, r2
 .L_06025C96:
@@ -203,21 +203,21 @@ DAT_06025c6e:
     nop
     .2byte  0xFFFF
 .L_06025D64:
-    .4byte  sym_0605900C                /* per-slot offset entries */
+    .4byte  sym_0605900C
 .L_06025D68:
-    .4byte  sym_06063750                /* render base data (8-byte stride) */
+    .4byte  sym_06063750
 .L_06025D6C:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000
 .L_06025D70:
-    .4byte  sym_06059074                /* direction pair table A (2-byte stride) */
+    .4byte  sym_06059074
 .L_06025D74:
-    .4byte  sym_06059084                /* direction pair table B (2-byte stride) */
+    .4byte  sym_06059084
 .L_06025D78:
-    .4byte  sym_06063D9A                /* current input buttons (word) */
+    .4byte  sym_06063D9A
 .L_06025D7C:
-    .4byte  0x0000C088                  /* action button mask (non-navigation) */
+    .4byte  0x0000C088
 .L_06025D80:
-    .4byte  sym_06061199                /* variant active flag (same as above) */
+    .4byte  sym_06061199
 .L_06025D84:
     mov.l   .L_06025E98, r4
     mov.w @r4, r4
@@ -373,20 +373,20 @@ DAT_06025c6e:
     .global DAT_06025e94
 .L_06025E94:
 DAT_06025e94:
-    .2byte  0x4008                       /* retreat button mask */
+    .2byte  0x4008
     .2byte  0xFFFF
 .L_06025E98:
-    .4byte  sym_06063D9A                /* current input buttons (word) */
+    .4byte  sym_06063D9A
 .L_06025E9C:
-    .4byte  0x0000C088                  /* action button mask */
+    .4byte  0x0000C088
 .L_06025EA0:
-    .4byte  0x00008080                  /* advance button mask */
+    .4byte  0x00008080
 .L_06025EA4:
-    .4byte  sym_06089ED6                /* course identifier A (word) */
+    .4byte  sym_06089ED6
 .L_06025EA8:
-    .4byte  sym_06089ED0                /* anim frame index (for course limit checks) */
+    .4byte  sym_06089ED0
 .L_06025EAC:
-    .4byte  sym_06089ED4                /* course identifier B (word) */
+    .4byte  sym_06089ED4
 .L_06025EB0:
     extu.w r4, r2
     mov.w   .L_06025FAC, r3
@@ -527,18 +527,18 @@ DAT_06025e94:
     .global DAT_06025fac
 .L_06025FAC:
 DAT_06025fac:
-    .2byte  0x0800                       /* Start button mask */
+    .2byte  0x0800
     .2byte  0xFFFF
 .L_06025FB0:
-    .4byte  sym_06061198                /* game state (byte) */
+    .4byte  sym_06061198
 .L_06025FB4:
-    .4byte  sym_06089EDA                /* game mode (word) */
+    .4byte  sym_06089EDA
 .L_06025FB8:
-    .4byte  sym_06061199                /* variant active flag (clear on exit) */
+    .4byte  sym_06061199
 .L_06025FBC:
-    .4byte  sym_060590A8                /* per-slot button mask table (2-byte stride) */
+    .4byte  sym_060590A8
 .L_06025FC0:
-    .4byte  sym_060610BC                /* render record table (12-byte stride) */
+    .4byte  sym_060610BC
 .L_06025FC4:
     mov.l   .L_06026018, r1
     mov.l   .L_0602601C, r3
@@ -586,15 +586,15 @@ DAT_06025fac:
     .global DAT_06026016
 .L_06026016:
 DAT_06026016:
-    .2byte  0x00B4                       /* alternate render type ID */
+    .2byte  0x00B4
 .L_06026018:
-    .4byte  sym_06089EC6                /* slot count (word) */
+    .4byte  sym_06089EC6
 .L_0602601C:
-    .4byte  sym_06035C2C                /* slot availability check */
+    .4byte  sym_06035C2C
 .L_06026020:
-    .4byte  car_physics_final           /* per-car physics final update */
+    .4byte  car_physics_final
 .L_06026024:
-    .4byte  sym_060610BC                /* render record table (12-byte stride) */
+    .4byte  sym_060610BC
 .L_06026028:
     mov #0x9, r2
 .L_0602602A:
@@ -703,14 +703,14 @@ DAT_06026016:
     mov.l @r15+, r14
     .2byte  0xFFFF
 .L_060260F8:
-    .4byte  sym_0605900C                /* per-slot offset entries */
+    .4byte  sym_0605900C
 .L_060260FC:
-    .4byte  sym_06063750                /* render base data (8-byte stride) */
+    .4byte  sym_06063750
 .L_06026100:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000
 .L_06026104:
-    .4byte  sym_06059074                /* direction pair table A */
+    .4byte  sym_06059074
 .L_06026108:
-    .4byte  sym_060610BC                /* render record table (12-byte stride) */
+    .4byte  sym_060610BC
 .L_0602610C:
-    .4byte  sym_06059084                /* direction pair table B */
+    .4byte  sym_06059084

@@ -95,38 +95,38 @@ state_attract_active:
     .2byte  0x4F26                              /* dead code: unreachable lds.l @r15+, pr */
     .4byte  0x000B6EF6                          /* dead code: unreachable rts + mov.l @r15+, r14 */
 .L_06008AC0:
-    .2byte  0x0800                              /* Start button bitmask */
+    .2byte  0x0800
 .L_06008AC2:
-    .2byte  0x0244                              /* 580 frames (~9.7s remaining = first ~5.7s of attract) */
+    .2byte  0x0244
 .L_06008AC4:
-    .4byte  sym_0607EBCC                        /* attract mode countdown timer (32-bit, init 920) */
+    .4byte  sym_0607EBCC
 .L_06008AC8:
-    .4byte  sym_0600A1F6                        /* per_frame_game_tick — general per-frame update */
+    .4byte  sym_0600A1F6
 .L_06008ACC:
-    .4byte  sym_0607EAD8                        /* attract cycle counter (0-2, wraps mod 3) */
+    .4byte  sym_0607EAD8
 .L_06008AD0:
-    .4byte  sym_06063D9A                        /* button state register (16-bit) */
+    .4byte  sym_06063D9A
 .L_06008AD4:
-    .4byte  handler_init_reset                  /* handler_init_reset — prepare for mode select */
+    .4byte  handler_init_reset
 .L_06008AD8:
-    .4byte  g_game_state                        /* game state variable (32-bit) */
+    .4byte  g_game_state
 .L_06008ADC:
-    .4byte  sym_06087804                        /* handler mode (16-bit) */
+    .4byte  sym_06087804
 .L_06008AE0:
-    .4byte  camera_attract_init                 /* camera_attract_init — special camera for 3rd cycle */
+    .4byte  camera_attract_init
 .L_06008AE4:
-    .4byte  geom_display_ctrl_b                 /* geom_display_ctrl_b — geometry display update */
+    .4byte  geom_display_ctrl_b
 .L_06008AE8:
-    .4byte  race_countdown_update               /* race_countdown_update — countdown state update */
+    .4byte  race_countdown_update
 .L_06008AEC:
-    .4byte  car_proximity_check                 /* car_proximity_check — car-to-car proximity */
+    .4byte  car_proximity_check
 .L_06008AF0:
-    .4byte  perspective_project                 /* perspective_project — 3D projection / rendering */
+    .4byte  perspective_project
 .L_06008AF4:
-    .4byte  sym_0600338C                        /* dlist_slot_select — display list slot dispatch */
+    .4byte  sym_0600338C
 .L_06008AF8:
-    .4byte  scene_master                        /* scene_master — master scene rendering orchestrator */
+    .4byte  scene_master
 .L_06008AFC:
-    .4byte  sym_0601AEB6                        /* attract_phase_dispatch — early attract phase logic */
+    .4byte  sym_0601AEB6
 .L_06008B00:
     .4byte  frame_end_commit                    /* frame_end_commit — finalize and commit frame */

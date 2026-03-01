@@ -77,17 +77,17 @@ vdp1_sprite_render_alt:
     mov r7, r0
     bra     .L_06007870
     mov.w r0, @(4, r2)
-    .2byte  0xFFFF                           /* alignment padding */
+    .2byte  0xFFFF
 .L_pool_06007820:
-    .4byte  sym_06063F64                     /* per-slot data table base */
+    .4byte  sym_06063F64
 .L_pool_06007824:
     .4byte  sym_0606A4EC                     /* VDP1 command slot counter */
 .L_pool_06007828:
-    .4byte  sym_0606A4F4                     /* VDP1 slot config register */
+    .4byte  sym_0606A4F4
 .L_pool_0600782C:
-    .4byte  sym_06063F5C                     /* display/scroll base table pointer */
+    .4byte  sym_06063F5C
 .L_pool_06007830:
-    .4byte  sym_06063F60                     /* DMA destination pointer */
+    .4byte  sym_06063F60
 .L_pool_06007834:
     .4byte  sym_060684EC                     /* command type -> VRAM jump table */
 .L_06007838:
@@ -168,12 +168,12 @@ vdp1_sprite_render_alt:
 
     .global DAT_060078ca
 DAT_060078ca:
-    .2byte  0x3F00                           /* color bank mask (bits 13:8) */
+    .2byte  0x3F00
 .L_pool_060078CC:
-    .4byte  sym_06034FE0                     /* color bank lookup function */
+    .4byte  sym_06034FE0
 .L_pool_060078D0:
-    .4byte  sym_0606A4F0                     /* slot counter shadow register */
+    .4byte  sym_0606A4F0
 .L_pool_060078D4:
-    .4byte  sym_06063F5C                     /* display/scroll base table pointer */
+    .4byte  sym_06063F5C
 .L_pool_060078D8:
-    .4byte  dma_memory_transfer              /* DMA memory-to-memory copy */
+    .4byte  dma_memory_transfer

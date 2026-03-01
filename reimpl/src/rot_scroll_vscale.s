@@ -45,13 +45,13 @@ DAT_0602e520:
 DAT_0602e522:
     sett
 .L_0602E524:
-    .2byte  0x0028                     /* [HIGH] car struct offset: vertical reference (+0x28) */
+    .2byte  0x0028
     .2byte  0x0000
-    .4byte  sym_0607EAD8               /* [HIGH] race end state — used by interp TU */
-    .4byte  sym_0602E8AC               /* [MEDIUM] main scene render entry — used by interp TU */
-    .4byte  atan2                      /* [HIGH] atan2 function — used by interp TU */
+    .4byte  sym_0607EAD8
+    .4byte  sym_0602E8AC
+    .4byte  atan2
 .L_pool_0602E534:
-    .4byte  0xFFFFFF00                 /* [HIGH] -0x100 = lower clamp bound for delta */
+    .4byte  0xFFFFFF00
 .L_0602E538:
     .byte   0xD1, 0x1C    /* mov.l .L_pool_0602E5AC, r1 */
     cmp/gt r1, r6

@@ -84,27 +84,27 @@ DAT_06041bc6:
 
     .global DAT_06041bc8
 DAT_06041bc8:
-    .2byte  0x030C               /* car state offset: state machine phase */
+    .2byte  0x030C
 .L_wpool_06041BCA:
-    .2byte  0x0310               /* car state offset: surface query param A */
+    .2byte  0x0310
 
     .global DAT_06041bcc
 DAT_06041bcc:
-    .2byte  0x0314               /* car state offset: distance base value */
+    .2byte  0x0314
 .L_wpool_06041BCE:
-    .2byte  0x0318               /* car state offset: max distance threshold */
+    .2byte  0x0318
 .L_wpool_06041BD0:
-    .2byte  0x0320               /* car state offset: distance result pointer */
+    .2byte  0x0320
 
     .global DAT_06041bd2
 DAT_06041bd2:
-    .2byte  0x0324               /* car state offset: completion callback ptr */
+    .2byte  0x0324
 .L_pool_06041BD4:
-    .4byte  ai_checkpoint_validate  /* checkpoint validation function */
+    .4byte  ai_checkpoint_validate
 .L_pool_06041BD8:
-    .4byte  sym_060A5400            /* AI/game state base pointer (indirect) */
+    .4byte  sym_060A5400
 .L_pool_06041BDC:
-    .4byte  track_surface_type_c    /* surface type query variant C */
+    .4byte  track_surface_type_c
 .L_06041BE0:
     mov.l @r14, r3
     mov.w   DAT_06041ca8, r0
@@ -215,18 +215,18 @@ DAT_06041bd2:
 
     .global DAT_06041ca8
 DAT_06041ca8:
-    .2byte  0x0324               /* car state offset: completion callback ptr (dup) */
+    .2byte  0x0324
 
     .global DAT_06041caa
 DAT_06041caa:
-    .2byte  0x030C               /* car state offset: state machine phase (dup) */
+    .2byte  0x030C
 .L_wpool_06041CAC:
-    .2byte  0x0320               /* car state offset: result pointer (dup for reach) */
-    .2byte  0xFFFF               /* alignment padding */
+    .2byte  0x0320
+    .2byte  0xFFFF
 .L_pool_06041CB0:
-    .4byte  track_surface_type_d    /* surface type query variant D */
+    .4byte  track_surface_type_d
 .L_pool_06041CB4:
-    .4byte  track_distance_calc     /* track distance computation */
+    .4byte  track_distance_calc
 .L_06041CB8:
     mov #0x1, r0
 .L_06041CBA:

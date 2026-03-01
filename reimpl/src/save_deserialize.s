@@ -43,7 +43,7 @@ save_deserialize:
     bra     .L_0603BDA0
     nop
 .L_wpool_0603BD64:
-    .2byte  0x00A8                      /* [HIGH] active block slot offset in cmd state (+0xA8) */
+    .2byte  0x00A8
     .2byte  0xFFFF
     .4byte  sym_060401E4
     .4byte  nop_stub_evt

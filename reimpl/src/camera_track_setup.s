@@ -49,42 +49,42 @@ camera_track_setup:
     mov.l @r3, r2
     bra     .L_0600B080
     add r2, r4
-    .2byte  0xFFFF                        /* alignment padding */
-    .4byte  sym_06083258               /* (adjacent fn pool: camera LOD offset base) */
-    .4byte  sym_060621D8               /* (adjacent fn pool: chain A source table) */
-    .4byte  sym_0606212C               /* (adjacent fn pool: chain A parameter table) */
-    .4byte  sym_06031D8C               /* (adjacent fn pool: vec_copy_a fn) */
-    .4byte  sym_06062180               /* (adjacent fn pool: chain B source table) */
-    .4byte  sym_06089E44               /* (adjacent fn pool: rotation scale factor) */
-    .4byte  sym_060620D8               /* (adjacent fn pool: chain B parameter table) */
-    .4byte  sym_06031A28               /* (adjacent fn pool: vec_copy_b fn) */
+    .2byte  0xFFFF
+    .4byte  sym_06083258
+    .4byte  sym_060621D8
+    .4byte  sym_0606212C
+    .4byte  sym_06031D8C
+    .4byte  sym_06062180
+    .4byte  sym_06089E44
+    .4byte  sym_060620D8
+    .4byte  sym_06031A28
 .L_0600B02C:
-    .4byte  sym_0607EBC4               /* game mode flags (32-bit) */
-    .4byte  0x20020000                 /* (adjacent fn pool: cache-through const) */
-    .4byte  replay_playback            /* (adjacent fn pool: replay playback fn) */
-    .4byte  sym_06089EDC               /* (adjacent fn pool: frame counter) */
+    .4byte  sym_0607EBC4
+    .4byte  0x20020000
+    .4byte  replay_playback
+    .4byte  sym_06089EDC
 .L_0600B03C:
-    .4byte  sym_06063F46               /* camera mode index (16-bit) */
+    .4byte  sym_06063F46
 .L_0600B040:
-    .4byte  mat_rot_xz_b              /* XZ rotation transform */
+    .4byte  mat_rot_xz_b
 .L_0600B044:
-    .4byte  sym_0607E944               /* car array base pointer */
+    .4byte  sym_0607E944
 .L_0600B048:
-    .4byte  sym_0607E940               /* current car struct pointer */
+    .4byte  sym_0607E940
 .L_0600B04C:
-    .4byte  sym_06027080               /* camera state initialization */
+    .4byte  sym_06027080
 .L_0600B050:
-    .4byte  sym_060270F2               /* set camera base position */
+    .4byte  sym_060270F2
 .L_0600B054:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) / 180 degrees */
+    .4byte  0x00008000
 .L_0600B058:
-    .4byte  mat_rot_xy_b              /* XY rotation (yaw) */
+    .4byte  mat_rot_xy_b
 .L_0600B05C:
-    .4byte  mat_rot_yz_b              /* YZ rotation (pitch) */
+    .4byte  mat_rot_yz_b
 .L_0600B060:
-    .4byte  0x00800008                 /* special camera mode flag mask */
+    .4byte  0x00800008
 .L_0600B064:
-    .4byte  sym_0605BDCC               /* per-mode bank angle offset table */
+    .4byte  sym_0605BDCC
 .L_0600B068:
     mov.l @(28, r14), r4
     neg r4, r4
@@ -167,51 +167,51 @@ camera_track_setup:
 
     .global DAT_0600b100
 DAT_0600b100:
-    .2byte  0x01D8                        /* car offset: camera yaw */
+    .2byte  0x01D8
 
     .global DAT_0600b102
 DAT_0600b102:
-    .2byte  0x01B4                        /* car offset: camera roll */
+    .2byte  0x01B4
 
     .global DAT_0600b104
 DAT_0600b104:
-    .2byte  0x01D0                        /* car offset: camera pitch A */
+    .2byte  0x01D0
 
     .global DAT_0600b106
 DAT_0600b106:
-    .2byte  0x01C8                        /* car offset: camera pitch B */
+    .2byte  0x01C8
 .L_0600B108:
-    .4byte  sym_06078668               /* camera height offset value */
+    .4byte  sym_06078668
 .L_0600B10C:
-    .4byte  sym_0605BDCC               /* bank angle table (dup for reach) */
+    .4byte  sym_0605BDCC
 .L_0600B110:
-    .4byte  mat_rot_xy_b              /* XY rotation (dup for reach) */
+    .4byte  mat_rot_xy_b
 .L_0600B114:
-    .4byte  sym_06059F30               /* camera follow mode flag */
+    .4byte  sym_06059F30
 .L_0600B118:
-    .4byte  sym_060621E8               /* rotation source vector A (ptr) */
+    .4byte  sym_060621E8
 .L_0600B11C:
-    .4byte  sym_0606213C               /* rotation dest vector A (ptr) */
+    .4byte  sym_0606213C
 .L_0600B120:
-    .4byte  sym_06032158               /* vector matrix transform */
+    .4byte  sym_06032158
 .L_0600B124:
-    .4byte  sym_06062190               /* rotation source vector B (ptr) */
+    .4byte  sym_06062190
 .L_0600B128:
-    .4byte  sym_06089E44               /* rotation scale factor B (16-bit) */
+    .4byte  sym_06089E44
 .L_0600B12C:
-    .4byte  sym_060620E8               /* rotation dest vector B (ptr) */
+    .4byte  sym_060620E8
 .L_0600B130:
-    .4byte  sym_06031DF4               /* scaled vector transform */
+    .4byte  sym_06031DF4
 .L_0600B134:
-    .4byte  sym_060270F2               /* camera position (dup for reach) */
+    .4byte  sym_060270F2
 .L_0600B138:
-    .4byte  mat_rot_yz_b              /* YZ rotation (dup for reach) */
+    .4byte  mat_rot_yz_b
 .L_0600B13C:
-    .4byte  sym_06082A25               /* camera shake flags byte */
+    .4byte  sym_06082A25
 .L_0600B140:
-    .4byte  sym_06044740               /* per-mode LOD lookup table */
+    .4byte  sym_06044740
 .L_0600B144:
-    .4byte  sym_06083258               /* camera LOD offset base (ptr) */
+    .4byte  sym_06083258
 .L_0600B148:
     .byte   0xD4, 0x23    /* mov.l .L_0600B148_base, r4 */
     mov.l @r4, r4

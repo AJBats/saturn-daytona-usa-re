@@ -82,7 +82,7 @@ DAT_06041df2:
 .L_pool_06041DF4:
     .4byte  sym_060A5400
 .L_06041DF8:
-    .4byte  0x0000FFFF                  /* low 16-bit mask */
+    .4byte  0x0000FFFF
 .L_pool_06041DFC:
     .4byte  track_surface_type_a
 .L_pool_06041E00:

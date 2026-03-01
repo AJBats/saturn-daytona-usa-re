@@ -45,4 +45,4 @@ save_state_snapshot:
 .L_pool_06018FF0:
     .4byte  sym_06012EDC
 .L_pool_06018FF4:
-    .4byte  0x25A02DBE                  /* Sound RAM +0x02DBE */
+    .4byte  0x25A02DBE

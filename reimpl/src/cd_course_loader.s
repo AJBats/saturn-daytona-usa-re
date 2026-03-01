@@ -28,10 +28,10 @@ cd_course_loader:
     .byte   0xAF, 0x4C    /* bra 0x06012C3C (external) */
     mov.l @r15+, r14
 .L_06012DA4:
-    .4byte  0x00200000                  /* Work RAM Low base */
+    .4byte  0x00200000
 .L_pool_06012DA8:
-    .4byte  sym_060448E8                /* -> "CS1POLY.BIN" */
+    .4byte  sym_060448E8
 .L_pool_06012DAC:
-    .4byte  sym_060448F4                /* -> "CS2POLY.BIN" */
+    .4byte  sym_060448F4
 .L_pool_06012DB0:
-    .4byte  sym_06044900                /* -> "CS0POLY.BIN" */
+    .4byte  sym_06044900

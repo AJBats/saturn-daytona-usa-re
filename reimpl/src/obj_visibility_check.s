@@ -38,9 +38,9 @@ obj_visibility_check:
     rts
     mov.l @r15+, r14
 .L_060368D0:
-    .2byte  0x0080                      /* [MEDIUM] peripheral port mask — 0x80 = port B analog? (cf. 0x0200 in ai_master_update) */
-    .2byte  0xFFFF                      /* padding */
+    .2byte  0x0080
+    .2byte  0xFFFF
 .L_060368D4:
-    .4byte  input_proc_analog           /* [HIGH] fn ptr: SMPC analog axis reader */
+    .4byte  input_proc_analog
 .L_060368D8:
-    .4byte  input_proc_buttons          /* [HIGH] fn ptr: SMPC digital button reader */
+    .4byte  input_proc_buttons

@@ -59,7 +59,7 @@ sym_0600D336:
 .L_0600D370:
     .4byte  sym_0607EBC4
 .L_0600D374:
-    .4byte  0x00200000                  /* Work RAM Low base */
+    .4byte  0x00200000
 .L_0600D378:
     .4byte  sym_06078900
 .L_0600D37C:

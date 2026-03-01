@@ -86,21 +86,21 @@ scene_dual_finalize:
     bra     .L_06026212
     extu.w r14, r5
 .L_060261A4:
-    .4byte  sym_06060F2C                /* scene output table A (8-byte stride) */
+    .4byte  sym_06060F2C
 .L_060261A8:
-    .4byte  sym_0606107C                /* scene output table B (8-byte stride) */
+    .4byte  sym_0606107C
 .L_060261AC:
-    .4byte  sym_060610BC                /* slot element table (12-byte stride) */
+    .4byte  sym_060610BC
 .L_060261B0:
-    .4byte  sym_06060D7C                /* scene data table A (8-byte stride) */
+    .4byte  sym_06060D7C
 .L_060261B4:
-    .4byte  sym_06061198                /* render phase state byte */
+    .4byte  sym_06061198
 .L_060261B8:
-    .4byte  sym_06061199                /* variant active flag byte */
+    .4byte  sym_06061199
 .L_060261BC:
-    .4byte  sym_06060D78                /* dual finalize active flag byte */
+    .4byte  sym_06060D78
 .L_060261C0:
-    .4byte  scene_finalize_a            /* rebuilds scene output from data table A */
+    .4byte  scene_finalize_a
 .L_060261C4:
     extu.w r14, r4
     extu.b r5, r7
@@ -240,4 +240,4 @@ scene_dual_finalize:
     rts
     mov.l @r15+, r14
 .L_060262BC:
-    .4byte  scene_finalize_b            /* rebuilds scene output from data table B */
+    .4byte  scene_finalize_b

@@ -63,7 +63,7 @@ error_trap_handler:
     rts
     mov.l @r15+, r14
 .L_060413EE:
-    .2byte  0x0348                                         /* [HIGH] offset to event channel active flag in state struct */
+    .2byte  0x0348
     .4byte  ai_recovery_handler
 .L_pool_060413F5:
     .4byte  sym_060A5400

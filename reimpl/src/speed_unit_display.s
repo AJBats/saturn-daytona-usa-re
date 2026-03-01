@@ -44,6 +44,6 @@ speed_unit_display:
     mov.l @r15+, r14
     .2byte  0xFFFF
 .L_pool_06015E72:
-    .4byte  sym_06084FC8                  /* slot data array base (68-byte structs) */
+    .4byte  sym_06084FC8
 .L_pool_06015E76:
-    .4byte  sym_060172E4                  /* clear_vdp2_registers */
+    .4byte  sym_060172E4

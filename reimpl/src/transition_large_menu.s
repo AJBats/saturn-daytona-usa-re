@@ -37,30 +37,30 @@ transition_large_menu:
     bra     .L_0600FA44
     mov #0x23, r13
 .L_0600FA04:
-    .2byte  0x0080                          /* palette copy size (128 bytes) */
-    .2byte  0xFFFF                          /* alignment padding */
-    .4byte  sym_0607885C                    /* (cross-TU pool) display slot ptr */
-    .4byte  0x00100000                      /* (cross-TU pool) scroll param */
-    .4byte  display_channel_b               /* (cross-TU pool) */
-    .4byte  sym_0607886E                    /* (cross-TU pool) display slot */
-    .4byte  sprite_batch_renderer           /* (cross-TU pool) */
-    .4byte  sym_0607887F                    /* (cross-TU pool) game mode byte */
+    .2byte  0x0080
+    .2byte  0xFFFF
+    .4byte  sym_0607885C
+    .4byte  0x00100000
+    .4byte  display_channel_b
+    .4byte  sym_0607886E
+    .4byte  sprite_batch_renderer
+    .4byte  sym_0607887F
 .L_0600FA20:
-    .4byte  0xAE0003FF                      /* sound command: menu music */
+    .4byte  0xAE0003FF
 .L_0600FA24:
     .4byte  sound_cmd_dispatch              /* sound command dispatcher */
 .L_0600FA28:
-    .4byte  sym_0602853E                    /* display channel configure */
+    .4byte  sym_0602853E
 .L_0600FA2C:
-    .4byte  sym_0605CA9C                    /* menu palette source data */
+    .4byte  sym_0605CA9C
 .L_0600FA30:
-    .4byte  0x25F00460                      /* VDP2 color RAM +0x460 */
+    .4byte  0x25F00460
 .L_0600FA34:
-    .4byte  memcpy_word_idx                 /* word-indexed memory copy */
+    .4byte  memcpy_word_idx
 .L_0600FA38:
-    .4byte  sym_0601209E                    /* scroll/display setup helper */
+    .4byte  sym_0601209E
 .L_0600FA3C:
-    .4byte  g_pad_state                    /* game status word (16-bit array) */
+    .4byte  g_pad_state
 .L_0600FA40:
     mov #0x28, r14
     mov #0x27, r13
@@ -168,63 +168,63 @@ transition_large_menu:
     jmp @r3
     mov.l @r15+, r14
 .L_0600FB0C:
-    .2byte  0x0B04                          /* layer A tile size */
+    .2byte  0x0B04
 .L_0600FB0E:
-    .2byte  0x0B38                          /* layer B tile size */
+    .2byte  0x0B38
 .L_0600FB10:
-    .2byte  0x0170                          /* layer C table offset (0x170 = entry 0x2E) */
+    .2byte  0x0170
 .L_0600FB12:
-    .2byte  0x4000                          /* layer C data offset */
+    .2byte  0x4000
 .L_0600FB14:
-    .2byte  0x0C26                          /* layer C tile size */
+    .2byte  0x0C26
 .L_0600FB16:
-    .2byte  0x0090                          /* split-screen tile size */
+    .2byte  0x0090
 .L_0600FB18:
-    .2byte  0x07A2                          /* split-screen tile data offset */
-    .2byte  0xFFFF                          /* alignment padding */
+    .2byte  0x07A2
+    .2byte  0xFFFF
 .L_0600FB1C:
-    .4byte  sym_06063750                    /* tile table base array */
+    .4byte  sym_06063750
 .L_0600FB20:
-    .4byte  sym_06028400                    /* display layer tile writer */
+    .4byte  sym_06028400
 .L_0600FB24:
-    .4byte  0x00009000                      /* tile data offset (+0x9000) */
+    .4byte  0x00009000
 .L_0600FB28:
-    .4byte  0xAB1104FF                      /* sound command: secondary trigger */
+    .4byte  0xAB1104FF
 .L_0600FB2C:
     .4byte  sound_cmd_dispatch              /* sound command dispatcher */
 .L_0600FB30:
-    .4byte  sym_0607887F                    /* game mode byte (9 = menu) */
+    .4byte  sym_0607887F
 .L_0600FB34:
-    .4byte  sym_0607EADC                    /* transition state (32-bit) */
+    .4byte  sym_0607EADC
 .L_0600FB38:
-    .4byte  sym_0607EAB8                    /* game variant flag */
+    .4byte  sym_0607EAB8
 .L_0600FB3C:
-    .4byte  sym_06078868                    /* display slot A */
+    .4byte  sym_06078868
 .L_0600FB40:
-    .4byte  sym_060788A0                    /* display slot B */
+    .4byte  sym_060788A0
 .L_0600FB44:
-    .4byte  sym_060788A4                    /* transition active flag */
+    .4byte  sym_060788A4
 .L_0600FB48:
-    .4byte  sym_06085FF4                    /* 2-player mode flag (byte) */
+    .4byte  sym_06085FF4
 .L_0600FB4C:
-    .4byte  sym_06078894                    /* split-screen transition state */
+    .4byte  sym_06078894
 .L_0600FB50:
-    .4byte  0x000C0000                      /* split-screen scroll Y offset */
+    .4byte  0x000C0000
 .L_0600FB54:
-    .4byte  sym_06078898                    /* split-screen scroll position ptr */
+    .4byte  sym_06078898
 .L_0600FB58:
-    .4byte  sym_0607889C                    /* split-screen display slot */
+    .4byte  sym_0607889C
 .L_0600FB5C:
-    .4byte  sym_060788A8                    /* split-screen active byte */
+    .4byte  sym_060788A8
 .L_0600FB60:
-    .4byte  sym_0605ACE4                    /* split-screen tile data source */
+    .4byte  sym_0605ACE4
 .L_0600FB64:
-    .4byte  sym_060284AE                    /* split-screen tile writer */
+    .4byte  sym_060284AE
 .L_0600FB68:
-    .4byte  sym_06011494                    /* UI element setup */
+    .4byte  sym_06011494
 .L_0600FB6C:
-    .4byte  anim_ui_transition              /* animated UI transition */
+    .4byte  anim_ui_transition
 .L_0600FB70:
-    .4byte  graphics_mode_setup             /* graphics mode configuration */
+    .4byte  graphics_mode_setup
 .L_0600FB74:
-    .4byte  sym_06011EB4                    /* dual HUD render dispatcher */
+    .4byte  sym_06011EB4

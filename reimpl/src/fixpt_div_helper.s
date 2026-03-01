@@ -36,8 +36,8 @@ fixpt_div_helper:
     rts
     mov.l @r15+, r14
 .L_0604244C:
-    .4byte  0x00B40000          /* 180.0 in 16.16 fixed-point (180 << 16) */
+    .4byte  0x00B40000
 .L_06042450:
-    .4byte  0x005A0000          /* 90.0 in 16.16 fixed-point (90 << 16) */
+    .4byte  0x005A0000
 .L_06042454:
-    .4byte  sym_060424A2        /* core sine table lookup function */
+    .4byte  sym_060424A2

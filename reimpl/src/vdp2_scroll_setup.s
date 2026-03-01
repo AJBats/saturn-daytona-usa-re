@@ -40,27 +40,27 @@ DAT_0602e28a:
 DAT_0602e28e:
     .word 0x0208
 .L_0602E290:
-    .2byte  0x00E4                         /* struct offset +0xE4: scroll coefficient field [HIGH] */
+    .2byte  0x00E4
 .L_0602E292:
-    .2byte  0x0708                         /* scroll coefficient lower clamp bound [HIGH] */
+    .2byte  0x0708
 .L_0602E294:
-    .2byte  0x2134                         /* scroll coefficient upper clamp bound [HIGH] */
-    .2byte  0x0000                         /* padding */
-    .4byte  sym_0607EAC8                   /* data table: VDP2 state struct */
-    .4byte  0x00000001                     /* data table: constant 1 */
-    .4byte  0x00000028                     /* data table: constant 0x28 (40) */
-    .4byte  0x00000000                     /* data table: constant 0 */
-    .4byte  0x000000C0                     /* data table: constant 0xC0 (192) */
-    .4byte  sym_0602F3EC                   /* data table: damage_mac_core */
-    .4byte  sym_0602F7BC                   /* data table: per-car timer tick */
-    .4byte  sym_06030A06                   /* data table: per-car physics init */
-    .4byte  sym_06030EE0                   /* data table: per-car state update */
-    .4byte  brake_force_apply              /* data table: brake force application */
-    .4byte  accel_response                 /* data table: acceleration response */
+    .2byte  0x2134
+    .2byte  0x0000
+    .4byte  sym_0607EAC8
+    .4byte  0x00000001
+    .4byte  0x00000028
+    .4byte  0x00000000
+    .4byte  0x000000C0
+    .4byte  sym_0602F3EC
+    .4byte  sym_0602F7BC
+    .4byte  sym_06030A06
+    .4byte  sym_06030EE0
+    .4byte  brake_force_apply
+    .4byte  accel_response
 .L_0602E2C4:
-    .4byte  sym_0607E940                   /* pool: pointer to car state struct */
-    .4byte  sym_0602D82A                   /* pool: display intensity curve fn */
-    .4byte  sym_0602F17C                   /* pool: camera state machine fn */
+    .4byte  sym_0607E940
+    .4byte  sym_0602D82A
+    .4byte  sym_0602F17C
 .L_0602E2D0:
     cmp/gt r1, r4
     bt      .L_0602E2D6

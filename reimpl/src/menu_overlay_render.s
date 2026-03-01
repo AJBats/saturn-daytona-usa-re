@@ -71,23 +71,23 @@ DAT_06026922:
 .L_06026924:
     .4byte  sym_060283E0              /* display command writer function */
 .L_06026928:
-    .4byte  sym_0606123C              /* overlay active flag (word) */
+    .4byte  sym_0606123C
 .L_0602692C:
-    .4byte  sym_0607864C              /* global tick counter (dword) */
+    .4byte  sym_0607864C
 .L_06026930:
-    .4byte  sym_0606123A              /* animation substep index (word) */
+    .4byte  sym_0606123A
 .L_06026934:
-    .4byte  sym_06061238              /* animation phase counter (word) */
+    .4byte  sym_06061238
 .L_06026938:
-    .4byte  sym_0606123E              /* animation-done flag (word) */
+    .4byte  sym_0606123E
 .L_0602693C:
-    .4byte  sym_0607EAD8              /* course type selector (0/1/2) */
+    .4byte  sym_0607EAD8
 .L_06026940:
-    .4byte  sym_060597B8              /* course 0 frame timing table (16-bit) */
+    .4byte  sym_060597B8
 .L_06026944:
-    .4byte  sym_06059826              /* course 0 display cmd data */
+    .4byte  sym_06059826
 .L_06026948:
-    .4byte  0x0000F000                /* VDP priority nibble mask */
+    .4byte  0x0000F000
 .L_0602694C:
     mov.w @r14, r0
     cmp/eq #0x36, r0
@@ -338,29 +338,29 @@ DAT_06026922:
     nop
     .2byte  0xFFFF
 .L_06026B1C:
-    .4byte  sym_060597B8              /* course 0 timing table (dup) */
+    .4byte  sym_060597B8
 .L_06026B20:
-    .4byte  sym_0607864C              /* global tick counter (dup) */
+    .4byte  sym_0607864C
 .L_06026B24:
-    .4byte  sym_06059826              /* final-frame display cmd data */
+    .4byte  sym_06059826
 .L_06026B28:
-    .4byte  0x0000F000                /* VDP priority nibble mask (dup) */
+    .4byte  0x0000F000
 .L_06026B2C:
-    .4byte  sym_0606123E              /* animation-done flag (dup) */
+    .4byte  sym_0606123E
 .L_06026B30:
-    .4byte  sym_060591BA              /* course 0 sequence index byte table */
+    .4byte  sym_060591BA
 .L_06026B34:
-    .4byte  sym_060611FC              /* course 0 cmd pointer table (dword) */
+    .4byte  sym_060611FC
 .L_06026B38:
-    .4byte  sym_060595D8              /* course 0 anim step sizes (2D byte) */
+    .4byte  sym_060595D8
 .L_06026B3C:
-    .4byte  sym_060591F0              /* course 1 frame timing table (16-bit) */
+    .4byte  sym_060591F0
 .L_06026B40:
-    .4byte  sym_0605914C              /* course 1 sequence index byte table */
+    .4byte  sym_0605914C
 .L_06026B44:
-    .4byte  sym_0606119C              /* course 1 cmd pointer table (dword) */
+    .4byte  sym_0606119C
 .L_06026B48:
-    .4byte  sym_06059266              /* course 1 anim step sizes (2D byte) */
+    .4byte  sym_06059266
 .L_06026B4C:
     mov.w @r14, r2
     mov #0x34, r3
@@ -531,21 +531,21 @@ DAT_06026922:
     rts
     mov.l @r15+, r14
 .L_06026C84:
-    .4byte  sym_0605956E              /* course 2 frame timing table (16-bit) */
+    .4byte  sym_0605956E
 .L_06026C88:
-    .4byte  sym_06059826              /* course 2 display cmd data */
+    .4byte  sym_06059826
 .L_06026C8C:
-    .4byte  0x0000F000                /* VDP priority nibble mask (dup) */
+    .4byte  0x0000F000
 .L_06026C90:
-    .4byte  sym_0607864C              /* global tick counter (dup) */
+    .4byte  sym_0607864C
 .L_06026C94:
-    .4byte  sym_0606123E              /* animation-done flag (dup) */
+    .4byte  sym_0606123E
 .L_06026C98:
-    .4byte  sym_06059186              /* course 2 sequence index byte table */
+    .4byte  sym_06059186
 .L_06026C9C:
-    .4byte  sym_060611DC              /* course 2 cmd pointer table (dword) */
+    .4byte  sym_060611DC
 .L_06026CA0:
-    .4byte  sym_060594A6              /* course 2 anim step sizes (stride=25) */
+    .4byte  sym_060594A6
 
     .global vdp2_reg_block_setup
     .type vdp2_reg_block_setup, @function
@@ -575,10 +575,10 @@ vdp2_reg_block_setup:
     rts
     mov.l @r15+, r14
 .L_06026CD4:
-    .2byte  0x0602                    /* VDP2 register base offset */
-    .2byte  0xFFFF                    /* padding */
+    .2byte  0x0602
+    .2byte  0xFFFF
 .L_06026CD8:
-    .4byte  0x0000E000                /* VDP2 scroll priority mask */
+    .4byte  0x0000E000
 .L_06026CDC:
     .4byte  sym_060283E0              /* display command writer (dup) */
 
@@ -620,9 +620,9 @@ sym_06026CE0:
     mov.l r4, @r3
     .2byte  0x0009                    /* alignment padding (nop) */
 .L_06026D24:
-    .4byte  sym_060635C4              /* game state active flag (countdown) */
+    .4byte  sym_060635C4
 .L_06026D28:
-    .4byte  sym_0605A010              /* delay iteration count result */
+    .4byte  sym_0605A010
     .4byte  0xD217E000
     .4byte  0xE1010215
     .4byte  0xE002E100

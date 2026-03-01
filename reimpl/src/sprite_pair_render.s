@@ -124,14 +124,14 @@ sprite_pair_render:
     bra     .L_0602668A
     nop
 .L_06026668:
-    .2byte  0x00A8                          /* 14 entries * 12 bytes = 168 = 0xA8 */
-    .2byte  0xFFFF                          /* padding / unused */
+    .2byte  0x00A8
+    .2byte  0xFFFF
 .L_0602666C:
-    .4byte  sym_060610BC                    /* slot element table (12-byte stride) */
+    .4byte  sym_060610BC
 .L_06026670:
-    .4byte  sym_06061170                    /* render record ptr table A (5 x 4-byte ptrs) */
+    .4byte  sym_06061170
 .L_06026674:
-    .4byte  sym_06061184                    /* render record ptr table B (5 x 4-byte ptrs) */
+    .4byte  sym_06061184
 .L_06026678:
     mov.l @r10, r6
     add r5, r6

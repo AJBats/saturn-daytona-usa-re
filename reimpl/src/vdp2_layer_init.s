@@ -122,12 +122,12 @@ vdp2_layer_init:
     mov.l @r15+, r14
     .2byte  0xFFFF
 .L_pool_06015F9C:
-    .4byte  sym_0605B8B8                    /* layer config table (16-byte entries: x_limit, x_vel, y_limit, y_vel) */
+    .4byte  sym_0605B8B8
 .L_pool_06015FA0:
-    .4byte  sym_06084FC8                    /* slot data array base (68-byte structs) */
+    .4byte  sym_06084FC8
 .L_pool_06015FA4:
-    .4byte  sym_06035438                    /* int_abs: r0 = |r4| */
+    .4byte  sym_06035438
 .L_06015FA8:
-    .4byte  0x00100000                      /* 16.0 (16.16 fixed-point) */
+    .4byte  0x00100000
 .L_pool_06015FAC:
-    .4byte  sym_06085F89                    /* bonus mode flag (byte) */
+    .4byte  sym_06085F89

@@ -215,9 +215,9 @@ vblank_color_apply:
 .L_wpool_0603EF2A:
     .2byte  0x0100
 .L_pool_0603EF2C:
-    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
+    .4byte  0x00010000
 .L_pool_0603EF30:
-    .4byte  0x00020000                  /* 2.0 (16.16 fixed-point) */
+    .4byte  0x00020000
 
     .global sym_0603EF34
 sym_0603EF34:

@@ -51,8 +51,8 @@ checkpoint_state_check:
     rts
     nop
 .L_060414C4:
-    .2byte  0x0360                      /* AI state offset: checkpoint trigger flag */
-    .2byte  0xFFFF                     /* alignment padding */
-    .4byte  ai_checkpoint_validate     /* (adjacent reference for BSR target) */
+    .2byte  0x0360
+    .2byte  0xFFFF
+    .4byte  ai_checkpoint_validate
 .L_060414CC:
-    .4byte  sym_060A5400               /* pointer to AI state base structure */
+    .4byte  sym_060A5400

@@ -67,7 +67,7 @@ DAT_0601a872:
 .L_pool_0601A878:
     .4byte  sym_0605D248
 .L_pool_0601A87C:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000
 .L_pool_0601A880:
     .4byte  sym_0605D243
 .L_0601A884:
@@ -178,4 +178,4 @@ DAT_0601a92a:
 .L_pool_0601A938:
     .4byte  sym_0605D2B4
 .L_pool_0601A93C:
-    .4byte  0x0000E000                  /* bits 15:13 mask */
+    .4byte  0x0000E000

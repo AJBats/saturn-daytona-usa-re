@@ -66,39 +66,39 @@ lap_time_display:
     .global DAT_06013cca
 .L_06013CCA:
 DAT_06013cca:
-    .2byte  0x00F0                           /* minutes dlist entry offset in car obj table */
+    .2byte  0x00F0
 
     .global DAT_06013ccc
 .L_06013CCC:
 DAT_06013ccc:
-    .2byte  0x7000                           /* VRAM destination offset for digit textures */
+    .2byte  0x7000
 
     .global DAT_06013cce
 .L_06013CCE:
 DAT_06013cce:
-    .2byte  0x0228                           /* seconds tens dlist entry offset */
+    .2byte  0x0228
 
     .global DAT_06013cd0
 .L_06013CD0:
 DAT_06013cd0:
-    .2byte  0x0230                           /* seconds ones dlist entry offset */
+    .2byte  0x0230
 .L_wpool_06013CD2:
-    .2byte  0x0CB0                           /* hundredths display slot value */
+    .2byte  0x0CB0
 .L_wpool_06013CD4:
-    .2byte  0x0238                           /* 1P colon separator dlist offset */
-    .2byte  0xFFFF                           /* alignment padding */
+    .2byte  0x0238
+    .2byte  0xFFFF
 .L_pool_06013CD8:
-    .4byte  sym_06028400                     /* display_list_loader function */
+    .4byte  sym_06028400
 .L_pool_06013CDC:
-    .4byte  sym_06063750                     /* car object table base (display list entries) */
+    .4byte  sym_06063750
 .L_pool_06013CE0:
-    .4byte  sym_06078900                     /* car data array base (stride 0x268) */
+    .4byte  sym_06078900
 .L_pool_06013CE4:
-    .4byte  sym_0602853E                     /* display_layer_config function */
+    .4byte  sym_0602853E
 .L_pool_06013CE8:
-    .4byte  sym_06028560                     /* render_state_commit function */
+    .4byte  sym_06028560
 .L_pool_06013CEC:
-    .4byte  sym_06085FF4                     /* two_player_flag (byte, 0=1P) */
+    .4byte  sym_06085FF4
 .L_06013CF0:
     mov.w   .L_06013DC6, r7
 .L_06013CF2:
@@ -219,66 +219,66 @@ DAT_06013cd0:
     .global DAT_06013dc6
 .L_06013DC6:
 DAT_06013dc6:
-    .2byte  0x0588                           /* 2P colon separator dlist offset in car obj table */
+    .2byte  0x0588
 
     .global DAT_06013dc8
 .L_06013DC8:
 DAT_06013dc8:
-    .2byte  0x0C84                           /* separator display slot */
+    .2byte  0x0C84
 
     .global DAT_06013dca
 .L_06013DCA:
 DAT_06013dca:
-    .2byte  0x0240                           /* car struct offset: current frame field */
+    .2byte  0x0240
 
     .global DAT_06013dcc
 .L_06013DCC:
 DAT_06013dcc:
-    .2byte  0x009C                           /* time digit display slot A */
+    .2byte  0x009C
 
     .global DAT_06013dce
 .L_06013DCE:
 DAT_06013dce:
-    .2byte  0x0CC4                           /* time digit display slot B */
+    .2byte  0x0CC4
 .L_wpool_06013DD0:
-    .2byte  0x0C98                           /* time digit display slot C */
+    .2byte  0x0C98
 
     .global DAT_06013dd2
 .L_06013DD2:
 DAT_06013dd2:
-    .2byte  0x0104                           /* lap number display slot */
+    .2byte  0x0104
 
     .global DAT_06013dd4
 .L_06013DD4:
 DAT_06013dd4:
-    .2byte  0x010C                           /* lap element display slot */
+    .2byte  0x010C
 
     .global DAT_06013dd6
 .L_06013DD6:
 DAT_06013dd6:
-    .2byte  0x0102                           /* "FASTEST LAP" text display slot */
+    .2byte  0x0102
 .L_pool_06013DD8:
-    .4byte  display_channel_b                /* display channel setup wrapper */
+    .4byte  display_channel_b
 .L_pool_06013DDC:
-    .4byte  anim_frame_transform             /* frame-to-time conversion function */
+    .4byte  anim_frame_transform
 .L_pool_06013DE0:
-    .4byte  sym_060284AE                     /* display_element_renderer function */
+    .4byte  sym_060284AE
 .L_pool_06013DE4:
-    .4byte  sym_060786A4                     /* frame_counter (32-bit race frame) */
+    .4byte  sym_060786A4
 .L_pool_06013DE8:
-    .4byte  0x000927BF                       /* 599,999 = max frame index (~10 min at 60fps) */
+    .4byte  0x000927BF
 .L_pool_06013DEC:
-    .4byte  sym_06085FF8                     /* pause_replay_flag (byte) */
+    .4byte  sym_06085FF8
 .L_pool_06013DF0:
-    .4byte  sym_06086012                     /* current_lap_index (byte, 0-based) */
+    .4byte  sym_06086012
 .L_pool_06013DF4:
-    .4byte  sym_06028430                     /* display_list_cmd_writer function */
+    .4byte  sym_06028430
 .L_pool_06013DF8:
-    .4byte  sym_06044A58                     /* "FASTEST LAP" string (ROM data) */
+    .4byte  sym_06044A58
 .L_pool_06013DFC:
-    .4byte  0x0000F000                       /* nibble 3 mask (palette/color selector) */
+    .4byte  0x0000F000
 .L_pool_06013E00:
-    .4byte  sym_060283E0                     /* geom_render_dispatch (text renderer) */
+    .4byte  sym_060283E0
 .L_06013E04:
     add #0x8, r15
     lds.l @r15+, pr

@@ -64,38 +64,38 @@ state_post_race_cleanup:
     jmp @r3
     lds.l @r15+, pr
 .L_06009CB6:
-    .2byte  0x00BC                           /* car struct replay data offset */
+    .2byte  0x00BC
 .L_06009CB8:
-    .4byte  util_wrapper                     /* per-frame utility wrapper */
+    .4byte  util_wrapper
 .L_06009CBC:
-    .4byte  sym_0607EAE0                     /* camera active flag (dword) */
+    .4byte  sym_0607EAE0
 .L_06009CC0:
-    .4byte  camera_special_mode              /* post-race camera flyover */
+    .4byte  camera_special_mode
 .L_06009CC4:
-    .4byte  sym_0607EAD8                     /* race end state (0/1/2) */
+    .4byte  sym_0607EAD8
 .L_06009CC8:
-    .4byte  replay_camera_ctrl               /* replay camera controller */
+    .4byte  replay_camera_ctrl
 .L_06009CCC:
-    .4byte  update_mode_dispatch             /* mode-specific update dispatch */
+    .4byte  update_mode_dispatch
 .L_06009CD0:
-    .4byte  car_proximity_check              /* car proximity/collision detect */
+    .4byte  car_proximity_check
 .L_06009CD4:
-    .4byte  camera_system                    /* main camera pipeline */
+    .4byte  camera_system
 .L_06009CD8:
-    .4byte  sym_06063E24                     /* camera eye position (ptr to vec3) */
+    .4byte  sym_06063E24
 .L_06009CDC:
-    .4byte  sym_06063EEC                     /* camera look-at target vector */
+    .4byte  sym_06063EEC
 .L_06009CE0:
-    .4byte  sym_06063EF8                     /* camera up vector */
+    .4byte  sym_06063EF8
 .L_06009CE4:
-    .4byte  camera_orient_calc               /* camera orientation matrix calc */
+    .4byte  camera_orient_calc
 .L_06009CE8:
-    .4byte  scene_master                     /* master scene render pipeline */
+    .4byte  scene_master
 .L_06009CEC:
-    .4byte  sym_0607ED8C                     /* extended display enable (16-bit) */
+    .4byte  sym_0607ED8C
 .L_06009CF0:
-    .4byte  sym_060033E6                     /* extended display handler */
+    .4byte  sym_060033E6
 .L_06009CF4:
-    .4byte  sym_0607E944                     /* player car struct pointer */
+    .4byte  sym_0607E944
 .L_06009CF8:
-    .4byte  frame_end_commit                 /* frame end commit (tail-call) */
+    .4byte  frame_end_commit

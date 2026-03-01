@@ -64,7 +64,7 @@ DAT_0602d0dc:
 DAT_0602d0de:
     .2byte  0x005C
 .L_0602D0E0:
-    .4byte  0x00000300                  /* max Z distance for draw count */
+    .4byte  0x00000300
 .L_0602D0E4:
     cmp/gt r8, r2
     bt      .L_0602D0EA
@@ -175,13 +175,13 @@ DAT_0602d18e:
     .2byte  0x00CE
     .2byte  0x0000
 .L_0602D194:
-    .4byte  0x000F0000                  /* nibble 4 mask */
+    .4byte  0x000F0000
 .L_0602D198:
     .4byte  cos_lookup
 .L_0602D19C:
-    .4byte  0x00000100                  /* distance^2 threshold for large path */
+    .4byte  0x00000100
 .L_0602D1A0:
-    .4byte  0x00004000                  /* 0.25 (16.16 fixed-point) */
+    .4byte  0x00004000
 .L_0602D1A4:
     mov r2, r3
     dmuls.l r2, r3
@@ -304,7 +304,7 @@ DAT_0602d238:
     .2byte  0x0178
     .2byte  0x0000
 .L_0602D274:
-    .4byte  0x00000300                  /* max lateral accumulator range */
+    .4byte  0x00000300
 .L_0602D278:
     cmp/gt r5, r3
     bt      .L_0602D27E
@@ -358,7 +358,7 @@ DAT_0602d2c4:
 DAT_0602d2ca:
     .2byte  0x00CC
 .L_0602D2CC:
-    .4byte  0x00004000                  /* 0.25 (16.16 fixed-point) */
+    .4byte  0x00004000
 .L_0602D2D0:
     mov.w   .L_0602D306, r2
     mov r4, r1
@@ -470,9 +470,9 @@ DAT_0602d30a:
 DAT_0602d38a:
     .2byte  0x005C
 .L_0602D38C:
-    .4byte  sym_0602ECCC                /* hw_divide_protected */
+    .4byte  sym_0602ECCC
 .L_0602D390:
-    .4byte  0x00000FE0                  /* ~180 degrees in angle units */
+    .4byte  0x00000FE0
 .L_0602D394:
     neg r6, r6
     cmp/gt r6, r5
@@ -527,13 +527,13 @@ DAT_0602d3e8:
 DAT_0602d3ea:
     .2byte  0x005C
 .L_0602D3EC:
-    .4byte  sym_0602ECCC                /* hw_divide_protected */
+    .4byte  sym_0602ECCC
 .L_0602D3F0:
-    .4byte  0xFFFFCD80                  /* -0x3280 lateral distance threshold */
+    .4byte  0xFFFFCD80
 .L_0602D3F4:
-    .4byte  0x20000000                  /* cache-through render flag */
+    .4byte  0x20000000
 .L_0602D3F8:
-    .4byte  0x40000000                  /* far render priority flag */
+    .4byte  0x40000000
 .L_0602D3FC:
     mov.l @(0, r0), r2
     .byte   0xD3, 0x03    /* mov.l .L_0602D40C, r3 */
@@ -544,9 +544,9 @@ DAT_0602d3ea:
     mov.l r2, @(0, r0)
     .2byte  0x0000
 .L_0602D40C:
-    .4byte  0x10000000                  /* near-object render flag */
+    .4byte  0x10000000
 .L_0602D410:
-    .4byte  0x40000000                  /* near render priority flag */
+    .4byte  0x40000000
 .L_0602D414:
     mov.w   DAT_0602d432, r7
     mov.l @(r0, r7), r6
@@ -573,4 +573,4 @@ DAT_0602d432:
     .2byte  0x00D4
     .2byte  0x0000
 .L_0602D438:
-    .4byte  0xFFFFCC00                  /* -0x3400 velocity clamp limit */
+    .4byte  0xFFFFCC00

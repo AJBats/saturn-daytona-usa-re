@@ -120,21 +120,21 @@ palette_engine_core:
     rts
     nop
 .L_wpool_06042B9D:
-    .2byte  0xCFFF              /* ~0x3000: clear palette number bits [13:12] */
+    .2byte  0xCFFF
 .L_wpool_06042B9F:
-    .2byte  0xF3FF              /* ~0x0C00: clear color offset bits [11:10] */
+    .2byte  0xF3FF
 .L_wpool_06042BA1:
-    .2byte  0xFDFF              /* ~0x0200: clear special priority bit 9 */
+    .2byte  0xFDFF
 .L_wpool_06042BA3:
-    .2byte  0x0100              /* flag bit 8: enable/transparency control */
+    .2byte  0x0100
 .L_wpool_06042BA5:
-    .2byte  0x0080              /* flag bit 7: auxiliary byte write control */
+    .2byte  0x0080
 
     .global DAT_06042ba6
 DAT_06042ba6:
-    .2byte  0xFE71              /* sign-extended offset -0x18F for byte write */
+    .2byte  0xFE71
 .L_pool_06042BA9:
-    .4byte  0xFFFF3FFF          /* ~0x0000C000: clear color bank bits [15:14] */
+    .4byte  0xFFFF3FFF
 
     .global sym_06042BAC
 sym_06042BAC:
@@ -159,7 +159,7 @@ sym_06042BBE:
     and r3, r4
     rts
     mov.l r4, @r5
-    .4byte  0xE5B0E3FE          /* additional helper functions (raw bytes) */
+    .4byte  0xE5B0E3FE
     .4byte  0x64522439
     .4byte  0x000B2542
     .4byte  0xE5B0E304

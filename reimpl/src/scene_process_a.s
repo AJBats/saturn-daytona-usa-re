@@ -60,29 +60,29 @@ scene_process_a:
 
     .global DAT_0602528a
 DAT_0602528a:
-    .2byte  0x00A9                      /* render param (physics mode) */
+    .2byte  0x00A9
 .L_0602528C:
-    .2byte  0x0C08                      /* scene data block size */
+    .2byte  0x0C08
 .L_0602528E:
-    .2byte  0x0590                      /* offset into obj table for main entry */
+    .2byte  0x0590
 .L_06025290:
-    .2byte  0x0090                      /* DMA transfer size (small) */
+    .2byte  0x0090
 
     .global DAT_06025292
 DAT_06025292:
-    .2byte  0x0C3E                      /* layer size for state 4 extra pass */
+    .2byte  0x0C3E
 .L_06025294:
-    .4byte  sym_06063750                /* car/obj table base (8-byte stride) */
+    .4byte  sym_06063750
 .L_06025298:
-    .4byte  sym_06028400                /* layer setup / geometry dispatch */
+    .4byte  sym_06028400
 .L_0602529C:
-    .4byte  sym_06061198                /* game state byte */
+    .4byte  sym_06061198
 .L_060252A0:
-    .4byte  sym_060590B8                /* scene data for state 4 (race) */
+    .4byte  sym_060590B8
 .L_060252A4:
-    .4byte  sym_060284AE                /* geometry dispatch function */
+    .4byte  sym_060284AE
 .L_060252A8:
-    .4byte  sym_060590E0                /* scene data for state 5 (post-race) */
+    .4byte  sym_060590E0
 .L_060252AC:
     mov.l   .L_06025390, r7
     mov r13, r5
@@ -191,56 +191,56 @@ DAT_06025292:
     bra     .L_060253AA
     mov #0x8, r2
 .L_06025378:
-    .2byte  0x0090                      /* DMA transfer size (small, 2nd pool copy) */
+    .2byte  0x0090
 
     .global DAT_0602537a
 DAT_0602537a:
-    .2byte  0x0C34                      /* layer A size (states 5/default) */
+    .2byte  0x0C34
 
     .global DAT_0602537c
 DAT_0602537c:
-    .2byte  0x0C4E                      /* layer B size (states 5/default) */
+    .2byte  0x0C4E
 
     .global DAT_0602537e
 DAT_0602537e:
-    .2byte  0x02A4                      /* slot table entry size */
+    .2byte  0x02A4
 
     .global DAT_06025380
 DAT_06025380:
-    .2byte  0x0428                      /* obj table offset: layer 1 */
+    .2byte  0x0428
 
     .global DAT_06025382
 DAT_06025382:
-    .2byte  0x6000                      /* frame data offset: layer 1 */
+    .2byte  0x6000
 
     .global DAT_06025384
 DAT_06025384:
-    .2byte  0x0430                      /* obj table offset: layer 2 */
+    .2byte  0x0430
 
     .global DAT_06025386
 DAT_06025386:
-    .2byte  0x7000                      /* frame data offset: layers 2 & 3 */
+    .2byte  0x7000
 .L_06025388:
-    .2byte  0x02A0                      /* DMA transfer size (medium) */
+    .2byte  0x02A0
 
     .global DAT_0602538a
 DAT_0602538a:
-    .2byte  0x0438                      /* obj table offset: layer 3 */
+    .2byte  0x0438
 .L_0602538C:
-    .2byte  0x02B4                      /* DMA transfer size (large) */
-    .2byte  0xFFFF                      /* alignment padding */
+    .2byte  0x02B4
+    .2byte  0xFFFF
 .L_06025390:
-    .4byte  sym_06059104                /* scene data for default state */
+    .4byte  sym_06059104
 .L_06025394:
-    .4byte  sym_060284AE                /* geometry dispatch (2nd pool copy) */
+    .4byte  sym_060284AE
 .L_06025398:
-    .4byte  sym_06058F94                /* scene slot table base */
+    .4byte  sym_06058F94
 .L_0602539C:
-    .4byte  sym_06061170                /* render record table (4-byte per car) */
+    .4byte  sym_06061170
 .L_060253A0:
-    .4byte  car_physics_final           /* per-car physics final update */
+    .4byte  car_physics_final
 .L_060253A4:
-    .4byte  sym_06061198                /* game state byte (2nd pool copy) */
+    .4byte  sym_06061198
 .L_060253A8:
     mov #0x9, r2
 .L_060253AA:
@@ -340,12 +340,12 @@ DAT_0602538a:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0xFFFF                      /* alignment padding */
+    .2byte  0xFFFF
 .L_06025468:
-    .4byte  sym_06058FBC                /* per-slot offset entries (8-byte stride) */
+    .4byte  sym_06058FBC
 .L_0602546C:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point rounding) */
+    .4byte  0x00008000
 .L_06025470:
-    .4byte  sym_0605904C                /* direction pair table A (2-byte stride) */
+    .4byte  sym_0605904C
 .L_06025474:
-    .4byte  sym_06059060                /* direction pair table B (2-byte stride) */
+    .4byte  sym_06059060

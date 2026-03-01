@@ -27,9 +27,9 @@ sym_06035C92:
     .4byte  0xD002000B
     .2byte  0x6001
 .L_06035CA6:
-    .2byte  0x0BE1                          /* [HIGH] HIRQ clear mask — bits 0,5-7,9-11 of CD HIRQ */
+    .2byte  0x0BE1
 .L_06035CA8:
-    .4byte  sym_06063590                    /* [HIGH] HIRQ status cache word in WRAM — also used by smpc_peripheral_query, smpc_cmd_helper_b */
+    .4byte  sym_06063590
     .4byte  0x2589000C
     .4byte  0xD30A000B
     .4byte  0x2341D00A

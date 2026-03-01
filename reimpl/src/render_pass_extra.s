@@ -170,7 +170,7 @@ DAT_060079ce:
 .L_06007A14:
     .4byte  sym_060394C2
 .L_06007A18:
-    .4byte  0x00008000                  /* VDP1 CMDCTRL draw-end marker */
+    .4byte  0x00008000
 .L_06007A1C:
     .4byte  sym_0605B6D8
 .L_06007A20:
@@ -392,11 +392,11 @@ DAT_06007a96:
 .L_06007BAC:
     .4byte  0x00900000
 .L_06007BB0:
-    .4byte  0x00020000                  /* 2.0 (16.16 fixed-point) */
+    .4byte  0x00020000
 .L_06007BB4:
     .4byte  0x00890000
 .L_06007BB8:
-    .4byte  0xFFFE0000                  /* -2.0 (16.16 fixed-point) */
+    .4byte  0xFFFE0000
 .L_06007BBC:
     .4byte  0x0000A3FF
 .L_06007BC0:
@@ -533,7 +533,7 @@ vdp1_sprite_builder:
 .L_06007CB0:
     .4byte  sym_060620D0
 .L_06007CB4:
-    .4byte  0x00008000                  /* VDP1 CMDCTRL draw-end marker */
+    .4byte  0x00008000
 .L_06007CB8:
     .4byte  sym_0608AC20
 .L_06007CBC:

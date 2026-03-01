@@ -1199,7 +1199,7 @@ yaxis_integrate:
 .L_06034268:
     .4byte  0x00000002
 .L_0603426C:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000
 .L_06034270:
     .4byte  mat_rot_y
 .L_06034274:
@@ -1672,7 +1672,7 @@ ai_waypoint_follower:
 .L_06034550:
     .4byte  isqrt
 .L_06034554:
-    .4byte  0x00080000                  /* 8.0 (16.16 fixed-point) */
+    .4byte  0x00080000
 .L_06034558:
     .4byte  0x00000001
 .L_0603455C:
@@ -1782,7 +1782,7 @@ ai_car_pos_init:
 .L_06034608:
     .4byte  0x00000002
 .L_0603460C:
-    .4byte  0x00004000                  /* 0.25 (16.16 fixed-point) */
+    .4byte  0x00004000
 .L_06034610:
     .4byte  0x00000028
 .L_06034614:
@@ -2107,7 +2107,7 @@ ranking_system_full:
 .L_0603482C:
     .4byte  0x00000001
 .L_06034830:
-    .4byte  0xFFFFFFFF                  /* SH-2 peripheral +0x1FF */
+    .4byte  0xFFFFFFFF
 .L_06034834:
     .4byte  0x00000002
 .L_06034838:
@@ -2589,7 +2589,7 @@ track_intersect_test:
 .L_06034B48:
     .4byte  input_proc_digital
 .L_06034B4C:
-    .4byte  0x00FFFFFF                  /* low 24-bit mask */
+    .4byte  0x00FFFFFF
 .L_06034B50:
     .4byte  smpc_secondary_proc
 
@@ -2862,7 +2862,7 @@ ai_brake_zone:
 .L_06034D14:
     .4byte  input_proc_digital
 .L_06034D18:
-    .4byte  0x00FFFFFF                  /* low 24-bit mask */
+    .4byte  0x00FFFFFF
 
     .global ai_throttle_modulate
     .type ai_throttle_modulate, @function

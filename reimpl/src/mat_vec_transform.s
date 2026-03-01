@@ -50,17 +50,17 @@ mat_vec_transform:
     .4byte  0x25021511
     .4byte  0x000B1522
 .L_pool_06027068:
-    .4byte  sym_06089EDC                   /* [HIGH] matrix stack A pointer (current top) */
+    .4byte  sym_06089EDC
 .L_pool_0602706C:
-    .4byte  sym_06089EE0                   /* [HIGH] matrix stack A alternate base */
+    .4byte  sym_06089EE0
 .L_pool_06027070:
-    .4byte  sym_0608A4E0                   /* [HIGH] vector scratch buffer A0 (12 bytes) */
+    .4byte  sym_0608A4E0
 .L_pool_06027074:
-    .4byte  sym_0608A4F0                   /* [HIGH] vector scratch buffer A1 (12 bytes) */
+    .4byte  sym_0608A4F0
 .L_pool_06027078:
-    .4byte  sym_0608A520                   /* [HIGH] vector output buffer A (transform result) */
+    .4byte  sym_0608A520
 .L_pool_0602707C:
-    .4byte  0x00010000                     /* [HIGH] 1.0 in 16.16 fixed-point */
+    .4byte  0x00010000
 
     .global sym_06027080
 sym_06027080:

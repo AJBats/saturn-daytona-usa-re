@@ -23,10 +23,10 @@ replay_cam_interp:
     jmp @r3
     lds.l @r15+, pr
 .L_0601AFC6:
-    .2byte  0x0196                     /* [HIGH] extended fill offset */
-    .4byte  sym_0608600F               /* [MEDIUM] phase_countdown_timer (global byte) */
-    .4byte  sym_06086011               /* [MEDIUM] phase_index (global byte) */
+    .2byte  0x0196
+    .4byte  sym_0608600F
+    .4byte  sym_06086011
 .L_pool_0601AFD0:
-    .4byte  sym_0604A480               /* [MEDIUM] course texture data buffer */
+    .4byte  sym_0604A480
 .L_pool_0601AFD4:
-    .4byte  sym_060284AE               /* [HIGH] geom_dispatch_final fn */
+    .4byte  sym_060284AE

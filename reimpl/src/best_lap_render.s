@@ -59,6 +59,6 @@ best_lap_render:
     .4byte  0x00000026
     .4byte  0x00000024
 .L_pool_060327F8:
-    .4byte  0x00000084                  /* [MEDIUM] struct field offset: lap data destination (+0x84) */
+    .4byte  0x00000084
 .L_060327FC:
     .byte   0xD0, 0x9D    /* mov.l @cross-TU pool (render pipeline dispatch), r0 */

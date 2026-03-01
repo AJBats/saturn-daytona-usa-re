@@ -27,12 +27,12 @@ transition_small_d:
     rts
     mov.l @r15+, r14
 .L_wpool_0600FE2A:
-    .2byte  0x00B4                           /* [HIGH] countdown reset value: 180 frames */
+    .2byte  0x00B4
 .L_pool_0600FE2C:
-    .4byte  sym_0607EBCC                     /* [HIGH] &state countdown timer (dword) */
+    .4byte  sym_0607EBCC
 .L_pool_0600FE30:
-    .4byte  0xAB110DFF                       /* [MEDIUM] sound ID: transition-end sound */
+    .4byte  0xAB110DFF
 .L_pool_0600FE34:
     .4byte  sound_cmd_dispatch               /* [HIGH] sound command dispatcher function */
 .L_pool_0600FE38:
-    .4byte  sym_0607887F                     /* [HIGH] &game state byte */
+    .4byte  sym_0607887F

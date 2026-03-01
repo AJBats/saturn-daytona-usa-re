@@ -132,19 +132,19 @@ DAT_0600ed62:
 DAT_0600ed64:
     .2byte  0x20D8
 .L_0600ED66:
-    .2byte  0x0083                      /* BIOS interrupt mask A: enable VBlank + timer */
+    .2byte  0x0083
 .L_0600ED68:
-    .2byte  0xFF7C                      /* BIOS interrupt mask B: second config pattern */
+    .2byte  0xFF7C
 .L_0600ED6A:
     .2byte  0x0108
 
     .global DAT_0600ed6c
 DAT_0600ed6c:
-    .2byte  0x299B                      /* cdrom offset: slot 1 sprite data */
+    .2byte  0x299B
 
     .global DAT_0600ed6e
 DAT_0600ed6e:
-    .2byte  0x29A3                      /* cdrom offset: slot 2 sprite data */
+    .2byte  0x29A3
 .L_0600ED70:
     .2byte  0x0810
 
@@ -176,42 +176,42 @@ DAT_0600ed7e:
 
     .global DAT_0600ed80
 DAT_0600ed80:
-    .2byte  0x080F                      /* sprite size param for slot 6 */
-    .2byte  0xFFFF                      /* alignment padding */
+    .2byte  0x080F
+    .2byte  0xFFFF
 .L_0600ED84:
-    .4byte  vdp1_init                   /* VDP1 sprite hardware reset */
+    .4byte  vdp1_init
 .L_0600ED88:
-    .4byte  sym_06078884                /* &car_struct_ptr_b (computed at init) */
+    .4byte  sym_06078884
 .L_0600ED8C:
-    .4byte  sym_06063F5C                /* &car_array_base (ptr to car data pool) */
+    .4byte  sym_06063F5C
 .L_0600ED90:
-    .4byte  sym_06059FFC                /* &car_index (active car selector) */
+    .4byte  sym_06059FFC
 .L_0600ED94:
-    .4byte  sym_06078880                /* &car_struct_ptr_a (offset +0xC0 from ptr_b) */
+    .4byte  sym_06078880
 .L_0600ED98:
-    .4byte  sym_06078888                /* car_struct_array[3] (3 x 32-byte slots) */
+    .4byte  sym_06078888
 .L_0600ED9C:
-    .4byte  sym_0606A4F4                /* &race_state_a (disc/loading state) */
+    .4byte  sym_0606A4F4
 .L_0600EDA0:
-    .4byte  sym_0606A4EC                /* &race_timer (init to 0x20D8) */
+    .4byte  sym_0606A4EC
 .L_0600EDA4:
-    .4byte  sym_06000344                /* BIOS interrupt mask control fn ptr */
+    .4byte  sym_06000344
 .L_0600EDA8:
-    .4byte  sym_06012E00                /* subsystem init function */
+    .4byte  sym_06012E00
 .L_0600EDAC:
-    .4byte  sym_0605A018                /* phase display data base (DMA source) */
+    .4byte  sym_0605A018
 .L_0600EDB0:
-    .4byte  dma_transfer                /* SCU DMA transfer function */
+    .4byte  dma_transfer
 .L_0600EDB4:
-    .4byte  sym_0605A008                /* &frame_counter (set to 3 during init) */
+    .4byte  sym_0605A008
 .L_0600EDB8:
-    .4byte  0x00008000                  /* 0.5 in 16.16 fixed-point */
+    .4byte  0x00008000
 .L_0600EDBC:
-    .4byte  sym_06089E44                /* &vdp1_sprite_index (word, cleared to 0) */
+    .4byte  sym_06089E44
 .L_0600EDC0:
-    .4byte  vdp1_sprite_render          /* sprite registration: r4=slot r5=size r6=flags r7=cdrom */
+    .4byte  vdp1_sprite_render
 .L_0600EDC4:
-    .4byte  0x002A0000                  /* CD-ROM data base address */
+    .4byte  0x002A0000
 .L_0600EDC8:
     mov.w   DAT_0600eeba, r7
     mov #0x4, r6
@@ -837,12 +837,12 @@ DAT_0600f150:
 DAT_0600f152:
     .2byte  0x2324
 .L_0600F154:
-    .2byte  0x232C                      /* cdrom offset: slot 0x39 (last basic sprite) */
-    .2byte  0xFFFF                      /* alignment padding */
+    .2byte  0x232C
+    .2byte  0xFFFF
 .L_0600F158:
-    .4byte  sym_06089E46                /* &sprite_ready_flag (word, set to 1) */
+    .4byte  sym_06089E46
 .L_0600F15C:
-    .4byte  sym_06007540                /* object registration: r4=slot r5=obj_id r6=flags */
+    .4byte  sym_06007540
 .L_0600F160:
     mov #0x1E, r5
     jsr @r12
@@ -978,29 +978,29 @@ DAT_0600f152:
     bra     .L_0600F27A
     nop
 .L_0600F26A:
-    .2byte  0x0B40                      /* large sprite group size param */
+    .2byte  0x0B40
 
     .global DAT_0600f26c
 DAT_0600f26c:
-    .2byte  0x4B46                      /* cdrom offset: slot 0x101 sprite data */
+    .2byte  0x4B46
 .L_0600F26E:
-    .2byte  0x0101                      /* extended VDP1 slot 0x101 */
+    .2byte  0x0101
 
     .global DAT_0600f270
 DAT_0600f270:
-    .2byte  0x5313                      /* cdrom offset: slot 0x102 sprite data */
+    .2byte  0x5313
 
     .global DAT_0600f272
 DAT_0600f272:
-    .2byte  0x0102                      /* extended VDP1 slot 0x102 */
+    .2byte  0x0102
 .L_0600F274:
-    .2byte  0x0080                      /* sprite flags: bit 7 set */
+    .2byte  0x0080
 
     .global DAT_0600f276
 DAT_0600f276:
-    .2byte  0x5B86                      /* cdrom offset: slot 0x103 sprite data */
+    .2byte  0x5B86
 .L_0600F278:
-    .2byte  0x0103                      /* extended VDP1 slot 0x103 */
+    .2byte  0x0103
 .L_0600F27A:
     mov.w   DAT_0600f342, r6
     mov.w   DAT_0600f344, r4
@@ -1105,84 +1105,84 @@ DAT_0600f276:
 
     .global DAT_0600f342
 DAT_0600f342:
-    .2byte  0x0084                      /* obj flags for slot 0x104 */
+    .2byte  0x0084
 
     .global DAT_0600f344
 DAT_0600f344:
-    .2byte  0x0104                      /* extended obj slot 0x104 */
+    .2byte  0x0104
 
     .global DAT_0600f346
 DAT_0600f346:
-    .2byte  0x0088                      /* obj flags for slot 0x105 */
+    .2byte  0x0088
 
     .global DAT_0600f348
 DAT_0600f348:
-    .2byte  0x0105                      /* extended obj slot 0x105 */
+    .2byte  0x0105
 
     .global DAT_0600f34a
 DAT_0600f34a:
-    .2byte  0x008C                      /* obj flags for slot 0x106 */
+    .2byte  0x008C
 .L_0600F34C:
-    .2byte  0x0106                      /* extended VDP1 slot 0x106 */
-    .2byte  0xFFFF                      /* alignment padding */
+    .2byte  0x0106
+    .2byte  0xFFFF
 .L_0600F350:
-    .4byte  0x00008000                  /* 0.5 in 16.16 fixed-point */
+    .4byte  0x00008000
 .L_0600F354:
-    .4byte  sym_06086028                /* &display_control_flag (word) */
+    .4byte  sym_06086028
 .L_0600F358:
-    .4byte  0x25F00FFE                  /* VDP2 CRAM last entry (end marker) */
+    .4byte  0x25F00FFE
 .L_0600F35C:
-    .4byte  tilemap_dma_update          /* tilemap DMA update function */
+    .4byte  tilemap_dma_update
 .L_0600F360:
-    .4byte  sym_060149E0                /* display_disable: clears bit 15 of display state */
+    .4byte  sym_060149E0
 .L_0600F364:
-    .4byte  audio_display_init          /* audio/display init function */
+    .4byte  audio_display_init
 .L_0600F368:
-    .4byte  render_coord_transform      /* render coordinate transform */
+    .4byte  render_coord_transform
 .L_0600F36C:
-    .4byte  memcpy_word_idx             /* word-indexed memcpy for palette DMA */
+    .4byte  memcpy_word_idx
 .L_0600F370:
-    .4byte  sym_060484EC                /* BG palette source (0xC0 bytes) */
+    .4byte  sym_060484EC
 .L_0600F374:
-    .4byte  0x25F00060                  /* CRAM +0x060: BG palette bank A */
+    .4byte  0x25F00060
 .L_0600F378:
-    .4byte  0x25F00460                  /* CRAM +0x460: BG palette bank B (mirror) */
+    .4byte  0x25F00460
 .L_0600F37C:
-    .4byte  sym_0604870C                /* sprite palette source A (0x20 bytes) */
+    .4byte  sym_0604870C
 .L_0600F380:
-    .4byte  0x25F00520                  /* CRAM +0x520: sprite palette A */
+    .4byte  0x25F00520
 .L_0600F384:
-    .4byte  0x25F00540                  /* CRAM +0x540: sprite palette A mirror */
+    .4byte  0x25F00540
 .L_0600F388:
-    .4byte  sym_0604842C                /* object palette source (0x40 bytes) */
+    .4byte  sym_0604842C
 .L_0600F38C:
-    .4byte  0x25F001A0                  /* CRAM +0x1A0: object palette bank A */
+    .4byte  0x25F001A0
 .L_0600F390:
-    .4byte  0x25F007A0                  /* CRAM +0x7A0: object palette bank B (mirror) */
+    .4byte  0x25F007A0
 .L_0600F394:
-    .4byte  sym_0604846C                /* object palette source B (0x20 bytes) */
+    .4byte  sym_0604846C
 .L_0600F398:
-    .4byte  0x25F001E0                  /* CRAM +0x1E0: object palette B bank A */
+    .4byte  0x25F001E0
 .L_0600F39C:
-    .4byte  0x25F007E0                  /* CRAM +0x7E0: object palette B bank B (mirror) */
+    .4byte  0x25F007E0
 .L_0600F3A0:
-    .4byte  sym_0605CA5C                /* effect palette source (0x40 bytes) */
+    .4byte  sym_0605CA5C
 .L_0600F3A4:
-    .4byte  0x25F005A0                  /* CRAM +0x5A0: effect palette */
+    .4byte  0x25F005A0
 .L_0600F3A8:
-    .4byte  sym_0604814C                /* base palette source (0x60 bytes) */
+    .4byte  sym_0604814C
 .L_0600F3AC:
-    .4byte  0x25F00000                  /* CRAM +0x000: base palette bank A */
+    .4byte  0x25F00000
 .L_0600F3B0:
-    .4byte  0x25F00600                  /* CRAM +0x600: base palette bank B (mirror) */
+    .4byte  0x25F00600
 .L_0600F3B4:
-    .4byte  sym_060484CC                /* sprite palette source B (0x20 bytes) */
+    .4byte  sym_060484CC
 .L_0600F3B8:
-    .4byte  0x25F006A0                  /* CRAM +0x6A0: sprite palette B */
+    .4byte  0x25F006A0
 .L_0600F3BC:
-    .4byte  sym_060487AC                /* NBG palette source (r9 bytes) */
+    .4byte  sym_060487AC
 .L_0600F3C0:
-    .4byte  0x25F00120                  /* CRAM +0x120: NBG palette */
+    .4byte  0x25F00120
 .L_0600F3C4:
     .byte   0xD4, 0x27    /* mov.l .L_pool_0600F464, r4 */
     jsr @r14

@@ -219,7 +219,7 @@ DAT_0600bcee:
 .L_0600BD08:
     .4byte  0x006E0000
 .L_0600BD0C:
-    .4byte  0x00100000                  /* 16.0 (16.16 fixed-point) */
+    .4byte  0x00100000
 .L_0600BD10:
     .4byte  sym_06063E2C
 .L_0600BD14:
@@ -329,11 +329,11 @@ DAT_0600bdae:
 .L_0600BDC8:
     .4byte  0x006E0000
 .L_0600BDCC:
-    .4byte  0x00100000                  /* 16.0 (16.16 fixed-point) */
+    .4byte  0x00100000
 .L_0600BDD0:
     .4byte  sym_06063E2C
 .L_0600BDD4:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000
 .L_0600BDD8:
     .4byte  sym_06078663
 .L_0600BDDC:

@@ -43,13 +43,13 @@ rot_scroll_interp:
     rts
     nop
 .L_pool_0602E4B0:
-    .4byte  cos_lookup                     /* pool: &cos_lookup function */
+    .4byte  cos_lookup
 .L_pool_0602E4B4:
-    .4byte  sin_lookup                     /* pool: &sin_lookup function */
+    .4byte  sin_lookup
 .L_pool_0602E4B8:
-    .4byte  0x0000018C                     /* struct offset +0x18C: X rotation delta */
+    .4byte  0x0000018C
 .L_pool_0602E4BC:
-    .4byte  0x00000190                     /* struct offset +0x190: Z rotation delta */
+    .4byte  0x00000190
 
     .global sym_0602E4BC
 sym_0602E4BC:

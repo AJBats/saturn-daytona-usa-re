@@ -26,7 +26,7 @@ secondary_render_pass:
     .4byte  sym_0602EE20
     .4byte  sym_0602EE58
 .L_pool_0602EDE5:
-    .4byte  sym_060302C6                /* [HIGH] per-car engine sound generator (FUN_060302C6) */
+    .4byte  sym_060302C6
 
     .global sym_0602EDE8
 sym_0602EDE8:

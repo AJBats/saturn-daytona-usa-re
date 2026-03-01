@@ -37,17 +37,17 @@ hw_render_dispatch:
     mov.l   .L_06005170, r3
     jmp @r3
     mov.l @r15+, r14
-    .2byte  0xFFFF                          /* padding to align constant pool */
-    .4byte  sym_06063750                    /* car object table base (cross-TU pool ref) */
-    .4byte  sym_06059F10                    /* display state table (cross-TU pool ref) */
+    .2byte  0xFFFF
+    .4byte  sym_06063750
+    .4byte  sym_06059F10
 .L_06005164:
-    .4byte  0x25E00000                      /* VDP2 VRAM bank 0 base address */
+    .4byte  0x25E00000
 .L_06005168:
-    .4byte  0x25E20000                      /* VDP2 VRAM bank 1 base address (+0x20000) */
+    .4byte  0x25E20000
 .L_0600516C:
-    .4byte  dma_memory_transfer             /* hardware DMA transfer function */
+    .4byte  dma_memory_transfer
 .L_06005170:
-    .4byte  memcpy_long_idx                 /* CPU long-word indexed copy function */
+    .4byte  memcpy_long_idx
 
     .global sym_06005174
 sym_06005174:

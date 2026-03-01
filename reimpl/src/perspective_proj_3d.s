@@ -111,21 +111,21 @@ perspective_proj_3d:
     .global DAT_06014818
 DAT_06014818:
     .2byte  0x00FF                      /* sentinel value (0xFF) loaded as mov.w */
-    .2byte  0xFFFF                      /* padding / alignment */
+    .2byte  0xFFFF
 .L_pool_0601481C:
-    .4byte  sym_06084B14                /* search key buffer (3 bytes) */
+    .4byte  sym_06084B14
 .L_pool_06014820:
-    .4byte  sym_0605B3C4                /* file ID list (3-byte ASCII entries) */
+    .4byte  sym_0605B3C4
 .L_pool_06014824:
-    .4byte  sym_06084FB8                /* result flag (16-bit word) */
+    .4byte  sym_06084FB8
 .L_pool_06014828:
-    .4byte  sym_0607EBCC                /* countdown timer (32-bit long, frames) */
+    .4byte  sym_0607EBCC
 .L_pool_0601482C:
-    .4byte  sym_0605B164                /* value lookup table (32-bit per entry) */
+    .4byte  sym_0605B164
 .L_pool_06014830:
-    .4byte  sym_0607EBC8                /* environment/random variable (bottom 2 bits) */
+    .4byte  sym_0607EBC8
 .L_pool_06014834:
-    .4byte  sym_0605B4A8                /* replacement key table (3-byte entries) */
+    .4byte  sym_0605B4A8
 
 .L_06014838:
     extu.b r7, r13
@@ -157,4 +157,4 @@ DAT_06014818:
     mov.l @r15+, r14
 
 .L_pool_06014864:
-    .4byte  sym_06084FB8                /* result flag (16-bit word) — duplicate pool entry */
+    .4byte  sym_06084FB8

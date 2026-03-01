@@ -86,20 +86,20 @@ track_shadow_validate:
     rts
     mov.l @r15+, r14
 .L_wpool_0604211E:
-    .2byte  0x0360                      /* [HIGH] struct offset: check_type / shadow state phase */
+    .2byte  0x0360
 
     .global DAT_06042120
 DAT_06042120:
-    .2byte  0x0364                      /* [HIGH] struct offset: input param field (+0x364) */
+    .2byte  0x0364
 
     .global DAT_06042122
 DAT_06042122:
-    .2byte  0x0200                      /* [HIGH] bitmask: CSCT (CD sector transfer complete) bit */
+    .2byte  0x0200
 .L_pool_06042124:
-    .4byte  sym_060A5400                /* [HIGH] indirect pointer to AI/game state base structure */
+    .4byte  sym_060A5400
 .L_pool_06042128:
-    .4byte  track_shadow_project        /* [HIGH] shadow projection function (FUN_06036A1C) */
+    .4byte  track_shadow_project
 .L_pool_0604212C:
     .4byte  ai_checkpoint_validate      /* [HIGH] checkpoint validation and commit function */
 .L_pool_06042130:
-    .4byte  sym_06035C4E                /* [HIGH] read CD/hardware HIRQ status word */
+    .4byte  sym_06035C4E

@@ -27,9 +27,9 @@ evt_boundary_check:
     .4byte  0x0000FFFF
     .4byte  0x00008000
 .L_06040FB0:
-    .4byte  mesh_boundary_check           /* mesh boundary validator */
+    .4byte  mesh_boundary_check
 .L_06040FB4:
-    .4byte  0x00FFFFFF                  /* low 24-bit mask */
+    .4byte  0x00FFFFFF
 
     .global sym_06040FB8
 sym_06040FB8:
@@ -85,7 +85,7 @@ sym_06040FEA:
     rts
     nop
 .L_06041010:
-    .4byte  sym_060A5400                  /* event boundary lock state */
+    .4byte  sym_060A5400
 
     .global sym_06041014
 sym_06041014:

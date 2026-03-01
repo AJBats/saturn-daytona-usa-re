@@ -184,7 +184,7 @@ loc_060158A4:
     rts
     nop
 .L_060158A8:
-    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
+    .4byte  0x00010000
 .L_060158AC:
     .4byte  track_vtx_builder
 

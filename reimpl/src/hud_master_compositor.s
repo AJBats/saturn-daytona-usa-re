@@ -25,7 +25,7 @@ hud_master_compositor:
     .4byte  0x000001D4
     .4byte  sym_06026DBC
 .L_06032D48:
-    .4byte  sym_06089EDC                   /* [HIGH] matrix stack A pointer (VDP1 display list) */
+    .4byte  sym_06089EDC
     .4byte  0x0000006C
     .4byte  0x00000042
     .4byte  0x00000046

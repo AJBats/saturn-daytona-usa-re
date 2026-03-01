@@ -122,44 +122,44 @@ camera_collision_avoid:
     bra     .L_0600A744
     nop
 .L_0600A6FA:
-    .2byte  0xCCCD                        /* Y position adjustment offset */
+    .2byte  0xCCCD
 .L_0600A6FC:
-    .2byte  0x8000                        /* X position adjustment offset */
-    .2byte  0xFFFF                        /* alignment padding */
+    .2byte  0x8000
+    .2byte  0xFFFF
 .L_0600A700:
-    .4byte  sym_06089EDC               /* global animation counter (dec by 0x30/obj) */
+    .4byte  sym_06089EDC
 .L_0600A704:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000
 .L_0600A708:
-    .4byte  sym_0607EB8C               /* config struct: enable flags + model indices */
+    .4byte  sym_0607EB8C
 .L_0600A70C:
-    .4byte  sym_06026DBC               /* per-object pre-transform setup */
+    .4byte  sym_06026DBC
 .L_0600A710:
-    .4byte  sym_06044640               /* object A position vector (XYZ triplet) */
+    .4byte  sym_06044640
 .L_0600A714:
-    .4byte  0xFFFF0F5D                  /* object A Z offset (signed: -0xF0A3) */
+    .4byte  0xFFFF0F5D
 .L_0600A718:
-    .4byte  sym_06026E2E               /* transform dispatch function */
+    .4byte  sym_06026E2E
 .L_0600A71C:
-    .4byte  mat_scale_columns          /* uniform column scale */
+    .4byte  mat_scale_columns
 .L_0600A720:
-    .4byte  sym_060621D8               /* chain A source table (object transforms) */
+    .4byte  sym_060621D8
 .L_0600A724:
-    .4byte  sym_0606212C               /* chain A parameter table */
+    .4byte  sym_0606212C
 .L_0600A728:
-    .4byte  sym_06031D8C               /* transform chain dispatch A */
+    .4byte  sym_06031D8C
 .L_0600A72C:
-    .4byte  sym_06062180               /* chain B source table (display transforms) */
+    .4byte  sym_06062180
 .L_0600A730:
-    .4byte  sym_06089E9C               /* display mode selector (16-bit) */
+    .4byte  sym_06089E9C
 .L_0600A734:
-    .4byte  sym_060620D8               /* chain B parameter table */
+    .4byte  sym_060620D8
 .L_0600A738:
-    .4byte  sym_06031A28               /* transform chain dispatch B */
+    .4byte  sym_06031A28
 .L_0600A73C:
-    .4byte  sym_06044670               /* object B position vector (XYZ triplet) */
+    .4byte  sym_06044670
 .L_0600A740:
-    .4byte  0xFFFDB334                  /* object B Z offset (signed: -0x24CCC) */
+    .4byte  0xFFFDB334
 .L_0600A744:
     mov.l   .L_0600A764, r2
     mov.l   .L_0600A768, r1
@@ -177,8 +177,8 @@ camera_collision_avoid:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0xFFFF                        /* alignment padding */
+    .2byte  0xFFFF
 .L_0600A764:
-    .4byte  sym_060620D8               /* chain B parameter table (dup for reach) */
+    .4byte  sym_060620D8
 .L_0600A768:
-    .4byte  sym_06031A28               /* transform chain dispatch B (dup for reach) */
+    .4byte  sym_06031A28

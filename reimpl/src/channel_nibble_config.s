@@ -155,19 +155,19 @@ DAT_06038cd4:
 DAT_06038cd6:
     .2byte  0x2000
 .L_06038CD8:
-    .4byte  0x0000FF00                  /* byte 1 mask: keep high byte, clear low byte */
+    .4byte  0x0000FF00
 .L_pool_06038CDC:
-    .4byte  0x0000F0FF                  /* mask: clear bits 11:8 (high nibble of low byte) */
+    .4byte  0x0000F0FF
 .L_pool_06038CE0:
-    .4byte  0x0000FFF0                  /* mask: clear bits 3:0 (low nibble) */
+    .4byte  0x0000FFF0
 .L_pool_06038CE4:
-    .4byte  sym_060A4D30                /* config word array B (2 words at offsets 0/2) */
+    .4byte  sym_060A4D30
 .L_pool_06038CE8:
-    .4byte  sym_060A4D58                /* final config area (word at offset 4) */
+    .4byte  sym_060A4D58
 .L_pool_06038CEC:
-    .4byte  sym_060A4D28                /* config word array A (4 words at offsets 0/2/4/6) */
+    .4byte  sym_060A4D28
 .L_pool_06038CF0:
-    .4byte  sym_06034F78                /* bitfield read-modify-write utility */
+    .4byte  sym_06034F78
 .L_06038CF4:
     extu.w r2, r2
     mov r2, r0
@@ -337,9 +337,9 @@ DAT_06038e1a:
     .2byte  0x0080
     .2byte  0xFFFF
 .L_pool_06038E24:
-    .4byte  sym_06034F78                /* bitfield RMW utility (pool 2) */
+    .4byte  sym_06034F78
 .L_06038E28:
-    .4byte  0x00008000                  /* bitmask: bit 15 = array_a word[6] high nibble */
+    .4byte  0x00008000
 .L_06038E2C:
     bt      .L_06038E3C
     mov r7, r0
@@ -362,4 +362,4 @@ DAT_06038e1a:
     .2byte  0x0201
     .2byte  0xFFFF
 .L_pool_06038E50:
-    .4byte  sym_06034F78                /* bitfield RMW utility (pool 3) */
+    .4byte  sym_06034F78

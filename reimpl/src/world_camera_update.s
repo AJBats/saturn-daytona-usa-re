@@ -99,24 +99,24 @@ world_camera_update:
 
     .global DAT_06005d3e
 DAT_06005d3e:
-    .2byte  0x021C                              /* car struct offset: current frame counter */
+    .2byte  0x021C
 .L_wpool_06005D40:
-    .2byte  0x0240                              /* car struct offset: target frame / lap entry */
-    .2byte  0xFFFF                              /* pool alignment padding */
+    .2byte  0x0240
+    .2byte  0xFFFF
 .L_pool_06005D44:
-    .4byte  sym_06028430                        /* display_list_cmd_writer function */
+    .4byte  sym_06028430
 .L_pool_06005D48:
-    .4byte  sym_060284AE                        /* geom_dispatch_final function */
+    .4byte  sym_060284AE
 .L_pool_06005D4C:
-    .4byte  0x000927BF                          /* max frame index (599,999 = ~10 min at 60fps) */
+    .4byte  0x000927BF
 .L_pool_06005D50:
-    .4byte  sym_0607E944                        /* car state struct pointer */
+    .4byte  sym_0607E944
 .L_pool_06005D54:
-    .4byte  sym_06063F28                        /* max car/frame count variable */
+    .4byte  sym_06063F28
 .L_pool_06005D58:
-    .4byte  sym_0607EAC0                        /* race countdown state variable */
+    .4byte  sym_0607EAC0
 .L_pool_06005D5C:
-    .4byte  sym_0607EBF8                        /* per-lap time array (4 bytes per entry) */
+    .4byte  sym_0607EBF8
 .L_06005D60:
     mov.w   DAT_06005dcc, r0
     mov.l @r6, r3
@@ -179,10 +179,10 @@ DAT_06005d3e:
 
     .global DAT_06005dcc
 DAT_06005dcc:
-    .2byte  0x021C                              /* car struct offset: frame counter (re-read) */
+    .2byte  0x021C
 
     .global DAT_06005dce
 DAT_06005dce:
-    .2byte  0x022C                              /* car struct offset: lap start timestamp */
+    .2byte  0x022C
 .L_pool_06005DD0:
-    .4byte  sym_0607EBD0                        /* global frame counter (32-bit) */
+    .4byte  sym_0607EBD0

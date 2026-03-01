@@ -93,32 +93,32 @@ race_variant_setup_a:
     rts
     mov.l @r15+, r14
 .L_wpool_06014212:
-    .2byte  0xCCCD                      /* sign-extended: -0x3333 (Y position offset) */
+    .2byte  0xCCCD
 .L_pool_06014214:
-    .4byte  sym_06089EDC                /* render budget counter (decremented by 0x30 per car) */
+    .4byte  sym_06089EDC
 .L_pool_06014218:
-    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
+    .4byte  0x00010000
 .L_pool_0601421C:
-    .4byte  sym_06026E0C                /* pre-transform initialization function */
+    .4byte  sym_06026E0C
 .L_pool_06014220:
-    .4byte  sym_06089E4A                /* per-mode 16-bit scale factor */
+    .4byte  sym_06089E4A
 .L_pool_06014224:
-    .4byte  sym_06084B18                /* active car count (read as 32-bit) */
+    .4byte  sym_06084B18
 .L_pool_06014228:
-    .4byte  sym_06026DBC                /* per-object pre-transform setup */
+    .4byte  sym_06026DBC
 .L_pool_0601422C:
-    .4byte  sym_0605AD4C                /* car object position table (array of ptrs) */
+    .4byte  sym_0605AD4C
 .L_pool_06014230:
-    .4byte  sym_06026E2E                /* transform dispatch (sets position) */
+    .4byte  sym_06026E2E
 .L_pool_06014234:
-    .4byte  mat_scale_columns           /* uniform column scale function */
+    .4byte  mat_scale_columns
 .L_pool_06014238:
-    .4byte  sym_06084B14                /* car variant character array (byte per car) */
+    .4byte  sym_06084B14
 .L_pool_0601423C:
-    .4byte  sym_06062338                /* chain A model lookup table (27 entries) */
+    .4byte  sym_06062338
 .L_pool_06014240:
-    .4byte  sym_06031D8C                /* transform chain A dispatch */
+    .4byte  sym_06031D8C
 .L_pool_06014244:
-    .4byte  sym_060622C0                /* chain B model lookup table (27 entries) */
+    .4byte  sym_060622C0
 .L_pool_06014248:
-    .4byte  sym_06031A28                /* transform chain B dispatch (scaled) */
+    .4byte  sym_06031A28

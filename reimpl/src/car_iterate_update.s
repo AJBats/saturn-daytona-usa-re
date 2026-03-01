@@ -68,7 +68,7 @@ car_iterate_update:
     rts
     mov.l @r15+, r14
 .L_wpool_0600D91A:
-    .2byte  0x01EC                      /* [HIGH] car struct offset: checkpoint parameter */
+    .2byte  0x01EC
 .L_0600D91C:
     .4byte  sym_0607E944
 .L_0600D920:

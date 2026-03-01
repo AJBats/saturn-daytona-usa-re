@@ -36,10 +36,10 @@ shadow_intensity:
 
     .global DAT_0602e80a
 DAT_0602e80a:
-    .2byte  0x8000                      /* half-circle angle constant */
-    .4byte  atan2                       /* pool: atan2 function address */
+    .2byte  0x8000
+    .4byte  atan2
 .L_pool_0602E811:
-    .4byte  sym_06078663                /* pool: camera direction flip flag address */
+    .4byte  sym_06078663
 .L_0602E814:
     extu.w r1, r1
     cmp/gt r1, r4

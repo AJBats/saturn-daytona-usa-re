@@ -68,13 +68,13 @@ DAT_06041b0a:
     .2byte  0x0308
     .2byte  0xFFFF
 .L_pool_06041B10:
-    .4byte  sym_060A5400         /* [HIGH] global AI/game state base pointer (indirect) */
+    .4byte  sym_060A5400
 .L_pool_06041B14:
-    .4byte  track_seg_boundary   /* [HIGH] compute track segment boundary result */
+    .4byte  track_seg_boundary
 .L_pool_06041B18:
-    .4byte  ai_checkpoint_validate  /* [HIGH] validate AI checkpoint from stack buffer */
+    .4byte  ai_checkpoint_validate
 .L_pool_06041B1C:
-    .4byte  sym_06035C4E         /* [MEDIUM] HIRQ/CD status reader — event_queue.s calls it "state/field validator" */
+    .4byte  sym_06035C4E
 .L_06041B20:
     mov #0x0, r4
 .L_06041B22:

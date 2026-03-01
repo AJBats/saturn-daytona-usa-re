@@ -70,7 +70,7 @@ dma_param_chain_init:
     mov.l r3, @(28, r15)
     bra     .L_0603FDCA
     nop
-    .2byte  0xFFFF              /* alignment padding */
+    .2byte  0xFFFF
 .L_pool_0603FDBC:
     .4byte  palette_render_main
 .L_pool_0603FDC0:
@@ -130,12 +130,12 @@ dma_param_chain_init:
     rts
     mov.l @r15+, r14
     .2byte  0x000B              /* trailing data (rts encoding) */
-    .2byte  0xE000              /* trailing data (mov #0, r0 encoding) */
+    .2byte  0xE000
 .L_wpool_0603FE2E:
     .2byte  0x0800
 .L_wpool_0603FE30:
     .2byte  0x017F
-    .2byte  0xFFFF              /* alignment padding */
+    .2byte  0xFFFF
 .L_pool_0603FE34:
     .4byte  palette_engine_core
 .L_pool_0603FE38:

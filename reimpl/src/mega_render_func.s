@@ -1288,11 +1288,11 @@ DAT_0602a050:
     .2byte  0xFE70
     .2byte  0x0000
 .L_0602A054:
-    .4byte  0xFFFFFF50                  /* SH-2 peripheral +0x150 */
+    .4byte  0xFFFFFF50
 .L_0602A058:
     .4byte  0x000000B0
 .L_0602A05C:
-    .4byte  0xFFFFFF81                  /* SH-2 peripheral +0x181 */
+    .4byte  0xFFFFFF81
 .L_0602A060:
     .4byte  0x00000051
 .L_0602A064:
@@ -1507,7 +1507,7 @@ loc_0602A188:
     nop
     .2byte  0x0000
 .L_0602A1C4:
-    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
+    .4byte  0x00010000
 .L_0602A1C8:
     .4byte  sym_060620D0
 .L_0602A1CC:
@@ -2203,11 +2203,11 @@ DAT_0602a670:
     .2byte  0xFE70
     .2byte  0x0000
 .L_0602A674:
-    .4byte  0xFFFFFF50                  /* SH-2 peripheral +0x150 */
+    .4byte  0xFFFFFF50
 .L_0602A678:
     .4byte  0x000000B0
 .L_0602A67C:
-    .4byte  0xFFFFFF81                  /* SH-2 peripheral +0x181 */
+    .4byte  0xFFFFFF81
 .L_0602A680:
     .4byte  0x00000051
 .L_0602A684:
@@ -2422,7 +2422,7 @@ loc_0602A7A8:
     nop
     .2byte  0x0000
 .L_0602A7E4:
-    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
+    .4byte  0x00010000
 .L_0602A7E8:
     .4byte  sym_060620D4
 .L_0602A7EC:

@@ -42,15 +42,15 @@ hud_layer_composite:
     nop
     .2byte  0xFFFF
 .L_060114FC:
-    .4byte  sym_060447A8                    /* target position table (8 dwords) */
+    .4byte  sym_060447A8
 .L_06011500:
-    .4byte  sym_0607EADC                    /* animation frame index (dword) */
+    .4byte  sym_0607EADC
 .L_06011504:
-    .4byte  sym_06078860                    /* current interpolated position (dword) */
+    .4byte  sym_06078860
 .L_06011508:
-    .4byte  sym_0607887F                    /* game state byte (0x3=race, 0xB=replay) */
+    .4byte  sym_0607887F
 .L_0601150C:
-    .4byte  sym_0607EBC8                    /* mode config flags (bit 0 = suppress HUD) */
+    .4byte  sym_0607EBC8
 
 .L_06011510:
     extu.w r13, r12

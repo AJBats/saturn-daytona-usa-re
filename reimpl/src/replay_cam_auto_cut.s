@@ -44,20 +44,20 @@ replay_cam_auto_cut:
     rts
     mov.l @r15+, r14
 .L_0601AF6A:
-    .2byte  0x0096                     /* [HIGH] display list source offset */
+    .2byte  0x0096
 .L_0601AF6C:
-    .4byte  sym_0608600F               /* [MEDIUM] phase countdown timer (byte) */
+    .4byte  sym_0608600F
 .L_0601AF70:
-    .4byte  sym_06086011               /* [MEDIUM] phase index (byte) */
+    .4byte  sym_06086011
 .L_0601AF74:
-    .4byte  sym_060638C8               /* [MEDIUM] course display list descriptor ptr */
+    .4byte  sym_060638C8
 .L_0601AF78:
-    .4byte  0x0000C000                 /* [MEDIUM] display list texture region offset */
+    .4byte  0x0000C000
 .L_0601AF7C:
-    .4byte  sym_06028400               /* [HIGH] display_list_loader fn */
+    .4byte  sym_06028400
 .L_0601AF80:
-    .4byte  sym_06086010               /* [MEDIUM] attract frame counter (byte) */
+    .4byte  sym_06086010
 .L_0601AF84:
-    .4byte  sym_0605AD00               /* [MEDIUM] race/render state variable */
+    .4byte  sym_0605AD00
 .L_0601AF88:
-    .4byte  sym_0607EAD8               /* [HIGH] car object / race end state ptr */
+    .4byte  sym_0607EAD8

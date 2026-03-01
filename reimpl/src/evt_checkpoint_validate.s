@@ -50,7 +50,7 @@ evt_checkpoint_validate:
     rts
     nop
 .L_06041306:
-    .2byte  0x0338                           /* [HIGH] offset to checkpoint validation slot in state struct */
+    .2byte  0x0338
     .4byte  ai_checkpoint_validate
 .L_pool_0604130D:
     .4byte  sym_060A5400

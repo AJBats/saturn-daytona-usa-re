@@ -88,14 +88,14 @@ name_entry_render:
     rts
     mov.l @r15+, r14
 .L_0603D5BC:
-    .2byte  0x0401                         /* [MEDIUM] bit position (4) | count (1) for bitfield commit */
+    .2byte  0x0401
 
 
     .global DAT_0603d5be
 DAT_0603d5be:
     .2byte  0x00FF
 .L_0603D5C0:
-    .4byte  0x0000FF00                  /* byte 1 mask */
+    .4byte  0x0000FF00
 .L_pool_0603D5C4:
     .4byte  sym_060A4D58
 .L_pool_0603D5C8:

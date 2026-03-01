@@ -44,14 +44,14 @@ save_serialize:
     bra     .L_0603BD10
     mov #0x0, r0
 .L_wpool_0603BCD2:
-    .2byte  0x00A8                      /* offset 0xA8 within block (descriptor area) */
-    .2byte  0xFFFF                      /* padding */
+    .2byte  0x00A8
+    .2byte  0xFFFF
 .L_pool_0603BCD6:
-    .4byte  scene_frame_render          /* unreferenced pool filler (alignment artifact) */
+    .4byte  scene_frame_render
 .L_pool_0603BCDA:
-    .4byte  obj_init_validate           /* init road-segment object */
+    .4byte  obj_init_validate
 .L_pool_0603BCDE:
-    .4byte  obj_setup_decomp            /* decompose object into resource slots */
+    .4byte  obj_setup_decomp
 .L_0603BCE0:
     mov r13, r5
     .byte   0xD3, 0x21    /* mov.l .L_pool_0603BD6C, r3 */

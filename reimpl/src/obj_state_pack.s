@@ -32,27 +32,27 @@ obj_state_pack:
     jmp @r3
     lds.l @r15+, pr
 
-    .4byte  sym_0607EBF4                     /* display/mode flags (32-bit) */
-    .4byte  sym_0602853E                     /* display channel configure */
+    .4byte  sym_0607EBF4
+    .4byte  sym_0602853E
 .L_06020C08:
-    .4byte  sym_0605B6D8                     /* render mode flags (32-bit bitmask) */
+    .4byte  sym_0605B6D8
 .L_06020C0C:
-    .4byte  0x04000000                       /* bit 26 flag constant */
+    .4byte  0x04000000
 .L_06020C10:
-    .4byte  sym_0608780C                     /* display_timer (16-bit word; 2 = active) */
+    .4byte  sym_0608780C
 .L_06020C14:
-    .4byte  sym_0605A00C                     /* input skip flag (nonzero = skip input) */
+    .4byte  sym_0605A00C
 .L_06020C18:
-    .4byte  sym_06026CE0                     /* display_update (tail-call target) */
-    .4byte  sym_06059F6F                     /* (shared pool data) */
-    .4byte  sym_06085F8A                     /* object compaction needed flag (byte) */
-    .4byte  sym_0607EBCC                     /* countdown timer (attract mode) */
-    .4byte  sym_06063F5C                     /* car struct array base pointer */
+    .4byte  sym_06026CE0
+    .4byte  sym_06059F6F
+    .4byte  sym_06085F8A
+    .4byte  sym_0607EBCC
+    .4byte  sym_06063F5C
 .L_06020C2C:
-    .4byte  sym_0603850C                     /* command_slot_write */
+    .4byte  sym_0603850C
 .L_06020C30:
-    .4byte  0x00010000                       /* 1.0 (16.16 fixed-point) */
+    .4byte  0x00010000
 .L_06020C34:
-    .4byte  scene_color_intensity            /* scene color intensity function */
+    .4byte  scene_color_intensity
 .L_06020C38:
-    .4byte  sym_06038520                     /* command_queue_commit */
+    .4byte  sym_06038520

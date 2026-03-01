@@ -35,8 +35,8 @@ sym_06035F16:
     mov.l r3, @(8, r5)
     .2byte  0xFFFF
 .L_06035F38:
-    .4byte  sym_06063594                /* [HIGH] global extended input data buffer (12 bytes, BSS) */
+    .4byte  sym_06063594
 .L_06035F3C:
-    .4byte  sym_06035168                /* [HIGH] data copy function — memcpy-like (r0=count, r1=src, r2=dst) */
+    .4byte  sym_06035168
 .L_06035F40:
-    .4byte  0x00FFFFFF                  /* [HIGH] low 24-bit mask — strips peripheral ID from extension long */
+    .4byte  0x00FFFFFF

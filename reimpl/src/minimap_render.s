@@ -107,9 +107,9 @@ minimap_render:
     mov.l @r15+, r14
     .2byte  0xFFFF
 .L_pool_06015668:
-    .4byte  0x0000DDB2                  /* ~0.866 (16.16 FP scale factor, sin(60) or cos(30)) */
+    .4byte  0x0000DDB2
 .L_0601566C:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000
 .L_pool_06015670:
     .4byte  fpmul
 .L_pool_06015674:

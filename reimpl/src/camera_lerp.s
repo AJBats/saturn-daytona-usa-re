@@ -38,25 +38,25 @@ camera_lerp:
     bra     .L_0600B540
     nop
 .L_pool_0600B516:
-    .4byte  sym_0607EB8C               /* camera lerp state (ptr) */
+    .4byte  sym_0607EB8C
 .L_pool_0600B51A:
-    .4byte  sym_0607E944               /* car array base pointer */
+    .4byte  sym_0607E944
 .L_pool_0600B51E:
-    .4byte  sym_0607E940               /* current car struct pointer */
+    .4byte  sym_0607E940
 .L_pool_0600B522:
-    .4byte  sym_0607EAD8               /* race end state (0/1/2 dispatch) */
+    .4byte  sym_0607EAD8
 .L_pool_0600B526:
-    .4byte  sym_06063488               /* state 0 rotation source params */
+    .4byte  sym_06063488
 .L_pool_0600B52A:
-    .4byte  sym_06063434               /* state 0 rotation dest params */
+    .4byte  sym_06063434
 .L_pool_0600B52E:
-    .4byte  sym_060634A4               /* state 1 rotation source params */
+    .4byte  sym_060634A4
 .L_pool_0600B532:
-    .4byte  sym_06063450               /* state 1 rotation dest params */
+    .4byte  sym_06063450
 .L_pool_0600B536:
-    .4byte  sym_060634C0               /* state 2 rotation source params */
+    .4byte  sym_060634C0
 .L_pool_0600B53A:
-    .4byte  sym_0606346C               /* state 2 rotation dest params */
+    .4byte  sym_0606346C
 .L_0600B534:
     cmp/eq #0x0, r0
     bt      .L_0600B4F4
@@ -188,56 +188,56 @@ camera_lerp:
 
     .global DAT_0600b630
 DAT_0600b630:
-    .2byte  0x8000                        /* Z-axis lerp rounding bias */
+    .2byte  0x8000
 
     .global DAT_0600b632
 DAT_0600b632:
-    .2byte  0x01D8                        /* car offset: camera yaw */
+    .2byte  0x01D8
 
     .global DAT_0600b634
 DAT_0600b634:
-    .2byte  0x01B4                        /* car offset: camera roll */
+    .2byte  0x01B4
 
     .global DAT_0600b636
 DAT_0600b636:
-    .2byte  0x01D0                        /* car offset: camera pitch A */
+    .2byte  0x01D0
 .L_0600B638:
-    .2byte  0x01C8                        /* car offset: camera pitch B */
+    .2byte  0x01C8
     .2byte  0xFFFF
 .L_pool_0600B65C:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000
 .L_pool_0600B660:
-    .4byte  sym_06078670               /* camera position XYZ (3×32-bit) */
+    .4byte  sym_06078670
 .L_pool_0600B664:
-    .4byte  sym_06027080               /* fixed-point multiply */
+    .4byte  sym_06027080
 .L_pool_0600B668:
-    .4byte  sym_060270F2               /* fixed-point divide */
+    .4byte  sym_060270F2
 .L_pool_0600B66C:
-    .4byte  mat_rot_xy_b               /* XY plane rotation */
+    .4byte  mat_rot_xy_b
 .L_pool_0600B670:
-    .4byte  mat_rot_yz_b               /* YZ plane rotation */
+    .4byte  mat_rot_yz_b
 .L_pool_0600B674:
-    .4byte  mat_rot_xz_b               /* XZ plane rotation */
+    .4byte  mat_rot_xz_b
 .L_pool_0600B678:
-    .4byte  sym_06059F30               /* camera follow mode flag */
+    .4byte  sym_06059F30
 .L_pool_0600B67C:
-    .4byte  mat_scale_b                /* matrix scale function */
+    .4byte  mat_scale_b
 .L_pool_0600B680:
-    .4byte  sym_06063510               /* scale source vector (ptr) */
+    .4byte  sym_06063510
 .L_pool_0600B684:
-    .4byte  sym_06032158               /* vector matrix transform */
+    .4byte  sym_06032158
 .L_pool_0600B688:
-    .4byte  sym_060634F4               /* rotation data source (ptr) */
+    .4byte  sym_060634F4
 .L_pool_0600B68C:
-    .4byte  sym_06089E98               /* per-mode scale factor (16-bit) */
+    .4byte  sym_06089E98
 .L_pool_0600B690:
-    .4byte  sym_06031DF4               /* scaled vector transform */
+    .4byte  sym_06031DF4
 .L_pool_0600B694:
-    .4byte  sym_06083258               /* camera LOD offset base */
+    .4byte  sym_06083258
 .L_pool_0600B698:
-    .4byte  sym_060634F8               /* rotation chain A params */
+    .4byte  sym_060634F8
 .L_pool_0600B69C:
-    .4byte  sym_060634DC               /* rotation chain B params */
+    .4byte  sym_060634DC
 .L_0600B680:
     .byte   0xD2, 0x11    /* mov.l .L_pool_0600B6E8, r2 */
     jsr @r2

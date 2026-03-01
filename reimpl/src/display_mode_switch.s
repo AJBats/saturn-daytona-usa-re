@@ -15,7 +15,7 @@ display_mode_switch:
     nop
     .4byte  sym_06026DBC
 .L_pool_06032FE8:
-    .4byte  sym_06089EDC                /* [HIGH] rendering budget counter pointer */
+    .4byte  sym_06089EDC
     .4byte  0x00000000
     .4byte  0x00000004
     .4byte  0x00000008

@@ -14,9 +14,9 @@ dma_queue_commit:
     bra     .L_06007DCE
     mov #0x0, r4
 .L_wpool_06007D9E:
-    .2byte  0xFE11                          /* [HIGH] SH2_FTCSR low 16 bits (0xFFFFFE11) — FRT control/status register */
+    .2byte  0xFE11
 .L_wpool_06007DA0:
-    .2byte  0x0080                          /* [HIGH] OVF bitmask — bit 7 of FTCSR (timer overflow flag) */
+    .2byte  0x0080
     .2byte  0xFFFF
     .4byte  sym_060281B8
     .4byte  sym_0606A4F8

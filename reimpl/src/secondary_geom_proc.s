@@ -123,45 +123,45 @@ secondary_geom_proc:
     bra     .L_0600A89C
     nop
 .L_0600A854:
-    .2byte  0xCCCD                      /* Y axis position adjustment (signed: -0x3333) */
+    .2byte  0xCCCD
 
     .global DAT_0600a856
 DAT_0600a856:
-    .2byte  0x8000                      /* X axis position adjustment (signed: -0x8000) */
+    .2byte  0x8000
 .L_0600A858:
-    .4byte  sym_0608A52C                /* render budget counter B */
+    .4byte  sym_0608A52C
 .L_0600A85C:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000
 .L_0600A860:
-    .4byte  sym_0607EB8C                /* config struct pointer (indirect) */
+    .4byte  sym_0607EB8C
 .L_0600A864:
-    .4byte  sym_06027080                /* Type B: scene matrix setup */
+    .4byte  sym_06027080
 .L_0600A868:
-    .4byte  sym_06044640                /* object A position vector (XYZ triplet) */
+    .4byte  sym_06044640
 .L_0600A86C:
-    .4byte  0xFFFF0F5D                  /* object A Z offset (signed: -0xF0A3) */
+    .4byte  0xFFFF0F5D
 .L_0600A870:
-    .4byte  sym_060270F2                /* Type B: set position transform */
+    .4byte  sym_060270F2
 .L_0600A874:
-    .4byte  mat_scale_b                 /* Type B: matrix scale function */
+    .4byte  mat_scale_b
 .L_0600A878:
-    .4byte  sym_060621D8                /* distance check source table */
+    .4byte  sym_060621D8
 .L_0600A87C:
-    .4byte  sym_0606212C                /* distance check parameter table */
+    .4byte  sym_0606212C
 .L_0600A880:
-    .4byte  sym_06032158                /* Type B: distance check function */
+    .4byte  sym_06032158
 .L_0600A884:
-    .4byte  sym_06062180                /* render submit source table */
+    .4byte  sym_06062180
 .L_0600A888:
-    .4byte  sym_06089E9C                /* display mode selector (16-bit) */
+    .4byte  sym_06089E9C
 .L_0600A88C:
-    .4byte  sym_060620D8                /* render submit parameter table */
+    .4byte  sym_060620D8
 .L_0600A890:
-    .4byte  sym_06031DF4                /* Type B: render submit function */
+    .4byte  sym_06031DF4
 .L_0600A894:
-    .4byte  sym_06044670                /* object B position vector (XYZ triplet) */
+    .4byte  sym_06044670
 .L_0600A898:
-    .4byte  0xFFFDB334                  /* object B Z offset (signed: -0x24CCC) */
+    .4byte  0xFFFDB334
 .L_0600A89C:
     mov.l @r15, r4
     mov.l   .L_0600A904, r2
@@ -223,13 +223,13 @@ sym_0600A8BC:
     rts
     nop
 .L_0600A900:
-    .2byte  0x00C8                      /* 200 (speed threshold for +4 increment) */
-    .2byte  0xFFFF                      /* padding */
+    .2byte  0x00C8
+    .2byte  0xFFFF
 .L_0600A904:
-    .4byte  sym_060620D8                /* render param table (dup for pool reach) */
+    .4byte  sym_060620D8
 .L_0600A908:
-    .4byte  sym_06031DF4                /* render submit fn (dup for pool reach) */
+    .4byte  sym_06031DF4
 .L_0600A90C:
-    .4byte  sym_06063F46                /* audio phase counter (16-bit word) */
+    .4byte  sym_06063F46
 .L_0600A910:
-    .4byte  sym_0607E940                /* current car state pointer (indirect) */
+    .4byte  sym_0607E940

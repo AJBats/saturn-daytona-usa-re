@@ -112,7 +112,7 @@ geom_final_output:
 DAT_0601ff8a:
     .2byte  0x01EC
 .L_0601FF8C:
-    .2byte  0x035A                         /* [HIGH] geometry scale factor for fpmul (0x035A) */
+    .2byte  0x035A
 
     .global DAT_0601ff8e
 DAT_0601ff8e:
@@ -122,14 +122,14 @@ DAT_0601ff8e:
 DAT_0601ff90:
     .2byte  0x01FC
 .L_0601FF92:
-    .2byte  0x01B0                         /* [HIGH] car struct offset: heading angle B copy (+0x01B0) */
+    .2byte  0x01B0
 .L_0601FF94:
-    .4byte  sym_0607E940                   /* &current_car_ptr (indirect) */
+    .4byte  sym_0607E940
 .L_0601FF98:
-    .4byte  sym_06078680                   /* course/track data base */
+    .4byte  sym_06078680
 .L_0601FF9C:
-    .4byte  fpmul                          /* fixed-point multiply: (r4*r5) >> 16 */
+    .4byte  fpmul
 .L_0601FFA0:
-    .4byte  race_pos_interp                /* race position interpolation function */
+    .4byte  race_pos_interp
 .L_0601FFA4:
-    .4byte  sym_0607EA9C                   /* track section count (wrap boundary) */
+    .4byte  sym_0607EA9C

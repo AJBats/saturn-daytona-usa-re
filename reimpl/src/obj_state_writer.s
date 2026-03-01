@@ -66,30 +66,30 @@ sym_060054EA:
     mov.l r1, @r3
     .2byte  0xFFFF
 .L_pool_06005504:
-    .4byte  sym_06078663                     /* camera direction flip flag (byte) */
+    .4byte  sym_06078663
 .L_pool_06005508:
-    .4byte  0x00010000                       /* 1.0 (16.16 fixed-point) */
+    .4byte  0x00010000
 .L_pool_0600550C:
-    .4byte  0xFFFF0000                       /* -1.0 (16.16 fixed-point) */
+    .4byte  0xFFFF0000
 .L_pool_06005510:
-    .4byte  mat_scale_columns                /* matrix column scaling */
+    .4byte  mat_scale_columns
 .L_pool_06005514:
-    .4byte  mat_rot_z                        /* Z-axis rotation matrix */
+    .4byte  mat_rot_z
 .L_pool_06005518:
-    .4byte  mat_rot_x                 /* general rotation transform */
+    .4byte  mat_rot_x
 .L_pool_0600551C:
-    .4byte  mat_rot_y                        /* Y-axis rotation matrix */
+    .4byte  mat_rot_y
 .L_pool_06005520:
-    .4byte  sym_06026E2E                     /* matrix-vector multiply-accumulate */
+    .4byte  sym_06026E2E
 .L_pool_06005524:
-    .4byte  sym_06063DF8                     /* camera/view position state (XYZ) */
+    .4byte  sym_06063DF8
 .L_pool_06005528:
-    .4byte  sym_06035168                     /* memcpy_long(r0=count, r1=dst, r2=src) */
+    .4byte  sym_06035168
 .L_pool_0600552C:
-    .4byte  sym_06063E04                     /* object list head pointer */
+    .4byte  sym_06063E04
 .L_pool_06005530:
-    .4byte  sym_06063E08                     /* object list cursor index (word) */
+    .4byte  sym_06063E08
 .L_pool_06005534:
-    .4byte  sym_06063F08                     /* view matrix pointer B */
+    .4byte  sym_06063F08
 .L_pool_06005538:
-    .4byte  sym_06063F04                     /* view matrix pointer A */
+    .4byte  sym_06063F04

@@ -84,46 +84,46 @@ sym_06018634:
 
     .global DAT_06018660
 DAT_06018660:
-    .2byte  0x38E3                        /* fixed rotation angle for track camera */
+    .2byte  0x38E3
 .L_06018662:
-    .2byte  0x0178                        /* vector copy byte count (376 bytes) */
+    .2byte  0x0178
 .L_06018664:
-    .2byte  0x0145                        /* vector scale byte count (325 bytes) */
+    .2byte  0x0145
     .2byte  0xFFFF
 .L_06018668:
-    .4byte  sym_06083254               /* game rendering mode (byte) */
+    .4byte  sym_06083254
 .L_0601866C:
-    .4byte  sym_06026DBC               /* camera state initialization */
+    .4byte  sym_06026DBC
 .L_06018670:
-    .4byte  sym_06048140               /* camera position parameters (X/Y/Z) */
+    .4byte  sym_06048140
 .L_06018674:
-    .4byte  sym_06026E2E               /* set camera base position */
+    .4byte  sym_06026E2E
 .L_06018678:
-    .4byte  mat_rot_y                  /* Y-axis rotation */
+    .4byte  mat_rot_y
 .L_0601867C:
-    .4byte  0x00200000                  /* Work RAM Low base */
+    .4byte  0x00200000
 .L_06018680:
-    .4byte  0x000BABE0                  /* WRAM offset A (vec copy dest) */
+    .4byte  0x000BABE0
 .L_06018684:
-    .4byte  sym_06031D8C               /* vector copy function */
+    .4byte  sym_06031D8C
 .L_06018688:
-    .4byte  sym_06089E98               /* per-mode scale factor (16-bit) */
+    .4byte  sym_06089E98
 .L_0601868C:
-    .4byte  0x000BBD80                  /* WRAM offset B (vec scale dest) */
+    .4byte  0x000BBD80
 .L_06018690:
-    .4byte  sym_06031A28               /* scaled vector copy function */
+    .4byte  sym_06031A28
 .L_06018694:
-    .4byte  sym_06026DF8               /* camera state finalization */
+    .4byte  sym_06026DF8
 .L_06018698:
-    .4byte  sym_0605BE38               /* scroll position register A (16-bit) */
+    .4byte  sym_0605BE38
 .L_0601869C:
-    .4byte  sym_0605BE36               /* scroll position register B (16-bit) */
+    .4byte  sym_0605BE36
 .L_060186A0:
-    .4byte  sym_0607EAD8               /* race end state (0/1/2 dispatch) */
+    .4byte  sym_0607EAD8
 .L_060186A4:
-    .4byte  sym_0605BE1C               /* scroll offset A (16-bit) */
+    .4byte  sym_0605BE1C
 .L_060186A8:
-    .4byte  sym_0605BE1E               /* scroll offset B (16-bit) */
+    .4byte  sym_0605BE1E
 .L_060186AC:
     cmp/eq #0x0, r0
     bt      .L_06018640
@@ -155,32 +155,32 @@ DAT_06018660:
     mov.l   .L_06018718, r2
     rts
     mov.w r4, @r2
-    .4byte  0xE400D20D                  /* (embedded sub-fn: raw bytes) */
-    .4byte  0x634D604D                  /* clears 4 scroll regs + offsets */
+    .4byte  0xE400D20D
+    .4byte  0x634D604D
     .4byte  0x2231D20C
     .4byte  0x2241D208
     .4byte  0x2201D308
     .4byte  0x000B2341
 .L_060186FC:
-    .4byte  sym_0605BE24               /* scroll register 0 (16-bit) */
+    .4byte  sym_0605BE24
 .L_06018700:
-    .4byte  sym_0605BE22               /* scroll register 1 (16-bit) */
+    .4byte  sym_0605BE22
 .L_06018704:
-    .4byte  sym_0605BE20               /* scroll register 2 (16-bit) */
+    .4byte  sym_0605BE20
 .L_06018708:
-    .4byte  sym_0605BE2A               /* scroll register 3 (16-bit) */
+    .4byte  sym_0605BE2A
 .L_0601870C:
-    .4byte  sym_0605BE26               /* scroll register 4 (16-bit) */
+    .4byte  sym_0605BE26
 .L_06018710:
-    .4byte  sym_0605BE28               /* scroll register 5 (16-bit) */
+    .4byte  sym_0605BE28
 .L_06018714:
-    .4byte  sym_0605BE36               /* scroll register 6 (16-bit) */
+    .4byte  sym_0605BE36
 .L_06018718:
-    .4byte  sym_0605BE38               /* scroll register 7 (16-bit) */
-    .4byte  sym_0605BE1C               /* (embedded pool: scroll offset A) */
-    .4byte  sym_0605BE1E               /* (embedded pool: scroll offset B) */
-    .4byte  0xE400D202                  /* (embedded sub-fn: raw bytes) */
-    .4byte  0x2241D202                  /* clears 2 regs + offsets */
+    .4byte  sym_0605BE38
+    .4byte  sym_0605BE1C
+    .4byte  sym_0605BE1E
+    .4byte  0xE400D202
+    .4byte  0x2241D202
     .4byte  0x000B2241
-    .4byte  sym_0605BE36               /* (embedded pool: scroll pos B) */
-    .4byte  sym_0605BE38               /* (embedded pool: scroll pos A) */
+    .4byte  sym_0605BE36
+    .4byte  sym_0605BE38

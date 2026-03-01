@@ -21,28 +21,28 @@ race_utility_fn:
     nop
     bra     .L_0600C2F8
     nop
-    .2byte  0xFE11                       /* alignment / padding */
-    .4byte  0x0080FFFF                   /* (unreachable pool) bitmask constant */
-    .4byte  sym_0608A52C                 /* (unreachable pool) obj state secondary */
-    .4byte  sym_06089EDC                 /* (unreachable pool) obj state primary */
-    .4byte  memcpy_long_idx              /* (unreachable pool) fn ptr: memcpy_long_idx */
-    .4byte  physics_calc_dispatch        /* (unreachable pool) fn ptr: physics_calc_dispatch */
-    .4byte  race_utility_fn              /* (unreachable pool) fn ptr: self */
-    .4byte  sym_06063574                 /* (unreachable pool) secondary SH-2 callback ptr */
-    .4byte  0x0000FFFF                   /* (unreachable pool) low 16-bit mask */
-    .4byte  0x21000000                   /* (unreachable pool) VDP2 VRAM base (cache-through) */
-    .4byte  frame_dispatch               /* (unreachable pool) fn ptr: frame_dispatch */
-    .4byte  scene_post_render            /* (unreachable pool) fn ptr: scene_post_render */
-    .4byte  replay_playback_engine       /* (unreachable pool) fn ptr: replay_playback_engine */
-    .4byte  sym_06059FF8                 /* (unreachable pool) timing variable */
+    .2byte  0xFE11
+    .4byte  0x0080FFFF
+    .4byte  sym_0608A52C
+    .4byte  sym_06089EDC
+    .4byte  memcpy_long_idx
+    .4byte  physics_calc_dispatch
+    .4byte  race_utility_fn
+    .4byte  sym_06063574
+    .4byte  0x0000FFFF
+    .4byte  0x21000000
+    .4byte  frame_dispatch
+    .4byte  scene_post_render
+    .4byte  replay_playback_engine
+    .4byte  sym_06059FF8
 .L_0600C2DC:
-    .4byte  sym_0603C000                 /* pool: &render_finalize function */
+    .4byte  sym_0603C000
 .L_0600C2E0:
-    .4byte  camera_track_setup           /* pool: &camera_track_setup function */
+    .4byte  camera_track_setup
 .L_0600C2E4:
-    .4byte  sym_06082A26                 /* pool: &render_state_byte */
+    .4byte  sym_06082A26
 .L_0600C2E8:
-    .4byte  scene_path_b                 /* pool: &scene_path_b function */
+    .4byte  scene_path_b
 .L_0600C2EC:
     mov.b @r4, r0
     cmp/eq #0x1, r0
@@ -141,7 +141,7 @@ DAT_0600c372:
 .L_0600C378:
     .4byte  scene_path_a
 .L_0600C37C:
-    .4byte  0x0000FFFF                  /* low 16-bit mask */
+    .4byte  0x0000FFFF
 .L_0600C380:
     .4byte  0x21800000
 .L_0600C384:

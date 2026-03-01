@@ -82,45 +82,45 @@ sym_0601A5F8:
     nop
 .L_wpool_0601A608:
     .2byte  0x00A8
-    .2byte  0xFFFF                        /* padding to align pool */
+    .2byte  0xFFFF
 .L_pool_0601A60C:
-    .4byte  sym_06059F44                  /* animation state (32-bit) */
+    .4byte  sym_06059F44
 .L_pool_0601A610:
-    .4byte  sym_0605B6D8                  /* render mode flags (32-bit bitmask) */
+    .4byte  sym_0605B6D8
 .L_pool_0601A614:
-    .4byte  0x80000000                    /* sign bit — enables race-start rendering */
+    .4byte  0x80000000
 .L_pool_0601A618:
-    .4byte  sym_06026CE0                  /* camera state finalization function */
+    .4byte  sym_06026CE0
 .L_pool_0601A61C:
-    .4byte  0x00014000                    /* 0x14000 bytes — tile pattern block A */
+    .4byte  0x00014000
 .L_pool_0601A620:
-    .4byte  0x25E76174                    /* VDP2 VRAM +0x76174 (tile dest A) */
+    .4byte  0x25E76174
 .L_pool_0601A624:
-    .4byte  sym_0600511E                  /* VRAM tile/pattern upload function */
+    .4byte  sym_0600511E
 .L_pool_0601A628:
-    .4byte  0x00017700                    /* 0x17700 bytes — tile pattern block B */
+    .4byte  0x00017700
 .L_pool_0601A62C:
-    .4byte  0x25E761FC                    /* VDP2 VRAM +0x761FC (tile dest B) */
+    .4byte  0x25E761FC
 .L_pool_0601A630:
-    .4byte  sym_06063AF8                  /* display layer parameters struct */
+    .4byte  sym_06063AF8
 .L_pool_0601A634:
-    .4byte  0x0000A000                    /* display list base offset */
+    .4byte  0x0000A000
 .L_pool_0601A638:
-    .4byte  sym_06028400                  /* display list loader / DMA dispatch */
+    .4byte  sym_06028400
 .L_pool_0601A63C:
-    .4byte  sym_06085FF1                  /* light active flag (byte, 1 = active) */
+    .4byte  sym_06085FF1
 .L_pool_0601A640:
-    .4byte  sym_06085FF2                  /* animation frame counter A (byte) */
+    .4byte  sym_06085FF2
 .L_pool_0601A644:
-    .4byte  sym_06085FF3                  /* animation frame counter B (byte) */
+    .4byte  sym_06085FF3
 .L_pool_0601A648:
-    .4byte  sym_0605D245                  /* animation reset byte */
+    .4byte  sym_0605D245
 .L_pool_0601A64C:
-    .4byte  race_data_handler             /* race state update function */
+    .4byte  race_data_handler
 .L_pool_0601A650:
-    .4byte  palette_frame_effects         /* per-frame palette commit to VDP2 CRAM */
+    .4byte  palette_frame_effects
 .L_pool_0601A654:
-    .4byte  sym_06063D9E                  /* game timer (16-bit) — 0x10 = green light */
+    .4byte  sym_06063D9E
 .L_0601A658:
     .byte   0x90, 0x40    /* mov.w .L_wpool_0601A6DC, r0 (cross-TU word pool) */
     rts

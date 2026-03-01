@@ -73,41 +73,41 @@ hud_subsystem_init:
     bra     .L_06033ABC
     nop
 .L_06033B30:
-    .4byte  0x0000002C                  /* 44 bytes per HUD element */
+    .4byte  0x0000002C
 .L_06033B34:
-    .4byte  DAT_06082A7C               /* HUD element array base */
+    .4byte  DAT_06082A7C
 .L_06033B38:
-    .4byte  0x00000000                  /* +0x00: element index (byte) */
+    .4byte  0x00000000
 .L_06033B3C:
-    .4byte  0x00000010                  /* +0x10: element state (byte) */
+    .4byte  0x00000010
 .L_06033B40:
-    .4byte  0x00000011                  /* +0x11: visibility (byte) */
+    .4byte  0x00000011
 .L_06033B44:
-    .4byte  0x00000026                  /* +0x26: flag A (byte) */
+    .4byte  0x00000026
 .L_06033B48:
-    .4byte  0x00000028                  /* +0x28: flag B (byte) */
+    .4byte  0x00000028
 .L_06033B4C:
-    .4byte  0x0000000E                  /* 14 bytes per init table entry */
+    .4byte  0x0000000E
 .L_06033B50:
-    .4byte  sym_060631BC               /* HUD init data table (14 bytes/entry) */
+    .4byte  sym_060631BC
 .L_06033B54:
-    .4byte  0x00000014                  /* +0x14: X position (32-bit 16.16) */
+    .4byte  0x00000014
 .L_06033B58:
-    .4byte  0x00000018                  /* +0x18: Y position (32-bit 16.16) */
+    .4byte  0x00000018
 .L_06033B5C:
-    .4byte  0x0000001C                  /* +0x1C: width (32-bit 16.16) */
+    .4byte  0x0000001C
 .L_06033B60:
-    .4byte  0x00000020                  /* +0x20: height (32-bit 16.16) */
+    .4byte  0x00000020
 .L_06033B64:
-    .4byte  0x00000002                  /* +0x02: type/sprite index (16-bit) */
+    .4byte  0x00000002
 .L_06033B68:
-    .4byte  0x00000012                  /* +0x12: palette index (16-bit) */
+    .4byte  0x00000012
 .L_06033B6C:
-    .4byte  0x00000024                  /* +0x24: draw priority (16-bit) */
+    .4byte  0x00000024
 .L_06033B70:
-    .4byte  0x00000001                  /* +0x01: element flags (byte) */
+    .4byte  0x00000001
 .L_06033B74:
-    .4byte  0x0000002D                  /* 45 HUD elements total */
+    .4byte  0x0000002D
 .L_06033B78:
     xor r2, r2
     mov.l   .L_06033BB0, r0
@@ -139,14 +139,14 @@ hud_subsystem_init:
     nop
     .2byte  0x0000
 .L_06033BB0:
-    .4byte  sym_06083254               /* active HUD element count (byte) */
+    .4byte  sym_06083254
 .L_06033BB4:
-    .4byte  sym_06083250               /* HUD subsystem state (32-bit) */
+    .4byte  sym_06083250
 .L_06033BB8:
-    .4byte  sym_0607EB94               /* display channel array base */
+    .4byte  sym_0607EB94
 .L_06033BBC:
-    .4byte  sym_060631AC               /* channel pointer table (2 entries) */
+    .4byte  sym_060631AC
 .L_06033BC0:
-    .4byte  0x00000014                  /* 20 bytes per channel entry */
+    .4byte  0x00000014
 .L_06033BC4:
-    .4byte  0x00000006                  /* +0x06: channel index (byte) */
+    .4byte  0x00000006

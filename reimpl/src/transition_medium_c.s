@@ -81,45 +81,45 @@ transition_medium_c:
     bra     .L_0600FFB4
     nop
 .L_wpool_0600FF5C:
-    .2byte  0x0099                 /* countdown threshold: 153 (fade → asset load boundary) */
+    .2byte  0x0099
 .L_wpool_0600FF5E:
-    .2byte  0x5A00                 /* tilemap copy size: 23040 bytes */
+    .2byte  0x5A00
 .L_pool_0600FF60:
-    .4byte  sym_0607EBCC           /* &countdown_timer (attract mode countdown, 32-bit) */
+    .4byte  sym_0607EBCC
 .L_pool_0600FF64:
-    .4byte  0x25F00540             /* VDP2 color RAM +0x540 (fade destination palette) */
+    .4byte  0x25F00540
 .L_pool_0600FF68:
-    .4byte  throttle_input_proc    /* palette color interpolation function */
+    .4byte  throttle_input_proc
 .L_pool_0600FF6C:
-    .4byte  0x25F004A0             /* VDP2 color RAM +0x4A0 (course palette destination) */
+    .4byte  0x25F004A0
 .L_pool_0600FF70:
-    .4byte  sym_06028400           /* tile_writer / display list loader */
+    .4byte  sym_06028400
 .L_pool_0600FF74:
-    .4byte  dma_memory_transfer    /* DMA memory-to-memory transfer */
+    .4byte  dma_memory_transfer
 .L_pool_0600FF78:
-    .4byte  memcpy_word_idx        /* word-indexed memory copy */
+    .4byte  memcpy_word_idx
 .L_pool_0600FF7C:
-    .4byte  0x25E34000             /* VDP2 VRAM +0x34000 (tilemap destination) */
+    .4byte  0x25E34000
 .L_pool_0600FF80:
-    .4byte  sym_0607EAD8           /* &course_index (0=Beginner, 1=Advanced, 2=Expert) */
+    .4byte  sym_0607EAD8
 .L_pool_0600FF84:
-    .4byte  sym_0604872C           /* course 0 palette data (16 colors, 32 bytes) */
+    .4byte  sym_0604872C
 .L_pool_0600FF88:
-    .4byte  0x25E61CEC             /* VDP2 VRAM +0x61CEC (course 0 tilemap source) */
+    .4byte  0x25E61CEC
 .L_pool_0600FF8C:
-    .4byte  0x25E60000             /* VDP2 VRAM +0x60000 (course 0 tile destination) */
+    .4byte  0x25E60000
 .L_pool_0600FF90:
-    .4byte  sym_0604874C           /* course 1 palette data (16 colors, 32 bytes) */
+    .4byte  sym_0604874C
 .L_pool_0600FF94:
-    .4byte  0x25E665D4             /* VDP2 VRAM +0x665D4 (course 1 tilemap source) */
+    .4byte  0x25E665D4
 .L_pool_0600FF98:
-    .4byte  0x25E609A4             /* VDP2 VRAM +0x609A4 (course 1 tile destination) */
+    .4byte  0x25E609A4
 .L_pool_0600FF9C:
-    .4byte  sym_0604876C           /* course 2 palette data (16 colors, 32 bytes) */
+    .4byte  sym_0604876C
 .L_pool_0600FFA0:
-    .4byte  0x25E6A9CC             /* VDP2 VRAM +0x6A9CC (course 2 tilemap source) */
+    .4byte  0x25E6A9CC
 .L_pool_0600FFA4:
-    .4byte  0x25E61348             /* VDP2 VRAM +0x61348 (course 2 tile destination) */
+    .4byte  0x25E61348
 .L_0600FFA8:
     cmp/eq #0x0, r0
     bt      .L_0600FF14

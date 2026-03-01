@@ -86,7 +86,7 @@ color_palette_effect:
 .L_pool_06042A80:
     .4byte  sym_06042BFC
 .L_06042A84:
-    .4byte  0x25F00000                  /* VDP2 color RAM +0x000 */
+    .4byte  0x25F00000
 .L_pool_06042A88:
     .4byte  sym_06038A48
 

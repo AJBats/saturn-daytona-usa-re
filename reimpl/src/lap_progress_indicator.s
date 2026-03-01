@@ -31,11 +31,11 @@ DAT_06011206:
     .word 0x02BA
     mov.b r12, @(r0, r4)
     .word 0xFFFF
-    .4byte  sym_06078644               /* (adjacent data) */
+    .4byte  sym_06078644
 .L_06011214:
-    .4byte  sym_0607887F               /* game mode byte (0xB = variant) */
+    .4byte  sym_0607887F
 .L_06011218:
-    .4byte  sym_0607EBC8               /* mode configuration flags (bit 0 = lap count) */
+    .4byte  sym_0607EBC8
 .L_0601121C:
     mov #0x4, r13
 .L_0601121E:
@@ -146,30 +146,30 @@ DAT_06011206:
     rts
     mov.l @r15+, r14
 .L_060112E2:
-    .2byte  0x02A0                        /* VDP1 cmd offset: position/lap icon */
+    .2byte  0x02A0
 .L_060112E4:
-    .2byte  0x0530                        /* VDP1 cmd offset: lap count digit */
+    .2byte  0x0530
 
     .global DAT_060112e6
 DAT_060112e6:
-    .2byte  0x0534                        /* VDP1 cmd offset: lap indicator border */
+    .2byte  0x0534
 .L_060112E8:
-    .4byte  sym_06078644               /* lap state flag (nonzero = lap in progress) */
+    .4byte  sym_06078644
 .L_060112EC:
-    .4byte  sym_06028400               /* HUD element draw function */
+    .4byte  sym_06028400
 .L_060112F0:
-    .4byte  sym_0607EAB8               /* race active flag (nonzero = racing) */
+    .4byte  sym_0607EAB8
 .L_060112F4:
-    .4byte  sym_06063828               /* display structure (VDP1 base at +4) */
+    .4byte  sym_06063828
 .L_060112F8:
-    .4byte  sym_0605A8B6               /* position sprite data (race active) */
+    .4byte  sym_0605A8B6
 .L_060112FC:
-    .4byte  sym_06078868               /* car/player index for sprite lookup */
+    .4byte  sym_06078868
 .L_06011300:
-    .4byte  sym_0605ABBC               /* sprite lookup table (8 bytes per car) */
+    .4byte  sym_0605ABBC
 .L_06011304:
-    .4byte  sym_0605A9B0               /* active state sprite (lap in progress) */
+    .4byte  sym_0605A9B0
 .L_06011308:
-    .4byte  sym_0605A9B8               /* inactive state sprite (no lap) */
+    .4byte  sym_0605A9B8
 .L_0601130C:
-    .4byte  sym_0605A7FC               /* position sprite data (race inactive) */
+    .4byte  sym_0605A7FC

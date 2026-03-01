@@ -90,7 +90,7 @@ DAT_06014594:
 .L_060145A0:
     .4byte  sym_0607EBC8
 .L_060145A4:
-    .4byte  0x00008000                  /* 0x8000 = Up button mask (32-bit for AND) */
+    .4byte  0x00008000
 .L_060145A8:
     .4byte  sym_06084B18
 .L_060145AC:

@@ -35,17 +35,17 @@ preview_camera_target:
     .byte   0xAF, 0xAE    /* bra 0x0601A73E (external) */
     lds.l @r15+, pr
 .L_0601A7E2:
-    .2byte  0x4000                             /* [HIGH] Down button mask (bit 14) */
-    .4byte  sym_06085FF6                       /* (unused pool entry) */
-    .4byte  sym_06012EC4                       /* (unused pool entry) */
-    .4byte  sym_06012F00                       /* (unused pool entry) */
-    .4byte  sym_06085FF7                       /* (unused pool entry) */
-    .4byte  race_variant_e                     /* (unused pool entry) */
-    .4byte  0xAE0001FF                         /* (unused pool entry) */
-    .4byte  sound_cmd_dispatch                 /* (unused pool entry) */
+    .2byte  0x4000
+    .4byte  sym_06085FF6
+    .4byte  sym_06012EC4
+    .4byte  sym_06012F00
+    .4byte  sym_06085FF7
+    .4byte  race_variant_e
+    .4byte  0xAE0001FF
+    .4byte  sound_cmd_dispatch
 .L_pool_0601A800:
-    .4byte  sym_0605D241                       /* [HIGH] two-player mode flag (byte, 0=1P, 1=2P) */
+    .4byte  sym_0605D241
 .L_pool_0601A804:
-    .4byte  g_pad_state                       /* [HIGH] held button state struct */
+    .4byte  g_pad_state
 .L_pool_0601A808:
-    .4byte  0x00008000                         /* [HIGH] Up button mask (bit 15, 32-bit for AND) */
+    .4byte  0x00008000

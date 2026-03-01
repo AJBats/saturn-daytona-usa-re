@@ -30,9 +30,9 @@ attract_init_setup:
 DAT_0603ef8a:
     .2byte  0x07FF
 .L_0603EF8C:
-    .4byte  0x0000FFFF                  /* low 16-bit mask (sentinel compare) */
+    .4byte  0x0000FFFF
 .L_0603EF90:
-    .4byte  0x7FFFFFFF                  /* max positive 16.16 fixed-point */
+    .4byte  0x7FFFFFFF
 .L_0603EF94:
     mov.l @r15, r5
 .L_0603EF96:

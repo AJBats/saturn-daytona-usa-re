@@ -79,12 +79,12 @@ collision_order_a:
 
     .global DAT_06031750
 DAT_06031750:
-    .2byte  0x8000              /* half-circle angle constant (180 deg in 16-bit) */
-    .2byte  0x0000              /* alignment padding */
+    .2byte  0x8000
+    .2byte  0x0000
 .L_pool_06031754:
-    .4byte  atan2               /* atan2 function ptr */
+    .4byte  atan2
 .L_pool_06031758:
-    .4byte  sym_0605BCC8        /* collision force lookup table base */
+    .4byte  sym_0605BCC8
 .L_0603175C:
     mov.l @(40, r14), r1
     mov.l @(40, r13), r2
@@ -113,12 +113,12 @@ DAT_06031750:
 
     .global DAT_0603178c
 DAT_0603178c:
-    .2byte  0x4000              /* quarter-circle angle constant (90 deg in 16-bit) */
-    .2byte  0x0000              /* alignment padding */
+    .2byte  0x4000
+    .2byte  0x0000
 .L_pool_06031790:
-    .4byte  0x0001638E          /* height threshold (~91,022 fixed-point) */
+    .4byte  0x0001638E
 .L_pool_06031794:
-    .4byte  0x08000000          /* COLLISION_BIT (bit 27 of car flags) */
+    .4byte  0x08000000
 .L_06031798:
     mov.l @(12, r14), r1
     mov.l @(12, r13), r3
@@ -147,11 +147,11 @@ DAT_0603178c:
 
     .global DAT_060317c6
 DAT_060317c6:
-    .2byte  0x4000              /* quarter-circle angle constant */
+    .2byte  0x4000
 .L_pool_060317C8:
-    .4byte  0x0001638E          /* height threshold (~91,022 fixed-point) */
+    .4byte  0x0001638E
 .L_pool_060317CC:
-    .4byte  0x08000000          /* COLLISION_BIT (bit 27 of car flags) */
+    .4byte  0x08000000
 .L_060317D0:
     mov.l r4, @-r15
     mov.l @(32, r14), r4
@@ -242,13 +242,13 @@ DAT_060317c6:
     mov.l @r15+, r9
     rts
     mov.l @r15+, r8
-    .2byte  0x0000              /* alignment padding */
+    .2byte  0x0000
 .L_pool_06031880:
-    .4byte  cos_lookup          /* cos lookup function ptr (path A) */
+    .4byte  cos_lookup
 .L_pool_06031884:
-    .4byte  sin_lookup          /* sin lookup function ptr (path A) */
+    .4byte  sin_lookup
 .L_06031888:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) / 180 deg */
+    .4byte  0x00008000
 .L_0603188C:
     mov.l r0, @-r15
     mov r8, r4
@@ -303,12 +303,12 @@ collision_order_b:
 
     .global DAT_060318e4
 DAT_060318e4:
-    .2byte  0x8000              /* half-circle angle constant (180 deg in 16-bit) */
-    .2byte  0x0000              /* alignment padding */
+    .2byte  0x8000
+    .2byte  0x0000
 .L_pool_060318E8:
-    .4byte  atan2               /* atan2 function ptr (path B) */
+    .4byte  atan2
 .L_pool_060318EC:
-    .4byte  sym_0605BCC8        /* collision force lookup table base (path B) */
+    .4byte  sym_0605BCC8
 .L_060318F0:
     mov.l @(40, r14), r1
     mov.l @(40, r13), r2
@@ -333,10 +333,10 @@ DAT_060318e4:
 
     .global DAT_06031918
 DAT_06031918:
-    .2byte  0x4000              /* quarter-circle angle constant */
-    .2byte  0x0000              /* alignment padding */
+    .2byte  0x4000
+    .2byte  0x0000
 .L_pool_0603191C:
-    .4byte  0x0001638E          /* height threshold (~91,022 fixed-point) */
+    .4byte  0x0001638E
 .L_06031920:
     mov.l @(0, r13), r0
     mov.l @(0, r14), r1
@@ -347,9 +347,9 @@ DAT_06031918:
     mov.l r1, @(0, r14)
     bra     .L_060319A2
     nop
-    .2byte  0x0000              /* alignment padding */
+    .2byte  0x0000
 .L_pool_06031934:
-    .4byte  0x08000000          /* COLLISION_BIT (bit 27 of car flags) */
+    .4byte  0x08000000
 .L_06031938:
     mov.l @(12, r13), r1
     mov.l @(12, r14), r3
@@ -381,12 +381,12 @@ DAT_06031918:
 
     .global DAT_0603196c
 DAT_0603196c:
-    .2byte  0x4000              /* quarter-circle angle constant */
-    .2byte  0x0000              /* alignment padding */
+    .2byte  0x4000
+    .2byte  0x0000
 .L_pool_06031970:
-    .4byte  0x0001638E          /* height threshold (~91,022 fixed-point) */
+    .4byte  0x0001638E
 .L_pool_06031974:
-    .4byte  0x08000000          /* COLLISION_BIT (bit 27 of car flags) */
+    .4byte  0x08000000
 .L_06031978:
     mov.l r4, @-r15
     mov.l @(32, r13), r4
@@ -470,11 +470,11 @@ DAT_0603196c:
     bra     .L_0603186C
     mov.l r6, @(24, r13)
 .L_pool_06031A18:
-    .4byte  cos_lookup          /* cos lookup function ptr (path B) */
+    .4byte  cos_lookup
 .L_pool_06031A1C:
-    .4byte  sin_lookup          /* sin lookup function ptr (path B) */
+    .4byte  sin_lookup
 .L_06031A20:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) / 180 deg */
+    .4byte  0x00008000
 
     .global sym_06031A24
 sym_06031A24:

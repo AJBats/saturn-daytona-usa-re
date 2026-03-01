@@ -50,7 +50,7 @@ DAT_06011fd6:
     .2byte  0x7C00                 /* blue channel mask (bits 10-14) — loaded by mov.w */
     .2byte  0xF800                 /* (adjacent data, not used by this function) */
 .L_wpool_06011FDA:
-    .2byte  0x0400                 /* [HIGH] blue channel step (1 << 10) — loaded into r9 */
+    .2byte  0x0400
 
 .L_06011FDC:
     mov.l @(4, r15), r2

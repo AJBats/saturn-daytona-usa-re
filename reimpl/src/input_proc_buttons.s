@@ -22,7 +22,7 @@ input_proc_buttons:
     .4byte  sym_06059CB0
     .4byte  sym_06035168
 .L_06035EEC:
-    .4byte  smpc_response_handler          /* [HIGH] SMPC peripheral response handler */
+    .4byte  smpc_response_handler
     .4byte  sym_06063594
 .L_06035EF4:
     .byte   0xD5, 0x10    /* mov.l .L_input_config_table, r5 */

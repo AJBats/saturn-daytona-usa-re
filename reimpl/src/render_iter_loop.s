@@ -62,30 +62,30 @@ render_iter_loop:
     rts
     mov.l @r15+, r14
 .L_wpool_06014136:
-    .2byte  0xCCCD                               /* ~-0.2 (16.16 fixed-point, sign-extended) */
+    .2byte  0xCCCD
 .L_pool_06014138:
-    .4byte  sym_06084B18                         /* object iteration counter */
+    .4byte  sym_06084B18
 .L_pool_0601413C:
-    .4byte  sym_0605AD4C                         /* object pointer array base */
+    .4byte  sym_0605AD4C
 .L_pool_06014140:
-    .4byte  sym_06026DBC                         /* pre-transform setup function */
+    .4byte  sym_06026DBC
 .L_pool_06014144:
-    .4byte  0x00010000                           /* 1.0 (16.16 fixed-point) */
+    .4byte  0x00010000
 .L_pool_06014148:
-    .4byte  sym_06026E2E                         /* position transform dispatch */
+    .4byte  sym_06026E2E
 .L_pool_0601414C:
-    .4byte  mat_scale_columns                    /* matrix column scaling */
+    .4byte  mat_scale_columns
 .L_pool_06014150:
-    .4byte  sym_06084B08                         /* active car slot index */
+    .4byte  sym_06084B08
 .L_pool_06014154:
-    .4byte  sym_06062338                         /* object transform table A */
+    .4byte  sym_06062338
 .L_pool_06014158:
-    .4byte  sym_06031D8C                         /* transform chain dispatch A */
+    .4byte  sym_06031D8C
 .L_pool_0601415C:
-    .4byte  sym_06089E4A                         /* display mode selector (16-bit) */
+    .4byte  sym_06089E4A
 .L_pool_06014160:
-    .4byte  sym_060622C0                         /* display transform table B */
+    .4byte  sym_060622C0
 .L_pool_06014164:
-    .4byte  sym_06031A28                         /* transform chain dispatch B */
+    .4byte  sym_06031A28
 .L_pool_06014168:
-    .4byte  sym_06089EDC                         /* render budget counter (dec by 0x30/obj) */
+    .4byte  sym_06089EDC

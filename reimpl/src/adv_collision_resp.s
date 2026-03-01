@@ -113,31 +113,31 @@ adv_collision_resp:
 
     .global DAT_06014682
 DAT_06014682:
-    .2byte  0x0700                      /* button mask: bits 8-10 (car management inputs) */
+    .2byte  0x0700
 .L_wpool_06014684:
-    .2byte  0x0100                      /* bit 8 mask (removal/backspace button) */
-    .2byte  0xFFFF                      /* padding / alignment */
+    .2byte  0x0100
+    .2byte  0xFFFF
 .L_pool_06014688:
     .4byte  sound_cmd_dispatch          /* sound command dispatch function */
 .L_pool_0601468C:
-    .4byte  sym_06084B18                /* &active_car_count (32-bit int) */
+    .4byte  sym_06084B18
 .L_pool_06014690:
-    .4byte  g_pad_state                /* &input_state struct (+2 = button flags) */
+    .4byte  g_pad_state
 .L_pool_06014694:
-    .4byte  sym_06084B14                /* &variant_char_buffer (3 bytes) */
+    .4byte  sym_06084B14
 .L_pool_06014698:
-    .4byte  sym_06084B20                /* &current_variant_code (32-bit) */
+    .4byte  sym_06084B20
 .L_pool_0601469C:
-    .4byte  0xAB1101FF                  /* sound: car variant removed */
+    .4byte  0xAB1101FF
 .L_pool_060146A0:
-    .4byte  0xAB1102FF                  /* sound: default char (code < 0x41) */
+    .4byte  0xAB1102FF
 .L_pool_060146A4:
-    .4byte  sym_0605B0FC                /* per-character sound lookup table */
+    .4byte  sym_0605B0FC
 .L_pool_060146A8:
-    .4byte  sym_06084B08                /* &car_slot_index (32-bit) */
+    .4byte  sym_06084B08
 .L_pool_060146AC:
-    .4byte  0xAB111EFF                  /* sound: all 3 slots filled / completion */
-    .4byte  0xD30FE204                  /* trailing data (next TU preamble) */
+    .4byte  0xAB111EFF
+    .4byte  0xD30FE204
     .4byte  0x63323322
     .4byte  0x8907D20E
     .4byte  0xD30D6221

@@ -21,4 +21,4 @@ menu_border_render:
     nop
     .4byte  attract_timer_tick
 .L_0603B62C:
-    .4byte  sym_0603F9FA                   /* [MEDIUM] timer_exchange_field_16 — exchange timer value */
+    .4byte  sym_0603F9FA

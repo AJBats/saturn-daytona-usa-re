@@ -45,13 +45,13 @@ transform_heading_apply:
 .L_0602630E:
     bra     .L_06026350
     nop
-    .2byte  0xFFFF                          /* alignment padding */
+    .2byte  0xFFFF
 .L_pool_06026314:
-    .4byte  sym_06060F2C                    /* [MEDIUM] slot_data_table base (8-byte stride, up to 10 slots) */
+    .4byte  sym_06060F2C
 .L_pool_06026318:
-    .4byte  sym_06089ED6                    /* [HIGH] &course_id_a (word) */
+    .4byte  sym_06089ED6
 .L_pool_0602631C:
-    .4byte  sym_06089ED4                    /* [HIGH] &course_id_b (word) */
+    .4byte  sym_06089ED4
 .L_06026320:
     mov.w   .L_wpool_06026336, r1
     sub r1, r0
@@ -65,13 +65,13 @@ transform_heading_apply:
     braf r0
     nop
 .L_wpool_06026336:
-    .2byte  0x008A                          /* [HIGH] heading base value to subtract (0x8A) */
-    .4byte  0xFFC4FFC4                      /* jump offsets: index 0 (-60), index 1 (-60) -> course_id_a=1 */
-    .4byte  0xFFCEFFCE                      /* jump offsets: index 2 (-50), index 3 (-50) -> course_id_a=slot_idx, course_id_b=1 */
-    .4byte  0xFFC8FFC8                      /* jump offsets: index 4 (-56), index 5 (-56) -> course_id_a=2 */
-    .4byte  0xFFC8FFC8                      /* jump offsets: index 6 (-56), index 7 (-56) -> course_id_a=2 */
-    .4byte  0xFFD2FFD2                      /* jump offsets: index 8 (-46), index 9 (-46) -> course_id_b=2 */
-    .4byte  0xFFD2FFD2                      /* jump offsets: index 10 (-46), index 11 (-46) -> course_id_b=2 */
+    .2byte  0x008A
+    .4byte  0xFFC4FFC4
+    .4byte  0xFFCEFFCE
+    .4byte  0xFFC8FFC8
+    .4byte  0xFFC8FFC8
+    .4byte  0xFFD2FFD2
+    .4byte  0xFFD2FFD2
 .L_06026350:
     add #0x1, r5
 .L_06026352:

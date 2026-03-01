@@ -48,7 +48,7 @@ loc_06020510:
 .L_pool_0602051C:
     .4byte  sym_06087814
 .L_pool_06020520:
-    .4byte  0x00180000                  /* display offset stride per entry */
+    .4byte  0x00180000
 .L_pool_06020524:
     .4byte  display_channel_b
 .L_pool_06020528:

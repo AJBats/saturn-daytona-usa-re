@@ -67,7 +67,7 @@ DAT_0601a9a4:
 .L_0601A9AC:
     .4byte  sym_0605D24C
 .L_0601A9B0:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000
 .L_0601A9B4:
     .4byte  sym_0605D243
 .L_0601A9B8:
@@ -237,4 +237,4 @@ DAT_0601aac2:
 .L_0601AAE0:
     .4byte  sym_0605D35C
 .L_0601AAE4:
-    .4byte  0x0000E000                  /* bits 15:13 mask */
+    .4byte  0x0000E000

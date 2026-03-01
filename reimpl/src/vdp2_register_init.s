@@ -127,7 +127,7 @@ DAT_06003630:
     .2byte  0x43F8
     .2byte  0xFFFF
 .L_06003638:
-    .4byte  0x25E20000                  /* VDP2 VRAM +0x20000 */
+    .4byte  0x25E20000
 .L_0600363C:
     .4byte  memcpy_word_idx
 .L_06003640:
@@ -135,59 +135,59 @@ DAT_06003630:
 .L_06003644:
     .4byte  sym_060481AC
 .L_06003648:
-    .4byte  0x25F00800                  /* VDP2 color RAM +0x800 */
+    .4byte  0x25F00800
 .L_0600364C:
     .4byte  0x002CF108
 .L_06003650:
-    .4byte  0x25E00000                  /* VDP2 VRAM +0x00000 */
+    .4byte  0x25E00000
 .L_06003654:
     .4byte  0x002A0000
 .L_06003658:
     .4byte  0x00031498
 .L_0600365C:
-    .4byte  0x25E4363C                  /* VDP2 VRAM +0x4363C */
+    .4byte  0x25E4363C
 .L_06003660:
     .4byte  0x00037640
 .L_06003664:
-    .4byte  0x25E497E4                  /* VDP2 VRAM +0x497E4 */
+    .4byte  0x25E497E4
 .L_06003668:
     .4byte  0x00008094
 .L_0600366C:
     .4byte  0x0003CE44
 .L_06003670:
-    .4byte  0x25E4EFEC                  /* VDP2 VRAM +0x4EFEC */
+    .4byte  0x25E4EFEC
 .L_06003674:
     .4byte  0x00044ED8
 .L_06003678:
-    .4byte  0x25E40000                  /* VDP2 VRAM +0x40000 */
+    .4byte  0x25E40000
 .L_0600367C:
     .4byte  0x000456C8
 .L_06003680:
-    .4byte  0x25E407F0                  /* VDP2 VRAM +0x407F0 */
+    .4byte  0x25E407F0
 .L_06003684:
     .4byte  0x00045F64
 .L_06003688:
-    .4byte  0x25E4108C                  /* VDP2 VRAM +0x4108C */
+    .4byte  0x25E4108C
 .L_0600368C:
     .4byte  0x000468FC
 .L_06003690:
-    .4byte  0x25E41A24                  /* VDP2 VRAM +0x41A24 */
+    .4byte  0x25E41A24
 .L_06003694:
     .4byte  0x000471D8
 .L_06003698:
-    .4byte  0x25E42300                  /* VDP2 VRAM +0x42300 */
+    .4byte  0x25E42300
 .L_0600369C:
     .4byte  0x00047B50
 .L_060036A0:
-    .4byte  0x25E42C78                  /* VDP2 VRAM +0x42C78 */
+    .4byte  0x25E42C78
 .L_060036A4:
     .4byte  0x0001F370
 .L_060036A8:
-    .4byte  0x25E61CEC                  /* VDP2 VRAM +0x61CEC */
+    .4byte  0x25E61CEC
 .L_060036AC:
     .4byte  0x00023C58
 .L_060036B0:
-    .4byte  0x25E665D4                  /* VDP2 VRAM +0x665D4 */
+    .4byte  0x25E665D4
 .L_060036B4:
     mov.w   .L_06003772, r6
     mov.l   .L_06003794, r5
@@ -340,67 +340,67 @@ DAT_0600378e:
 .L_06003794:
     .4byte  0x00028050
 .L_06003798:
-    .4byte  0x25E6A9CC                  /* VDP2 VRAM +0x6A9CC */
+    .4byte  0x25E6A9CC
 .L_0600379C:
     .4byte  0x0002D41C
 .L_060037A0:
-    .4byte  0x25E60000                  /* VDP2 VRAM +0x60000 */
+    .4byte  0x25E60000
 .L_060037A4:
     .4byte  0x0002DDC0
 .L_060037A8:
-    .4byte  0x25E609A4                  /* VDP2 VRAM +0x609A4 */
+    .4byte  0x25E609A4
 .L_060037AC:
     .4byte  0x0002E764
 .L_060037B0:
-    .4byte  0x25E61348                  /* VDP2 VRAM +0x61348 */
+    .4byte  0x25E61348
 .L_060037B4:
-    .4byte  0x25E6F9C4                  /* VDP2 VRAM +0x6F9C4 */
+    .4byte  0x25E6F9C4
 .L_060037B8:
-    .4byte  0x25E70E40                  /* VDP2 VRAM +0x70E40 */
+    .4byte  0x25E70E40
 .L_060037BC:
     .4byte  0x0000EAB0
 .L_060037C0:
-    .4byte  0x25E72194                  /* VDP2 VRAM +0x72194 */
+    .4byte  0x25E72194
 .L_060037C4:
     .4byte  0x00017114
 .L_060037C8:
-    .4byte  0x25E73B98                  /* VDP2 VRAM +0x73B98 */
+    .4byte  0x25E73B98
 .L_060037CC:
     .4byte  0x000176D0
 .L_060037D0:
-    .4byte  0x25E74158                  /* VDP2 VRAM +0x74158 */
+    .4byte  0x25E74158
 .L_060037D4:
     .4byte  0x00018074
 .L_060037D8:
-    .4byte  0x25E74AFC                  /* VDP2 VRAM +0x74AFC */
+    .4byte  0x25E74AFC
 .L_060037DC:
     .4byte  0x00018B10
 .L_060037E0:
-    .4byte  0x25E75730                  /* VDP2 VRAM +0x75730 */
+    .4byte  0x25E75730
 .L_060037E4:
     .4byte  0x00008F84
 .L_060037E8:
-    .4byte  0x25E759EC                  /* VDP2 VRAM +0x759EC */
+    .4byte  0x25E759EC
 .L_060037EC:
     .4byte  0x00009374
 .L_060037F0:
-    .4byte  0x25E75DDC                  /* VDP2 VRAM +0x75DDC */
+    .4byte  0x25E75DDC
 .L_060037F4:
     .4byte  0x00048514
 .L_060037F8:
-    .4byte  0x25E76174                  /* VDP2 VRAM +0x76174 */
+    .4byte  0x25E76174
 .L_060037FC:
     .4byte  0x0004859C
 .L_06003800:
-    .4byte  0x25E761FC                  /* VDP2 VRAM +0x761FC */
+    .4byte  0x25E761FC
 .L_06003804:
     .4byte  0x0004929C
 .L_06003808:
-    .4byte  0x25E76EFC                  /* VDP2 VRAM +0x76EFC */
+    .4byte  0x25E76EFC
 .L_0600380C:
     .4byte  0x00049EB8
 .L_06003810:
-    .4byte  0x25E77B18                  /* VDP2 VRAM +0x77B18 */
+    .4byte  0x25E77B18
 .L_06003814:
     .4byte  0x0000AA54
 .L_06003818:

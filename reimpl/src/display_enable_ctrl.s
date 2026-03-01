@@ -85,14 +85,14 @@ display_enable_ctrl:
     rts
     mov.l @r15+, r14
 .L_wpool_06038106:
-    .2byte  0x0200                      /* [HIGH] 512 = total display element entries */
+    .2byte  0x0200
 
     .global DAT_06038108
 DAT_06038108:
     .2byte  0x1810
     .2byte  0xFFFF
 .L_0603810C:
-    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
+    .4byte  0x00010000
 .L_06038110:
     .4byte  sym_06035BC8
 .L_06038114:

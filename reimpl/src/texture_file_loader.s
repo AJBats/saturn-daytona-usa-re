@@ -75,17 +75,17 @@ texture_file_loader:
     rts
     mov.l @r15+, r14
 .L_0601B6C4:
-    .2byte  0x0F00                              /* bits 8-11: D-pad / abort button mask */
+    .2byte  0x0F00
 .L_0601B6C6:
-    .2byte  0x2000                              /* bit 13: file index increment button */
+    .2byte  0x2000
 .L_0601B6C8:
-    .2byte  0x1000                              /* bit 12: file index decrement button */
-    .2byte  0xFFFF                              /* alignment padding */
+    .2byte  0x1000
+    .2byte  0xFFFF
 .L_0601B6CC:
-    .4byte  sym_0605D4F4                        /* scroll parameter base (+0=A, +1=B) */
+    .4byte  sym_0605D4F4
 .L_0601B6D0:
-    .4byte  sym_0605D4FA                        /* texture file index / course state A */
+    .4byte  sym_0605D4FA
 .L_0601B6D4:
-    .4byte  g_pad_state                        /* input button state struct (+2=flags) */
+    .4byte  g_pad_state
 .L_0601B6D8:
-    .4byte  sym_0608600D                        /* course state flag B (cleared on abort) */
+    .4byte  sym_0608600D

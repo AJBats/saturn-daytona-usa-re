@@ -25,8 +25,8 @@ render_cs0_loop:
     bt      .L_0600B6E4
     bra     .L_0600B8F8
     nop
-    .4byte  sym_06031DF4                    /* (unreferenced pool: render submit B) */
-    .4byte  sym_0608A52C                    /* (unreferenced pool: render budget B) */
+    .4byte  sym_06031DF4
+    .4byte  sym_0608A52C
 .L_0600B6D0:
     .4byte  sym_06089EDC
 .L_0600B6D4:
@@ -243,7 +243,7 @@ DAT_0600b840:
 .L_0600B854:
     .4byte  sym_06026E2E
 .L_0600B858:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000
 .L_0600B85C:
     .4byte  mat_rot_y
 .L_0600B860:

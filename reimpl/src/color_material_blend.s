@@ -33,21 +33,21 @@ color_material_blend:
 
     .global DAT_0602f5e8
 DAT_0602f5e8:
-    .2byte  0x0068                      /* car+0x68: heading index */
+    .2byte  0x0068
 
     .global DAT_0602f5ea
 DAT_0602f5ea:
-    .2byte  0x00E0                      /* car+0xE0: drive_speed (16.16 FP) */
+    .2byte  0x00E0
 .L_pool_0602F5EC:
-    .4byte  sym_06045AEC               /* weight table (per-car type) */
+    .4byte  sym_06045AEC
 .L_pool_0602F5F0:
-    .4byte  0x00016666                  /* ~1.4 in 16.16 FP (blend multiplier) */
+    .4byte  0x00016666
 .L_pool_0602F5F4:
-    .4byte  0x00006666                  /* ~0.4 in 16.16 FP (blend bias) */
+    .4byte  0x00006666
 .L_pool_0602F5F8:
-    .4byte  0x00000000                  /* lower clamp bound (0) */
+    .4byte  0x00000000
 .L_pool_0602F5FC:
-    .4byte  0x00002134                  /* upper clamp bound (8500 decimal) */
+    .4byte  0x00002134
 .L_0602F600:
     cmp/gt r5, r4
     bt      .L_0602F606
@@ -167,69 +167,69 @@ DAT_0602f5ea:
 
     .global DAT_0602f6e0
 DAT_0602f6e0:
-    .2byte  0x00DC                      /* car+0xDC: display_flag (table column index) */
+    .2byte  0x00DC
 
     .global DAT_0602f6e2
 DAT_0602f6e2:
-    .2byte  0x00C8                      /* car+0xC8: color_base (row pointer) */
+    .2byte  0x00C8
 
     .global DAT_0602f6e4
 DAT_0602f6e4:
-    .2byte  0x00E8                      /* car+0xE8: light_param (fog numerator) */
+    .2byte  0x00E8
 
     .global DAT_0602f6e6
 DAT_0602f6e6:
-    .2byte  0x011C                      /* car+0x11C: decel_coeff (fog-adjusted output) */
+    .2byte  0x011C
 
     .global DAT_0602f6e8
 DAT_0602f6e8:
-    .2byte  0x0084                      /* car+0x84: secondary_speed index */
+    .2byte  0x0084
 
     .global DAT_0602f6ea
 DAT_0602f6ea:
-    .2byte  0x00EC                      /* car+0xEC: blend_result_a (70% output) */
+    .2byte  0x00EC
 
     .global DAT_0602f6ec
 DAT_0602f6ec:
-    .2byte  0x00F0                      /* car+0xF0: blend_result_b (50% output) */
+    .2byte  0x00F0
 
     .global DAT_0602f6ee
 DAT_0602f6ee:
-    .2byte  0x001C                      /* car+0x1C: vertical_pos */
+    .2byte  0x001C
 
     .global DAT_0602f6f0
 DAT_0602f6f0:
-    .2byte  0x00F4                      /* car+0xF4: force_aux (heading contribution) */
+    .2byte  0x00F4
 
     .global DAT_0602f6f2
 DAT_0602f6f2:
-    .2byte  0x00D6                      /* car+0xD6: fog_timer (countdown) */
+    .2byte  0x00D6
 
     .global DAT_0602f6f4
 DAT_0602f6f4:
-    .2byte  0x7333                      /* ~0.45 in 16.16 FP (fog scale factor) */
+    .2byte  0x7333
 
     .global DAT_0602f6f6
 DAT_0602f6f6:
-    .2byte  0x00F8                      /* car+0xF8: final blend output */
+    .2byte  0x00F8
 .L_pool_0602F6F8:
-    .4byte  sym_060477BC               /* material/reflectance lookup table */
+    .4byte  sym_060477BC
 .L_pool_0602F6FC:
-    .4byte  0x00019999                  /* ~1.6 in 16.16 FP (fog divisor) */
+    .4byte  0x00019999
 .L_pool_0602F700:
-    .4byte  fpdiv_setup                /* 16.16 fixed-point hardware divide */
+    .4byte  fpdiv_setup
 .L_pool_0602F704:
-    .4byte  sym_06045AEC               /* weight table (per-car type, 2nd ref) */
+    .4byte  sym_06045AEC
 .L_pool_0602F708:
-    .4byte  0x0B400000                  /* 70% blend factor (16.16 FP) */
+    .4byte  0x0B400000
 .L_pool_0602F70C:
-    .4byte  0x07800000                  /* 50% blend factor (16.16 FP) */
+    .4byte  0x07800000
 .L_pool_0602F710:
-    .4byte  0x06400000                  /* heading angle factor (16.16 FP) */
+    .4byte  0x06400000
 .L_pool_0602F714:
-    .4byte  sin_lookup                 /* sine table lookup function */
+    .4byte  sin_lookup
 .L_pool_0602F718:
-    .4byte  sym_060454CC               /* acceleration curve table B */
+    .4byte  sym_060454CC
 .L_0602F71C:
     mov #0x0, r4
     mov.w   .L_wpool_0602F786, r3
@@ -289,13 +289,13 @@ DAT_0602f6f6:
     rts
     shar r4
 .L_wpool_0602F786:
-    .2byte  0x0004                      /* bit mask: activation flag bit 2 */
+    .2byte  0x0004
 .L_wpool_0602F788:
-    .2byte  0x0120                      /* car+0x120: activation flag array base */
+    .2byte  0x0120
 .L_wpool_0602F78A:
-    .2byte  0x007C                      /* car+0x7C: render type selector */
+    .2byte  0x007C
 .L_pool_0602F78C:
-    .4byte  sym_0604679C               /* weight table A (high-count path) */
+    .4byte  sym_0604679C
 .L_0602F790:
     mov.l @(8, r0), r2
     .byte   0xD3, 0x03    /* mov.l .L_pool_0602F7A0, r3 */
@@ -305,9 +305,9 @@ DAT_0602f6f6:
 .L_0602F79A:
     rts
     shar r4
-    .2byte  0x0000                      /* alignment padding */
+    .2byte  0x0000
 .L_pool_0602F7A0:
-    .4byte  sym_06046F9C               /* weight table B (low-count path) */
+    .4byte  sym_06046F9C
 .L_0602F7A4:
     rts
     mov #0x0, r4
@@ -319,9 +319,9 @@ DAT_0602f6f6:
     mov.l @r3, r4
     rts
     shll r4
-    .2byte  0x0000                      /* alignment padding */
+    .2byte  0x0000
 .L_pool_0602F7B8:
-    .4byte  sym_0604679C               /* weight table A (doubled path, dup) */
+    .4byte  sym_0604679C
 
     .global sym_0602F7BC
 sym_0602F7BC:
@@ -351,12 +351,12 @@ sym_0602F7BC:
 
     .global DAT_0602f7e4
 DAT_0602f7e4:
-    .2byte  0x0166                      /* car+0x166: timer A (anim frame counter) */
+    .2byte  0x0166
 
     .global DAT_0602f7e6
 DAT_0602f7e6:
-    .2byte  0x0152                      /* car+0x152: timer B (effect duration) */
+    .2byte  0x0152
 
     .global DAT_0602f7e8
 DAT_0602f7e8:
-    .2byte  0x0208                      /* car+0x208: timer C (extended cooldown) */
+    .2byte  0x0208

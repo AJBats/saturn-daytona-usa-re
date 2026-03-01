@@ -90,52 +90,52 @@ course0_bg_load:
     jmp @r3
     mov.l @r15+, r14
 .L_060187DE:
-    .2byte  0x07DC                        /* palette data: 2012 bytes */
+    .2byte  0x07DC
 .L_060187E0:
-    .2byte  0x3100                        /* tile set A: 12544 bytes */
+    .2byte  0x3100
 .L_060187E2:
-    .2byte  0x4F80                        /* base BG data: 20352 bytes */
+    .2byte  0x4F80
 .L_060187E4:
-    .2byte  0x38DC                        /* WRAM offset for base BG */
+    .2byte  0x38DC
 .L_060187E6:
-    .2byte  0x3000                        /* tile set B/D: 12288 bytes */
+    .2byte  0x3000
 .L_060187E8:
-    .2byte  0x4000                        /* tile set C: 16384 bytes */
+    .2byte  0x4000
 .L_060187EA:
-    .2byte  0x6660                        /* VRAM offset for tile set C */
+    .2byte  0x6660
 .L_060187EC:
-    .4byte  sym_0605D1DC               /* BG offset source table */
+    .4byte  sym_0605D1DC
 .L_060187F0:
-    .4byte  sym_06085FD0               /* BG offset dest table */
+    .4byte  sym_06085FD0
 .L_060187F4:
-    .4byte  sym_060D6900               /* BG data base address (course 0) */
+    .4byte  sym_060D6900
 .L_060187F8:
-    .4byte  memcpy_long_idx            /* long-indexed memory copy */
+    .4byte  memcpy_long_idx
 .L_060187FC:
-    .4byte  0x00200000                  /* Work RAM Low base */
+    .4byte  0x00200000
 .L_06018800:
-    .4byte  sym_060D5840               /* palette source data */
+    .4byte  sym_060D5840
 .L_06018804:
-    .4byte  sym_060C6000               /* tile set A source */
+    .4byte  sym_060C6000
 .L_06018808:
-    .4byte  0x00018000                  /* map data: 96KB */
+    .4byte  0x00018000
 .L_0601880C:
-    .4byte  0x00240000                  /* VRAM destination base */
+    .4byte  0x00240000
 .L_06018810:
-    .4byte  sym_060A6000               /* map data source */
+    .4byte  sym_060A6000
 .L_06018814:
-    .4byte  0x0000A660                  /* VRAM offset for tile set B */
+    .4byte  0x0000A660
 .L_06018818:
-    .4byte  sym_060BF000               /* tile set B source */
+    .4byte  sym_060BF000
 .L_0601881C:
-    .4byte  sym_060C2000               /* tile set C source */
+    .4byte  sym_060C2000
 .L_06018820:
-    .4byte  0x0000B108                  /* VRAM offset for data block D */
+    .4byte  0x0000B108
 .L_06018824:
-    .4byte  0x002F8000                  /* data block D source address */
+    .4byte  0x002F8000
 .L_06018828:
-    .4byte  sym_0607EAD8               /* race end state (0/1/2) */
+    .4byte  sym_0607EAD8
 .L_0601882C:
-    .4byte  sound_init_sequence        /* sound initialization for course */
+    .4byte  sound_init_sequence
 .L_06018830:
-    .4byte  render_batch_proc          /* render batch processing */
+    .4byte  render_batch_proc

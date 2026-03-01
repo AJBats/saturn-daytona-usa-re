@@ -84,7 +84,7 @@ credits_scroll:
 .L_0603F2CC:
     .4byte  sym_060A4D14
 .L_0603F2D0:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000
 .L_0603F2D4:
     .4byte  sym_06041884
 .L_0603F2D8:

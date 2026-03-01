@@ -50,19 +50,19 @@ lap_counter_update:
     jmp @r3
     lds.l @r15+, pr
 .L_06015932:
-    .2byte  0x0224                      /* car struct offset: sound ID for this car */
+    .2byte  0x0224
 .L_06015934:
-    .4byte  sym_06084FC8               /* base of lap slot array (20 bytes per car) */
-    .4byte  sym_0605B8A4               /* (adjacent data) */
+    .4byte  sym_06084FC8
+    .4byte  sym_0605B8A4
 .L_0601593C:
-    .4byte  sym_0607EAE0               /* race end flag (32-bit, nonzero = ended) */
+    .4byte  sym_0607EAE0
 .L_06015940:
-    .4byte  sym_06085F94               /* final lap completion flag (16-bit) */
+    .4byte  sym_06085F94
 .L_06015944:
-    .4byte  sym_06078900               /* car struct array base */
+    .4byte  sym_06078900
 .L_06015948:
-    .4byte  sym_06044BD8               /* lap completion sound table (4 bytes per entry) */
+    .4byte  sym_06044BD8
 .L_0601594C:
     .4byte  sound_cmd_dispatch         /* sound command dispatch */
 .L_06015950:
-    .4byte  sym_060172E4               /* lap display handler */
+    .4byte  sym_060172E4

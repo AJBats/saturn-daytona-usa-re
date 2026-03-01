@@ -264,7 +264,7 @@ hud_elem_render:
 .L_06015214:
     .4byte  sym_06085F8D
 .L_06015218:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000
 .L_0601521C:
     .4byte  sym_06044C8C
 .L_06015220:

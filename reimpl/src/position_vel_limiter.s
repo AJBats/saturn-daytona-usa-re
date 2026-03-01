@@ -34,20 +34,20 @@ position_vel_limiter:
     rts
     mov.w r2, @r5
 .L_06012326:
-    .2byte  0x2999                      /* [HIGH] Y velocity decrement per frame (16.16 fixed ~0.163) */
+    .2byte  0x2999
 .L_06012328:
-    .2byte  0x4000                      /* [HIGH] Z velocity decrement per frame (16.16 fixed = 0.25) */
+    .2byte  0x4000
 .L_0601232A:
-    .2byte  0x1800                      /* [HIGH] rotation angle increment per frame (0x1800 = ~33.75 deg) */
+    .2byte  0x1800
 .L_0601232C:
-    .4byte  g_game_state                /* [HIGH] game state variable (0-31 state machine index) — unreferenced in this TU */
+    .4byte  g_game_state
 .L_06012330:
-    .4byte  sym_06078636                /* [HIGH] display mode byte (controls car display) — unreferenced in this TU */
+    .4byte  sym_06078636
 .L_06012334:
-    .4byte  sym_060788B4                /* [HIGH] position vector base (XYZ triplet, 16.16 fixed-point) */
+    .4byte  sym_060788B4
 .L_06012338:
-    .4byte  0x00020000                  /* [HIGH] 2.0 (16.16 fixed-point) — Y position floor */
+    .4byte  0x00020000
 .L_0601233C:
-    .4byte  0x0004CCCC                  /* [HIGH] ~4.8 (16.16 fixed-point) — Z position floor */
+    .4byte  0x0004CCCC
 .L_06012340:
-    .4byte  sym_060788B2                /* [HIGH] Z rotation angle state (16-bit, WRAM High) */
+    .4byte  sym_060788B2

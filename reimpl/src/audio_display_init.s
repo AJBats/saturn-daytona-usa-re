@@ -39,16 +39,16 @@ audio_display_init:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-    .2byte  0xFFFF                         /* alignment padding */
-    .4byte  sound_cmd_dispatch             /* (unused pool entry in this TU) */
-    .4byte  0xAE0001FF                     /* (unused) sound cmd: init/preview music */
-    .4byte  0xAE0600FF                     /* (unused) sound cmd: start BGM */
+    .2byte  0xFFFF
+    .4byte  sound_cmd_dispatch
+    .4byte  0xAE0001FF
+    .4byte  0xAE0600FF
 .L_0600A078:
-    .4byte  sym_0602853E                   /* display_layer_config */
+    .4byte  sym_0602853E
 .L_0600A07C:
-    .4byte  sym_06028560                   /* render_state_commit */
+    .4byte  sym_06028560
 .L_0600A080:
-    .4byte  display_channel_b              /* display channel clear/configure */
+    .4byte  display_channel_b
     .4byte  0xD523E401
     .4byte  0x90406352
     .4byte  0x023E3247

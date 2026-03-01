@@ -53,7 +53,7 @@ vec3_normalize:
     .4byte  0x002F0000
     .4byte  0x00008000
 .L_060274F8:
-    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
+    .4byte  0x00010000
     .4byte  0x40003FFC
     .4byte  0x0FFC4000
     .4byte  0x3FEB3FD6

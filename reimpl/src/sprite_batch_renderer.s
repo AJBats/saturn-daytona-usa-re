@@ -71,12 +71,12 @@ DAT_060115c6:
     .4byte  sym_06044764
     .4byte  sym_06044784
 .L_060115DC:
-    .4byte  sym_06063788                    /* -> source data struct (pointer-to-pointer) */
+    .4byte  sym_06063788
 .L_060115E0:
-    .4byte  sym_0605AAA6                    /* -> display_channel_dest_table (28 x 4 bytes) */
+    .4byte  sym_0605AAA6
 .L_060115E4:
-    .4byte  0x0000F000                      /* palette/texture data offset */
+    .4byte  0x0000F000
 .L_060115E8:
-    .4byte  sym_0605AAA2                    /* -> display_config_word (16-bit) */
+    .4byte  sym_0605AAA2
 .L_060115EC:
-    .4byte  sym_06028400                    /* -> display_list_loader function */
+    .4byte  sym_06028400

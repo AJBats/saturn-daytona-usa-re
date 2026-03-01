@@ -88,15 +88,15 @@ validation_dispatch:
 
     .global DAT_0604009e
 DAT_0604009e:
-    .2byte  0x00C4                      /* state struct offset: status flags */
+    .2byte  0x00C4
 .L_060400A0:
-    .2byte  0x00D0                      /* state struct offset: road check base */
+    .2byte  0x00D0
 .L_060400A2:
-    .2byte  0x00C8                      /* state struct offset: result field */
+    .2byte  0x00C8
 .L_060400A4:
-    .4byte  sym_060A4D14                /* -> game state structure pointer */
+    .4byte  sym_060A4D14
 .L_060400A8:
-    .4byte  road_segment_check          /* track road segment validator */
+    .4byte  road_segment_check
     .4byte  0x7F044F26
     .4byte  0x000B6EF6
 
@@ -149,13 +149,13 @@ obj_init_validate:
     bra     .L_060401D6
     mov #0x0, r0
 .L_06040104:
-    .2byte  0x0914                      /* wide stride (bit 2 surface type) */
+    .2byte  0x0914
 .L_06040106:
-    .2byte  0x0800                      /* default stride */
+    .2byte  0x0800
 .L_06040108:
-    .4byte  0x40000000                  /* 0.25 (2.30) or 16384.0 (16.16) */
+    .4byte  0x40000000
 .L_0604010C:
-    .4byte  track_shadow_test           /* ground shadow/surface query */
+    .4byte  track_shadow_test
 .L_06040110:
     mov r15, r3
     mov r15, r4
@@ -274,11 +274,11 @@ sym_060401E4:
 
     .global DAT_060401e8
 DAT_060401e8:
-    .2byte  0x07FF                      /* rounding mask for segment division */
-    .2byte  0xFFFF                      /* padding / alignment */
+    .2byte  0x07FF
+    .2byte  0xFFFF
 .L_060401EC:
-    .4byte  input_proc_complete         /* unsigned 32-bit division */
+    .4byte  input_proc_complete
 .L_060401F0:
-    .4byte  sym_06036BE4                /* signed fixed-point modulo */
+    .4byte  sym_06036BE4
 .L_060401F4:
-    .4byte  0x7FFFFFFF                  /* max positive 16.16 */
+    .4byte  0x7FFFFFFF

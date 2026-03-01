@@ -116,45 +116,45 @@ vdp2_scroll_config:
 
     .global DAT_060183ec
 DAT_060183ec:
-    .2byte  0x01EC                      /* car struct game state field offset */
+    .2byte  0x01EC
 
     .global DAT_060183ee
 DAT_060183ee:
-    .2byte  0x0086                      /* minimum valid game state */
+    .2byte  0x0086
 
     .global DAT_060183f0
 DAT_060183f0:
-    .2byte  0x009F                      /* maximum valid game state */
+    .2byte  0x009F
 
     .global DAT_060183f2
 DAT_060183f2:
-    .2byte  0x1000                      /* normal animation fraction step */
+    .2byte  0x1000
 .L_060183F4:
-    .4byte  sym_0605BE35                /* force-complete flag (byte) */
+    .4byte  sym_0605BE35
 .L_060183F8:
-    .4byte  sym_0607E940                /* current car struct pointer */
+    .4byte  sym_0607E940
 .L_060183FC:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000
 .L_06018400:
-    .4byte  sym_0605BE32                /* animation phase counter (byte) */
+    .4byte  sym_0605BE32
 .L_06018404:
-    .4byte  sym_06085FC0                /* scroll position struct (int+frac) */
+    .4byte  sym_06085FC0
 .L_06018408:
-    .4byte  sym_0605BE34                /* previous scroll_active shadow (byte) */
+    .4byte  sym_0605BE34
 .L_0601840C:
-    .4byte  sym_0605BE33                /* scroll active flag (byte) */
+    .4byte  sym_0605BE33
 .L_06018410:
-    .4byte  g_pad_state                /* VDP2 scroll direction source register */
+    .4byte  g_pad_state
 .L_06018414:
-    .4byte  sym_0605BE30                /* scroll config register (16-bit) */
+    .4byte  sym_0605BE30
 .L_06018418:
-    .4byte  sym_0605DE3C                /* transition state flag (byte) */
+    .4byte  sym_0605DE3C
 .L_0601841C:
-    .4byte  sym_0605A010                /* global frame counter (32-bit) */
+    .4byte  sym_0605A010
 .L_06018420:
-    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
+    .4byte  0x00010000
 .L_06018424:
-    .4byte  sym_06085FF4                /* boost/extended mode flag (byte) */
+    .4byte  sym_06085FF4
 .L_06018428:
     mov.l r12, @r14
     mov.l @(4, r14), r2
@@ -278,13 +278,13 @@ DAT_060183f2:
     bra     .L_06018528
     mov.l r12, @(4, r14)
 .L_06018504:
-    .2byte  0x0200                      /* boost mode integer step per frame */
+    .2byte  0x0200
 .L_06018506:
-    .2byte  0x0100                      /* boost mode fraction step per frame */
+    .2byte  0x0100
 .L_06018508:
-    .4byte  0x00018000                  /* 1.5 (16.16 fixed-point) */
+    .4byte  0x00018000
 .L_0601850C:
-    .4byte  0x00020000                  /* 2.0 (16.16 fixed-point) */
+    .4byte  0x00020000
 .L_06018510:
     cmp/eq #0x0, r0
     bt      .L_06018480
@@ -364,33 +364,33 @@ DAT_060183f2:
 
     .global DAT_060185a0
 DAT_060185a0:
-    .2byte  0x38E3                      /* Y rotation bias (added to fraction) */
+    .2byte  0x38E3
 .L_060185A2:
-    .2byte  0x0178                      /* rotation angle parameter (376 deg units) */
+    .2byte  0x0178
 .L_060185A4:
-    .2byte  0x0145                      /* display scale parameter (325) */
-    .2byte  0xFFFF                      /* padding / alignment */
+    .2byte  0x0145
+    .2byte  0xFFFF
 .L_060185A8:
-    .4byte  sym_06026DBC                /* pre-transform setup function */
+    .4byte  sym_06026DBC
 .L_060185AC:
-    .4byte  sym_06048140                /* camera position parameters (X/Y/Z) */
+    .4byte  sym_06048140
 .L_060185B0:
-    .4byte  sym_06026E2E                /* transform dispatch function */
+    .4byte  sym_06026E2E
 .L_060185B4:
-    .4byte  mat_rot_y                   /* Y-axis rotation matrix builder */
+    .4byte  mat_rot_y
 .L_060185B8:
-    .4byte  mat_rot_x            /* matrix transform function */
+    .4byte  mat_rot_x
 .L_060185BC:
-    .4byte  0x00200000                  /* Work RAM Low base */
+    .4byte  0x00200000
 .L_060185C0:
-    .4byte  0x000BABE0                  /* object data offset in WRAM Low */
+    .4byte  0x000BABE0
 .L_060185C4:
-    .4byte  sym_06031D8C                /* transform chain A dispatch */
+    .4byte  sym_06031D8C
 .L_060185C8:
-    .4byte  sym_06089E98                /* per-mode scale factor table (16-bit) */
+    .4byte  sym_06089E98
 .L_060185CC:
-    .4byte  0x000BBD80                  /* display data offset in WRAM Low */
+    .4byte  0x000BBD80
 .L_060185D0:
-    .4byte  sym_06031A28                /* transform chain B dispatch */
+    .4byte  sym_06031A28
 .L_060185D4:
-    .4byte  sym_06026DF8                /* post-transform cleanup function */
+    .4byte  sym_06026DF8

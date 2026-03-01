@@ -64,21 +64,21 @@ display_mode_init:
     bra     .L_06014B0C
     nop
 .L_06014AE2:
-    .2byte  0x0100                            /* channel ID 0x100 */
+    .2byte  0x0100
 .L_06014AE4:
-    .4byte  sym_06085640                   /* HUD element table base */
+    .4byte  sym_06085640
 .L_06014AE8:
-    .4byte  channel_nibble_config          /* channel configuration function */
+    .4byte  channel_nibble_config
 .L_06014AEC:
-    .4byte  sym_06085F8A                   /* display skip flag (byte) */
+    .4byte  sym_06085F8A
 .L_06014AF0:
-    .4byte  sym_0602853E                   /* display layer configuration */
+    .4byte  sym_0602853E
 .L_06014AF4:
-    .4byte  display_channel_b              /* display channel B enable */
+    .4byte  display_channel_b
 .L_06014AF8:
-    .4byte  sym_06028560                   /* render state commit */
+    .4byte  sym_06028560
 .L_06014AFC:
-    .4byte  gameover_channel_setup         /* game over channel setup */
+    .4byte  gameover_channel_setup
 
 .L_06014B00:
     mov.l   .L_06014BD8, r3
@@ -191,71 +191,71 @@ display_mode_init:
     bra     .L_06014C7C
     extu.b r11, r5
 .L_06014BCE:
-    .2byte  0x0100                            /* channel ID 0x100 (second ref) */
+    .2byte  0x0100
 .L_06014BD0:
-    .2byte  0x0260                            /* VDP1 sprite offset 0 */
+    .2byte  0x0260
 .L_06014BD2:
-    .2byte  0x0280                            /* VDP1 sprite offset 1 */
+    .2byte  0x0280
 .L_06014BD4:
-    .2byte  0x0220                            /* VDP1 sprite offset 2 */
+    .2byte  0x0220
 .L_06014BD6:
-    .2byte  0x0240                            /* VDP1 sprite offset 3 */
+    .2byte  0x0240
 .L_06014BD8:
-    .4byte  obj_data_compact               /* object data compaction */
+    .4byte  obj_data_compact
 .L_06014BDC:
-    .4byte  frame_end_commit               /* frame end commit */
+    .4byte  frame_end_commit
 .L_06014BE0:
-    .4byte  sym_0602853E                   /* display layer configuration */
+    .4byte  sym_0602853E
 .L_06014BE4:
-    .4byte  display_channel_b              /* display channel B enable */
+    .4byte  display_channel_b
 .L_06014BE8:
-    .4byte  memcpy_word_idx                /* word-indexed memory copy */
+    .4byte  memcpy_word_idx
 .L_06014BEC:
-    .4byte  sym_06044A64                   /* color palette source 0 */
+    .4byte  sym_06044A64
 .L_06014BF0:
-    .4byte  0x25F00660                      /* VDP2 color RAM +0x660 */
+    .4byte  0x25F00660
 .L_06014BF4:
-    .4byte  sym_06044A84                   /* color palette source 1 */
+    .4byte  sym_06044A84
 .L_06014BF8:
-    .4byte  0x25F00680                      /* VDP2 color RAM +0x680 */
+    .4byte  0x25F00680
 .L_06014BFC:
-    .4byte  sym_06044AA4                   /* color palette source 2 */
+    .4byte  sym_06044AA4
 .L_06014C00:
-    .4byte  0x25F006A0                      /* VDP2 color RAM +0x6A0 */
+    .4byte  0x25F006A0
 .L_06014C04:
-    .4byte  sym_06044AC4                   /* color palette source 3 */
+    .4byte  sym_06044AC4
 .L_06014C08:
-    .4byte  0x25F006C0                      /* VDP2 color RAM +0x6C0 */
+    .4byte  0x25F006C0
 .L_06014C0C:
-    .4byte  0x25C00000                      /* VDP1 VRAM base */
+    .4byte  0x25C00000
 .L_06014C10:
-    .4byte  sym_06044AE4                   /* sprite pattern source 0 */
+    .4byte  sym_06044AE4
 .L_06014C14:
-    .4byte  sym_06059FFC                   /* tile index value (ptr, *8 for offset) */
+    .4byte  sym_06059FFC
 .L_06014C18:
-    .4byte  sym_06044B24                   /* sprite pattern source 1 */
+    .4byte  sym_06044B24
 .L_06014C1C:
-    .4byte  sym_06044B04                   /* sprite pattern source 2 */
+    .4byte  sym_06044B04
 .L_06014C20:
-    .4byte  sym_06044B44                   /* sprite pattern source 3 */
+    .4byte  sym_06044B44
 .L_06014C24:
-    .4byte  sym_0600511E                   /* VRAM tile data copy */
+    .4byte  sym_0600511E
 .L_06014C28:
-    .4byte  0x00017700                      /* tile map source 0 address */
+    .4byte  0x00017700
 .L_06014C2C:
-    .4byte  0x25E73B98                      /* VDP2 VRAM +0x73B98 */
+    .4byte  0x25E73B98
 .L_06014C30:
-    .4byte  0x000189E0                      /* tile map source 1 address */
+    .4byte  0x000189E0
 .L_06014C34:
-    .4byte  0x25E74158                      /* VDP2 VRAM +0x74158 */
+    .4byte  0x25E74158
 .L_06014C38:
-    .4byte  0x0001AFA0                      /* tile map source 2 address */
+    .4byte  0x0001AFA0
 .L_06014C3C:
-    .4byte  0x25E74AFC                      /* VDP2 VRAM +0x74AFC */
+    .4byte  0x25E74AFC
 .L_06014C40:
-    .4byte  0x0001C980                      /* tile map source 3 address */
+    .4byte  0x0001C980
 .L_06014C44:
-    .4byte  0x25E75730                      /* VDP2 VRAM +0x75730 */
+    .4byte  0x25E75730
 
 .L_06014C48:
     extu.b r5, r4
@@ -356,33 +356,33 @@ display_mode_init:
 
     .global DAT_06014cf2
 DAT_06014cf2:
-    .2byte  0x0224                            /* car struct: demo param A offset */
+    .2byte  0x0224
 .L_06014CF4:
-    .2byte  0x0240                            /* car struct: demo param B offset */
-    .2byte  0xFFFF                            /* padding */
+    .2byte  0x0240
+    .2byte  0xFFFF
 .L_06014CF8:
-    .4byte  vdp2_loop_ctrl                 /* VDP2 loop control */
+    .4byte  vdp2_loop_ctrl
 .L_06014CFC:
-    .4byte  geom_pipeline_coord            /* geometry pipeline coordinates */
+    .4byte  geom_pipeline_coord
 .L_06014D00:
-    .4byte  sym_06085F89                   /* display flag A (byte) */
+    .4byte  sym_06085F89
 .L_06014D04:
-    .4byte  sym_06085F90                   /* display flag B (16-bit) */
+    .4byte  sym_06085F90
 .L_06014D08:
-    .4byte  sym_06085F94                   /* display flag C (16-bit) */
+    .4byte  sym_06085F94
 .L_06014D0C:
-    .4byte  sym_060149CC                   /* pre-display setup */
+    .4byte  sym_060149CC
 .L_06014D10:
-    .4byte  sym_0607ED8C                   /* special render enable (16-bit) */
+    .4byte  sym_0607ED8C
 .L_06014D14:
-    .4byte  sym_0607EBF4                   /* race event bitfield (32-bit) */
+    .4byte  sym_0607EBF4
 .L_06014D18:
-    .4byte  sym_0607E944                   /* car state base pointer */
+    .4byte  sym_0607E944
 .L_06014D1C:
-    .4byte  sym_06078637                   /* demo source byte */
+    .4byte  sym_06078637
 .L_06014D20:
-    .4byte  sym_06078638                   /* demo source word (32-bit) */
+    .4byte  sym_06078638
 .L_06014D24:
-    .4byte  sym_0607863C                   /* demo parameters source */
+    .4byte  sym_0607863C
 .L_06014D28:
-    .4byte  sym_060786A4                   /* demo parameters destination */
+    .4byte  sym_060786A4

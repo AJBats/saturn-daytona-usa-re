@@ -60,29 +60,29 @@ scene_process_b:
 
     .global DAT_060254de
 DAT_060254de:
-    .2byte  0x00A8                       /* render param (variant B) */
+    .2byte  0x00A8
 .L_060254E0:
-    .2byte  0x0C08                       /* text screen position */
+    .2byte  0x0C08
 .L_060254E2:
-    .2byte  0x0590                       /* offset into render_base for slot data */
+    .2byte  0x0590
 .L_060254E4:
-    .2byte  0x0090                       /* text string length param */
+    .2byte  0x0090
 
     .global DAT_060254e6
 DAT_060254e6:
-    .2byte  0x0C3E                       /* layer param for state-4 geometry */
+    .2byte  0x0C3E
 .L_060254E8:
-    .4byte  sym_06063750                 /* render base table (8-byte stride) */
+    .4byte  sym_06063750
 .L_060254EC:
-    .4byte  sym_06028400                 /* layer setup / geometry dispatch */
+    .4byte  sym_06028400
 .L_060254F0:
-    .4byte  sym_06061198                 /* game state byte (render phase) */
+    .4byte  sym_06061198
 .L_060254F4:
-    .4byte  sym_060590B8                 /* "PRESS START TO EXIT" */
+    .4byte  sym_060590B8
 .L_060254F8:
-    .4byte  sym_060284AE                 /* text renderer / geometry dispatch */
+    .4byte  sym_060284AE
 .L_060254FC:
-    .4byte  sym_060590E0                 /* "PRESS A OR C TO DECIDE  B TO CANCEL" */
+    .4byte  sym_060590E0
 .L_06025500:
     mov.l   .L_060255E4, r7
     mov r13, r5
@@ -191,56 +191,56 @@ DAT_060254e6:
     bra     .L_060255FE
     mov #0x8, r2
 .L_060255CC:
-    .2byte  0x0090                       /* text length param (duplicate) */
+    .2byte  0x0090
 
     .global DAT_060255ce
 DAT_060255ce:
-    .2byte  0x0C34                       /* layer A geometry param */
+    .2byte  0x0C34
 
     .global DAT_060255d0
 DAT_060255d0:
-    .2byte  0x0C4E                       /* layer B geometry param */
+    .2byte  0x0C4E
 
     .global DAT_060255d2
 DAT_060255d2:
-    .2byte  0x02A4                       /* type name text screen position */
+    .2byte  0x02A4
 
     .global DAT_060255d4
 DAT_060255d4:
-    .2byte  0x0428                       /* render_base offset: layer C entry */
+    .2byte  0x0428
 
     .global DAT_060255d6
 DAT_060255d6:
-    .2byte  0x6000                       /* frame data offset for layer C */
+    .2byte  0x6000
 
     .global DAT_060255d8
 DAT_060255d8:
-    .2byte  0x0430                       /* render_base offset: layer D entry */
+    .2byte  0x0430
 
     .global DAT_060255da
 DAT_060255da:
-    .2byte  0x7000                       /* frame data offset for layers D/E */
+    .2byte  0x7000
 .L_060255DC:
-    .2byte  0x02A0                       /* layer D geometry param */
+    .2byte  0x02A0
 
     .global DAT_060255de
 DAT_060255de:
-    .2byte  0x0438                       /* render_base offset: layer E entry */
+    .2byte  0x0438
 .L_060255E0:
-    .2byte  0x02B4                       /* layer E geometry param */
-    .2byte  0xFFFF                       /* padding */
+    .2byte  0x02B4
+    .2byte  0xFFFF
 .L_060255E4:
-    .4byte  sym_06059104                 /* "PRESS A OR C..." (alt/truncated) */
+    .4byte  sym_06059104
 .L_060255E8:
-    .4byte  sym_060284AE                 /* text renderer (duplicate ref) */
+    .4byte  sym_060284AE
 .L_060255EC:
-    .4byte  sym_06058F94                 /* " TYPE A"/" TYPE B"/..." string table */
+    .4byte  sym_06058F94
 .L_060255F0:
-    .4byte  sym_06061184                 /* render record ptr table (variant B) */
+    .4byte  sym_06061184
 .L_060255F4:
-    .4byte  car_physics_final            /* per-car geometry dispatch */
+    .4byte  car_physics_final
 .L_060255F8:
-    .4byte  sym_06061198                 /* game state byte (duplicate ref) */
+    .4byte  sym_06061198
 .L_060255FC:
     mov #0x9, r2
 .L_060255FE:
@@ -340,12 +340,12 @@ DAT_060255de:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0xFFFF                       /* padding */
+    .2byte  0xFFFF
 .L_060256BC:
-    .4byte  sym_0605900C                 /* per-slot render base index table */
+    .4byte  sym_0605900C
 .L_060256C0:
-    .4byte  0x00008000                   /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000
 .L_060256C4:
-    .4byte  sym_06059074                 /* direction byte-pair table A (2-byte stride) */
+    .4byte  sym_06059074
 .L_060256C8:
-    .4byte  sym_06059084                 /* direction byte-pair table B (2-byte stride) */
+    .4byte  sym_06059084

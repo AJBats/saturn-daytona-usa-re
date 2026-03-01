@@ -95,42 +95,42 @@ accel_response:
 
     .global DAT_0600c590
 DAT_0600c590:
-    .2byte  0x00D4                        /* car offset: shift animation timer */
+    .2byte  0x00D4
 .L_0600C592:
-    .2byte  0xF052                        /* deceleration constant (signed: -4014) */
+    .2byte  0xF052
 
     .global DAT_0600c594
 DAT_0600c594:
-    .2byte  0x00BC                        /* car offset: gear lock flag */
+    .2byte  0x00BC
 
     .global DAT_0600c596
 DAT_0600c596:
-    .2byte  0x00B8                        /* car offset: shift timer */
+    .2byte  0x00B8
 
     .global DAT_0600c598
 DAT_0600c598:
-    .2byte  0x00FC                        /* car offset: acceleration delta */
+    .2byte  0x00FC
 
     .global DAT_0600c59a
 DAT_0600c59a:
-    .2byte  0x0198                        /* car offset: collision response value */
+    .2byte  0x0198
 .L_0600C59C:
-    .2byte  0x0194                        /* car offset: collision speed component */
+    .2byte  0x0194
     .2byte  0xFFFF
 .L_0600C5A0:
-    .4byte  fpmul                      /* fixed-point multiply */
+    .4byte  fpmul
 .L_0600C5A4:
-    .4byte  sym_0607E940               /* pointer to current car struct */
+    .4byte  sym_0607E940
 .L_0600C5A8:
-    .4byte  sym_0607EBC4               /* game state flags (bit 15 = frozen) */
+    .4byte  sym_0607EBC4
 .L_0600C5AC:
-    .4byte  0x00008000                  /* bitmask: check bit 15 (freeze flag) */
+    .4byte  0x00008000
 .L_0600C5B0:
-    .4byte  sym_060477EC               /* acceleration curve table A (per car type) */
+    .4byte  sym_060477EC
 .L_0600C5B4:
-    .4byte  sym_060454CC               /* acceleration curve table B (per car type) */
+    .4byte  sym_060454CC
 .L_0600C5B8:
-    .4byte  0xFEC00000                  /* base acceleration constant (negative) */
+    .4byte  0xFEC00000
 .L_0600C5BC:
     mov #0x0, r2
     mov.l r2, @(12, r14)

@@ -75,46 +75,46 @@ attract_init_body:
     rts
     mov.l @r15+, r14
 .L_060089C2:
-    .2byte  0x0398                        /* 920 frames (~15.3s at 60fps) */
+    .2byte  0x0398
 .L_060089C4:
-    .4byte  sym_06078634               /* course selection (byte) */
+    .4byte  sym_06078634
 .L_060089C8:
-    .4byte  sym_06078635               /* demo flag A (byte) */
+    .4byte  sym_06078635
 .L_060089CC:
-    .4byte  sym_0607ED8C               /* special render enable (16-bit) */
+    .4byte  sym_0607ED8C
 .L_060089D0:
-    .4byte  sym_0607864B               /* demo flag B (byte) */
+    .4byte  sym_0607864B
 .L_060089D4:
-    .4byte  vdp2_config_extended       /* VDP2 extended mode configuration */
+    .4byte  vdp2_config_extended
 .L_060089D8:
-    .4byte  race_init_master           /* master race initialization */
+    .4byte  race_init_master
 .L_060089DC:
-    .4byte  hud_subsystem_init         /* HUD subsystem initialization */
+    .4byte  hud_subsystem_init
 .L_060089E0:
-    .4byte  vdp1_init                  /* VDP1 sprite engine reset */
+    .4byte  vdp1_init
 .L_060089E4:
-    .4byte  sym_06063DA0               /* advanced display enable (16-bit) */
+    .4byte  sym_06063DA0
 .L_060089E8:
-    .4byte  vdp_init_advanced          /* advanced VDP initialization */
+    .4byte  vdp_init_advanced
 .L_060089EC:
-    .4byte  sym_06087804               /* display timer (16-bit) */
+    .4byte  sym_06087804
 .L_060089F0:
-    .4byte  sym_0607EBCC               /* attract mode countdown (32-bit) */
+    .4byte  sym_0607EBCC
 .L_060089F4:
-    .4byte  sym_0607EAE0               /* attract timer (32-bit) */
+    .4byte  sym_0607EAE0
 .L_060089F8:
-    .4byte  sym_0607EAD8               /* race end state (0/1/2) */
+    .4byte  sym_0607EAD8
 .L_060089FC:
-    .4byte  course_data_handler        /* course data loader/handler */
+    .4byte  course_data_handler
 .L_06008A00:
-    .4byte  sym_0605B6D8               /* render mode flags (32-bit) */
+    .4byte  sym_0605B6D8
 .L_06008A04:
-    .4byte  0x40000000                  /* attract mode flag bit */
+    .4byte  0x40000000
 .L_06008A08:
-    .4byte  g_game_state               /* game state dispatch value */
+    .4byte  g_game_state
 .L_06008A0C:
-    .4byte  sym_06026CE0               /* camera state finalization */
+    .4byte  sym_06026CE0
 .L_06008A10:
-    .4byte  sym_06059F44               /* animation state (32-bit) */
+    .4byte  sym_06059F44
 .L_06008A14:
-    .4byte  sym_0605A016               /* display mode (16-bit) */
+    .4byte  sym_0605A016

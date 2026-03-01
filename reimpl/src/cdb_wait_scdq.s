@@ -29,7 +29,7 @@ cdb_wait_scdq:
     bra     .L_060423DE
     nop
 .L_wpool_060423F6:
-    .2byte  0x0400                      /* [HIGH] SCDQ bit mask (HIRQ bit 10) */
+    .2byte  0x0400
     .4byte  ai_checkpoint_validate      /* [HIGH] adjacent pool: fn ptr (not used by this TU) */
     .4byte  sym_060A5400                /* [HIGH] adjacent pool: AI/game state base ptr (not used by this TU) */
 .L_pool_06042400:

@@ -66,12 +66,12 @@ text_string_render:
     mov.l r2, @(4, r4)
     .2byte  0xFFFF
 .L_pool_06016AD8:
-    .4byte  sym_06084FC8                /* base address of text object array (68 bytes/entry) */
-    .4byte  0x000B0000                  /* 11.0 (16.16 fixed-point) */
-    .4byte  0x00040000                  /* 4.0 (16.16 fixed-point) */
-    .4byte  0x0000C000                  /* 0.75 (16.16 fixed-point) */
+    .4byte  sym_06084FC8
+    .4byte  0x000B0000
+    .4byte  0x00040000
+    .4byte  0x0000C000
 .L_06016AE8:
-    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
+    .4byte  0x00010000
 .L_06016AEC:
     extu.b r14, r4
     mov r4, r3
@@ -163,9 +163,9 @@ loc_06016B8E:
     rts
     nop
 .L_wpool_06016B92:
-    .2byte  0x0600                      /* [MEDIUM] base scroll step value for text animation reset */
+    .2byte  0x0600
 .L_06016B94:
-    .4byte  0x00020000                  /* 2.0 (16.16 fixed-point) */
+    .4byte  0x00020000
 
     .global loc_06016B98
 loc_06016B98:
@@ -255,11 +255,11 @@ loc_06016C06:
     jmp @r3
     add #0x4, r15
 .L_pool_06016C34:
-    .4byte  sym_06084FC8                /* text object array base (68 bytes/entry) */
+    .4byte  sym_06084FC8
 .L_pool_06016C38:
-    .4byte  sym_0605BB1C                /* dispatch table A: state->handler fn ptrs */
+    .4byte  sym_0605BB1C
 .L_pool_06016C3C:
-    .4byte  sym_0605BB48                /* dispatch table B: state->handler fn ptrs */
+    .4byte  sym_0605BB48
 
     .global loc_06016C40
 loc_06016C40:

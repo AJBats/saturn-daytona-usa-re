@@ -34,7 +34,7 @@ obj_view_frustum:
     mov.l @r15+, r14
     .2byte  0x0100
 .L_06036A10:
-    .4byte  input_proc_analog     /* [HIGH] JSR target — input_proc_analog @ 0x06035E90 */
+    .4byte  input_proc_analog
     .4byte  input_proc_buttons    /* [HIGH] adjacent pool entry — input_proc_buttons @ 0x06035EC8 (not directly referenced in this function) */
 .L_06036A18:
-    .4byte  input_proc_digital    /* [HIGH] JSR target — input_proc_digital @ 0x06035EA2 */
+    .4byte  input_proc_digital

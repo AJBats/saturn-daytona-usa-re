@@ -38,6 +38,6 @@ save_data_serialize:
     rts
     mov.l @r15+, r14
 .L_0603BF18:
-    .4byte  sym_06040220                /* evt_field_extract */
+    .4byte  sym_06040220
     .4byte  0x504A000B                  /* embedded: mov.l @(0x28,r4),r0; rts */
     .2byte  0x145A                      /* embedded: mov.l r5,@(0x28,r4) [delay slot] */

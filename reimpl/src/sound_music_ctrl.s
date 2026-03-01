@@ -41,7 +41,7 @@ DAT_0603056a:
     bra     .L_06030724
     nop
 .L_06030588:
-    .2byte  0x0001                      /* 1 */
+    .2byte  0x0001
 .L_0603058A:
     mov.w   .L_06030598, r2
     tst r2, r6
@@ -773,9 +773,9 @@ DAT_06030a46:
 .L_06030A48:
     .4byte  sym_0607E940
 .L_06030A4C:
-    .4byte  0xFFFF0000                  /* -1.0 (16.16 fixed-point) */
+    .4byte  0xFFFF0000
 .L_06030A50:
-    .4byte  0x00200000                  /* Work RAM Low base */
+    .4byte  0x00200000
     .4byte  0x53E34321
     .4byte  0x1E3352E5
     .4byte  0xD109D30A
@@ -896,7 +896,7 @@ DAT_06030b2a:
 .L_06030B40:
     .4byte  force_steer_impact
 .L_06030B44:
-    .4byte  0x01000000                  /* MINIT — primary SH-2 init comm */
+    .4byte  0x01000000
 .L_06030B48:
     mov.l   .L_06030B60, r0
     mov.l @(0, r14), r2
@@ -933,7 +933,7 @@ DAT_06030b2a:
 .L_06030B84:
     .4byte  0x00006FFF
 .L_06030B88:
-    .4byte  0x00001000                  /* 0.0625 (16.16 fixed-point) */
+    .4byte  0x00001000
 .L_06030B8C:
     neg r2, r2
     neg r3, r3

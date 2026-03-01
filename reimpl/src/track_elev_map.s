@@ -19,14 +19,14 @@ track_elev_map:
     mov.b r3, @r2
     bra     .L_0601470A
     nop
-    .4byte  sym_06084B18                /* active car count (32-bit) — prev TU pool */
-    .4byte  sym_06084AF0                /* frame timer base (16-bit) — prev TU pool */
+    .4byte  sym_06084B18
+    .4byte  sym_06084AF0
 .L_060146F8:
-    .4byte  sym_0607EBCC                /* countdown timer (32-bit, in frames) */
+    .4byte  sym_0607EBCC
 .L_060146FC:
-    .4byte  sym_06084FB4                /* car count output parameter */
+    .4byte  sym_06084FB4
 .L_06014700:
-    .4byte  sym_06084AF2                /* phase byte (results state machine) */
+    .4byte  sym_06084AF2
 .L_06014704:
     mov #0x4, r2
     mov.l   .L_06014758, r3
@@ -74,12 +74,12 @@ track_elev_map:
     rts
     nop
 .L_06014758:
-    .4byte  sym_06084AF2                /* phase byte (results state machine) */
+    .4byte  sym_06084AF2
 .L_0601475C:
-    .4byte  sym_06084B10                /* status flags (bit 0 = skip variant copy) */
+    .4byte  sym_06084B10
 .L_06014760:
-    .4byte  sym_06085FFC                /* active camera cut-point entry pointer */
+    .4byte  sym_06085FFC
 .L_06014764:
-    .4byte  sym_06084B14                /* variant char buffer (4 bytes) */
+    .4byte  sym_06084B14
 .L_06014768:
-    .4byte  sym_06086000                /* camera override pointer */
+    .4byte  sym_06086000

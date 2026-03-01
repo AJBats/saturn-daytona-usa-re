@@ -58,37 +58,37 @@ preview_camera_path:
     rts
     nop
 .L_0601AB4E:
-    .2byte  0x0700                        /* preview trigger: bits 8-10 */
+    .2byte  0x0700
 .L_0601AB50:
-    .4byte  sym_06063D9A               /* input status word (16-bit) */
+    .4byte  sym_06063D9A
 .L_0601AB54:
-    .4byte  g_game_state               /* game state dispatch value */
+    .4byte  g_game_state
 .L_0601AB58:
-    .4byte  sym_0605E0A2               /* preview camera flag A (byte) */
+    .4byte  sym_0605E0A2
 .L_0601AB5C:
-    .4byte  sym_06085FF0               /* preview camera flag B (byte) */
+    .4byte  sym_06085FF0
 .L_0601AB60:
-    .4byte  sym_0605D245               /* preview camera flag C (byte) */
+    .4byte  sym_0605D245
 .L_0601AB64:
-    .4byte  sym_06085FF1               /* preview camera flag D (byte) */
+    .4byte  sym_06085FF1
 .L_0601AB68:
-    .4byte  sym_06085FF2               /* preview camera flag E (byte) */
+    .4byte  sym_06085FF2
 .L_0601AB6C:
-    .4byte  sym_06085FF3               /* preview camera flag F (byte) */
+    .4byte  sym_06085FF3
 .L_0601AB70:
-    .4byte  sym_0602853E               /* display layer configuration */
+    .4byte  sym_0602853E
 .L_0601AB74:
-    .4byte  sym_0605B6D8               /* render mode flags (32-bit) */
+    .4byte  sym_0605B6D8
 .L_0601AB78:
-    .4byte  sym_06028560               /* render state commit */
+    .4byte  sym_06028560
 .L_0601AB7C:
-    .4byte  course_select_draw         /* course selection screen draw */
+    .4byte  course_select_draw
 .L_0601AB80:
-    .4byte  0xAE0001FF                  /* sound command: preview music */
+    .4byte  0xAE0001FF
 .L_0601AB84:
     .4byte  sound_cmd_dispatch         /* sound command dispatcher */
 .L_0601AB88:
-    .4byte  handler_init_reset         /* handler initialization reset */
+    .4byte  handler_init_reset
 
     .global sym_0601AB8C
 sym_0601AB8C:

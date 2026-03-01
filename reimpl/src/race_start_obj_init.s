@@ -91,61 +91,61 @@ race_start_obj_init:
 
     .global DAT_0602014a
 DAT_0602014a:
-    .2byte  0x6000                      /* display list offset into course descriptor */
+    .2byte  0x6000
 
     .global DAT_0602014c
 DAT_0602014c:
-    .2byte  0x0A02                      /* display config flags */
+    .2byte  0x0A02
     .2byte  0xFFFF
 .L_06020150:
-    .4byte  sym_0604896C               /* source: start objects palette */
+    .4byte  sym_0604896C
 .L_06020154:
-    .4byte  0x25F006C0                  /* VDP2 color RAM +0x6C0 — course palette bank */
+    .4byte  0x25F006C0
 .L_06020158:
-    .4byte  memcpy_word_idx            /* word-indexed memcpy */
+    .4byte  memcpy_word_idx
 .L_0602015C:
-    .4byte  sym_0604BC14               /* source: grid overlay palette */
+    .4byte  sym_0604BC14
 .L_06020160:
-    .4byte  0x25F00060                  /* VDP2 color RAM +0x060 — NBG0 ext */
+    .4byte  0x25F00060
 .L_06020164:
-    .4byte  sym_0600511E               /* pattern data upload function */
+    .4byte  sym_0600511E
 .L_06020168:
-    .4byte  0x00017700                  /* ROM offset: pattern block A */
+    .4byte  0x00017700
 .L_0602016C:
-    .4byte  0x25E33AD8                  /* VDP2 VRAM +0x33AD8 — pattern A dest */
+    .4byte  0x25E33AD8
 .L_06020170:
-    .4byte  0x00018B40                  /* ROM offset: pattern block B */
+    .4byte  0x00018B40
 .L_06020174:
-    .4byte  0x25E33764                  /* VDP2 VRAM +0x33764 — pattern B dest */
+    .4byte  0x25E33764
 .L_06020178:
-    .4byte  0x0001D2A0                  /* ROM offset: pattern block C */
+    .4byte  0x0001D2A0
 .L_0602017C:
-    .4byte  sym_0605E164               /* Work RAM staging buffer for pattern C */
+    .4byte  sym_0605E164
 .L_06020180:
-    .4byte  0x00018F20                  /* ROM offset: pattern block D */
+    .4byte  0x00018F20
 .L_06020184:
-    .4byte  0x25E3398C                  /* VDP2 VRAM +0x3398C — pattern D dest */
+    .4byte  0x25E3398C
 .L_06020188:
-    .4byte  sym_06063CA0               /* course display list descriptor */
+    .4byte  sym_06063CA0
 .L_0602018C:
-    .4byte  sym_06028400               /* display list loader */
+    .4byte  sym_06028400
 .L_06020190:
-    .4byte  display_channel_b          /* display channel clear/set */
+    .4byte  display_channel_b
 .L_06020194:
-    .4byte  sym_0608780A               /* race start timer A (16-bit) */
+    .4byte  sym_0608780A
 .L_06020198:
-    .4byte  sym_06087808               /* race start timer B (16-bit) */
+    .4byte  sym_06087808
 .L_0602019C:
-    .4byte  sym_06087814               /* race start state (32-bit) */
+    .4byte  sym_06087814
 .L_060201A0:
-    .4byte  sym_06087806               /* race start phase (16-bit) */
+    .4byte  sym_06087806
 .L_060201A4:
-    .4byte  0xAB1128FF                  /* sound cmd: race start fanfare */
+    .4byte  0xAB1128FF
 .L_060201A8:
     .4byte  sound_cmd_dispatch         /* sound command dispatch */
 .L_060201AC:
-    .4byte  sym_06087826               /* animation state A (byte) */
+    .4byte  sym_06087826
 .L_060201B0:
-    .4byte  sym_06087824               /* animation state B (byte) */
+    .4byte  sym_06087824
 .L_060201B4:
-    .4byte  sym_06087825               /* lap init counter (byte, initial = 0xF) */
+    .4byte  sym_06087825

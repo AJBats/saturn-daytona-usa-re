@@ -58,15 +58,15 @@ replay_playback_engine:
     rts
     mov.l r2, @r7
 .L_0601BE4C:
-    .2byte  0x00A0                         /* [HIGH] sub-index upper limit (160) */
+    .2byte  0x00A0
     .2byte  0xFFFF
 .L_pool_0601BE50:
-    .4byte  sym_06086018               /* [MEDIUM] replay scroll accumulator (dword) */
+    .4byte  sym_06086018
 .L_pool_0601BE54:
-    .4byte  sym_06059F3C               /* [MEDIUM] car array index / replay frame counter */
+    .4byte  sym_06059F3C
 .L_pool_0601BE58:
-    .4byte  sym_06059F38               /* [MEDIUM] car selection sub-index / playback offset */
+    .4byte  sym_06059F38
 .L_pool_0601BE5C:
-    .4byte  sym_0607E944               /* [HIGH] iterated car struct pointer */
+    .4byte  sym_0607E944
 .L_pool_0601BE60:
-    .4byte  sym_06034FE0               /* [HIGH] geometry_transform fn */
+    .4byte  sym_06034FE0

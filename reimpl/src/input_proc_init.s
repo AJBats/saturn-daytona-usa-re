@@ -25,9 +25,9 @@ input_proc_init:
     mov.w r6, @r5
     .2byte  0x00FF
 .L_06035E24:
-    .4byte  0x25890008                  /* CD HIRQ — interrupt request register */
+    .4byte  0x25890008
 .L_06035E28:
-    .4byte  0x00240000                  /* [HIGH] timeout limit — 0x240000 iterations */
+    .4byte  0x00240000
 .L_06035E2C:
     add #0x1, r7
     cmp/ge r13, r7

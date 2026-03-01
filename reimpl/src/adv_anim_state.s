@@ -53,15 +53,15 @@ adv_anim_state:
     nop
     .2byte  0xFFFF
 .L_060107B4:
-    .4byte  memcpy_word_idx                  /* word-indexed memcpy routine */
+    .4byte  memcpy_word_idx
 .L_060107B8:
-    .4byte  sym_060788A8                     /* DMA pair toggle flag (byte) */
+    .4byte  sym_060788A8
 .L_060107BC:
-    .4byte  sym_06078868                     /* frame mirror / sprite index (dword) */
+    .4byte  sym_06078868
 .L_060107C0:
-    .4byte  sym_0607EADC                     /* animation frame counter (dword) */
+    .4byte  sym_0607EADC
 .L_060107C4:
-    .4byte  sym_0605AB16                     /* game mode byte (1-7) */
+    .4byte  sym_0605AB16
 .L_060107C8:
     mov.l   .L_06010874, r0
     mov.b @r0, r0
@@ -154,34 +154,34 @@ adv_anim_state:
     bra     .L_060108B4
     nop
 .L_06010870:
-    .2byte  0x0090                           /* forward input threshold (> this = fwd) */
-    .2byte  0xFFFF                           /* alignment padding */
+    .2byte  0x0090
+    .2byte  0xFFFF
 .L_06010874:
-    .4byte  sym_0605AB17                     /* overlay flags byte */
+    .4byte  sym_0605AB17
 .L_06010878:
-    .4byte  sym_06063D9C                     /* input state word (button/analog) */
+    .4byte  sym_06063D9C
 .L_0601087C:
-    .4byte  0x0000FFFF                  /* low 16-bit mask */
+    .4byte  0x0000FFFF
 .L_06010880:
-    .4byte  0xFFFF0000                  /* -1.0 (16.16 fixed-point) */
+    .4byte  0xFFFF0000
 .L_06010884:
-    .4byte  sym_0607889C                     /* per-frame scroll delta (16.16 fp) */
+    .4byte  sym_0607889C
 .L_06010888:
-    .4byte  sym_0605AA9C                     /* animation hold timer (frames) */
+    .4byte  sym_0605AA9C
 .L_0601088C:
-    .4byte  0x000C0000                       /* +12.0 (16.16 fp) — forward DMA size */
+    .4byte  0x000C0000
 .L_06010890:
-    .4byte  sym_06078894                     /* scroll X position accumulator */
+    .4byte  sym_06078894
 .L_06010894:
-    .4byte  sym_060788A0                     /* game state counter (pair A) */
+    .4byte  sym_060788A0
 .L_06010898:
-    .4byte  sym_06078898                     /* scroll Y position accumulator */
+    .4byte  sym_06078898
 .L_0601089C:
-    .4byte  sym_060788A4                     /* frame index (pair B) */
+    .4byte  sym_060788A4
 .L_060108A0:
-    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
+    .4byte  0x00010000
 .L_060108A4:
-    .4byte  0xFFF40000                       /* -12.0 (16.16 fp) — backward DMA size */
+    .4byte  0xFFF40000
 .L_060108A8:
     mov.b r8, @r12
     mov.l   .L_06010974, r3
@@ -293,23 +293,23 @@ adv_anim_state:
 
     .global DAT_0601096e
 DAT_0601096e:
-    .2byte  0x00C0                           /* tile block size (192 bytes) */
+    .2byte  0x00C0
 .L_06010970:
-    .2byte  0x0090                           /* upper dead zone bound for palette skip */
-    .2byte  0xFFFF                           /* alignment padding */
+    .2byte  0x0090
+    .2byte  0xFFFF
 .L_06010974:
-    .4byte  sym_06078898                     /* scroll Y accumulator (pair B, 2nd ref) */
+    .4byte  sym_06078898
 .L_06010978:
-    .4byte  sym_060788A4                     /* frame index pair B (2nd ref) */
+    .4byte  sym_060788A4
 .L_0601097C:
-    .4byte  sym_0607EAB8                     /* frame output (odd/even selector) */
+    .4byte  sym_0607EAB8
 .L_06010980:
-    .4byte  sym_0605D05C                     /* tile data lookup table base */
+    .4byte  sym_0605D05C
 .L_06010984:
-    .4byte  sym_06059FFC                     /* current game state index */
+    .4byte  sym_06059FFC
 .L_06010988:
-    .4byte  sym_06063F5C                     /* car struct array base pointer */
+    .4byte  sym_06063F5C
 .L_0601098C:
-    .4byte  sym_0605CA9C                     /* 64-byte palette entry table base */
+    .4byte  sym_0605CA9C
 .L_06010990:
-    .4byte  0x25F00000                       /* VDP2 color RAM base address */
+    .4byte  0x25F00000

@@ -128,31 +128,31 @@ DAT_06021526:
     .2byte  0x00F0
     .2byte  0xFFFF
 .L_0602152C:
-    .4byte  sym_060897D0                /* object position array base */
+    .4byte  sym_060897D0
 .L_06021530:
-    .4byte  sym_0608962C                /* object state array A */
+    .4byte  sym_0608962C
 .L_06021534:
-    .4byte  sym_06089744                /* object state array B */
+    .4byte  sym_06089744
 .L_06021538:
-    .4byte  sym_060895A0                /* object state array C */
+    .4byte  sym_060895A0
 .L_0602153C:
-    .4byte  sym_060896B8                /* object state array D */
+    .4byte  sym_060896B8
 .L_06021540:
-    .4byte  sym_06089D98                /* object config struct */
+    .4byte  sym_06089D98
 .L_06021544:
-    .4byte  sym_0607EAD8                /* course type (0/1/2) */
+    .4byte  sym_0607EAD8
 .L_06021548:
-    .4byte  0x00200000                  /* Work RAM Low base */
+    .4byte  0x00200000
 .L_0602154C:
     .4byte  0x00037F08
 .L_06021550:
     .4byte  0x00037F98
 .L_06021554:
-    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
+    .4byte  0x00010000
 .L_06021558:
-    .4byte  sym_060507A4                /* course 0 geometry table */
+    .4byte  sym_060507A4
 .L_0602155C:
-    .4byte  sym_06034FE0                /* model data lookup function */
+    .4byte  sym_06034FE0
 .L_06021560:
     mov.l @(16, r15), r3
     cmp/hs r3, r1
@@ -294,29 +294,29 @@ DAT_06021526:
     bra     .L_060216A0
     mov.l r4, @(8, r15)
 .L_06021670:
-    .4byte  sym_0607EAD8                /* course type (0/1/2) */
+    .4byte  sym_0607EAD8
 .L_06021674:
-    .4byte  0x00200000                  /* Work RAM Low base */
+    .4byte  0x00200000
 .L_06021678:
     .4byte  0x00089364
 .L_0602167C:
     .4byte  0x0008943C
 .L_06021680:
-    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
+    .4byte  0x00010000
 .L_06021684:
     .4byte  0x00089124
 .L_06021688:
     .4byte  0x00089274
 .L_0602168C:
-    .4byte  0x0000CCCC                  /* 0.8 (16.16 fixed-point) */
+    .4byte  0x0000CCCC
 .L_06021690:
     .4byte  0x00089544
 .L_06021694:
     .4byte  0x000897B4
 .L_06021698:
-    .4byte  0x0000F333                  /* 0.95 (16.16 fixed-point) */
+    .4byte  0x0000F333
 .L_0602169C:
-    .4byte  sym_06050844                /* course 1 geometry table */
+    .4byte  sym_06050844
 .L_060216A0:
     mov #0xC, r3
     cmp/hs r3, r5
@@ -504,13 +504,13 @@ DAT_060218de:
 DAT_060218e0:
     .4byte  0x00840088
 .L_060218E4:
-    .4byte  0x00200000                  /* Work RAM Low base */
+    .4byte  0x00200000
 .L_060218E8:
     .4byte  0x000BE1F8
 .L_060218EC:
     .4byte  0x000BE288
 .L_060218F0:
-    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
+    .4byte  0x00010000
 .L_060218F4:
     .4byte  0x000BE360
     .4byte  0x000BE4B0
@@ -772,15 +772,15 @@ DAT_06021c32:
     .2byte  0x8000
     .4byte  sym_06034FE0
 .L_06021C38:
-    .4byte  sym_06089B18                /* final object config struct */
+    .4byte  sym_06089B18
 .L_06021C3C:
-    .4byte  sym_06035BC8                /* float stack operation */
+    .4byte  sym_06035BC8
 .L_06021C40:
-    .4byte  0x33333333                  /* IEEE 754: 4.172...e-8 (low dword) */
+    .4byte  0x33333333
 .L_06021C44:
-    .4byte  0x4054D333                  /* IEEE 754: 3.3250... */
+    .4byte  0x4054D333
 .L_06021C48:
-    .4byte  sym_060359E4                /* float division */
+    .4byte  sym_060359E4
 .L_06021C4C:
     mov.l   .L_06021D7C, r2
     jsr @r2
@@ -897,23 +897,23 @@ DAT_06021c32:
     .4byte  0x2F16A013
     .4byte  0x0009FFFF
 .L_06021D7C:
-    .4byte  sym_060359E4                /* float division */
+    .4byte  sym_060359E4
 .L_06021D80:
-    .4byte  0x9999999A                  /* IEEE 754: low dword of double */
+    .4byte  0x9999999A
 .L_06021D84:
-    .4byte  0x40139999                  /* IEEE 754: 2.3... */
+    .4byte  0x40139999
 .L_06021D88:
-    .4byte  sym_06035460                /* float multiply */
+    .4byte  sym_06035460
 .L_06021D8C:
-    .4byte  0x40680000                  /* IEEE 754: 3.625 (object height) */
+    .4byte  0x40680000
 .L_06021D90:
-    .4byte  sym_060357B8                /* float-to-fixed conversion */
+    .4byte  sym_060357B8
 .L_06021D94:
-    .4byte  sym_06035BC8                /* float stack operation */
+    .4byte  sym_06035BC8
 .L_06021D98:
-    .4byte  0x33333333                  /* IEEE 754: low dword of double */
+    .4byte  0x33333333
 .L_06021D9C:
-    .4byte  0x4054D333                  /* IEEE 754: 3.3250... */
+    .4byte  0x4054D333
     .4byte  0xD13E2F16
     .4byte  0x62F3D13E
     .4byte  0x7210410B

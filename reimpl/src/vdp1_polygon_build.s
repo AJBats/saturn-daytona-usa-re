@@ -42,24 +42,24 @@ vdp1_polygon_build:
 
     .global DAT_060376a4
 DAT_060376a4:
-    .2byte  0x7FFF                  /* max positive 15-bit (clip threshold) */
+    .2byte  0x7FFF
 
     .global DAT_060376a6
 DAT_060376a6:
-    .2byte  0x3F00                  /* color bank mask (bits 13:8) */
+    .2byte  0x3F00
 
     .global DAT_060376a8
 DAT_060376a8:
-    .2byte  0x4000                  /* bit 14 isolate (color bank select) */
+    .2byte  0x4000
     .2byte  0xFFFF
 .L_060376AC:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000
 .L_060376B0:
-    .4byte  0x0000BFFF              /* 48K-1 coordinate range limit */
+    .4byte  0x0000BFFF
 .L_060376B4:
-    .4byte  0xDA200000              /* VDP1 distorted sprite + draw mode bits */
+    .4byte  0xDA200000
 .L_060376B8:
-    .4byte  sym_060A3DB0            /* polygon output buffer base */
+    .4byte  sym_060A3DB0
 .L_060376BC:
     .4byte  sym_060A3D88            /* VDP1 command list write pointer */
 .L_060376C0:
@@ -1120,13 +1120,13 @@ DAT_06037c96:
     bra     .L_06037EF6
     nop
 .L_06037EE6:
-    .2byte  0x2000                  /* texture size 8K */
+    .2byte  0x2000
 .L_06037EE8:
-    .2byte  0x0800                  /* texture size 2K */
+    .2byte  0x0800
 .L_06037EEA:
-    .2byte  0x4000                  /* texture size 16K */
+    .2byte  0x4000
 .L_06037EEC:
-    .4byte  sym_06035280            /* color lookup function */
+    .4byte  sym_06035280
 .L_06037EF0:
     mov.w   .L_06037FF4, r2
     mov r2, r0
@@ -1264,13 +1264,13 @@ DAT_06037c96:
     bra     .L_06038000
     nop
 .L_06037FF4:
-    .2byte  0x1000                  /* texture size 4K */
+    .2byte  0x1000
 .L_06037FF6:
-    .2byte  0x01C0                  /* bits 8:6 — color field extract mask */
+    .2byte  0x01C0
 .L_06037FF8:
-    .4byte  input_proc_complete     /* coordinate transform function */
+    .4byte  input_proc_complete
 .L_06037FFC:
-    .4byte  sym_06035280            /* color lookup function (2nd ref) */
+    .4byte  sym_06035280
 .L_06038000:
     and r14, r0
     add #0x1, r4

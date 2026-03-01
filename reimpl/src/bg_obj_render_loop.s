@@ -103,46 +103,46 @@ bg_obj_render_loop:
 
     .global DAT_06014080
 DAT_06014080:
-    .2byte  0x03A0                           /* 29 * 32 = 0x03A0 (array size in bytes) */
+    .2byte  0x03A0
 
     .global DAT_06014082
 DAT_06014082:
-    .2byte  0x8000                           /* 180-degree base Z rotation angle */
+    .2byte  0x8000
 
     .global DAT_06014084
 DAT_06014084:
-    .2byte  0x03D7                           /* environment scale multiplier */
+    .2byte  0x03D7
 
     .global DAT_06014086
 DAT_06014086:
-    .2byte  0xB334                           /* base scale offset (signed, ~-0.3) */
+    .2byte  0xB334
 .L_pool_06014088:
-    .4byte  mat_rot_z                        /* Z-axis rotation matrix function */
+    .4byte  mat_rot_z
 .L_pool_0601408C:
-    .4byte  sym_06089EDC                     /* global rendering budget counter */
+    .4byte  sym_06089EDC
 .L_pool_06014090:
-    .4byte  sym_06026E2E                     /* transform dispatch function */
+    .4byte  sym_06026E2E
 .L_pool_06014094:
-    .4byte  0x00010000                       /* 1.0 (16.16 fixed-point) */
+    .4byte  0x00010000
 .L_pool_06014098:
-    .4byte  sym_06026E0C                     /* camera state push/save */
+    .4byte  sym_06026E0C
 .L_pool_0601409C:
-    .4byte  sym_0605AD5C                     /* animation entry array (32 bytes each) */
+    .4byte  sym_0605AD5C
 .L_pool_060140A0:
-    .4byte  sym_06089E4A                     /* display table base pointer (16-bit) */
+    .4byte  sym_06089E4A
 .L_pool_060140A4:
-    .4byte  sym_06026DBC                     /* per-object pre-transform setup */
+    .4byte  sym_06026DBC
 .L_pool_060140A8:
-    .4byte  sym_06084AF6                     /* wind/environment direction (16-bit word) */
+    .4byte  sym_06084AF6
 .L_pool_060140AC:
-    .4byte  fpmul                            /* 16.16 fixed-point multiply */
+    .4byte  fpmul
 .L_pool_060140B0:
-    .4byte  mat_scale_columns                /* uniform column scale function */
+    .4byte  mat_scale_columns
 .L_pool_060140B4:
-    .4byte  sym_06062338                     /* object transform table A (32-bit entries) */
+    .4byte  sym_06062338
 .L_pool_060140B8:
-    .4byte  sym_06031D8C                     /* transform chain dispatch A */
+    .4byte  sym_06031D8C
 .L_pool_060140BC:
-    .4byte  sym_060622C0                     /* display transform table B (32-bit entries) */
+    .4byte  sym_060622C0
 .L_pool_060140C0:
-    .4byte  sym_06031A28                     /* transform chain dispatch B */
+    .4byte  sym_06031A28

@@ -105,14 +105,14 @@ race_timer_sync:
     bra     .L_0603FA7E
     nop
 .L_wpool_0603FA5E:
-    .2byte  0xFF7F                      /* [HIGH] 0xFFFFFF7F sign-ext — AND mask clears bit 7 (active flag) */
+    .2byte  0xFF7F
 .L_wpool_0603FA60:
-    .2byte  0x00CC                      /* [HIGH] offset into game_state for sync frame counter */
+    .2byte  0x00CC
     .2byte  0xFFFF
 .L_pool_0603FA64:
-    .4byte  sym_060A4D14                /* [HIGH] global game state struct pointer */
+    .4byte  sym_060A4D14
 .L_pool_0603FA68:
-    .4byte  0x01000000                  /* [HIGH] MINIT — primary SH-2 init comm threshold */
+    .4byte  0x01000000
 .L_0603FA6C:
     mov #0x34, r0
     mov.b @(r0, r14), r4

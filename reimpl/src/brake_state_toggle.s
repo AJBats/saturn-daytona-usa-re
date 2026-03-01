@@ -86,7 +86,7 @@ DAT_0601043e:
 .L_pool_06010444:
     .4byte  sym_0607EADC
 .L_06010448:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000
 .L_pool_0601044C:
     .4byte  sym_0607EAB8
 .L_pool_06010450:

@@ -71,14 +71,14 @@ framebuf_swap_ctrl:
     nop
 
 .L_0600735C:
-    .2byte  0x0083                     /* SCU interrupt clear bits */
+    .2byte  0x0083
 .L_0600735E:
-    .2byte  0xFE11                     /* SH-2 FRT FTCSR (0xFFFFFE11) */
+    .2byte  0xFE11
 .L_06007360:
-    .2byte  0xFF7C                     /* SCU interrupt request clear */
+    .2byte  0xFF7C
     .2byte  0xFFFF
 
 .L_06007364:
-    .4byte  sym_06000344               /* SCU interrupt control function */
+    .4byte  sym_06000344
 .L_06007368:
-    .4byte  sym_06059F40               /* frame tick counter (incremented per OCRA match) */
+    .4byte  sym_06059F40

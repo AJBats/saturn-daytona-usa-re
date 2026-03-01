@@ -39,7 +39,7 @@ disc_load_complete_check:
     rts
     mov.b @r0, r0
 .L_wpool_0601B45A:
-    .2byte  0x0101                      /* [MEDIUM] display config: flags byte pair (0x01, 0x01) */
+    .2byte  0x0101
 .L_pool_0601B45C:
     .4byte  sym_0608600C
     .4byte  sym_0608600E
@@ -49,13 +49,13 @@ disc_load_complete_check:
 .L_pool_0601B46C:
     .4byte  sym_0605DEB4
 .L_pool_0601B470:
-    .4byte  0x00010000                  /* 1.0 (16.16 fixed-point) */
+    .4byte  0x00010000
 .L_pool_0601B474:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) */
+    .4byte  0x00008000
 .L_pool_0601B478:
-    .4byte  0x00200000                  /* Work RAM Low base */
+    .4byte  0x00200000
 .L_pool_0601B47C:
-    .4byte  0x01000000                  /* MINIT — primary SH-2 init comm */
+    .4byte  0x01000000
 .L_pool_0601B480:
     .4byte  rigid_body_transform
 .L_pool_0601B484:

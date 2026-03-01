@@ -107,66 +107,66 @@ render_stage_1:
 
     .global DAT_0601ca3a
 DAT_0601ca3a:
-    .2byte  0x77BD                              /* initial palette intensity value */
+    .2byte  0x77BD
 
     .global DAT_0601ca3c
 DAT_0601ca3c:
-    .2byte  0x012C                              /* 300 — frame countdown initial value */
+    .2byte  0x012C
 .L_0601CA3E:
-    .2byte  0x0518                              /* 1304 — scroll extent / pixel range */
+    .2byte  0x0518
 .L_0601CA40:
-    .2byte  0x0100                              /* channel 8 mask (first nibble cfg call) */
-    .2byte  0xFFFF                              /* alignment padding */
+    .2byte  0x0100
+    .2byte  0xFFFF
 .L_0601CA44:
-    .4byte  sym_06086028                        /* &palette_intensity (word) */
+    .4byte  sym_06086028
 .L_0601CA48:
-    .4byte  sym_0608602C                        /* &render_state_var (long) */
+    .4byte  sym_0608602C
 .L_0601CA4C:
-    .4byte  sym_06086030                        /* &render_cycle_flag (byte) */
+    .4byte  sym_06086030
 .L_0601CA50:
-    .4byte  sym_060149E0                        /* display_disable — clear bit 15 */
+    .4byte  sym_060149E0
 .L_0601CA54:
-    .4byte  display_channels_clear              /* clear all display channels */
+    .4byte  display_channels_clear
 .L_0601CA58:
-    .4byte  sym_06026CE0                        /* display_update — refresh display state */
+    .4byte  sym_06026CE0
 .L_0601CA5C:
-    .4byte  sym_06059F44                        /* &state_tracker (long) */
+    .4byte  sym_06059F44
 .L_0601CA60:
-    .4byte  audio_display_init                  /* audio + display subsystem init */
+    .4byte  audio_display_init
 .L_0601CA64:
-    .4byte  sym_0608601C                        /* &frame_countdown (long) */
+    .4byte  sym_0608601C
 .L_0601CA68:
-    .4byte  sym_06086020                        /* &stage_counter (long) */
+    .4byte  sym_06086020
 .L_0601CA6C:
-    .4byte  sym_06086024                        /* &dma_pending_flag (long) */
+    .4byte  sym_06086024
 .L_0601CA70:
-    .4byte  0x25F00200                          /* VDP2 color RAM bank 1 (+0x200) */
+    .4byte  0x25F00200
 .L_0601CA74:
-    .4byte  0x25F00400                          /* VDP2 color RAM bank 2 (+0x400) */
+    .4byte  0x25F00400
 .L_0601CA78:
-    .4byte  sym_0604880C                        /* palette source data for CRAM bank 0 DMA */
+    .4byte  sym_0604880C
 .L_0601CA7C:
-    .4byte  0x25F00000                          /* VDP2 color RAM bank 0 (+0x000) */
+    .4byte  0x25F00000
 .L_0601CA80:
-    .4byte  dma_transfer                        /* SCU DMA transfer function */
+    .4byte  dma_transfer
 .L_0601CA84:
-    .4byte  0x00014000                          /* tile pattern source A (WRAM offset) */
+    .4byte  0x00014000
 .L_0601CA88:
-    .4byte  0x25E70E40                          /* VDP2 VRAM tile dest A (+0x70E40) */
+    .4byte  0x25E70E40
 .L_0601CA8C:
-    .4byte  sym_0600511E                        /* vram_tile_copy — pattern data transfer */
+    .4byte  sym_0600511E
 .L_0601CA90:
-    .4byte  0x00016BC0                          /* tile pattern source B (WRAM offset) */
+    .4byte  0x00016BC0
 .L_0601CA94:
-    .4byte  0x25E7B168                          /* VDP2 VRAM tile dest B (+0x7B168) */
+    .4byte  0x25E7B168
 .L_0601CA98:
-    .4byte  sym_06063958                        /* &scroll_config_a struct (8 bytes) */
+    .4byte  sym_06063958
 .L_0601CA9C:
-    .4byte  sym_06028400                        /* scroll_setup — configure scroll plane */
+    .4byte  sym_06028400
 .L_0601CAA0:
-    .4byte  sym_06063960                        /* &scroll_config_b struct (8 bytes) */
+    .4byte  sym_06063960
 .L_0601CAA4:
-    .4byte  channel_nibble_config               /* display channel nibble configurator */
+    .4byte  channel_nibble_config
 .L_0601CAA8:
     jsr @r13
     nop

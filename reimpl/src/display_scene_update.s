@@ -48,4 +48,4 @@ sym_0603C0A0:
     .4byte  0x4F0763F6
     .4byte  0x000B6103
 .L_0603C100:
-    .4byte  0xFFFFFF00                  /* SH2 DVSR — divisor */
+    .4byte  0xFFFFFF00

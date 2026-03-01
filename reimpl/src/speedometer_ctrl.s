@@ -22,16 +22,16 @@ speedometer_ctrl:
     nop
     .2byte  0x4000
 .L_wpool_0601030C:
-    .2byte  0x0100                          /* bit 8: immediate abort flag */
+    .2byte  0x0100
     .2byte  0xFFFF
-    .4byte  sym_0607EADC                    /* &car_index (dword, indexes sound table) */
+    .4byte  sym_0607EADC
     .4byte  0x00008000
-    .4byte  sym_0607887E                    /* &game_sub_state (byte) */
-    .4byte  sym_0607EAD8                    /* &race_end_state (dword, 0/1/2) */
+    .4byte  sym_0607887E
+    .4byte  sym_0607EAD8
 .L_pool_06010320:
-    .4byte  sym_0607EBCC                    /* &state_countdown (32-bit timer) */
+    .4byte  sym_0607EBCC
 .L_pool_06010324:
-    .4byte  g_game_state                    /* &game_state_dispatch value */
+    .4byte  g_game_state
 .L_06010328:
     mov.l @r14, r2
     cmp/pl r2
@@ -88,28 +88,28 @@ speedometer_ctrl:
 
     .global DAT_0601038c
 DAT_0601038c:
-    .2byte  0x0200                          /* view-change button mask (bit 9) */
+    .2byte  0x0200
 
     .global DAT_0601038e
 DAT_0601038e:
-    .2byte  0x1000                          /* start button mask (bit 12) */
+    .2byte  0x1000
 .L_pool_06010390:
-    .4byte  sym_0607EADC                    /* &car_index (dword, player/car slot) */
+    .4byte  sym_0607EADC
 .L_pool_06010394:
     .4byte  sym_0604481C                    /* sound command table base (4-byte entries) */
 .L_pool_06010398:
-    .4byte  sound_cmd_dispatch              /* &sound_cmd_dispatch function */
+    .4byte  sound_cmd_dispatch
 .L_pool_0601039C:
-    .4byte  sym_0607887F                    /* &game_state byte (0x02=post-race) */
+    .4byte  sym_0607887F
 .L_pool_060103A0:
-    .4byte  sym_0607EAD8                    /* &race_end_state (dword, 0/1/2) */
+    .4byte  sym_0607EAD8
 .L_pool_060103A4:
-    .4byte  sym_06078648                    /* &course_index byte */
+    .4byte  sym_06078648
 .L_pool_060103A8:
-    .4byte  sym_0605AB18                    /* &overlay_active flag (byte) */
+    .4byte  sym_0605AB18
 .L_pool_060103AC:
-    .4byte  sym_06085FF4                    /* &2p_mode_flag (byte, 0=1P) */
+    .4byte  sym_06085FF4
 .L_pool_060103B0:
-    .4byte  sym_0605AD00                    /* &render_state (dword, 0=idle) */
+    .4byte  sym_0605AD00
 .L_pool_060103B4:
-    .4byte  g_pad_state                    /* &button_state_hw (16-bit word) */
+    .4byte  g_pad_state

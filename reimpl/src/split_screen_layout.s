@@ -193,8 +193,8 @@ split_screen_layout:
     mov.l @r15+, r14
     .2byte  0xFFFF
 .L_06011AE8:
-    .4byte  swap_sign_ext               /* extract int16 from 16.16 fixed-point */
+    .4byte  swap_sign_ext
 .L_06011AEC:
-    .4byte  sym_060786CC                /* HUD record array base (24 bytes per entry) */
+    .4byte  sym_060786CC
 .L_06011AF0:
-    .4byte  sym_0605AAA0                /* HUD record count/index (16-bit) */
+    .4byte  sym_0605AAA0

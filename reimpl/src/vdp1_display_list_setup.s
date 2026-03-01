@@ -80,57 +80,57 @@ vdp1_display_list_setup:
     .global DAT_0602c71a
 .L_0602C71A:
 DAT_0602c71a:
-    .2byte  0x0120                      /* car+0x120: activation flag word A [HIGH] */
+    .2byte  0x0120
 
     .global DAT_0602c71c
 .L_0602C71C:
 DAT_0602c71c:
-    .2byte  0x0124                      /* car+0x124: activation flag word B [HIGH] */
+    .2byte  0x0124
 
     .global DAT_0602c71e
 .L_0602C71E:
 DAT_0602c71e:
-    .2byte  0x0128                      /* car+0x128: activation flag word C [HIGH] */
+    .2byte  0x0128
 
     .global DAT_0602c720
 .L_0602C720:
 DAT_0602c720:
-    .2byte  0x012C                      /* car+0x12C: activation flag word D [HIGH] */
+    .2byte  0x012C
 
     .global DAT_0602c722
 .L_0602C722:
 DAT_0602c722:
-    .2byte  0x0060                      /* car+0x60: velocity X component [HIGH] */
+    .2byte  0x0060
 
     .global DAT_0602c724
 .L_0602C724:
 DAT_0602c724:
-    .2byte  0x0064                      /* car+0x64: velocity Y component [HIGH] */
+    .2byte  0x0064
 
     .global DAT_0602c726
 .L_0602C726:
 DAT_0602c726:
-    .2byte  0x0100                      /* car+0x100: velocity state X [HIGH] */
+    .2byte  0x0100
 
     .global DAT_0602c728
 .L_0602C728:
 DAT_0602c728:
-    .2byte  0x0104                      /* car+0x104: velocity state Y [HIGH] */
+    .2byte  0x0104
 
     .global DAT_0602c72a
 .L_0602C72A:
 DAT_0602c72a:
-    .2byte  0x00FC                      /* car+0xFC: clamped speed delta [HIGH] */
+    .2byte  0x00FC
 .L_0602C72C:
-    .4byte  0x03700000                  /* 0x03700000 = ~880.0 FP16.16 horizontal velocity scale factor [HIGH] */
+    .4byte  0x03700000
 .L_0602C730:
-    .4byte  0x02D00000                  /* 0x02D00000 = ~720.0 FP16.16 vertical velocity scale factor [HIGH] */
+    .4byte  0x02D00000
 .L_0602C734:
-    .4byte  0x00000645                  /* 0x645 = 1605, sin table index range [MEDIUM] */
+    .4byte  0x00000645
 .L_0602C738:
-    .4byte  sin_lookup                  /* -> sin_lookup function (trig table) [HIGH] */
+    .4byte  sin_lookup
 .L_0602C73C:
-    .4byte  0x251B1285                  /* FP normalization constant for scale blend [MEDIUM] */
+    .4byte  0x251B1285
 .L_0602C740:
     neg r13, r13
     shll r13
@@ -186,11 +186,11 @@ DAT_0602c72a:
     bra     .L_0602C7BA
     nop
 .L_0602C7A8:
-    .4byte  0x00028000                  /* 0x00028000 = ~2.5 FP16.16 display scale normalization [HIGH] */
+    .4byte  0x00028000
 .L_0602C7AC:
-    .4byte  0x01600000                  /* 0x01600000 = ~352.0 FP16.16 minimum X display scale [HIGH] */
+    .4byte  0x01600000
 .L_0602C7B0:
-    .4byte  0x0C080000                  /* 0x0C080000 = ~3080.0 FP16.16 maximum X display scale [HIGH] */
+    .4byte  0x0C080000
 .L_0602C7B4:
     cmp/ge r10, r2
     bt      .L_0602C7BA
@@ -204,9 +204,9 @@ DAT_0602c72a:
     bra     .L_0602C7D6
     nop
 .L_0602C7C8:
-    .4byte  0x01200000                  /* 0x01200000 = ~288.0 FP16.16 minimum Y display scale [HIGH] */
+    .4byte  0x01200000
 .L_0602C7CC:
-    .4byte  0x09D80000                  /* 0x09D80000 = ~2520.0 FP16.16 maximum Y display scale [HIGH] */
+    .4byte  0x09D80000
 .L_0602C7D0:
     cmp/ge r11, r2
     bt      .L_0602C7D6
@@ -233,12 +233,12 @@ DAT_0602c72a:
     .global DAT_0602c7f8
 .L_0602C7F8:
 DAT_0602c7f8:
-    .2byte  0x0140                      /* car+0x140: smoothed X display scale output [HIGH] */
+    .2byte  0x0140
 
     .global DAT_0602c7fa
 .L_0602C7FA:
 DAT_0602c7fa:
-    .2byte  0x0144                      /* car+0x144: smoothed Y display scale output [HIGH] */
+    .2byte  0x0144
 
 .L_0602C7FC:
     mov.l @(8, r0), r3

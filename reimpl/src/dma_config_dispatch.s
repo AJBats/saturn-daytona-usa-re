@@ -67,6 +67,6 @@ sym_060039F2:
 .L_pool_06003A30:
     .4byte  sym_0605C97C
 .L_06003A34:
-    .4byte  0x25F00400                  /* VDP2 color RAM +0x400 */
+    .4byte  0x25F00400
 .L_pool_06003A38:
     .4byte  dma_transfer

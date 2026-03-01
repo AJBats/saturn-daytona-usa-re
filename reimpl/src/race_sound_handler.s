@@ -94,31 +94,31 @@ race_sound_handler:
 
     .global DAT_06018f74
 DAT_06018f74:
-    .2byte  0x4F4B                      /* "OK" — 68K boot handshake word (ASCII 'O','K') */
+    .2byte  0x4F4B
 
     .global DAT_06018f76
 DAT_06018f76:
-    .2byte  0x0200                      /* SCSP master control reset value */
+    .2byte  0x0200
 
 .L_06018F78:
-    .4byte  0x25A02DBC                  /* Sound RAM +0x02DBC */
+    .4byte  0x25A02DBC
 .L_06018F7C:
-    .4byte  0x20100063                  /* SMPC SF — status flag */
+    .4byte  0x20100063
 .L_06018F80:
-    .4byte  0x2010001F                  /* SMPC COMREG (cache-through) */
+    .4byte  0x2010001F
 .L_06018F84:
-    .4byte  0x25B00400                  /* SCSP common register +0x000 */
+    .4byte  0x25B00400
 .L_pool_06018F88:
-    .4byte  sym_06012E84                /* -> load_sounds_bin (load SOUNDS.BIN to Sound RAM) */
+    .4byte  sym_06012E84
 .L_pool_06018F8C:
-    .4byte  sym_06012EBC                /* -> load_gamed_sndram (load GAMED.BIN to Sound RAM +0x3000) */
+    .4byte  sym_06012EBC
 .L_pool_06018F90:
-    .4byte  0xAE0600FF                  /* sound cmd: group 06, ID 00 — start BGM */
+    .4byte  0xAE0600FF
 .L_pool_06018F94:
     .4byte  sound_cmd_dispatch          /* -> sound_cmd_dispatch (sound command API) */
 .L_pool_06018F98:
-    .4byte  0xAE0007FF                  /* sound cmd: group 00, ID 07 — system init sound */
+    .4byte  0xAE0007FF
 .L_pool_06018F9C:
-    .4byte  sym_06086038                /* -> sound-init pending flag (cleared when done) */
+    .4byte  sym_06086038
 .L_pool_06018FA0:
-    .4byte  scsp_set_master_volume      /* -> scsp_set_master_volume (set SCSP output levels) */
+    .4byte  scsp_set_master_volume

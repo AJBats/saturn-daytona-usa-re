@@ -458,7 +458,7 @@ DAT_0603162e:
 .L_pool_060316BE:
     .4byte  sin_lookup
 .L_060316C0:
-    .4byte  0x00008000                  /* 0.5 (16.16 fixed-point) / half rotation */
+    .4byte  0x00008000
 
     .global sym_060316C4
 sym_060316C4:

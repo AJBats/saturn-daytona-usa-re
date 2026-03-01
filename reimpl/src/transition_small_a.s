@@ -24,19 +24,19 @@ transition_small_a:
     lds.l @r15+, pr
     rts
     mov.b r2, @r3
-    .4byte  0x0800FFFF                   /* unreferenced pool data (padding) */
-    .4byte  sym_06085FF4                 /* unreferenced pool: &2p_mode_flag */
-    .4byte  g_pad_state                 /* unreferenced pool: &input_state */
-    .4byte  sym_06078663                 /* unreferenced pool data */
+    .4byte  0x0800FFFF
+    .4byte  sym_06085FF4
+    .4byte  g_pad_state
+    .4byte  sym_06078663
 .L_pool_0600F85E:
-    .4byte  0xAB1101FF                   /* sound ID: transition sound */
+    .4byte  0xAB1101FF
 .L_pool_0600F862:
     .4byte  sound_cmd_dispatch           /* sound command dispatcher */
 .L_pool_0600F866:
-    .4byte  anim_ui_transition           /* UI animation transition function */
+    .4byte  anim_ui_transition
 .L_pool_0600F86A:
-    .4byte  hud_course_render            /* HUD course rendering function */
+    .4byte  hud_course_render
 .L_pool_0600F86E:
-    .4byte  sym_0607887C                 /* &transition countdown timer (16-bit word) */
+    .4byte  sym_0607887C
 .L_pool_0600F872:
-    .4byte  sym_0607887F                 /* &game state byte (0x3 = race setup) */
+    .4byte  sym_0607887F
