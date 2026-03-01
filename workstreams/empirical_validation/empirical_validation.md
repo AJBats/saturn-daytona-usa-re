@@ -26,12 +26,13 @@ annotations and makes future reverse engineering faster.
 
 | Tool | Purpose |
 |------|---------|
-| `tools/record_trace.py` | Record interactive gameplay with frame-precise input logging |
-| `tools/replay_trace.py` | Replay a trace headlessly, capture screenshots |
-| `tools/investigate.py` | **Primary**: Replays to game states, runs watchpoint/call-trace/memory-diff experiments |
-| `tools/investigate_targeted.py` | Targeted follow-up investigations for specific variables |
-| `tools/prove_down_handler.py` | Template: watchpoint-based input handler discovery |
-| `tools/find_menu_input.py` | Template: memory-diff + watchpoint approach |
+| `record_trace.py` | Record interactive gameplay with frame-precise input logging |
+| `replay_trace.py` | Replay a trace headlessly, capture screenshots |
+| `investigate.py` | **Primary**: Replays to game states, runs watchpoint/call-trace/memory-diff experiments |
+| `investigate_targeted.py` | Targeted follow-up investigations for specific variables |
+| `debugger_utils.py` | DebugSession convenience layer for interactive exploration |
+| `explore_callgraph.py` | Call graph builder (call_trace per scenario) |
+| `callgraph_diff.py` | Cross-reference call graphs across scenarios |
 | `build/golden_trace/` | Reference trace + 18 screenshots covering full arcade flow |
 | `build/investigation_results/` | Output from investigate.py (logs, call traces, memory diffs) |
 

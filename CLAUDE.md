@@ -5,7 +5,7 @@
 
 | # | Workstream | Status | Notes |
 |---|-----------|--------|-------|
-| 1 | Empirical Validation — Ground Truth via Debugger | **Active** | workstreams/empirical_validation.md |
+| 1 | Empirical Validation — Ground Truth via Debugger | **Active** | workstreams/empirical_validation/ |
 | 2 | Car Flip Benchmark — Empirical Annotation Validation | Paused | workstreams/car_flip_benchmark.md |
 
 **Free build**: `make disc` — builds free-layout binary, injects into disc. Boots to title, races laps.

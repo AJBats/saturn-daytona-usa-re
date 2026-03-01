@@ -29,7 +29,7 @@ import tempfile
 import json
 from collections import Counter
 
-PROJECT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PROJECT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 TRACE_FILE = os.path.join(PROJECT, "build", "golden_trace", "arcade_full.txt")
 RESULTS_DIR = os.path.join(PROJECT, "build", "investigation_results")
 LOG_FILE = None  # Set per-run

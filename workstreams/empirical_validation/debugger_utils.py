@@ -24,8 +24,8 @@ import bisect
 import struct
 from collections import Counter, defaultdict
 
-PROJECT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.insert(0, os.path.join(PROJECT, "tools"))
+PROJECT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from investigate import (
     MednafenBot, load_symbols, sym_addr, sym_hex,

@@ -18,7 +18,7 @@ import subprocess
 import argparse
 import tempfile
 
-PROJECT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PROJECT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
 def wsl_path(win_path):
