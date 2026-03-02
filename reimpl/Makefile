@@ -74,6 +74,7 @@ REIMPL_S    += $(wildcard src/mods/*.s)
 REIMPL_C    += $(wildcard src/mods/*.c)
 endif
 ifeq ($(RE_TESTS),1)
+REIMPL_S    += $(wildcard src/mods/re_tests/*.s)
 REIMPL_C    += $(wildcard src/mods/re_tests/*.c)
 endif
 REIMPL_STEMS := $(sort $(basename $(notdir $(REIMPL_C) $(REIMPL_S))))
@@ -97,7 +98,7 @@ ORIGINAL := $(PROJDIR)/build/disc/files/APROG.BIN
 
 # Config change detection: if flags changed since last build, force a full rebuild.
 # Includes reimpl stems so switching between free/retail rebuilds overridden objects.
-CONFIG_STR := LDSCRIPT=$(LDSCRIPT) SHIFT=$(SHIFT) MODS=$(MODS) REIMPL=$(REIMPL_STEMS)
+CONFIG_STR := LDSCRIPT=$(LDSCRIPT) SHIFT=$(SHIFT) MODS=$(MODS) RE_TESTS=$(RE_TESTS) REIMPL=$(REIMPL_STEMS)
 PREV_CONFIG := $(shell cat $(BUILDDIR)/.build_config 2>/dev/null)
 ifneq ($(CONFIG_STR),$(PREV_CONFIG))
     $(info Config changed: [$(PREV_CONFIG)] -> [$(CONFIG_STR)])
@@ -131,6 +132,9 @@ $(ELF): $(ALL_OBJS) $(LDSCRIPT)
 # src/mods/ rules are additionally gated by MODS=1 so they don't leak into default builds.
 # src/mods/re_tests/ rules are gated by RE_TESTS=1.
 ifeq ($(RE_TESTS),1)
+$(BUILDDIR)/%.o: src/mods/re_tests/%.s | $(BUILDDIR)
+	$(AS) --isa=sh2 -big -o $@ $<
+
 $(BUILDDIR)/%.o: src/mods/re_tests/%.c | $(BUILDDIR)
 	$(CC) $(CFLAGS) -c -o $@ $<
 endif
