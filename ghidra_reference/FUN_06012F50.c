@@ -1,0 +1,10 @@
+extern int FUN_06012c3c();
+
+void FUN_06012f50()
+{
+
+  FUN_06012c3c(0x06044A34,0x25A03000);
+
+  return;
+
+}
