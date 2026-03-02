@@ -209,3 +209,26 @@ s.quit()
 1. `dma_trace /tmp/dma.txt` -> do the thing -> `dma_trace_stop`
 2. Inspect the log: level, src, dst, byte count, initiating PC
 3. `func_db.py merge-dma` to associate transfers with functions
+
+### Fast Start: Skip Replay with Save States
+
+Save states created interactively (T key in WSL debug Mednafen) or via automation
+can be loaded instantly — skipping the 2688+ frame replay to reach a game state.
+
+**Template**: Copy `tools/save_state_template.py` and modify the experiment section.
+
+```python
+# Minimal pattern:
+bot = MednafenBot(ipc_dir, wsl_path(cue_path))
+bot.start(timeout=30)
+bot.frame_advance(1)                    # kick emulation
+ack = bot.send_and_wait(f"load_state {state_wsl}", "load_state", timeout=15)
+# Now at game state instantly — run your experiment
+bot.quit()
+```
+
+**Existing save states** in `build/save_states/`:
+- `circuit_select_slot0.mc0` — circuit select screen (user T-key save)
+
+Save states use gzip format (compatible between GUI and automation).
+WSL Mednafen saves to `build/save_states/` (configured via `filesys.path_state`).
