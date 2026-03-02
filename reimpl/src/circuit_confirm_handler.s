@@ -1,25 +1,16 @@
-/* RE_TEST: Swap C/B on circuit select — B confirms, C backs out
- * Based on src/speedometer_ctrl.s (byte-identical to retail)
- *
- * This TU contains FUN_060102EA (circuit select confirm/back handler),
- * called from transition_handler_a every frame on the circuit select screen.
- *
- * Change: swapped button masks in BACK and CONFIRM checks.
- *   BACK check (.L_wpool_0601030C): 0x0100 (B) -> 0x0200 (C)
- *   CONFIRM check (DAT_0601038c):   0x0200 (C) -> 0x0100 (B)
- *
- * Button bits (empirically confirmed):
- *   A=0x0400, B=0x0100, C=0x0200, START=0x0800
- *   LEFT=0x4000, RIGHT=0x8000, UP=0x1000, DOWN=0x2000
+/* VERIFIED (2026-03-01): circuit select confirm/back handler.
+ * Called from transition_handler_a every frame on circuit select screen.
+ * BACK path: checks button mask at .L_wpool_0601030C (B=0x0100), sets g_game_state=6.
+ * CONFIRM path: checks mask at DAT_0601038c (C=0x0200), plays sound, advances dispatch to 2.
+ * Evidence: RE_TEST #2 swapped B/C masks, confirmed working in-game.
  */
-
 
     .section .text.FUN_060102EC
 
 
-    .global speedometer_ctrl
-    .type speedometer_ctrl, @function
-speedometer_ctrl:
+    .global circuit_confirm_handler
+    .type circuit_confirm_handler, @function
+circuit_confirm_handler:
     mov.l r14, @-r15
     sts.l pr, @-r15
     mov.l   .L_pool_06010320, r14
@@ -37,7 +28,7 @@ speedometer_ctrl:
     nop
     .2byte  0x4000
 .L_wpool_0601030C:
-    .2byte  0x0200                              /* BACK: was 0x0100 (B), now 0x0200 (C) */
+    .2byte  0x0100
     .2byte  0xFFFF
     .4byte  sym_0607EADC
     .4byte  0x00008000
@@ -103,7 +94,7 @@ speedometer_ctrl:
 
     .global DAT_0601038c
 DAT_0601038c:
-    .2byte  0x0100                              /* CONFIRM: was 0x0200 (C), now 0x0100 (B) */
+    .2byte  0x0200
 
     .global DAT_0601038e
 DAT_0601038e:

@@ -182,7 +182,7 @@ dramatically overstates the scope (~30 instructions).
 - sprite_3d_render — prologue only, cannot verify
 - sprite_anim_render — prologue only, cannot verify
 - tachometer_ctrl — partially verified (teardown logic confirmed)
-- speedometer_ctrl — partially verified (shutdown logic confirmed)
+- circuit_confirm_handler (was speedometer_ctrl) — VERIFIED: circuit select confirm/back handler. Swapped C/B masks as RE_TEST #2 to prove understanding.
 
 ## Bad Inline Comments (name is right, comments are wrong)
 

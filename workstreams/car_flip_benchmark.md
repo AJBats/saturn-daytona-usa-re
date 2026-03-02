@@ -25,12 +25,12 @@ no upstream input remapping, no global hacks.
      (black screen on boot).
 2. ~~**Swap C/B on circuit select**~~ DONE (2026-03-01) — B confirms (old C), C backs out (old B).
    Local to circuit select confirm/back handler only. Mode select C-confirm is unaffected.
-   - File: `reimpl/src/mods/re_tests/speedometer_ctrl.s` (NOTE: misnamed — see learnings)
+   - File: `reimpl/src/mods/re_tests/circuit_confirm_handler.s` (NOTE: misnamed — see learnings)
    - Build: `make RE_TESTS=1 MODS=1 disc`
    - Method: swapped two button masks in pool constants:
      - BACK mask at 0x0601030C: 0x0100 (B) → 0x0200 (C)
      - CONFIRM mask at 0x0601038C: 0x0200 (C) → 0x0100 (B)
-   - **Call chain**: `game_state_dispatch` → `transition_handler_a` → `speedometer_ctrl` (FUN_060102EA)
+   - **Call chain**: `game_state_dispatch` → `transition_handler_a` → `circuit_confirm_handler` (FUN_060102EA)
      - `transition_handler_a` reads button word from `g_pad_state+2`, passes to two inline handlers
      - FUN_060102A8: circuit LEFT/RIGHT (increments/decrements circuit index 0-2)
      - FUN_060102EA: circuit confirm/back (checks button masks from pool constants)
@@ -39,7 +39,7 @@ no upstream input remapping, no global hacks.
    - **Key discovery — per-screen button handling**: Each screen has its OWN handler with its
      own pool constants. C confirms on mode select but backs out on circuit select — different
      functions, different masks. There is no global "confirm button" setting.
-   - **Key discovery — `speedometer_ctrl` is misnamed**: FUN_060102EA handles circuit select
+   - **Key discovery — `circuit_confirm_handler` is misnamed**: FUN_060102EA handles circuit select
      confirm/back, not speedometer anything. Better name: `circuit_confirm_handler`.
      Similarly FUN_060102A8 handles circuit LEFT/RIGHT navigation. Both are named from blind
      LLM annotation — the function names are guesses that turned out wrong.

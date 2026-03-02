@@ -2,7 +2,7 @@ CALL GRAPH CROSS-REFERENCE
 18 scenarios, 130 unique edges across all
 
 ============================================================
-COMMON CORE (12 edges — present in all 18 scenarios)
+COMMON CORE (12 edges ï¿½ present in all 18 scenarios)
 ============================================================
   controller_input_update -> smpc_data_manage
   data_table_copy -> menu_anim_system
@@ -73,7 +73,7 @@ STATE-UNIQUE EDGES (only appear in one game state)
     DAT_0601112c -> sym_06028400
     game_state_dispatch -> transition_handler_a
     hud_course_render -> sym_06028400
-    speedometer_ctrl -> sound_cmd_dispatch
+    circuit_confirm_handler -> sound_cmd_dispatch
     transition_handler_a -> DAT_060101b2
     transition_handler_a -> FUN_060102EC
     transition_handler_a -> anim_ui_transition
@@ -159,7 +159,7 @@ BUTTON DELTAS (edges in button press but not idle)
   circuit_C:
     + new (2):
       sound_cmd_dispatch -> snd_race_update
-      speedometer_ctrl -> sound_cmd_dispatch
+      circuit_confirm_handler -> sound_cmd_dispatch
 
   menu_C:
     + new (1):
@@ -250,7 +250,7 @@ FUNCTION REACH (which states call each function)
   sincos_pair                              attract, car, circuit
   snd_race_update                          car, circuit
   sound_cmd_dispatch                       car, circuit
-  speedometer_ctrl                         circuit
+  circuit_confirm_handler                         circuit
   split_screen_layout                      car, circuit
   sprite_3d_render                         car, circuit
   sprite_anim_render                       car, circuit

@@ -64,7 +64,7 @@ split_screen_layout
 DAT_0601112c
     `-- sym_06028400
 
-speedometer_ctrl
+circuit_confirm_handler
     `-- sound_cmd_dispatch
         `-- snd_race_update
 
@@ -133,7 +133,7 @@ EDGES (63):
   DAT_0601112c -> sym_06028400  (x4)
   transition_handler_a -> DAT_060101b2  (x2)
   sym_06000358 -> master_menu_render  (x2)
-  speedometer_ctrl -> sound_cmd_dispatch
+  circuit_confirm_handler -> sound_cmd_dispatch
   sound_cmd_dispatch -> snd_race_update
   game_state_dispatch -> hud_race_display
   hud_race_display -> sprite_anim_render  (x3)

@@ -1,7 +1,7 @@
     .section .text.FUN_060102EC
-    .global speedometer_ctrl
-    .type speedometer_ctrl, @function
-speedometer_ctrl:
+    .global circuit_confirm_handler
+    .type circuit_confirm_handler, @function
+circuit_confirm_handler:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22
     .byte 0xDE, 0x0B
