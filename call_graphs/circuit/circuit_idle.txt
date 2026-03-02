@@ -1,5 +1,5 @@
 CALL GRAPH: circuit idle
-62 edges, 65 functions
+61 edges, 64 functions
 
 TREE:
 
@@ -23,12 +23,12 @@ framebuf_swap_ctrl
 sym_06003000
     |-- FUN_0600A392
     |   |-- cdb_read_status
-    |   |   `-- ai_section_transition
-    |   |       |-- ai_section_update
+    |   |   `-- cd_block_read_safe
+    |   |       |-- cd_block_read_atomic
     |   |       |   `-- sym_06035E5E
     |   |       `-- sym_06035F16
-    |   `-- ai_section_transition
-    |       |-- ai_section_update
+    |   `-- cd_block_read_safe
+    |       |-- cd_block_read_atomic
     |       |   `-- sym_06035E5E
     |       `-- sym_06035F16
     `-- state_pre_race
@@ -40,9 +40,8 @@ sym_06003000
             |   |-- anim_ui_transition
             |   |-- hud_course_render
             |   |   `-- sym_06028400
-            |   |-- DAT_060101b2
-            |   |   `-- rigid_body_transform
-            |   `-- FUN_060102EC
+            |   `-- DAT_060101b2
+            |       `-- rigid_body_transform
             `-- hud_race_display
                 |-- sprite_anim_render
                 `-- sym_060284AE
@@ -97,7 +96,7 @@ results_sub_elem
     `-- memcpy_word_idx
 
 ============================================================
-EDGES (62):
+EDGES (61):
 
   framebuf_swap_ctrl -> sym_06000358  (x326)
   sym_06000358 -> vblank_out_handler
@@ -106,11 +105,11 @@ EDGES (62):
   smpc_data_manage -> DAT_0603a2ca
   sym_06003000 -> FUN_0600A392
   FUN_0600A392 -> cdb_read_status
-  cdb_read_status -> ai_section_transition
-  ai_section_transition -> ai_section_update  (x2)
-  ai_section_update -> sym_06035E5E  (x4)
-  ai_section_transition -> sym_06035F16  (x2)
-  FUN_0600A392 -> ai_section_transition
+  cdb_read_status -> cd_block_read_safe
+  cd_block_read_safe -> cd_block_read_atomic  (x2)
+  cd_block_read_atomic -> sym_06035E5E  (x4)
+  cd_block_read_safe -> sym_06035F16  (x2)
+  FUN_0600A392 -> cd_block_read_safe
   sym_06003000 -> state_pre_race
   state_pre_race -> game_state_dispatch
   game_state_dispatch -> sym_06034FE0
@@ -128,12 +127,11 @@ EDGES (62):
   transition_handler_a -> hud_course_render
   hud_course_render -> sym_06028400  (x2)
   DAT_0601112c -> sym_06028400  (x4)
-  transition_handler_a -> DAT_060101b2
-  transition_handler_a -> FUN_060102EC
+  transition_handler_a -> DAT_060101b2  (x2)
   game_state_dispatch -> hud_race_display
-  sym_06000358 -> master_menu_render  (x2)
   hud_race_display -> sprite_anim_render  (x3)
   DAT_060100f8 -> dma_transfer  (x3)
+  sym_06000358 -> master_menu_render  (x2)
   DAT_060101b2 -> rigid_body_transform  (x3)
   hud_damage_warning -> sincos_pair  (x3)
   hud_damage_warning -> fpmul  (x72)
