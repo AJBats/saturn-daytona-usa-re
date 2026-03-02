@@ -53,6 +53,7 @@ BUILDDIR := build
 LDSCRIPT := free.ld
 SHIFT    ?= 0
 MODS     ?= 0
+RE_TESTS ?= 0
 LDFLAGS  := -T $(LDSCRIPT) -nostdlib -Map=$(BUILDDIR)/daytona.map
 ifneq ($(SHIFT),0)
     LDFLAGS += --defsym __pad_size=$(SHIFT)
@@ -65,11 +66,15 @@ RETAIL_OBJS := $(patsubst retail/%.s,$(BUILDDIR)/%.o,$(RETAIL_ASM))
 # Auto-discover reimplemented files (src/ overrides retail/ by stem name)
 # src/*.s and src/*.c are always active — these must byte-match retail.
 # src/mods/ contains relocation patches that intentionally change the binary.
+# src/mods/re_tests/ contains experimental C reimplementations for testing.
 REIMPL_S    := $(wildcard src/*.s)
 REIMPL_C    := $(wildcard src/*.c)
 ifeq ($(MODS),1)
 REIMPL_S    += $(wildcard src/mods/*.s)
 REIMPL_C    += $(wildcard src/mods/*.c)
+endif
+ifeq ($(RE_TESTS),1)
+REIMPL_C    += $(wildcard src/mods/re_tests/*.c)
 endif
 REIMPL_STEMS := $(sort $(basename $(notdir $(REIMPL_C) $(REIMPL_S))))
 
@@ -124,6 +129,12 @@ $(ELF): $(ALL_OBJS) $(LDSCRIPT)
 # Compile rules: src/ overrides retail/ for reimplemented functions.
 # Guarded so retail builds don't accidentally pick up src/ files via pattern matching.
 # src/mods/ rules are additionally gated by MODS=1 so they don't leak into default builds.
+# src/mods/re_tests/ rules are gated by RE_TESTS=1.
+ifeq ($(RE_TESTS),1)
+$(BUILDDIR)/%.o: src/mods/re_tests/%.c | $(BUILDDIR)
+	$(CC) $(CFLAGS) -c -o $@ $<
+endif
+
 ifeq ($(MODS),1)
 $(BUILDDIR)/%.o: src/mods/%.c | $(BUILDDIR)
 	$(CC) $(CFLAGS) -c -o $@ $<
