@@ -1,18 +1,17 @@
-/*
- * RE_TEST #3: Inverted steering — LEFT steers right, RIGHT steers left.
- * Based on src/coord_grid_pack.s (byte-identical to retail)
- *
- * Changes:
- *   Line 46: .2byte 0x4000 → 0x8000  (was LEFT mask, now RIGHT)
- *   Line 64: .4byte 0x00008000 → 0x00004000  (was RIGHT mask, now LEFT)
+/* VERIFIED (2026-03-02): steering input dispatch during racing.
+ * Writes LEFT/RIGHT button masks to sym_06063F48 and sym_06063F4A.
+ * Downstream physics reads those to steer the car.
+ * sym_06078663 swaps the assignment (player-side/viewport flag).
+ * Also calls sym_0601A5F8 + sprite_pair_render (unverified, display-related).
+ * Evidence: RE_TEST #3 swapped LEFT/RIGHT masks, confirmed inverted steering.
  */
 
     .section .text.FUN_060067C8
 
 
-    .global coord_grid_pack
-    .type coord_grid_pack, @function
-coord_grid_pack:
+    .global steering_input_dispatch
+    .type steering_input_dispatch, @function
+steering_input_dispatch:
     sts.l pr, @-r15
     mov.l   .L_pool_0600681C, r3
     jsr @r3
@@ -51,7 +50,7 @@ DAT_06006802:
 
     .global DAT_06006804
 DAT_06006804:
-    .2byte  0x8000
+    .2byte  0x4000
     .2byte  0xFFFF
     .4byte  fpmul
     .4byte  sym_06063F04
@@ -69,7 +68,7 @@ DAT_06006804:
 .L_pool_0600682C:
     .4byte  sym_06063F48
 .L_06006830:
-    .4byte  0x00004000
+    .4byte  0x00008000
 .L_pool_06006834:
     .4byte  sym_06078663
 

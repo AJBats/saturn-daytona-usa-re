@@ -183,6 +183,7 @@ dramatically overstates the scope (~30 instructions).
 - sprite_anim_render — prologue only, cannot verify
 - tachometer_ctrl — partially verified (teardown logic confirmed)
 - circuit_confirm_handler (was speedometer_ctrl) — VERIFIED: circuit select confirm/back handler. Swapped C/B masks as RE_TEST #2 to prove understanding.
+- steering_input_dispatch (was coord_grid_pack) — VERIFIED: writes LEFT/RIGHT masks to sym_06063F48/4A for downstream physics. Swapped masks as RE_TEST #3 to prove inverted steering. Also calls unverified display setup.
 
 ## Bad Inline Comments (name is right, comments are wrong)
 

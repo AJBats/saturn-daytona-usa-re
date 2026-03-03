@@ -1,7 +1,7 @@
     .section .text.FUN_060067C8
-    .global coord_grid_pack
-    .type coord_grid_pack, @function
-coord_grid_pack:
+    .global steering_input_dispatch
+    .type steering_input_dispatch, @function
+steering_input_dispatch:
     .byte 0x4F, 0x22
     .byte 0xD3, 0x14
     .byte 0x43, 0x0B

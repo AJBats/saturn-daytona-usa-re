@@ -1,10 +1,18 @@
+/*
+ * RE_TEST #3: Inverted steering — LEFT steers right, RIGHT steers left.
+ * Based on src/steering_input_dispatch.s (byte-identical to retail)
+ *
+ * Changes:
+ *   Line 46: .2byte 0x4000 → 0x8000  (was LEFT mask, now RIGHT)
+ *   Line 64: .4byte 0x00008000 → 0x00004000  (was RIGHT mask, now LEFT)
+ */
 
     .section .text.FUN_060067C8
 
 
-    .global coord_grid_pack
-    .type coord_grid_pack, @function
-coord_grid_pack:
+    .global steering_input_dispatch
+    .type steering_input_dispatch, @function
+steering_input_dispatch:
     sts.l pr, @-r15
     mov.l   .L_pool_0600681C, r3
     jsr @r3
@@ -43,7 +51,7 @@ DAT_06006802:
 
     .global DAT_06006804
 DAT_06006804:
-    .2byte  0x4000
+    .2byte  0x8000
     .2byte  0xFFFF
     .4byte  fpmul
     .4byte  sym_06063F04
@@ -61,7 +69,7 @@ DAT_06006804:
 .L_pool_0600682C:
     .4byte  sym_06063F48
 .L_06006830:
-    .4byte  0x00008000
+    .4byte  0x00004000
 .L_pool_06006834:
     .4byte  sym_06078663
 

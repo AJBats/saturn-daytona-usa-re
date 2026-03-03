@@ -53,13 +53,13 @@ no upstream input remapping, no global hacks.
    - Investigation scripts: `workstreams/car_flip_benchmark/`
    - Trace: `call_graphs/circuit/full_interactive_trace.txt`
 3. ~~**Invert steering**~~ DONE (2026-03-02) — LEFT steers right, RIGHT steers left.
-   Local to the steering dispatch in `coord_grid_pack`, not the input read layer.
-   - File: `reimpl/src/mods/re_tests/coord_grid_pack.s`
+   Local to the steering dispatch in `steering_input_dispatch`, not the input read layer.
+   - File: `reimpl/src/mods/re_tests/steering_input_dispatch.s`
    - Build: `make RE_TESTS=1 MODS=1 disc`
    - Method: swapped two button masks in pool constants:
      - `DAT_06006804`: 0x4000 (LEFT) → 0x8000 (RIGHT)
      - `.L_06006830`: 0x00008000 (RIGHT) → 0x00004000 (LEFT)
-   - **Steering pipeline**: `coord_grid_pack` writes LEFT/RIGHT masks to `sym_06063F48`
+   - **Steering pipeline**: `steering_input_dispatch` writes LEFT/RIGHT masks to `sym_06063F48`
      and `sym_06063F4A`. Downstream physics reads those addresses to steer.
      The game already has a built-in swap flag (`sym_06078663`) for split-screen/viewport
      side — we bypassed it and swapped the masks feeding into it instead.
