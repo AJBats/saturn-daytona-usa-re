@@ -1,0 +1,114 @@
+/* RE_TEST: sprite_3d_render with 180-degree rotation offset.
+ * Based on Ghidra FUN_060116A8 decompilation.
+ * Tests whether this function controls car select model rendering.
+ *
+ * Original: computes distorted sprite quad corners using sincos rotation.
+ * Modification: adds 0x8000 (180 degrees) to the rotation angle.
+ */
+
+/* Function pointers from the original binary */
+typedef void (*sincos_fn)(int angle, int *sin_out, int *cos_out);
+typedef int (*fpmul_fn)(int a, int b);
+typedef short (*fp_to_short_fn)(int val);
+
+#define SINCOS_PAIR ((sincos_fn)0x06027358)
+#define FPMUL       ((fpmul_fn)0x06027552)
+#define FP_SHORT    ((fp_to_short_fn)0x0602754C)
+
+/* VDP1 command table base and sprite index pointer */
+#define CMD_TABLE  ((char *)0x060786CC)
+#define SPRITE_IDX ((short *)0x0605AAA0)
+
+void sprite_3d_render(int x_pos, int y_pos, short angle, int scale, short texture_id)
+{
+    int sin_val, cos_val;
+    short *cmd_ptr;
+    short idx;
+    int tmp1, tmp2, result;
+    short sx, sy;
+
+    /* RE_TEST: Add 180 degrees to rotation angle */
+    angle = (short)(angle + 0x8000);
+
+    /* Compute sin/cos of the (modified) angle */
+    SINCOS_PAIR((int)angle, &sin_val, &cos_val);
+
+    idx = *SPRITE_IDX;
+    cmd_ptr = (short *)(CMD_TABLE + (short)(idx * 0x18) + 8);
+
+    /* Corner 1: (-56, +30) rotated */
+    tmp1 = FPMUL(0xFFC80000, cos_val);  /* -56 * cos */
+    tmp2 = FPMUL(0x001E0000, sin_val);  /* +30 * sin */
+    result = FPMUL(tmp1 - tmp2, scale);
+    sx = FP_SHORT(result);
+    sy = FP_SHORT(x_pos);
+    *cmd_ptr = sy + sx;   /* vertex 1 X */
+
+    idx = *SPRITE_IDX;
+    tmp1 = FPMUL(0xFFC80000, sin_val);  /* -56 * sin */
+    tmp2 = FPMUL(0x001E0000, cos_val);  /* +30 * cos */
+    result = FPMUL(tmp1 + tmp2, scale);
+    sx = FP_SHORT(result);
+    sy = FP_SHORT(y_pos);
+    *(short *)(CMD_TABLE + (short)(idx * 0x18) + 10) = sy + sx;  /* vertex 1 Y */
+
+    idx = *SPRITE_IDX;
+    /* Corner 2: (+56, +30) rotated */
+    tmp1 = FPMUL(0x00380000, cos_val);  /* +56 * cos */
+    tmp2 = FPMUL(0x001E0000, sin_val);  /* +30 * sin */
+    result = FPMUL(tmp1 - tmp2, scale);
+    sx = FP_SHORT(result);
+    sy = FP_SHORT(x_pos);
+    *(short *)(CMD_TABLE + (short)(idx * 0x18) + 0xc) = sy + sx;  /* vertex 2 X */
+
+    idx = *SPRITE_IDX;
+    tmp1 = FPMUL(0x00380000, sin_val);  /* +56 * sin */
+    tmp2 = FPMUL(0x001E0000, cos_val);  /* +30 * cos */
+    result = FPMUL(tmp1 + tmp2, scale);
+    sx = FP_SHORT(result);
+    sy = FP_SHORT(y_pos);
+    *(short *)(CMD_TABLE + (short)(idx * 0x18) + 0xe) = sy + sx;  /* vertex 2 Y */
+
+    idx = *SPRITE_IDX;
+    /* Corner 3: (+56, -30) rotated */
+    tmp1 = FPMUL(0x00380000, cos_val);  /* +56 * cos */
+    tmp2 = FPMUL(0xFFE20000, sin_val);  /* -30 * sin */
+    result = FPMUL(tmp1 - tmp2, scale);
+    sx = FP_SHORT(result);
+    sy = FP_SHORT(x_pos);
+    *(short *)(CMD_TABLE + (short)(idx * 0x18) + 0x10) = sy + sx;  /* vertex 3 X */
+
+    idx = *SPRITE_IDX;
+    tmp1 = FPMUL(0x00380000, sin_val);  /* +56 * sin */
+    tmp2 = FPMUL(0xFFE20000, cos_val);  /* -30 * cos */
+    result = FPMUL(tmp1 + tmp2, scale);
+    sx = FP_SHORT(result);
+    sy = FP_SHORT(y_pos);
+    *(short *)(CMD_TABLE + (short)(idx * 0x18) + 0x12) = sy + sx;  /* vertex 3 Y */
+
+    idx = *SPRITE_IDX;
+    /* Corner 4: (-56, -30) rotated */
+    tmp1 = FPMUL(0xFFC80000, cos_val);  /* -56 * cos */
+    tmp2 = FPMUL(0xFFE20000, sin_val);  /* -30 * sin */
+    result = FPMUL(tmp1 - tmp2, scale);
+    sx = FP_SHORT(result);
+    sy = FP_SHORT(x_pos);
+    *(short *)(CMD_TABLE + (short)(idx * 0x18) + 0x14) = sy + sx;  /* vertex 4 X */
+
+    idx = *SPRITE_IDX;
+    tmp1 = FPMUL(0xFFC80000, sin_val);  /* -56 * sin */
+    tmp2 = FPMUL(0xFFE20000, cos_val);  /* -30 * cos */
+    result = FPMUL(tmp1 + tmp2, scale);
+    sx = FP_SHORT(result);
+    sy = FP_SHORT(y_pos);
+    *(short *)(CMD_TABLE + (short)(idx * 0x18) + 0x16) = sy + sx;  /* vertex 4 Y */
+
+    /* Set texture ID and flags */
+    idx = *SPRITE_IDX;
+    *(short *)(CMD_TABLE + (short)(idx * 0x18) + 6) = texture_id;
+    CMD_TABLE[(short)(idx * 0x18) + 4] = 0;
+    CMD_TABLE[(short)(idx * 0x18) + 5] = 1;
+
+    /* Advance sprite index */
+    *SPRITE_IDX = *SPRITE_IDX + 1;
+}

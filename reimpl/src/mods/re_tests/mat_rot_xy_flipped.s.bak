@@ -1,0 +1,22 @@
+
+    .section .text.mat_rot_xy_flipped
+
+    /* RE_TEST 4G: Wrapper — currently identity test (just calls mat_rot_xy_b).
+     * If this works, the wrapper mechanism is fine and the issue is the second call.
+     *
+     * Calling convention: r4 = spin angle (passed through to mat_rot_xy_b)
+     */
+
+    .global mat_rot_xy_flipped
+    .type mat_rot_xy_flipped, @function
+mat_rot_xy_flipped:
+    sts.l pr, @-r15
+    mov.l   .Lf_xy, r3
+    jsr @r3                 /* mat_rot_xy_b(r4 = spin angle) */
+    nop
+    lds.l @r15+, pr
+    rts
+    nop
+    .align 2
+.Lf_xy:
+    .4byte  mat_rot_xy_b
