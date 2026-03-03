@@ -52,8 +52,23 @@ no upstream input remapping, no global hacks.
      Must boot from scratch or create a new save state from the modded build.
    - Investigation scripts: `workstreams/car_flip_benchmark/`
    - Trace: `call_graphs/circuit/full_interactive_trace.txt`
-3. **Invert steering** — D-pad LEFT steers right, RIGHT steers left.
-   Local to the driving model, not input processing.
+3. ~~**Invert steering**~~ DONE (2026-03-02) — LEFT steers right, RIGHT steers left.
+   Local to the steering dispatch in `coord_grid_pack`, not the input read layer.
+   - File: `reimpl/src/mods/re_tests/coord_grid_pack.s`
+   - Build: `make RE_TESTS=1 MODS=1 disc`
+   - Method: swapped two button masks in pool constants:
+     - `DAT_06006804`: 0x4000 (LEFT) → 0x8000 (RIGHT)
+     - `.L_06006830`: 0x00008000 (RIGHT) → 0x00004000 (LEFT)
+   - **Steering pipeline**: `coord_grid_pack` writes LEFT/RIGHT masks to `sym_06063F48`
+     and `sym_06063F4A`. Downstream physics reads those addresses to steer.
+     The game already has a built-in swap flag (`sym_06078663`) for split-screen/viewport
+     side — we bypassed it and swapped the masks feeding into it instead.
+   - **`sym_06078663` is a player-side flag**: Referenced by 15+ functions (camera,
+     rendering, track geometry, perspective projection, HUD). Not just steering — it
+     controls which side of the screen a player is on.
+   - **Technique locked in**: Same playbook as Goals 1 & 2 — call-trace differential →
+     Ghidra C to read candidates → find pool constants → swap → first-try success.
+     Three for three.
 4. *(more goals TBD as we learn)*
 5. **Flip car graphics upside down** — all cars appear to drive on their roofs.
 
