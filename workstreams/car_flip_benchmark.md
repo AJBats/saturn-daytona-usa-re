@@ -236,7 +236,60 @@ no upstream input remapping, no global hacks.
    2. Compressing another function to create headroom
    3. Hijacking an existing code path (no new code)
 
-5. **Flip car graphics upside down** — all cars appear to drive on their roofs.
+5. ~~**Flip opponent car graphics in-race**~~ DONE (2026-03-03) — opponent cars rendered with
+   swapped rotation axes during actual racing. Demonstrates understanding of the in-race 3D
+   rendering pipeline (render_cs0_loop) and proves we can modify it.
+   - File: `reimpl/src/mods/re_tests/render_cs0_loop.s`
+   - Build: `make RE_TESTS=1 MODS=1 disc`
+   - Method: swapped rotation function pointers in pool constants (size-neutral):
+     - `.L_0600B85C`: `mat_rot_y` → `mat_rot_x` (heading now applied as X-axis tumble)
+     - `.L_0600B864`: `mat_rot_x` → `mat_rot_y` (pitch now applied as Y rotation)
+   - **Visual evidence**: Side-by-side screenshot comparison at rolling start (frame 4550)
+     shows clear geometric distortion on opponent cars — body panels at wrong angles,
+     "SHOPPER" text visible from unusual orientation. Effect most visible when opponents
+     are close (rolling start pack). Captured with `python tools/test_race_screenshot.py --re-tests`.
+   - **Key discovery — render_cs0_loop (FUN_0600B6A0) is the main in-race object renderer**:
+     - Iterates from i=1 to car_count (skips object 0 = player car)
+     - Object struct at `0x06078900 + i * 0x268`
+     - Per-object pipeline: identity init → camera translate → mat_rot_y(heading+0x8000) →
+       mat_rot_z(-roll) → mat_rot_x(-pitch) → vertex transform → polygon render
+     - Also has secondary collision rotations (conditional, uses different function ptrs r12/r13)
+     - One external BSR: `.byte 0xB8, 0xE7` → FUN_0600AA98 (car subpart/skeletal rendering)
+   - **Key discovery — player car rendered separately**: Object 0 is NOT processed by
+     render_cs0_loop (loop starts at i=1). The player car has a separate rendering path,
+     likely through the chase camera code. This is why only opponent cars show the effect.
+   - **Key discovery — BSR/BRA displacement breakage prevents function growth**:
+     First attempt added +4 bytes (neg r4,r4 + nop) to insert a 180° X flip. The build
+     succeeded but crashed immediately ("Illegal Instruction PC=00000002"). Root cause:
+     growing a function early in the binary (render_cs0_loop at 0x0600B6A0 = ~35% through)
+     shifts ALL subsequent sections, breaking hardcoded BSR/BRA `.byte` pairs in ~65% of
+     functions throughout the codebase. Goals 1-3 (mode_select_handler at 0x060196B0 = ~95%
+     through) worked because very few functions follow them.
+     **Implication**: Only size-neutral modifications are safe for functions in the first ~90%
+     of the binary. Growing functions near the END is possible; growing functions early is not.
+   - **Observation — 0x8000 heading offset is a 180° facing correction**: In vanilla,
+     `mat_rot_y(heading + 0x8000)` rotates the car model 180° so it faces the camera
+     correctly. With the swap, `mat_rot_x(heading + 0x8000)` applies heading as X-axis
+     tumble with a 180° offset — continuously rotating as cars turn through corners.
+   - **Test script**: `tools/test_race_screenshot.py` — boots disc, navigates through menus
+     to race start, holds accelerator, captures screenshots at rolling start and early race.
+     Supports `--re-tests` flag for RE_TESTS builds (uses B on circuit select).
+
+   ### In-race 3D transform pipeline (per opponent object)
+   ```
+   render_cs0_loop (FUN_0600B6A0), i=1 to car_count:
+     object = 0x06078900 + i * 0x268
+     if (object[0] & 0x00E00000) == 0: skip
+     sym_06026DBC()                     — identity matrix init
+     sym_06026E2E(cam_x, cam_y+off, cam_z)  — camera translation
+     mat_rot_y(heading + 0x8000)        — Y rotation (heading + 180° facing)
+     mat_rot_z(-roll)                   — Z rotation (negated roll)
+     mat_rot_x(-pitch)                  — X rotation (negated pitch)
+     [if collision flags set:]
+       additional rotations via r12/r13 (vertex transform functions)
+     sym_06031DF4(...)                  — per-polygon vertex transform
+     sym_06031A28(...)                  — polygon/sprite draw
+   ```
 
 ## Prior Art
 
