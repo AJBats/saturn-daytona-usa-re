@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060173AC
-
-
+	.text
     .global geom_pipeline_coord
-    .type geom_pipeline_coord, @function
 geom_pipeline_coord:
     mov.l r14, @-r15
     mov.l r13, @-r15

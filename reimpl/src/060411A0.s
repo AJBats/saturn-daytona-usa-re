@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060411A0
-
-
+	.text
     .global cmd_enqueue
-    .type cmd_enqueue, @function
 cmd_enqueue:
     sts.l pr, @-r15
     add #-0x4, r15

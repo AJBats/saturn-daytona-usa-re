@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602E214
-
-
+	.text
     .global vdp2_reg_write_a
-    .type vdp2_reg_write_a, @function
 vdp2_reg_write_a:
     sts.l pr, @-r15
     jsr @r13

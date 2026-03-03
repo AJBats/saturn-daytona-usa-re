@@ -7,12 +7,8 @@
  *         to matrix columns 1,2. Only 38 instructions, trivially verifiable.
  * Date: 2026-02-28
  */
-
-    .section .text.FUN_06026E94
-
-
+	.text
     .global mat_rot_x
-    .type mat_rot_x, @function
 mat_rot_x:
     sts.l pr, @-r15
     .byte   0xD6, 0x76    /* mov.l .L_pool_06027070, r6 */

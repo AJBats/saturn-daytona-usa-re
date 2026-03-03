@@ -1,6 +1,5 @@
-    .section .text.FUN_0604087C
+	.text
     .global watchdog_timer_reset
-    .type watchdog_timer_reset, @function
 watchdog_timer_reset:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC

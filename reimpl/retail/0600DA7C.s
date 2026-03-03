@@ -1,6 +1,5 @@
-    .section .text.FUN_0600DA7C
+	.text
     .global finish_proximity
-    .type finish_proximity, @function
 finish_proximity:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22
@@ -151,14 +150,12 @@ sym_0600DB64:
     .byte 0x24, 0x22
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
-    .section .text.FUN_0600DB9E
+	.text
     .global car_update_post
-    .type car_update_post, @function
 car_update_post:
     .byte 0xE3, 0x04
-    .section .text.FUN_0600DBA0
+	.text
     .global finish_display
-    .type finish_display, @function
 finish_display:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
@@ -260,9 +257,8 @@ DAT_0600dbdc:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .section .text.FUN_0600DC74
+	.text
     .global checkpoint_sound_trigger
-    .type checkpoint_sound_trigger, @function
 checkpoint_sound_trigger:
     .byte 0x4F, 0x22
     .byte 0xE6, 0x60

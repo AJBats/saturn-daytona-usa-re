@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060120A0
-
-
+	.text
     .global file_close
-    .type file_close, @function
 file_close:
     mov.l r14, @-r15
     sts.l pr, @-r15

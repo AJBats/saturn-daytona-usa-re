@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603853C
-
-
+	.text
     .global scene_data_write_abs
-    .type scene_data_write_abs, @function
 scene_data_write_abs:
     mov.l r14, @-r15
     mov.l   .L_pool_060385E0, r14

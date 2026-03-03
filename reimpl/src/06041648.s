@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06041648
-
-
+	.text
     .global track_surface_check
-    .type track_surface_check, @function
 track_surface_check:
     sts.l pr, @-r15
     add #-0x18, r15

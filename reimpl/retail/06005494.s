@@ -1,6 +1,5 @@
-    .section .text.FUN_06005494
+	.text
     .global obj_state_writer
-    .type obj_state_writer, @function
 obj_state_writer:
     .byte 0x2F, 0xE6
     .byte 0x6E, 0x43

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601FFA8
-
-
+	.text
     .global vram_ptr_get
-    .type vram_ptr_get, @function
 vram_ptr_get:
     mov.l r14, @-r15
     mov.l r13, @-r15

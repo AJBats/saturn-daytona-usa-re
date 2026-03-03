@@ -1,6 +1,5 @@
-    .section .text.FUN_0600D9BC
+	.text
     .global lap_complete_flag
-    .type lap_complete_flag, @function
 lap_complete_flag:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601BA50
-
-
+	.text
     .global replay_record_frame
-    .type replay_record_frame, @function
 replay_record_frame:
     mov.l r14, @-r15
     mov r5, r0

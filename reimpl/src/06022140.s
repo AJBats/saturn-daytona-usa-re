@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06022140
-
-
+	.text
     .global scene_process_stage
-    .type scene_process_stage, @function
 scene_process_stage:
     mov.l r14, @-r15
     mov.l r13, @-r15

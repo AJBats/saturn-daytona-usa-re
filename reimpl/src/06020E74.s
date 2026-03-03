@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06020E74
-
-
+	.text
     .global obj_state_manager
-    .type obj_state_manager, @function
 obj_state_manager:
     mov.l r14, @-r15
     mov.l r13, @-r15

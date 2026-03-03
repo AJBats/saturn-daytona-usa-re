@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06016230
-
-
+	.text
     .global results_scroll_anim
-    .type results_scroll_anim, @function
 results_scroll_anim:
     sts.l pr, @-r15
     extu.b r4, r13

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06009290
-
-
+	.text
     .global state_post_countdown
-    .type state_post_countdown, @function
 state_post_countdown:
     sts.l pr, @-r15
     mov #0x11, r3

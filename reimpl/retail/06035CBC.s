@@ -1,6 +1,5 @@
-    .section .text.FUN_06035CBC
+	.text
     .global smpc_secondary_proc
-    .type smpc_secondary_proc, @function
 smpc_secondary_proc:
     .byte 0x2F, 0xE6
     .byte 0x6E, 0x43

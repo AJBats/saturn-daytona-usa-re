@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06036208
-
-
+	.text
     .global seg_curve_reader
-    .type seg_curve_reader, @function
 seg_curve_reader:
     sts.l pr, @-r15
     add #-0x8, r15

@@ -1,6 +1,5 @@
-    .section .text.FUN_0602E69E
+	.text
     .global vdp2_color_offset_anim
-    .type vdp2_color_offset_anim, @function
 vdp2_color_offset_anim:
     .byte 0x4F, 0x22
     .byte 0x4D, 0x0B

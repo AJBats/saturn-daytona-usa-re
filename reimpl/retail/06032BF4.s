@@ -1,6 +1,5 @@
-    .section .text.FUN_06032BF4
+	.text
     .global rpm_display_group
-    .type rpm_display_group, @function
 rpm_display_group:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B

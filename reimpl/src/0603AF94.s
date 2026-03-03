@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603AF94
-
-
+	.text
     .global cmd_result_store
-    .type cmd_result_store, @function
 cmd_result_store:
     mov.l r14, @-r15
     mov.l r13, @-r15

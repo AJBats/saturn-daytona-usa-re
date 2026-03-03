@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060361FC
-
-
+	.text
     .global track_seg_interpolate
-    .type track_seg_interpolate, @function
 track_seg_interpolate:
     mov.l r14, @-r15
     mov r5, r14

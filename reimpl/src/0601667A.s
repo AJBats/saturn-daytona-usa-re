@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601667A
-
-
+	.text
     .global results_best_laps
-    .type results_best_laps, @function
 results_best_laps:
     mov.l r14, @-r15
     mov.l r13, @-r15

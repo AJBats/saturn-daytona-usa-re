@@ -1,6 +1,5 @@
-    .section .text.FUN_06012BE4
+	.text
     .global track_seg_lookup
-    .type track_seg_lookup, @function
 track_seg_lookup:
     .byte 0x4F, 0x22
     .byte 0xDC, 0x20

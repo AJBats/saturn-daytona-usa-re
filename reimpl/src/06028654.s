@@ -1,10 +1,5 @@
-
-    .section .text.FUN_06028654
-
-
+	.text
     .global dma_memory_transfer
-    .type dma_memory_transfer, @function
-
 dma_memory_transfer:
     mov.l r14, @-r15
     mov.l r13, @-r15

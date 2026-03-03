@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06011678
-
-
+	.text
     .global sprite_buffer_init
-    .type sprite_buffer_init, @function
 sprite_buffer_init:
     mov.l r14, @-r15
     mov.l r13, @-r15

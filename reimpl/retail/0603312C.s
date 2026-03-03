@@ -1,6 +1,5 @@
-    .section .text.FUN_0603312C
+	.text
     .global color_anim_ctrl
-    .type color_anim_ctrl, @function
 color_anim_ctrl:
     .byte 0x4F, 0x22
     .byte 0xB0, 0x6D

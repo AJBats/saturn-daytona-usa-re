@@ -1,6 +1,5 @@
-    .section .text.FUN_0603B60C
+	.text
     .global menu_border_render
-    .type menu_border_render, @function
 menu_border_render:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC

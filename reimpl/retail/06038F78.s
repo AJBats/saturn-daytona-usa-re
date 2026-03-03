@@ -1,6 +1,5 @@
-    .section .text.FUN_06038F78
+	.text
     .global vblank_display_write
-    .type vblank_display_write, @function
 vblank_display_write:
     .byte 0x4F, 0x22
     .byte 0xDB, 0x19

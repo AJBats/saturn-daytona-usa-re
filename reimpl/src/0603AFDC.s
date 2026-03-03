@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603AFDC
-
-
+	.text
     .global menu_text_layout
-    .type menu_text_layout, @function
 menu_text_layout:
     sts.l pr, @-r15
     add #-0x4, r15

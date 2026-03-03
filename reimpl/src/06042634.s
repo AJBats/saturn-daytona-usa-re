@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06042634
-
-
+	.text
     .global div_result_read
-    .type div_result_read, @function
 div_result_read:
     mov.l r14, @-r15
     mov.l r13, @-r15

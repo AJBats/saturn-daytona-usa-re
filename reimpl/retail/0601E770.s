@@ -1,6 +1,5 @@
-    .section .text.FUN_0601E770
+	.text
     .global mat_transpose
-    .type mat_transpose, @function
 mat_transpose:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF8

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060155A4
-
-
+	.text
     .global minimap_render
-    .type minimap_render, @function
 minimap_render:
     mov.l r14, @-r15
     mov.l r13, @-r15

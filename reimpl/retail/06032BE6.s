@@ -1,6 +1,5 @@
-    .section .text.FUN_06032BE6
+	.text
     .global hud_rpm_redline
-    .type hud_rpm_redline, @function
 hud_rpm_redline:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B

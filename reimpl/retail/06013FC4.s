@@ -1,6 +1,5 @@
-    .section .text.FUN_06013FC4
+	.text
     .global bg_obj_render_loop
-    .type bg_obj_render_loop, @function
 bg_obj_render_loop:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

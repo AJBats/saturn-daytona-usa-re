@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600A914
-
-
+	.text
     .global car_proximity_check
-    .type car_proximity_check, @function
 car_proximity_check:
     mov.l r14, @-r15
     mov.l r13, @-r15

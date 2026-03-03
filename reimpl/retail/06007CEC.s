@@ -1,6 +1,5 @@
-    .section .text.FUN_06007CEC
+	.text
     .global dma_queue_mgr
-    .type dma_queue_mgr, @function
 dma_queue_mgr:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

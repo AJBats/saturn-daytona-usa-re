@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06040980
-
-
+	.text
     .global dma_channel_setup
-    .type dma_channel_setup, @function
 dma_channel_setup:
     sts.l pr, @-r15
     mov r14, r1

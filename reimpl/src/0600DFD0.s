@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600DFD0
-
-
+	.text
     .global race_update_abort
-    .type race_update_abort, @function
 race_update_abort:
     mov.l r14, @-r15
     sts.l pr, @-r15

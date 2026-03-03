@@ -1,6 +1,5 @@
-    .section .text.FUN_06020DD0
+	.text
     .global obj_anim_advance
-    .type obj_anim_advance, @function
 obj_anim_advance:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

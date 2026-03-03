@@ -1,6 +1,5 @@
-    .section .text.FUN_06015FB0
+	.text
     .global results_init_stub
-    .type results_init_stub, @function
 results_init_stub:
     .byte 0x2F, 0xE6
     .byte 0x6E, 0x43

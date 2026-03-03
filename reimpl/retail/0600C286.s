@@ -1,6 +1,5 @@
-    .section .text.FUN_0600C286
+	.text
     .global race_utility_fn
-    .type race_utility_fn, @function
 race_utility_fn:
     .byte 0x4F, 0x22
     .byte 0xD3, 0x14

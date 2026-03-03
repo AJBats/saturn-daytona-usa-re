@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06011DC0
-
-
+	.text
     .global post_sprite_cleanup
-    .type post_sprite_cleanup, @function
 post_sprite_cleanup:
     mov.l r14, @-r15
     mov.l r13, @-r15

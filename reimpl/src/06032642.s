@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06032642
-
-
+	.text
     .global disp_rank_elem_c
-    .type disp_rank_elem_c, @function
 disp_rank_elem_c:
     sts.l pr, @-r15
     jsr @r0

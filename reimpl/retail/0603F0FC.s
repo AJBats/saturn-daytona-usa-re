@@ -1,6 +1,5 @@
-    .section .text.FUN_0603F0FC
+	.text
     .global scene_frame_render
-    .type scene_frame_render, @function
 scene_frame_render:
     .byte 0x2F, 0xE6
     .byte 0x6E, 0x43

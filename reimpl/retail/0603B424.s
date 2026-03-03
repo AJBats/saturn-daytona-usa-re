@@ -1,6 +1,5 @@
-    .section .text.FUN_0603B424
+	.text
     .global cmd_dispatch_main
-    .type cmd_dispatch_main, @function
 cmd_dispatch_main:
     .byte 0x2F, 0xE6
     .byte 0xE0, 0x12

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060096DC
-
-
+	.text
     .global state_time_extend_setup
-    .type state_time_extend_setup, @function
 state_time_extend_setup:
     mov.l r14, @-r15
     sts.l pr, @-r15

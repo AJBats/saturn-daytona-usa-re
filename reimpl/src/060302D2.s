@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060302D2
-
-
+	.text
     .global engine_sound_body
-    .type engine_sound_body, @function
 engine_sound_body:
     mov.l r14, @-r15
     sts.l pr, @-r15

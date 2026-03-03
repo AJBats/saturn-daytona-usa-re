@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601A348
-
-
+	.text
     .global green_light_anim
-    .type green_light_anim, @function
 green_light_anim:
     sts.l pr, @-r15
     add #-0x4, r15

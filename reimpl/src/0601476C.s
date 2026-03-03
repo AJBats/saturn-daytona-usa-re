@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601476C
-
-
+	.text
     .global perspective_proj_3d
-    .type perspective_proj_3d, @function
 perspective_proj_3d:
 
     mov.l r14, @-r15

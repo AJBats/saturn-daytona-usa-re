@@ -1,6 +1,5 @@
-    .section .text.FUN_06025070
+	.text
     .global scene_finalize_a
-    .type scene_finalize_a, @function
 scene_finalize_a:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

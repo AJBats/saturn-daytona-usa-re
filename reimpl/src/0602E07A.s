@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602E07A
-
-
+	.text
     .global scene_zsort
-    .type scene_zsort, @function
 scene_zsort:
     sts.l pr, @-r15
     jsr @r13

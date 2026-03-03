@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601416C
-
-
+	.text
     .global race_variant_setup_a
-    .type race_variant_setup_a, @function
 race_variant_setup_a:
     mov.l r14, @-r15
     mov.l r13, @-r15

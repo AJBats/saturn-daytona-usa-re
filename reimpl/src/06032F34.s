@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06032F34
-
-
+	.text
     .global hud_map_elem_06
-    .type hud_map_elem_06, @function
 hud_map_elem_06:
     sts.l pr, @-r15
     jsr @r0

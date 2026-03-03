@@ -1,6 +1,5 @@
-    .section .text.FUN_06007370
+	.text
     .global main_loop_timing
-    .type main_loop_timing, @function
 main_loop_timing:
     .byte 0x4F, 0x22
     .byte 0xDE, 0x2B

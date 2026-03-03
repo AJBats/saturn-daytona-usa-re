@@ -1,6 +1,5 @@
-    .section .text.FUN_0600629C
+	.text
     .global car_array_init
-    .type car_array_init, @function
 car_array_init:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

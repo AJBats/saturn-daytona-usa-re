@@ -1,6 +1,5 @@
-    .section .text.FUN_06012CF4
+	.text
     .global cd_progress_notify
-    .type cd_progress_notify, @function
 cd_progress_notify:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

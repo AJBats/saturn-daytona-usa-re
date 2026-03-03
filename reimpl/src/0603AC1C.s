@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603AC1C
-
-
+	.text
     .global cmd_validate_exec
-    .type cmd_validate_exec, @function
 cmd_validate_exec:
     mov.l r14, @-r15
     mov #0x1, r3

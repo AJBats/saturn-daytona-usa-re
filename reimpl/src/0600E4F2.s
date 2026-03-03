@@ -1,9 +1,5 @@
-
-   .section .text.FUN_0600E4F2
-
-
+	.text
    .global car_frame_update
-   .type car_frame_update, @function
 car_frame_update:
     mov.l r14, @-r15
     mov.l r13, @-r15

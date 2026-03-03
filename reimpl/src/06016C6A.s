@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06016C6A
-
-
+	.text
     .global text_color_set
-    .type text_color_set, @function
 text_color_set:
     mov.l r14, @-r15
     sts.l pr, @-r15

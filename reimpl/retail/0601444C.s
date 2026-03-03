@@ -1,6 +1,5 @@
-    .section .text.FUN_0601444C
+	.text
     .global race_variant_setup_b
-    .type race_variant_setup_b, @function
 race_variant_setup_b:
     .byte 0x4F, 0x22
     .byte 0xD1, 0x23

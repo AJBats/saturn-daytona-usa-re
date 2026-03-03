@@ -1,6 +1,5 @@
-    .section .text.FUN_060061C8
+	.text
     .global pre_render_transform
-    .type pre_render_transform, @function
 pre_render_transform:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

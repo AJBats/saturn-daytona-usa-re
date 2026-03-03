@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601CAEE
-
-
+	.text
     .global render_stage_2
-    .type render_stage_2, @function
 render_stage_2:
     mov.l r14, @-r15
     mov.l r13, @-r15
@@ -384,7 +380,6 @@ DAT_0601cb48:
     mov.l @r15+, r14
 
     .global render_stage_3
-    .type render_stage_3, @function
 render_stage_3:
     mov.l r14, @-r15
     mov #0x12, r2
@@ -549,7 +544,6 @@ render_stage_3:
     .4byte  0x25F00400
 
     .global render_stage_4
-    .type render_stage_4, @function
 render_stage_4:
     mov.l r14, @-r15
     mov #0x12, r2
@@ -696,7 +690,6 @@ render_stage_4:
     .4byte  0x25F00400
 
     .global render_stage_5
-    .type render_stage_5, @function
 render_stage_5:
     sts.l pr, @-r15
     add #-0x4, r15
@@ -749,7 +742,6 @@ render_stage_5:
     .4byte  sym_06086020
 
     .global render_stage_6
-    .type render_stage_6, @function
 render_stage_6:
     sts.l pr, @-r15
     add #-0x4, r15
@@ -841,7 +833,6 @@ render_stage_6:
     .4byte  0x000B600D
 
     .global render_matrix_calc
-    .type render_matrix_calc, @function
 render_matrix_calc:
     mov.l r14, @-r15
     .byte   0xDE, 0x18    /* mov.l .L_0601D190, r14 */

@@ -1,6 +1,5 @@
-    .section .text.FUN_060148A2
+	.text
     .global display_channels_load
-    .type display_channels_load, @function
 display_channels_load:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

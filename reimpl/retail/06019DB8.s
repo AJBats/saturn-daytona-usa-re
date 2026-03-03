@@ -1,6 +1,5 @@
-    .section .text.FUN_06019DB8
+	.text
     .global course1_physics_init
-    .type course1_physics_init, @function
 course1_physics_init:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

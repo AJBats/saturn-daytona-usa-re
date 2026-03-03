@@ -1,6 +1,5 @@
-    .section .text.FUN_0603D43C
+	.text
     .global name_entry_state
-    .type name_entry_state, @function
 name_entry_state:
     .byte 0x4F, 0x22
     .byte 0x60, 0x63

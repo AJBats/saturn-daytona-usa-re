@@ -1,6 +1,5 @@
-    .section .text.FUN_0600C218
+	.text
     .global scene_update
-    .type scene_update, @function
 scene_update:
     .byte 0x2F, 0xE6
     .byte 0xE6, 0x30

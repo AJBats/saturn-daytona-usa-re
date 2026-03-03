@@ -1,6 +1,5 @@
-    .section .text.FUN_0602E6C4
+	.text
     .global palette_full_update
-    .type palette_full_update, @function
 palette_full_update:
     .byte 0x4F, 0x22
     .byte 0x4D, 0x0B

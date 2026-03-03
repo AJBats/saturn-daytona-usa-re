@@ -1,6 +1,5 @@
-    .section .text.FUN_06005C98
+	.text
     .global world_camera_update
-    .type world_camera_update, @function
 world_camera_update:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

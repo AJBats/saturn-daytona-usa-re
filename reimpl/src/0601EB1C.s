@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601EB1C
-
-
+	.text
     .global geom_rotation_apply
-    .type geom_rotation_apply, @function
 geom_rotation_apply:
     mov.l r14, @-r15
     sts.l pr, @-r15

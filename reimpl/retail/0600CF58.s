@@ -1,6 +1,5 @@
-    .section .text.FUN_0600CF58
+	.text
     .global collision_dispatch
-    .type collision_dispatch, @function
 collision_dispatch:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

@@ -1,6 +1,5 @@
-    .section .text.FUN_0601ABC8
+	.text
     .global replay_cam_pos_select
-    .type replay_cam_pos_select, @function
 replay_cam_pos_select:
     .byte 0x4F, 0x22
     .byte 0x63, 0x4C

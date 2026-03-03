@@ -1,6 +1,5 @@
-    .section .text.FUN_06005120
+	.text
     .global hw_render_dispatch
-    .type hw_render_dispatch, @function
 hw_render_dispatch:
     .byte 0x2F, 0xE6
     .byte 0x23, 0x79

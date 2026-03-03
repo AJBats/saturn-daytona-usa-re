@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06012084
-
-
+	.text
     .global file_size_get
-    .type file_size_get, @function
 file_size_get:
     sts.l pr, @-r15
     .byte   0xDE, 0x0F    /* mov.l .L_pool_060120C4, r14 */

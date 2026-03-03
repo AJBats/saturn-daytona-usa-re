@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603660E
-
-
+	.text
     .global track_distance_calc
-    .type track_distance_calc, @function
 track_distance_calc:
     mov.l r14, @-r15
     sts.l pr, @-r15

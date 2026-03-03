@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602648E
-
-
+	.text
     .global transform_rotation_alt
-    .type transform_rotation_alt, @function
 transform_rotation_alt:
     mov.l r14, @-r15
     mov.l r13, @-r15

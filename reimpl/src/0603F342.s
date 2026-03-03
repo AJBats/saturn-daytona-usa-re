@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603F342
-
-
+	.text
     .global menu_text_position
-    .type menu_text_position, @function
 menu_text_position:
     mov.l r14, @-r15
     mov.l r13, @-r15

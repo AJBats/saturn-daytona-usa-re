@@ -1,6 +1,5 @@
-    .section .text.FUN_0602FDB0
+	.text
     .global track_scenery_render
-    .type track_scenery_render, @function
 track_scenery_render:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06008B34
-
-
+	.text
     .global state_course_select_active
-    .type state_course_select_active, @function
 state_course_select_active:
     sts.l pr, @-r15
     mov.l   .L_pool_06008B70, r3

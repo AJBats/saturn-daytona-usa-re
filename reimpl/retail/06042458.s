@@ -1,6 +1,5 @@
-    .section .text.FUN_06042458
+	.text
     .global fixpt_div_full
-    .type fixpt_div_full, @function
 fixpt_div_full:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

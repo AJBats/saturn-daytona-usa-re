@@ -1,6 +1,5 @@
-    .section .text.FUN_06041CC8
+	.text
     .global state_transition_handler
-    .type state_transition_handler, @function
 state_transition_handler:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

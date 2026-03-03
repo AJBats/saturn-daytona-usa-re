@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060337BE
-
-
+	.text
     .global disp_course_stub
-    .type disp_course_stub, @function
 disp_course_stub:
     sts.l pr, @-r15
     jsr @r0

@@ -1,6 +1,5 @@
-    .section .text.FUN_0603BC12
+	.text
     .global save_size_calc
-    .type save_size_calc, @function
 save_size_calc:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

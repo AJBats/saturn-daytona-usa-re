@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602DE62
-
-
+	.text
     .global vdp1_distorted_sprite
-    .type vdp1_distorted_sprite, @function
 vdp1_distorted_sprite:
     sts.l pr, @-r15
     jsr @r13

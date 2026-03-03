@@ -1,6 +1,5 @@
-    .section .text.FUN_06011B08
+	.text
     .global hud_damage_warning
-    .type hud_damage_warning, @function
 hud_damage_warning:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xE8

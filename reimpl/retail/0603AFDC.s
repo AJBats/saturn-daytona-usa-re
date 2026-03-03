@@ -1,6 +1,5 @@
-    .section .text.FUN_0603AFDC
+	.text
     .global menu_text_layout
-    .type menu_text_layout, @function
 menu_text_layout:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC

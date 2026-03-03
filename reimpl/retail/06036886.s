@@ -1,6 +1,5 @@
-    .section .text.FUN_06036886
+	.text
     .global track_impact_adjust_stub
-    .type track_impact_adjust_stub, @function
 track_impact_adjust_stub:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

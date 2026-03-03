@@ -1,6 +1,5 @@
-    .section .text.FUN_060369D8
+	.text
     .global obj_view_frustum
-    .type obj_view_frustum, @function
 obj_view_frustum:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF0

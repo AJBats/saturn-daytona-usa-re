@@ -1,6 +1,5 @@
-    .section .text.FUN_06014A42
+	.text
     .global util_wrapper
-    .type util_wrapper, @function
 util_wrapper:
     .byte 0x4F, 0x22
     .byte 0xB2, 0x76

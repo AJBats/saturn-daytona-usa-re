@@ -1,6 +1,5 @@
-    .section .text.FUN_0602DC24
+	.text
     .global vdp1_cmd_init
-    .type vdp1_cmd_init, @function
 vdp1_cmd_init:
     .byte 0x2F, 0xE6
     .byte 0xD0, 0x05

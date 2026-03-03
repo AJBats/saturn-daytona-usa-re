@@ -1,6 +1,5 @@
-    .section .text.FUN_0601AC88
+	.text
     .global replay_cam_main_loop
-    .type replay_cam_main_loop, @function
 replay_cam_main_loop:
     .byte 0x4F, 0x22
     .byte 0xDD, 0x1A

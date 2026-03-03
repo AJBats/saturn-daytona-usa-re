@@ -1,6 +1,5 @@
-    .section .text.FUN_0603660E
+	.text
     .global track_distance_calc
-    .type track_distance_calc, @function
 track_distance_calc:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

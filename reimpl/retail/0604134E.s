@@ -1,6 +1,5 @@
-    .section .text.FUN_0604134E
+	.text
     .global ai_section_check
-    .type ai_section_check, @function
 ai_section_check:
     .byte 0x4F, 0x22
     .byte 0xD3, 0x04

@@ -1,6 +1,5 @@
-    .section .text.FUN_06042ACA
+	.text
     .global palette_engine_core
-    .type palette_engine_core, @function
 palette_engine_core:
     .byte 0x63, 0x53
     .byte 0x62, 0x42

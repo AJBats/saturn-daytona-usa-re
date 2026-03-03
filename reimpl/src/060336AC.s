@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060336AC
-
-
+	.text
     .global course_stats_display
-    .type course_stats_display, @function
 course_stats_display:
     sts.l pr, @-r15
     .byte   0xBF, 0x4F    /* bsr 0x06033550 (external) */

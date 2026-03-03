@@ -1,6 +1,5 @@
-    .section .text.FUN_0603F520
+	.text
     .global audio_event_trigger
-    .type audio_event_trigger, @function
 audio_event_trigger:
     .byte 0x4F, 0x22
     .byte 0xE6, 0x04

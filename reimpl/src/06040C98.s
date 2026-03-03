@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06040C98
-
-
+	.text
     .global road_segment_check
-    .type road_segment_check, @function
 road_segment_check:
     mov.l r14, @-r15
     mov.l r13, @-r15

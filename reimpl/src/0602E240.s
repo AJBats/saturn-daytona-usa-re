@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602E240
-
-
+	.text
     .global vdp2_priority_a
-    .type vdp2_priority_a, @function
 vdp2_priority_a:
     sts.l pr, @-r15
     jsr @r13

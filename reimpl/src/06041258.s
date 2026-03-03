@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06041258
-
-
+	.text
     .global ai_brake_handler
-    .type ai_brake_handler, @function
 ai_brake_handler:
     mov.l r14, @-r15
     sts.l pr, @-r15

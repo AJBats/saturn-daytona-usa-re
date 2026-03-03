@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06027EDE
-
-
+	.text
     .global scene_render_alt
-    .type scene_render_alt, @function
 scene_render_alt:
     mov.l r14, @-r15
     mov.l r13, @-r15

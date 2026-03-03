@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601FD74
-
-
+	.text
     .global geom_display_ctrl_b
-    .type geom_display_ctrl_b, @function
 geom_display_ctrl_b:
     sts.l pr, @-r15
     add #-0x10, r15

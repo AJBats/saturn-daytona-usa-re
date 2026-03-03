@@ -1,6 +1,5 @@
-    .section .text.FUN_06021128
+	.text
     .global obj_render_cleanup
-    .type obj_render_cleanup, @function
 obj_render_cleanup:
     .byte 0x4F, 0x22
     .byte 0xD3, 0x0B

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060032D4
-
-
+	.text
     .global gameover_channel_setup
-    .type gameover_channel_setup, @function
 gameover_channel_setup:
     mov.l r14, @-r15
     mov #0x0, r5

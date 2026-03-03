@@ -1,6 +1,5 @@
-    .section .text.FUN_06041382
+	.text
     .global error_trap_handler
-    .type error_trap_handler, @function
 error_trap_handler:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

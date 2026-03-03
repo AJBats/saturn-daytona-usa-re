@@ -1,6 +1,5 @@
-    .section .text.FUN_0602F9A6
+	.text
     .global track_render_pipeline
-    .type track_render_pipeline, @function
 track_render_pipeline:
     .byte 0x4F, 0x22
     .byte 0x6E, 0xE2

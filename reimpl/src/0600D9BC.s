@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600D9BC
-
-
+	.text
     .global lap_complete_flag
-    .type lap_complete_flag, @function
 lap_complete_flag:
     mov.l r14, @-r15
     sts.l pr, @-r15

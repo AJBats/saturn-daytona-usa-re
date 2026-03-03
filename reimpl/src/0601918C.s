@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601918C
-
-
+	.text
     .global transition_sound_trigger
-    .type transition_sound_trigger, @function
 transition_sound_trigger:
     sts.l pr, @-r15
     mov.l   .L_pool_060191C4, r14

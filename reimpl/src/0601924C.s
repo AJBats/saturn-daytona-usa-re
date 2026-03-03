@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601924C
-
-
+	.text
     .global transition_full_exec
-    .type transition_full_exec, @function
 transition_full_exec:
     sts.l pr, @-r15
     mov.l   .L_06019290, r14

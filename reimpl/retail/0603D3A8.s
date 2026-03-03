@@ -1,6 +1,5 @@
-    .section .text.FUN_0603D3A8
+	.text
     .global bus_lock_table_ctrl
-    .type bus_lock_table_ctrl, @function
 bus_lock_table_ctrl:
     .byte 0x4F, 0x22
     .byte 0xE5, 0x01

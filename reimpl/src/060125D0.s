@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060125D0
-
-
+	.text
     .global lap_display_anim
-    .type lap_display_anim, @function
 lap_display_anim:
     mov.l r14, @-r15
     mov.l r13, @-r15

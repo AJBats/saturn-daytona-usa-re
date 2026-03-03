@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060415C8
-
-
+	.text
     .global track_shadow_test
-    .type track_shadow_test, @function
 track_shadow_test:
     sts.l pr, @-r15
     add #-0x20, r15

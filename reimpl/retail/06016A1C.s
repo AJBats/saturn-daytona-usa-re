@@ -1,6 +1,5 @@
-    .section .text.FUN_06016A1C
+	.text
     .global small_number_render
-    .type small_number_render, @function
 small_number_render:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC

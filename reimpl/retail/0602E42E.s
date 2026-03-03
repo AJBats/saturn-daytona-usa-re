@@ -1,6 +1,5 @@
-    .section .text.FUN_0602E42E
+	.text
     .global rot_scroll_commit
-    .type rot_scroll_commit, @function
 rot_scroll_commit:
     .byte 0x4F, 0x22
     .byte 0x4D, 0x0B

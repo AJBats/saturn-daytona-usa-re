@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06041AA0
-
-
+	.text
     .global track_boundary_check
-    .type track_boundary_check, @function
 track_boundary_check:
     mov.l r14, @-r15
     sts.l pr, @-r15

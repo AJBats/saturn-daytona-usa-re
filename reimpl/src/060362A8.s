@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060362A8
-
-
+	.text
     .global track_bank_calc
-    .type track_bank_calc, @function
 track_bank_calc:
     mov.l r14, @-r15
     mov r5, r14

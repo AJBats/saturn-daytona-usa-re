@@ -1,6 +1,5 @@
-    .section .text.FUN_06036A24
+	.text
     .global shadow_projection
-    .type shadow_projection, @function
 shadow_projection:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF8

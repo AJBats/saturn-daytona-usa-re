@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603B53C
-
-
+	.text
     .global menu_page_transition
-    .type menu_page_transition, @function
 menu_page_transition:
     mov.l r14, @-r15
     mov.l r13, @-r15

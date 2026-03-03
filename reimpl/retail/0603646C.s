@@ -1,6 +1,5 @@
-    .section .text.FUN_0603646C
+	.text
     .global track_road_stub
-    .type track_road_stub, @function
 track_road_stub:
     .byte 0x2F, 0xE6
     .byte 0x6E, 0x43

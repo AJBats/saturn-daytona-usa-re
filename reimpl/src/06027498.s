@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06027498
-
-
+	.text
     .global vec3_normalize
-    .type vec3_normalize, @function
 vec3_normalize:
     mov.l r14, @-r15
     sts.l pr, @-r15

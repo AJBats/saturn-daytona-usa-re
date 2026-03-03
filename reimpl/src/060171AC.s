@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060171AC
-
-
+	.text
     .global vdp2_frame_update
-    .type vdp2_frame_update, @function
 vdp2_frame_update:
     mov.l r14, @-r15
     mov.l r13, @-r15

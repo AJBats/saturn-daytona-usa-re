@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060038D4
-
-
+	.text
     .global dma_vram_init
-    .type dma_vram_init, @function
 dma_vram_init:
     mov.l r14, @-r15
     sts.l pr, @-r15

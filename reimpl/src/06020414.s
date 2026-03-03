@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06020414
-
-
+	.text
     .global obj_destroy
-    .type obj_destroy, @function
 obj_destroy:
     mov.l r14, @-r15
     extu.w r6, r6

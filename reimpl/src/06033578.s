@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06033578
-
-
+	.text
     .global disp_course_thunk_0
-    .type disp_course_thunk_0, @function
 disp_course_thunk_0:
     sts.l pr, @-r15
     .byte   0xB0, 0x3B    /* bsr 0x060335F4 (external) */

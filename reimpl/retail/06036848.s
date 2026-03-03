@@ -1,6 +1,5 @@
-    .section .text.FUN_06036848
+	.text
     .global post_collision_adjust
-    .type post_collision_adjust, @function
 post_collision_adjust:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF8

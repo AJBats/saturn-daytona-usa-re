@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602F7F2
-
-
+	.text
     .global track_texture_map
-    .type track_texture_map, @function
 track_texture_map:
     sts.l pr, @-r15
     mov.l @r14, r14

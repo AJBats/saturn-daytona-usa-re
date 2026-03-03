@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600F650
-
-
+	.text
     .global post_race_transition
-    .type post_race_transition, @function
 post_race_transition:
     mov.l r14, @-r15
     mov.l r13, @-r15

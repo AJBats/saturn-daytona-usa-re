@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601B4D6
-
-
+	.text
     .global disc_error_handler
-    .type disc_error_handler, @function
 disc_error_handler:
     sts.l pr, @-r15
     .byte   0xD3, 0x12    /* mov.l .L_0601B524, r3 */

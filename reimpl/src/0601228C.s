@@ -1,10 +1,5 @@
-
-    .section .text.FUN_0601228C
-
-
+	.text
     .global lap_timer_ctrl
-    .type lap_timer_ctrl, @function
-
 lap_timer_ctrl:
     sts.l pr, @-r15
     mov.l   .L_pool_060122D8, r4

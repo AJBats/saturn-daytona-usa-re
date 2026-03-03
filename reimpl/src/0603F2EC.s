@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603F2EC
-
-
+	.text
     .global credits_text_format
-    .type credits_text_format, @function
 credits_text_format:
     sts.l pr, @-r15
     add #-0x38, r15

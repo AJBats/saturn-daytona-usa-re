@@ -1,9 +1,5 @@
-
-   .section .text.FUN_0600ADD4
-
-
+	.text
    .global camera_car_transform
-   .type camera_car_transform, @function
 camera_car_transform:
     mov.l r14, @-r15
     mov.l r13, @-r15

@@ -1,6 +1,5 @@
-    .section .text.FUN_060140C8
+	.text
     .global render_iter_loop
-    .type render_iter_loop, @function
 render_iter_loop:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC

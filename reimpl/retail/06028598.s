@@ -1,6 +1,5 @@
-    .section .text.FUN_06028598
+	.text
     .global particle_sys_mgr
-    .type particle_sys_mgr, @function
 particle_sys_mgr:
     .byte 0x4F, 0x22
     .byte 0x6E, 0x63

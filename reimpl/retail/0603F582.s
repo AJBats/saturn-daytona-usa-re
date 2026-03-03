@@ -1,6 +1,5 @@
-    .section .text.FUN_0603F582
+	.text
     .global vblank_dma_chain
-    .type vblank_dma_chain, @function
 vblank_dma_chain:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

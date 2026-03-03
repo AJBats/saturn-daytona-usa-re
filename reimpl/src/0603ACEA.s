@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603ACEA
-
-
+	.text
     .global menu_input_proc
-    .type menu_input_proc, @function
 menu_input_proc:
     mov.l r14, @-r15
     mov.l r13, @-r15

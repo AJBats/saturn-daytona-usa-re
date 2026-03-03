@@ -1,6 +1,5 @@
-    .section .text.FUN_06005788
+	.text
     .global bg_layer_init
-    .type bg_layer_init, @function
 bg_layer_init:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

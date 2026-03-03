@@ -1,6 +1,5 @@
-    .section .text.FUN_060067C8
+	.text
     .global steering_input_dispatch
-    .type steering_input_dispatch, @function
 steering_input_dispatch:
     .byte 0x4F, 0x22
     .byte 0xD3, 0x14

@@ -1,6 +1,5 @@
-    .section .text.FUN_06005928
+	.text
     .global anim_frame_counter
-    .type anim_frame_counter, @function
 anim_frame_counter:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

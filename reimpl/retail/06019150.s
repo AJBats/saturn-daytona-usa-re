@@ -1,6 +1,5 @@
-    .section .text.FUN_06019150
+	.text
     .global transition_fade_ctrl
-    .type transition_fade_ctrl, @function
 transition_fade_ctrl:
     .byte 0x4F, 0x22
     .byte 0xDE, 0x1C

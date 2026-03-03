@@ -1,6 +1,5 @@
-    .section .text.FUN_0603B058
+	.text
     .global menu_element_dispatch
-    .type menu_element_dispatch, @function
 menu_element_dispatch:
     .byte 0x4F, 0x22
     .byte 0x62, 0x43

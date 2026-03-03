@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060162AC
-
-
+	.text
     .global results_time_column
-    .type results_time_column, @function
 results_time_column:
     sts.l pr, @-r15
     shll2 r12

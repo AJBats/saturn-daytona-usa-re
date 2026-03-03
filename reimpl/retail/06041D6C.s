@@ -1,6 +1,5 @@
-    .section .text.FUN_06041D6C
+	.text
     .global large_func_prologue
-    .type large_func_prologue, @function
 large_func_prologue:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

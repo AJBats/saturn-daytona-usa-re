@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06005120
-
-
+	.text
     .global hw_render_dispatch
-    .type hw_render_dispatch, @function
 hw_render_dispatch:
     mov.l r14, @-r15
     and r7, r3

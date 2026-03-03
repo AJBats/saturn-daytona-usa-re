@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06020E84
-
-
+	.text
     .global obj_render_setup
-    .type obj_render_setup, @function
 obj_render_setup:
     sts.l pr, @-r15
     add #-0x4, r15

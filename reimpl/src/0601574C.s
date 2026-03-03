@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601574C
-
-
+	.text
     .global hud_minimap_stub
-    .type hud_minimap_stub, @function
 hud_minimap_stub:
     mov.l r14, @-r15
     mov r4, r14

@@ -1,6 +1,5 @@
-    .section .text.FUN_06035F04
+	.text
     .global input_proc_extended
-    .type input_proc_extended, @function
 input_proc_extended:
     .byte 0x4F, 0x22
     .byte 0x61, 0x43

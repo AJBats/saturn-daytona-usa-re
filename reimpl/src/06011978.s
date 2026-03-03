@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06011978
-
-
+	.text
     .global vertex_transform_rot
-    .type vertex_transform_rot, @function
 vertex_transform_rot:
     mov.l r14, @-r15
     mov.l r13, @-r15

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06012454
-
-
+	.text
     .global file_format_parse
-    .type file_format_parse, @function
 file_format_parse:
     sts.l pr, @-r15
     add #-0x4, r15

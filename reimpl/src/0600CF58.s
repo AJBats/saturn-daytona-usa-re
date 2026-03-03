@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600CF58
-
-
+	.text
     .global collision_dispatch
-    .type collision_dispatch, @function
 collision_dispatch:
     mov.l r14, @-r15
     mov.l r13, @-r15

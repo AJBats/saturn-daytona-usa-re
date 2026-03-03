@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060064F2
-
-
+	.text
     .global scene_fallback_render
-    .type scene_fallback_render, @function
 scene_fallback_render:
     mov.l r14, @-r15
     mov.l r13, @-r15

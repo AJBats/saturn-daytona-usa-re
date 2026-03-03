@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600A140
-
-
+	.text
     .global vdp1_init
-    .type vdp1_init, @function
 vdp1_init:
     mov.l r14, @-r15
     sts.l pr, @-r15

@@ -1,6 +1,5 @@
-    .section .text.FUN_0603AEE8
+	.text
     .global cmd_queue_process
-    .type cmd_queue_process, @function
 cmd_queue_process:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

@@ -1,6 +1,5 @@
-    .section .text.FUN_0602E462
+	.text
     .global rot_scroll_interp
-    .type rot_scroll_interp, @function
 rot_scroll_interp:
     .byte 0x4F, 0x22
     .byte 0x64, 0x4B

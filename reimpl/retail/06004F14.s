@@ -1,6 +1,5 @@
-    .section .text.FUN_06004F14
+	.text
     .global obj_transform_cache
-    .type obj_transform_cache, @function
 obj_transform_cache:
     .byte 0x2F, 0xE6
     .byte 0xE3, 0x04

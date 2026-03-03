@@ -1,6 +1,5 @@
-    .section .text.FUN_0603EF64
+	.text
     .global attract_init_setup
-    .type attract_init_setup, @function
 attract_init_setup:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC

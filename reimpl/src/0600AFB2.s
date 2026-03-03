@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600AFB2
-
-
+	.text
     .global camera_track_setup
-    .type camera_track_setup, @function
 camera_track_setup:
     mov.l r14, @-r15
     mov.l r13, @-r15

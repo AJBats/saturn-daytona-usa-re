@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060198E0
-
-
+	.text
     .global car_select_setup
-    .type car_select_setup, @function
 car_select_setup:
     sts.l pr, @-r15
     mov.l   .L_06019910, r3

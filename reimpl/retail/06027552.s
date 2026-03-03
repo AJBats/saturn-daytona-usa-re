@@ -1,6 +1,5 @@
-    .section .text.FUN_06027552
+	.text
     .global fpmul
-    .type fpmul, @function
 fpmul:
     .byte 0x35, 0x4D
     .byte 0x04, 0x0A

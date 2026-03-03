@@ -1,9 +1,5 @@
-
-   .section .text.FUN_06038AC8
-
-
+	.text
    .global display_mode_config
-   .type display_mode_config, @function
 display_mode_config:
     mov.l r14, @-r15
     mov.l r13, @-r15

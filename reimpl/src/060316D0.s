@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060316D0
-
-
+	.text
     .global collision_impulse
-    .type collision_impulse, @function
 collision_impulse:
     mov.l r14, @-r15
     sts.l pr, @-r15
@@ -32,7 +28,6 @@ collision_impulse:
     mov.l   .L_pool_06031754, r0
 
     .global collision_order_a
-    .type collision_order_a, @function
 collision_order_a:
     sts.l pr, @-r15
     jsr @r0
@@ -258,7 +253,6 @@ DAT_060317c6:
     mov.l   .L_pool_060318E8, r0
 
     .global collision_order_b
-    .type collision_order_b, @function
 collision_order_b:
     sts.l pr, @-r15
     jsr @r0

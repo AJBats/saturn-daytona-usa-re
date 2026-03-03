@@ -1,6 +1,5 @@
-    .section .text.FUN_06005294
+	.text
     .global vec3_angle_calc
-    .type vec3_angle_calc, @function
 vec3_angle_calc:
     .byte 0x2F, 0xE6
     .byte 0x6E, 0x43

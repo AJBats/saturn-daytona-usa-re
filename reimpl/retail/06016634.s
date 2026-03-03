@@ -1,6 +1,5 @@
-    .section .text.FUN_06016634
+	.text
     .global results_transition
-    .type results_transition, @function
 results_transition:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF0

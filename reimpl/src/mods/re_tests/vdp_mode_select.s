@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06010D94
-
-
+	.text
     .global vdp_mode_select
-    .type vdp_mode_select, @function
 vdp_mode_select:
     mov.l r14, @-r15
     mov #0xA, r2

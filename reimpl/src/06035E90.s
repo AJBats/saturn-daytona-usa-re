@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06035E90
-
-
+	.text
     .global input_proc_analog
-    .type input_proc_analog, @function
 input_proc_analog:
     sts.l pr, @-r15
     mov r4, r1

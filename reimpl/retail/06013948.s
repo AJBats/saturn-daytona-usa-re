@@ -1,6 +1,5 @@
-    .section .text.FUN_06013948
+	.text
     .global score_calculator
-    .type score_calculator, @function
 score_calculator:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

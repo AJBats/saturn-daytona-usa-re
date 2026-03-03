@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603F4CC
-
-
+	.text
     .global audio_state_update
-    .type audio_state_update, @function
 audio_state_update:
     sts.l pr, @-r15
     mov #0x2, r6

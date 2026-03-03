@@ -1,6 +1,5 @@
-    .section .text.FUN_0601BA50
+	.text
     .global replay_record_frame
-    .type replay_record_frame, @function
 replay_record_frame:
     .byte 0x2F, 0xE6
     .byte 0x60, 0x53

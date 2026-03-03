@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603FD40
-
-
+	.text
     .global dma_param_chain_init
-    .type dma_param_chain_init, @function
 dma_param_chain_init:
     mov.l r14, @-r15
     mov #0x64, r0

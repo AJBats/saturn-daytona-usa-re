@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602E892
-
-
+	.text
     .global main_scene_render
-    .type main_scene_render, @function
 main_scene_render:
     sts.l pr, @-r15
     jsr @r13

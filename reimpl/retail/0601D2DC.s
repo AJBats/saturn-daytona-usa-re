@@ -1,6 +1,5 @@
-    .section .text.FUN_0601D2DC
+	.text
     .global render_coord_transform
-    .type render_coord_transform, @function
 render_coord_transform:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

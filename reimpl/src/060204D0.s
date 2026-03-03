@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060204D0
-
-
+	.text
     .global obj_list_proc
-    .type obj_list_proc, @function
 obj_list_proc:
     mov.l r14, @-r15
     sts.l pr, @-r15

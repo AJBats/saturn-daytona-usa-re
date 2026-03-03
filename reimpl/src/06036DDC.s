@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06036DDC
-
-
+	.text
     .global display_buffer_init
-    .type display_buffer_init, @function
 display_buffer_init:
     mov.l r14, @-r15
     mov.l r13, @-r15

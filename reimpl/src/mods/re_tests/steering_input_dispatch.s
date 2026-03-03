@@ -6,12 +6,8 @@
  *   Line 46: .2byte 0x4000 → 0x8000  (was LEFT mask, now RIGHT)
  *   Line 64: .4byte 0x00008000 → 0x00004000  (was RIGHT mask, now LEFT)
  */
-
-    .section .text.FUN_060067C8
-
-
+	.text
     .global steering_input_dispatch
-    .type steering_input_dispatch, @function
 steering_input_dispatch:
     sts.l pr, @-r15
     mov.l   .L_pool_0600681C, r3

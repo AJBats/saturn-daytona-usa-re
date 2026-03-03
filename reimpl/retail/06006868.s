@@ -1,6 +1,5 @@
-    .section .text.FUN_06006868
+	.text
     .global scene_post_render
-    .type scene_post_render, @function
 scene_post_render:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

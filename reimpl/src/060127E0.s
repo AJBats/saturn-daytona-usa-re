@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060127E0
-
-
+	.text
     .global hud_menu_logic
-    .type hud_menu_logic, @function
 hud_menu_logic:
     mov.l r14, @-r15
     mov.l r13, @-r15

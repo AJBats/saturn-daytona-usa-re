@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06008A18
-
-
+	.text
     .global state_attract_active
-    .type state_attract_active, @function
 state_attract_active:
     mov.l r14, @-r15
     sts.l pr, @-r15

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603836C
-
-
+	.text
     .global vdp2_regs_setup
-    .type vdp2_regs_setup, @function
 vdp2_regs_setup:
     mov.l r14, @-r15
     mov.l r13, @-r15

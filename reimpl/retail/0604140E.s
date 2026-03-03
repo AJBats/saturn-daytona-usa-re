@@ -1,6 +1,5 @@
-    .section .text.FUN_0604140E
+	.text
     .global nmi_handler
-    .type nmi_handler, @function
 nmi_handler:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF4

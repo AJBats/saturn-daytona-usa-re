@@ -1,6 +1,5 @@
-    .section .text.FUN_06013E14
+	.text
     .global score_commit_save
-    .type score_commit_save, @function
 score_commit_save:
     .byte 0x2F, 0xE6
     .byte 0xD0, 0x07

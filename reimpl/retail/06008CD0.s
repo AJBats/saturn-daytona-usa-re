@@ -1,6 +1,5 @@
-    .section .text.FUN_06008CD0
+	.text
     .global state_mode_select_setup
-    .type state_mode_select_setup, @function
 state_mode_select_setup:
     .byte 0x4F, 0x22
     .byte 0xD3, 0x1A

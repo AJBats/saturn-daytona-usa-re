@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060329BC
-
-
+	.text
     .global hud_speed_suffix
-    .type hud_speed_suffix, @function
 hud_speed_suffix:
     sts.l pr, @-r15
     jsr @r0

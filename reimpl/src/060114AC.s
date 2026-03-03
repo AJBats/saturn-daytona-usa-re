@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060114AC
-
-
+	.text
     .global anim_ui_transition
-    .type anim_ui_transition, @function
 anim_ui_transition:
     mov.l r14, @-r15
     mov.l r13, @-r15

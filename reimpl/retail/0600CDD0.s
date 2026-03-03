@@ -1,6 +1,5 @@
-    .section .text.FUN_0600CDD0
+	.text
     .global race_heading_calc
-    .type race_heading_calc, @function
 race_heading_calc:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

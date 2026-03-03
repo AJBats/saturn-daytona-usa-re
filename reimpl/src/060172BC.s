@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060172BC
-
-
+	.text
     .global vdp2_loop_ctrl
-    .type vdp2_loop_ctrl, @function
 vdp2_loop_ctrl:
     mov.l r14, @-r15
     mov.l r13, @-r15

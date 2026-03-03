@@ -1,6 +1,5 @@
-    .section .text.FUN_060053AC
+	.text
     .global camera_orient_calc
-    .type camera_orient_calc, @function
 camera_orient_calc:
     .byte 0x2F, 0xE6
     .byte 0x6E, 0x43

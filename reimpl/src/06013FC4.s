@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06013FC4
-
-
+	.text
     .global bg_obj_render_loop
-    .type bg_obj_render_loop, @function
 bg_obj_render_loop:
     mov.l r14, @-r15
     mov.l r13, @-r15

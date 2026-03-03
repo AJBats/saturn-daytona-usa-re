@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06005C98
-
-
+	.text
     .global world_camera_update
-    .type world_camera_update, @function
 world_camera_update:
     mov.l r14, @-r15
     mov.l r13, @-r15

@@ -1,6 +1,5 @@
-    .section .text.FUN_06014F34
+	.text
     .global ai_position_ranking
-    .type ai_position_ranking, @function
 ai_position_ranking:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06032898
-
-
+	.text
     .global speed_ones_digit
-    .type speed_ones_digit, @function
 speed_ones_digit:
     sts.l pr, @-r15
     jsr @r0

@@ -1,6 +1,5 @@
-    .section .text.FUN_0602E61C
+	.text
     .global palette_fade_calc
-    .type palette_fade_calc, @function
 palette_fade_calc:
     .byte 0x2F, 0xE6
     .byte 0xD9, 0x06

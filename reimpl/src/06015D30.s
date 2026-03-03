@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06015D30
-
-
+	.text
     .global position_suffix_ordinal
-    .type position_suffix_ordinal, @function
 position_suffix_ordinal:
     mov.l r14, @-r15
     mov.l r13, @-r15

@@ -1,6 +1,5 @@
-    .section .text.FUN_06041B3C
+	.text
     .global track_surface_validate
-    .type track_surface_validate, @function
 track_surface_validate:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

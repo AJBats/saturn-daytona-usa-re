@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06007790
-
-
+	.text
     .global vdp1_sprite_render_alt
-    .type vdp1_sprite_render_alt, @function
 vdp1_sprite_render_alt:
     mov.l r14, @-r15
     mov.l r13, @-r15

@@ -1,6 +1,5 @@
-    .section .text.FUN_06012DB4
+	.text
     .global cd_texture_loader
-    .type cd_texture_loader, @function
 cd_texture_loader:
     .byte 0x2F, 0xE6
     .byte 0x60, 0x43

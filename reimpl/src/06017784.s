@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06017784
-
-
+	.text
     .global geom_computation
-    .type geom_computation, @function
 geom_computation:
     mov.l r14, @-r15
     mov.l r13, @-r15

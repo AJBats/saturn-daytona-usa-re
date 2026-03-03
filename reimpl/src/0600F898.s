@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600F898
-
-
+	.text
     .global transition_minimal
-    .type transition_minimal, @function
 transition_minimal:
     sts.l pr, @-r15
     .byte   0xD3, 0x13    /* mov.l .L_pool_0600F8E8, r3 */

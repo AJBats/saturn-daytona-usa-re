@@ -1,6 +1,5 @@
-    .section .text.FUN_06020814
+	.text
     .global obj_culling_pass
-    .type obj_culling_pass, @function
 obj_culling_pass:
     .byte 0x2F, 0xE6
     .byte 0x60, 0x43

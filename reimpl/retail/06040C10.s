@@ -1,6 +1,5 @@
-    .section .text.FUN_06040C10
+	.text
     .global evt_state_dispatch
-    .type evt_state_dispatch, @function
 evt_state_dispatch:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF8

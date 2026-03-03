@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600CC38
-
-
+	.text
     .global heading_correct
-    .type heading_correct, @function
 heading_correct:
     mov.l r14, @-r15
     mov.l r11, @-r15

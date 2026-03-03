@@ -1,6 +1,5 @@
-    .section .text.FUN_0600C74E
+	.text
     .global ai_orchestrator
-    .type ai_orchestrator, @function
 ai_orchestrator:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

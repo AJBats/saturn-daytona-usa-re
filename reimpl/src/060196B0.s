@@ -6,13 +6,8 @@
  *   A/C advance is handled by dispatched per-item renderers, not this function
  * Date: 2026-02-28
  */
-
-
-    .section .text.FUN_060196B0
-
-
+	.text
     .global mode_select_handler
-    .type mode_select_handler, @function
 mode_select_handler:
     sts.l pr, @-r15
     add #-0xC, r15

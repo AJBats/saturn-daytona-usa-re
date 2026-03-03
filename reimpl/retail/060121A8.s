@@ -1,6 +1,5 @@
-    .section .text.FUN_060121A8
+	.text
     .global race_cleanup_handler
-    .type race_cleanup_handler, @function
 race_cleanup_handler:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

@@ -1,6 +1,5 @@
-    .section .text.FUN_06036918
+	.text
     .global track_impact_vel_update
-    .type track_impact_vel_update, @function
 track_impact_vel_update:
     .byte 0x2F, 0xE6
     .byte 0x6E, 0x73

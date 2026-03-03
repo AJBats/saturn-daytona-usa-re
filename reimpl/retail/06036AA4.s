@@ -1,6 +1,5 @@
-    .section .text.FUN_06036AA4
+	.text
     .global dynamic_shadow_shape
-    .type dynamic_shadow_shape, @function
 dynamic_shadow_shape:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF0

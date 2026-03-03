@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06032604
-
-
+	.text
     .global position_thunk_0
-    .type position_thunk_0, @function
 position_thunk_0:
     sts.l pr, @-r15
     jsr @r0

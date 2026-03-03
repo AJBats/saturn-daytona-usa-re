@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603101E
-
-
+	.text
     .global hud_number_render
-    .type hud_number_render, @function
 hud_number_render:
     sts.l pr, @-r15
     jsr @r0

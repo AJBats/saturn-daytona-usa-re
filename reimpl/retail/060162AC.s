@@ -1,6 +1,5 @@
-    .section .text.FUN_060162AC
+	.text
     .global results_time_column
-    .type results_time_column, @function
 results_time_column:
     .byte 0x4F, 0x22
     .byte 0x4C, 0x08

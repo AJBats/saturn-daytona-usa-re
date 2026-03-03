@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060418BE
-
-
+	.text
     .global track_road_validate
-    .type track_road_validate, @function
 track_road_validate:
     mov.l r14, @-r15
     mov.l r13, @-r15

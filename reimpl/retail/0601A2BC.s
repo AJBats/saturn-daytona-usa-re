@@ -1,6 +1,5 @@
-    .section .text.FUN_0601A2BC
+	.text
     .global start_light_render
-    .type start_light_render, @function
 start_light_render:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

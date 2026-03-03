@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060092D0
-
-
+	.text
     .global state_post_lap
-    .type state_post_lap, @function
 state_post_lap:
     mov.l r14, @-r15
     mov.l r13, @-r15

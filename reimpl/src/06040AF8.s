@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06040AF8
-
-
+	.text
     .global event_priority_set
-    .type event_priority_set, @function
 event_priority_set:
     mov.l r14, @-r15
     sts.l pr, @-r15

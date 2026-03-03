@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601A0F0
-
-
+	.text
     .global grid_position_camera
-    .type grid_position_camera, @function
 grid_position_camera:
     mov.l r14, @-r15
     mov.l r13, @-r15

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603BC12
-
-
+	.text
     .global save_size_calc
-    .type save_size_calc, @function
 save_size_calc:
     mov.l r14, @-r15
     mov.l r13, @-r15

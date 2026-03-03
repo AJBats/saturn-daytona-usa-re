@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06004670
-
-
+	.text
     .global obj_template_init
-    .type obj_template_init, @function
 obj_template_init:
     mov.l r14, @-r15
     mov #0x0, r14

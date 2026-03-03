@@ -1,6 +1,5 @@
-    .section .text.FUN_06018FFC
+	.text
     .global restore_state_snapshot
-    .type restore_state_snapshot, @function
 restore_state_snapshot:
     .byte 0x4F, 0x22
     .byte 0xDE, 0x0F

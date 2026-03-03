@@ -1,6 +1,5 @@
-    .section .text.FUN_060209AC
+	.text
     .global obj_anim_driver
-    .type obj_anim_driver, @function
 obj_anim_driver:
     .byte 0x2F, 0xE6
     .byte 0x60, 0x43

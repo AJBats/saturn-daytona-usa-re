@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601B170
-
-
+	.text
     .global disc_load_mgr
-    .type disc_load_mgr, @function
 disc_load_mgr:
     sts.l pr, @-r15
     add #-0xC, r15

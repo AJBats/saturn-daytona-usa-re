@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060422F0
-
-
+	.text
     .global validator_dispatch
-    .type validator_dispatch, @function
 validator_dispatch:
     sts.l pr, @-r15
     add #-0x4, r15

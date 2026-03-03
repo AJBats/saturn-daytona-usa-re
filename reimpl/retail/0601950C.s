@@ -1,6 +1,5 @@
-    .section .text.FUN_0601950C
+	.text
     .global course_select_draw
-    .type course_select_draw, @function
 course_select_draw:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

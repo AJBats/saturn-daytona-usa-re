@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06005ECC
-
-
+	.text
     .global segment_position_track
-    .type segment_position_track, @function
 segment_position_track:
     mov.l r14, @-r15
     mov.l r13, @-r15

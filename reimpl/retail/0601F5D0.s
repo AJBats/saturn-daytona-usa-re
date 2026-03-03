@@ -1,6 +1,5 @@
-    .section .text.FUN_0601F5D0
+	.text
     .global mem_pool_reset
-    .type mem_pool_reset, @function
 mem_pool_reset:
     .byte 0x4F, 0x22
     .byte 0xB1, 0x52
@@ -9,9 +8,8 @@ mem_pool_reset:
     .byte 0x43, 0x2B
     .byte 0x4F, 0x26
     .4byte geom_vertex_process
-    .section .text.FUN_0601F5E0
+	.text
     .global geom_render_util
-    .type geom_render_util, @function
 geom_render_util:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
@@ -208,9 +206,8 @@ DAT_0601f6ba:
     .byte 0xFF, 0xFF
     .4byte hud_overlay_render
     .4byte geom_rotation_apply
-    .section .text.FUN_0601F784
+	.text
     .global geom_output_finalize
-    .type geom_output_finalize, @function
 geom_output_finalize:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
@@ -361,9 +358,8 @@ DAT_0601f806:
 sym_0601F8BC:
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
-    .section .text.FUN_0601F8C0
+	.text
     .global geom_output_ctrl
-    .type geom_output_ctrl, @function
 geom_output_ctrl:
     .byte 0x4F, 0x22
     .byte 0xE3, 0x00
@@ -394,9 +390,8 @@ geom_output_ctrl:
     .4byte sym_0605E05C
     .4byte sym_060149E0
     .4byte sym_060149CC
-    .section .text.FUN_0601F900
+	.text
     .global geom_output_dispatch
-    .type geom_output_dispatch, @function
 geom_output_dispatch:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC
@@ -428,9 +423,8 @@ geom_output_dispatch:
     .global sym_0601F936
 sym_0601F936:
     .byte 0xE3, 0x00
-    .section .text.FUN_0601F938
+	.text
     .global resource_validator
-    .type resource_validator, @function
 resource_validator:
     .byte 0x2F, 0xE6
     .byte 0x64, 0x33
@@ -505,9 +499,8 @@ DAT_0601f964:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .section .text.FUN_0601F9CC
+	.text
     .global geom_output_main
-    .type geom_output_main, @function
 geom_output_main:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
@@ -930,9 +923,8 @@ DAT_0601fc9c:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .section .text.FUN_0601FD20
+	.text
     .global geom_display_ctrl_a
-    .type geom_display_ctrl_a, @function
 geom_display_ctrl_a:
     .byte 0x4F, 0x22
     .byte 0xD4, 0x0D

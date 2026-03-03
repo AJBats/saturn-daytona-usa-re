@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060103B8
-
-
+	.text
     .global brake_state_toggle
-    .type brake_state_toggle, @function
 brake_state_toggle:
     mov.l r14, @-r15
     extu.w r4, r3

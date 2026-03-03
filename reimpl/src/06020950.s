@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06020950
-
-
+	.text
     .global obj_lod_selector
-    .type obj_lod_selector, @function
 obj_lod_selector:
     sts.l pr, @-r15
     add #-0x5C, r15

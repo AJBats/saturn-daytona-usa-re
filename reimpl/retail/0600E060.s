@@ -1,6 +1,5 @@
-    .section .text.FUN_0600E060
+	.text
     .global race_update_ending
-    .type race_update_ending, @function
 race_update_ending:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

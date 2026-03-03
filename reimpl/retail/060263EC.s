@@ -1,6 +1,5 @@
-    .section .text.FUN_060263EC
+	.text
     .global transform_heading_alt
-    .type transform_heading_alt, @function
 transform_heading_alt:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

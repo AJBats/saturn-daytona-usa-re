@@ -1,6 +1,5 @@
-    .section .text.FUN_0601EFC4
+	.text
     .global geom_batch_transform
-    .type geom_batch_transform, @function
 geom_batch_transform:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xC6

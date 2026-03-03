@@ -1,6 +1,5 @@
-    .section .text.FUN_0602EFDA
+	.text
     .global track_seg_visibility
-    .type track_seg_visibility, @function
 track_seg_visibility:
     .byte 0x4F, 0x22
     .byte 0x4C, 0x0B

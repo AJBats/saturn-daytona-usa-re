@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601ABC8
-
-
+	.text
     .global replay_cam_pos_select
-    .type replay_cam_pos_select, @function
 replay_cam_pos_select:
     sts.l pr, @-r15
     extu.b r4, r3

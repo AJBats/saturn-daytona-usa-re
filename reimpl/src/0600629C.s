@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600629C
-
-
+	.text
     .global car_array_init
-    .type car_array_init, @function
 car_array_init:
     mov.l r14, @-r15
     mov.l r13, @-r15

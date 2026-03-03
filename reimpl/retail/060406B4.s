@@ -1,6 +1,5 @@
-    .section .text.FUN_060406B4
+	.text
     .global timer_stub
-    .type timer_stub, @function
 timer_stub:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

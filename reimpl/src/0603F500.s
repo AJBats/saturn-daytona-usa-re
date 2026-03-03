@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603F500
-
-
+	.text
     .global audio_sync_slave
-    .type audio_sync_slave, @function
 audio_sync_slave:
     sts.l pr, @-r15
     mov #0x4, r6

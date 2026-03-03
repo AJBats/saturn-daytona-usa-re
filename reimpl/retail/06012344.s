@@ -1,6 +1,5 @@
-    .section .text.FUN_06012344
+	.text
     .global file_data_parse
-    .type file_data_parse, @function
 file_data_parse:
     .byte 0x2F, 0xE6
     .byte 0xE3, 0x00

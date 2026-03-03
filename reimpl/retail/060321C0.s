@@ -1,6 +1,5 @@
-    .section .text.FUN_060321C0
+	.text
     .global disp_init_setup
-    .type disp_init_setup, @function
 disp_init_setup:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

@@ -1,6 +1,5 @@
-    .section .text.FUN_0601E48C
+	.text
     .global mat_identity_set
-    .type mat_identity_set, @function
 mat_identity_set:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC

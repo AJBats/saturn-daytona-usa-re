@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601EBDA
-
-
+	.text
     .global geom_vertex_compute
-    .type geom_vertex_compute, @function
 geom_vertex_compute:
     mov.l r14, @-r15
     mov.l r12, @-r15

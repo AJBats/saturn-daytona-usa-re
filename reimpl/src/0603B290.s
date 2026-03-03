@@ -1,8 +1,5 @@
-
-    .section .text.FUN_0603B290
-
+	.text
     .global menu_list_scroll
-    .type menu_list_scroll, @function
 menu_list_scroll:
     mov.l r14, @-r15
     mov r4, r14

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060414D0
-
-
+	.text
     .global track_segment_interp
-    .type track_segment_interp, @function
 track_segment_interp:
     mov.l r14, @-r15
     sts.l pr, @-r15

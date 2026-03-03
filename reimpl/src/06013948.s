@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06013948
-
-
+	.text
     .global score_calculator
-    .type score_calculator, @function
 score_calculator:
     mov.l r14, @-r15
     mov.l r13, @-r15

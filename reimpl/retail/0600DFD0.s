@@ -1,6 +1,5 @@
-    .section .text.FUN_0600DFD0
+	.text
     .global race_update_abort
-    .type race_update_abort, @function
 race_update_abort:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

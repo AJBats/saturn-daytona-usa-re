@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06030E72
-
-
+	.text
     .global sound_channel_mgr
-    .type sound_channel_mgr, @function
 sound_channel_mgr:
     sts.l pr, @-r15
     jsr @r0

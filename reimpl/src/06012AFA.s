@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06012AFA
-
-
+	.text
     .global car_param_lookup
-    .type car_param_lookup, @function
 car_param_lookup:
     mov.l r14, @-r15
     sts.l pr, @-r15

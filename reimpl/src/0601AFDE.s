@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601AFDE
-
-
+	.text
     .global replay_cam_cleanup
-    .type replay_cam_cleanup, @function
 replay_cam_cleanup:
     sts.l pr, @-r15
     mov r6, r5

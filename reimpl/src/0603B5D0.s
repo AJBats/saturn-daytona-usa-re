@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603B5D0
-
-
+	.text
     .global menu_bg_color
-    .type menu_bg_color, @function
 menu_bg_color:
     sts.l pr, @-r15
     mov r4, r3

@@ -1,6 +1,5 @@
-    .section .text.FUN_0603B3FE
+	.text
     .global menu_header_render
-    .type menu_header_render, @function
 menu_header_render:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC

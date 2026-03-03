@@ -1,6 +1,5 @@
-    .section .text.FUN_0601250C
+	.text
     .global hud_lap_gfx_update
-    .type hud_lap_gfx_update, @function
 hud_lap_gfx_update:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

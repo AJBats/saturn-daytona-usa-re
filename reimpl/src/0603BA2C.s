@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603BA2C
-
-
+	.text
     .global save_field_write
-    .type save_field_write, @function
 save_field_write:
     mov.l r14, @-r15
     mov.l r13, @-r15

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600330A
-
-
+	.text
     .global vdp_init_advanced
-    .type vdp_init_advanced, @function
 vdp_init_advanced:
     mov.l r14, @-r15
     mov.l r13, @-r15

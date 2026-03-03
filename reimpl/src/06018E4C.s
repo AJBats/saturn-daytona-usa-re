@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06018E4C
-
-
+	.text
     .global mode_flag_set_b
-    .type mode_flag_set_b, @function
 mode_flag_set_b:
     sts.l pr, @-r15
     mov #0x3, r4

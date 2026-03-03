@@ -1,6 +1,5 @@
-    .section .text.FUN_0603B1B6
+	.text
     .global cmd_validate_chain
-    .type cmd_validate_chain, @function
 cmd_validate_chain:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

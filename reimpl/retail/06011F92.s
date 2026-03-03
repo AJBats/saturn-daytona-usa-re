@@ -1,6 +1,5 @@
-    .section .text.FUN_06011F92
+	.text
     .global throttle_input_proc
-    .type throttle_input_proc, @function
 throttle_input_proc:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

@@ -1,6 +1,5 @@
-    .section .text.FUN_06040964
+	.text
     .global evt_condition_return
-    .type evt_condition_return, @function
 evt_condition_return:
     .byte 0x4F, 0x22
     .byte 0xD3, 0x12

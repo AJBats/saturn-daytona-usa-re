@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060333F4
-
-
+	.text
     .global disp_result_sub_c
-    .type disp_result_sub_c, @function
 disp_result_sub_c:
     sts.l pr, @-r15
     .byte   0xB0, 0xAB    /* bsr 0x06033550 (external) */

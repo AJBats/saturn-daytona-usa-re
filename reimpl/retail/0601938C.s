@@ -1,6 +1,5 @@
-    .section .text.FUN_0601938C
+	.text
     .global palette_frame_effects
-    .type palette_frame_effects, @function
 palette_frame_effects:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

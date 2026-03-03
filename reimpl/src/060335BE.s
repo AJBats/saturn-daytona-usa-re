@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060335BE
-
-
+	.text
     .global course_name_render
-    .type course_name_render, @function
 course_name_render:
     sts.l pr, @-r15
     jsr @r0

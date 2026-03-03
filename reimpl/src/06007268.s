@@ -1,10 +1,5 @@
-
-
-    .section .text.FUN_06007268
-
-
+	.text
     .global vblank_out_handler
-    .type vblank_out_handler, @function
 vblank_out_handler:
     sts.l pr, @-r15
     mov.l   .L_pool_060072C0, r3

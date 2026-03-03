@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603312C
-
-
+	.text
     .global color_anim_ctrl
-    .type color_anim_ctrl, @function
 color_anim_ctrl:
     sts.l pr, @-r15
     .byte   0xB0, 0x6D    /* bsr 0x0603320C (external) */

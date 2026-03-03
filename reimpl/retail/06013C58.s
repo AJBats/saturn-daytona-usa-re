@@ -1,6 +1,5 @@
-    .section .text.FUN_06013C58
+	.text
     .global lap_time_display
-    .type lap_time_display, @function
 lap_time_display:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

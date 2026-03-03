@@ -1,6 +1,5 @@
-    .section .text.FUN_0601A3F4
+	.text
     .global car_physics_final
-    .type car_physics_final, @function
 car_physics_final:
     .byte 0x2F, 0xE6
     .byte 0xE6, 0x03

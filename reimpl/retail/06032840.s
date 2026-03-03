@@ -1,6 +1,5 @@
-    .section .text.FUN_06032840
+	.text
     .global speed_hundreds_digit
-    .type speed_hundreds_digit, @function
 speed_hundreds_digit:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B

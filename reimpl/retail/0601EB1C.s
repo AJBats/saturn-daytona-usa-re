@@ -1,6 +1,5 @@
-    .section .text.FUN_0601EB1C
+	.text
     .global geom_rotation_apply
-    .type geom_rotation_apply, @function
 geom_rotation_apply:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

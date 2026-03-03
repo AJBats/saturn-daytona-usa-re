@@ -1,6 +1,5 @@
-    .section .text.FUN_06027158
+	.text
     .global mat_rot_xz_b
-    .type mat_rot_xz_b, @function
 mat_rot_xz_b:
     .byte 0x4F, 0x22
     .byte 0xD6, 0x76

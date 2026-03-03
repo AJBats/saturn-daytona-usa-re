@@ -1,6 +1,5 @@
-    .section .text.FUN_060279B0
+	.text
     .global transform_pipeline
-    .type transform_pipeline, @function
 transform_pipeline:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xC6

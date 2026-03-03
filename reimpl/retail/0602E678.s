@@ -1,6 +1,5 @@
-    .section .text.FUN_0602E678
+	.text
     .global vdp2_palette_commit
-    .type vdp2_palette_commit, @function
 vdp2_palette_commit:
     .byte 0x4F, 0x22
     .byte 0x4D, 0x0B

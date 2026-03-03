@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06042ACA
-
-
+	.text
     .global palette_engine_core
-    .type palette_engine_core, @function
 palette_engine_core:
     mov r5, r3
     mov.l @r4, r2

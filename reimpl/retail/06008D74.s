@@ -1,6 +1,5 @@
-    .section .text.FUN_06008D74
+	.text
     .global state_mode_select_active
-    .type state_mode_select_active, @function
 state_mode_select_active:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

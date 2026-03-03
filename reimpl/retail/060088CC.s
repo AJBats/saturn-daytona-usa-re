@@ -1,6 +1,5 @@
-    .section .text.FUN_060088CC
+	.text
     .global state_boot_init
-    .type state_boot_init, @function
 state_boot_init:
     .byte 0x4F, 0x22
     .byte 0xD3, 0x10

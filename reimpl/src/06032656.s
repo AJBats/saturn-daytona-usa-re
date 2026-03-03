@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06032656
-
-
+	.text
     .global position_suffix_render
-    .type position_suffix_render, @function
 position_suffix_render:
     sts.l pr, @-r15
     jsr @r0

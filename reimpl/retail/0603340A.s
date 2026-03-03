@@ -1,6 +1,5 @@
-    .section .text.FUN_0603340A
+	.text
     .global attract_mode_init
-    .type attract_mode_init, @function
 attract_mode_init:
     .byte 0x4F, 0x22
     .byte 0xB0, 0x30

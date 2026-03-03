@@ -1,6 +1,5 @@
-    .section .text.FUN_06015482
+	.text
     .global hud_anim_ctrl
-    .type hud_anim_ctrl, @function
 hud_anim_ctrl:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC

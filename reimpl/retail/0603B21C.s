@@ -1,6 +1,5 @@
-    .section .text.FUN_0603B21C
+	.text
     .global cmd_multi_validate
-    .type cmd_multi_validate, @function
 cmd_multi_validate:
     .byte 0x2F, 0xE6
     .byte 0x6E, 0x43

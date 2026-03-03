@@ -1,6 +1,5 @@
-    .section .text.FUN_0601B418
+	.text
     .global disc_load_complete_check
-    .type disc_load_complete_check, @function
 disc_load_complete_check:
     .byte 0x4F, 0x22
     .byte 0xD3, 0x13

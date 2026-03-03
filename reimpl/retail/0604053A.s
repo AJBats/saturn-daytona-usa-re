@@ -1,6 +1,5 @@
-    .section .text.FUN_0604053A
+	.text
     .global mem_test_verify
-    .type mem_test_verify, @function
 mem_test_verify:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

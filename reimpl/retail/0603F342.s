@@ -1,6 +1,5 @@
-    .section .text.FUN_0603F342
+	.text
     .global menu_text_position
-    .type menu_text_position, @function
 menu_text_position:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

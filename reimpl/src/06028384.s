@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06028384
-
-
+	.text
     .global screen_flash_effect
-    .type screen_flash_effect, @function
 screen_flash_effect:
     sts.l pr, @-r15
     mov.l   .L_pool_060283AC, r0

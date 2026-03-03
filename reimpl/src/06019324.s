@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06019324
-
-
+	.text
     .global race_data_handler
-    .type race_data_handler, @function
 race_data_handler:
     mov.l r14, @-r15
     sts.l pr, @-r15

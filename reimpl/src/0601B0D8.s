@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601B0D8
-
-
+	.text
     .global course_state_setup
-    .type course_state_setup, @function
 course_state_setup:
     mov.l r14, @-r15
     mov.l r13, @-r15

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060284BA
-
-
+	.text
     .global motion_blur_effect
-    .type motion_blur_effect, @function
 motion_blur_effect:
     mov.l r14, @-r15
     sts.l pr, @-r15

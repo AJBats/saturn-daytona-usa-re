@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060111E2
-
-
+	.text
     .global lap_progress_indicator
-    .type lap_progress_indicator, @function
 lap_progress_indicator:
     mov.l r14, @-r15
     mov.l r13, @-r15

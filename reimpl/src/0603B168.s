@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603B168
-
-
+	.text
     .global menu_select_hl
-    .type menu_select_hl, @function
 menu_select_hl:
     sts.l pr, @-r15
     add #-0x14, r15

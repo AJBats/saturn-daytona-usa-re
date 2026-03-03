@@ -1,6 +1,5 @@
-    .section .text.FUN_0600F650
+	.text
     .global post_race_transition
-    .type post_race_transition, @function
 post_race_transition:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

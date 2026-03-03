@@ -1,6 +1,5 @@
-    .section .text.FUN_06018DDC
+	.text
     .global handler_dispatch
-    .type handler_dispatch, @function
 handler_dispatch:
     .byte 0x4F, 0x22
     .byte 0xE7, 0x02

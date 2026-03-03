@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600DA7C
-
-
+	.text
     .global finish_proximity
-    .type finish_proximity, @function
 finish_proximity:
     mov.l r14, @-r15
     sts.l pr, @-r15
@@ -170,12 +166,10 @@ sym_0600DB64:
     nop
 
     .global car_update_post
-    .type car_update_post, @function
 car_update_post:
     mov #0x4, r3
 
     .global finish_display
-    .type finish_display, @function
 finish_display:
     mov.l r14, @-r15
     mov.l r13, @-r15
@@ -299,7 +293,6 @@ DAT_0600dbdc:
     mov.l @r15+, r14
 
     .global checkpoint_sound_trigger
-    .type checkpoint_sound_trigger, @function
 checkpoint_sound_trigger:
     sts.l pr, @-r15
     mov #0x60, r6

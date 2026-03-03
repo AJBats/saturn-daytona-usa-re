@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602E69E
-
-
+	.text
     .global vdp2_color_offset_anim
-    .type vdp2_color_offset_anim, @function
 vdp2_color_offset_anim:
     sts.l pr, @-r15
     jsr @r13

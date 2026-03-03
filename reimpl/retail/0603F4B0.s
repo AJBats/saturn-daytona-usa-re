@@ -1,6 +1,5 @@
-    .section .text.FUN_0603F4B0
+	.text
     .global audio_frame_process
-    .type audio_frame_process, @function
 audio_frame_process:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC

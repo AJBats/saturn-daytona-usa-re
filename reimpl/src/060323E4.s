@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060323E4
-
-
+	.text
     .global display_cmd_vscroll
-    .type display_cmd_vscroll, @function
 display_cmd_vscroll:
     sts.l pr, @-r15
     .byte   0xBE, 0xEB    /* bsr 0x060321C0 (external) */

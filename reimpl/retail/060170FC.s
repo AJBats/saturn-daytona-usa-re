@@ -1,6 +1,5 @@
-    .section .text.FUN_060170FC
+	.text
     .global poly_table_read
-    .type poly_table_read, @function
 poly_table_read:
     .byte 0x4F, 0x22
     .byte 0xE6, 0x00

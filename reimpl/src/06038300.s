@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06038300
-
-
+	.text
     .global display_hw_init
-    .type display_hw_init, @function
 display_hw_init:
     sts.l pr, @-r15
     mov.l   .L_pool_06038348, r3

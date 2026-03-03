@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600A76C
-
-
+	.text
     .global secondary_geom_proc
-    .type secondary_geom_proc, @function
 secondary_geom_proc:
     mov.l r14, @-r15
     mov.l r13, @-r15

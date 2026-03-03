@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601938C
-
-
+	.text
     .global palette_frame_effects
-    .type palette_frame_effects, @function
 palette_frame_effects:
     mov.l r14, @-r15
     sts.l pr, @-r15

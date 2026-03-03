@@ -1,6 +1,5 @@
-    .section .text.FUN_06036650
+	.text
     .global track_dist_3d
-    .type track_dist_3d, @function
 track_dist_3d:
     .byte 0x2F, 0xE6
     .byte 0x6E, 0x43

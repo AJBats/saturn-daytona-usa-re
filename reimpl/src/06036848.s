@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06036848
-
-
+	.text
     .global post_collision_adjust
-    .type post_collision_adjust, @function
 post_collision_adjust:
     sts.l pr, @-r15
     add #-0x8, r15

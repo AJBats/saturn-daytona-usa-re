@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06018EE4
-
-
+	.text
     .global race_sound_handler
-    .type race_sound_handler, @function
 race_sound_handler:
     mov.l r14, @-r15
     mov.l r13, @-r15

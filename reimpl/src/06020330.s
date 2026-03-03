@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06020330
-
-
+	.text
     .global obj_type_set
-    .type obj_type_set, @function
 obj_type_set:
     sts.l pr, @-r15
     add #-0x4, r15

@@ -1,6 +1,5 @@
-    .section .text.FUN_06012400
+	.text
     .global file_block_read
-    .type file_block_read, @function
 file_block_read:
     .byte 0x4F, 0x22
     .byte 0xD3, 0x0C

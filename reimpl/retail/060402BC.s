@@ -1,6 +1,5 @@
-    .section .text.FUN_060402BC
+	.text
     .global sys_boot_sequence
-    .type sys_boot_sequence, @function
 sys_boot_sequence:
     .byte 0x2F, 0xE6
     .byte 0x6E, 0x43

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602F7EA
-
-
+	.text
     .global sprite_transform
-    .type sprite_transform, @function
 sprite_transform:
     mov.l r14, @-r15
     mov.l r13, @-r15

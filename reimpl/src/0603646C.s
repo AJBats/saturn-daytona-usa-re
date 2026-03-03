@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603646C
-
-
+	.text
     .global track_road_stub
-    .type track_road_stub, @function
 track_road_stub:
     mov.l r14, @-r15
     mov r4, r14

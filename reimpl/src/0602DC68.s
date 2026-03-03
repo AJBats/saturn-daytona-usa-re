@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602DC68
-
-
+	.text
     .global vdp1_scaled_sprite
-    .type vdp1_scaled_sprite, @function
 vdp1_scaled_sprite:
     sts.l pr, @-r15
     jsr @r13

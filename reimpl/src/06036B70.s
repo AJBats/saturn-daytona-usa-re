@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06036B70
-
-
+	.text
     .global particle_spawner
-    .type particle_spawner, @function
 particle_spawner:
     sts.l pr, @-r15
     add #-0x8, r15

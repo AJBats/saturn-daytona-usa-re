@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06007CEC
-
-
+	.text
     .global dma_queue_mgr
-    .type dma_queue_mgr, @function
 dma_queue_mgr:
     mov.l r14, @-r15
     mov.l r13, @-r15

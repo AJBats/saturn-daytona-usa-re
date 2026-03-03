@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601B418
-
-
+	.text
     .global disc_load_complete_check
-    .type disc_load_complete_check, @function
 disc_load_complete_check:
     sts.l pr, @-r15
     mov.l   .L_pool_0601B468, r3

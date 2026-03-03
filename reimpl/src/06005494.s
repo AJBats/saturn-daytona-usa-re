@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06005494
-
-
+	.text
     .global obj_state_writer
-    .type obj_state_writer, @function
 obj_state_writer:
     mov.l r14, @-r15
     mov r4, r14

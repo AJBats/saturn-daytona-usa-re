@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600FED0
-
-
+	.text
     .global transition_medium_c
-    .type transition_medium_c, @function
 transition_medium_c:
     mov.l r14, @-r15
     mov.l r13, @-r15

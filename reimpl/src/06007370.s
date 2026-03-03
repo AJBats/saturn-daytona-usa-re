@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06007370
-
-
+	.text
     .global main_loop_timing
-    .type main_loop_timing, @function
 main_loop_timing:
     sts.l pr, @-r15
     mov.l   .L_06007420, r14

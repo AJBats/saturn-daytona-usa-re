@@ -1,6 +1,5 @@
-    .section .text.FUN_060408B0
+	.text
     .global evt_cmd_enqueue
-    .type evt_cmd_enqueue, @function
 evt_cmd_enqueue:
     .byte 0x2F, 0xE6
     .byte 0x6E, 0x43

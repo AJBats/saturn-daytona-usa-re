@@ -1,10 +1,5 @@
-
-    .section .text.FUN_060122F4
-
-
+	.text
     .global position_vel_limiter
-    .type position_vel_limiter, @function
-
 position_vel_limiter:
     mov.l   .L_06012334, r4
     mov.w   .L_06012326, r3

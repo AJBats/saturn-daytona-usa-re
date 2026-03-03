@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06040724
-
-
+	.text
     .global timer_overflow_handler
-    .type timer_overflow_handler, @function
 timer_overflow_handler:
     sts.l pr, @-r15
     sts.l macl, @-r15

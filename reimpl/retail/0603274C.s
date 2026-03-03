@@ -1,6 +1,5 @@
-    .section .text.FUN_0603274C
+	.text
     .global hud_laptime_idx_7
-    .type hud_laptime_idx_7, @function
 hud_laptime_idx_7:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B

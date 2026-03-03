@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06019150
-
-
+	.text
     .global transition_fade_ctrl
-    .type transition_fade_ctrl, @function
 transition_fade_ctrl:
     sts.l pr, @-r15
     .byte   0xDE, 0x1C    /* mov.l .L_pool_060191C4, r14 */

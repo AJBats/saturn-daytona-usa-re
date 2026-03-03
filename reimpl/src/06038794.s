@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06038794
-
-
+	.text
     .global scene_color_intensity
-    .type scene_color_intensity, @function
 scene_color_intensity:
     mov.l r14, @-r15
     mov.l r13, @-r15

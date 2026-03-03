@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06008BFC
-
-
+	.text
     .global state_loading_check
-    .type state_loading_check, @function
 state_loading_check:
     sts.l pr, @-r15
     .byte   0xD3, 0x13    /* mov.l .L_pool_06008C4C, r3 */

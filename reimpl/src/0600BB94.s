@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600BB94
-
-
+	.text
     .global camera_system
-    .type camera_system, @function
 camera_system:
     mov.l r14, @-r15
     mov.l r13, @-r15

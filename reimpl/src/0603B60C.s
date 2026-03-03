@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603B60C
-
-
+	.text
     .global menu_border_render
-    .type menu_border_render, @function
 menu_border_render:
     sts.l pr, @-r15
     add #-0x4, r15

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06009508
-
-
+	.text
     .global state_abort
-    .type state_abort, @function
 state_abort:
     sts.l pr, @-r15
     .byte   0xD4, 0x23    /* mov.l .L_p_race_event_bits, r4 */

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603367A
-
-
+	.text
     .global course_preview_elem
-    .type course_preview_elem, @function
 course_preview_elem:
     sts.l pr, @-r15
     .byte   0xB0, 0x24    /* bsr 0x060336C8 (external) */

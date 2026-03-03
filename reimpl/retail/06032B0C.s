@@ -1,6 +1,5 @@
-    .section .text.FUN_06032B0C
+	.text
     .global hud_rpm_digit_2
-    .type hud_rpm_digit_2, @function
 hud_rpm_digit_2:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B

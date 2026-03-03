@@ -1,6 +1,5 @@
-    .section .text.FUN_06032C4C
+	.text
     .global hud_gear_idx_1
-    .type hud_gear_idx_1, @function
 hud_gear_idx_1:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B

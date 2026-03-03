@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600F9C6
-
-
+	.text
     .global transition_large_menu
-    .type transition_large_menu, @function
 transition_large_menu:
     mov.l r14, @-r15
     mov.l r13, @-r15

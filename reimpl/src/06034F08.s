@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06034F08
-
-
+	.text
     .global slave_main_loop
-    .type slave_main_loop, @function
 slave_main_loop:
     sts.l pr, @-r15
     add #-0x8, r15

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603B5F2
-
-
+	.text
     .global menu_bg_pattern
-    .type menu_bg_pattern, @function
 menu_bg_pattern:
     sts.l pr, @-r15
     add #-0x4, r15

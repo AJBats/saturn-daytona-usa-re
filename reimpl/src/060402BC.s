@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060402BC
-
-
+	.text
     .global sys_boot_sequence
-    .type sys_boot_sequence, @function
 sys_boot_sequence:
     mov.l r14, @-r15
     mov r4, r14

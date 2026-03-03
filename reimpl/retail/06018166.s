@@ -1,6 +1,5 @@
-    .section .text.FUN_06018166
+	.text
     .global geom_math_calc
-    .type geom_math_calc, @function
 geom_math_calc:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06036A5C
-
-
+	.text
     .global ground_shadow_render
-    .type ground_shadow_render, @function
 ground_shadow_render:
     sts.l pr, @-r15
     add #-0x8, r15

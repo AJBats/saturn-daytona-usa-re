@@ -1,6 +1,5 @@
-    .section .text.FUN_0602E4F4
+	.text
     .global rot_scroll_vscale
-    .type rot_scroll_vscale, @function
 rot_scroll_vscale:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B

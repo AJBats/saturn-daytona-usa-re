@@ -1,6 +1,5 @@
-    .section .text.FUN_0603BE9C
+	.text
     .global save_data_size
-    .type save_data_size, @function
 save_data_size:
     .byte 0x2F, 0xE6
     .byte 0xE0, 0x1D

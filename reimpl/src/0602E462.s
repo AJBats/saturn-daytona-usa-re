@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602E462
-
-
+	.text
     .global rot_scroll_interp
-    .type rot_scroll_interp, @function
 rot_scroll_interp:
     sts.l pr, @-r15
     neg r4, r4

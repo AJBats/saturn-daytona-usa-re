@@ -1,6 +1,5 @@
-    .section .text.FUN_06016470
+	.text
     .global results_car_name
-    .type results_car_name, @function
 results_car_name:
     .byte 0x4F, 0x22
     .byte 0x6E, 0xDC

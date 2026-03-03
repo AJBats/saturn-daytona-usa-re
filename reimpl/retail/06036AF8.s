@@ -1,6 +1,5 @@
-    .section .text.FUN_06036AF8
+	.text
     .global shadow_color_alpha
-    .type shadow_color_alpha, @function
 shadow_color_alpha:
     .byte 0x4F, 0x22
     .byte 0x6D, 0x53

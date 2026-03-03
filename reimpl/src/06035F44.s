@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06035F44
-
-
+	.text
     .global input_proc_complete
-    .type input_proc_complete, @function
 input_proc_complete:
     tst r0, r0
     mov.l r2, @-r15

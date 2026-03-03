@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603B1B6
-
-
+	.text
     .global cmd_validate_chain
-    .type cmd_validate_chain, @function
 cmd_validate_chain:
     mov.l r14, @-r15
     mov.l r13, @-r15

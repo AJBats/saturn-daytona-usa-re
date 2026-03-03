@@ -1,6 +1,5 @@
-    .section .text.FUN_0603FAE4
+	.text
     .global attract_display_orch
-    .type attract_display_orch, @function
 attract_display_orch:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06005DD4
-
-
+	.text
     .global anim_frame_transform
-    .type anim_frame_transform, @function
 anim_frame_transform:
     mov.l r14, @-r15
     mov.l r13, @-r15

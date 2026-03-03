@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602843A
-
-
+	.text
     .global screen_fade_ctrl
-    .type screen_fade_ctrl, @function
 screen_fade_ctrl:
     mov.l r14, @-r15
     sts.l pr, @-r15

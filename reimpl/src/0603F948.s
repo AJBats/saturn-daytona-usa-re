@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603F948
-
-
+	.text
     .global attract_mode_timer
-    .type attract_mode_timer, @function
 attract_mode_timer:
     sts.l pr, @-r15
     mov.l r13, @r14

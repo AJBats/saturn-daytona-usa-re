@@ -1,6 +1,5 @@
-    .section .text.FUN_0602E7D4
+	.text
     .global shadow_intensity
-    .type shadow_intensity, @function
 shadow_intensity:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602E68A
-
-
+	.text
     .global vdp2_color_bank_sel
-    .type vdp2_color_bank_sel, @function
 vdp2_color_bank_sel:
     sts.l pr, @-r15
     jsr @r13

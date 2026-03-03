@@ -1,8 +1,5 @@
-    .section .text.FUN_06006F3C
-
-
+	.text
     .global FUN_06006F3C
-    .type FUN_06006F3C, @function
 FUN_06006F3C:
     mov.l r14, @-r15
     mov #0x1, r2

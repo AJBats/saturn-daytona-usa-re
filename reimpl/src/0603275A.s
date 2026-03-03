@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603275A
-
-
+	.text
     .global hud_laptime_idx_8
-    .type hud_laptime_idx_8, @function
 hud_laptime_idx_8:
     sts.l pr, @-r15
     jsr @r0

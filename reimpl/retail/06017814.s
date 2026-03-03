@@ -1,6 +1,5 @@
-    .section .text.FUN_06017814
+	.text
     .global track_geometry_proc
-    .type track_geometry_proc, @function
 track_geometry_proc:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
@@ -531,9 +530,8 @@ DAT_06017c52:
     .byte 0xE4, 0x00
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
-    .section .text.FUN_06017C9C
+	.text
     .global track_state_handler
-    .type track_state_handler, @function
 track_state_handler:
     .byte 0x4F, 0x22
     .byte 0x61, 0x41

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06018FA8
-
-
+	.text
     .global save_state_snapshot
-    .type save_state_snapshot, @function
 save_state_snapshot:
     sts.l pr, @-r15
     mov.l   .L_pool_06018FE0, r14

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060361BC
-
-
+	.text
     .global seg_interpolate
-    .type seg_interpolate, @function
 seg_interpolate:
     sts.l pr, @-r15
     add #-0x10, r15

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060365D0
-
-
+	.text
     .global course_data_access_g
-    .type course_data_access_g, @function
 course_data_access_g:
     sts.l pr, @-r15
     add #-0x8, r15

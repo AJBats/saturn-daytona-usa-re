@@ -1,6 +1,5 @@
-    .section .text.FUN_06019EF0
+	.text
     .global pre_race_camera
-    .type pre_race_camera, @function
 pre_race_camera:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

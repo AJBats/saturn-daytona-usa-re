@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602E73A
-
-
+	.text
     .global gouraud_color_calc
-    .type gouraud_color_calc, @function
 gouraud_color_calc:
     sts.l pr, @-r15
     jsr @r13

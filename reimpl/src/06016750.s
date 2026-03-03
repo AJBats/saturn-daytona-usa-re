@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06016750
-
-
+	.text
     .global results_awards
-    .type results_awards, @function
 results_awards:
     sts.l pr, @-r15
     add #-0x10, r15

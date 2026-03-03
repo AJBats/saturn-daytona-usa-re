@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601BDEC
-
-
+	.text
     .global replay_playback_engine
-    .type replay_playback_engine, @function
 replay_playback_engine:
     sts.l pr, @-r15
     mov.l   .L_pool_0601BE50, r7

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603B598
-
-
+	.text
     .global menu_bg_scroll
-    .type menu_bg_scroll, @function
 menu_bg_scroll:
     sts.l pr, @-r15
     mov #0x1D, r1

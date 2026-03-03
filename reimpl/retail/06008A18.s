@@ -1,6 +1,5 @@
-    .section .text.FUN_06008A18
+	.text
     .global state_attract_active
-    .type state_attract_active, @function
 state_attract_active:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

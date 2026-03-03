@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600C010
-
-
+	.text
     .global scene_render_body
-    .type scene_render_body, @function
 scene_render_body:
     sts.l pr, @-r15
     mov.l   .L_pool_0600C094, r8

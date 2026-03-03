@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600C74E
-
-
+	.text
     .global ai_orchestrator
-    .type ai_orchestrator, @function
 ai_orchestrator:
     mov.l r14, @-r15
     mov.l r13, @-r15

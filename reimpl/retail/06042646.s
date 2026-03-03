@@ -1,6 +1,5 @@
-    .section .text.FUN_06042646
+	.text
     .global math_trig_lib
-    .type math_trig_lib, @function
 math_trig_lib:
     .byte 0x4F, 0x22
     .byte 0xDB, 0x2D

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600DF66
-
-
+	.text
     .global update_mode_dispatch
-    .type update_mode_dispatch, @function
 update_mode_dispatch:
     sts.l pr, @-r15
     .byte   0xD3, 0x12    /* mov.l .L_pool_0600DFB7, r3 */

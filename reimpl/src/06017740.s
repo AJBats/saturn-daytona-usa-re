@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06017740
-
-
+	.text
     .global poly_table_lookup
-    .type poly_table_lookup, @function
 poly_table_lookup:
     sts.l pr, @-r15
     extu.b r12, r3

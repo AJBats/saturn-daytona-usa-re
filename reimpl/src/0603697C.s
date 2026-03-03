@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603697C
-
-
+	.text
     .global track_post_collision
-    .type track_post_collision, @function
 track_post_collision:
     mov.l r14, @-r15
     mov r7, r14

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06033738
-
-
+	.text
     .global course_selector_hl
-    .type course_selector_hl, @function
 course_selector_hl:
     sts.l pr, @-r15
     jsr @r1

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06009CFC
-
-
+	.text
     .global state_post_race_init
-    .type state_post_race_init, @function
 state_post_race_init:
     sts.l pr, @-r15
 

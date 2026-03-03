@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06009E02
-
-
+	.text
     .global state_postrace_countdown
-    .type state_postrace_countdown, @function
 state_postrace_countdown:
     sts.l pr, @-r15
     .byte   0xD4, 0x0E    /* mov.l .L_pool_06009E46, r4 */

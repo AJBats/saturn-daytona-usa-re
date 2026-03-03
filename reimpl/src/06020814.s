@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06020814
-
-
+	.text
     .global obj_culling_pass
-    .type obj_culling_pass, @function
 obj_culling_pass:
     mov.l r14, @-r15
     mov r4, r0

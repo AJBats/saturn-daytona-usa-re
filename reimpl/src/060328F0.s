@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060328F0
-
-
+	.text
     .global speed_group_render
-    .type speed_group_render, @function
 speed_group_render:
     sts.l pr, @-r15
     jsr @r0

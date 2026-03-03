@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06032CC0
-
-
+	.text
     .global hud_gear_neutral
-    .type hud_gear_neutral, @function
 hud_gear_neutral:
     sts.l pr, @-r15
     jsr @r0

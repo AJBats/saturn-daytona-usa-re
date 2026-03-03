@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602E25A
-
-
+	.text
     .global vdp2_color_offset
-    .type vdp2_color_offset, @function
 vdp2_color_offset:
     sts.l pr, @-r15
     jsr @r13

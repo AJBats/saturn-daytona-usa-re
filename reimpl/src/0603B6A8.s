@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603B6A8
-
-
+	.text
     .global menu_ranking_display
-    .type menu_ranking_display, @function
 menu_ranking_display:
     mov.l r14, @-r15
     sts.l pr, @-r15

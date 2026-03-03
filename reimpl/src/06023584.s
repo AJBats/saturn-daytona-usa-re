@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06023584
-
-
+	.text
     .global render_stage_b
-    .type render_stage_b, @function
 render_stage_b:
     sts.l pr, @-r15
     mov #0x0, r8

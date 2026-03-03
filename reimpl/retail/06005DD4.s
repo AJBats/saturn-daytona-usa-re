@@ -1,6 +1,5 @@
-    .section .text.FUN_06005DD4
+	.text
     .global anim_frame_transform
-    .type anim_frame_transform, @function
 anim_frame_transform:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601D478
-
-
+	.text
     .global sound_cmd_queue_write
-    .type sound_cmd_queue_write, @function
 sound_cmd_queue_write:
     sts.l pr, @-r15
     mov #0x2, r2
@@ -31,7 +27,6 @@ sound_cmd_queue_write:
     mov.b r2, @r4
 
     .global sound_channel_alloc
-    .type sound_channel_alloc, @function
 sound_channel_alloc:
     mov.l r14, @-r15
     mov.l r13, @-r15
@@ -155,7 +150,6 @@ loc_0601D568:
     nop
 
     .global camera_view_update
-    .type camera_view_update, @function
 camera_view_update:
     mov.l r14, @-r15
     mov #0x1C, r14

@@ -1,6 +1,5 @@
-    .section .text.FUN_0603EDC4
+	.text
     .global vblank_color_apply
-    .type vblank_color_apply, @function
 vblank_color_apply:
     .byte 0x84, 0xF3
     .byte 0xE3, 0x04

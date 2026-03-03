@@ -1,6 +1,5 @@
-    .section .text.FUN_06032D0E
+	.text
     .global hud_master_compositor
-    .type hud_master_compositor, @function
 hud_master_compositor:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B

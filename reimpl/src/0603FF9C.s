@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603FF9C
-
-
+	.text
     .global attract_display_main
-    .type attract_display_main, @function
 attract_display_main:
     mov.l r14, @-r15
     mov r4, r14

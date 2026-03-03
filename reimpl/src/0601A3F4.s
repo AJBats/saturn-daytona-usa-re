@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601A3F4
-
-
+	.text
     .global car_physics_final
-    .type car_physics_final, @function
 car_physics_final:
     mov.l r14, @-r15
     mov #0x3, r6

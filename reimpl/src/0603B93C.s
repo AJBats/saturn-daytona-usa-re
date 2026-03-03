@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603B93C
-
-
+	.text
     .global save_checksum_calc
-    .type save_checksum_calc, @function
 save_checksum_calc:
     mov.l r14, @-r15
     mov.l r13, @-r15

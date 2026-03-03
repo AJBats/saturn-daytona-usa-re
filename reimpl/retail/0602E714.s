@@ -1,6 +1,5 @@
-    .section .text.FUN_0602E714
+	.text
     .global vdp2_light_dir_stub
-    .type vdp2_light_dir_stub, @function
 vdp2_light_dir_stub:
     .byte 0x4F, 0x22
     .byte 0x4D, 0x0B

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600C286
-
-
+	.text
     .global race_utility_fn
-    .type race_utility_fn, @function
 race_utility_fn:
     sts.l pr, @-r15
     .byte   0xD3, 0x14    /* mov.l .L_0600C2DC, r3 */

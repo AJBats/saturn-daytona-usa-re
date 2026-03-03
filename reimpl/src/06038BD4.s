@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06038BD4
-
-
+	.text
     .global channel_nibble_config
-    .type channel_nibble_config, @function
 channel_nibble_config:
     mov.l r14, @-r15
     mov #0x1, r7

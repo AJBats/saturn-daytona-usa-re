@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602E344
-
-
+	.text
     .global vdp2_coeff_helper_d
-    .type vdp2_coeff_helper_d, @function
 vdp2_coeff_helper_d:
     sts.l pr, @-r15
     jsr @r13

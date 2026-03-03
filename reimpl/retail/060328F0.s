@@ -1,6 +1,5 @@
-    .section .text.FUN_060328F0
+	.text
     .global speed_group_render
-    .type speed_group_render, @function
 speed_group_render:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B

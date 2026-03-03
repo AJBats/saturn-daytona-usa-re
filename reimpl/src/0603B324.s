@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603B324
-
-
+	.text
     .global menu_option_adj
-    .type menu_option_adj, @function
 menu_option_adj:
     sts.l pr, @-r15
     add #-0x4, r15

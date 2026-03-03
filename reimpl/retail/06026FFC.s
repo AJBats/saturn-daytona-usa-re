@@ -1,6 +1,5 @@
-    .section .text.FUN_06026FFC
+	.text
     .global mat_vec_transform
-    .type mat_vec_transform, @function
 mat_vec_transform:
     .byte 0x2F, 0xE6
     .byte 0xD0, 0x1A

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06038F6C
-
-
+	.text
     .global reg_prologue_chain_a
-    .type reg_prologue_chain_a, @function
 reg_prologue_chain_a:
     mov.l r14, @-r15
     mov.l r13, @-r15

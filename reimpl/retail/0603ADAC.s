@@ -1,6 +1,5 @@
-    .section .text.FUN_0603ADAC
+	.text
     .global cmd_dispatch_helper
-    .type cmd_dispatch_helper, @function
 cmd_dispatch_helper:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

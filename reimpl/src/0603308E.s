@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603308E
-
-
+	.text
     .global disp_util_stub_b
-    .type disp_util_stub_b, @function
 disp_util_stub_b:
     sts.l pr, @-r15
     bsr     .L_060330A0

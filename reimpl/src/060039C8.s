@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060039C8
-
-
+	.text
     .global dma_config_dispatch
-    .type dma_config_dispatch, @function
 dma_config_dispatch:
     mov.l   .L_pool_06003A20, r0
     mov.b @r0, r0

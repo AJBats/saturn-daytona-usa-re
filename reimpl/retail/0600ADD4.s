@@ -1,6 +1,5 @@
-    .section .text.FUN_0600ADD4
+	.text
     .global camera_car_transform
-    .type camera_car_transform, @function
 camera_car_transform:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

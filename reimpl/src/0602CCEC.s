@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602CCEC
-
-
+	.text
     .global vdp1_attr_setup
-    .type vdp1_attr_setup, @function
 vdp1_attr_setup:
     sts.l pr, @-r15
     mov #0x0, r7

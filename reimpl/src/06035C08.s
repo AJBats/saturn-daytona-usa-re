@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06035C08
-
-
+	.text
     .global smpc_cmd_helper_a
-    .type smpc_cmd_helper_a, @function
 smpc_cmd_helper_a:
     sts.l pr, @-r15
     mov r5, r1

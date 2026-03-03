@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602F270
-
-
+	.text
     .global collision_response_b
-    .type collision_response_b, @function
 collision_response_b:
     sts.l pr, @-r15
     mov.w   .L_0602F284, r1

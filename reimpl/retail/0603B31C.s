@@ -1,6 +1,5 @@
-    .section .text.FUN_0603B31C
+	.text
     .global menu_state_handler
-    .type menu_state_handler, @function
 menu_state_handler:
     .byte 0x2F, 0xE6
     .byte 0xE0, 0x12

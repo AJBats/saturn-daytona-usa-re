@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601F464
-
-
+	.text
     .global mem_pool_alloc
-    .type mem_pool_alloc, @function
 mem_pool_alloc:
     sts.l pr, @-r15
     mov.l   .L_pool_0601F495, r5

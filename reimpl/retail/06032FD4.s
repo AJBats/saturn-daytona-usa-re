@@ -1,6 +1,5 @@
-    .section .text.FUN_06032FD4
+	.text
     .global display_mode_switch
-    .type display_mode_switch, @function
 display_mode_switch:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B

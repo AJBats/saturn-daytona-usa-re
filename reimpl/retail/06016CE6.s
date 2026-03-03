@@ -1,6 +1,5 @@
-    .section .text.FUN_06016CE6
+	.text
     .global text_scroll_marquee
-    .type text_scroll_marquee, @function
 text_scroll_marquee:
     .byte 0x4F, 0x22
     .byte 0x61, 0x4C

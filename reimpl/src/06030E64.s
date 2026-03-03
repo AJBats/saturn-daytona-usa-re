@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06030E64
-
-
+	.text
     .global sound_subsys_wrapper
-    .type sound_subsys_wrapper, @function
 sound_subsys_wrapper:
     sts.l pr, @-r15
     jsr @r0

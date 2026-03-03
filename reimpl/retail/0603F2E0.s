@@ -1,6 +1,5 @@
-    .section .text.FUN_0603F2E0
+	.text
     .global attract_demo_chooser
-    .type attract_demo_chooser, @function
 attract_demo_chooser:
     .byte 0x2F, 0xE6
     .byte 0x6E, 0x53

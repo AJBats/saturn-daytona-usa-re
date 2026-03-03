@@ -1,6 +1,5 @@
-    .section .text.FUN_06040B34
+	.text
     .global event_timer_sched
-    .type event_timer_sched, @function
 event_timer_sched:
     .byte 0x2F, 0xE6
     .byte 0xEE, 0x00

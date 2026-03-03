@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06019D14
-
-
+	.text
     .global trans_select_at_mt
-    .type trans_select_at_mt, @function
 trans_select_at_mt:
     mov.l r14, @-r15
     mov.l r13, @-r15

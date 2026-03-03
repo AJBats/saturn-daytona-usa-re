@@ -1,6 +1,5 @@
-    .section .text.FUN_06017116
+	.text
     .global poly_table_validate
-    .type poly_table_validate, @function
 poly_table_validate:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC

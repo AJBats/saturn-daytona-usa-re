@@ -1,6 +1,5 @@
-    .section .text.FUN_0603AFD0
+	.text
     .global cmd_error_return
-    .type cmd_error_return, @function
 cmd_error_return:
     .byte 0x2F, 0xE6
     .byte 0xE0, 0x10

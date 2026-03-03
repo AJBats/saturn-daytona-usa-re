@@ -1,6 +1,5 @@
-    .section .text.FUN_0603F4E0
+	.text
     .global audio_sync_master
-    .type audio_sync_master, @function
 audio_sync_master:
     .byte 0x4F, 0x22
     .byte 0xE6, 0x02

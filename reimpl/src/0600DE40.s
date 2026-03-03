@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600DE40
-
-
+	.text
     .global race_countdown_update
-    .type race_countdown_update, @function
 race_countdown_update:
     sts.l pr, @-r15
     .byte   0xD3, 0x1C    /* mov.l .L_pool_0600DEB4, r3 */

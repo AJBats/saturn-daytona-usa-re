@@ -1,6 +1,5 @@
-    .section .text.FUN_06011094
+	.text
     .global hud_course_render
-    .type hud_course_render, @function
 hud_course_render:
     .byte 0x2F, 0xE6
     .byte 0xE4, 0x03

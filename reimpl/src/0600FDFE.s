@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600FDFE
-
-
+	.text
     .global transition_small_d
-    .type transition_small_d, @function
 transition_small_d:
     mov.l r14, @-r15
     sts.l pr, @-r15

@@ -1,6 +1,5 @@
-    .section .text.FUN_0603B5F2
+	.text
     .global menu_bg_pattern
-    .type menu_bg_pattern, @function
 menu_bg_pattern:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC

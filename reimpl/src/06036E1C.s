@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06036E1C
-
-
+	.text
     .global palette_regs_config
-    .type palette_regs_config, @function
 palette_regs_config:
     mov.l r5, @-r15
     mov.l @r0+, r3

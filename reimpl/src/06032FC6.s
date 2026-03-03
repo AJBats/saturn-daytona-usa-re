@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06032FC6
-
-
+	.text
     .global disp_helper_d
-    .type disp_helper_d, @function
 disp_helper_d:
     sts.l pr, @-r15
     jsr @r0

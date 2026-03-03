@@ -1,6 +1,5 @@
-    .section .text.FUN_060409E6
+	.text
     .global evt_checkpoint_handler
-    .type evt_checkpoint_handler, @function
 evt_checkpoint_handler:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

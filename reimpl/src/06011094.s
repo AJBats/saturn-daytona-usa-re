@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06011094
-
-
+	.text
     .global hud_course_render
-    .type hud_course_render, @function
 hud_course_render:
     mov.l r14, @-r15
     mov #0x3, r4

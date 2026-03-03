@@ -1,6 +1,5 @@
-    .section .text.FUN_06036710
+	.text
     .global bbox_overlap_test
-    .type bbox_overlap_test, @function
 bbox_overlap_test:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF8

@@ -1,6 +1,5 @@
-    .section .text.FUN_06011978
+	.text
     .global vertex_transform_rot
-    .type vertex_transform_rot, @function
 vertex_transform_rot:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

@@ -1,6 +1,5 @@
-    .section .text.FUN_0603AC1C
+	.text
     .global cmd_validate_exec
-    .type cmd_validate_exec, @function
 cmd_validate_exec:
     .byte 0x2F, 0xE6
     .byte 0xE3, 0x01

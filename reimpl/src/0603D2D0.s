@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603D2D0
-
-
+	.text
     .global high_score_render
-    .type high_score_render, @function
 high_score_render:
     sts.l pr, @-r15
     mov r6, r0

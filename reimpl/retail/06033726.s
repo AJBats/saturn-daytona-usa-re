@@ -1,6 +1,5 @@
-    .section .text.FUN_06033726
+	.text
     .global course_transition
-    .type course_transition, @function
 course_transition:
     .byte 0x4F, 0x22
     .byte 0x41, 0x0B

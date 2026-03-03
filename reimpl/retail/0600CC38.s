@@ -1,6 +1,5 @@
-    .section .text.FUN_0600CC38
+	.text
     .global heading_correct
-    .type heading_correct, @function
 heading_correct:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xB6

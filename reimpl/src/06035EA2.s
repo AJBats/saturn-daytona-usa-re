@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06035EA2
-
-
+	.text
     .global input_proc_digital
-    .type input_proc_digital, @function
 input_proc_digital:
     mov.l r14, @-r15
     sts.l pr, @-r15

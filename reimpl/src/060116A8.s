@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060116A8
-
-
+	.text
     .global sprite_3d_render
-    .type sprite_3d_render, @function
 sprite_3d_render:
     mov.l r14, @-r15
     mov r6, r0

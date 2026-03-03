@@ -1,6 +1,5 @@
-    .section .text.FUN_06009E02
+	.text
     .global state_postrace_countdown
-    .type state_postrace_countdown, @function
 state_postrace_countdown:
     .byte 0x4F, 0x22
     .byte 0xD4, 0x0E

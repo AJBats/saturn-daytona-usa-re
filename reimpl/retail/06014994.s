@@ -1,6 +1,5 @@
-    .section .text.FUN_06014994
+	.text
     .global channel_config_b
-    .type channel_config_b, @function
 channel_config_b:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

@@ -1,6 +1,5 @@
-    .section .text.FUN_06028654
+	.text
     .global dma_memory_transfer
-    .type dma_memory_transfer, @function
 dma_memory_transfer:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

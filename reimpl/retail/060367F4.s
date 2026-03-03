@@ -1,6 +1,5 @@
-    .section .text.FUN_060367F4
+	.text
     .global collision_response_vel
-    .type collision_response_vel, @function
 collision_response_vel:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF8

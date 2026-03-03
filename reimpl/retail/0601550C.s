@@ -1,6 +1,5 @@
-    .section .text.FUN_0601550C
+	.text
     .global hud_priority_sort
-    .type hud_priority_sort, @function
 hud_priority_sort:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xC6

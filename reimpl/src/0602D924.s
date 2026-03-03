@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602D924
-
-
+	.text
     .global disp_elem_render_ext
-    .type disp_elem_render_ext, @function
 disp_elem_render_ext:
     sts.l pr, @-r15
     mov r0, r14

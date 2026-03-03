@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602C8E2
-
-
+	.text
     .global vdp1_color_setup
-    .type vdp1_color_setup, @function
 vdp1_color_setup:
     sts.l pr, @-r15
     mov #0x0, r12

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06028580
-
-
+	.text
     .global effect_cleanup_stub
-    .type effect_cleanup_stub, @function
 effect_cleanup_stub:
     mov.l r14, @-r15
     shll8 r5

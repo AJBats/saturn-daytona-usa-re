@@ -1,6 +1,5 @@
-    .section .text.FUN_06035E90
+	.text
     .global input_proc_analog
-    .type input_proc_analog, @function
 input_proc_analog:
     .byte 0x4F, 0x22
     .byte 0x61, 0x43

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601EFC4
-
-
+	.text
     .global geom_batch_transform
-    .type geom_batch_transform, @function
 geom_batch_transform:
     mov.l r14, @-r15
     mov.l r12, @-r15

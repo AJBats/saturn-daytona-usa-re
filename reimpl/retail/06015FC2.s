@@ -1,6 +1,5 @@
-    .section .text.FUN_06015FC2
+	.text
     .global results_screen_render
-    .type results_screen_render, @function
 results_screen_render:
     .byte 0x4F, 0x22
     .byte 0x43, 0x08

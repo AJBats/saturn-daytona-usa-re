@@ -1,6 +1,5 @@
-    .section .text.FUN_0601A0F0
+	.text
     .global grid_position_camera
-    .type grid_position_camera, @function
 grid_position_camera:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

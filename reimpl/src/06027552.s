@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06027552
-
-
+	.text
     .global fpmul
-    .type fpmul, @function
 fpmul:
     dmuls.l r4, r5
     sts mach, r4

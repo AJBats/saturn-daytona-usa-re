@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603D43C
-
-
+	.text
     .global name_entry_state
-    .type name_entry_state, @function
 name_entry_state:
     sts.l pr, @-r15
     mov r6, r0

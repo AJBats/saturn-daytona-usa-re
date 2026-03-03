@@ -1,6 +1,5 @@
-    .section .text.FUN_0600F898
+	.text
     .global transition_minimal
-    .type transition_minimal, @function
 transition_minimal:
     .byte 0x4F, 0x22
     .byte 0xD3, 0x13

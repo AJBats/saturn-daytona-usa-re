@@ -1,9 +1,5 @@
-
-   .section .text.FUN_06014A74
-
-
+	.text
    .global display_mode_init
-   .type display_mode_init, @function
 display_mode_init:
     mov.l r14, @-r15
     mov #0x19, r14

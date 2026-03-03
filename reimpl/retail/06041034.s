@@ -1,6 +1,5 @@
-    .section .text.FUN_06041034
+	.text
     .global buffer_slot_alloc
-    .type buffer_slot_alloc, @function
 buffer_slot_alloc:
     .byte 0x2F, 0xE6
     .byte 0xE0, 0x54

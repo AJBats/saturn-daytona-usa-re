@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06038E54
-
-
+	.text
     .global display_param_set
-    .type display_param_set, @function
 display_param_set:
     mov.l r14, @-r15
     extu.w r4, r3

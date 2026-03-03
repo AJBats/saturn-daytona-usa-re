@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06007E08
-
-
+	.text
     .global vblank_frame_handler
-    .type vblank_frame_handler, @function
 vblank_frame_handler:
     mov.l r14, @-r15
     mov.l r13, @-r15

@@ -1,6 +1,5 @@
-    .section .text.FUN_0602DDA0
+	.text
     .global vdp1_line_draw
-    .type vdp1_line_draw, @function
 vdp1_line_draw:
     .byte 0x4F, 0x22
     .byte 0x4C, 0x0B

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600E410
-
-
+	.text
     .global car_update_simple
-    .type car_update_simple, @function
 car_update_simple:
     mov.l r14, @-r15
     sts.l pr, @-r15

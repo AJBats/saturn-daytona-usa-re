@@ -1,6 +1,5 @@
-    .section .text.FUN_060266CC
+	.text
     .global sprite_anim_update
-    .type sprite_anim_update, @function
 sprite_anim_update:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

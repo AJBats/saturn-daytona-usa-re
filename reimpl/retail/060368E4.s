@@ -1,6 +1,5 @@
-    .section .text.FUN_060368E4
+	.text
     .global obj_render_queue
-    .type obj_render_queue, @function
 obj_render_queue:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF8

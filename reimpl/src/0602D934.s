@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602D934
-
-
+	.text
     .global vtx_transform_full
-    .type vtx_transform_full, @function
 vtx_transform_full:
     sts.l pr, @-r15
     jsr @r12

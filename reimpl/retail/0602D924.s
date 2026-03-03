@@ -1,6 +1,5 @@
-    .section .text.FUN_0602D924
+	.text
     .global disp_elem_render_ext
-    .type disp_elem_render_ext, @function
 disp_elem_render_ext:
     .byte 0x4F, 0x22
     .byte 0x6E, 0x03

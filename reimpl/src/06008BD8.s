@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06008BD8
-
-
+	.text
     .global state_loading_init
-    .type state_loading_init, @function
 state_loading_init:
     sts.l pr, @-r15
     mov #0xB, r3

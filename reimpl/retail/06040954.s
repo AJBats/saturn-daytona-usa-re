@@ -1,6 +1,5 @@
-    .section .text.FUN_06040954
+	.text
     .global evt_status_flag_set
-    .type evt_status_flag_set, @function
 evt_status_flag_set:
     .byte 0x4F, 0x22
     .byte 0xB0, 0x05

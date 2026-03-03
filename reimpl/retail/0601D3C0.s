@@ -1,6 +1,5 @@
-    .section .text.FUN_0601D3C0
+	.text
     .global render_setup_dispatch
-    .type render_setup_dispatch, @function
 render_setup_dispatch:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

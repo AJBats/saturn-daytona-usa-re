@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060263EC
-
-
+	.text
     .global transform_heading_alt
-    .type transform_heading_alt, @function
 transform_heading_alt:
     mov.l r14, @-r15
     mov.l r13, @-r15

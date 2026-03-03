@@ -1,6 +1,5 @@
-    .section .text.FUN_0603F202
+	.text
     .global sprite_batch_emit
-    .type sprite_batch_emit, @function
 sprite_batch_emit:
     .byte 0x60, 0x43
     .byte 0x63, 0x43

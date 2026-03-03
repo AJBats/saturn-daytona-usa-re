@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06036710
-
-
+	.text
     .global bbox_overlap_test
-    .type bbox_overlap_test, @function
 bbox_overlap_test:
     sts.l pr, @-r15
     add #-0x8, r15

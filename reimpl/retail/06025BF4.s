@@ -1,6 +1,5 @@
-    .section .text.FUN_06025BF4
+	.text
     .global scene_physics_variant
-    .type scene_physics_variant, @function
 scene_physics_variant:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060030FC
-
-
+	.text
     .global system_init
-    .type system_init, @function
 system_init:
     mov.l r14, @-r15
     mov #0x1, r14
@@ -164,7 +160,6 @@ system_init:
     .4byte  g_game_state
 
     .global sound_timer_init
-    .type sound_timer_init, @function
 sound_timer_init:
     sts.l pr, @-r15
     mov.l   .L_060032C0, r3
@@ -214,7 +209,6 @@ sound_timer_init:
     mov.b r4, @r3
 
     .global vdp_init_dispatch
-    .type vdp_init_dispatch, @function
 vdp_init_dispatch:
     mov.l r14, @-r15
     sts.l pr, @-r15

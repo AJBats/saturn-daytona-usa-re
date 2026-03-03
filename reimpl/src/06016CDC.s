@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06016CDC
-
-
+	.text
     .global track_seg_init
-    .type track_seg_init, @function
 track_seg_init:
     mov.l r14, @-r15
     mov r4, r14

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060116BC
-
-
+	.text
     .global hud_main_draw
-    .type hud_main_draw, @function
 hud_main_draw:
     sts.l pr, @-r15
     mov r4, r8

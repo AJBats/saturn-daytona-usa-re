@@ -1,6 +1,5 @@
-    .section .text.FUN_06036B70
+	.text
     .global particle_spawner
-    .type particle_spawner, @function
 particle_spawner:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF8

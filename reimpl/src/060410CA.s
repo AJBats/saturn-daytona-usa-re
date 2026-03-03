@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060410CA
-
-
+	.text
     .global vblank_int_ext
-    .type vblank_int_ext, @function
 vblank_int_ext:
     sts.l pr, @-r15
     add #-0x14, r15

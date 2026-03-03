@@ -1,6 +1,5 @@
-    .section .text.FUN_06008B04
+	.text
     .global state_course_select_init
-    .type state_course_select_init, @function
 state_course_select_init:
     .byte 0x4F, 0x22
     .byte 0xD3, 0x13

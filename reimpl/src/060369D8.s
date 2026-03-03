@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060369D8
-
-
+	.text
     .global obj_view_frustum
-    .type obj_view_frustum, @function
 obj_view_frustum:
     sts.l pr, @-r15
     add #-0x10, r15

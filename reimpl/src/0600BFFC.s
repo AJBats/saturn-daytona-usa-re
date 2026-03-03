@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600BFFC
-
-
+	.text
     .global scene_master
-    .type scene_master, @function
 scene_master:
     mov.l r14, @-r15
     mov.l r13, @-r15

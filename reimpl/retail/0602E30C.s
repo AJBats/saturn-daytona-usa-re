@@ -1,6 +1,5 @@
-    .section .text.FUN_0602E30C
+	.text
     .global vdp2_coeff_stub
-    .type vdp2_coeff_stub, @function
 vdp2_coeff_stub:
     .byte 0x4F, 0x22
     .byte 0x4C, 0x0B

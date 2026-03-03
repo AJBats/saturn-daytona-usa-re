@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603FAE4
-
-
+	.text
     .global attract_display_orch
-    .type attract_display_orch, @function
 attract_display_orch:
     sts.l pr, @-r15
     add #-0x4, r15

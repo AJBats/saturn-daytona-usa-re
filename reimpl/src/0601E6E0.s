@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601E6E0
-
-
+	.text
     .global mat_euler_rotate
-    .type mat_euler_rotate, @function
 mat_euler_rotate:
     mov.l r14, @-r15
     mov.l r13, @-r15

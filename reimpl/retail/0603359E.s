@@ -1,6 +1,5 @@
-    .section .text.FUN_0603359E
+	.text
     .global disp_course_thunk_2
-    .type disp_course_thunk_2, @function
 disp_course_thunk_2:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603F582
-
-
+	.text
     .global vblank_dma_chain
-    .type vblank_dma_chain, @function
 vblank_dma_chain:
     mov.l r14, @-r15
     mov.l r13, @-r15

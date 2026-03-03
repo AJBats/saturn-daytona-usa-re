@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603AEE8
-
-
+	.text
     .global cmd_queue_process
-    .type cmd_queue_process, @function
 cmd_queue_process:
     mov.l r14, @-r15
     mov.l r13, @-r15

@@ -1,6 +1,5 @@
-    .section .text.FUN_060330A4
+	.text
     .global disp_util_main
-    .type disp_util_main, @function
 disp_util_main:
     .byte 0x4F, 0x22
     .byte 0xB0, 0x61

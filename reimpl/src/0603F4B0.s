@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603F4B0
-
-
+	.text
     .global audio_frame_process
-    .type audio_frame_process, @function
 audio_frame_process:
     sts.l pr, @-r15
     add #-0x4, r15

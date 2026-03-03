@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06013E7A
-
-
+	.text
     .global end_race_score
-    .type end_race_score, @function
 end_race_score:
     mov.l r14, @-r15
     mov.w   DAT_06013f48, r5

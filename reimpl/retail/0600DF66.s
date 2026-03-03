@@ -1,6 +1,5 @@
-    .section .text.FUN_0600DF66
+	.text
     .global update_mode_dispatch
-    .type update_mode_dispatch, @function
 update_mode_dispatch:
     .byte 0x4F, 0x22
     .byte 0xD3, 0x12

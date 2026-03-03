@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600553C
-
-
+	.text
     .global sprite_frame_select
-    .type sprite_frame_select, @function
 sprite_frame_select:
     mov.l r14, @-r15
     sts.l pr, @-r15

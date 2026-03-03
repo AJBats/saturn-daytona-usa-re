@@ -1,6 +1,5 @@
-    .section .text.FUN_06022820
+	.text
     .global render_list_builder
-    .type render_list_builder, @function
 render_list_builder:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

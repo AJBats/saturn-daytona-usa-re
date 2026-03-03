@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060200A4
-
-
+	.text
     .global race_start_obj_init
-    .type race_start_obj_init, @function
 race_start_obj_init:
     mov.l r14, @-r15
     sts.l pr, @-r15

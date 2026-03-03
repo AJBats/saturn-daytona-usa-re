@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603C1A8
-
-
+	.text
     .global hud_menu_system
-    .type hud_menu_system, @function
 hud_menu_system:
     mov.l r14, @-r15
     mov #0x1, r7
@@ -759,7 +755,6 @@ DAT_0603c49c:
     .4byte  0x0000FFEF
 
     .global hud_display_ext
-    .type hud_display_ext, @function
 hud_display_ext:
     mov.l r14, @-r15
     mov.l r13, @-r15
@@ -1525,7 +1520,6 @@ DAT_0603cae2:
     .4byte  sym_060A4D8C
 
     .global display_palette_calc
-    .type display_palette_calc, @function
 display_palette_calc:
     mov.l r14, @-r15
     mov.l r13, @-r15

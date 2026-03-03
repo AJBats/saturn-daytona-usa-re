@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602F9A6
-
-
+	.text
     .global track_render_pipeline
-    .type track_render_pipeline, @function
 track_render_pipeline:
     sts.l pr, @-r15
     mov.l @r14, r14

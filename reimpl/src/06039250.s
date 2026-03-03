@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06039250
-
-
+	.text
     .global vdp2_scroll_update
-    .type vdp2_scroll_update, @function
 vdp2_scroll_update:
     mov.l r14, @-r15
     mov.l r13, @-r15
@@ -113,7 +109,6 @@ DAT_060392e6:
     .4byte  sym_060635CC
 
     .global polygon_param_setup
-    .type polygon_param_setup, @function
 polygon_param_setup:
     mov.l r14, @-r15
     extu.w r4, r1

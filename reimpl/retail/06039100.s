@@ -1,6 +1,5 @@
-    .section .text.FUN_06039100
+	.text
     .global color_transform_calc
-    .type color_transform_calc, @function
 color_transform_calc:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

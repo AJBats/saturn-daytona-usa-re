@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601FD9C
-
-
+	.text
     .global vram_alloc_mgr
-    .type vram_alloc_mgr, @function
 vram_alloc_mgr:
     sts.l pr, @-r15
     mov.l   .L_0601FE00, r4

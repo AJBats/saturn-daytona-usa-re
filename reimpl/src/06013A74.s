@@ -1,10 +1,5 @@
-
-
-    .section .text.FUN_06013A74
-
-
+	.text
     .global best_time_compare
-    .type best_time_compare, @function
 best_time_compare:
     sts.l pr, @-r15
     .byte   0xB4, 0x73    /* bsr 0x06014360 (external) */

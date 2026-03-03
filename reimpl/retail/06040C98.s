@@ -1,6 +1,5 @@
-    .section .text.FUN_06040C98
+	.text
     .global road_segment_check
-    .type road_segment_check, @function
 road_segment_check:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

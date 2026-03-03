@@ -1,6 +1,5 @@
-    .section .text.FUN_06007D8E
+	.text
     .global dma_queue_commit
-    .type dma_queue_commit, @function
 dma_queue_commit:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

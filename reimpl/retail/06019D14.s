@@ -1,6 +1,5 @@
-    .section .text.FUN_06019D14
+	.text
     .global trans_select_at_mt
-    .type trans_select_at_mt, @function
 trans_select_at_mt:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

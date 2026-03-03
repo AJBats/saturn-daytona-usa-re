@@ -1,6 +1,5 @@
-    .section .text.FUN_06008EBC
+	.text
     .global state_race_setup
-    .type state_race_setup, @function
 state_race_setup:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

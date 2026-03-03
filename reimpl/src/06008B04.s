@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06008B04
-
-
+	.text
     .global state_course_select_init
-    .type state_course_select_init, @function
 state_course_select_init:
     sts.l pr, @-r15
     .byte   0xD3, 0x13    /* mov.l .L_pool_06008B54, r3 */

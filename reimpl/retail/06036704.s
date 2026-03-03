@@ -1,6 +1,5 @@
-    .section .text.FUN_06036704
+	.text
     .global track_dist_threshold
-    .type track_dist_threshold, @function
 track_dist_threshold:
     .byte 0x2F, 0xE6
     .byte 0x6E, 0x53

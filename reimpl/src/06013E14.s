@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06013E14
-
-
+	.text
     .global score_commit_save
-    .type score_commit_save, @function
 score_commit_save:
     mov.l r14, @-r15
     mov.l   .L_06013E34, r0

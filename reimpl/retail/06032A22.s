@@ -1,6 +1,5 @@
-    .section .text.FUN_06032A22
+	.text
     .global speed_display_commit
-    .type speed_display_commit, @function
 speed_display_commit:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B

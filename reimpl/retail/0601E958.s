@@ -1,6 +1,5 @@
-    .section .text.FUN_0601E958
+	.text
     .global geom_vertex_process
-    .type geom_vertex_process, @function
 geom_vertex_process:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06014D2C
-
-
+	.text
     .global ai_waypoint_pathfind
-    .type ai_waypoint_pathfind, @function
 ai_waypoint_pathfind:
     mov.l r14, @-r15
     mov.l r13, @-r15

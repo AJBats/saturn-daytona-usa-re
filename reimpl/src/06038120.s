@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06038120
-
-
+	.text
     .global scene_buffer_init
-    .type scene_buffer_init, @function
 scene_buffer_init:
     mov.l r14, @-r15
     mov.l r13, @-r15

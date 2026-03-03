@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06033606
-
-
+	.text
     .global disp_course_separator
-    .type disp_course_separator, @function
 disp_course_separator:
     sts.l pr, @-r15
     jsr @r0

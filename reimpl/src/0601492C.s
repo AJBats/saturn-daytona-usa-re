@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601492C
-
-
+	.text
     .global channel_config_a
-    .type channel_config_a, @function
 channel_config_a:
     mov.l r14, @-r15
     sts.l pr, @-r15

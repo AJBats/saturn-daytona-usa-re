@@ -1,6 +1,5 @@
-    .section .text.FUN_0600553C
+	.text
     .global sprite_frame_select
-    .type sprite_frame_select, @function
 sprite_frame_select:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

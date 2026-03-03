@@ -1,6 +1,5 @@
-    .section .text.FUN_06016230
+	.text
     .global results_scroll_anim
-    .type results_scroll_anim, @function
 results_scroll_anim:
     .byte 0x4F, 0x22
     .byte 0x6D, 0x4C

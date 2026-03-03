@@ -1,8 +1,5 @@
-    .section .text.FUN_06008B9C
-
-
+	.text
     .global FUN_06008B9C
-    .type FUN_06008B9C, @function
 FUN_06008B9C:
     sts.l pr, @-r15
     mov.l   .L_pool_06008BD0, r3

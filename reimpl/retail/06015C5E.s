@@ -1,6 +1,5 @@
-    .section .text.FUN_06015C5E
+	.text
     .global time_delta_format
-    .type time_delta_format, @function
 time_delta_format:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

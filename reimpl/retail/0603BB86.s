@@ -1,6 +1,5 @@
-    .section .text.FUN_0603BB86
+	.text
     .global save_header_parse
-    .type save_header_parse, @function
 save_header_parse:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

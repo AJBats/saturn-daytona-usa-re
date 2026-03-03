@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603FE44
-
-
+	.text
     .global attract_elem_a
-    .type attract_elem_a, @function
 attract_elem_a:
     sts.l pr, @-r15
     mov.l @(8, r15), r3

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06032A62
-
-
+	.text
     .global rpm_gauge_render
-    .type rpm_gauge_render, @function
 rpm_gauge_render:
     sts.l pr, @-r15
     jsr @r0

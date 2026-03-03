@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06014A42
-
-
+	.text
     .global util_wrapper
-    .type util_wrapper, @function
 util_wrapper:
     sts.l pr, @-r15
     .byte   0xB2, 0x76    /* bsr 0x06014F34 (external) */

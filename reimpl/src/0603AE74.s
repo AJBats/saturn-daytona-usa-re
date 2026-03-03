@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603AE74
-
-
+	.text
     .global menu_sound_trigger
-    .type menu_sound_trigger, @function
 menu_sound_trigger:
     mov.l r14, @-r15
     sts.l pr, @-r15

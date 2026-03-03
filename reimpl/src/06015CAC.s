@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06015CAC
-
-
+	.text
     .global time_digit_update
-    .type time_digit_update, @function
 time_digit_update:
     mov.l r14, @-r15
     mov.l r13, @-r15

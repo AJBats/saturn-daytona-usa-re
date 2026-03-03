@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601B7F4
-
-
+	.text
     .global disc_texture_load_ext
-    .type disc_texture_load_ext, @function
 disc_texture_load_ext:
     mov.l r14, @-r15
     mov #0x4, r14

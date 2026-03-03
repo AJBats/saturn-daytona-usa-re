@@ -1,6 +1,5 @@
-    .section .text.FUN_0600C7D8
+	.text
     .global ai_steering_update
-    .type ai_steering_update, @function
 ai_steering_update:
     .byte 0x4F, 0x22
     .byte 0x53, 0xE8

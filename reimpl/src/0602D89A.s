@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602D89A
-
-
+	.text
     .global vtx_clip_flag_set
-    .type vtx_clip_flag_set, @function
 vtx_clip_flag_set:
     mov.l r14, @-r15
     sts.l pr, @-r15

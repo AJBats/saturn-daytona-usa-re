@@ -1,6 +1,5 @@
-    .section .text.FUN_06008BD8
+	.text
     .global state_loading_init
-    .type state_loading_init, @function
 state_loading_init:
     .byte 0x4F, 0x22
     .byte 0xE3, 0x0B

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06032972
-
-
+	.text
     .global speed_alt_render
-    .type speed_alt_render, @function
 speed_alt_render:
     sts.l pr, @-r15
     jsr @r0

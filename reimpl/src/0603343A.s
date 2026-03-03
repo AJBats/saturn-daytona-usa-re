@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603343A
-
-
+	.text
     .global split_hud_render
-    .type split_hud_render, @function
 split_hud_render:
     sts.l pr, @-r15
     .byte   0xBE, 0x1E    /* bsr 0x0603307C (external) */

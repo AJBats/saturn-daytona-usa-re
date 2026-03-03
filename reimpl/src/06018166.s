@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06018166
-
-
+	.text
     .global geom_math_calc
-    .type geom_math_calc, @function
 geom_math_calc:
     mov.l r14, @-r15
     mov.l r13, @-r15

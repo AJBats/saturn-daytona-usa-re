@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06018E22
-
-
+	.text
     .global mode_flag_set_a
-    .type mode_flag_set_a, @function
 mode_flag_set_a:
     sts.l pr, @-r15
     mov r4, r0

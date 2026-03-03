@@ -1,6 +1,5 @@
-    .section .text.FUN_0603B168
+	.text
     .global menu_select_hl
-    .type menu_select_hl, @function
 menu_select_hl:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xEC

@@ -1,6 +1,5 @@
-    .section .text.FUN_0602834A
+	.text
     .global hud_number_display
-    .type hud_number_display, @function
 hud_number_display:
     .byte 0x4F, 0x22
     .byte 0xD0, 0x05

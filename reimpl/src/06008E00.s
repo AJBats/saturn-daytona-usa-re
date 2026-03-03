@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06008E00
-
-
+	.text
     .global state_race_prepare
-    .type state_race_prepare, @function
 state_race_prepare:
     sts.l pr, @-r15
     .byte   0xD3, 0x20    /* mov.l .L_fn_race_resource_init, r3 */

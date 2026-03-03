@@ -1,6 +1,5 @@
-    .section .text.FUN_0603FE80
+	.text
     .global scu_dma_transfer
-    .type scu_dma_transfer, @function
 scu_dma_transfer:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

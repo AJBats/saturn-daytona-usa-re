@@ -1,6 +1,5 @@
-    .section .text.FUN_06020D46
+	.text
     .global obj_pool_return
-    .type obj_pool_return, @function
 obj_pool_return:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

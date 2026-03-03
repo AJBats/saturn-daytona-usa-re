@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06032930
-
-
+	.text
     .global hud_speed_idx_0
-    .type hud_speed_idx_0, @function
 hud_speed_idx_0:
     sts.l pr, @-r15
     jsr @r0

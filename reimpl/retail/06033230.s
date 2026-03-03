@@ -1,6 +1,5 @@
-    .section .text.FUN_06033230
+	.text
     .global results_separator
-    .type results_separator, @function
 results_separator:
     .byte 0x4F, 0x22
     .byte 0xB0, 0x21

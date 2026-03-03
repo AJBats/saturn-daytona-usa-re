@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602B9EC
-
-
+	.text
     .global scene_graph_walk
-    .type scene_graph_walk, @function
 scene_graph_walk:
     mov.l r14, @-r15
     sts.l pr, @-r15
@@ -394,7 +390,6 @@ loc_0602BC00:
     mov.l @r15+, r8
 
     .global vdp1_cmd_emit
-    .type vdp1_cmd_emit, @function
 vdp1_cmd_emit:
     mul.l r9, r4
     mov.l   .L_0602BCF8, r4

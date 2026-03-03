@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06024D24
-
-
+	.text
     .global render_finalize_b
-    .type render_finalize_b, @function
 render_finalize_b:
     sts.l pr, @-r15
     add #-0x8, r15

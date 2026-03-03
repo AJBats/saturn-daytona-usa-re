@@ -1,6 +1,5 @@
-    .section .text.FUN_060167C8
+	.text
     .global results_cleanup
-    .type results_cleanup, @function
 results_cleanup:
     .byte 0x2F, 0xE6
     .byte 0x6E, 0x43

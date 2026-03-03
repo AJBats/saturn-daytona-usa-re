@@ -1,6 +1,5 @@
-    .section .text.FUN_0603C08C
+	.text
     .global display_scene_update
-    .type display_scene_update, @function
 display_scene_update:
     .byte 0x01, 0x0A
     .byte 0x02, 0x1A

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06032AF0
-
-
+	.text
     .global hud_rpm_digit_0
-    .type hud_rpm_digit_0, @function
 hud_rpm_digit_0:
     sts.l pr, @-r15
     jsr @r0

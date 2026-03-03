@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06015E26
-
-
+	.text
     .global speed_unit_display
-    .type speed_unit_display, @function
 speed_unit_display:
     mov.l r14, @-r15
     mov.l r13, @-r15

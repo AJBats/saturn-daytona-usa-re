@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602C884
-
-
+	.text
     .global vdp1_texture_setup
-    .type vdp1_texture_setup, @function
 vdp1_texture_setup:
     sts.l pr, @-r15
     jsr @r12

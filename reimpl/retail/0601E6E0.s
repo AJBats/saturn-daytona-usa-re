@@ -1,6 +1,5 @@
-    .section .text.FUN_0601E6E0
+	.text
     .global mat_euler_rotate
-    .type mat_euler_rotate, @function
 mat_euler_rotate:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603D9EC
-
-
+	.text
     .global scene_invalidate_a
-    .type scene_invalidate_a, @function
 scene_invalidate_a:
     mov.l r14, @-r15
     mov r4, r14
@@ -93,7 +89,6 @@ scene_invalidate_a:
     .4byte  0x00010000
 
     .global scene_invalidate_b
-    .type scene_invalidate_b, @function
 scene_invalidate_b:
     mov.l r14, @-r15
     mov r4, r14
@@ -185,7 +180,6 @@ scene_invalidate_b:
     .4byte  0x005A0000
 
     .global controller_config
-    .type controller_config, @function
 controller_config:
     mov.l r14, @-r15
     mov r5, r0
@@ -563,7 +557,6 @@ controller_config:
     .4byte  sym_060A3E44
 
     .global scene_color_matrix
-    .type scene_color_matrix, @function
 scene_color_matrix:
     mov.l r14, @-r15
     mov.l r13, @-r15
@@ -889,7 +882,6 @@ scene_color_matrix:
     .4byte  sym_060A4C4C
 
     .global sound_test_player
-    .type sound_test_player, @function
 sound_test_player:
     mov.l r14, @-r15
     mov.l r13, @-r15
@@ -1632,7 +1624,6 @@ DAT_0603e3bc:
     mov.l @r15+, r14
 
     .global options_render
-    .type options_render, @function
 options_render:
     mov.l r14, @-r15
     mov.l r13, @-r15
@@ -2326,7 +2317,6 @@ DAT_0603ea46:
     mov.l @r15+, r14
 
     .global display_channel_handler
-    .type display_channel_handler, @function
 display_channel_handler:
     mov.l r14, @-r15
     mov.l r13, @-r15
@@ -2522,7 +2512,6 @@ display_channel_handler:
     .4byte  sym_060A3E68
 
     .global hud_update_main
-    .type hud_update_main, @function
 hud_update_main:
     mov.l r14, @-r15
     mov.l r13, @-r15

@@ -1,6 +1,5 @@
-    .section .text.FUN_06018738
+	.text
     .global course0_bg_load
-    .type course0_bg_load, @function
 course0_bg_load:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

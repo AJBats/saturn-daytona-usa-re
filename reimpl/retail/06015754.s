@@ -1,6 +1,5 @@
-    .section .text.FUN_06015754
+	.text
     .global minimap_full_update
-    .type minimap_full_update, @function
 minimap_full_update:
     .byte 0x4F, 0x22
     .byte 0x63, 0x43

@@ -1,6 +1,5 @@
-    .section .text.FUN_06015D30
+	.text
     .global position_suffix_ordinal
-    .type position_suffix_ordinal, @function
 position_suffix_ordinal:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

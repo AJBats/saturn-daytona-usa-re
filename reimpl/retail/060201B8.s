@@ -1,6 +1,5 @@
-    .section .text.FUN_060201B8
+	.text
     .global obj_pool_alloc
-    .type obj_pool_alloc, @function
 obj_pool_alloc:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

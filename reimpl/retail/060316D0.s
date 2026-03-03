@@ -1,6 +1,5 @@
-    .section .text.FUN_060316D0
+	.text
     .global collision_impulse
-    .type collision_impulse, @function
 collision_impulse:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22
@@ -26,9 +25,8 @@ collision_impulse:
     .byte 0x65, 0x93
     .byte 0x35, 0x78
     .byte 0xD0, 0x15
-    .section .text.FUN_06031700
+	.text
     .global collision_order_a
-    .type collision_order_a, @function
 collision_order_a:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -236,9 +234,8 @@ DAT_060317c6:
     .byte 0x65, 0x93
     .byte 0x35, 0x78
     .byte 0xD0, 0x14
-    .section .text.FUN_06031898
+	.text
     .global collision_order_b
-    .type collision_order_b, @function
 collision_order_b:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B

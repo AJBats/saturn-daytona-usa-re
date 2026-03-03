@@ -1,6 +1,5 @@
-    .section .text.FUN_06046E48
+	.text
     .global binary_final_func
-    .type binary_final_func, @function
 binary_final_func:
     .byte 0x4F, 0x22
     .byte 0xC7, 0x1C

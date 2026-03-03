@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601F4B4
-
-
+	.text
     .global geom_display_proc
-    .type geom_display_proc, @function
 geom_display_proc:
     mov.l r14, @-r15
     mov.l r13, @-r15

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601772E
-
-
+	.text
     .global track_seg_util
-    .type track_seg_util, @function
 track_seg_util:
     mov.l r14, @-r15
     mov.l r13, @-r15

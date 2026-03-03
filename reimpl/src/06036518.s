@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06036518
-
-
+	.text
     .global track_surface_type_b
-    .type track_surface_type_b, @function
 track_surface_type_b:
     mov.l r14, @-r15
     mov r6, r14

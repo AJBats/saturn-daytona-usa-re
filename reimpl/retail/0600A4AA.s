@@ -1,6 +1,5 @@
-    .section .text.FUN_0600A4AA
+	.text
     .global camera_pos_calc
-    .type camera_pos_calc, @function
 camera_pos_calc:
     .byte 0x4F, 0x22
     .byte 0xD5, 0x1E

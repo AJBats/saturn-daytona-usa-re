@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06025BF4
-
-
+	.text
     .global scene_physics_variant
-    .type scene_physics_variant, @function
 scene_physics_variant:
     mov.l r14, @-r15
     mov.l r13, @-r15

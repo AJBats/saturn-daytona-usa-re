@@ -1,6 +1,5 @@
-    .section .text.FUN_060103B8
+	.text
     .global brake_state_toggle
-    .type brake_state_toggle, @function
 brake_state_toggle:
     .byte 0x2F, 0xE6
     .byte 0x63, 0x4D

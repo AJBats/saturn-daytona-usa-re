@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600EC78
-
-
+	.text
     .global car_physics_init
-    .type car_physics_init, @function
 car_physics_init:
     mov.l r14, @-r15
     mov.l r13, @-r15

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600DE54
-
-
+	.text
     .global race_state_update
-    .type race_state_update, @function
 race_state_update:
     sts.l pr, @-r15
     .byte   0xD3, 0x17    /* mov.l .L_pool_0600DEB4, r3 */

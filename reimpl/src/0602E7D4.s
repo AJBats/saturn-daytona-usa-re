@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602E7D4
-
-
+	.text
     .global shadow_intensity
-    .type shadow_intensity, @function
 shadow_intensity:
     sts.l pr, @-r15
     jsr @r0

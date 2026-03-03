@@ -1,6 +1,5 @@
-    .section .text.FUN_0601A940
+	.text
     .global course_init_pipeline
-    .type course_init_pipeline, @function
 course_init_pipeline:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

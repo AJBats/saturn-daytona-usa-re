@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602E84A
-
-
+	.text
     .global billboard_scale
-    .type billboard_scale, @function
 billboard_scale:
     sts.l pr, @-r15
     jsr @r13

@@ -1,9 +1,5 @@
-
-   .section .text.FUN_060185D8
-
-
+	.text
    .global track_utility_misc
-   .type track_utility_misc, @function
 track_utility_misc:
     mov.l r14, @-r15
     sts.l pr, @-r15

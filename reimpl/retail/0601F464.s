@@ -1,6 +1,5 @@
-    .section .text.FUN_0601F464
+	.text
     .global mem_pool_alloc
-    .type mem_pool_alloc, @function
 mem_pool_alloc:
     .byte 0x4F, 0x22
     .byte 0xD5, 0x0B

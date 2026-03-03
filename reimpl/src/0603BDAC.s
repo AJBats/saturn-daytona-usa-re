@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603BDAC
-
-
+	.text
     .global save_integrity_check
-    .type save_integrity_check, @function
 save_integrity_check:
     mov.l r14, @-r15
     mov r4, r14

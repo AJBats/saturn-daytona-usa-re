@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06019EF0
-
-
+	.text
     .global pre_race_camera
-    .type pre_race_camera, @function
 pre_race_camera:
     mov.l r14, @-r15
     mov.l r13, @-r15

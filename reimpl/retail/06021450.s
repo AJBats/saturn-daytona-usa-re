@@ -1,6 +1,5 @@
-    .section .text.FUN_06021450
+	.text
     .global track_obj_placement
-    .type track_obj_placement, @function
 track_obj_placement:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

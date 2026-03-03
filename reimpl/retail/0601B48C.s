@@ -1,6 +1,5 @@
-    .section .text.FUN_0601B48C
+	.text
     .global disc_read_check
-    .type disc_read_check, @function
 disc_read_check:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC

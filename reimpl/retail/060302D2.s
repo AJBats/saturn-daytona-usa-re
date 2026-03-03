@@ -1,6 +1,5 @@
-    .section .text.FUN_060302D2
+	.text
     .global engine_sound_body
-    .type engine_sound_body, @function
 engine_sound_body:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

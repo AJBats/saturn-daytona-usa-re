@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600CEBA
-
-
+	.text
     .global FUN_0600CEBA
-    .type FUN_0600CEBA, @function
 FUN_0600CEBA:
     sts.l pr, @-r15
     .byte   0xD4, 0x22    /* mov.l .L_0600CF48, r4 */

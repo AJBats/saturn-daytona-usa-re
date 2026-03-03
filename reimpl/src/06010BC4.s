@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06010BC4
-
-
+	.text
     .global graphics_mode_setup
-    .type graphics_mode_setup, @function
 graphics_mode_setup:
     mov.l r14, @-r15
     mov.l r13, @-r15

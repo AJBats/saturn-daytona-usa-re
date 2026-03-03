@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06032832
-
-
+	.text
     .global hud_besttime_idx_3
-    .type hud_besttime_idx_3, @function
 hud_besttime_idx_3:
     sts.l pr, @-r15
     jsr @r0

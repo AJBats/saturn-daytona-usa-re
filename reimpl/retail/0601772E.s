@@ -1,6 +1,5 @@
-    .section .text.FUN_0601772E
+	.text
     .global track_seg_util
-    .type track_seg_util, @function
 track_seg_util:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

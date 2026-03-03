@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0604140E
-
-
+	.text
     .global nmi_handler
-    .type nmi_handler, @function
 nmi_handler:
     sts.l pr, @-r15
     add #-0xC, r15

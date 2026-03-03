@@ -1,6 +1,5 @@
-    .section .text.FUN_0601AFA4
+	.text
     .global replay_cam_interp
-    .type replay_cam_interp, @function
 replay_cam_interp:
     .byte 0x4F, 0x22
     .byte 0xB0, 0x97

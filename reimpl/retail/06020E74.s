@@ -1,6 +1,5 @@
-    .section .text.FUN_06020E74
+	.text
     .global obj_state_manager
-    .type obj_state_manager, @function
 obj_state_manager:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

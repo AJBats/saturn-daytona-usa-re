@@ -1,6 +1,5 @@
-    .section .text.FUN_0603338E
+	.text
     .global disp_result_sub_a
-    .type disp_result_sub_a, @function
 disp_result_sub_a:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B

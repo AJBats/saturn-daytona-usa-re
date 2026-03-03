@@ -1,6 +1,5 @@
-    .section .text.FUN_0603D7B0
+	.text
     .global options_menu_state
-    .type options_menu_state, @function
 options_menu_state:
     .byte 0x2F, 0xE6
     .byte 0xE6, 0x01

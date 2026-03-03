@@ -1,6 +1,5 @@
-    .section .text.FUN_060078DC
+	.text
     .global frame_end_commit
-    .type frame_end_commit, @function
 frame_end_commit:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
@@ -171,9 +170,8 @@ DAT_060079ce:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .section .text.FUN_06007A50
+	.text
     .global render_pass_extra
-    .type render_pass_extra, @function
 render_pass_extra:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
@@ -359,9 +357,8 @@ DAT_06007a96:
     .4byte sym_060785FC
     .4byte sym_060280C4
     .4byte sym_0605A008
-    .section .text.FUN_06007BCC
+	.text
     .global vdp1_sprite_builder
-    .type vdp1_sprite_builder, @function
 vdp1_sprite_builder:
     .byte 0x2F, 0xE6
     .byte 0xE4, 0x00

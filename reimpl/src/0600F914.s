@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600F914
-
-
+	.text
     .global transition_handler_c
-    .type transition_handler_c, @function
 transition_handler_c:
     mov.l r14, @-r15
     sts.l pr, @-r15

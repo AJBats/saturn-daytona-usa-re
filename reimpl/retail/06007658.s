@@ -1,6 +1,5 @@
-    .section .text.FUN_06007658
+	.text
     .global vdp1_sprite_render
-    .type vdp1_sprite_render, @function
 vdp1_sprite_render:
     .byte 0x2F, 0xE6
     .byte 0x60, 0x4D

@@ -1,6 +1,5 @@
-    .section .text.FUN_06017CEC
+	.text
     .global track_state_machine
-    .type track_state_machine, @function
 track_state_machine:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

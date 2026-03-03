@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600E7C8
-
-
+	.text
     .global per_frame_race_update
-    .type per_frame_race_update, @function
 per_frame_race_update:
     mov.l r14, @-r15
     sts.l pr, @-r15

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06036754
-
-
+	.text
     .global collision_normal_calc
-    .type collision_normal_calc, @function
 collision_normal_calc:
     sts.l pr, @-r15
     mov r4, r12

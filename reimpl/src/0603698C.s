@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603698C
-
-
+	.text
     .global obj_render_dispatch
-    .type obj_render_dispatch, @function
 obj_render_dispatch:
     sts.l pr, @-r15
     add #-0x8, r15

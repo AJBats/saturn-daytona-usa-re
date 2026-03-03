@@ -1,6 +1,5 @@
-    .section .text.FUN_06013C20
+	.text
     .global bonus_multiplier
-    .type bonus_multiplier, @function
 bonus_multiplier:
     .byte 0x4F, 0x22
     .byte 0xE6, 0x14

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600DCC8
-
-
+	.text
     .global checkpoint_time_calc
-    .type checkpoint_time_calc, @function
 checkpoint_time_calc:
     sts.l pr, @-r15
     add #-0x10, r15

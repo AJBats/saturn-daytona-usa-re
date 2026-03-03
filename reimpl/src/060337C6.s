@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060337C6
-
-
+	.text
     .global display_element_mgr
-    .type display_element_mgr, @function
 display_element_mgr:
     sts.l pr, @-r15
     .byte   0xBE, 0x9C    /* bsr 0x06033504 (external) */

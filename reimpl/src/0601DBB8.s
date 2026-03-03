@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601DBB8
-
-
+	.text
     .global replay_camera_ctrl
-    .type replay_camera_ctrl, @function
 replay_camera_ctrl:
     mov.l r14, @-r15
     mov.l r13, @-r15
@@ -316,7 +312,6 @@ DAT_0601dd34:
     mov.l @r15+, r14
 
     .global camera_cleanup_reset
-    .type camera_cleanup_reset, @function
 camera_cleanup_reset:
     mov.l r14, @-r15
     sts.l pr, @-r15
@@ -373,7 +368,6 @@ DAT_0601de26:
     .4byte  sym_060283E0
 
     .global camera_event_handler
-    .type camera_event_handler, @function
 camera_event_handler:
     mov.l r14, @-r15
     mov.l r13, @-r15
@@ -555,7 +549,6 @@ DAT_0601df1c:
     .4byte  sym_060283E0
 
     .global camera_special_mode
-    .type camera_special_mode, @function
 camera_special_mode:
     mov.l r14, @-r15
     mov.l r13, @-r15
@@ -782,7 +775,6 @@ DAT_0601e0e4:
     .4byte  sym_060283E0
 
     .global geom_matrix_setup
-    .type geom_matrix_setup, @function
 geom_matrix_setup:
     mov.l r14, @-r15
     mov.l r13, @-r15
@@ -1012,7 +1004,6 @@ DAT_0601e24e:
     .4byte  sym_0605DFF0
 
     .global hud_element_pos
-    .type hud_element_pos, @function
 hud_element_pos:
     mov.l r14, @-r15
     mov.l r13, @-r15

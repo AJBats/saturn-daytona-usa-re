@@ -1,6 +1,5 @@
-    .section .text.FUN_0603B9D6
+	.text
     .global save_field_read
-    .type save_field_read, @function
 save_field_read:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

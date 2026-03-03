@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602BDCC
-
-
+	.text
     .global vdp1_list_finalize
-    .type vdp1_list_finalize, @function
 vdp1_list_finalize:
     mov.l r8, @-r15
     mov.l r9, @-r15

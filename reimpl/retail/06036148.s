@@ -1,6 +1,5 @@
-    .section .text.FUN_06036148
+	.text
     .global seg_boundary_check
-    .type seg_boundary_check, @function
 seg_boundary_check:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF8

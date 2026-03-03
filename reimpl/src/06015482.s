@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06015482
-
-
+	.text
     .global hud_anim_ctrl
-    .type hud_anim_ctrl, @function
 hud_anim_ctrl:
     sts.l pr, @-r15
     add #-0x4, r15

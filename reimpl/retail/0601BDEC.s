@@ -1,6 +1,5 @@
-    .section .text.FUN_0601BDEC
+	.text
     .global replay_playback_engine
-    .type replay_playback_engine, @function
 replay_playback_engine:
     .byte 0x4F, 0x22
     .byte 0xD7, 0x18

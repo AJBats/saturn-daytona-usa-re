@@ -1,6 +1,5 @@
-    .section .text.FUN_060337AE
+	.text
     .global disp_course_icon
-    .type disp_course_icon, @function
 disp_course_icon:
     .byte 0x4F, 0x22
     .byte 0xBE, 0xB6

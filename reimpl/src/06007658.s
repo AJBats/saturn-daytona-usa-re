@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06007658
-
-
+	.text
     .global vdp1_sprite_render
-    .type vdp1_sprite_render, @function
 vdp1_sprite_render:
     mov.l r14, @-r15
     extu.w r4, r0

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601E2B4
-
-
+	.text
     .global hud_overlay_render
-    .type hud_overlay_render, @function
 hud_overlay_render:
     mov.l r14, @-r15
     mov.l r13, @-r15

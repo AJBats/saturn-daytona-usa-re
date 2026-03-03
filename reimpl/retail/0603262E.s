@@ -1,6 +1,5 @@
-    .section .text.FUN_0603262E
+	.text
     .global disp_rank_elem_b
-    .type disp_rank_elem_b, @function
 disp_rank_elem_b:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B

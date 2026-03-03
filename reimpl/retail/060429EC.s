@@ -1,6 +1,5 @@
-    .section .text.FUN_060429EC
+	.text
     .global color_palette_effect
-    .type color_palette_effect, @function
 color_palette_effect:
     .byte 0x2F, 0xE6
     .byte 0x6E, 0x63

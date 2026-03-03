@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06032A22
-
-
+	.text
     .global speed_display_commit
-    .type speed_display_commit, @function
 speed_display_commit:
     sts.l pr, @-r15
     jsr @r0

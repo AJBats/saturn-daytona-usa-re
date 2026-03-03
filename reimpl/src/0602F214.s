@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602F214
-
-
+	.text
     .global track_seg_render_setup
-    .type track_seg_render_setup, @function
 track_seg_render_setup:
     sts.l pr, @-r15
     jsr @r12

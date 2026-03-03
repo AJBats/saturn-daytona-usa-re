@@ -1,6 +1,5 @@
-    .section .text.FUN_0602EDA2
+	.text
     .global secondary_render_pass
-    .type secondary_render_pass, @function
 secondary_render_pass:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

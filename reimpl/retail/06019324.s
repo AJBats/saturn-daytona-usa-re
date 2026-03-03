@@ -1,6 +1,5 @@
-    .section .text.FUN_06019324
+	.text
     .global race_data_handler
-    .type race_data_handler, @function
 race_data_handler:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

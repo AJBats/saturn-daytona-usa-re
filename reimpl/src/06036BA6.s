@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06036BA6
-
-
+	.text
     .global ai_master_update
-    .type ai_master_update, @function
 ai_master_update:
     sts.l pr, @-r15
     add #-0x8, r15

@@ -1,6 +1,5 @@
-    .section .text.FUN_0603B7C0
+	.text
     .global sys_timer_config
-    .type sys_timer_config, @function
 sys_timer_config:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

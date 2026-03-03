@@ -1,6 +1,5 @@
-    .section .text.FUN_060100A4
+	.text
     .global sprite_anim_render
-    .type sprite_anim_render, @function
 sprite_anim_render:
     .byte 0x2F, 0xE6
     .byte 0x6E, 0x43

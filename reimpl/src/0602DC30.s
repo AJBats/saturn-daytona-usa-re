@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602DC30
-
-
+	.text
     .global vdp1_normal_sprite
-    .type vdp1_normal_sprite, @function
 vdp1_normal_sprite:
     sts.l pr, @-r15
     jsr @r0

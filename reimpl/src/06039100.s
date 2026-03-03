@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06039100
-
-
+	.text
     .global color_transform_calc
-    .type color_transform_calc, @function
 color_transform_calc:
     mov.l r14, @-r15
     mov.l r13, @-r15

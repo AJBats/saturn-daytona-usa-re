@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601B584
-
-
+	.text
     .global course_data_loader
-    .type course_data_loader, @function
 course_data_loader:
     mov.l r14, @-r15
     sts.l pr, @-r15

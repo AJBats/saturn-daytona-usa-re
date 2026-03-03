@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060325A0
-
-
+	.text
     .global disp_digit_thunk_a
-    .type disp_digit_thunk_a, @function
 disp_digit_thunk_a:
     sts.l pr, @-r15
     jsr @r0

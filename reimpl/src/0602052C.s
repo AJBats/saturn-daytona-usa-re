@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602052C
-
-
+	.text
     .global obj_visibility_test
-    .type obj_visibility_test, @function
 obj_visibility_test:
     mov.l r14, @-r15
     mov r4, r0

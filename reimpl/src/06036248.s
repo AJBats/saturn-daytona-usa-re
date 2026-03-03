@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06036248
-
-
+	.text
     .global track_bank_angle
-    .type track_bank_angle, @function
 track_bank_angle:
     sts.l pr, @-r15
     mov r4, r12

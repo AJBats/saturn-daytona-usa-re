@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06015AA4
-
-
+	.text
     .global best_lap_display
-    .type best_lap_display, @function
 best_lap_display:
     mov.l r14, @-r15
     mov.l r13, @-r15

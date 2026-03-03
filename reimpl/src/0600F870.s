@@ -1,8 +1,5 @@
-    .section .text.FUN_0600F870
-
-
+	.text
     .global FUN_0600F870
-    .type FUN_0600F870, @function
 FUN_0600F870:
     sts.l pr, @-r15
     .byte   0xD3, 0x19    /* mov.l .L_pool_0600F8D8, r3 */

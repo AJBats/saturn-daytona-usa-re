@@ -1,6 +1,5 @@
-    .section .text.FUN_0602F270
+	.text
     .global collision_response_b
-    .type collision_response_b, @function
 collision_response_b:
     .byte 0x4F, 0x22
     .byte 0x91, 0x07

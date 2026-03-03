@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06030FCC
-
-
+	.text
     .global sound_enable_toggle
-    .type sound_enable_toggle, @function
 sound_enable_toggle:
     mov.l r14, @-r15
     sts.l pr, @-r15

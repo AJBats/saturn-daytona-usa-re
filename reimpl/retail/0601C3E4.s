@@ -1,6 +1,5 @@
-    .section .text.FUN_0601C3E4
+	.text
     .global master_ctrl_dispatch
-    .type master_ctrl_dispatch, @function
 master_ctrl_dispatch:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

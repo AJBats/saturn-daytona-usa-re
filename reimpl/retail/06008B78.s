@@ -1,6 +1,5 @@
-    .section .text.FUN_06008B78
+	.text
     .global state_car_select_init
-    .type state_car_select_init, @function
 state_car_select_init:
     .byte 0x4F, 0x22
     .byte 0xE3, 0x09

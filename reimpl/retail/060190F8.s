@@ -1,6 +1,5 @@
-    .section .text.FUN_060190F8
+	.text
     .global transition_anim_drive
-    .type transition_anim_drive, @function
 transition_anim_drive:
     .byte 0x4F, 0x22
     .byte 0xDE, 0x0D

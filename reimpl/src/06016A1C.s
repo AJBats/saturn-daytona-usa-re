@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06016A1C
-
-
+	.text
     .global small_number_render
-    .type small_number_render, @function
 small_number_render:
     sts.l pr, @-r15
     add #-0x4, r15

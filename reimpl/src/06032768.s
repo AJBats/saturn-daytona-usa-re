@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06032768
-
-
+	.text
     .global best_lap_render
-    .type best_lap_render, @function
 best_lap_render:
     sts.l pr, @-r15
     jsr @r0

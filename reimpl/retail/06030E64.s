@@ -1,6 +1,5 @@
-    .section .text.FUN_06030E64
+	.text
     .global sound_subsys_wrapper
-    .type sound_subsys_wrapper, @function
 sound_subsys_wrapper:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B

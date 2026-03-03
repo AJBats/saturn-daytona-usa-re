@@ -1,6 +1,5 @@
-    .section .text.FUN_060197F4
+	.text
     .global car_select_state
-    .type car_select_state, @function
 car_select_state:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF4

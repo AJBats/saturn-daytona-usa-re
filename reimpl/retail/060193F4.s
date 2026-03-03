@@ -1,6 +1,5 @@
-    .section .text.FUN_060193F4
+	.text
     .global track_poly_start
-    .type track_poly_start, @function
 track_poly_start:
     .byte 0x2F, 0xE6
     .byte 0xE4, 0x00

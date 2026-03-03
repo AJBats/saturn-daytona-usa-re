@@ -1,6 +1,5 @@
-    .section .text.FUN_060058FA
+	.text
     .global frame_dispatch
-    .type frame_dispatch, @function
 frame_dispatch:
     .byte 0x4F, 0x22
     .byte 0xB1, 0xCC

@@ -1,6 +1,5 @@
-    .section .text.FUN_060262C0
+	.text
     .global transform_heading_apply
-    .type transform_heading_apply, @function
 transform_heading_apply:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

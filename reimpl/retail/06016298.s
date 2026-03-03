@@ -1,6 +1,5 @@
-    .section .text.FUN_06016298
+	.text
     .global results_elem_place
-    .type results_elem_place, @function
 results_elem_place:
     .byte 0x2F, 0xE6
     .byte 0x6E, 0x43

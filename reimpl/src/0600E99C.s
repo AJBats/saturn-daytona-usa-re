@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600E99C
-
-
+	.text
     .global pre_update_setup
-    .type pre_update_setup, @function
 pre_update_setup:
     mov.l r14, @-r15
     sts.l pr, @-r15

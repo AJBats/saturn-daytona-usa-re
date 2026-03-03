@@ -1,6 +1,5 @@
-    .section .text.FUN_06015D94
+	.text
     .global lap_progress_bar
-    .type lap_progress_bar, @function
 lap_progress_bar:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

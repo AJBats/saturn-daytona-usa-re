@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603B130
-
-
+	.text
     .global menu_cursor_pos
-    .type menu_cursor_pos, @function
 menu_cursor_pos:
     mov.l r14, @-r15
     mov.l @(24, r15), r2

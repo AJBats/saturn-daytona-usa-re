@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603B11C
-
-
+	.text
     .global menu_cursor_blink
-    .type menu_cursor_blink, @function
 menu_cursor_blink:
     sts.l pr, @-r15
     add #-0x14, r15

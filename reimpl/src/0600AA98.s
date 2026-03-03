@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600AA98
-
-
+	.text
     .global render_obj_additive
-    .type render_obj_additive, @function
 render_obj_additive:
     mov.l r14, @-r15
     mov.l r13, @-r15

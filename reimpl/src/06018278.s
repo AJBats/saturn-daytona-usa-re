@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06018278
-
-
+	.text
     .global track_calc_helper
-    .type track_calc_helper, @function
 track_calc_helper:
     sts.l pr, @-r15
     mov.l   .L_06018300, r5

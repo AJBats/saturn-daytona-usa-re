@@ -1,6 +1,5 @@
-    .section .text.FUN_06033AAC
+	.text
     .global hud_subsystem_init
-    .type hud_subsystem_init, @function
 hud_subsystem_init:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

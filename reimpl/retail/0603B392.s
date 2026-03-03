@@ -1,6 +1,5 @@
-    .section .text.FUN_0603B392
+	.text
     .global menu_toggle_switch
-    .type menu_toggle_switch, @function
 menu_toggle_switch:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC

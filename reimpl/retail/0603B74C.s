@@ -1,6 +1,5 @@
-    .section .text.FUN_0603B74C
+	.text
     .global sys_boot_table_init
-    .type sys_boot_table_init, @function
 sys_boot_table_init:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

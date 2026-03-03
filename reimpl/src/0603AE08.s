@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603AE08
-
-
+	.text
     .global cmd_status_check
-    .type cmd_status_check, @function
 cmd_status_check:
     mov.l r14, @-r15
     sts.l pr, @-r15

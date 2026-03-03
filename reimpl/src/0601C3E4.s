@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601C3E4
-
-
+	.text
     .global master_ctrl_dispatch
-    .type master_ctrl_dispatch, @function
 master_ctrl_dispatch:
     mov.l r14, @-r15
     mov.l r13, @-r15

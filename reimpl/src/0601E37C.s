@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601E37C
-
-
+	.text
     .global hud_large_element
-    .type hud_large_element, @function
 hud_large_element:
     mov.l r14, @-r15
     mov.l r13, @-r15

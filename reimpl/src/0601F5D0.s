@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601F5D0
-
-
+	.text
     .global mem_pool_reset
-    .type mem_pool_reset, @function
 mem_pool_reset:
     sts.l pr, @-r15
     bsr     .L_0601F87A
@@ -15,7 +11,6 @@ mem_pool_reset:
     .4byte  geom_vertex_process
 
     .global geom_render_util
-    .type geom_render_util, @function
 geom_render_util:
     mov.l r14, @-r15
     mov.l r13, @-r15
@@ -242,7 +237,6 @@ DAT_0601f6ba:
     .4byte  geom_rotation_apply
 
     .global geom_output_finalize
-    .type geom_output_finalize, @function
 geom_output_finalize:
     mov.l r14, @-r15
     mov.l r13, @-r15
@@ -424,7 +418,6 @@ sym_0601F8BC:
     nop
 
     .global geom_output_ctrl
-    .type geom_output_ctrl, @function
 geom_output_ctrl:
     sts.l pr, @-r15
     mov #0x0, r3
@@ -461,7 +454,6 @@ geom_output_ctrl:
     .4byte  sym_060149CC
 
     .global geom_output_dispatch
-    .type geom_output_dispatch, @function
 geom_output_dispatch:
     sts.l pr, @-r15
     add #-0x4, r15
@@ -497,7 +489,6 @@ sym_0601F936:
     mov #0x0, r3
 
     .global resource_validator
-    .type resource_validator, @function
 resource_validator:
     mov.l r14, @-r15
     mov r3, r4
@@ -586,7 +577,6 @@ DAT_0601f964:
     mov.l @r15+, r14
 
     .global geom_output_main
-    .type geom_output_main, @function
 geom_output_main:
     mov.l r14, @-r15
     mov.l r13, @-r15
@@ -1087,7 +1077,6 @@ DAT_0601fc9c:
     mov.l @r15+, r14
 
     .global geom_display_ctrl_a
-    .type geom_display_ctrl_a, @function
 geom_display_ctrl_a:
     sts.l pr, @-r15
     mov.l   .L_0601FD58, r4

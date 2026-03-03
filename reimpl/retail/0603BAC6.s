@@ -1,6 +1,5 @@
-    .section .text.FUN_0603BAC6
+	.text
     .global save_block_copy
-    .type save_block_copy, @function
 save_block_copy:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

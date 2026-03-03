@@ -1,6 +1,5 @@
-    .section .text.FUN_0601D5F4
+	.text
     .global sound_cmd_dispatch
-    .type sound_cmd_dispatch, @function
 sound_cmd_dispatch:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22
@@ -95,9 +94,8 @@ sound_cmd_dispatch:
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .section .text.FUN_0601D6B2
+	.text
     .global sound_write_direct
-    .type sound_write_direct, @function
 sound_write_direct:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC
@@ -115,15 +113,13 @@ sound_write_direct:
     .byte 0x25, 0xA0
     .byte 0x2C, 0x20
     .4byte sym_0608604C
-    .section .text.FUN_0601D6D4
+	.text
     .global sound_channel_a
-    .type sound_channel_a, @function
 sound_channel_a:
     .byte 0x2F, 0xE6
     .byte 0x6E, 0x43
-    .section .text.FUN_0601D6D8
+	.text
     .global snd_channel_a_body
-    .type snd_channel_a_body, @function
 snd_channel_a_body:
     .byte 0x4F, 0x22
     .byte 0xD3, 0x10
@@ -141,15 +137,13 @@ snd_channel_a_body:
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .section .text.FUN_0601D6F8
+	.text
     .global sound_channel_b
-    .type sound_channel_b, @function
 sound_channel_b:
     .byte 0x2F, 0xE6
     .byte 0x6E, 0x43
-    .section .text.FUN_0601D6FC
+	.text
     .global snd_channel_b_body
-    .type snd_channel_b_body, @function
 snd_channel_b_body:
     .byte 0x4F, 0x22
     .byte 0xD3, 0x0A
@@ -172,15 +166,13 @@ snd_channel_b_body:
     .byte 0x25, 0xA0
     .byte 0x2C, 0x20
     .4byte sym_0605DF98
-    .section .text.FUN_0601D72C
+	.text
     .global sound_channel_c
-    .type sound_channel_c, @function
 sound_channel_c:
     .byte 0x2F, 0xE6
     .byte 0x6E, 0x43
-    .section .text.FUN_0601D730
+	.text
     .global snd_channel_c_handler
-    .type snd_channel_c_handler, @function
 snd_channel_c_handler:
     .byte 0x4F, 0x22
     .byte 0xD3, 0x0E
@@ -198,9 +190,8 @@ snd_channel_c_handler:
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .section .text.FUN_0601D750
+	.text
     .global sound_channel_c2
-    .type sound_channel_c2, @function
 sound_channel_c2:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC
@@ -220,15 +211,13 @@ sound_channel_c2:
     .4byte sym_0608604C
     .byte 0x25, 0xA0
     .byte 0x2C, 0x20
-    .section .text.FUN_0601D778
+	.text
     .global sound_pass_direct
-    .type sound_pass_direct, @function
 sound_pass_direct:
     .byte 0x2F, 0xE6
     .byte 0x6E, 0x43
-    .section .text.FUN_0601D77C
+	.text
     .global snd_direct_pass
-    .type snd_direct_pass, @function
 snd_direct_pass:
     .byte 0x4F, 0x22
     .byte 0xD3, 0x10
@@ -246,15 +235,13 @@ snd_direct_pass:
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .section .text.FUN_0601D79C
+	.text
     .global sound_channel_d
-    .type sound_channel_d, @function
 sound_channel_d:
     .byte 0x2F, 0xE6
     .byte 0x6E, 0x43
-    .section .text.FUN_0601D7A0
+	.text
     .global snd_channel_d_handler
-    .type snd_channel_d_handler, @function
 snd_channel_d_handler:
     .byte 0x4F, 0x22
     .byte 0xD3, 0x0A
@@ -277,9 +264,8 @@ snd_channel_d_handler:
     .byte 0x25, 0xA0
     .byte 0x2C, 0x20
     .4byte sym_0605DFA8
-    .section .text.FUN_0601D7D0
+	.text
     .global sound_notify_handler
-    .type sound_notify_handler, @function
 sound_notify_handler:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
@@ -511,9 +497,8 @@ DAT_0601d976:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .section .text.FUN_0601D9B0
+	.text
     .global snd_race_update
-    .type snd_race_update, @function
 snd_race_update:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

@@ -1,6 +1,5 @@
-    .section .text.FUN_060158DE
+	.text
     .global lap_counter_update
-    .type lap_counter_update, @function
 lap_counter_update:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC

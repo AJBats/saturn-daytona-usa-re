@@ -1,6 +1,5 @@
-    .section .text.FUN_060145BC
+	.text
     .global adv_collision_resp
-    .type adv_collision_resp, @function
 adv_collision_resp:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

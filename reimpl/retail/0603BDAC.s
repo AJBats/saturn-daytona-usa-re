@@ -1,6 +1,5 @@
-    .section .text.FUN_0603BDAC
+	.text
     .global save_integrity_check
-    .type save_integrity_check, @function
 save_integrity_check:
     .byte 0x2F, 0xE6
     .byte 0x6E, 0x43

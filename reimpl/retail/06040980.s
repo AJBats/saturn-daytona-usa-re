@@ -1,6 +1,5 @@
-    .section .text.FUN_06040980
+	.text
     .global dma_channel_setup
-    .type dma_channel_setup, @function
 dma_channel_setup:
     .byte 0x4F, 0x22
     .byte 0x61, 0xE3

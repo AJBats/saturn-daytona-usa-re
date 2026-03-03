@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06003A3C
-
-
+	.text
     .global master_init_dispatch
-    .type master_init_dispatch, @function
 master_init_dispatch:
     sts.l pr, @-r15
     mov #0x0, r3

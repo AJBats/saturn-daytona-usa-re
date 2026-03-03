@@ -1,6 +1,5 @@
-    .section .text.FUN_06008C14
+	.text
     .global state_resource_load
-    .type state_resource_load, @function
 state_resource_load:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

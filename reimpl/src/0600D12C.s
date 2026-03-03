@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600D12C
-
-
+	.text
     .global FUN_0600D12C
-    .type FUN_0600D12C, @function
 FUN_0600D12C:
     mov.l r14, @-r15
     mov.l   .L_pool_0600D198, r5

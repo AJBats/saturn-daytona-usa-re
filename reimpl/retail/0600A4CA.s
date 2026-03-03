@@ -1,6 +1,5 @@
-    .section .text.FUN_0600A4CA
+	.text
     .global camera_scene_setup
-    .type camera_scene_setup, @function
 camera_scene_setup:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

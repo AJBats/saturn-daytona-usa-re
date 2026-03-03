@@ -1,6 +1,5 @@
-    .section .text.FUN_0603B6A8
+	.text
     .global menu_ranking_display
-    .type menu_ranking_display, @function
 menu_ranking_display:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

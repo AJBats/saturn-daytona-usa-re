@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06042646
-
-
+	.text
     .global math_trig_lib
-    .type math_trig_lib, @function
 math_trig_lib:
 
     sts.l pr, @-r15

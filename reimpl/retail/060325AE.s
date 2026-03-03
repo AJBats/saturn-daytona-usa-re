@@ -1,6 +1,5 @@
-    .section .text.FUN_060325AE
+	.text
     .global disp_digit_pair_render
-    .type disp_digit_pair_render, @function
 disp_digit_pair_render:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B

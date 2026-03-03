@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603B9D6
-
-
+	.text
     .global save_field_read
-    .type save_field_read, @function
 save_field_read:
     mov.l r14, @-r15
     sts.l pr, @-r15

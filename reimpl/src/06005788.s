@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06005788
-
-
+	.text
     .global bg_layer_init
-    .type bg_layer_init, @function
 bg_layer_init:
     mov.l r14, @-r15
     mov.l r13, @-r15

@@ -1,6 +1,5 @@
-    .section .text.FUN_0600F424
+	.text
     .global game_state_dispatch
-    .type game_state_dispatch, @function
 game_state_dispatch:
     .byte 0x2F, 0xE6
     .byte 0xE3, 0x04

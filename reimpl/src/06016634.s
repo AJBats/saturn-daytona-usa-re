@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06016634
-
-
+	.text
     .global results_transition
-    .type results_transition, @function
 results_transition:
     sts.l pr, @-r15
     add #-0x10, r15

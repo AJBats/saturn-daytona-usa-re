@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602D8C6
-
-
+	.text
     .global FUN_0602D8C6
-    .type FUN_0602D8C6, @function
 FUN_0602D8C6:
     sts.l pr, @-r15
     mov.l @(48, r0), r4

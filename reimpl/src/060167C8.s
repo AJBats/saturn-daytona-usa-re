@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060167C8
-
-
+	.text
     .global results_cleanup
-    .type results_cleanup, @function
 results_cleanup:
     mov.l r14, @-r15
     mov r4, r14

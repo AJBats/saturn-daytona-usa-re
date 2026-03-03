@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600579C
-
-
+	.text
     .global vdp_mode_setup
-    .type vdp_mode_setup, @function
 vdp_mode_setup:
     sts.l pr, @-r15
     mov r14, r6

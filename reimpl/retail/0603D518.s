@@ -1,6 +1,5 @@
-    .section .text.FUN_0603D518
+	.text
     .global name_entry_render
-    .type name_entry_render, @function
 name_entry_render:
     .byte 0x4F, 0x22
     .byte 0x60, 0x63

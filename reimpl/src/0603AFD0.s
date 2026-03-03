@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603AFD0
-
-
+	.text
     .global cmd_error_return
-    .type cmd_error_return, @function
 cmd_error_return:
     mov.l r14, @-r15
     mov #0x10, r0

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06032586
-
-
+	.text
     .global digit_separator
-    .type digit_separator, @function
 digit_separator:
     sts.l pr, @-r15
     jsr @r0

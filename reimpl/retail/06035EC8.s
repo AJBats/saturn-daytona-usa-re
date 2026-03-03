@@ -1,6 +1,5 @@
-    .section .text.FUN_06035EC8
+	.text
     .global input_proc_buttons
-    .type input_proc_buttons, @function
 input_proc_buttons:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

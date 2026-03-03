@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06040680
-
-
+	.text
     .global evt_condition_test
-    .type evt_condition_test, @function
 evt_condition_test:
     sts.l pr, @-r15
     mov #0x0, r5

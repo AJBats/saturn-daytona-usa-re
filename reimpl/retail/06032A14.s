@@ -1,6 +1,5 @@
-    .section .text.FUN_06032A14
+	.text
     .global speed_unit_select
-    .type speed_unit_select, @function
 speed_unit_select:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B

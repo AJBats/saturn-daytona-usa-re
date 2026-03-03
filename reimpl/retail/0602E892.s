@@ -1,6 +1,5 @@
-    .section .text.FUN_0602E892
+	.text
     .global main_scene_render
-    .type main_scene_render, @function
 main_scene_render:
     .byte 0x4F, 0x22
     .byte 0x4D, 0x0B

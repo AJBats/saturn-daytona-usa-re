@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06026590
-
-
+	.text
     .global sprite_pair_render
-    .type sprite_pair_render, @function
 sprite_pair_render:
     mov.l r14, @-r15
     extu.w r5, r5

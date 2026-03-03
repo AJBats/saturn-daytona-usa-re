@@ -1,6 +1,5 @@
-    .section .text.FUN_0601DBB8
+	.text
     .global replay_camera_ctrl
-    .type replay_camera_ctrl, @function
 replay_camera_ctrl:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
@@ -272,9 +271,8 @@ DAT_0601dd34:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .section .text.FUN_0601DDF6
+	.text
     .global camera_cleanup_reset
-    .type camera_cleanup_reset, @function
 camera_cleanup_reset:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22
@@ -319,9 +317,8 @@ DAT_0601de26:
     .byte 0x00, 0x00
     .byte 0xE0, 0x00
     .4byte sym_060283E0
-    .section .text.FUN_0601DE50
+	.text
     .global camera_event_handler
-    .type camera_event_handler, @function
 camera_event_handler:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
@@ -477,9 +474,8 @@ DAT_0601df1c:
     .byte 0x00, 0x00
     .byte 0xE0, 0x00
     .4byte sym_060283E0
-    .section .text.FUN_0601DF88
+	.text
     .global camera_special_mode
-    .type camera_special_mode, @function
 camera_special_mode:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
@@ -674,9 +670,8 @@ DAT_0601e0e4:
     .byte 0x00, 0x00
     .byte 0xE0, 0x00
     .4byte sym_060283E0
-    .section .text.FUN_0601E100
+	.text
     .global geom_matrix_setup
-    .type geom_matrix_setup, @function
 geom_matrix_setup:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
@@ -871,9 +866,8 @@ DAT_0601e24e:
     .4byte sym_06086004
     .4byte sym_06087068
     .4byte sym_0605DFF0
-    .section .text.FUN_0601E26C
+	.text
     .global hud_element_pos
-    .type hud_element_pos, @function
 hud_element_pos:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

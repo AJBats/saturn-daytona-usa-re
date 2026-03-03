@@ -1,6 +1,5 @@
-    .section .text.FUN_0603F354
+	.text
     .global credits_page_build
-    .type credits_page_build, @function
 credits_page_build:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xC8

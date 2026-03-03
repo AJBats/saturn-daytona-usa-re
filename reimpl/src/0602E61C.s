@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602E61C
-
-
+	.text
     .global palette_fade_calc
-    .type palette_fade_calc, @function
 palette_fade_calc:
     mov.l r14, @-r15
     mov.l   .L_pool_0602E639, r9

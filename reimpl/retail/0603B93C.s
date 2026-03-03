@@ -1,6 +1,5 @@
-    .section .text.FUN_0603B93C
+	.text
     .global save_checksum_calc
-    .type save_checksum_calc, @function
 save_checksum_calc:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

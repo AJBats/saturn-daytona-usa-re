@@ -1,6 +1,5 @@
-    .section .text.FUN_0600DD88
+	.text
     .global audio_dist_calc
-    .type audio_dist_calc, @function
 audio_dist_calc:
     .byte 0x4F, 0x22
     .byte 0x74, 0xFF

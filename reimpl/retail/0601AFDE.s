@@ -1,6 +1,5 @@
-    .section .text.FUN_0601AFDE
+	.text
     .global replay_cam_cleanup
-    .type replay_cam_cleanup, @function
 replay_cam_cleanup:
     .byte 0x4F, 0x22
     .byte 0x65, 0x63

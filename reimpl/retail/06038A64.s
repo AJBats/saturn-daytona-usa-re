@@ -1,6 +1,5 @@
-    .section .text.FUN_06038A64
+	.text
     .global display_extra_config
-    .type display_extra_config, @function
 display_extra_config:
     .byte 0x96, 0x19
     .byte 0xD5, 0x0E

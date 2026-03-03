@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06035EC8
-
-
+	.text
     .global input_proc_buttons
-    .type input_proc_buttons, @function
 input_proc_buttons:
     mov.l r14, @-r15
     sts.l pr, @-r15

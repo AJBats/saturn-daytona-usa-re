@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060081F4
-
-
+	.text
     .global gas_force_apply
-    .type gas_force_apply, @function
 gas_force_apply:
     mov.l r14, @-r15
     sts.l pr, @-r15

@@ -1,6 +1,5 @@
-    .section .text.FUN_0601FFB8
+	.text
     .global vram_defrag
-    .type vram_defrag, @function
 vram_defrag:
     .byte 0x4F, 0x22
     .byte 0x4F, 0x12

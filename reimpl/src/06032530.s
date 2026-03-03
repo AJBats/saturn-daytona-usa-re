@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06032530
-
-
+	.text
     .global digit_render_2
-    .type digit_render_2, @function
 digit_render_2:
     sts.l pr, @-r15
     .byte   0xB4, 0xB7    /* bsr 0x06032EA4 (external) */

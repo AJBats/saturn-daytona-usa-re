@@ -1,6 +1,5 @@
-    .section .text.FUN_060423CC
+	.text
     .global cdb_wait_scdq
-    .type cdb_wait_scdq, @function
 cdb_wait_scdq:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06031A34
-
-
+	.text
     .global timer_countdown_display
-    .type timer_countdown_display, @function
 timer_countdown_display:
     mov.l r14, @-r15
     sts.l pr, @-r15

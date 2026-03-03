@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602E870
-
-
+	.text
     .global billboard_uv_map
-    .type billboard_uv_map, @function
 billboard_uv_map:
     sts.l pr, @-r15
     jsr @r13

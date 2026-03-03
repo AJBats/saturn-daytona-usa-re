@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603B8B4
-
-
+	.text
     .global sys_dma_channel_init
-    .type sys_dma_channel_init, @function
 sys_dma_channel_init:
     mov.l r14, @-r15
     mov r4, r14

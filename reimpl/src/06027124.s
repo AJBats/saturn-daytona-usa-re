@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06027124
-
-
+	.text
     .global mat_scale_b
-    .type mat_scale_b, @function
 mat_scale_b:
     .byte   0xD0, 0x81    /* mov.l .L_pool_0602732C, r0 */
     mov.l @r0, r7

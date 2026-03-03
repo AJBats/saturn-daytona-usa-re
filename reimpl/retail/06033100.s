@@ -1,6 +1,5 @@
-    .section .text.FUN_06033100
+	.text
     .global display_palette_load
-    .type display_palette_load, @function
 display_palette_load:
     .byte 0x4F, 0x22
     .byte 0xB0, 0x41

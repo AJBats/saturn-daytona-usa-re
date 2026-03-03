@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06003578
-
-
+	.text
     .global vdp2_register_init
-    .type vdp2_register_init, @function
 vdp2_register_init:
     mov.l r14, @-r15
     mov.l r13, @-r15

@@ -1,6 +1,5 @@
-    .section .text.FUN_0602C8E2
+	.text
     .global vdp1_color_setup
-    .type vdp1_color_setup, @function
 vdp1_color_setup:
     .byte 0x4F, 0x22
     .byte 0xEC, 0x00

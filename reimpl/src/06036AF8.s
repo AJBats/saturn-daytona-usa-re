@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06036AF8
-
-
+	.text
     .global shadow_color_alpha
-    .type shadow_color_alpha, @function
 shadow_color_alpha:
     sts.l pr, @-r15
     mov r5, r13

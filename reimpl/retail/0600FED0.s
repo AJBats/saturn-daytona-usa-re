@@ -1,6 +1,5 @@
-    .section .text.FUN_0600FED0
+	.text
     .global transition_medium_c
-    .type transition_medium_c, @function
 transition_medium_c:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

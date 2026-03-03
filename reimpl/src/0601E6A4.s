@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601E6A4
-
-
+	.text
     .global hud_utility
-    .type hud_utility, @function
 hud_utility:
     mov.l r14, @-r15
     mov.l r13, @-r15

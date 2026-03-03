@@ -1,6 +1,5 @@
-    .section .text.FUN_060210F6
+	.text
     .global obj_render_update
-    .type obj_render_update, @function
 obj_render_update:
     .byte 0x4F, 0x22
     .byte 0xD3, 0x07

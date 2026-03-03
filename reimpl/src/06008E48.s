@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06008E48
-
-
+	.text
     .global state_pre_race
-    .type state_pre_race, @function
 state_pre_race:
     sts.l pr, @-r15
     mov.l   .L_06008EB0, r3

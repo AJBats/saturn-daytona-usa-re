@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060272C0
-
-
+	.text
     .global mat_vec_transform_b
-    .type mat_vec_transform_b, @function
 mat_vec_transform_b:
     mov.l r14, @-r15
     mov.l   .L_pool_0602732C, r0

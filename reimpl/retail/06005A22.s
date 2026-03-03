@@ -1,6 +1,5 @@
-    .section .text.FUN_06005A22
+	.text
     .global input_event_handler
-    .type input_event_handler, @function
 input_event_handler:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

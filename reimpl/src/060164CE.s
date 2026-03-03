@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060164CE
-
-
+	.text
     .global results_ranking_table
-    .type results_ranking_table, @function
 results_ranking_table:
     mov.l r14, @-r15
     mov.l r13, @-r15

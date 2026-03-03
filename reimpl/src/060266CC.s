@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060266CC
-
-
+	.text
     .global sprite_anim_update
-    .type sprite_anim_update, @function
 sprite_anim_update:
     mov.l r14, @-r15
     mov.l r13, @-r15

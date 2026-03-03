@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06012CF4
-
-
+	.text
     .global cd_progress_notify
-    .type cd_progress_notify, @function
 cd_progress_notify:
     mov.l r14, @-r15
     mov.l r13, @-r15

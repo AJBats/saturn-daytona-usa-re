@@ -1,6 +1,5 @@
-    .section .text.FUN_06020284
+	.text
     .global obj_pool_dealloc
-    .type obj_pool_dealloc, @function
 obj_pool_dealloc:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF8

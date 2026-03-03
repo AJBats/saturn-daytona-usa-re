@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602DDCA
-
-
+	.text
     .global vdp1_polyline
-    .type vdp1_polyline, @function
 vdp1_polyline:
     sts.l pr, @-r15
     jsr @r12

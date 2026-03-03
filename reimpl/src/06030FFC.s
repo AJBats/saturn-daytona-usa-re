@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06030FFC
-
-
+	.text
     .global sound_volume_set
-    .type sound_volume_set, @function
 sound_volume_set:
     sts.l pr, @-r15
     jsr @r0

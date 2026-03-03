@@ -1,6 +1,5 @@
-    .section .text.FUN_06028368
+	.text
     .global effect_init_stub
-    .type effect_init_stub, @function
 effect_init_stub:
     .byte 0x4F, 0x22
     .byte 0xD0, 0x05

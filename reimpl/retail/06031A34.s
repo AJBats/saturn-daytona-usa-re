@@ -1,6 +1,5 @@
-    .section .text.FUN_06031A34
+	.text
     .global timer_countdown_display
-    .type timer_countdown_display, @function
 timer_countdown_display:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

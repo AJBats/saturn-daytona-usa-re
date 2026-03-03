@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06042418
-
-
+	.text
     .global fixpt_div_helper
-    .type fixpt_div_helper, @function
 fixpt_div_helper:
     mov.l r14, @-r15
     sts.l pr, @-r15

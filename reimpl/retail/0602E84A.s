@@ -1,6 +1,5 @@
-    .section .text.FUN_0602E84A
+	.text
     .global billboard_scale
-    .type billboard_scale, @function
 billboard_scale:
     .byte 0x4F, 0x22
     .byte 0x4D, 0x0B

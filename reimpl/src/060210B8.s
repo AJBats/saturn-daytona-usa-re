@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060210B8
-
-
+	.text
     .global obj_cleanup
-    .type obj_cleanup, @function
 obj_cleanup:
     mov.l r14, @-r15
     mov #0x0, r14

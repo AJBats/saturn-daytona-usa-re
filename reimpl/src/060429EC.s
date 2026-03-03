@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060429EC
-
-
+	.text
     .global color_palette_effect
-    .type color_palette_effect, @function
 color_palette_effect:
     mov.l r14, @-r15
     mov r6, r14

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060078DC
-
-
+	.text
     .global frame_end_commit
-    .type frame_end_commit, @function
 frame_end_commit:
     mov.l r14, @-r15
     mov.l r13, @-r15
@@ -200,7 +196,6 @@ DAT_060079ce:
     mov.l @r15+, r14
 
     .global render_pass_extra
-    .type render_pass_extra, @function
 render_pass_extra:
     mov.l r14, @-r15
     mov.l r13, @-r15
@@ -407,7 +402,6 @@ DAT_06007a96:
     .4byte  sym_0605A008
 
     .global vdp1_sprite_builder
-    .type vdp1_sprite_builder, @function
 vdp1_sprite_builder:
     mov.l r14, @-r15
     mov #0x0, r4

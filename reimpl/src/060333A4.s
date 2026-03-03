@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060333A4
-
-
+	.text
     .global results_sub_elem
-    .type results_sub_elem, @function
 results_sub_elem:
     sts.l pr, @-r15
     jsr @r0

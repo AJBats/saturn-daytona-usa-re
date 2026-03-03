@@ -1,10 +1,5 @@
-
-    .section .text.FUN_060114B8
-
-
+	.text
     .global hud_layer_composite
-    .type hud_layer_composite, @function
-
 hud_layer_composite:
     sts.l pr, @-r15
     shll2 r0

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06015C5E
-
-
+	.text
     .global time_delta_format
-    .type time_delta_format, @function
 time_delta_format:
     mov.l r14, @-r15
     mov.l r13, @-r15

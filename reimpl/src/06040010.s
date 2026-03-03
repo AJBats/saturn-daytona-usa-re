@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06040010
-
-
+	.text
     .global validation_dispatch
-    .type validation_dispatch, @function
 validation_dispatch:
     sts.l pr, @-r15
     add #-0x4, r15
@@ -123,7 +119,6 @@ DAT_0604009e:
     mov r4, r0
 
     .global obj_init_validate
-    .type obj_init_validate, @function
 obj_init_validate:
     mov.l r14, @-r15
     mov.l r13, @-r15

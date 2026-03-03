@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603BB86
-
-
+	.text
     .global save_header_parse
-    .type save_header_parse, @function
 save_header_parse:
     mov.l r14, @-r15
     mov.l r13, @-r15

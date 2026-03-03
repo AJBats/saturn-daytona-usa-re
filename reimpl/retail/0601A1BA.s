@@ -1,6 +1,5 @@
-    .section .text.FUN_0601A1BA
+	.text
     .global start_light_ctrl
-    .type start_light_ctrl, @function
 start_light_ctrl:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603B424
-
-
+	.text
     .global cmd_dispatch_main
-    .type cmd_dispatch_main, @function
 cmd_dispatch_main:
     mov.l r14, @-r15
     mov #0x12, r0

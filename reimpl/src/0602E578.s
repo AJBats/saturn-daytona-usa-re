@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602E578
-
-
+	.text
     .global rot_scroll_hscale
-    .type rot_scroll_hscale, @function
 rot_scroll_hscale:
     sts.l pr, @-r15
     jsr @r13

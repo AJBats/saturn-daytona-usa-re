@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600FE38
-
-
+	.text
     .global transition_medium_b
-    .type transition_medium_b, @function
 transition_medium_b:
     sts.l pr, @-r15
     add #-0x4, r15

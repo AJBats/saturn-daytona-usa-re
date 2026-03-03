@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060193F4
-
-
+	.text
     .global track_poly_start
-    .type track_poly_start, @function
 track_poly_start:
     mov.l r14, @-r15
     mov #0x0, r4

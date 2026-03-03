@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060201B8
-
-
+	.text
     .global obj_pool_alloc
-    .type obj_pool_alloc, @function
 obj_pool_alloc:
     mov.l r14, @-r15
     mov.l r13, @-r15

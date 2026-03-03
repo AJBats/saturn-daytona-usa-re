@@ -1,6 +1,5 @@
-    .section .text.FUN_0603F93C
+	.text
     .global attract_state_change
-    .type attract_state_change, @function
 attract_state_change:
     .byte 0x2F, 0xE6
     .byte 0xE3, 0x01

@@ -1,6 +1,5 @@
-    .section .text.FUN_06018A3C
+	.text
     .global vdp2_config_extended
-    .type vdp2_config_extended, @function
 vdp2_config_extended:
     .byte 0x2F, 0xE6
     .byte 0xE2, 0x0A

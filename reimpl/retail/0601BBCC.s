@@ -1,6 +1,5 @@
-    .section .text.FUN_0601BBCC
+	.text
     .global replay_record_main
-    .type replay_record_main, @function
 replay_record_main:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

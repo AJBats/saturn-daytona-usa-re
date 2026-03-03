@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06015954
-
-
+	.text
     .global position_change_anim
-    .type position_change_anim, @function
 position_change_anim:
     mov.l r14, @-r15
     mov.l r13, @-r15

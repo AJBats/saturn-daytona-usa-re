@@ -1,6 +1,5 @@
-    .section .text.FUN_06004A98
+	.text
     .global engine_init_global
-    .type engine_init_global, @function
 engine_init_global:
     .byte 0x2F, 0xE6
     .byte 0xEE, 0x00

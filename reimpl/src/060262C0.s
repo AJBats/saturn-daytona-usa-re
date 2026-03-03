@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060262C0
-
-
+	.text
     .global transform_heading_apply
-    .type transform_heading_apply, @function
 transform_heading_apply:
     mov.l r14, @-r15
     mov.l r13, @-r15

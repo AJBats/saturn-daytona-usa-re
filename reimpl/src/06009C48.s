@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06009C48
-
-
+	.text
     .global state_post_race_cleanup
-    .type state_post_race_cleanup, @function
 state_post_race_cleanup:
     sts.l pr, @-r15
     mov.l   .L_06009CB8, r3

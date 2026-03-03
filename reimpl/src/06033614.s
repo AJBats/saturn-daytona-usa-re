@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06033614
-
-
+	.text
     .global course_desc_display
-    .type course_desc_display, @function
 course_desc_display:
     sts.l pr, @-r15
     jsr @r0

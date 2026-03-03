@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603BEB8
-
-
+	.text
     .global save_data_serialize
-    .type save_data_serialize, @function
 save_data_serialize:
     mov.l r14, @-r15
     mov.l r13, @-r15

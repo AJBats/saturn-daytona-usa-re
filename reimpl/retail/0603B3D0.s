@@ -1,6 +1,5 @@
-    .section .text.FUN_0603B3D0
+	.text
     .global menu_separator
-    .type menu_separator, @function
 menu_separator:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC

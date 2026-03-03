@@ -1,6 +1,5 @@
-    .section .text.FUN_0603F9BC
+	.text
     .global attract_demo_loader
-    .type attract_demo_loader, @function
 attract_demo_loader:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF8
@@ -59,9 +58,8 @@ sym_0603FA00:
     .byte 0x22, 0x39
     .byte 0x00, 0x0B
     .byte 0x04, 0x24
-    .section .text.FUN_0603FA1A
+	.text
     .global race_timer_sync
-    .type race_timer_sync, @function
 race_timer_sync:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
@@ -152,9 +150,8 @@ race_timer_sync:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .section .text.FUN_0603FACE
+	.text
     .global scene_buffer_update
-    .type scene_buffer_update, @function
 scene_buffer_update:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

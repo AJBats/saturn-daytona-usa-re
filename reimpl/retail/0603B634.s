@@ -1,6 +1,5 @@
-    .section .text.FUN_0603B634
+	.text
     .global menu_timer_clock
-    .type menu_timer_clock, @function
 menu_timer_clock:
     .byte 0x4F, 0x22
     .byte 0x6E, 0x43

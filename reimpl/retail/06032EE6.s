@@ -1,6 +1,5 @@
-    .section .text.FUN_06032EE6
+	.text
     .global hud_map_elem_01
-    .type hud_map_elem_01, @function
 hud_map_elem_01:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B

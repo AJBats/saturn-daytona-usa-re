@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603D518
-
-
+	.text
     .global name_entry_render
-    .type name_entry_render, @function
 name_entry_render:
     sts.l pr, @-r15
     mov r6, r0

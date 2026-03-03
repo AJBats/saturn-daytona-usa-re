@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601FEC0
-
-
+	.text
     .global geom_final_output
-    .type geom_final_output, @function
 geom_final_output:
     mov.l r14, @-r15
     mov #0x0, r3

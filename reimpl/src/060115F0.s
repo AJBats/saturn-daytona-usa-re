@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060115F0
-
-
+	.text
     .global hud_transparency
-    .type hud_transparency, @function
 hud_transparency:
     mov.l r14, @-r15
     mov.l r13, @-r15

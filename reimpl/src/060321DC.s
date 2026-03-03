@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060321DC
-
-
+	.text
     .global display_init_helper
-    .type display_init_helper, @function
 display_init_helper:
     sts.l pr, @-r15
     .byte   0xB5, 0xD7    /* bsr 0x06032D90 (external) */

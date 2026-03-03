@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603806C
-
-
+	.text
     .global display_enable_ctrl
-    .type display_enable_ctrl, @function
 display_enable_ctrl:
     mov.l r14, @-r15
     mov.l r13, @-r15

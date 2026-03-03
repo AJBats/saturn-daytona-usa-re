@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602382C
-
-
+	.text
     .global scene_setup_master
-    .type scene_setup_master, @function
 scene_setup_master:
     sts.l pr, @-r15
     mov #0x0, r2

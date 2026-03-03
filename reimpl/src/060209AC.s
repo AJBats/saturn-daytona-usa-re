@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060209AC
-
-
+	.text
     .global obj_anim_driver
-    .type obj_anim_driver, @function
 obj_anim_driver:
     mov.l r14, @-r15
     mov r4, r0

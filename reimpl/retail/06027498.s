@@ -1,6 +1,5 @@
-    .section .text.FUN_06027498
+	.text
     .global vec3_normalize
-    .type vec3_normalize, @function
 vec3_normalize:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

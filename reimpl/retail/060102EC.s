@@ -1,6 +1,5 @@
-    .section .text.FUN_060102EC
+	.text
     .global circuit_confirm_handler
-    .type circuit_confirm_handler, @function
 circuit_confirm_handler:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601712C
-
-
+	.text
     .global vdp2_util_loop
-    .type vdp2_util_loop, @function
 vdp2_util_loop:
     mov.l r14, @-r15
     mov.l r13, @-r15

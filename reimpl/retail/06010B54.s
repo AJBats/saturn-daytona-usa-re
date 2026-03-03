@@ -1,6 +1,5 @@
-    .section .text.FUN_06010B54
+	.text
     .global hud_sound_trigger
-    .type hud_sound_trigger, @function
 hud_sound_trigger:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602F5B6
-
-
+	.text
     .global color_material_blend
-    .type color_material_blend, @function
 color_material_blend:
     sts.l pr, @-r15
     mov r0, r14

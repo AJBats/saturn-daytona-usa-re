@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06007D8E
-
-
+	.text
     .global dma_queue_commit
-    .type dma_queue_commit, @function
 dma_queue_commit:
     mov.l r14, @-r15
     mov.l r13, @-r15

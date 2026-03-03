@@ -1,6 +1,5 @@
-    .section .text.FUN_0603F244
+	.text
     .global credits_scroll
-    .type credits_scroll, @function
 credits_scroll:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF4

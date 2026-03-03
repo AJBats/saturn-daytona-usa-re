@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06015EB8
-
-
+	.text
     .global vdp2_layer_init
-    .type vdp2_layer_init, @function
 vdp2_layer_init:
     mov.l r14, @-r15
     mov.l r13, @-r15

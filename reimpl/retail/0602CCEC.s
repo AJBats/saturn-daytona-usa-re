@@ -1,6 +1,5 @@
-    .section .text.FUN_0602CCEC
+	.text
     .global vdp1_attr_setup
-    .type vdp1_attr_setup, @function
 vdp1_attr_setup:
     .byte 0x4F, 0x22
     .byte 0xE7, 0x00

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602E42E
-
-
+	.text
     .global rot_scroll_commit
-    .type rot_scroll_commit, @function
 rot_scroll_commit:
     sts.l pr, @-r15
     jsr @r13

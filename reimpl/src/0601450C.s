@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601450C
-
-
+	.text
     .global camera_track_update
-    .type camera_track_update, @function
 camera_track_update:
     mov.l r14, @-r15
     mov.l   .L_06014598, r14

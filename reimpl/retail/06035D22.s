@@ -1,6 +1,5 @@
-    .section .text.FUN_06035D22
+	.text
     .global smpc_response_handler
-    .type smpc_response_handler, @function
 smpc_response_handler:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

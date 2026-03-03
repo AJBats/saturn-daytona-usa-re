@@ -1,6 +1,5 @@
-    .section .text.FUN_0601905C
+	.text
     .global state_snapshot_compare
-    .type state_snapshot_compare, @function
 state_snapshot_compare:
     .byte 0x4F, 0x22
     .byte 0xDE, 0x0F

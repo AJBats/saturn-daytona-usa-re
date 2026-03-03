@@ -1,6 +1,5 @@
-    .section .text.FUN_0601FD74
+	.text
     .global geom_display_ctrl_b
-    .type geom_display_ctrl_b, @function
 geom_display_ctrl_b:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF0

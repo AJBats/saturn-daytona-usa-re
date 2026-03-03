@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600955E
-
-
+	.text
     .global state_results_screen
-    .type state_results_screen, @function
 state_results_screen:
     mov.l r14, @-r15
     sts.l pr, @-r15

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601389E
-
-
+	.text
     .global gfx_frame_dispatch
-    .type gfx_frame_dispatch, @function
 gfx_frame_dispatch:
     mov.l r14, @-r15
     sts.l pr, @-r15

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602CDF6
-
-
+	.text
     .global vdp1_cmd_list_mgr
-    .type vdp1_cmd_list_mgr, @function
 vdp1_cmd_list_mgr:
     sts.l pr, @-r15
     mov.w   DAT_0602ce44, r7

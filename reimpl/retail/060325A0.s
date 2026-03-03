@@ -1,6 +1,5 @@
-    .section .text.FUN_060325A0
+	.text
     .global disp_digit_thunk_a
-    .type disp_digit_thunk_a, @function
 disp_digit_thunk_a:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B

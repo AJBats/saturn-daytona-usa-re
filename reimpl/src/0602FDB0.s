@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602FDB0
-
-
+	.text
     .global track_scenery_render
-    .type track_scenery_render, @function
 track_scenery_render:
     mov.l r14, @-r15
     sts.l pr, @-r15

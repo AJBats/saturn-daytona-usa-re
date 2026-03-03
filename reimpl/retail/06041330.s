@@ -1,6 +1,5 @@
-    .section .text.FUN_06041330
+	.text
     .global evt_validator_pair
-    .type evt_validator_pair, @function
 evt_validator_pair:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC

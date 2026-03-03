@@ -1,6 +1,5 @@
-    .section .text.FUN_06033240
+	.text
     .global results_full_render
-    .type results_full_render, @function
 results_full_render:
     .byte 0x4F, 0x22
     .byte 0xB0, 0x19

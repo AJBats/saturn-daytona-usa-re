@@ -1,6 +1,5 @@
-    .section .text.FUN_0600BFFC
+	.text
     .global scene_master
-    .type scene_master, @function
 scene_master:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

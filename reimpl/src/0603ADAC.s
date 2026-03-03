@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603ADAC
-
-
+	.text
     .global cmd_dispatch_helper
-    .type cmd_dispatch_helper, @function
 cmd_dispatch_helper:
     mov.l r14, @-r15
     sts.l pr, @-r15

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06012AC4
-
-
+	.text
     .global course_table_lookup
-    .type course_table_lookup, @function
 course_table_lookup:
     mov.l r14, @-r15
     mov.l r13, @-r15

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06039050
-
-
+	.text
     .global vblank_cmd_dispatch
-    .type vblank_cmd_dispatch, @function
 vblank_cmd_dispatch:
     mov.l r14, @-r15
     mov.l r13, @-r15

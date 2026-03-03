@@ -1,6 +1,5 @@
-    .section .text.FUN_06012054
+	.text
     .global file_seek
-    .type file_seek, @function
 file_seek:
     .byte 0x4F, 0x22
     .byte 0xDE, 0x09

@@ -1,6 +1,5 @@
-    .section .text.FUN_0602E320
+	.text
     .global vdp2_coeff_helper_a
-    .type vdp2_coeff_helper_a, @function
 vdp2_coeff_helper_a:
     .byte 0x4F, 0x22
     .byte 0x4D, 0x0B

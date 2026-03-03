@@ -1,6 +1,5 @@
-    .section .text.FUN_0600A026
+	.text
     .global audio_display_init
-    .type audio_display_init, @function
 audio_display_init:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

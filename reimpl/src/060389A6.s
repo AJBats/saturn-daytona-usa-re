@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060389A6
-
-
+	.text
     .global scene_data_dispatch
-    .type scene_data_dispatch, @function
 scene_data_dispatch:
     mov.l r14, @-r15
     sts.l pr, @-r15

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601935E
-
-
+	.text
     .global race_utility_func
-    .type race_utility_func, @function
 race_utility_func:
     sts.l pr, @-r15
     .byte   0xD4, 0x06    /* mov.l .L_0601937C, r4 */

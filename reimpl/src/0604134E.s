@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0604134E
-
-
+	.text
     .global ai_section_check
-    .type ai_section_check, @function
 ai_section_check:
     sts.l pr, @-r15
     .byte   0xD3, 0x04    /* mov.l .L_pool_06041365, r3 */

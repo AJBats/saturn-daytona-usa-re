@@ -1,8 +1,5 @@
-
-    .section .text.FUN_06035D22
-
+	.text
     .global smpc_response_handler
-    .type smpc_response_handler, @function
 smpc_response_handler:
     mov.l r14, @-r15
     sts.l pr, @-r15

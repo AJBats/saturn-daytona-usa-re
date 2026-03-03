@@ -1,6 +1,5 @@
-    .section .text.FUN_06018320
+	.text
     .global vdp2_scroll_config
-    .type vdp2_scroll_config, @function
 vdp2_scroll_config:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

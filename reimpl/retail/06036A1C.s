@@ -1,6 +1,5 @@
-    .section .text.FUN_06036A1C
+	.text
     .global track_shadow_project
-    .type track_shadow_project, @function
 track_shadow_project:
     .byte 0x2F, 0xE6
     .byte 0x6E, 0x53

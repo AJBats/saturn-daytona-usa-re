@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602E4F4
-
-
+	.text
     .global rot_scroll_vscale
-    .type rot_scroll_vscale, @function
 rot_scroll_vscale:
     sts.l pr, @-r15
     jsr @r0

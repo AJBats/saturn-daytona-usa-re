@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602070C
-
-
+	.text
     .global obj_update_dispatch
-    .type obj_update_dispatch, @function
 obj_update_dispatch:
     mov.l r14, @-r15
     mov.l r13, @-r15

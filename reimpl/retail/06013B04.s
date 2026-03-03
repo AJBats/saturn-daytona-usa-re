@@ -1,6 +1,5 @@
-    .section .text.FUN_06013B04
+	.text
     .global ranking_pts_calc
-    .type ranking_pts_calc, @function
 ranking_pts_calc:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

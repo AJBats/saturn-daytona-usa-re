@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603F354
-
-
+	.text
     .global credits_page_build
-    .type credits_page_build, @function
 credits_page_build:
     sts.l pr, @-r15
     add #-0x38, r15

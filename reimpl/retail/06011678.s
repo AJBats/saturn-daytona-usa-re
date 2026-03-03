@@ -1,6 +1,5 @@
-    .section .text.FUN_06011678
+	.text
     .global sprite_buffer_init
-    .type sprite_buffer_init, @function
 sprite_buffer_init:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

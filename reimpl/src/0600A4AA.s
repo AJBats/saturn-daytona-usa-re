@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600A4AA
-
-
+	.text
     .global camera_pos_calc
-    .type camera_pos_calc, @function
 camera_pos_calc:
     sts.l pr, @-r15
     .byte   0xD5, 0x1E    /* mov.l .L_pool_0600A528, r5 */

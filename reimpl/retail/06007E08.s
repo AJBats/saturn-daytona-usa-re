@@ -1,6 +1,5 @@
-    .section .text.FUN_06007E08
+	.text
     .global vblank_frame_handler
-    .type vblank_frame_handler, @function
 vblank_frame_handler:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

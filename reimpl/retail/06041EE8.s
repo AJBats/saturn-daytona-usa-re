@@ -1,6 +1,5 @@
-    .section .text.FUN_06041EE8
+	.text
     .global track_edge_validate
-    .type track_edge_validate, @function
 track_edge_validate:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

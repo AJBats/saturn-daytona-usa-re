@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060158DE
-
-
+	.text
     .global lap_counter_update
-    .type lap_counter_update, @function
 lap_counter_update:
     sts.l pr, @-r15
     add #-0x4, r15

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06032EBE
-
-
+	.text
     .global minimap_offset_set
-    .type minimap_offset_set, @function
 minimap_offset_set:
     sts.l pr, @-r15
     jsr @r0

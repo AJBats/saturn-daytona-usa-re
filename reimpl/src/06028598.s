@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06028598
-
-
+	.text
     .global particle_sys_mgr
-    .type particle_sys_mgr, @function
 particle_sys_mgr:
     sts.l pr, @-r15
     mov r6, r14

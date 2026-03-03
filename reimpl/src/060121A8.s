@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060121A8
-
-
+	.text
     .global race_cleanup_handler
-    .type race_cleanup_handler, @function
 race_cleanup_handler:
     mov.l r14, @-r15
     mov.l r13, @-r15

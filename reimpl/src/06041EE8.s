@@ -1,9 +1,5 @@
-
-   .section .text.FUN_06041EE8
-
-
+	.text
    .global track_edge_validate
-   .type track_edge_validate, @function
 track_edge_validate:
     mov.l r14, @-r15
     mov.l r13, @-r15

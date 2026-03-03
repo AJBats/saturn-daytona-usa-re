@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603B392
-
-
+	.text
     .global menu_toggle_switch
-    .type menu_toggle_switch, @function
 menu_toggle_switch:
     sts.l pr, @-r15
     add #-0x4, r15

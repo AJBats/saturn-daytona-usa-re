@@ -1,6 +1,5 @@
-    .section .text.FUN_0603F948
+	.text
     .global attract_mode_timer
-    .type attract_mode_timer, @function
 attract_mode_timer:
     .byte 0x4F, 0x22
     .byte 0x2E, 0xD2

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601D5F4
-
-
+	.text
     .global sound_cmd_dispatch
-    .type sound_cmd_dispatch, @function
 sound_cmd_dispatch:
     mov.l r14, @-r15
     sts.l pr, @-r15
@@ -111,7 +107,6 @@ sound_cmd_dispatch:
     mov.l @r15+, r14
 
     .global sound_write_direct
-    .type sound_write_direct, @function
 sound_write_direct:
     sts.l pr, @-r15
     add #-0x4, r15
@@ -132,13 +127,11 @@ sound_write_direct:
     .4byte  sym_0608604C
 
     .global sound_channel_a
-    .type sound_channel_a, @function
 sound_channel_a:
     mov.l r14, @-r15
     mov r4, r14
 
     .global snd_channel_a_body
-    .type snd_channel_a_body, @function
 snd_channel_a_body:
     sts.l pr, @-r15
     mov.l   .L_0601D71C, r3
@@ -159,13 +152,11 @@ snd_channel_a_body:
     mov.l @r15+, r14
 
     .global sound_channel_b
-    .type sound_channel_b, @function
 sound_channel_b:
     mov.l r14, @-r15
     mov r4, r14
 
     .global snd_channel_b_body
-    .type snd_channel_b_body, @function
 snd_channel_b_body:
     sts.l pr, @-r15
     mov.l   .L_0601D728, r3
@@ -194,13 +185,11 @@ snd_channel_b_body:
     .4byte  sym_0605DF98                    /* chan B last-command cache */
 
     .global sound_channel_c
-    .type sound_channel_c, @function
 sound_channel_c:
     mov.l r14, @-r15
     mov r4, r14
 
     .global snd_channel_c_handler
-    .type snd_channel_c_handler, @function
 snd_channel_c_handler:
     sts.l pr, @-r15
     mov.l   .L_0601D76C, r3
@@ -221,7 +210,6 @@ snd_channel_c_handler:
     mov.l @r15+, r14
 
     .global sound_channel_c2
-    .type sound_channel_c2, @function
 sound_channel_c2:
     sts.l pr, @-r15
     add #-0x4, r15
@@ -245,13 +233,11 @@ sound_channel_c2:
     .4byte  0x25A02C20
 
     .global sound_pass_direct
-    .type sound_pass_direct, @function
 sound_pass_direct:
     mov.l r14, @-r15
     mov r4, r14
 
     .global snd_direct_pass
-    .type snd_direct_pass, @function
 snd_direct_pass:
     sts.l pr, @-r15
     mov.l   .L_0601D7C0, r3
@@ -272,13 +258,11 @@ snd_direct_pass:
     mov.l @r15+, r14
 
     .global sound_channel_d
-    .type sound_channel_d, @function
 sound_channel_d:
     mov.l r14, @-r15
     mov r4, r14
 
     .global snd_channel_d_handler
-    .type snd_channel_d_handler, @function
 snd_channel_d_handler:
     sts.l pr, @-r15
     mov.l   .L_0601D7CC, r3
@@ -307,7 +291,6 @@ snd_channel_d_handler:
     .4byte  sym_0605DFA8                    /* chan D last-command cache */
 
     .global sound_notify_handler
-    .type sound_notify_handler, @function
 sound_notify_handler:
     mov.l r14, @-r15
     mov.l r13, @-r15
@@ -569,7 +552,6 @@ DAT_0601d976:
     mov.l @r15+, r14
 
     .global snd_race_update
-    .type snd_race_update, @function
 snd_race_update:
     mov.l r14, @-r15
     mov.l r13, @-r15

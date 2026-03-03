@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060156AC
-
-
+	.text
     .global minimap_car_dot
-    .type minimap_car_dot, @function
 minimap_car_dot:
     sts.l pr, @-r15
     add #-0x4, r15

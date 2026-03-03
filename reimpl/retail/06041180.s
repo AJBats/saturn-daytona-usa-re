@@ -1,6 +1,5 @@
-    .section .text.FUN_06041180
+	.text
     .global queue_helper
-    .type queue_helper, @function
 queue_helper:
     .byte 0x4F, 0x22
     .byte 0xD3, 0x1E

@@ -1,6 +1,5 @@
-    .section .text.FUN_06032CCE
+	.text
     .global gear_display_commit
-    .type gear_display_commit, @function
 gear_display_commit:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B

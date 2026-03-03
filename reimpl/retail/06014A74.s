@@ -1,6 +1,5 @@
-    .section .text.FUN_06014A74
+	.text
     .global display_mode_init
-    .type display_mode_init, @function
 display_mode_init:
     .byte 0x2F, 0xE6
     .byte 0xEE, 0x19

@@ -1,6 +1,5 @@
-    .section .text.FUN_0603B11C
+	.text
     .global menu_cursor_blink
-    .type menu_cursor_blink, @function
 menu_cursor_blink:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xEC

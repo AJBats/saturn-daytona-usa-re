@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601E4D4
-
-
+	.text
     .global hud_state_machine
-    .type hud_state_machine, @function
 hud_state_machine:
     mov.l r14, @-r15
     mov.l r13, @-r15

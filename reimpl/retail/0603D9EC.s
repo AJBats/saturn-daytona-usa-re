@@ -1,6 +1,5 @@
-    .section .text.FUN_0603D9EC
+	.text
     .global scene_invalidate_a
-    .type scene_invalidate_a, @function
 scene_invalidate_a:
     .byte 0x2F, 0xE6
     .byte 0x6E, 0x43
@@ -78,9 +77,8 @@ scene_invalidate_a:
     .byte 0xFF, 0xFF
     .byte 0x00, 0x01
     .byte 0x00, 0x00
-    .section .text.FUN_0603DA88
+	.text
     .global scene_invalidate_b
-    .type scene_invalidate_b, @function
 scene_invalidate_b:
     .byte 0x2F, 0xE6
     .byte 0x6E, 0x43
@@ -160,9 +158,8 @@ scene_invalidate_b:
     .byte 0x00, 0x00
     .byte 0x00, 0x5A
     .byte 0x00, 0x00
-    .section .text.FUN_0603DB28
+	.text
     .global controller_config
-    .type controller_config, @function
 controller_config:
     .byte 0x2F, 0xE6
     .byte 0x60, 0x53
@@ -505,9 +502,8 @@ controller_config:
     .byte 0x00, 0x07
     .byte 0xFF, 0x80
     .4byte sym_060A3E44
-    .section .text.FUN_0603DDFC
+	.text
     .global scene_color_matrix
-    .type scene_color_matrix, @function
 scene_color_matrix:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
@@ -793,9 +789,8 @@ scene_color_matrix:
     .4byte sym_060A4C78
     .4byte sym_060A4C54
     .4byte sym_060A4C4C
-    .section .text.FUN_0603E050
+	.text
     .global sound_test_player
-    .type sound_test_player, @function
 sound_test_player:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
@@ -1474,9 +1469,8 @@ DAT_0603e3bc:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .section .text.FUN_0603E5BC
+	.text
     .global options_render
-    .type options_render, @function
 options_render:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
@@ -2113,9 +2107,8 @@ DAT_0603ea46:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .section .text.FUN_0603EACC
+	.text
     .global display_channel_handler
-    .type display_channel_handler, @function
 display_channel_handler:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
@@ -2296,9 +2289,8 @@ display_channel_handler:
     .4byte sym_060A53B8
     .4byte display_scene_update
     .4byte sym_060A3E68
-    .section .text.FUN_0603EC40
+	.text
     .global hud_update_main
-    .type hud_update_main, @function
 hud_update_main:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

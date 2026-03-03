@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060053AC
-
-
+	.text
     .global camera_orient_calc
-    .type camera_orient_calc, @function
 camera_orient_calc:
     mov.l r14, @-r15
     mov r4, r14

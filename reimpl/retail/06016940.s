@@ -1,6 +1,5 @@
-    .section .text.FUN_06016940
+	.text
     .global hud_text_stub
-    .type hud_text_stub, @function
 hud_text_stub:
     .byte 0x2F, 0xE6
     .byte 0xE2, 0x07

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603EDC4
-
-
+	.text
     .global vblank_color_apply
-    .type vblank_color_apply, @function
 vblank_color_apply:
     mov.b @(3, r15), r0
     mov #0x4, r3

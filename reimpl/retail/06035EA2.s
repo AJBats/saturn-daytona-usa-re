@@ -1,6 +1,5 @@
-    .section .text.FUN_06035EA2
+	.text
     .global input_proc_digital
-    .type input_proc_digital, @function
 input_proc_digital:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

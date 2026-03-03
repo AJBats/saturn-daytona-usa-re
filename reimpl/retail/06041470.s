@@ -1,6 +1,5 @@
-    .section .text.FUN_06041470
+	.text
     .global checkpoint_state_check
-    .type checkpoint_state_check, @function
 checkpoint_state_check:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC

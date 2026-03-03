@@ -1,6 +1,5 @@
-    .section .text.FUN_0603F148
+	.text
     .global slave_sh2_setup
-    .type slave_sh2_setup, @function
 slave_sh2_setup:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

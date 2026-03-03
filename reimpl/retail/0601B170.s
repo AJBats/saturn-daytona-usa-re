@@ -1,6 +1,5 @@
-    .section .text.FUN_0601B170
+	.text
     .global disc_load_mgr
-    .type disc_load_mgr, @function
 disc_load_mgr:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF4

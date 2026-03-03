@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600A614
-
-
+	.text
     .global camera_collision_avoid
-    .type camera_collision_avoid, @function
 camera_collision_avoid:
     mov.l r14, @-r15
     mov.l r13, @-r15

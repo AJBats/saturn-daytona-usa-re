@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060256CC
-
-
+	.text
     .global scene_physics_integrate
-    .type scene_physics_integrate, @function
 scene_physics_integrate:
     mov.l r14, @-r15
     mov.l r13, @-r15

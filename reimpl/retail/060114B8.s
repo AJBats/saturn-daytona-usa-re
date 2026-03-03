@@ -1,6 +1,5 @@
-    .section .text.FUN_060114B8
+	.text
     .global hud_layer_composite
-    .type hud_layer_composite, @function
 hud_layer_composite:
     .byte 0x4F, 0x22
     .byte 0x40, 0x08

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060423A0
-
-
+	.text
     .global bulk_struct_init
-    .type bulk_struct_init, @function
 bulk_struct_init:
     sts.l pr, @-r15
     add #-0xC, r15

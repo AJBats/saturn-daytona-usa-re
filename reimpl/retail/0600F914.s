@@ -1,6 +1,5 @@
-    .section .text.FUN_0600F914
+	.text
     .global transition_handler_c
-    .type transition_handler_c, @function
 transition_handler_c:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

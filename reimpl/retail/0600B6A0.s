@@ -1,6 +1,5 @@
-    .section .text.FUN_0600B6A0
+	.text
     .global render_cs0_loop
-    .type render_cs0_loop, @function
 render_cs0_loop:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

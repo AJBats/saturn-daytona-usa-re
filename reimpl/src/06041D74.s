@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06041D74
-
-
+	.text
     .global major_state_update
-    .type major_state_update, @function
 major_state_update:
     sts.l pr, @-r15
     add #-0x10, r15

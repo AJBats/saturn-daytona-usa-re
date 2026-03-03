@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603BD1C
-
-
+	.text
     .global save_deserialize
-    .type save_deserialize, @function
 save_deserialize:
     mov.l r14, @-r15
     mov.l r13, @-r15

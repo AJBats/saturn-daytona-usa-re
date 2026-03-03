@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602E18A
-
-
+	.text
     .global draw_priority_resolve
-    .type draw_priority_resolve, @function
 draw_priority_resolve:
     sts.l pr, @-r15
     jsr @r13

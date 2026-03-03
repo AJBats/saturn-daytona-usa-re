@@ -1,6 +1,5 @@
-    .section .text.FUN_06015CAC
+	.text
     .global time_digit_update
-    .type time_digit_update, @function
 time_digit_update:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

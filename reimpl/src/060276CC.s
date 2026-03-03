@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060276CC
-
-
+	.text
     .global spring_damper
-    .type spring_damper, @function
 spring_damper:
     mov.l r14, @-r15
     mov.l r9, @-r15

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603F3F6
-
-
+	.text
     .global menu_element_render
-    .type menu_element_render, @function
 menu_element_render:
     mov.l r14, @-r15
     mov.l r13, @-r15

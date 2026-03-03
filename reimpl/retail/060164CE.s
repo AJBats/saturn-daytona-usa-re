@@ -1,6 +1,5 @@
-    .section .text.FUN_060164CE
+	.text
     .global results_ranking_table
-    .type results_ranking_table, @function
 results_ranking_table:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

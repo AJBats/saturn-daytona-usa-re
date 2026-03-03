@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06013C20
-
-
+	.text
     .global bonus_multiplier
-    .type bonus_multiplier, @function
 bonus_multiplier:
     sts.l pr, @-r15
     mov #0x14, r6

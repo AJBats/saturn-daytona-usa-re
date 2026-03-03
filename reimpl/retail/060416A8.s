@@ -1,6 +1,5 @@
-    .section .text.FUN_060416A8
+	.text
     .global dma_int_handler
-    .type dma_int_handler, @function
 dma_int_handler:
     .byte 0x4F, 0x22
     .byte 0xE9, 0x00

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06038F78
-
-
+	.text
     .global vblank_display_write
-    .type vblank_display_write, @function
 vblank_display_write:
     sts.l pr, @-r15
     mov.l   .L_06038FE0, r11

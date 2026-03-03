@@ -1,6 +1,5 @@
-    .section .text.FUN_060331CA
+	.text
     .global disp_result_digit_3
-    .type disp_result_digit_3, @function
 disp_result_digit_3:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B

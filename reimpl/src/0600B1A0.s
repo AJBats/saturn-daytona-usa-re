@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600B1A0
-
-
+	.text
     .global course_obj_transform
-    .type course_obj_transform, @function
 course_obj_transform:
     mov.l r14, @-r15
     mov.l r13, @-r15

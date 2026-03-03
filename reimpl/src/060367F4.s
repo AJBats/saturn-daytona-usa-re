@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060367F4
-
-
+	.text
     .global collision_response_vel
-    .type collision_response_vel, @function
 collision_response_vel:
     sts.l pr, @-r15
     add #-0x8, r15

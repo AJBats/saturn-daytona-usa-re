@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600CD40
-
-
+	.text
     .global FUN_0600CD40
-    .type FUN_0600CD40, @function
 FUN_0600CD40:
     mov.l r14, @-r15
     mov.l r13, @-r15

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06040C60
-
-
+	.text
     .global event_queue_flush
-    .type event_queue_flush, @function
 event_queue_flush:
     sts.l pr, @-r15
     add #-0xC, r15

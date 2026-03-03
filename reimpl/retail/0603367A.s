@@ -1,6 +1,5 @@
-    .section .text.FUN_0603367A
+	.text
     .global course_preview_elem
-    .type course_preview_elem, @function
 course_preview_elem:
     .byte 0x4F, 0x22
     .byte 0xB0, 0x24

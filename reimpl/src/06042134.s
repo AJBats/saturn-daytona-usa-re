@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06042134
-
-
+	.text
     .global player_vehicle_interp
-    .type player_vehicle_interp, @function
 player_vehicle_interp:
     mov.l r14, @-r15
     mov.l r13, @-r15

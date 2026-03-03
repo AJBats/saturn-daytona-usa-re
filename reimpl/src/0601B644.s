@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601B644
-
-
+	.text
     .global texture_file_loader
-    .type texture_file_loader, @function
 texture_file_loader:
     mov.l r14, @-r15
     mov.l r13, @-r15

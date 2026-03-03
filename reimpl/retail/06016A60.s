@@ -1,6 +1,5 @@
-    .section .text.FUN_06016A60
+	.text
     .global text_string_render
-    .type text_string_render, @function
 text_string_render:
     .byte 0x2F, 0xE6
     .byte 0x6E, 0x43

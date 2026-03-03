@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060072E6
-
-
+	.text
     .global framebuf_swap_ctrl
-    .type framebuf_swap_ctrl, @function
 framebuf_swap_ctrl:
     mov.l r14, @-r15
     mov.l r13, @-r15

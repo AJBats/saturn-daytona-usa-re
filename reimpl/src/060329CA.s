@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060329CA
-
-
+	.text
     .global speed_kmh_label
-    .type speed_kmh_label, @function
 speed_kmh_label:
     sts.l pr, @-r15
     jsr @r0

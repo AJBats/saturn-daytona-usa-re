@@ -1,6 +1,5 @@
-    .section .text.FUN_0602F7F2
+	.text
     .global track_texture_map
-    .type track_texture_map, @function
 track_texture_map:
     .byte 0x4F, 0x22
     .byte 0x6E, 0xE2

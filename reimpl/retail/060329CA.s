@@ -1,6 +1,5 @@
-    .section .text.FUN_060329CA
+	.text
     .global speed_kmh_label
-    .type speed_kmh_label, @function
 speed_kmh_label:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06017CEC
-
-
+	.text
     .global track_state_machine
-    .type track_state_machine, @function
 track_state_machine:
     mov.l r14, @-r15
     mov.l r13, @-r15

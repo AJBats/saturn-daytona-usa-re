@@ -1,6 +1,5 @@
-    .section .text.FUN_060410CA
+	.text
     .global vblank_int_ext
-    .type vblank_int_ext, @function
 vblank_int_ext:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xEC

@@ -1,6 +1,5 @@
-    .section .text.FUN_0603B680
+	.text
     .global menu_credits_elem
-    .type menu_credits_elem, @function
 menu_credits_elem:
     .byte 0x4F, 0x22
     .byte 0x61, 0x43

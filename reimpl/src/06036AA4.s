@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06036AA4
-
-
+	.text
     .global dynamic_shadow_shape
-    .type dynamic_shadow_shape, @function
 dynamic_shadow_shape:
     sts.l pr, @-r15
     add #-0x10, r15

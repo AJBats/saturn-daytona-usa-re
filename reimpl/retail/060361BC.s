@@ -1,6 +1,5 @@
-    .section .text.FUN_060361BC
+	.text
     .global seg_interpolate
-    .type seg_interpolate, @function
 seg_interpolate:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF0

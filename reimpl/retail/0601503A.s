@@ -1,6 +1,5 @@
-    .section .text.FUN_0601503A
+	.text
     .global hud_layout_mgr
-    .type hud_layout_mgr, @function
 hud_layout_mgr:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
@@ -122,9 +121,8 @@ hud_layout_mgr:
     .4byte sym_06085F8E
     .4byte sym_06085F8B
     .4byte sym_0607ED8C
-    .section .text.FUN_06015150
+	.text
     .global hud_elem_render
-    .type hud_elem_render, @function
 hud_elem_render:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
@@ -347,9 +345,8 @@ hud_elem_render:
     .4byte sym_06085F8E
     .4byte sym_06085F8D
     .4byte sym_060284AE
-    .section .text.FUN_06015338
+	.text
     .global race_data_dispatch
-    .type race_data_dispatch, @function
 race_data_dispatch:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

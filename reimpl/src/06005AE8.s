@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06005AE8
-
-
+	.text
     .global display_compositor
-    .type display_compositor, @function
 display_compositor:
     mov.l r14, @-r15
     mov.l r13, @-r15

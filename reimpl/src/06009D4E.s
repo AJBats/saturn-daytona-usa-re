@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06009D4E
-
-
+	.text
     .global state_post_race_display
-    .type state_post_race_display, @function
 state_post_race_display:
     sts.l pr, @-r15
     .byte   0xD3, 0x16    /* mov.l .L_pool_06009DB5, r3 */

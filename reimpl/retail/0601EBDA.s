@@ -1,6 +1,5 @@
-    .section .text.FUN_0601EBDA
+	.text
     .global geom_vertex_compute
-    .type geom_vertex_compute, @function
 geom_vertex_compute:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xC6

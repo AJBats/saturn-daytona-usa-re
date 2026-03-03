@@ -1,6 +1,5 @@
-    .section .text.FUN_06040668
+	.text
     .global sys_timer_init
-    .type sys_timer_init, @function
 sys_timer_init:
     .byte 0x4F, 0x22
     .byte 0xBF, 0xA5

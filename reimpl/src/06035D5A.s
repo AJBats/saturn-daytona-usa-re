@@ -1,8 +1,5 @@
-
-    .section .text.FUN_06035D5A
-
+	.text
     .global smpc_peripheral_query
-    .type smpc_peripheral_query, @function
 smpc_peripheral_query:
     mov.l r14, @-r15
     mov.l r13, @-r15

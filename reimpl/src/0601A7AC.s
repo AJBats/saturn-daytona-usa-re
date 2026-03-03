@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601A7AC
-
-
+	.text
     .global preview_camera_target
-    .type preview_camera_target, @function
 preview_camera_target:
     sts.l pr, @-r15
     mov.l   .L_pool_0601A800, r5

@@ -1,6 +1,5 @@
-    .section .text.FUN_060034D4
+	.text
     .global vdp2_course1_init
-    .type vdp2_course1_init, @function
 vdp2_course1_init:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

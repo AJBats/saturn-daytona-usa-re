@@ -1,6 +1,5 @@
-    .section .text.FUN_060401FC
+	.text
     .global hw_init_setup
-    .type hw_init_setup, @function
 hw_init_setup:
     .byte 0x4F, 0x22
     .byte 0x6E, 0x43

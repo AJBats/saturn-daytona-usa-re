@@ -11,12 +11,8 @@
  *   Static analysis confirms data source is SMPC OREGs via smpc_data_manage.
  * Date: 2026-02-28
  */
-
-    .section .text.FUN_06005198
-
-
+	.text
     .global controller_input_update
-    .type controller_input_update, @function
 controller_input_update:
     mov.l r14, @-r15
     mov.l r13, @-r15

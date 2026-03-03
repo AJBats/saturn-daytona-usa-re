@@ -1,6 +1,5 @@
-    .section .text.FUN_0602648E
+	.text
     .global transform_rotation_alt
-    .type transform_rotation_alt, @function
 transform_rotation_alt:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

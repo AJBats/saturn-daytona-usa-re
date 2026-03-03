@@ -1,6 +1,5 @@
-    .section .text.FUN_06035F44
+	.text
     .global input_proc_complete
-    .type input_proc_complete, @function
 input_proc_complete:
     .byte 0x20, 0x08
     .byte 0x2F, 0x26

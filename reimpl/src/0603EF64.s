@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603EF64
-
-
+	.text
     .global attract_init_setup
-    .type attract_init_setup, @function
 attract_init_setup:
     sts.l pr, @-r15
     add #-0x4, r15

@@ -1,6 +1,5 @@
-    .section .text.FUN_0603D2D0
+	.text
     .global high_score_render
-    .type high_score_render, @function
 high_score_render:
     .byte 0x4F, 0x22
     .byte 0x60, 0x63

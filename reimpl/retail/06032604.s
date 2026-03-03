@@ -1,6 +1,5 @@
-    .section .text.FUN_06032604
+	.text
     .global position_thunk_0
-    .type position_thunk_0, @function
 position_thunk_0:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B

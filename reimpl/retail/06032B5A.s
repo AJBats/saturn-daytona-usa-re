@@ -1,6 +1,5 @@
-    .section .text.FUN_06032B5A
+	.text
     .global hud_rpm_bar_idx_0
-    .type hud_rpm_bar_idx_0, @function
 hud_rpm_bar_idx_0:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B

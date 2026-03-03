@@ -1,6 +1,5 @@
-    .section .text.FUN_0601EAA0
+	.text
     .global geom_coord_calc
-    .type geom_coord_calc, @function
 geom_coord_calc:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

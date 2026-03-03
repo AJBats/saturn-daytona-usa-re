@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603623E
-
-
+	.text
     .global track_seg_stub
-    .type track_seg_stub, @function
 track_seg_stub:
     mov.l r14, @-r15
     mov.l r13, @-r15

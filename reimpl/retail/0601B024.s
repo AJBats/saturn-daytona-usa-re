@@ -1,6 +1,5 @@
-    .section .text.FUN_0601B024
+	.text
     .global disc_sector_read
-    .type disc_sector_read, @function
 disc_sector_read:
     .byte 0x4F, 0x22
     .byte 0xEE, 0x30

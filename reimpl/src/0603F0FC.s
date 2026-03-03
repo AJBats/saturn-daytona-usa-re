@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603F0FC
-
-
+	.text
     .global scene_frame_render
-    .type scene_frame_render, @function
 scene_frame_render:
     mov.l r14, @-r15
     mov r4, r14

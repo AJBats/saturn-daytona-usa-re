@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06036890
-
-
+	.text
     .global obj_visibility_check
-    .type obj_visibility_check, @function
 obj_visibility_check:
     sts.l pr, @-r15
     mov r4, r12

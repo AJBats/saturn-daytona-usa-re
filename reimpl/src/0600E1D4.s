@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600E1D4
-
-
+	.text
     .global car_type_init
-    .type car_type_init, @function
 car_type_init:
     mov.l r14, @-r15
     mov #0x0, r3

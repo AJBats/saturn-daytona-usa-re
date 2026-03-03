@@ -1,6 +1,5 @@
-    .section .text.FUN_0602E07A
+	.text
     .global scene_zsort
-    .type scene_zsort, @function
 scene_zsort:
     .byte 0x4F, 0x22
     .byte 0x4D, 0x0B

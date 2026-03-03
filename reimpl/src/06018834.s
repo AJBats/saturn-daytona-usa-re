@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06018834
-
-
+	.text
     .global course1_bg_load
-    .type course1_bg_load, @function
 course1_bg_load:
     mov.l r14, @-r15
     mov.l r13, @-r15

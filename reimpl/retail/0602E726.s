@@ -1,6 +1,5 @@
-    .section .text.FUN_0602E726
+	.text
     .global vdp2_light_intensity
-    .type vdp2_light_intensity, @function
 vdp2_light_intensity:
     .byte 0x4F, 0x22
     .byte 0x4D, 0x0B

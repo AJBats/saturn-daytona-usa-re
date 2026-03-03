@@ -1,6 +1,5 @@
-    .section .text.FUN_060120CC
+	.text
     .global file_read_callback
-    .type file_read_callback, @function
 file_read_callback:
     .byte 0x4F, 0x22
     .byte 0xEE, 0x00

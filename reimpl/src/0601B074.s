@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601B074
-
-
+	.text
     .global course_setup_handler
-    .type course_setup_handler, @function
 course_setup_handler:
     sts.l pr, @-r15
     mov #0x0, r7

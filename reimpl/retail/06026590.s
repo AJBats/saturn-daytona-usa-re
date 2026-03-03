@@ -1,6 +1,5 @@
-    .section .text.FUN_06026590
+	.text
     .global sprite_pair_render
-    .type sprite_pair_render, @function
 sprite_pair_render:
     .byte 0x2F, 0xE6
     .byte 0x65, 0x5D

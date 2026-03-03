@@ -1,6 +1,5 @@
-    .section .text.FUN_06030FFC
+	.text
     .global sound_volume_set
-    .type sound_volume_set, @function
 sound_volume_set:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B

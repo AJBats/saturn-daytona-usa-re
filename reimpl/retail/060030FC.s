@@ -1,6 +1,5 @@
-    .section .text.FUN_060030FC
+	.text
     .global system_init
-    .type system_init, @function
 system_init:
     .byte 0x2F, 0xE6
     .byte 0xEE, 0x01
@@ -127,9 +126,8 @@ system_init:
     .4byte channel_config_a
     .4byte sym_060149E0
     .4byte g_game_state
-    .section .text.FUN_06003218
+	.text
     .global sound_timer_init
-    .type sound_timer_init, @function
 sound_timer_init:
     .byte 0x4F, 0x22
     .byte 0xD3, 0x29
@@ -177,9 +175,8 @@ sound_timer_init:
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0x23, 0x40
-    .section .text.FUN_06003274
+	.text
     .global vdp_init_dispatch
-    .type vdp_init_dispatch, @function
 vdp_init_dispatch:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

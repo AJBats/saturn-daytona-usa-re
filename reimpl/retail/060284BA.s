@@ -1,6 +1,5 @@
-    .section .text.FUN_060284BA
+	.text
     .global motion_blur_effect
-    .type motion_blur_effect, @function
 motion_blur_effect:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

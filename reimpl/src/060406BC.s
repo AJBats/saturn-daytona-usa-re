@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060406BC
-
-
+	.text
     .global sys_timer_tick
-    .type sys_timer_tick, @function
 sys_timer_tick:
     sts.l pr, @-r15
     add #-0xC, r15

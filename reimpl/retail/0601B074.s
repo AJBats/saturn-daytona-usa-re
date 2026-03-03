@@ -1,6 +1,5 @@
-    .section .text.FUN_0601B074
+	.text
     .global course_setup_handler
-    .type course_setup_handler, @function
 course_setup_handler:
     .byte 0x4F, 0x22
     .byte 0xE7, 0x00

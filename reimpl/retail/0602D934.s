@@ -1,6 +1,5 @@
-    .section .text.FUN_0602D934
+	.text
     .global vtx_transform_full
-    .type vtx_transform_full, @function
 vtx_transform_full:
     .byte 0x4F, 0x22
     .byte 0x4C, 0x0B

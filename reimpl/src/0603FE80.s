@@ -1,10 +1,5 @@
-
-
-    .section .text.FUN_0603FE80
-
-
+	.text
     .global scu_dma_transfer
-    .type scu_dma_transfer, @function
 scu_dma_transfer:
     mov.l r14, @-r15
     mov.l r13, @-r15

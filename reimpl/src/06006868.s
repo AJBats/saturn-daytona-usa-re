@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06006868
-
-
+	.text
     .global scene_post_render
-    .type scene_post_render, @function
 scene_post_render:
     mov.l r14, @-r15
     mov.l r13, @-r15

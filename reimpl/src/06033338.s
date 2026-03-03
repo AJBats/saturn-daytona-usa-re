@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06033338
-
-
+	.text
     .global results_time_render
-    .type results_time_render, @function
 results_time_render:
     sts.l pr, @-r15
     jsr @r0

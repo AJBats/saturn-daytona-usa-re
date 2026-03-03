@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600FB78
-
-
+	.text
     .global transition_large_results
-    .type transition_large_results, @function
 transition_large_results:
     mov.l r14, @-r15
     mov.l r13, @-r15

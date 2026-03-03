@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06013C58
-
-
+	.text
     .global lap_time_display
-    .type lap_time_display, @function
 lap_time_display:
     mov.l r14, @-r15
     mov.l r13, @-r15

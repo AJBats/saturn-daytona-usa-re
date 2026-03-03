@@ -1,6 +1,5 @@
-    .section .text.FUN_0600FB78
+	.text
     .global transition_large_results
-    .type transition_large_results, @function
 transition_large_results:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

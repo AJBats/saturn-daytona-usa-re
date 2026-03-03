@@ -1,10 +1,5 @@
-
-    .section .text.FUN_06010AA4
-
-
+	.text
     .global tachometer_ctrl
-    .type tachometer_ctrl, @function
-
 tachometer_ctrl:
     mov.l r14, @-r15
     extu.w r4, r2

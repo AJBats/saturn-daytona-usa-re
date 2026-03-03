@@ -1,6 +1,5 @@
-    .section .text.FUN_0603308E
+	.text
     .global disp_util_stub_b
-    .type disp_util_stub_b, @function
 disp_util_stub_b:
     .byte 0x4F, 0x22
     .byte 0xB0, 0x06

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603B08E
-
-
+	.text
     .global menu_elem_visible
-    .type menu_elem_visible, @function
 menu_elem_visible:
     sts.l pr, @-r15
     add #-0x8, r15

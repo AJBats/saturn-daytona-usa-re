@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603D7B0
-
-
+	.text
     .global options_menu_state
-    .type options_menu_state, @function
 options_menu_state:
     mov.l r14, @-r15
     mov #0x1, r6

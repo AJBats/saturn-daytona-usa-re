@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060148FC
-
-
+	.text
     .global display_channels_clear
-    .type display_channels_clear, @function
 display_channels_clear:
     mov.l r14, @-r15
     sts.l pr, @-r15

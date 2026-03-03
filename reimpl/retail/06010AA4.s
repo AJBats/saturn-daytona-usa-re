@@ -1,6 +1,5 @@
-    .section .text.FUN_06010AA4
+	.text
     .global tachometer_ctrl
-    .type tachometer_ctrl, @function
 tachometer_ctrl:
     .byte 0x2F, 0xE6
     .byte 0x62, 0x4D

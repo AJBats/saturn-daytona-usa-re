@@ -1,6 +1,5 @@
-    .section .text.FUN_0600B4D2
+	.text
     .global camera_lerp
-    .type camera_lerp, @function
 camera_lerp:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

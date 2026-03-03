@@ -1,6 +1,5 @@
-    .section .text.FUN_06014868
+	.text
     .global display_channel_a
-    .type display_channel_a, @function
 display_channel_a:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF8

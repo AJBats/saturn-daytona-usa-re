@@ -1,6 +1,5 @@
-    .section .text.FUN_06040AF8
+	.text
     .global event_priority_set
-    .type event_priority_set, @function
 event_priority_set:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

@@ -1,6 +1,5 @@
-    .section .text.FUN_0603FD40
+	.text
     .global dma_param_chain_init
-    .type dma_param_chain_init, @function
 dma_param_chain_init:
     .byte 0x2F, 0xE6
     .byte 0xE0, 0x64

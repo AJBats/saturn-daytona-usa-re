@@ -1,10 +1,5 @@
-
-    .section .text.FUN_06020BCE
-
-
+	.text
     .global obj_state_pack
-    .type obj_state_pack, @function
-
 obj_state_pack:
     sts.l pr, @-r15
     .byte   0xD3, 0x16    /* mov.l .L_06020C2C, r3 */

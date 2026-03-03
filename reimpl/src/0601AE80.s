@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601AE80
-
-
+	.text
     .global course_data_handler
-    .type course_data_handler, @function
 course_data_handler:
     sts.l pr, @-r15
     mov #0x0, r4

@@ -1,6 +1,5 @@
-    .section .text.FUN_0603698C
+	.text
     .global obj_render_dispatch
-    .type obj_render_dispatch, @function
 obj_render_dispatch:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF8

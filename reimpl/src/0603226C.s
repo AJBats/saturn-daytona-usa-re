@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603226C
-
-
+	.text
     .global display_dispatch_0
-    .type display_dispatch_0, @function
 display_dispatch_0:
     mov.l r14, @-r15
     mov.l r13, @-r15

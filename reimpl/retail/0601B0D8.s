@@ -1,6 +1,5 @@
-    .section .text.FUN_0601B0D8
+	.text
     .global course_state_setup
-    .type course_state_setup, @function
 course_state_setup:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

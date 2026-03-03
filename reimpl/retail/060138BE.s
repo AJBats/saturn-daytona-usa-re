@@ -1,6 +1,5 @@
-    .section .text.FUN_060138BE
+	.text
     .global race_timer_format
-    .type race_timer_format, @function
 race_timer_format:
     .byte 0x2F, 0xE6
     .byte 0xD3, 0x17

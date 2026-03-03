@@ -1,6 +1,5 @@
-    .section .text.FUN_06040724
+	.text
     .global timer_overflow_handler
-    .type timer_overflow_handler, @function
 timer_overflow_handler:
     .byte 0x4F, 0x22
     .byte 0x4F, 0x12

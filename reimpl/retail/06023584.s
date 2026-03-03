@@ -1,6 +1,5 @@
-    .section .text.FUN_06023584
+	.text
     .global render_stage_b
-    .type render_stage_b, @function
 render_stage_b:
     .byte 0x4F, 0x22
     .byte 0xE8, 0x00

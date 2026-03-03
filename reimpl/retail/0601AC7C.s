@@ -1,6 +1,5 @@
-    .section .text.FUN_0601AC7C
+	.text
     .global course_config_render
-    .type course_config_render, @function
 course_config_render:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

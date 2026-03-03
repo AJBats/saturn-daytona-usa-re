@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601950C
-
-
+	.text
     .global course_select_draw
-    .type course_select_draw, @function
 course_select_draw:
     mov.l r14, @-r15
     mov.l r13, @-r15

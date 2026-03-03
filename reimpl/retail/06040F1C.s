@@ -1,6 +1,5 @@
-    .section .text.FUN_06040F1C
+	.text
     .global event_queue_overflow
-    .type event_queue_overflow, @function
 event_queue_overflow:
     .byte 0x4F, 0x22
     .byte 0xDD, 0x07

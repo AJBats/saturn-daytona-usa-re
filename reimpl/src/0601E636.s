@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601E636
-
-
+	.text
     .global mat_multiply_helper
-    .type mat_multiply_helper, @function
 mat_multiply_helper:
     mov.l r14, @-r15
     mov.l r13, @-r15

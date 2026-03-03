@@ -1,6 +1,5 @@
-    .section .text.FUN_0601450C
+	.text
     .global camera_track_update
-    .type camera_track_update, @function
 camera_track_update:
     .byte 0x2F, 0xE6
     .byte 0xDE, 0x22

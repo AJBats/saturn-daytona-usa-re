@@ -1,6 +1,5 @@
-    .section .text.FUN_0600893C
+	.text
     .global attract_init_body
-    .type attract_init_body, @function
 attract_init_body:
     .byte 0x4F, 0x22
     .byte 0xEE, 0x00

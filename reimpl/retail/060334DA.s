@@ -1,6 +1,5 @@
-    .section .text.FUN_060334DA
+	.text
     .global split_position_disp
-    .type split_position_disp, @function
 split_position_disp:
     .byte 0x4F, 0x22
     .byte 0xB0, 0x12

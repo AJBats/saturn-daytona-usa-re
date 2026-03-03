@@ -1,6 +1,5 @@
-    .section .text.FUN_0601E636
+	.text
     .global mat_multiply_helper
-    .type mat_multiply_helper, @function
 mat_multiply_helper:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

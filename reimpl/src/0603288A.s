@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603288A
-
-
+	.text
     .global hud_speed_tens
-    .type hud_speed_tens, @function
 hud_speed_tens:
     sts.l pr, @-r15
     jsr @r0

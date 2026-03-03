@@ -1,6 +1,5 @@
-    .section .text.FUN_06042134
+	.text
     .global player_vehicle_interp
-    .type player_vehicle_interp, @function
 player_vehicle_interp:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

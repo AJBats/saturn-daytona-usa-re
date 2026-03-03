@@ -1,6 +1,5 @@
-    .section .text.FUN_06025224
+	.text
     .global scene_process_a
-    .type scene_process_a, @function
 scene_process_a:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601A80C
-
-
+	.text
     .global course_data_rom_load
-    .type course_data_rom_load, @function
 course_data_rom_load:
     mov.l r14, @-r15
     mov.l r13, @-r15

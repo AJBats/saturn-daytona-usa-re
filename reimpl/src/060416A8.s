@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060416A8
-
-
+	.text
     .global dma_int_handler
-    .type dma_int_handler, @function
 dma_int_handler:
     sts.l pr, @-r15
     mov #0x0, r9

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060192CC
-
-
+	.text
     .global sound_channel_reset
-    .type sound_channel_reset, @function
 sound_channel_reset:
     mov.l r14, @-r15
     sts.l pr, @-r15

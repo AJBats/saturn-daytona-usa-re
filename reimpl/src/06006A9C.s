@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06006A9C
-
-
+	.text
     .global scene_path_a
-    .type scene_path_a, @function
 scene_path_a:
     mov.l r14, @-r15
     mov.l r13, @-r15

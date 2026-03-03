@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06008D74
-
-
+	.text
     .global state_mode_select_active
-    .type state_mode_select_active, @function
 state_mode_select_active:
     mov.l r14, @-r15
     sts.l pr, @-r15

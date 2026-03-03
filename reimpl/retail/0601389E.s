@@ -1,6 +1,5 @@
-    .section .text.FUN_0601389E
+	.text
     .global gfx_frame_dispatch
-    .type gfx_frame_dispatch, @function
 gfx_frame_dispatch:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

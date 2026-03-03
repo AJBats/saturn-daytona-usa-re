@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601AFA4
-
-
+	.text
     .global replay_cam_interp
-    .type replay_cam_interp, @function
 replay_cam_interp:
     sts.l pr, @-r15
     .byte   0xB0, 0x97    /* bsr 0x0601B0D8 (external) */

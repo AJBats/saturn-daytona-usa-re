@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600D31C
-
-
+	.text
     .global physics_calc_dispatch
-    .type physics_calc_dispatch, @function
 physics_calc_dispatch:
     sts.l pr, @-r15
     mov.l   .L_0600D370, r3
@@ -162,7 +158,6 @@ DAT_0600d406:
     .4byte  sym_060786B4
 
     .global vehicle_state_update
-    .type vehicle_state_update, @function
 vehicle_state_update:
     mov.l r14, @-r15
     mov.l r13, @-r15
@@ -301,7 +296,6 @@ DAT_0600d4a6:
     add #0x4, r15
 
     .global render_batch
-    .type render_batch, @function
 render_batch:
     mov.l r14, @-r15
     mov.l r13, @-r15

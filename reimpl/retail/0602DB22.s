@@ -1,6 +1,5 @@
-    .section .text.FUN_0602DB22
+	.text
     .global vdp1_cmd_list_reset
-    .type vdp1_cmd_list_reset, @function
 vdp1_cmd_list_reset:
     .byte 0x4F, 0x22
     .byte 0x4D, 0x0B

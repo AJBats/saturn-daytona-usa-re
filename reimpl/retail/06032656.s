@@ -1,6 +1,5 @@
-    .section .text.FUN_06032656
+	.text
     .global position_suffix_render
-    .type position_suffix_render, @function
 position_suffix_render:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B

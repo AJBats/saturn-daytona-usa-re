@@ -1,6 +1,5 @@
-    .section .text.FUN_0604188C
+	.text
     .global state_field_read
-    .type state_field_read, @function
 state_field_read:
     .byte 0x4F, 0x22
     .byte 0xD4, 0x07

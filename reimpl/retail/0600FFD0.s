@@ -1,6 +1,5 @@
-    .section .text.FUN_0600FFD0
+	.text
     .global hud_race_display
-    .type hud_race_display, @function
 hud_race_display:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

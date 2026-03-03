@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06033230
-
-
+	.text
     .global results_separator
-    .type results_separator, @function
 results_separator:
     sts.l pr, @-r15
     .byte   0xB0, 0x21    /* bsr 0x06033278 (external) */

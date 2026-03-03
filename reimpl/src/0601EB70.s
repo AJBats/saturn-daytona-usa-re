@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601EB70
-
-
+	.text
     .global geom_normal_compute
-    .type geom_normal_compute, @function
 geom_normal_compute:
     mov.l r14, @-r15
     mov #0x10, r14

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601B6DC
-
-
+	.text
     .global disc_anim_data_load
-    .type disc_anim_data_load, @function
 disc_anim_data_load:
     mov.l r14, @-r15
     mov.l r13, @-r15

@@ -1,6 +1,5 @@
-    .section .text.FUN_06033402
+	.text
     .global attract_mode_stub
-    .type attract_mode_stub, @function
 attract_mode_stub:
     .byte 0x4F, 0x22
     .byte 0xB1, 0x20

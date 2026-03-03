@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601E48C
-
-
+	.text
     .global mat_identity_set
-    .type mat_identity_set, @function
 mat_identity_set:
     sts.l pr, @-r15
     add #-0x4, r15

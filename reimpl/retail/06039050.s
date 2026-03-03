@@ -1,6 +1,5 @@
-    .section .text.FUN_06039050
+	.text
     .global vblank_cmd_dispatch
-    .type vblank_cmd_dispatch, @function
 vblank_cmd_dispatch:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

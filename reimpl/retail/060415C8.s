@@ -1,6 +1,5 @@
-    .section .text.FUN_060415C8
+	.text
     .global track_shadow_test
-    .type track_shadow_test, @function
 track_shadow_test:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xE0

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06035F04
-
-
+	.text
     .global input_proc_extended
-    .type input_proc_extended, @function
 input_proc_extended:
     sts.l pr, @-r15
     mov r4, r1

@@ -1,6 +1,5 @@
-    .section .text.FUN_06040C60
+	.text
     .global event_queue_flush
-    .type event_queue_flush, @function
 event_queue_flush:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF4

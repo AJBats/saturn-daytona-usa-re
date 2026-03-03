@@ -1,6 +1,5 @@
-    .section .text.FUN_06010F04
+	.text
     .global race_position_track
-    .type race_position_track, @function
 race_position_track:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

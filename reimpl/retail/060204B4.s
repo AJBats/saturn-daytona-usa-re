@@ -1,6 +1,5 @@
-    .section .text.FUN_060204B4
+	.text
     .global obj_list_iterate
-    .type obj_list_iterate, @function
 obj_list_iterate:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC

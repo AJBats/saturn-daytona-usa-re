@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06012BE4
-
-
+	.text
     .global track_seg_lookup
-    .type track_seg_lookup, @function
 track_seg_lookup:
     sts.l pr, @-r15
     .byte   0xDC, 0x20    /* mov.l .L_fn_ptr_cdb_read_status, r12 */

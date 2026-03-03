@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06036148
-
-
+	.text
     .global seg_boundary_check
-    .type seg_boundary_check, @function
 seg_boundary_check:
     sts.l pr, @-r15
     add #-0x8, r15

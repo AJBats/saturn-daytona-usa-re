@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06036A24
-
-
+	.text
     .global shadow_projection
-    .type shadow_projection, @function
 shadow_projection:
     sts.l pr, @-r15
     add #-0x8, r15

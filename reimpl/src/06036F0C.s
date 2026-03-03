@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06036F0C
-
-
+	.text
     .global vdp_init_master
-    .type vdp_init_master, @function
 vdp_init_master:
     mov.l r14, @-r15
     mov.l r13, @-r15
@@ -303,7 +299,6 @@ DAT_0603707e:
     .4byte  sym_060635AC
 
     .global sym_060370C0
-    .type sym_060370C0, @function
 sym_060370C0:
     mov #0x0, r5
     extu.b r5, r0

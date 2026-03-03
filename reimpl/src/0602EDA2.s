@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602EDA2
-
-
+	.text
     .global secondary_render_pass
-    .type secondary_render_pass, @function
 secondary_render_pass:
     mov.l r14, @-r15
     sts.l pr, @-r15

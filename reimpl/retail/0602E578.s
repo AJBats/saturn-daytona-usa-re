@@ -1,6 +1,5 @@
-    .section .text.FUN_0602E578
+	.text
     .global rot_scroll_hscale
-    .type rot_scroll_hscale, @function
 rot_scroll_hscale:
     .byte 0x4F, 0x22
     .byte 0x4D, 0x0B

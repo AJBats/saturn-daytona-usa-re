@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601A65E
-
-
+	.text
     .global car_init_handler
-    .type car_init_handler, @function
 car_init_handler:
     mov.l r14, @-r15
     mov.l r13, @-r15

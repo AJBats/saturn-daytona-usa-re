@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601250C
-
-
+	.text
     .global hud_lap_gfx_update
-    .type hud_lap_gfx_update, @function
 hud_lap_gfx_update:
     mov.l r14, @-r15
     sts.l pr, @-r15

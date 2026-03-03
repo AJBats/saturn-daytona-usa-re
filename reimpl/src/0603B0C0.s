@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603B0C0
-
-
+	.text
     .global menu_elem_alpha
-    .type menu_elem_alpha, @function
 menu_elem_alpha:
     mov.l r14, @-r15
     sts.l pr, @-r15

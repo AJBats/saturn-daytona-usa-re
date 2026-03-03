@@ -1,6 +1,5 @@
-    .section .text.FUN_06020C3C
+	.text
     .global obj_collision_update
-    .type obj_collision_update, @function
 obj_collision_update:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xE0

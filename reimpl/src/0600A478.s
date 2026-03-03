@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600A478
-
-
+	.text
     .global camera_dist_clamp
-    .type camera_dist_clamp, @function
 camera_dist_clamp:
     sts.l pr, @-r15
     shll2 r14

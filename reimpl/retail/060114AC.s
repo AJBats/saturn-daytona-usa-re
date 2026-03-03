@@ -1,6 +1,5 @@
-    .section .text.FUN_060114AC
+	.text
     .global anim_ui_transition
-    .type anim_ui_transition, @function
 anim_ui_transition:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601198C
-
-
+	.text
     .global split_screen_layout
-    .type split_screen_layout, @function
 split_screen_layout:
     sts.l pr, @-r15
     add #-0x4, r15

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06020E3C
-
-
+	.text
     .global obj_render_prepare
-    .type obj_render_prepare, @function
 obj_render_prepare:
     mov.l   .L_pool_06020E70, r7
     mov #0x10, r6

@@ -1,6 +1,5 @@
-    .section .text.FUN_06010BC4
+	.text
     .global graphics_mode_setup
-    .type graphics_mode_setup, @function
 graphics_mode_setup:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

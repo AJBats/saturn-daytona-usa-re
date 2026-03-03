@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06036650
-
-
+	.text
     .global track_dist_3d
-    .type track_dist_3d, @function
 track_dist_3d:
     mov.l r14, @-r15
     mov r4, r14

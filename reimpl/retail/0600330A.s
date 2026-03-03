@@ -1,6 +1,5 @@
-    .section .text.FUN_0600330A
+	.text
     .global vdp_init_advanced
-    .type vdp_init_advanced, @function
 vdp_init_advanced:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

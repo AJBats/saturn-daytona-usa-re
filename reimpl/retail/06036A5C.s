@@ -1,6 +1,5 @@
-    .section .text.FUN_06036A5C
+	.text
     .global ground_shadow_render
-    .type ground_shadow_render, @function
 ground_shadow_render:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF8

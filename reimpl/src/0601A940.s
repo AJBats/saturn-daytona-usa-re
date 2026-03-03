@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601A940
-
-
+	.text
     .global course_init_pipeline
-    .type course_init_pipeline, @function
 course_init_pipeline:
     mov.l r14, @-r15
     mov.l r13, @-r15

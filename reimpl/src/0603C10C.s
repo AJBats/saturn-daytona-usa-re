@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603C10C
-
-
+	.text
     .global high_score_mgr
-    .type high_score_mgr, @function
 high_score_mgr:
     sts.l pr, @-r15
     mov.l   .L_pool_0603C17C, r12

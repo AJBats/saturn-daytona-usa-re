@@ -1,6 +1,5 @@
-    .section .text.FUN_0601F4B4
+	.text
     .global geom_display_proc
-    .type geom_display_proc, @function
 geom_display_proc:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

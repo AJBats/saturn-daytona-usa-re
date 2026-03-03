@@ -1,6 +1,5 @@
-    .section .text.FUN_06015E78
+	.text
     .global speed_value_format
-    .type speed_value_format, @function
 speed_value_format:
     .byte 0x4F, 0x22
     .byte 0xE0, 0x41

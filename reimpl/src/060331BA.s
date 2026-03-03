@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060331BA
-
-
+	.text
     .global disp_result_digit_2
-    .type disp_result_digit_2, @function
 disp_result_digit_2:
     sts.l pr, @-r15
     jsr @r0

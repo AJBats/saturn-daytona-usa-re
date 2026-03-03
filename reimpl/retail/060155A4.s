@@ -1,6 +1,5 @@
-    .section .text.FUN_060155A4
+	.text
     .global minimap_render
-    .type minimap_render, @function
 minimap_render:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

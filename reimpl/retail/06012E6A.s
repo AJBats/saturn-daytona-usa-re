@@ -1,6 +1,5 @@
-    .section .text.FUN_06012E6A
+	.text
     .global sound_scsp_boot
-    .type sound_scsp_boot, @function
 sound_scsp_boot:
     .byte 0x4F, 0x22
     .byte 0xD5, 0x0B

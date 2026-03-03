@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0604053A
-
-
+	.text
     .global mem_test_verify
-    .type mem_test_verify, @function
 mem_test_verify:
     mov.l r14, @-r15
     mov.l r13, @-r15

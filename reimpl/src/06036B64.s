@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06036B64
-
-
+	.text
     .global track_effect_stub
-    .type track_effect_stub, @function
 track_effect_stub:
     mov.l r14, @-r15
     mov r6, r14

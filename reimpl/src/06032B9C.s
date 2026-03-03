@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06032B9C
-
-
+	.text
     .global rpm_bar_render
-    .type rpm_bar_render, @function
 rpm_bar_render:
     sts.l pr, @-r15
     jsr @r0

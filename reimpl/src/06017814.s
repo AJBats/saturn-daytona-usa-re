@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06017814
-
-
+	.text
     .global track_geometry_proc
-    .type track_geometry_proc, @function
 track_geometry_proc:
     mov.l r14, @-r15
     mov.l r13, @-r15
@@ -629,7 +625,6 @@ DAT_06017c52:
     nop
 
     .global track_state_handler
-    .type track_state_handler, @function
 track_state_handler:
     sts.l pr, @-r15
     mov.w @r4, r1

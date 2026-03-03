@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06008CD0
-
-
+	.text
     .global state_mode_select_setup
-    .type state_mode_select_setup, @function
 state_mode_select_setup:
     sts.l pr, @-r15
     mov.l   .L_pool_06008D3C, r3

@@ -1,6 +1,5 @@
-    .section .text.FUN_0603B53C
+	.text
     .global menu_page_transition
-    .type menu_page_transition, @function
 menu_page_transition:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

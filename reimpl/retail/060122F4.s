@@ -1,6 +1,5 @@
-    .section .text.FUN_060122F4
+	.text
     .global position_vel_limiter
-    .type position_vel_limiter, @function
 position_vel_limiter:
     .byte 0xD4, 0x0F
     .byte 0x93, 0x16

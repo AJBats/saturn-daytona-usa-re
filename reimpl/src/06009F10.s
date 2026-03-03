@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06009F10
-
-
+	.text
     .global state_demo_setup
-    .type state_demo_setup, @function
 state_demo_setup:
     sts.l pr, @-r15
     .byte   0xB1, 0xBF    /* bsr 0x0600A294 (external update sub) */

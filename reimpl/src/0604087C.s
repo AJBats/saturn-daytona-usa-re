@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0604087C
-
-
+	.text
     .global watchdog_timer_reset
-    .type watchdog_timer_reset, @function
 watchdog_timer_reset:
     sts.l pr, @-r15
     add #-0x4, r15

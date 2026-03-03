@@ -1,6 +1,5 @@
-    .section .text.FUN_0602E68A
+	.text
     .global vdp2_color_bank_sel
-    .type vdp2_color_bank_sel, @function
 vdp2_color_bank_sel:
     .byte 0x4F, 0x22
     .byte 0x4D, 0x0B

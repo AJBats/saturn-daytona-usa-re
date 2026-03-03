@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060104E0
-
-
+	.text
     .global multi_state_anim
-    .type multi_state_anim, @function
 multi_state_anim:
     mov.l r14, @-r15
     mov.l r13, @-r15

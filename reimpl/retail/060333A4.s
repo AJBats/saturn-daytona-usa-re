@@ -1,6 +1,5 @@
-    .section .text.FUN_060333A4
+	.text
     .global results_sub_elem
-    .type results_sub_elem, @function
 results_sub_elem:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B

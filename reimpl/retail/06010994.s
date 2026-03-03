@@ -1,6 +1,5 @@
-    .section .text.FUN_06010994
+	.text
     .global hud_coord_calc
-    .type hud_coord_calc, @function
 hud_coord_calc:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

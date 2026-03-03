@@ -1,6 +1,5 @@
-    .section .text.FUN_0603950C
+	.text
     .global scene_state_process
-    .type scene_state_process, @function
 scene_state_process:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
@@ -367,9 +366,8 @@ DAT_060397f8:
     .4byte sym_060A4CB4
     .4byte display_channel_iter
     .4byte sym_060A4CC4
-    .section .text.FUN_06039808
+	.text
     .global smpc_data_manage
-    .type smpc_data_manage, @function
 smpc_data_manage:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
@@ -494,9 +492,8 @@ smpc_data_manage:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .section .text.FUN_0603990E
+	.text
     .global master_menu_render
-    .type master_menu_render, @function
 master_menu_render:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
@@ -1351,9 +1348,8 @@ master_menu_render:
     .byte 0x20, 0x10
     .byte 0x00, 0x61
     .4byte sym_060A4CEC
-    .section .text.FUN_0603A01C
+	.text
     .global data_table_copy
-    .type data_table_copy, @function
 data_table_copy:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
@@ -1421,9 +1417,8 @@ data_table_copy:
     .4byte sym_060A4CFC
     .4byte sym_060A4D02
     .4byte sym_060A4CFD
-    .section .text.FUN_0603A0B0
+	.text
     .global game_logic_main
-    .type game_logic_main, @function
 game_logic_main:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
@@ -2272,9 +2267,8 @@ smpc_intback_send:
     .byte 0xE0, 0x00
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
-    .section .text.FUN_0603A766
+	.text
     .global display_channel_iter
-    .type display_channel_iter, @function
 display_channel_iter:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
@@ -2310,9 +2304,8 @@ display_channel_iter:
     .byte 0x00, 0x01
     .4byte sym_060A4CAC
     .4byte sym_060A4CB4
-    .section .text.FUN_0603A7B0
+	.text
     .global vdp1_sprite_draw_main
-    .type vdp1_sprite_draw_main, @function
 vdp1_sprite_draw_main:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
@@ -2673,9 +2666,8 @@ DAT_0603a8bc:
     .byte 0x00, 0xE1
     .byte 0x00, 0xE2
     .byte 0x00, 0xFF
-    .section .text.FUN_0603AA82
+	.text
     .global menu_anim_system
-    .type menu_anim_system, @function
 menu_anim_system:
     .byte 0x2F, 0xE6
     .byte 0xDE, 0x23

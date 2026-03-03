@@ -1,6 +1,5 @@
-    .section .text.FUN_0601AFD8
+	.text
     .global replay_end_stub
-    .type replay_end_stub, @function
 replay_end_stub:
     .byte 0x2F, 0xE6
     .byte 0xE7, 0x00

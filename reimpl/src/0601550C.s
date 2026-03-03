@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601550C
-
-
+	.text
     .global hud_priority_sort
-    .type hud_priority_sort, @function
 hud_priority_sort:
     mov.l r14, @-r15
     mov.l r12, @-r15

@@ -1,6 +1,5 @@
-    .section .text.FUN_06036E1C
+	.text
     .global palette_regs_config
-    .type palette_regs_config, @function
 palette_regs_config:
     .byte 0x2F, 0x56
     .byte 0x63, 0x06

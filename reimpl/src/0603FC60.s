@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603FC60
-
-
+	.text
     .global vblank_palette_apply
-    .type vblank_palette_apply, @function
 vblank_palette_apply:
     mov.l r14, @-r15
     mov r4, r14

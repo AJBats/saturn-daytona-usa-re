@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602E678
-
-
+	.text
     .global vdp2_palette_commit
-    .type vdp2_palette_commit, @function
 vdp2_palette_commit:
     sts.l pr, @-r15
     jsr @r13

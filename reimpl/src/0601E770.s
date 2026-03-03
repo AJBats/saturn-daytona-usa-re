@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601E770
-
-
+	.text
     .global mat_transpose
-    .type mat_transpose, @function
 mat_transpose:
     sts.l pr, @-r15
     add #-0x8, r15

@@ -1,6 +1,5 @@
-    .section .text.FUN_0602E768
+	.text
     .global per_vtx_lighting
-    .type per_vtx_lighting, @function
 per_vtx_lighting:
     .byte 0x4F, 0x22
     .byte 0x4D, 0x0B

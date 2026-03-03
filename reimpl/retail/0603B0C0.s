@@ -1,6 +1,5 @@
-    .section .text.FUN_0603B0C0
+	.text
     .global menu_elem_alpha
-    .type menu_elem_alpha, @function
 menu_elem_alpha:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

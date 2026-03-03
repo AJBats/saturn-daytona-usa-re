@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06032840
-
-
+	.text
     .global speed_hundreds_digit
-    .type speed_hundreds_digit, @function
 speed_hundreds_digit:
     sts.l pr, @-r15
     jsr @r0

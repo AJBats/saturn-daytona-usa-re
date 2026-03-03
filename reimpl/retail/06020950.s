@@ -1,6 +1,5 @@
-    .section .text.FUN_06020950
+	.text
     .global obj_lod_selector
-    .type obj_lod_selector, @function
 obj_lod_selector:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xA4

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603C08C
-
-
+	.text
     .global display_scene_update
-    .type display_scene_update, @function
 display_scene_update:
     sts mach, r1
     sts macl, r2

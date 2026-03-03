@@ -1,6 +1,5 @@
-    .section .text.FUN_060120A0
+	.text
     .global file_close
-    .type file_close, @function
 file_close:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

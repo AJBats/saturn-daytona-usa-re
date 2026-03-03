@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602E30C
-
-
+	.text
     .global vdp2_coeff_stub
-    .type vdp2_coeff_stub, @function
 vdp2_coeff_stub:
     sts.l pr, @-r15
     jsr @r12

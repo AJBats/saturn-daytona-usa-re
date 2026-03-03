@@ -1,6 +1,5 @@
-    .section .text.FUN_0600FDFE
+	.text
     .global transition_small_d
-    .type transition_small_d, @function
 transition_small_d:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

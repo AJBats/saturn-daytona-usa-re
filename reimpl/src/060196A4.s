@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060196A4
-
-
+	.text
     .global course_select_input
-    .type course_select_input, @function
 course_select_input:
     mov.l r14, @-r15
     mov.l r13, @-r15

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060193FE
-
-
+	.text
     .global course_select_state
-    .type course_select_state, @function
 course_select_state:
     sts.l pr, @-r15
     add #-0x4, r15

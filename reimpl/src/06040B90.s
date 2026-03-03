@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06040B90
-
-
+	.text
     .global event_callback_dispatch
-    .type event_callback_dispatch, @function
 event_callback_dispatch:
     mov.l r14, @-r15
     mov r15, r2

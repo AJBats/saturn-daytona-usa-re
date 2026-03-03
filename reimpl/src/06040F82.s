@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06040F82
-
-
+	.text
     .global evt_boundary_check
-    .type evt_boundary_check, @function
 evt_boundary_check:
     sts.l pr, @-r15
     add #-0x4, r15

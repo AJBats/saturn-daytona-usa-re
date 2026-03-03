@@ -1,6 +1,5 @@
-    .section .text.FUN_0603C10C
+	.text
     .global high_score_mgr
-    .type high_score_mgr, @function
 high_score_mgr:
     .byte 0x4F, 0x22
     .byte 0xDC, 0x1B

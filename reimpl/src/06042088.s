@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06042088
-
-
+	.text
     .global track_shadow_validate
-    .type track_shadow_validate, @function
 track_shadow_validate:
     mov.l r14, @-r15
     sts.l pr, @-r15

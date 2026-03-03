@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06009DD0
-
-
+	.text
     .global state_postrace_wait_init
-    .type state_postrace_wait_init, @function
 state_postrace_wait_init:
     sts.l pr, @-r15
     .byte   0xD3, 0x19    /* mov.l .L_pool_06009E38, r3 */

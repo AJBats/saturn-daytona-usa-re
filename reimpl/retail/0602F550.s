@@ -1,6 +1,5 @@
-    .section .text.FUN_0602F550
+	.text
     .global track_poly_build
-    .type track_poly_build, @function
 track_poly_build:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B

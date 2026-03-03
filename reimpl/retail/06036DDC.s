@@ -1,6 +1,5 @@
-    .section .text.FUN_06036DDC
+	.text
     .global display_buffer_init
-    .type display_buffer_init, @function
 display_buffer_init:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

@@ -1,6 +1,5 @@
-    .section .text.FUN_0603343A
+	.text
     .global split_hud_render
-    .type split_hud_render, @function
 split_hud_render:
     .byte 0x4F, 0x22
     .byte 0xBE, 0x1E

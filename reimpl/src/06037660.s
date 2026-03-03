@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06037660
-
-
+	.text
     .global vdp1_polygon_build
-    .type vdp1_polygon_build, @function
 vdp1_polygon_build:
     mov.l r14, @-r15
     mov.l r13, @-r15

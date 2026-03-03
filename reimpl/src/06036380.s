@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06036380
-
-
+	.text
     .global track_road_width_main
-    .type track_road_width_main, @function
 track_road_width_main:
     mov.l r14, @-r15
     mov r5, r14

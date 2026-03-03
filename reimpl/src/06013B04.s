@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06013B04
-
-
+	.text
     .global ranking_pts_calc
-    .type ranking_pts_calc, @function
 ranking_pts_calc:
     mov.l r14, @-r15
     mov.l r13, @-r15

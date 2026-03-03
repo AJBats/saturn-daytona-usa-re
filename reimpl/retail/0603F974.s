@@ -1,6 +1,5 @@
-    .section .text.FUN_0603F974
+	.text
     .global attract_transition
-    .type attract_transition, @function
 attract_transition:
     .byte 0x4F, 0x22
     .byte 0x6E, 0x53

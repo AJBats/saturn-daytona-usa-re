@@ -1,6 +1,5 @@
-    .section .text.FUN_06042088
+	.text
     .global track_shadow_validate
-    .type track_shadow_validate, @function
 track_shadow_validate:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

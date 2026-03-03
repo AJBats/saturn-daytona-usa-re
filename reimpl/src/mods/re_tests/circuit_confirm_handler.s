@@ -12,13 +12,8 @@
  *   A=0x0400, B=0x0100, C=0x0200, START=0x0800
  *   LEFT=0x4000, RIGHT=0x8000, UP=0x1000, DOWN=0x2000
  */
-
-
-    .section .text.FUN_060102EC
-
-
+	.text
     .global circuit_confirm_handler
-    .type circuit_confirm_handler, @function
 circuit_confirm_handler:
     mov.l r14, @-r15
     sts.l pr, @-r15

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600E906
-
-
+	.text
     .global ai_physics_main
-    .type ai_physics_main, @function
 ai_physics_main:
     mov.l r14, @-r15
     sts.l pr, @-r15

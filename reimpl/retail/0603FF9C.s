@@ -1,6 +1,5 @@
-    .section .text.FUN_0603FF9C
+	.text
     .global attract_display_main
-    .type attract_display_main, @function
 attract_display_main:
     .byte 0x2F, 0xE6
     .byte 0x6E, 0x43

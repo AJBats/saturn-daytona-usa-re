@@ -1,6 +1,5 @@
-    .section .text.FUN_0603F3F6
+	.text
     .global menu_element_render
-    .type menu_element_render, @function
 menu_element_render:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

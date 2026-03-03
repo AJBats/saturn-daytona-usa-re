@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06029740
-
-
+	.text
     .global mega_render_func
-    .type mega_render_func, @function
 mega_render_func:
     mov.l r14, @-r15
     mov.l r12, @-r15

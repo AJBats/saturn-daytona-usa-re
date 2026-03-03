@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06041180
-
-
+	.text
     .global queue_helper
-    .type queue_helper, @function
 queue_helper:
     sts.l pr, @-r15
     .byte   0xD3, 0x1E    /* mov.l .L_pool_060411FC, r3 */

@@ -1,6 +1,5 @@
-    .section .text.FUN_0602070C
+	.text
     .global obj_update_dispatch
-    .type obj_update_dispatch, @function
 obj_update_dispatch:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

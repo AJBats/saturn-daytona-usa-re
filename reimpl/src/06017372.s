@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06017372
-
-
+	.text
     .global vdp2_data_lookup
-    .type vdp2_data_lookup, @function
 vdp2_data_lookup:
     .byte   0xD7, 0x0D    /* mov.l .L_pool_060173A9, r7 */
     mov #0x12, r6

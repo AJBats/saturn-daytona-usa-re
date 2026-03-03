@@ -1,6 +1,5 @@
-    .section .text.FUN_060111E2
+	.text
     .global lap_progress_indicator
-    .type lap_progress_indicator, @function
 lap_progress_indicator:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

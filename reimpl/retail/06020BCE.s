@@ -1,6 +1,5 @@
-    .section .text.FUN_06020BCE
+	.text
     .global obj_state_pack
-    .type obj_state_pack, @function
 obj_state_pack:
     .byte 0x4F, 0x22
     .byte 0xD3, 0x16

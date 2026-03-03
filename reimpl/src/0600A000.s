@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600A000
-
-
+	.text
     .global sound_state_transition
-    .type sound_state_transition, @function
 sound_state_transition:
     sts.l pr, @-r15
     .byte   0xDE, 0x1A    /* mov.l .L_pool_0600A06C, r14 */

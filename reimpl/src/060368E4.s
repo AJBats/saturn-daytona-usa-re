@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060368E4
-
-
+	.text
     .global obj_render_queue
-    .type obj_render_queue, @function
 obj_render_queue:
     sts.l pr, @-r15
     add #-0x8, r15

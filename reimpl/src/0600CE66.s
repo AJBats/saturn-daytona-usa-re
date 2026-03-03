@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600CE66
-
-
+	.text
     .global collision_detect_main
-    .type collision_detect_main, @function
 collision_detect_main:
     mov.l r14, @-r15
     sts.l pr, @-r15

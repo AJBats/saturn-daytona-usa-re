@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600C218
-
-
+	.text
     .global scene_update
-    .type scene_update, @function
 scene_update:
     mov.l r14, @-r15
     mov #0x30, r6

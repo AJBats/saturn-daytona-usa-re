@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603B680
-
-
+	.text
     .global menu_credits_elem
-    .type menu_credits_elem, @function
 menu_credits_elem:
     sts.l pr, @-r15
     mov r4, r1

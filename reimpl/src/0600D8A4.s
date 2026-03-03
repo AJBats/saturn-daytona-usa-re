@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600D8A4
-
-
+	.text
     .global car_iterate_update
-    .type car_iterate_update, @function
 car_iterate_update:
     mov.l r14, @-r15
     mov #0x0, r5

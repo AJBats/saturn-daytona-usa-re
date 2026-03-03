@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601D2DC
-
-
+	.text
     .global render_coord_transform
-    .type render_coord_transform, @function
 render_coord_transform:
     mov.l r14, @-r15
     sts.l pr, @-r15

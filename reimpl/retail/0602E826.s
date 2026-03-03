@@ -1,6 +1,5 @@
-    .section .text.FUN_0602E826
+	.text
     .global billboard_facing
-    .type billboard_facing, @function
 billboard_facing:
     .byte 0x4F, 0x22
     .byte 0x4D, 0x0B

@@ -1,6 +1,5 @@
-    .section .text.FUN_06013E7A
+	.text
     .global end_race_score
-    .type end_race_score, @function
 end_race_score:
     .byte 0x2F, 0xE6
     .byte 0x95, 0x64

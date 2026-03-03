@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603BF22
-
-
+	.text
     .global save_commit_write
-    .type save_commit_write, @function
 save_commit_write:
     mov.l r14, @-r15
     sts.l pr, @-r15

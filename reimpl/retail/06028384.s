@@ -1,6 +1,5 @@
-    .section .text.FUN_06028384
+	.text
     .global screen_flash_effect
-    .type screen_flash_effect, @function
 screen_flash_effect:
     .byte 0x4F, 0x22
     .byte 0xD0, 0x09

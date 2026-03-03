@@ -1,6 +1,5 @@
-    .section .text.FUN_0601A65E
+	.text
     .global car_init_handler
-    .type car_init_handler, @function
 car_init_handler:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

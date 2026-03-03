@@ -1,6 +1,5 @@
-    .section .text.FUN_0601E764
+	.text
     .global hud_render_stage
-    .type hud_render_stage, @function
 hud_render_stage:
     .byte 0x2F, 0xE6
     .byte 0x60, 0x43

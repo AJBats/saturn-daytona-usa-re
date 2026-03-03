@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602E768
-
-
+	.text
     .global per_vtx_lighting
-    .type per_vtx_lighting, @function
 per_vtx_lighting:
     sts.l pr, @-r15
     jsr @r13

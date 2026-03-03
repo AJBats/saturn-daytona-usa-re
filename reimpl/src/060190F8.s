@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060190F8
-
-
+	.text
     .global transition_anim_drive
-    .type transition_anim_drive, @function
 transition_anim_drive:
     sts.l pr, @-r15
     mov.l   .L_pool_06019130, r14

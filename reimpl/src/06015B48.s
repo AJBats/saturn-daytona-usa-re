@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06015B48
-
-
+	.text
     .global time_compare_display
-    .type time_compare_display, @function
 time_compare_display:
     mov.l r14, @-r15
     mov.l r13, @-r15

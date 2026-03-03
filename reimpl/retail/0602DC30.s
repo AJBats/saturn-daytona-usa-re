@@ -1,6 +1,5 @@
-    .section .text.FUN_0602DC30
+	.text
     .global vdp1_normal_sprite
-    .type vdp1_normal_sprite, @function
 vdp1_normal_sprite:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B

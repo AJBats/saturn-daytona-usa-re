@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060323B2
-
-
+	.text
     .global display_cmd_hscroll
-    .type display_cmd_hscroll, @function
 display_cmd_hscroll:
     sts.l pr, @-r15
     .byte   0xB5, 0x30    /* bsr 0x06032E18 (external) */

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06032B8E
-
-
+	.text
     .global hud_rpm_bar_idx_3
-    .type hud_rpm_bar_idx_3, @function
 hud_rpm_bar_idx_3:
     sts.l pr, @-r15
     jsr @r0

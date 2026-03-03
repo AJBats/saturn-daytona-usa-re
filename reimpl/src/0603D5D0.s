@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603D5D0
-
-
+	.text
     .global display_element_draw
-    .type display_element_draw, @function
 display_element_draw:
     sts.l pr, @-r15
     mov #0x1, r6

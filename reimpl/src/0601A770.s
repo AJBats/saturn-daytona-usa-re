@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601A770
-
-
+	.text
     .global preview_camera_pos
-    .type preview_camera_pos, @function
 preview_camera_pos:
     sts.l pr, @-r15
     .byte   0xD0, 0x1C    /* mov.l .L_ptr_course_active_flag, r0 */

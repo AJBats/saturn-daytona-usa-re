@@ -1,6 +1,5 @@
-    .section .text.FUN_06020330
+	.text
     .global obj_type_set
-    .type obj_type_set, @function
 obj_type_set:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC

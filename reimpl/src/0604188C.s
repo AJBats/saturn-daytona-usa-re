@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0604188C
-
-
+	.text
     .global state_field_read
-    .type state_field_read, @function
 state_field_read:
     sts.l pr, @-r15
     mov.l   .L_pool_060418AC, r4

@@ -1,6 +1,5 @@
-    .section .text.FUN_06005ECC
+	.text
     .global segment_position_track
-    .type segment_position_track, @function
 segment_position_track:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

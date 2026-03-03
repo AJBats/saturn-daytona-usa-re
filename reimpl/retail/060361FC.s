@@ -1,6 +1,5 @@
-    .section .text.FUN_060361FC
+	.text
     .global track_seg_interpolate
-    .type track_seg_interpolate, @function
 track_seg_interpolate:
     .byte 0x2F, 0xE6
     .byte 0x6E, 0x53

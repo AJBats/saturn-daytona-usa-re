@@ -1,6 +1,5 @@
-    .section .text.FUN_0600A5B2
+	.text
     .global camera_param_load
-    .type camera_param_load, @function
 camera_param_load:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

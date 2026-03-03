@@ -1,6 +1,5 @@
-    .section .text.FUN_06020CF4
+	.text
     .global obj_data_compact
-    .type obj_data_compact, @function
 obj_data_compact:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

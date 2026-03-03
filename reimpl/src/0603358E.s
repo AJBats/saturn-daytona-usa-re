@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603358E
-
-
+	.text
     .global disp_course_thunk_1
-    .type disp_course_thunk_1, @function
 disp_course_thunk_1:
     sts.l pr, @-r15
     jsr @r0

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600E0C0
-
-
+	.text
     .global car_update_racing
-    .type car_update_racing, @function
 car_update_racing:
     mov.l r14, @-r15
     mov.l r13, @-r15

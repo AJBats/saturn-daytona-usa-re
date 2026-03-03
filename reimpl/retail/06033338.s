@@ -1,6 +1,5 @@
-    .section .text.FUN_06033338
+	.text
     .global results_time_render
-    .type results_time_render, @function
 results_time_render:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B

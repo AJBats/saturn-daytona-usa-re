@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06021450
-
-
+	.text
     .global track_obj_placement
-    .type track_obj_placement, @function
 track_obj_placement:
     mov.l r14, @-r15
     mov.l r13, @-r15

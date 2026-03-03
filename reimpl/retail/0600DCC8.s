@@ -1,6 +1,5 @@
-    .section .text.FUN_0600DCC8
+	.text
     .global checkpoint_time_calc
-    .type checkpoint_time_calc, @function
 checkpoint_time_calc:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF0

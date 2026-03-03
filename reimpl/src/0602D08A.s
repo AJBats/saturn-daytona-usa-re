@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602D08A
-
-
+	.text
     .global vdp1_sprite_cmd
-    .type vdp1_sprite_cmd, @function
 vdp1_sprite_cmd:
     sts.l pr, @-r15
     mov r14, r0

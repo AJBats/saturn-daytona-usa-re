@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06038642
-
-
+	.text
     .global scene_data_write_add
-    .type scene_data_write_add, @function
 scene_data_write_add:
     mov.l r14, @-r15
     .byte   0xDE, 0x19    /* mov.l .L_pool_060386AF, r14 */

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06013E3C
-
-
+	.text
     .global obj_render_loop_3d
-    .type obj_render_loop_3d, @function
 obj_render_loop_3d:
     mov.l r14, @-r15
     mov.l r13, @-r15

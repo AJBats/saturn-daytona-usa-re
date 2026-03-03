@@ -1,6 +1,5 @@
-    .section .text.FUN_06017740
+	.text
     .global poly_table_lookup
-    .type poly_table_lookup, @function
 poly_table_lookup:
     .byte 0x4F, 0x22
     .byte 0x63, 0xCC

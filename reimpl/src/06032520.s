@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06032520
-
-
+	.text
     .global disp_tile_idx_6
-    .type disp_tile_idx_6, @function
 disp_tile_idx_6:
     sts.l pr, @-r15
     .byte   0xB0, 0xB3    /* bsr 0x0603268C (external) */

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06008C76
-
-
+	.text
     .global state_memory_route
-    .type state_memory_route, @function
 state_memory_route:
     sts.l pr, @-r15
     .byte   0xD3, 0x10    /* mov.l .L_pool_06008CBC, r3 */

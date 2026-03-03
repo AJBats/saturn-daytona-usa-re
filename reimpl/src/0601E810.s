@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601E810
-
-
+	.text
     .global hud_handler_main
-    .type hud_handler_main, @function
 hud_handler_main:
     mov.l r14, @-r15
     mov r4, r0

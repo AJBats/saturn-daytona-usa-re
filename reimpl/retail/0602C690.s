@@ -1,6 +1,5 @@
-    .section .text.FUN_0602C690
+	.text
     .global vdp1_display_list_setup
-    .type vdp1_display_list_setup, @function
 vdp1_display_list_setup:
     .byte 0x4F, 0x22
     .byte 0x91, 0x42

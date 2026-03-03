@@ -1,6 +1,5 @@
-    .section .text.FUN_0603242A
+	.text
     .global display_cmd_position
-    .type display_cmd_position, @function
 display_cmd_position:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B

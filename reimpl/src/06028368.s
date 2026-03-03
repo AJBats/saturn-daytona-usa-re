@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06028368
-
-
+	.text
     .global effect_init_stub
-    .type effect_init_stub, @function
 effect_init_stub:
     sts.l pr, @-r15
     mov.l   .L_06028380, r0

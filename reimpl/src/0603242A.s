@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603242A
-
-
+	.text
     .global display_cmd_position
-    .type display_cmd_position, @function
 display_cmd_position:
     sts.l pr, @-r15
     jsr @r0

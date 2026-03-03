@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060145BC
-
-
+	.text
     .global adv_collision_resp
-    .type adv_collision_resp, @function
 adv_collision_resp:
     mov.l r14, @-r15
     mov.l r13, @-r15

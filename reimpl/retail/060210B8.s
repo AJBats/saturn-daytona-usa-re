@@ -1,6 +1,5 @@
-    .section .text.FUN_060210B8
+	.text
     .global obj_cleanup
-    .type obj_cleanup, @function
 obj_cleanup:
     .byte 0x2F, 0xE6
     .byte 0xEE, 0x00

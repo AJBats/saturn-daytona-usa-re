@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06026E60
-
-
+	.text
     .global mat_scale_columns
-    .type mat_scale_columns, @function
 mat_scale_columns:
     .byte   0xD0, 0x81    /* mov.l .L_pool_06027068, r0 */
     mov.l @r0, r7

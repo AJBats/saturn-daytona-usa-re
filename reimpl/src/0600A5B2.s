@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600A5B2
-
-
+	.text
     .global camera_param_load
-    .type camera_param_load, @function
 camera_param_load:
     mov.l r14, @-r15
     sts.l pr, @-r15

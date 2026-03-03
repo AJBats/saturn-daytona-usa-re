@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600CB90
-
-
+	.text
     .global race_pos_interp
-    .type race_pos_interp, @function
 race_pos_interp:
     mov.l r14, @-r15
     extu.w r5, r0

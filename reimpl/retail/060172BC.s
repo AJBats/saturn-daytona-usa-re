@@ -1,6 +1,5 @@
-    .section .text.FUN_060172BC
+	.text
     .global vdp2_loop_ctrl
-    .type vdp2_loop_ctrl, @function
 vdp2_loop_ctrl:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

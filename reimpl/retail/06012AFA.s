@@ -1,6 +1,5 @@
-    .section .text.FUN_06012AFA
+	.text
     .global car_param_lookup
-    .type car_param_lookup, @function
 car_param_lookup:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

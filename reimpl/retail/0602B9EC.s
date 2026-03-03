@@ -1,6 +1,5 @@
-    .section .text.FUN_0602B9EC
+	.text
     .global scene_graph_walk
-    .type scene_graph_walk, @function
 scene_graph_walk:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22
@@ -337,9 +336,8 @@ loc_0602BC00:
     .byte 0x69, 0xF6
     .byte 0x00, 0x0B
     .byte 0x68, 0xF6
-    .section .text.FUN_0602BC7A
+	.text
     .global vdp1_cmd_emit
-    .type vdp1_cmd_emit, @function
 vdp1_cmd_emit:
     .byte 0x04, 0x97
     .byte 0xD4, 0x1E

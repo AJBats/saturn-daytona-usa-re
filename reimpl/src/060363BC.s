@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060363BC
-
-
+	.text
     .global track_road_edge_b
-    .type track_road_edge_b, @function
 track_road_edge_b:
     mov.l r14, @-r15
     mov r4, r14

@@ -1,6 +1,5 @@
-    .section .text.FUN_0602E350
+	.text
     .global rbg_rot_matrix_calc
-    .type rbg_rot_matrix_calc, @function
 rbg_rot_matrix_calc:
     .byte 0x4F, 0x22
     .byte 0x4D, 0x0B

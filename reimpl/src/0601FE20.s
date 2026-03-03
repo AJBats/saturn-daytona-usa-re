@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601FE20
-
-
+	.text
     .global geom_display_handler
-    .type geom_display_handler, @function
 geom_display_handler:
     mov.l r14, @-r15
     mov.l r13, @-r15

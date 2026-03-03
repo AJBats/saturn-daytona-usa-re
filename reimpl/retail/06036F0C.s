@@ -1,6 +1,5 @@
-    .section .text.FUN_06036F0C
+	.text
     .global vdp_init_master
-    .type vdp_init_master, @function
 vdp_init_master:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

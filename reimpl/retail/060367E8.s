@@ -1,6 +1,5 @@
-    .section .text.FUN_060367E8
+	.text
     .global track_impact_force
-    .type track_impact_force, @function
 track_impact_force:
     .byte 0x2F, 0xE6
     .byte 0x6E, 0x53

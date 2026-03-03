@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06015E78
-
-
+	.text
     .global speed_value_format
-    .type speed_value_format, @function
 speed_value_format:
     sts.l pr, @-r15
     mov #0x41, r0

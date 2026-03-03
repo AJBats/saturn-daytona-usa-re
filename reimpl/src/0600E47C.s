@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600E47C
-
-
+	.text
     .global race_update_full
-    .type race_update_full, @function
 race_update_full:
     mov.l r14, @-r15
     sts.l pr, @-r15

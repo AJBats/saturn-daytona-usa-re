@@ -1,6 +1,5 @@
-    .section .text.FUN_060367B4
+	.text
     .global impact_force_calc
-    .type impact_force_calc, @function
 impact_force_calc:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF8

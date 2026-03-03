@@ -1,6 +1,5 @@
-    .section .text.FUN_060370E4
+	.text
     .global texture_bank_setup
-    .type texture_bank_setup, @function
 texture_bank_setup:
     .byte 0x2F, 0xE6
     .byte 0xE3, 0x00

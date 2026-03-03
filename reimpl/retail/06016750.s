@@ -1,6 +1,5 @@
-    .section .text.FUN_06016750
+	.text
     .global results_awards
-    .type results_awards, @function
 results_awards:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF0

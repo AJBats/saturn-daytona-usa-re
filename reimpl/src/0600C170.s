@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600C170
-
-
+	.text
     .global race_utility_calc
-    .type race_utility_calc, @function
 race_utility_calc:
     sts.l pr, @-r15
     mov.l   .L_0600C1B0, r3

@@ -1,6 +1,5 @@
-    .section .text.FUN_06012AC4
+	.text
     .global course_table_lookup
-    .type course_table_lookup, @function
 course_table_lookup:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

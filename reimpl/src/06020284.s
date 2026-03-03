@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06020284
-
-
+	.text
     .global obj_pool_dealloc
-    .type obj_pool_dealloc, @function
 obj_pool_dealloc:
     sts.l pr, @-r15
     add #-0x8, r15

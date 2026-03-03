@@ -1,6 +1,5 @@
-    .section .text.FUN_06018E4C
+	.text
     .global mode_flag_set_b
-    .type mode_flag_set_b, @function
 mode_flag_set_b:
     .byte 0x4F, 0x22
     .byte 0xE4, 0x03

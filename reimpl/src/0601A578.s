@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601A578
-
-
+	.text
     .global race_start_transition
-    .type race_start_transition, @function
 race_start_transition:
     sts.l pr, @-r15
     add #-0x4, r15

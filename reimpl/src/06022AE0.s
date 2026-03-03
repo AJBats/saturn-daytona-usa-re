@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06022AE0
-
-
+	.text
     .global render_obj_processor
-    .type render_obj_processor, @function
 render_obj_processor:
     mov.l r14, @-r15
     mov.l r13, @-r15

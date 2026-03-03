@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06036578
-
-
+	.text
     .global course_data_access_f
-    .type course_data_access_f, @function
 course_data_access_f:
     sts.l pr, @-r15
     mov r5, r13

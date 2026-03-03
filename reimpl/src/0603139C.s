@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603139C
-
-
+	.text
     .global position_lap_display
-    .type position_lap_display, @function
 position_lap_display:
     sts.l pr, @-r15
     jsr @r0

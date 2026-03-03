@@ -1,6 +1,5 @@
-    .section .text.FUN_0602843A
+	.text
     .global screen_fade_ctrl
-    .type screen_fade_ctrl, @function
 screen_fade_ctrl:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06018320
-
-
+	.text
     .global vdp2_scroll_config
-    .type vdp2_scroll_config, @function
 vdp2_scroll_config:
     mov.l r14, @-r15
     mov.l r13, @-r15

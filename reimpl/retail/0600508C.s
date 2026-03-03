@@ -1,6 +1,5 @@
-    .section .text.FUN_0600508C
+	.text
     .global obj_coord_setter
-    .type obj_coord_setter, @function
 obj_coord_setter:
     .byte 0x2F, 0xE6
     .byte 0x26, 0x39

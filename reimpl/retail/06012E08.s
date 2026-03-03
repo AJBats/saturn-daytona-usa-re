@@ -1,6 +1,5 @@
-    .section .text.FUN_06012E08
+	.text
     .global sound_init_sequence
-    .type sound_init_sequence, @function
 sound_init_sequence:
     .byte 0x2F, 0xE6
     .byte 0x60, 0x43

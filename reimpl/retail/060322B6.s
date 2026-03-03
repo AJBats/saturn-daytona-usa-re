@@ -1,6 +1,5 @@
-    .section .text.FUN_060322B6
+	.text
     .global display_dispatch_pop
-    .type display_dispatch_pop, @function
 display_dispatch_pop:
     .byte 0x4F, 0x22
     .byte 0xB0, 0x16

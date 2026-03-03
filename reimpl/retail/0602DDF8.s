@@ -1,6 +1,5 @@
-    .section .text.FUN_0602DDF8
+	.text
     .global vdp1_poly3
-    .type vdp1_poly3, @function
 vdp1_poly3:
     .byte 0x4F, 0x22
     .byte 0x4C, 0x0B

@@ -1,6 +1,5 @@
-    .section .text.FUN_0603BA2C
+	.text
     .global save_field_write
-    .type save_field_write, @function
 save_field_write:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

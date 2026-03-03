@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060370E4
-
-
+	.text
     .global texture_bank_setup
-    .type texture_bank_setup, @function
 texture_bank_setup:
     mov.l r14, @-r15
     mov #0x0, r3

@@ -1,6 +1,5 @@
-    .section .text.FUN_06008418
+	.text
     .global force_steer_calc
-    .type force_steer_calc, @function
 force_steer_calc:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22
@@ -38,9 +37,8 @@ force_steer_calc:
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .section .text.FUN_06008460
+	.text
     .global force_steer_impact
-    .type force_steer_impact, @function
 force_steer_impact:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22
@@ -96,9 +94,8 @@ DAT_060084a6:
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .section .text.FUN_060084CA
+	.text
     .global race_config_physics
-    .type race_config_physics, @function
 race_config_physics:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22
@@ -205,9 +202,8 @@ DAT_0600855e:
     .4byte sym_06063E2C
     .4byte sym_06063E30
     .4byte sym_0607866C
-    .section .text.FUN_060085B8
+	.text
     .global brake_force_apply
-    .type brake_force_apply, @function
 brake_force_apply:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22
@@ -340,9 +336,8 @@ sym_06008640:
     .4byte sym_060453C4
     .4byte sym_0607EBD0
     .4byte sym_060453B4
-    .section .text.FUN_060086C0
+	.text
     .global force_table_apply
-    .type force_table_apply, @function
 force_table_apply:
     .byte 0x4F, 0x22
     .byte 0xE6, 0x01

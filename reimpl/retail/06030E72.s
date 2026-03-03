@@ -1,6 +1,5 @@
-    .section .text.FUN_06030E72
+	.text
     .global sound_channel_mgr
-    .type sound_channel_mgr, @function
 sound_channel_mgr:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B

@@ -1,6 +1,5 @@
-    .section .text.FUN_0600F9C6
+	.text
     .global transition_large_menu
-    .type transition_large_menu, @function
 transition_large_menu:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

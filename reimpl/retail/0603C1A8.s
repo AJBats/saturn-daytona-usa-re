@@ -1,6 +1,5 @@
-    .section .text.FUN_0603C1A8
+	.text
     .global hud_menu_system
-    .type hud_menu_system, @function
 hud_menu_system:
     .byte 0x2F, 0xE6
     .byte 0xE7, 0x01
@@ -701,9 +700,8 @@ DAT_0603c49c:
     .byte 0xFF, 0xF7
     .byte 0x00, 0x00
     .byte 0xFF, 0xEF
-    .section .text.FUN_0603C728
+	.text
     .global hud_display_ext
-    .type hud_display_ext, @function
 hud_display_ext:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
@@ -1371,9 +1369,8 @@ DAT_0603cae2:
     .4byte sym_060A4D9C
     .4byte sym_060A4DA2
     .4byte sym_060A4D8C
-    .section .text.FUN_0603CC88
+	.text
     .global display_palette_calc
-    .type display_palette_calc, @function
 display_palette_calc:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

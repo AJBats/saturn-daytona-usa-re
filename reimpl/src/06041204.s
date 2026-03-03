@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06041204
-
-
+	.text
     .global evt_field_update
-    .type evt_field_update, @function
 evt_field_update:
     sts.l pr, @-r15
     add #-0x4, r15

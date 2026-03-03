@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06014A04
-
-
+	.text
     .global vdp1_cmd_update
-    .type vdp1_cmd_update, @function
 vdp1_cmd_update:
     sts.l pr, @-r15
     add #-0x4, r15

@@ -1,6 +1,5 @@
-    .section .text.FUN_06016C6A
+	.text
     .global text_color_set
-    .type text_color_set, @function
 text_color_set:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

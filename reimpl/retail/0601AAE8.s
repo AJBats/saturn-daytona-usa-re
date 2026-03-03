@@ -1,6 +1,5 @@
-    .section .text.FUN_0601AAE8
+	.text
     .global preview_camera_path
-    .type preview_camera_path, @function
 preview_camera_path:
     .byte 0x4F, 0x22
     .byte 0xD3, 0x19

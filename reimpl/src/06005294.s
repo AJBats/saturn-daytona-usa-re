@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06005294
-
-
+	.text
     .global vec3_angle_calc
-    .type vec3_angle_calc, @function
 vec3_angle_calc:
     mov.l r14, @-r15
     mov r4, r14

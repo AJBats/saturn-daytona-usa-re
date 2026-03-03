@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060423CC
-
-
+	.text
     .global cdb_wait_scdq
-    .type cdb_wait_scdq, @function
 cdb_wait_scdq:
     mov.l r14, @-r15
     mov.l r13, @-r15

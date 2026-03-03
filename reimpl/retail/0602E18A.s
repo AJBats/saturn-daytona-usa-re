@@ -1,6 +1,5 @@
-    .section .text.FUN_0602E18A
+	.text
     .global draw_priority_resolve
-    .type draw_priority_resolve, @function
 draw_priority_resolve:
     .byte 0x4F, 0x22
     .byte 0x4D, 0x0B

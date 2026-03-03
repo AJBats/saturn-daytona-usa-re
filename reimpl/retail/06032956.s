@@ -1,6 +1,5 @@
-    .section .text.FUN_06032956
+	.text
     .global hud_speed_idx_2
-    .type hud_speed_idx_2, @function
 hud_speed_idx_2:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B

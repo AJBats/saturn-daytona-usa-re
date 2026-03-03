@@ -1,6 +1,5 @@
-    .section .text.FUN_06011AF4
+	.text
     .global rigid_body_transform
-    .type rigid_body_transform, @function
 rigid_body_transform:
     .byte 0x2F, 0xE6
     .byte 0xE0, 0x3A

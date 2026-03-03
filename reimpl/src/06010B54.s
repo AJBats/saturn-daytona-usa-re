@@ -25,12 +25,8 @@
  * Returns: nothing (void)
  * Calls:   sound_cmd_dispatch(channel=0, sound_id)
  */
-
-    .section .text.FUN_06010B54
-
-
+	.text
     .global hud_sound_trigger
-    .type hud_sound_trigger, @function
 hud_sound_trigger:
     mov.l r14, @-r15
     sts.l pr, @-r15

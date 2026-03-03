@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060408B0
-
-
+	.text
     .global evt_cmd_enqueue
-    .type evt_cmd_enqueue, @function
 evt_cmd_enqueue:
     mov.l r14, @-r15
     mov r4, r14

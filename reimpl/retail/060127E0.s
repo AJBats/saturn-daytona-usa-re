@@ -1,6 +1,5 @@
-    .section .text.FUN_060127E0
+	.text
     .global hud_menu_logic
-    .type hud_menu_logic, @function
 hud_menu_logic:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

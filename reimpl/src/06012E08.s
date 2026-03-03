@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06012E08
-
-
+	.text
     .global sound_init_sequence
-    .type sound_init_sequence, @function
 sound_init_sequence:
     mov.l r14, @-r15
     mov r4, r0

@@ -1,6 +1,5 @@
-    .section .text.FUN_06034E24
+	.text
     .global smpc_cmd_builder
-    .type smpc_cmd_builder, @function
 smpc_cmd_builder:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF8

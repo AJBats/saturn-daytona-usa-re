@@ -1,6 +1,5 @@
-    .section .text.FUN_060406BC
+	.text
     .global sys_timer_tick
-    .type sys_timer_tick, @function
 sys_timer_tick:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF4

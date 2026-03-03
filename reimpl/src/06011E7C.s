@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06011E7C
-
-
+	.text
     .global dual_hud_render
-    .type dual_hud_render, @function
 dual_hud_render:
     sts.l pr, @-r15
     add #-0x4, r15

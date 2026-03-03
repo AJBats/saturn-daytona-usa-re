@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06010760
-
-
+	.text
     .global adv_anim_state
-    .type adv_anim_state, @function
 adv_anim_state:
     mov.l r14, @-r15
     mov.l r13, @-r15

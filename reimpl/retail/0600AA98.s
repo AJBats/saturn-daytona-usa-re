@@ -1,6 +1,5 @@
-    .section .text.FUN_0600AA98
+	.text
     .global render_obj_additive
-    .type render_obj_additive, @function
 render_obj_additive:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

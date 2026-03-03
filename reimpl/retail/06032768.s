@@ -1,6 +1,5 @@
-    .section .text.FUN_06032768
+	.text
     .global best_lap_render
-    .type best_lap_render, @function
 best_lap_render:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B

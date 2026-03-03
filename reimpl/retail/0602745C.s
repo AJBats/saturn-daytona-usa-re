@@ -1,6 +1,5 @@
-    .section .text.FUN_0602745C
+	.text
     .global atan2_full
-    .type atan2_full, @function
 atan2_full:
     .byte 0x4F, 0x22
     .byte 0x45, 0x11

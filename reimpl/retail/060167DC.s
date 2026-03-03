@@ -1,6 +1,5 @@
-    .section .text.FUN_060167DC
+	.text
     .global results_input_handler
-    .type results_input_handler, @function
 results_input_handler:
     .byte 0x4F, 0x22
     .byte 0x43, 0x08

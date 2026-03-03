@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06041CC8
-
-
+	.text
     .global state_transition_handler
-    .type state_transition_handler, @function
 state_transition_handler:
     mov.l r14, @-r15
     sts.l pr, @-r15

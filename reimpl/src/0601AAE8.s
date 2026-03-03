@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601AAE8
-
-
+	.text
     .global preview_camera_path
-    .type preview_camera_path, @function
 preview_camera_path:
     sts.l pr, @-r15
     mov.l   .L_0601AB50, r3

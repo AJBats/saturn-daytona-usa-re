@@ -1,6 +1,5 @@
-    .section .text.FUN_0602EFF0
+	.text
     .global render_camera_compute
-    .type render_camera_compute, @function
 render_camera_compute:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

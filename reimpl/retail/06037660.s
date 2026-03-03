@@ -1,6 +1,5 @@
-    .section .text.FUN_06037660
+	.text
     .global vdp1_polygon_build
-    .type vdp1_polygon_build, @function
 vdp1_polygon_build:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

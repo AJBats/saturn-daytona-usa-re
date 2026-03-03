@@ -1,6 +1,5 @@
-    .section .text.FUN_0603AF94
+	.text
     .global cmd_result_store
-    .type cmd_result_store, @function
 cmd_result_store:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

@@ -1,6 +1,5 @@
-    .section .text.FUN_0600DE70
+	.text
     .global car_iteration_loop
-    .type car_iteration_loop, @function
 car_iteration_loop:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

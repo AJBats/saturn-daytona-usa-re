@@ -1,6 +1,5 @@
-    .section .text.FUN_06015954
+	.text
     .global position_change_anim
-    .type position_change_anim, @function
 position_change_anim:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

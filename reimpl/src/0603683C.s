@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603683C
-
-
+	.text
     .global track_impact_response
-    .type track_impact_response, @function
 track_impact_response:
     mov.l r14, @-r15
     mov r5, r14

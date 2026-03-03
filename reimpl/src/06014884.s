@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06014884
-
-
+	.text
     .global display_channel_b
-    .type display_channel_b, @function
 display_channel_b:
     sts.l pr, @-r15
     add #-0x8, r15

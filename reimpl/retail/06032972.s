@@ -1,6 +1,5 @@
-    .section .text.FUN_06032972
+	.text
     .global speed_alt_render
-    .type speed_alt_render, @function
 speed_alt_render:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B

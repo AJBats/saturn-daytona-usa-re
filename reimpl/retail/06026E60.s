@@ -1,6 +1,5 @@
-    .section .text.FUN_06026E60
+	.text
     .global mat_scale_columns
-    .type mat_scale_columns, @function
 mat_scale_columns:
     .byte 0xD0, 0x81
     .byte 0x67, 0x02

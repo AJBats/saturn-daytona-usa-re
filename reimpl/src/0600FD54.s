@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600FD54
-
-
+	.text
     .global transition_small_c
-    .type transition_small_c, @function
 transition_small_c:
     sts.l pr, @-r15
     .byte   0xD5, 0x1F    /* mov.l .L_pool_0600FDD4, r5 */

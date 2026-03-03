@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060100A4
-
-
+	.text
     .global sprite_anim_render
-    .type sprite_anim_render, @function
 sprite_anim_render:
     mov.l r14, @-r15
     mov r4, r14

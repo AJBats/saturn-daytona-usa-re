@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600A0C0
-
-
+	.text
     .global race_resource_init
-    .type race_resource_init, @function
 race_resource_init:
     mov.l r14, @-r15
     sts.l pr, @-r15

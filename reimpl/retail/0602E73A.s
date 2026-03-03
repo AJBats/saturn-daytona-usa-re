@@ -1,6 +1,5 @@
-    .section .text.FUN_0602E73A
+	.text
     .global gouraud_color_calc
-    .type gouraud_color_calc, @function
 gouraud_color_calc:
     .byte 0x4F, 0x22
     .byte 0x4D, 0x0B

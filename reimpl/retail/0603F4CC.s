@@ -1,6 +1,5 @@
-    .section .text.FUN_0603F4CC
+	.text
     .global audio_state_update
-    .type audio_state_update, @function
 audio_state_update:
     .byte 0x4F, 0x22
     .byte 0xE6, 0x02

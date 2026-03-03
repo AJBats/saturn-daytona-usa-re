@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06018A3C
-
-
+	.text
     .global vdp2_config_extended
-    .type vdp2_config_extended, @function
 vdp2_config_extended:
     mov.l r14, @-r15
     mov #0xA, r2

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06021128
-
-
+	.text
     .global obj_render_cleanup
-    .type obj_render_cleanup, @function
 obj_render_cleanup:
     sts.l pr, @-r15
     mov.l   .L_06021158, r3

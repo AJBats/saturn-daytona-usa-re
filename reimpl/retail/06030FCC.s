@@ -1,6 +1,5 @@
-    .section .text.FUN_06030FCC
+	.text
     .global sound_enable_toggle
-    .type sound_enable_toggle, @function
 sound_enable_toggle:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

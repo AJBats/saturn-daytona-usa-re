@@ -1,6 +1,5 @@
-    .section .text.FUN_0601B160
+	.text
     .global disc_course_data_load
-    .type disc_course_data_load, @function
 disc_course_data_load:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

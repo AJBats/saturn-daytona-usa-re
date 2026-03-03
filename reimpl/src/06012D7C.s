@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06012D7C
-
-
+	.text
     .global cd_course_loader
-    .type cd_course_loader, @function
 cd_course_loader:
     mov.l r14, @-r15
     mov r4, r0

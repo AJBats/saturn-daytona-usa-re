@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603FF3A
-
-
+	.text
     .global attract_cleanup
-    .type attract_cleanup, @function
 attract_cleanup:
     mov.l r14, @-r15
     mov.l r13, @-r15

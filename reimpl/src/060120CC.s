@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060120CC
-
-
+	.text
     .global file_read_callback
-    .type file_read_callback, @function
 file_read_callback:
     sts.l pr, @-r15
     mov #0x0, r14

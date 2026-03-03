@@ -1,10 +1,5 @@
-
-    .section .text.FUN_06019DB8
-
-
+	.text
     .global course1_physics_init
-    .type course1_physics_init, @function
-
 course1_physics_init:
     mov.l r14, @-r15
     mov.l r13, @-r15

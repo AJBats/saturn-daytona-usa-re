@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603950C
-
-
+	.text
     .global scene_state_process
-    .type scene_state_process, @function
 scene_state_process:
     mov.l r14, @-r15
     mov.l r13, @-r15
@@ -417,7 +413,6 @@ DAT_060397f8:
     .4byte  sym_060A4CC4
 
     .global smpc_data_manage
-    .type smpc_data_manage, @function
 smpc_data_manage:
     mov.l r14, @-r15
     mov.l r13, @-r15
@@ -559,7 +554,6 @@ smpc_data_manage:
     mov.l @r15+, r14
 
     .global master_menu_render
-    .type master_menu_render, @function
 master_menu_render:
     mov.l r14, @-r15
     mov.l r13, @-r15
@@ -1531,7 +1525,6 @@ master_menu_render:
     .4byte  sym_060A4CEC
 
     .global data_table_copy
-    .type data_table_copy, @function
 data_table_copy:
     mov.l r14, @-r15
     mov.l r13, @-r15
@@ -1613,7 +1606,6 @@ data_table_copy:
     .4byte  sym_060A4CFD
 
     .global game_logic_main
-    .type game_logic_main, @function
 game_logic_main:
     mov.l r14, @-r15
     mov.l r13, @-r15
@@ -2526,7 +2518,6 @@ smpc_intback_send:
     nop
 
     .global display_channel_iter
-    .type display_channel_iter, @function
 display_channel_iter:
     mov.l r14, @-r15
     mov.l r13, @-r15
@@ -2570,7 +2561,6 @@ display_channel_iter:
     .4byte  sym_060A4CB4
 
     .global vdp1_sprite_draw_main
-    .type vdp1_sprite_draw_main, @function
 vdp1_sprite_draw_main:
     mov.l r14, @-r15
     mov.l r13, @-r15
@@ -2956,7 +2946,6 @@ DAT_0603a8bc:
     .2byte  0x00FF
 
     .global menu_anim_system
-    .type menu_anim_system, @function
 menu_anim_system:
     mov.l r14, @-r15
     mov.l   .L_0603AB14, r14

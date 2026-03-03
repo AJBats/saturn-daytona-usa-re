@@ -1,6 +1,5 @@
-    .section .text.FUN_0601E810
+	.text
     .global hud_handler_main
-    .type hud_handler_main, @function
 hud_handler_main:
     .byte 0x2F, 0xE6
     .byte 0x60, 0x43

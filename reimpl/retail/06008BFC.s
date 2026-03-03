@@ -1,6 +1,5 @@
-    .section .text.FUN_06008BFC
+	.text
     .global state_loading_check
-    .type state_loading_check, @function
 state_loading_check:
     .byte 0x4F, 0x22
     .byte 0xD3, 0x13

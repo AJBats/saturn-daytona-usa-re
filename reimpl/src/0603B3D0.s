@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603B3D0
-
-
+	.text
     .global menu_separator
-    .type menu_separator, @function
 menu_separator:
     sts.l pr, @-r15
     add #-0x4, r15

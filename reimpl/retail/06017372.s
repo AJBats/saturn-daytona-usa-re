@@ -1,6 +1,5 @@
-    .section .text.FUN_06017372
+	.text
     .global vdp2_data_lookup
-    .type vdp2_data_lookup, @function
 vdp2_data_lookup:
     .byte 0xD7, 0x0D
     .byte 0xE6, 0x12

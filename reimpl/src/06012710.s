@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06012710
-
-
+	.text
     .global race_progress_check
-    .type race_progress_check, @function
 race_progress_check:
     mov.l r14, @-r15
     mov.l r13, @-r15

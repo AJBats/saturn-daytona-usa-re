@@ -1,6 +1,5 @@
-    .section .text.FUN_060072E6
+	.text
     .global framebuf_swap_ctrl
-    .type framebuf_swap_ctrl, @function
 framebuf_swap_ctrl:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

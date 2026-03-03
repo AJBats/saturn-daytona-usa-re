@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603B92C
-
-
+	.text
     .global save_checksum_seed
-    .type save_checksum_seed, @function
 save_checksum_seed:
     sts.l pr, @-r15
     add #-0x4, r15

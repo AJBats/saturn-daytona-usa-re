@@ -1,6 +1,5 @@
-    .section .text.FUN_0601B6DC
+	.text
     .global disc_anim_data_load
-    .type disc_anim_data_load, @function
 disc_anim_data_load:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

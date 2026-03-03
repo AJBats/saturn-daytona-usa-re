@@ -1,6 +1,5 @@
-    .section .text.FUN_060191E4
+	.text
     .global transition_multi_step
-    .type transition_multi_step, @function
 transition_multi_step:
     .byte 0x4F, 0x22
     .byte 0xDE, 0x0F

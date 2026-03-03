@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06004F28
-
-
+	.text
     .global obj_position_update
-    .type obj_position_update, @function
 obj_position_update:
     sts.l pr, @-r15
     sts.l macl, @-r15

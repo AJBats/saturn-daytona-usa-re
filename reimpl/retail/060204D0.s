@@ -1,6 +1,5 @@
-    .section .text.FUN_060204D0
+	.text
     .global obj_list_proc
-    .type obj_list_proc, @function
 obj_list_proc:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

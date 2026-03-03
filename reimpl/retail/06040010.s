@@ -1,6 +1,5 @@
-    .section .text.FUN_06040010
+	.text
     .global validation_dispatch
-    .type validation_dispatch, @function
 validation_dispatch:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC
@@ -101,9 +100,8 @@ DAT_0604009e:
     .byte 0x64, 0x53
     .byte 0x00, 0x0B
     .byte 0x60, 0x43
-    .section .text.FUN_060400D6
+	.text
     .global obj_init_validate
-    .type obj_init_validate, @function
 obj_init_validate:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

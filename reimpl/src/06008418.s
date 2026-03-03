@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06008418
-
-
+	.text
     .global force_steer_calc
-    .type force_steer_calc, @function
 force_steer_calc:
     mov.l r14, @-r15
     sts.l pr, @-r15
@@ -45,7 +41,6 @@ force_steer_calc:
     mov.l @r15+, r14
 
     .global force_steer_impact
-    .type force_steer_impact, @function
 force_steer_impact:
     mov.l r14, @-r15
     sts.l pr, @-r15
@@ -113,7 +108,6 @@ DAT_060084a6:
     mov.l @r15+, r14
 
     .global race_config_physics
-    .type race_config_physics, @function
 race_config_physics:
     mov.l r14, @-r15
     sts.l pr, @-r15
@@ -242,7 +236,6 @@ DAT_0600855e:
     .4byte  sym_0607866C
 
     .global brake_force_apply
-    .type brake_force_apply, @function
 brake_force_apply:
     mov.l r14, @-r15
     sts.l pr, @-r15
@@ -400,7 +393,6 @@ sym_06008640:
     .4byte  sym_060453B4
 
     .global force_table_apply
-    .type force_table_apply, @function
 force_table_apply:
     sts.l pr, @-r15
     mov #0x1, r6

@@ -1,6 +1,5 @@
-    .section .text.FUN_0601155E
+	.text
     .global sprite_batch_renderer
-    .type sprite_batch_renderer, @function
 sprite_batch_renderer:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

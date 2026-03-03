@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060197F4
-
-
+	.text
     .global car_select_state
-    .type car_select_state, @function
 car_select_state:
     sts.l pr, @-r15
     add #-0xC, r15

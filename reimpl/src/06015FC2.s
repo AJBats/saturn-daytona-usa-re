@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06015FC2
-
-
+	.text
     .global results_screen_render
-    .type results_screen_render, @function
 results_screen_render:
     sts.l pr, @-r15
     shll2 r3

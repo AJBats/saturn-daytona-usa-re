@@ -1,8 +1,5 @@
-
-    .section .text.FUN_060058FA
+	.text
     .global frame_dispatch
-    .type frame_dispatch, @function
-
 frame_dispatch:
     sts.l   pr, @-r15
     .byte   0xB1, 0xCC          /* bsr FUN_06005C98 (subsystem 1) */

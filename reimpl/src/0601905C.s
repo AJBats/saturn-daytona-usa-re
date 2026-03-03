@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601905C
-
-
+	.text
     .global state_snapshot_compare
-    .type state_snapshot_compare, @function
 state_snapshot_compare:
     sts.l pr, @-r15
     mov.l   .L_pool_0601909C, r14

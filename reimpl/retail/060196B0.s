@@ -1,6 +1,5 @@
-    .section .text.FUN_060196B0
+	.text
     .global mode_select_handler
-    .type mode_select_handler, @function
 mode_select_handler:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF4

@@ -1,6 +1,5 @@
-    .section .text.FUN_0603836C
+	.text
     .global vdp2_regs_setup
-    .type vdp2_regs_setup, @function
 vdp2_regs_setup:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

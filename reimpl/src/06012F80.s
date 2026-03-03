@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06012F80
-
-
+	.text
     .global game_init_master
-    .type game_init_master, @function
 game_init_master:
     mov.l r14, @-r15
     mov.l r13, @-r15

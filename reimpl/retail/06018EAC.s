@@ -1,6 +1,5 @@
-    .section .text.FUN_06018EAC
+	.text
     .global cdb_read_status
-    .type cdb_read_status, @function
 cdb_read_status:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF4

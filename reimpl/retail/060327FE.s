@@ -1,6 +1,5 @@
-    .section .text.FUN_060327FE
+	.text
     .global hud_besttime_idx_0
-    .type hud_besttime_idx_0, @function
 hud_besttime_idx_0:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B

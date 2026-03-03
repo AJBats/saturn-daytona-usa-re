@@ -1,6 +1,5 @@
-    .section .text.FUN_0600B914
+	.text
     .global render_scene_loop
-    .type render_scene_loop, @function
 render_scene_loop:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

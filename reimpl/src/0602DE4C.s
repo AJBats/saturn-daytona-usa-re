@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602DE4C
-
-
+	.text
     .global vdp1_end_marker
-    .type vdp1_end_marker, @function
 vdp1_end_marker:
     sts.l pr, @-r15
     jsr @r12

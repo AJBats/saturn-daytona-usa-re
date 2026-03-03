@@ -1,6 +1,5 @@
-    .section .text.FUN_0600EB14
+	.text
     .global race_init_master
-    .type race_init_master, @function
 race_init_master:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

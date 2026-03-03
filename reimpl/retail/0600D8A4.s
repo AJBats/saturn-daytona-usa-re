@@ -1,6 +1,5 @@
-    .section .text.FUN_0600D8A4
+	.text
     .global car_iterate_update
-    .type car_iterate_update, @function
 car_iterate_update:
     .byte 0x2F, 0xE6
     .byte 0xE5, 0x00

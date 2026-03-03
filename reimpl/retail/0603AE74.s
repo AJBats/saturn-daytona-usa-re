@@ -1,6 +1,5 @@
-    .section .text.FUN_0603AE74
+	.text
     .global menu_sound_trigger
-    .type menu_sound_trigger, @function
 menu_sound_trigger:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

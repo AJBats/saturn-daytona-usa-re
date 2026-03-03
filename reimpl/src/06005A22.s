@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06005A22
-
-
+	.text
     .global input_event_handler
-    .type input_event_handler, @function
 input_event_handler:
     mov.l r14, @-r15
     sts.l pr, @-r15

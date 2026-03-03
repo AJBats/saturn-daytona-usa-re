@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603340A
-
-
+	.text
     .global attract_mode_init
-    .type attract_mode_init, @function
 attract_mode_init:
     sts.l pr, @-r15
     .byte   0xB0, 0x30    /* bsr 0x06033470 (external) */

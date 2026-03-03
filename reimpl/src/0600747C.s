@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600747C
-
-
+	.text
     .global system_watchdog
-    .type system_watchdog, @function
 system_watchdog:
     mov.l r14, @-r15
     extu.w r4, r4

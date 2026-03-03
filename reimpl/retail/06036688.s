@@ -1,6 +1,5 @@
-    .section .text.FUN_06036688
+	.text
     .global distance_3d_calc
-    .type distance_3d_calc, @function
 distance_3d_calc:
     .byte 0x4F, 0x22
     .byte 0x6C, 0x43

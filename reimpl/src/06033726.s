@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06033726
-
-
+	.text
     .global course_transition
-    .type course_transition, @function
 course_transition:
     sts.l pr, @-r15
     jsr @r1

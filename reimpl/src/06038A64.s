@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06038A64
-
-
+	.text
     .global display_extra_config
-    .type display_extra_config, @function
 display_extra_config:
     mov.w   DAT_06038a9a, r6
     mov.l   .L_pool_06038AA0, r5

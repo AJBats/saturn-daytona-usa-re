@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06022820
-
-
+	.text
     .global render_list_builder
-    .type render_list_builder, @function
 render_list_builder:
     mov.l r14, @-r15
     mov.l r13, @-r15

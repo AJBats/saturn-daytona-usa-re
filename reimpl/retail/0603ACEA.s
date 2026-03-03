@@ -1,6 +1,5 @@
-    .section .text.FUN_0603ACEA
+	.text
     .global menu_input_proc
-    .type menu_input_proc, @function
 menu_input_proc:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

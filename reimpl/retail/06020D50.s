@@ -1,6 +1,5 @@
-    .section .text.FUN_06020D50
+	.text
     .global obj_state_serialize
-    .type obj_state_serialize, @function
 obj_state_serialize:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xDC

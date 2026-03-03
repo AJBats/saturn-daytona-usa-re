@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603F244
-
-
+	.text
     .global credits_scroll
-    .type credits_scroll, @function
 credits_scroll:
     sts.l pr, @-r15
     add #-0xC, r15

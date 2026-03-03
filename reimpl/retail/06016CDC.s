@@ -1,6 +1,5 @@
-    .section .text.FUN_06016CDC
+	.text
     .global track_seg_init
-    .type track_seg_init, @function
 track_seg_init:
     .byte 0x2F, 0xE6
     .byte 0x6E, 0x43

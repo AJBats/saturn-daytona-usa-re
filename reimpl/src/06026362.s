@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06026362
-
-
+	.text
     .global transform_rotation_apply
-    .type transform_rotation_apply, @function
 transform_rotation_apply:
     mov.l r14, @-r15
     mov.l r13, @-r15

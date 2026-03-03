@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603137A
-
-
+	.text
     .global display_element_stub
-    .type display_element_stub, @function
 display_element_stub:
     sts.l pr, @-r15
     jsr @r0

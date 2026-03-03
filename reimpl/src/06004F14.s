@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06004F14
-
-
+	.text
     .global obj_transform_cache
-    .type obj_transform_cache, @function
 obj_transform_cache:
     mov.l r14, @-r15
     mov #0x4, r3

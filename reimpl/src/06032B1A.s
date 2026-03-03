@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06032B1A
-
-
+	.text
     .global rpm_display_commit
-    .type rpm_display_commit, @function
 rpm_display_commit:
     sts.l pr, @-r15
     jsr @r0

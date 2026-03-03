@@ -1,6 +1,5 @@
-    .section .text.FUN_0603806C
+	.text
     .global display_enable_ctrl
-    .type display_enable_ctrl, @function
 display_enable_ctrl:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

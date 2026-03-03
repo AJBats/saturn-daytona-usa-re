@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06036918
-
-
+	.text
     .global track_impact_vel_update
-    .type track_impact_vel_update, @function
 track_impact_vel_update:
     mov.l r14, @-r15
     mov r7, r14

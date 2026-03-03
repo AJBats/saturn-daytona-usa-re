@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06036A1C
-
-
+	.text
     .global track_shadow_project
-    .type track_shadow_project, @function
 track_shadow_project:
     mov.l r14, @-r15
     mov r5, r14

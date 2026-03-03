@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060325AE
-
-
+	.text
     .global disp_digit_pair_render
-    .type disp_digit_pair_render, @function
 disp_digit_pair_render:
     sts.l pr, @-r15
     jsr @r0

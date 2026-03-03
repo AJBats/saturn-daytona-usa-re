@@ -1,6 +1,5 @@
-    .section .text.FUN_06036524
+	.text
     .global course_data_access_e
-    .type course_data_access_e, @function
 course_data_access_e:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF0

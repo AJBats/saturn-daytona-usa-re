@@ -1,6 +1,5 @@
-    .section .text.FUN_0603B9A4
+	.text
     .global save_data_validate
-    .type save_data_validate, @function
 save_data_validate:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC

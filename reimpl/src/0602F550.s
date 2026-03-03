@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602F550
-
-
+	.text
     .global track_poly_build
-    .type track_poly_build, @function
 track_poly_build:
     sts.l pr, @-r15
     jsr @r0

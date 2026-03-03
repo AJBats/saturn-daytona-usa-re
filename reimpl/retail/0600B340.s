@@ -1,6 +1,5 @@
-    .section .text.FUN_0600B340
+	.text
     .global scene_render_coord
-    .type scene_render_coord, @function
 scene_render_coord:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

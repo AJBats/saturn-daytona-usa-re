@@ -1,6 +1,5 @@
-    .section .text.FUN_0603B598
+	.text
     .global menu_bg_scroll
-    .type menu_bg_scroll, @function
 menu_bg_scroll:
     .byte 0x4F, 0x22
     .byte 0xE1, 0x1D

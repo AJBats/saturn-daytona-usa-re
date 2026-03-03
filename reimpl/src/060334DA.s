@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060334DA
-
-
+	.text
     .global split_position_disp
-    .type split_position_disp, @function
 split_position_disp:
     sts.l pr, @-r15
     bsr     .L_06033504

@@ -1,6 +1,5 @@
-    .section .text.FUN_0601A578
+	.text
     .global race_start_transition
-    .type race_start_transition, @function
 race_start_transition:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC

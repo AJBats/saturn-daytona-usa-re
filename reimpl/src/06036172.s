@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06036172
-
-
+	.text
     .global seg_data_loader
-    .type seg_data_loader, @function
 seg_data_loader:
     mov.l r14, @-r15
     sts.l pr, @-r15

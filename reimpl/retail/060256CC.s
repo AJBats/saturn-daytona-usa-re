@@ -1,6 +1,5 @@
-    .section .text.FUN_060256CC
+	.text
     .global scene_physics_integrate
-    .type scene_physics_integrate, @function
 scene_physics_integrate:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

@@ -1,6 +1,5 @@
-    .section .text.FUN_06032286
+	.text
     .global disp_elem_proc_2
-    .type disp_elem_proc_2, @function
 disp_elem_proc_2:
     .byte 0x4F, 0x22
     .byte 0xB0, 0x3C

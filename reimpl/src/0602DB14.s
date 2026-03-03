@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602DB14
-
-
+	.text
     .global transform_chain_entry
-    .type transform_chain_entry, @function
 transform_chain_entry:
     sts.l pr, @-r15
     jsr @r13

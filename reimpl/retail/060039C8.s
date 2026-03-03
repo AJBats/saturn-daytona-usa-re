@@ -1,6 +1,5 @@
-    .section .text.FUN_060039C8
+	.text
     .global dma_config_dispatch
-    .type dma_config_dispatch, @function
 dma_config_dispatch:
     .byte 0xD0, 0x15
     .byte 0x60, 0x00

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06040C10
-
-
+	.text
     .global evt_state_dispatch
-    .type evt_state_dispatch, @function
 evt_state_dispatch:
     sts.l pr, @-r15
     add #-0x8, r15

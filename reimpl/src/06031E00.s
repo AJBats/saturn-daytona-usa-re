@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06031E00
-
-
+	.text
     .global speed_tacho_display
-    .type speed_tacho_display, @function
 speed_tacho_display:
     mov.l r14, @-r15
     sts.l pr, @-r15

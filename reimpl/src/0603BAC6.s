@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603BAC6
-
-
+	.text
     .global save_block_copy
-    .type save_block_copy, @function
 save_block_copy:
     mov.l r14, @-r15
     mov.l r13, @-r15

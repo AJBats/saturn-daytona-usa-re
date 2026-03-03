@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601E958
-
-
+	.text
     .global geom_vertex_process
-    .type geom_vertex_process, @function
 geom_vertex_process:
     mov.l r14, @-r15
     mov.l r13, @-r15

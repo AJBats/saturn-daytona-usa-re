@@ -1,6 +1,5 @@
-    .section .text.FUN_06009A60
+	.text
     .global state_race_complete
-    .type state_race_complete, @function
 state_race_complete:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

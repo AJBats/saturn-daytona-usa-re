@@ -1,6 +1,5 @@
-    .section .text.FUN_06016DD8
+	.text
     .global track_vtx_builder
-    .type track_vtx_builder, @function
 track_vtx_builder:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

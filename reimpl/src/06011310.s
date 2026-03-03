@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06011310
-
-
+	.text
     .global position_ranking_display
-    .type position_ranking_display, @function
 position_ranking_display:
     mov.l r14, @-r15
     mov #0x3, r4

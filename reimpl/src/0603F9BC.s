@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603F9BC
-
-
+	.text
     .global attract_demo_loader
-    .type attract_demo_loader, @function
 attract_demo_loader:
     sts.l pr, @-r15
     add #-0x8, r15
@@ -67,7 +63,6 @@ sym_0603FA00:
     .2byte  0x0424
 
     .global race_timer_sync
-    .type race_timer_sync, @function
 race_timer_sync:
     mov.l r14, @-r15
     mov.l r13, @-r15
@@ -168,7 +163,6 @@ race_timer_sync:
     mov.l @r15+, r14
 
     .global scene_buffer_update
-    .type scene_buffer_update, @function
 scene_buffer_update:
     mov.l r14, @-r15
     mov.l r13, @-r15

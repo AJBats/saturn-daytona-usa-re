@@ -1,6 +1,5 @@
-    .section .text.FUN_060192CC
+	.text
     .global sound_channel_reset
-    .type sound_channel_reset, @function
 sound_channel_reset:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

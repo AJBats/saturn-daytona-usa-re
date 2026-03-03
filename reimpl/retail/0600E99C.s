@@ -1,6 +1,5 @@
-    .section .text.FUN_0600E99C
+	.text
     .global pre_update_setup
-    .type pre_update_setup, @function
 pre_update_setup:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

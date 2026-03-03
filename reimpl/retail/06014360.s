@@ -1,6 +1,5 @@
-    .section .text.FUN_06014360
+	.text
     .global multi_obj_physics
-    .type multi_obj_physics, @function
 multi_obj_physics:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

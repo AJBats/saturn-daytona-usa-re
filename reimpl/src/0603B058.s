@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603B058
-
-
+	.text
     .global menu_element_dispatch
-    .type menu_element_dispatch, @function
 menu_element_dispatch:
     sts.l pr, @-r15
     mov r4, r2

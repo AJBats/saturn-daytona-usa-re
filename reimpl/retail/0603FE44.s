@@ -1,6 +1,5 @@
-    .section .text.FUN_0603FE44
+	.text
     .global attract_elem_a
-    .type attract_elem_a, @function
 attract_elem_a:
     .byte 0x4F, 0x22
     .byte 0x53, 0xF2

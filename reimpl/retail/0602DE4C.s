@@ -1,6 +1,5 @@
-    .section .text.FUN_0602DE4C
+	.text
     .global vdp1_end_marker
-    .type vdp1_end_marker, @function
 vdp1_end_marker:
     .byte 0x4F, 0x22
     .byte 0x4C, 0x0B

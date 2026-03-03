@@ -1,6 +1,5 @@
-    .section .text.FUN_0603B08E
+	.text
     .global menu_elem_visible
-    .type menu_elem_visible, @function
 menu_elem_visible:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF8

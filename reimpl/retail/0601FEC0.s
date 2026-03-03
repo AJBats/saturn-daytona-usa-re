@@ -1,6 +1,5 @@
-    .section .text.FUN_0601FEC0
+	.text
     .global geom_final_output
-    .type geom_final_output, @function
 geom_final_output:
     .byte 0x2F, 0xE6
     .byte 0xE3, 0x00

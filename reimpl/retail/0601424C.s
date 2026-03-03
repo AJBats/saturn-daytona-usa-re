@@ -1,6 +1,5 @@
-    .section .text.FUN_0601424C
+	.text
     .global camera_angle_interp
-    .type camera_angle_interp, @function
 camera_angle_interp:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

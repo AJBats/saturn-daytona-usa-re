@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600DE70
-
-
+	.text
     .global car_iteration_loop
-    .type car_iteration_loop, @function
 car_iteration_loop:
     mov.l r14, @-r15
     mov.l r13, @-r15

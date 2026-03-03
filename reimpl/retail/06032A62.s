@@ -1,6 +1,5 @@
-    .section .text.FUN_06032A62
+	.text
     .global rpm_gauge_render
-    .type rpm_gauge_render, @function
 rpm_gauge_render:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B

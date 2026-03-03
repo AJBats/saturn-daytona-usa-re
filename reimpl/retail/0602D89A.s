@@ -1,6 +1,5 @@
-    .section .text.FUN_0602D89A
+	.text
     .global vtx_clip_flag_set
-    .type vtx_clip_flag_set, @function
 vtx_clip_flag_set:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

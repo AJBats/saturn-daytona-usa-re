@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602E826
-
-
+	.text
     .global billboard_facing
-    .type billboard_facing, @function
 billboard_facing:
     sts.l pr, @-r15
     jsr @r13

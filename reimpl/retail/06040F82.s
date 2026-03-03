@@ -1,6 +1,5 @@
-    .section .text.FUN_06040F82
+	.text
     .global evt_boundary_check
-    .type evt_boundary_check, @function
 evt_boundary_check:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC

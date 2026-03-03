@@ -1,6 +1,5 @@
-    .section .text.FUN_0601712C
+	.text
     .global vdp2_util_loop
-    .type vdp2_util_loop, @function
 vdp2_util_loop:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

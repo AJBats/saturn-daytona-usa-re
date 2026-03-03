@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06034E24
-
-
+	.text
     .global smpc_cmd_builder
-    .type smpc_cmd_builder, @function
 smpc_cmd_builder:
     sts.l pr, @-r15
     add #-0x8, r15

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06032FD4
-
-
+	.text
     .global display_mode_switch
-    .type display_mode_switch, @function
 display_mode_switch:
     sts.l pr, @-r15
     jsr @r0

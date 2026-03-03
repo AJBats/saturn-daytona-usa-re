@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06033AAC
-
-
+	.text
     .global hud_subsystem_init
-    .type hud_subsystem_init, @function
 hud_subsystem_init:
     mov.l r14, @-r15
     mov.l r13, @-r15

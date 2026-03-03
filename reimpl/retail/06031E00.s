@@ -1,6 +1,5 @@
-    .section .text.FUN_06031E00
+	.text
     .global speed_tacho_display
-    .type speed_tacho_display, @function
 speed_tacho_display:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

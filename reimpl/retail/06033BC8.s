@@ -11,10 +11,8 @@
  * Each function retains its own .section directive for retail byte-identical
  * builds. The free-build src/ file uses a single section for all functions.
  */
-
-    .section .text.FUN_06033BC8
+	.text
     .global camera_attract_init
-    .type camera_attract_init, @function
 camera_attract_init:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
@@ -47,10 +45,8 @@ camera_attract_init:
     .byte 0x8B, 0x15
     .byte 0xE4, 0x00
     .byte 0xD0, 0x09
-
-    .section .text.FUN_06033C08
+	.text
     .global disp_timeext_digit_0
-    .type disp_timeext_digit_0, @function
 disp_timeext_digit_0:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -58,10 +54,8 @@ disp_timeext_digit_0:
     .byte 0x4F, 0x26
     .byte 0xE4, 0x01
     .byte 0xD0, 0x06
-
-    .section .text.FUN_06033C14
+	.text
     .global disp_timeext_digit_1
-    .type disp_timeext_digit_1, @function
 disp_timeext_digit_1:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -69,10 +63,8 @@ disp_timeext_digit_1:
     .byte 0x4F, 0x26
     .byte 0xE4, 0x02
     .byte 0xD0, 0x03
-
-    .section .text.FUN_06033C20
+	.text
     .global disp_timeext_digit_2
-    .type disp_timeext_digit_2, @function
 disp_timeext_digit_2:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -82,10 +74,8 @@ disp_timeext_digit_2:
     .byte 0x00, 0x09
     .4byte sym_06033F54
     .byte 0xD0, 0x08
-
-    .section .text.FUN_06033C32
+	.text
     .global time_extend_digits
-    .type time_extend_digits, @function
 time_extend_digits:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -115,200 +105,160 @@ time_extend_digits:
     .byte 0x00, 0x08
     .byte 0x8B, 0x63
     .byte 0xE4, 0x05
-
-    .section .text.FUN_06033C6E
+	.text
     .global disp_sel_thunk_00
-    .type disp_sel_thunk_00, @function
 disp_sel_thunk_00:
     .byte 0x4F, 0x22
     .byte 0xB1, 0x70
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
     .byte 0xE4, 0x06
-
-    .section .text.FUN_06033C78
+	.text
     .global disp_sel_thunk_01
-    .type disp_sel_thunk_01, @function
 disp_sel_thunk_01:
     .byte 0x4F, 0x22
     .byte 0xB1, 0x6B
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
     .byte 0xE4, 0x07
-
-    .section .text.FUN_06033C82
+	.text
     .global disp_sel_thunk_02
-    .type disp_sel_thunk_02, @function
 disp_sel_thunk_02:
     .byte 0x4F, 0x22
     .byte 0xB1, 0x66
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
     .byte 0xE4, 0x08
-
-    .section .text.FUN_06033C8C
+	.text
     .global disp_sel_thunk_03
-    .type disp_sel_thunk_03, @function
 disp_sel_thunk_03:
     .byte 0x4F, 0x22
     .byte 0xB1, 0x61
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
     .byte 0xE4, 0x09
-
-    .section .text.FUN_06033C96
+	.text
     .global disp_sel_thunk_04
-    .type disp_sel_thunk_04, @function
 disp_sel_thunk_04:
     .byte 0x4F, 0x22
     .byte 0xB1, 0x5C
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
     .byte 0xE4, 0x0A
-
-    .section .text.FUN_06033CA0
+	.text
     .global disp_sel_thunk_05
-    .type disp_sel_thunk_05, @function
 disp_sel_thunk_05:
     .byte 0x4F, 0x22
     .byte 0xB1, 0x57
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
     .byte 0xE4, 0x0B
-
-    .section .text.FUN_06033CAA
+	.text
     .global disp_sel_thunk_06
-    .type disp_sel_thunk_06, @function
 disp_sel_thunk_06:
     .byte 0x4F, 0x22
     .byte 0xB1, 0x52
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
     .byte 0xE4, 0x0C
-
-    .section .text.FUN_06033CB4
+	.text
     .global disp_sel_thunk_07
-    .type disp_sel_thunk_07, @function
 disp_sel_thunk_07:
     .byte 0x4F, 0x22
     .byte 0xB1, 0x4D
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
     .byte 0xE4, 0x0D
-
-    .section .text.FUN_06033CBE
+	.text
     .global disp_sel_thunk_08
-    .type disp_sel_thunk_08, @function
 disp_sel_thunk_08:
     .byte 0x4F, 0x22
     .byte 0xB1, 0x48
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
     .byte 0xE4, 0x0E
-
-    .section .text.FUN_06033CC8
+	.text
     .global disp_sel_thunk_09
-    .type disp_sel_thunk_09, @function
 disp_sel_thunk_09:
     .byte 0x4F, 0x22
     .byte 0xB1, 0x43
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
     .byte 0xE4, 0x0F
-
-    .section .text.FUN_06033CD2
+	.text
     .global disp_sel_thunk_10
-    .type disp_sel_thunk_10, @function
 disp_sel_thunk_10:
     .byte 0x4F, 0x22
     .byte 0xB1, 0x3E
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
     .byte 0xE4, 0x10
-
-    .section .text.FUN_06033CDC
+	.text
     .global disp_sel_thunk_11
-    .type disp_sel_thunk_11, @function
 disp_sel_thunk_11:
     .byte 0x4F, 0x22
     .byte 0xB1, 0x39
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
     .byte 0xE4, 0x11
-
-    .section .text.FUN_06033CE6
+	.text
     .global disp_sel_thunk_12
-    .type disp_sel_thunk_12, @function
 disp_sel_thunk_12:
     .byte 0x4F, 0x22
     .byte 0xB1, 0x34
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
     .byte 0xE4, 0x12
-
-    .section .text.FUN_06033CF0
+	.text
     .global disp_sel_thunk_13
-    .type disp_sel_thunk_13, @function
 disp_sel_thunk_13:
     .byte 0x4F, 0x22
     .byte 0xB1, 0x2F
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
     .byte 0xE4, 0x13
-
-    .section .text.FUN_06033CFA
+	.text
     .global disp_sel_thunk_14
-    .type disp_sel_thunk_14, @function
 disp_sel_thunk_14:
     .byte 0x4F, 0x22
     .byte 0xB1, 0x2A
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
     .byte 0xE4, 0x14
-
-    .section .text.FUN_06033D04
+	.text
     .global disp_sel_thunk_15
-    .type disp_sel_thunk_15, @function
 disp_sel_thunk_15:
     .byte 0x4F, 0x22
     .byte 0xB1, 0x25
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
     .byte 0xE4, 0x15
-
-    .section .text.FUN_06033D0E
+	.text
     .global disp_sel_thunk_16
-    .type disp_sel_thunk_16, @function
 disp_sel_thunk_16:
     .byte 0x4F, 0x22
     .byte 0xB1, 0x20
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
     .byte 0xE4, 0x16
-
-    .section .text.FUN_06033D18
+	.text
     .global disp_sel_thunk_17
-    .type disp_sel_thunk_17, @function
 disp_sel_thunk_17:
     .byte 0x4F, 0x22
     .byte 0xB1, 0x1B
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
     .byte 0xE4, 0x17
-
-    .section .text.FUN_06033D22
+	.text
     .global disp_sel_thunk_18
-    .type disp_sel_thunk_18, @function
 disp_sel_thunk_18:
     .byte 0x4F, 0x22
     .byte 0xB1, 0x16
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
     .byte 0xE4, 0x18
-
-    .section .text.FUN_06033D2C
+	.text
     .global selector_group_render
-    .type selector_group_render, @function
 selector_group_render:
     .byte 0x4F, 0x22
     .byte 0xB1, 0x11
@@ -345,10 +295,8 @@ selector_group_render:
     .byte 0x00, 0x09
     .4byte sym_0607EAE0
     .byte 0xD4, 0x3B
-
-    .section .text.FUN_06033D76
+	.text
     .global disp_selext_thunk_00
-    .type disp_selext_thunk_00, @function
 disp_selext_thunk_00:
     .byte 0x4F, 0x22
     .byte 0xB0, 0xEC
@@ -360,40 +308,32 @@ disp_selext_thunk_00:
     .byte 0x3D, 0x03
     .byte 0x8B, 0x64
     .byte 0xD4, 0x39
-
-    .section .text.FUN_06033D8A
+	.text
     .global disp_selext_thunk_01
-    .type disp_selext_thunk_01, @function
 disp_selext_thunk_01:
     .byte 0x4F, 0x22
     .byte 0xB0, 0xE2
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
     .byte 0xD4, 0x38
-
-    .section .text.FUN_06033D94
+	.text
     .global disp_selext_thunk_02
-    .type disp_selext_thunk_02, @function
 disp_selext_thunk_02:
     .byte 0x4F, 0x22
     .byte 0xB0, 0xDD
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
     .byte 0xD4, 0x36
-
-    .section .text.FUN_06033D9E
+	.text
     .global disp_selext_thunk_03
-    .type disp_selext_thunk_03, @function
 disp_selext_thunk_03:
     .byte 0x4F, 0x22
     .byte 0xB0, 0xD8
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
     .byte 0xD4, 0x35
-
-    .section .text.FUN_06033DA8
+	.text
     .global disp_selext_thunk_04
-    .type disp_selext_thunk_04, @function
 disp_selext_thunk_04:
     .byte 0x4F, 0x22
     .byte 0xB0, 0xD3
@@ -403,50 +343,40 @@ disp_selext_thunk_04:
     .byte 0x3D, 0x03
     .byte 0x8B, 0x4D
     .byte 0xE4, 0x1E
-
-    .section .text.FUN_06033DB8
+	.text
     .global disp_selext_thunk_05
-    .type disp_selext_thunk_05, @function
 disp_selext_thunk_05:
     .byte 0x4F, 0x22
     .byte 0xB0, 0xCB
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
     .byte 0xE4, 0x1F
-
-    .section .text.FUN_06033DC2
+	.text
     .global disp_selext_thunk_06
-    .type disp_selext_thunk_06, @function
 disp_selext_thunk_06:
     .byte 0x4F, 0x22
     .byte 0xB0, 0xC6
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
     .byte 0xE4, 0x20
-
-    .section .text.FUN_06033DCC
+	.text
     .global disp_selext_thunk_07
-    .type disp_selext_thunk_07, @function
 disp_selext_thunk_07:
     .byte 0x4F, 0x22
     .byte 0xB0, 0xC1
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
     .byte 0xE4, 0x21
-
-    .section .text.FUN_06033DD6
+	.text
     .global disp_selext_thunk_08
-    .type disp_selext_thunk_08, @function
 disp_selext_thunk_08:
     .byte 0x4F, 0x22
     .byte 0xB0, 0xBC
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
     .byte 0xE4, 0x22
-
-    .section .text.FUN_06033DE0
+	.text
     .global disp_selext_thunk_09
-    .type disp_selext_thunk_09, @function
 disp_selext_thunk_09:
     .byte 0x4F, 0x22
     .byte 0xB0, 0xB7
@@ -456,100 +386,80 @@ disp_selext_thunk_09:
     .byte 0x3D, 0x03
     .byte 0x8B, 0x31
     .byte 0xE4, 0x23
-
-    .section .text.FUN_06033DF0
+	.text
     .global disp_selext_thunk_10
-    .type disp_selext_thunk_10, @function
 disp_selext_thunk_10:
     .byte 0x4F, 0x22
     .byte 0xB0, 0xAF
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
     .byte 0xE4, 0x24
-
-    .section .text.FUN_06033DFA
+	.text
     .global disp_selext_thunk_11
-    .type disp_selext_thunk_11, @function
 disp_selext_thunk_11:
     .byte 0x4F, 0x22
     .byte 0xB0, 0xAA
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
     .byte 0xE4, 0x25
-
-    .section .text.FUN_06033E04
+	.text
     .global disp_selext_thunk_12
-    .type disp_selext_thunk_12, @function
 disp_selext_thunk_12:
     .byte 0x4F, 0x22
     .byte 0xB0, 0xA5
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
     .byte 0xE4, 0x26
-
-    .section .text.FUN_06033E0E
+	.text
     .global disp_selext_thunk_13
-    .type disp_selext_thunk_13, @function
 disp_selext_thunk_13:
     .byte 0x4F, 0x22
     .byte 0xB0, 0xA0
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
     .byte 0xE4, 0x27
-
-    .section .text.FUN_06033E18
+	.text
     .global disp_selext_thunk_14
-    .type disp_selext_thunk_14, @function
 disp_selext_thunk_14:
     .byte 0x4F, 0x22
     .byte 0xB0, 0x9B
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
     .byte 0xE4, 0x28
-
-    .section .text.FUN_06033E22
+	.text
     .global disp_selext_thunk_15
-    .type disp_selext_thunk_15, @function
 disp_selext_thunk_15:
     .byte 0x4F, 0x22
     .byte 0xB0, 0x96
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
     .byte 0xE4, 0x29
-
-    .section .text.FUN_06033E2C
+	.text
     .global disp_selext_thunk_16
-    .type disp_selext_thunk_16, @function
 disp_selext_thunk_16:
     .byte 0x4F, 0x22
     .byte 0xB0, 0x91
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
     .byte 0xE4, 0x2A
-
-    .section .text.FUN_06033E36
+	.text
     .global disp_selext_thunk_17
-    .type disp_selext_thunk_17, @function
 disp_selext_thunk_17:
     .byte 0x4F, 0x22
     .byte 0xB0, 0x8C
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
     .byte 0xE4, 0x2B
-
-    .section .text.FUN_06033E40
+	.text
     .global disp_selext_thunk_18
-    .type disp_selext_thunk_18, @function
 disp_selext_thunk_18:
     .byte 0x4F, 0x22
     .byte 0xB0, 0x87
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
     .byte 0xE4, 0x2C
-
-    .section .text.FUN_06033E4A
+	.text
     .global score_display_render
-    .type score_display_render, @function
 score_display_render:
     .byte 0x4F, 0x22
     .byte 0xB0, 0x82
@@ -596,10 +506,8 @@ score_display_render:
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
     .4byte sym_06083250
-
-    .section .text.FUN_06033EA8
+	.text
     .global disp_score_renderer
-    .type disp_score_renderer, @function
 disp_score_renderer:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
@@ -622,10 +530,8 @@ disp_score_renderer:
     .byte 0x8B, 0x17
     .byte 0xD4, 0x1A
     .byte 0xD0, 0x1A
-
-    .section .text.FUN_06033ED2
+	.text
     .global disp_score_digit_0
-    .type disp_score_digit_0, @function
 disp_score_digit_0:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -633,10 +539,8 @@ disp_score_digit_0:
     .byte 0x4F, 0x26
     .byte 0xD4, 0x19
     .byte 0xD0, 0x17
-
-    .section .text.FUN_06033EDE
+	.text
     .global disp_score_digit_1
-    .type disp_score_digit_1, @function
 disp_score_digit_1:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -644,10 +548,8 @@ disp_score_digit_1:
     .byte 0x4F, 0x26
     .byte 0xD4, 0x17
     .byte 0xD0, 0x14
-
-    .section .text.FUN_06033EEA
+	.text
     .global disp_score_digit_2
-    .type disp_score_digit_2, @function
 disp_score_digit_2:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -655,10 +557,8 @@ disp_score_digit_2:
     .byte 0x4F, 0x26
     .byte 0xD4, 0x15
     .byte 0xD0, 0x11
-
-    .section .text.FUN_06033EF6
+	.text
     .global bonus_points_display
-    .type bonus_points_display, @function
 bonus_points_display:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -728,28 +628,22 @@ sym_06033F54:
     .byte 0x89, 0x2B
     .byte 0x88, 0x02
     .byte 0x89, 0x2D
-
-    .section .text.FUN_06033F80
+	.text
     .global disp_end_stub_0
-    .type disp_end_stub_0, @function
 disp_end_stub_0:
     .byte 0x4F, 0x22
     .byte 0xB0, 0x3D
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
-
-    .section .text.FUN_06033F88
+	.text
     .global disp_end_stub_1
-    .type disp_end_stub_1, @function
 disp_end_stub_1:
     .byte 0x4F, 0x22
     .byte 0xB0, 0xED
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
-
-    .section .text.FUN_06033F90
+	.text
     .global display_frame_mgr
-    .type display_frame_mgr, @function
 display_frame_mgr:
     .byte 0x4F, 0x22
     .byte 0xB3, 0x95
@@ -765,37 +659,29 @@ display_frame_mgr:
     .byte 0x00, 0x01
     .byte 0x00, 0x00
     .byte 0x00, 0x26
-
-    .section .text.FUN_06033FB0
+	.text
     .global disp_end_stub_2
-    .type disp_end_stub_2, @function
 disp_end_stub_2:
     .byte 0x4F, 0x22
     .byte 0xB2, 0x73
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
-
-    .section .text.FUN_06033FB8
+	.text
     .global disp_end_stub_3
-    .type disp_end_stub_3, @function
 disp_end_stub_3:
     .byte 0x4F, 0x22
     .byte 0xB0, 0x21
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
-
-    .section .text.FUN_06033FC0
+	.text
     .global disp_end_stub_4
-    .type disp_end_stub_4, @function
 disp_end_stub_4:
     .byte 0x4F, 0x22
     .byte 0xB0, 0xD1
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
-
-    .section .text.FUN_06033FC8
+	.text
     .global disp_end_stub_5
-    .type disp_end_stub_5, @function
 disp_end_stub_5:
     .byte 0x4F, 0x22
     .byte 0xB3, 0x79
@@ -803,46 +689,36 @@ disp_end_stub_5:
     .byte 0x4F, 0x26
     .byte 0xA0, 0x14
     .byte 0x00, 0x09
-
-    .section .text.FUN_06033FD4
+	.text
     .global disp_end_stub_6
-    .type disp_end_stub_6, @function
 disp_end_stub_6:
     .byte 0x4F, 0x22
     .byte 0xB2, 0xC3
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
-
-    .section .text.FUN_06033FDC
+	.text
     .global disp_end_stub_7
-    .type disp_end_stub_7, @function
 disp_end_stub_7:
     .byte 0x4F, 0x22
     .byte 0xB2, 0x5D
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
-
-    .section .text.FUN_06033FE4
+	.text
     .global disp_end_stub_8
-    .type disp_end_stub_8, @function
 disp_end_stub_8:
     .byte 0x4F, 0x22
     .byte 0xB2, 0xD1
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
-
-    .section .text.FUN_06033FEC
+	.text
     .global disp_end_stub_9
-    .type disp_end_stub_9, @function
 disp_end_stub_9:
     .byte 0x4F, 0x22
     .byte 0xB3, 0x27
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
-
-    .section .text.FUN_06033FF4
+	.text
     .global display_frame_flush
-    .type display_frame_flush, @function
 display_frame_flush:
     .byte 0x4F, 0x22
     .byte 0xB3, 0x63
@@ -877,10 +753,8 @@ display_frame_flush:
     .byte 0x6D, 0x13
     .byte 0x64, 0xD3
     .byte 0xD0, 0x16
-
-    .section .text.FUN_06034036
+	.text
     .global phys_position_load
-    .type phys_position_load, @function
 phys_position_load:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -900,10 +774,8 @@ phys_position_load:
     .byte 0x0E, 0x16
     .byte 0x64, 0xD3
     .byte 0xD0, 0x11
-
-    .section .text.FUN_0603405A
+	.text
     .global phys_velocity_integrate
-    .type phys_velocity_integrate, @function
 phys_velocity_integrate:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -954,10 +826,8 @@ phys_velocity_integrate:
     .byte 0x2A, 0x0D
     .byte 0x64, 0xA3
     .byte 0xD0, 0x0E
-
-    .section .text.FUN_060340C0
+	.text
     .global phys_result_store
-    .type phys_result_store, @function
 phys_result_store:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -966,10 +836,8 @@ phys_result_store:
     .byte 0x69, 0x03
     .byte 0x64, 0xA3
     .byte 0xD0, 0x0B
-
-    .section .text.FUN_060340CE
+	.text
     .global phys_perspective
-    .type phys_perspective, @function
 phys_perspective:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -978,10 +846,8 @@ phys_perspective:
     .byte 0x65, 0x03
     .byte 0x64, 0x93
     .byte 0xD0, 0x09
-
-    .section .text.FUN_060340DC
+	.text
     .global phys_final_integrate
-    .type phys_final_integrate, @function
 phys_final_integrate:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -1013,10 +879,8 @@ phys_final_integrate:
     .byte 0xD0, 0x0D
     .byte 0x20, 0x52
     .byte 0xD0, 0x0D
-
-    .section .text.FUN_0603411E
+	.text
     .global phys_lighting_setup
-    .type phys_lighting_setup, @function
 phys_lighting_setup:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -1026,10 +890,8 @@ phys_lighting_setup:
     .byte 0xD5, 0x07
     .byte 0xD6, 0x0B
     .byte 0xD0, 0x0B
-
-    .section .text.FUN_0603412E
+	.text
     .global ai_steering_response
-    .type ai_steering_response, @function
 ai_steering_response:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -1059,10 +921,8 @@ ai_steering_response:
     .byte 0x88, 0x01
     .byte 0x8B, 0x41
     .byte 0xD0, 0x15
-
-    .section .text.FUN_06034172
+	.text
     .global ai_vel_x_entry
-    .type ai_vel_x_entry, @function
 ai_vel_x_entry:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -1077,10 +937,8 @@ ai_vel_x_entry:
     .byte 0xD0, 0x14
     .byte 0x06, 0xEE
     .byte 0xD0, 0x14
-
-    .section .text.FUN_0603418C
+	.text
     .global ai_vel_x_step_a
-    .type ai_vel_x_step_a, @function
 ai_vel_x_step_a:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -1089,10 +947,8 @@ ai_vel_x_step_a:
     .byte 0xD0, 0x12
     .byte 0x04, 0xED
     .byte 0xD0, 0x12
-
-    .section .text.FUN_0603419A
+	.text
     .global ai_vel_x_step_b
-    .type ai_vel_x_step_b, @function
 ai_vel_x_step_b:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -1101,20 +957,16 @@ ai_vel_x_step_b:
     .byte 0xD0, 0x11
     .byte 0x04, 0xEC
     .byte 0xD0, 0x11
-
-    .section .text.FUN_060341A8
+	.text
     .global ai_vel_x_step_c
-    .type ai_vel_x_step_c, @function
 ai_vel_x_step_c:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
     .byte 0xD0, 0x0F
-
-    .section .text.FUN_060341B2
+	.text
     .global xaxis_integrate_damp
-    .type xaxis_integrate_damp, @function
 xaxis_integrate_damp:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -1146,10 +998,8 @@ xaxis_integrate_damp:
     .byte 0x88, 0x02
     .byte 0x8B, 0x43
     .byte 0xD0, 0x15
-
-    .section .text.FUN_060341FA
+	.text
     .global ai_vel_x_cleanup_entry
-    .type ai_vel_x_cleanup_entry, @function
 ai_vel_x_cleanup_entry:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -1164,10 +1014,8 @@ ai_vel_x_cleanup_entry:
     .byte 0xD0, 0x14
     .byte 0x06, 0xEE
     .byte 0xD0, 0x14
-
-    .section .text.FUN_06034214
+	.text
     .global ai_vel_x_cleanup_a
-    .type ai_vel_x_cleanup_a, @function
 ai_vel_x_cleanup_a:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -1179,10 +1027,8 @@ ai_vel_x_cleanup_a:
     .byte 0x34, 0x0C
     .byte 0x64, 0x4F
     .byte 0xD0, 0x12
-
-    .section .text.FUN_06034228
+	.text
     .global ai_vel_x_cleanup_b
-    .type ai_vel_x_cleanup_b, @function
 ai_vel_x_cleanup_b:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -1191,20 +1037,16 @@ ai_vel_x_cleanup_b:
     .byte 0xD0, 0x10
     .byte 0x04, 0xEC
     .byte 0xD0, 0x10
-
-    .section .text.FUN_06034236
+	.text
     .global ai_vel_x_cleanup_c
-    .type ai_vel_x_cleanup_c, @function
 ai_vel_x_cleanup_c:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
     .byte 0xD0, 0x0F
-
-    .section .text.FUN_06034240
+	.text
     .global yaxis_integrate
-    .type yaxis_integrate, @function
 yaxis_integrate:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -1235,10 +1077,8 @@ yaxis_integrate:
     .byte 0x88, 0x03
     .byte 0x8B, 0x3F
     .byte 0xD0, 0x14
-
-    .section .text.FUN_06034286
+	.text
     .global ai_vel_y_entry
-    .type ai_vel_y_entry, @function
 ai_vel_y_entry:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -1253,10 +1093,8 @@ ai_vel_y_entry:
     .byte 0xD0, 0x13
     .byte 0x06, 0xEE
     .byte 0xD0, 0x13
-
-    .section .text.FUN_060342A0
+	.text
     .global ai_vel_y_step_a
-    .type ai_vel_y_step_a, @function
 ai_vel_y_step_a:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -1265,10 +1103,8 @@ ai_vel_y_step_a:
     .byte 0xD0, 0x11
     .byte 0x04, 0xED
     .byte 0xD0, 0x11
-
-    .section .text.FUN_060342AE
+	.text
     .global ai_vel_y_step_b
-    .type ai_vel_y_step_b, @function
 ai_vel_y_step_b:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -1277,20 +1113,16 @@ ai_vel_y_step_b:
     .byte 0xD0, 0x10
     .byte 0x04, 0xEC
     .byte 0xD0, 0x10
-
-    .section .text.FUN_060342BC
+	.text
     .global ai_vel_y_step_c
-    .type ai_vel_y_step_c, @function
 ai_vel_y_step_c:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
     .byte 0xD0, 0x0E
-
-    .section .text.FUN_060342C6
+	.text
     .global zaxis_integrate
-    .type zaxis_integrate, @function
 zaxis_integrate:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -1322,10 +1154,8 @@ zaxis_integrate:
     .byte 0xA0, 0xAE
     .byte 0x00, 0x09
     .byte 0xD0, 0x44
-
-    .section .text.FUN_0603430E
+	.text
     .global ai_vel_z_entry
-    .type ai_vel_z_entry, @function
 ai_vel_z_entry:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -1340,10 +1170,8 @@ ai_vel_z_entry:
     .byte 0xD0, 0x43
     .byte 0x06, 0xEE
     .byte 0xD0, 0x43
-
-    .section .text.FUN_06034328
+	.text
     .global ai_vel_z_step_a
-    .type ai_vel_z_step_a, @function
 ai_vel_z_step_a:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -1352,10 +1180,8 @@ ai_vel_z_step_a:
     .byte 0xD0, 0x41
     .byte 0x04, 0xED
     .byte 0xD0, 0x41
-
-    .section .text.FUN_06034336
+	.text
     .global ai_vel_z_step_b
-    .type ai_vel_z_step_b, @function
 ai_vel_z_step_b:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -1364,10 +1190,8 @@ ai_vel_z_step_b:
     .byte 0xD0, 0x40
     .byte 0x04, 0xEC
     .byte 0xD0, 0x40
-
-    .section .text.FUN_06034344
+	.text
     .global ai_vel_z_step_c
-    .type ai_vel_z_step_c, @function
 ai_vel_z_step_c:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -1384,10 +1208,8 @@ ai_vel_z_step_c:
  *
  * Address range: 0x0603434E - 0x060344FB
  */
-
-    .section .text.FUN_0603434E
+	.text
     .global ai_rot_a_entry
-    .type ai_rot_a_entry, @function
 ai_rot_a_entry:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -1401,10 +1223,8 @@ ai_rot_a_entry:
     .byte 0x31, 0x03
     .byte 0x8B, 0x5B
     .byte 0xD0, 0x2E
-
-    .section .text.FUN_06034366
+	.text
     .global ai_rot_a_step
-    .type ai_rot_a_step, @function
 ai_rot_a_step:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -1423,10 +1243,8 @@ ai_rot_a_step:
     .byte 0xD0, 0x35
     .byte 0x36, 0x08
     .byte 0xD0, 0x2B
-
-    .section .text.FUN_06034388
+	.text
     .global ai_rot_a_fix_a
-    .type ai_rot_a_fix_a, @function
 ai_rot_a_fix_a:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -1435,10 +1253,8 @@ ai_rot_a_fix_a:
     .byte 0xD0, 0x29
     .byte 0x04, 0xED
     .byte 0xD0, 0x29
-
-    .section .text.FUN_06034396
+	.text
     .global ai_rot_a_fix_b
-    .type ai_rot_a_fix_b, @function
 ai_rot_a_fix_b:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -1447,20 +1263,16 @@ ai_rot_a_fix_b:
     .byte 0xD0, 0x28
     .byte 0x04, 0xEC
     .byte 0xD0, 0x28
-
-    .section .text.FUN_060343A4
+	.text
     .global ai_rot_a_fix_c
-    .type ai_rot_a_fix_c, @function
 ai_rot_a_fix_c:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
     .byte 0xD0, 0x26
-
-    .section .text.FUN_060343AE
+	.text
     .global ai_rot_b_entry
-    .type ai_rot_b_entry, @function
 ai_rot_b_entry:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -1474,10 +1286,8 @@ ai_rot_b_entry:
     .byte 0x31, 0x03
     .byte 0x8B, 0x2B
     .byte 0xD0, 0x16
-
-    .section .text.FUN_060343C6
+	.text
     .global ai_rot_b_step
-    .type ai_rot_b_step, @function
 ai_rot_b_step:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -1496,10 +1306,8 @@ ai_rot_b_step:
     .byte 0xD0, 0x20
     .byte 0x36, 0x08
     .byte 0xD0, 0x13
-
-    .section .text.FUN_060343E8
+	.text
     .global ai_rot_b_fix_a
-    .type ai_rot_b_fix_a, @function
 ai_rot_b_fix_a:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -1509,10 +1317,8 @@ ai_rot_b_fix_a:
     .byte 0x04, 0xED
     .byte 0x34, 0x0C
     .byte 0xD0, 0x11
-
-    .section .text.FUN_060343F8
+	.text
     .global ai_rot_b_fix_b
-    .type ai_rot_b_fix_b, @function
 ai_rot_b_fix_b:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -1521,20 +1327,16 @@ ai_rot_b_fix_b:
     .byte 0xD0, 0x0F
     .byte 0x04, 0xEC
     .byte 0xD0, 0x0F
-
-    .section .text.FUN_06034406
+	.text
     .global ai_rot_b_fix_c
-    .type ai_rot_b_fix_c, @function
 ai_rot_b_fix_c:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
     .byte 0xD0, 0x0E
-
-    .section .text.FUN_06034410
+	.text
     .global ai_decision_dispatch
-    .type ai_decision_dispatch, @function
 ai_decision_dispatch:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -1648,10 +1450,8 @@ sym_0603446C:
     .byte 0x89, 0x15
     .byte 0x44, 0x09
     .byte 0xD0, 0x09
-
-    .section .text.FUN_060344FC
+	.text
     .global ai_speed_limit
-    .type ai_speed_limit, @function
 ai_speed_limit:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -1672,10 +1472,8 @@ ai_speed_limit:
     .4byte sym_06083238
     .4byte isqrt
     .byte 0xD0, 0x0A
-
-    .section .text.FUN_06034526
+	.text
     .global ai_waypoint_follower
-    .type ai_waypoint_follower, @function
 ai_waypoint_follower:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -1735,10 +1533,8 @@ ai_waypoint_follower:
     .byte 0x08, 0xEE
     .byte 0x64, 0x93
     .byte 0xD0, 0x1E
-
-    .section .text.FUN_0603459C
+	.text
     .global ai_collision_trigger
-    .type ai_collision_trigger, @function
 ai_collision_trigger:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -1754,10 +1550,8 @@ ai_collision_trigger:
     .byte 0x0E, 0x16
     .byte 0x64, 0x93
     .byte 0xD0, 0x19
-
-    .section .text.FUN_060345B8
+	.text
     .global ai_collision_response
-    .type ai_collision_response, @function
 ai_collision_response:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -1780,10 +1574,8 @@ ai_collision_response:
     .byte 0xD0, 0x12
     .byte 0x20, 0x52
     .byte 0xD0, 0x12
-
-    .section .text.FUN_060345E2
+	.text
     .global ai_reset_stub
-    .type ai_reset_stub, @function
 ai_reset_stub:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -1793,10 +1585,8 @@ ai_reset_stub:
     .byte 0xD5, 0x0D
     .byte 0xD6, 0x10
     .byte 0xD0, 0x10
-
-    .section .text.FUN_060345F2
+	.text
     .global ai_car_pos_init
-    .type ai_car_pos_init, @function
 ai_car_pos_init:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -1830,10 +1620,8 @@ ai_car_pos_init:
     .byte 0x00, 0x00
     .byte 0x00, 0x08
     .byte 0xD0, 0x14
-
-    .section .text.FUN_06034642
+	.text
     .global ai_spawn_helper_a
-    .type ai_spawn_helper_a, @function
 ai_spawn_helper_a:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -1848,10 +1636,8 @@ ai_spawn_helper_a:
     .byte 0xD0, 0x13
     .byte 0x06, 0xEE
     .byte 0xD0, 0x13
-
-    .section .text.FUN_0603465C
+	.text
     .global ai_spawn_helper_b
-    .type ai_spawn_helper_b, @function
 ai_spawn_helper_b:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -1860,10 +1646,8 @@ ai_spawn_helper_b:
     .byte 0xD0, 0x11
     .byte 0x04, 0xED
     .byte 0xD0, 0x11
-
-    .section .text.FUN_0603466A
+	.text
     .global ai_spawn_helper_c
-    .type ai_spawn_helper_c, @function
 ai_spawn_helper_c:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -1872,20 +1656,16 @@ ai_spawn_helper_c:
     .byte 0xD0, 0x10
     .byte 0x04, 0xEC
     .byte 0xD0, 0x10
-
-    .section .text.FUN_06034678
+	.text
     .global ai_spawn_helper_d
-    .type ai_spawn_helper_d, @function
 ai_spawn_helper_d:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
     .byte 0xD0, 0x0E
-
-    .section .text.FUN_06034682
+	.text
     .global ai_car_full_init
-    .type ai_car_full_init, @function
 ai_car_full_init:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -1946,10 +1726,8 @@ ai_car_full_init:
     .byte 0x00, 0x11
     .byte 0x00, 0x00
     .byte 0x00, 0x00
-
-    .section .text.FUN_06034708
+	.text
     .global vblank_handler
-    .type vblank_handler, @function
 vblank_handler:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
@@ -1963,28 +1741,22 @@ vblank_handler:
     .byte 0x02, 0xEE
     .byte 0xD0, 0x0C
     .byte 0x0E, 0x26
-
-    .section .text.FUN_06034720
+	.text
     .global ai_rank_stub_a
-    .type ai_rank_stub_a, @function
 ai_rank_stub_a:
     .byte 0x4F, 0x22
     .byte 0xB0, 0x17
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
-
-    .section .text.FUN_06034728
+	.text
     .global ai_rank_stub_b
-    .type ai_rank_stub_b, @function
 ai_rank_stub_b:
     .byte 0x4F, 0x22
     .byte 0xB0, 0x3D
     .byte 0x00, 0x09
     .byte 0x4F, 0x26
-
-    .section .text.FUN_06034730
+	.text
     .global position_calc_current
-    .type position_calc_current, @function
 position_calc_current:
     .byte 0x4F, 0x22
     .byte 0xB0, 0x89
@@ -2011,10 +1783,8 @@ position_calc_current:
     .byte 0x04, 0x1E
     .byte 0x44, 0x28
     .byte 0xD0, 0x0D
-
-    .section .text.FUN_06034762
+	.text
     .global ranking_system_full
-    .type ranking_system_full, @function
 ranking_system_full:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -2207,10 +1977,8 @@ DAT_0603489e:
     .byte 0xD5, 0x04
     .byte 0xD4, 0x05
     .byte 0xD0, 0x05
-
-    .section .text.FUN_060348E6
+	.text
     .global lap_complete_check
-    .type lap_complete_check, @function
 lap_complete_check:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -2224,10 +1992,8 @@ lap_complete_check:
     .byte 0x00, 0x00
     .byte 0x00, 0x00
     .4byte sound_cmd_dispatch
-
-    .section .text.FUN_06034900
+	.text
     .global terrain_data_lookup
-    .type terrain_data_lookup, @function
 terrain_data_lookup:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
@@ -2257,10 +2023,8 @@ terrain_data_lookup:
     .byte 0xD4, 0x10
     .byte 0xD5, 0x11
     .byte 0xD0, 0x11
-
-    .section .text.FUN_0603493A
+	.text
     .global checkpoint_validate
-    .type checkpoint_validate, @function
 checkpoint_validate:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -2279,10 +2043,8 @@ checkpoint_validate:
     .byte 0xE5, 0x07
     .byte 0xE4, 0x02
     .byte 0xD0, 0x09
-
-    .section .text.FUN_0603495C
+	.text
     .global section_transition
-    .type section_transition, @function
 section_transition:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B
@@ -2305,10 +2067,8 @@ DAT_06034976:
     .byte 0xAE, 0x11
     .byte 0x28, 0xFF
     .4byte sound_cmd_dispatch
-
-    .section .text.FUN_06034984
+	.text
     .global ai_checkpoint_section
-    .type ai_checkpoint_section, @function
 ai_checkpoint_section:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
@@ -2335,10 +2095,8 @@ ai_checkpoint_section:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-
-    .section .text.FUN_060349B6
+	.text
     .global ai_checkpoint_validate
-    .type ai_checkpoint_validate, @function
 ai_checkpoint_validate:
     .byte 0x4F, 0x22
     .byte 0xD3, 0x0A
@@ -2347,10 +2105,8 @@ ai_checkpoint_validate:
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0xE0, 0x00
-
-    .section .text.FUN_060349C4
+	.text
     .global cd_block_read_safe
-    .type cd_block_read_safe, @function
 cd_block_read_safe:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
@@ -2387,10 +2143,8 @@ cd_block_read_safe:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-
-    .section .text.FUN_06034A10
+	.text
     .global cd_block_read_atomic
-    .type cd_block_read_atomic, @function
 cd_block_read_atomic:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
@@ -2462,17 +2216,13 @@ DAT_06034a8e:
     .byte 0xFF, 0xFF
     .4byte sym_06035F16
     .4byte sym_06035E5E
-
-    .section .text.FUN_06034A9C
+	.text
     .global ai_nop_stub
-    .type ai_nop_stub, @function
 ai_nop_stub:
     .byte 0x2F, 0xE6
     .byte 0x6E, 0x43
-
-    .section .text.FUN_06034AA0
+	.text
     .global ai_pit_stop_logic
-    .type ai_pit_stop_logic, @function
 ai_pit_stop_logic:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF0
@@ -2513,10 +2263,8 @@ ai_pit_stop_logic:
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-
-    .section .text.FUN_06034AEE
+	.text
     .global track_intersect_test
-    .type track_intersect_test, @function
 track_intersect_test:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22
@@ -2566,19 +2314,15 @@ track_intersect_test:
     .byte 0x00, 0xFF
     .byte 0xFF, 0xFF
     .4byte smpc_secondary_proc
-
-    .section .text.FUN_06034B54
+	.text
     .global mesh_boundary_check
-    .type mesh_boundary_check, @function
 mesh_boundary_check:
     .byte 0x2F, 0xE6
     .byte 0x6E, 0x43
     .byte 0x2F, 0xD6
     .byte 0x6D, 0x53
-
-    .section .text.FUN_06034B5C
+	.text
     .global ai_crash_recovery
-    .type ai_crash_recovery, @function
 ai_crash_recovery:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF0
@@ -2611,10 +2355,8 @@ ai_crash_recovery:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-
-    .section .text.FUN_06034B9A
+	.text
     .global road_segment_query
-    .type road_segment_query, @function
 road_segment_query:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
@@ -2623,10 +2365,8 @@ road_segment_query:
     .byte 0x6D, 0x63
     .byte 0x2F, 0xB6
     .byte 0x6C, 0x73
-
-    .section .text.FUN_06034BA8
+	.text
     .global ai_drafting_calc
-    .type ai_drafting_calc, @function
 ai_drafting_calc:
     .byte 0x4F, 0x22
     .byte 0x6B, 0x53
@@ -2706,10 +2446,8 @@ ai_drafting_calc:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-
-    .section .text.FUN_06034C48
+	.text
     .global ai_brake_zone_calc
-    .type ai_brake_zone_calc, @function
 ai_brake_zone_calc:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF8
@@ -2727,10 +2465,8 @@ ai_brake_zone_calc:
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0x64, 0x03
-
-    .section .text.FUN_06034C68
+	.text
     .global ai_brake_zone_adjust
-    .type ai_brake_zone_adjust, @function
 ai_brake_zone_adjust:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
@@ -2776,17 +2512,13 @@ ai_brake_zone_adjust:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-
-    .section .text.FUN_06034CC8
+	.text
     .global ai_brake_zone_main
-    .type ai_brake_zone_main, @function
 ai_brake_zone_main:
     .byte 0x2F, 0xE6
     .byte 0x6E, 0x43
-
-    .section .text.FUN_06034CCC
+	.text
     .global ai_brake_zone
-    .type ai_brake_zone, @function
 ai_brake_zone:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF0
@@ -2824,17 +2556,13 @@ ai_brake_zone:
     .4byte input_proc_digital
     .byte 0x00, 0xFF
     .byte 0xFF, 0xFF
-
-    .section .text.FUN_06034D1C
+	.text
     .global ai_throttle_modulate
-    .type ai_throttle_modulate, @function
 ai_throttle_modulate:
     .byte 0x2F, 0xE6
     .byte 0x6E, 0x43
-
-    .section .text.FUN_06034D20
+	.text
     .global ai_throttle_mod
-    .type ai_throttle_mod, @function
 ai_throttle_mod:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF8
@@ -2867,10 +2595,8 @@ ai_throttle_mod:
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-
-    .section .text.FUN_06034D5E
+	.text
     .global ai_throttle_adjust
-    .type ai_throttle_adjust, @function
 ai_throttle_adjust:
     .byte 0x4F, 0x22
     .byte 0xA0, 0x36
@@ -2937,10 +2663,8 @@ ai_throttle_adjust:
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
-
-    .section .text.FUN_06034DEA
+	.text
     .global ai_recovery_handler
-    .type ai_recovery_handler, @function
 ai_recovery_handler:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

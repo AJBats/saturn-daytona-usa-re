@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600508C
-
-
+	.text
     .global obj_coord_setter
-    .type obj_coord_setter, @function
 obj_coord_setter:
     mov.l r14, @-r15
     and r3, r6

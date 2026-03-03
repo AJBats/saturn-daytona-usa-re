@@ -1,6 +1,5 @@
-    .section .text.FUN_0600AC44
+	.text
     .global render_obj_absolute
-    .type render_obj_absolute, @function
 render_obj_absolute:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

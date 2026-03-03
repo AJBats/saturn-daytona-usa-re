@@ -1,6 +1,5 @@
-    .section .text.FUN_06020E3C
+	.text
     .global obj_render_prepare
-    .type obj_render_prepare, @function
 obj_render_prepare:
     .byte 0xD7, 0x0C
     .byte 0xE6, 0x10

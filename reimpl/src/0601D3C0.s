@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601D3C0
-
-
+	.text
     .global render_setup_dispatch
-    .type render_setup_dispatch, @function
 render_setup_dispatch:
     mov.l r14, @-r15
     sts.l pr, @-r15

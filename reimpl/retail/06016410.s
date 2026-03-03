@@ -1,6 +1,5 @@
-    .section .text.FUN_06016410
+	.text
     .global results_bonus_calc
-    .type results_bonus_calc, @function
 results_bonus_calc:
     .byte 0x2F, 0xE6
     .byte 0xD0, 0x12

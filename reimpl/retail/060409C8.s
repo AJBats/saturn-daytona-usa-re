@@ -1,6 +1,5 @@
-    .section .text.FUN_060409C8
+	.text
     .global dma_complete_check
-    .type dma_complete_check, @function
 dma_complete_check:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC

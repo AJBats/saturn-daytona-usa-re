@@ -1,6 +1,5 @@
-    .section .text.FUN_0601D478
+	.text
     .global sound_cmd_queue_write
-    .type sound_cmd_queue_write, @function
 sound_cmd_queue_write:
     .byte 0x4F, 0x22
     .byte 0xE2, 0x02
@@ -26,9 +25,8 @@ sound_cmd_queue_write:
     .byte 0x72, 0x01
     .byte 0x00, 0x0B
     .byte 0x24, 0x20
-    .section .text.FUN_0601D4A8
+	.text
     .global sound_channel_alloc
-    .type sound_channel_alloc, @function
 sound_channel_alloc:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
@@ -131,9 +129,8 @@ loc_0601D568:
     .byte 0x23, 0x22
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
-    .section .text.FUN_0601D57C
+	.text
     .global camera_view_update
-    .type camera_view_update, @function
 camera_view_update:
     .byte 0x2F, 0xE6
     .byte 0xEE, 0x1C

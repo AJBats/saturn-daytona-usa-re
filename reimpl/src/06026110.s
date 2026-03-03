@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06026110
-
-
+	.text
     .global scene_dual_finalize
-    .type scene_dual_finalize, @function
 scene_dual_finalize:
     mov.l r14, @-r15
     mov #0x0, r14

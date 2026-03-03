@@ -1,6 +1,5 @@
-    .section .text.FUN_060331DA
+	.text
     .global results_digit_group
-    .type results_digit_group, @function
 results_digit_group:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B

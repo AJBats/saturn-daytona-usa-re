@@ -1,6 +1,5 @@
-    .section .text.FUN_060336AC
+	.text
     .global course_stats_display
-    .type course_stats_display, @function
 course_stats_display:
     .byte 0x4F, 0x22
     .byte 0xBF, 0x4F

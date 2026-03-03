@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601BE64
-
-
+	.text
     .global replay_playback
-    .type replay_playback, @function
 replay_playback:
     mov.l r14, @-r15
     mov.l r13, @-r15

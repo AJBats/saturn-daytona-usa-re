@@ -1,6 +1,5 @@
-    .section .text.FUN_0600747C
+	.text
     .global system_watchdog
-    .type system_watchdog, @function
 system_watchdog:
     .byte 0x2F, 0xE6
     .byte 0x64, 0x4D

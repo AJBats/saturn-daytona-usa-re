@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060330A4
-
-
+	.text
     .global disp_util_main
-    .type disp_util_main, @function
 disp_util_main:
     sts.l pr, @-r15
     .byte   0xB0, 0x61    /* bsr 0x0603316C (external) */

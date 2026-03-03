@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060190BC
-
-
+	.text
     .global transition_timer_set
-    .type transition_timer_set, @function
 transition_timer_set:
     sts.l pr, @-r15
     .byte   0xDE, 0x1C    /* mov.l .L_pool_06019130, r14 */

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060409C8
-
-
+	.text
     .global dma_complete_check
-    .type dma_complete_check, @function
 dma_complete_check:
     sts.l pr, @-r15
     add #-0x4, r15

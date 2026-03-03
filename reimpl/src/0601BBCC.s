@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601BBCC
-
-
+	.text
     .global replay_record_main
-    .type replay_record_main, @function
 replay_record_main:
     mov.l r14, @-r15
     mov.l r13, @-r15

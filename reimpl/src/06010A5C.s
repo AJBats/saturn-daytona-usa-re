@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06010A5C
-
-
+	.text
     .global hud_post_update
-    .type hud_post_update, @function
 hud_post_update:
     add #-0x4, r15
     mov r4, r5

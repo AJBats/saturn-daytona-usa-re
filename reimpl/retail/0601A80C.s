@@ -1,6 +1,5 @@
-    .section .text.FUN_0601A80C
+	.text
     .global course_data_rom_load
-    .type course_data_rom_load, @function
 course_data_rom_load:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

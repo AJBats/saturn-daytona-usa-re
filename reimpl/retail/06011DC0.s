@@ -1,6 +1,5 @@
-    .section .text.FUN_06011DC0
+	.text
     .global post_sprite_cleanup
-    .type post_sprite_cleanup, @function
 post_sprite_cleanup:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

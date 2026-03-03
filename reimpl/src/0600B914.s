@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600B914
-
-
+	.text
     .global render_scene_loop
-    .type render_scene_loop, @function
 render_scene_loop:
     mov.l r14, @-r15
     mov.l r13, @-r15

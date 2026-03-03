@@ -1,6 +1,5 @@
-    .section .text.FUN_06042634
+	.text
     .global div_result_read
-    .type div_result_read, @function
 div_result_read:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060210F6
-
-
+	.text
     .global obj_render_update
-    .type obj_render_update, @function
 obj_render_update:
     sts.l pr, @-r15
     .byte   0xD3, 0x07    /* mov.l .L_pool_06021118, r3 */

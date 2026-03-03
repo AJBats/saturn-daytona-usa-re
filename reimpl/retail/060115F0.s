@@ -1,6 +1,5 @@
-    .section .text.FUN_060115F0
+	.text
     .global hud_transparency
-    .type hud_transparency, @function
 hud_transparency:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

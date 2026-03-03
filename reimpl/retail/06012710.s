@@ -1,6 +1,5 @@
-    .section .text.FUN_06012710
+	.text
     .global race_progress_check
-    .type race_progress_check, @function
 race_progress_check:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

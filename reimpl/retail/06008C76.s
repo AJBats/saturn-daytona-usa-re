@@ -1,6 +1,5 @@
-    .section .text.FUN_06008C76
+	.text
     .global state_memory_route
-    .type state_memory_route, @function
 state_memory_route:
     .byte 0x4F, 0x22
     .byte 0xD3, 0x10

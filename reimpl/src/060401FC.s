@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060401FC
-
-
+	.text
     .global hw_init_setup
-    .type hw_init_setup, @function
 hw_init_setup:
     sts.l pr, @-r15
     mov r4, r14

@@ -1,6 +1,5 @@
-    .section .text.FUN_0600C8D0
+	.text
     .global ai_speed_target
-    .type ai_speed_target, @function
 ai_speed_target:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC

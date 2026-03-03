@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600F424
-
-
+	.text
     .global game_state_dispatch
-    .type game_state_dispatch, @function
 game_state_dispatch:
     mov.l r14, @-r15
     mov #0x4, r3

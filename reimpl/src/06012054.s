@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06012054
-
-
+	.text
     .global file_seek
-    .type file_seek, @function
 file_seek:
     sts.l pr, @-r15
     mov.l   .L_pool_0601207C, r14

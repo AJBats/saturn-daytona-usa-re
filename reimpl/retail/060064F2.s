@@ -1,6 +1,5 @@
-    .section .text.FUN_060064F2
+	.text
     .global scene_fallback_render
-    .type scene_fallback_render, @function
 scene_fallback_render:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

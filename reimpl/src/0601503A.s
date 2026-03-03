@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601503A
-
-
+	.text
     .global hud_layout_mgr
-    .type hud_layout_mgr, @function
 hud_layout_mgr:
     mov.l r14, @-r15
     mov.l r13, @-r15
@@ -155,7 +151,6 @@ hud_layout_mgr:
     .4byte  sym_0607ED8C
 
     .global hud_elem_render
-    .type hud_elem_render, @function
 hud_elem_render:
     mov.l r14, @-r15
     mov.l r13, @-r15
@@ -421,7 +416,6 @@ hud_elem_render:
     .4byte  sym_060284AE
 
     .global race_data_dispatch
-    .type race_data_dispatch, @function
 race_data_dispatch:
     mov.l r14, @-r15
     mov.l r13, @-r15

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600A4CA
-
-
+	.text
     .global camera_scene_setup
-    .type camera_scene_setup, @function
 camera_scene_setup:
     mov.l r14, @-r15
     mov.l r13, @-r15

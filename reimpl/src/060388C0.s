@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060388C0
-
-
+	.text
     .global scene_data_block_copy
-    .type scene_data_block_copy, @function
 scene_data_block_copy:
     mov.l r14, @-r15
     mov.l r13, @-r15

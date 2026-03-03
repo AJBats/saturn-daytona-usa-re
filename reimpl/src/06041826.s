@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06041826
-
-
+	.text
     .global evt_callback_handler
-    .type evt_callback_handler, @function
 evt_callback_handler:
     mov.l r14, @-r15
     mov r5, r14

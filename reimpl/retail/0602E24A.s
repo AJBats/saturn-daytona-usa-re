@@ -1,6 +1,5 @@
-    .section .text.FUN_0602E24A
+	.text
     .global vdp2_priority_b
-    .type vdp2_priority_b, @function
 vdp2_priority_b:
     .byte 0x4F, 0x22
     .byte 0x4D, 0x0B

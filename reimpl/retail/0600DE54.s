@@ -1,6 +1,5 @@
-    .section .text.FUN_0600DE54
+	.text
     .global race_state_update
-    .type race_state_update, @function
 race_state_update:
     .byte 0x4F, 0x22
     .byte 0xD3, 0x17

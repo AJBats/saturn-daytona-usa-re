@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603F974
-
-
+	.text
     .global attract_transition
-    .type attract_transition, @function
 attract_transition:
     sts.l pr, @-r15
     mov r5, r14

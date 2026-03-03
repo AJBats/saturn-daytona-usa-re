@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603F538
-
-
+	.text
     .global attract_demo_select
-    .type attract_demo_select, @function
 attract_demo_select:
     sts.l pr, @-r15
     mov r4, r14

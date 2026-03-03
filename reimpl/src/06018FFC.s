@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06018FFC
-
-
+	.text
     .global restore_state_snapshot
-    .type restore_state_snapshot, @function
 restore_state_snapshot:
     sts.l pr, @-r15
     mov.l   .L_pool_0601903C, r14

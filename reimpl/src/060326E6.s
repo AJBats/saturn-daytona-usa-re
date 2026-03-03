@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060326E6
-
-
+	.text
     .global hud_laptime_group_render
-    .type hud_laptime_group_render, @function
 hud_laptime_group_render:
     sts.l pr, @-r15
     jsr @r0

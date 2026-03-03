@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600EB14
-
-
+	.text
     .global race_init_master
-    .type race_init_master, @function
 race_init_master:
     mov.l r14, @-r15
     sts.l pr, @-r15

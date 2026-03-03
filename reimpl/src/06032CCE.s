@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06032CCE
-
-
+	.text
     .global gear_display_commit
-    .type gear_display_commit, @function
 gear_display_commit:
     sts.l pr, @-r15
     jsr @r0

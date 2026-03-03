@@ -1,6 +1,5 @@
-    .section .text.FUN_06010A5C
+	.text
     .global hud_post_update
-    .type hud_post_update, @function
 hud_post_update:
     .byte 0x7F, 0xFC
     .byte 0x65, 0x43

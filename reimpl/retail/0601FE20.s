@@ -1,6 +1,5 @@
-    .section .text.FUN_0601FE20
+	.text
     .global geom_display_handler
-    .type geom_display_handler, @function
 geom_display_handler:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

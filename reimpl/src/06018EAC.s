@@ -1,9 +1,5 @@
-
-
-    .section .text.FUN_06018EAC
+	.text
     .global cdb_read_status
-    .type cdb_read_status, @function
-
 cdb_read_status:
     sts.l   pr, @-r15
     add     #-12, r15
@@ -21,8 +17,6 @@ cdb_read_status:
     mov     r4, r0
 
     .global scsp_set_master_volume
-    .type scsp_set_master_volume, @function
-
 scsp_set_master_volume:
     mov.w   .L_06018ED6, r4
     mov.l   .L_06018EDC, r2

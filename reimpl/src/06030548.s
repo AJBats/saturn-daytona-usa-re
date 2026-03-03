@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06030548
-
-
+	.text
     .global sound_music_ctrl
-    .type sound_music_ctrl, @function
 sound_music_ctrl:
     sts.l pr, @-r15
     mov.l @r14, r14

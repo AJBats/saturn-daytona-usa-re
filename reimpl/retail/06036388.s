@@ -1,6 +1,5 @@
-    .section .text.FUN_06036388
+	.text
     .global track_road_edge_a
-    .type track_road_edge_a, @function
 track_road_edge_a:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF8

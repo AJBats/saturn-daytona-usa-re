@@ -1,6 +1,5 @@
-    .section .text.FUN_0601228C
+	.text
     .global lap_timer_ctrl
-    .type lap_timer_ctrl, @function
 lap_timer_ctrl:
     .byte 0x4F, 0x22
     .byte 0xD4, 0x12

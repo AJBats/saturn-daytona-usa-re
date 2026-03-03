@@ -1,6 +1,5 @@
-    .section .text.FUN_0603B324
+	.text
     .global menu_option_adj
-    .type menu_option_adj, @function
 menu_option_adj:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC

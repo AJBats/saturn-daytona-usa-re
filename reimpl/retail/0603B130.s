@@ -1,6 +1,5 @@
-    .section .text.FUN_0603B130
+	.text
     .global menu_cursor_pos
-    .type menu_cursor_pos, @function
 menu_cursor_pos:
     .byte 0x2F, 0xE6
     .byte 0x52, 0xF6

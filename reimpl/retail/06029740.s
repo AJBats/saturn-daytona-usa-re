@@ -1,6 +1,5 @@
-    .section .text.FUN_06029740
+	.text
     .global mega_render_func
-    .type mega_render_func, @function
 mega_render_func:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xC6

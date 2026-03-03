@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603F202
-
-
+	.text
     .global sprite_batch_emit
-    .type sprite_batch_emit, @function
 sprite_batch_emit:
     mov r4, r0
     mov r4, r3

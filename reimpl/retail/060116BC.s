@@ -1,6 +1,5 @@
-    .section .text.FUN_060116BC
+	.text
     .global hud_main_draw
-    .type hud_main_draw, @function
 hud_main_draw:
     .byte 0x4F, 0x22
     .byte 0x68, 0x43

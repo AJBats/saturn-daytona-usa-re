@@ -1,6 +1,5 @@
-    .section .text.FUN_0601667A
+	.text
     .global results_best_laps
-    .type results_best_laps, @function
 results_best_laps:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

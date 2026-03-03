@@ -1,6 +1,5 @@
-    .section .text.FUN_060032D4
+	.text
     .global gameover_channel_setup
-    .type gameover_channel_setup, @function
 gameover_channel_setup:
     .byte 0x2F, 0xE6
     .byte 0xE5, 0x00

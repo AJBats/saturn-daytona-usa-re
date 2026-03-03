@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601B48C
-
-
+	.text
     .global disc_read_check
-    .type disc_read_check, @function
 disc_read_check:
     sts.l pr, @-r15
     add #-0x4, r15

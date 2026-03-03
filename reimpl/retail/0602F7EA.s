@@ -1,6 +1,5 @@
-    .section .text.FUN_0602F7EA
+	.text
     .global sprite_transform
-    .type sprite_transform, @function
 sprite_transform:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

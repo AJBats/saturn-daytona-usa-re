@@ -1,6 +1,5 @@
-    .section .text.FUN_06042BEE
+	.text
     .global palette_render_main
-    .type palette_render_main, @function
 palette_render_main:
     .byte 0x44, 0x08
     .byte 0xE0, 0x02

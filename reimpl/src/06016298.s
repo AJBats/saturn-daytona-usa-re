@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06016298
-
-
+	.text
     .global results_elem_place
-    .type results_elem_place, @function
 results_elem_place:
     mov.l r14, @-r15
     mov r4, r14

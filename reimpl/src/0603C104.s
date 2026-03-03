@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603C104
-
-
+	.text
     .global display_init_chain
-    .type display_init_chain, @function
 display_init_chain:
     mov.l r14, @-r15
     mov.l r13, @-r15

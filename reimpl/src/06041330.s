@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06041330
-
-
+	.text
     .global evt_validator_pair
-    .type evt_validator_pair, @function
 evt_validator_pair:
     sts.l pr, @-r15
     add #-0x4, r15

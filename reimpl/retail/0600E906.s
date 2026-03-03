@@ -1,6 +1,5 @@
-    .section .text.FUN_0600E906
+	.text
     .global ai_physics_main
-    .type ai_physics_main, @function
 ai_physics_main:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

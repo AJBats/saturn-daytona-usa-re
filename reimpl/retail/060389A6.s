@@ -1,6 +1,5 @@
-    .section .text.FUN_060389A6
+	.text
     .global scene_data_dispatch
-    .type scene_data_dispatch, @function
 scene_data_dispatch:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

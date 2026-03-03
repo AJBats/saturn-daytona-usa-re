@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06020DD0
-
-
+	.text
     .global obj_anim_advance
-    .type obj_anim_advance, @function
 obj_anim_advance:
     mov.l r14, @-r15
     mov.l r13, @-r15

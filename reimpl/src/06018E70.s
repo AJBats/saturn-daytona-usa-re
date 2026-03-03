@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06018E70
-
-
+	.text
     .global handler_init_reset
-    .type handler_init_reset, @function
 handler_init_reset:
     sts.l pr, @-r15
     mov #0x3, r2

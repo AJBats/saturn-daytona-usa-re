@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06016A60
-
-
+	.text
     .global text_string_render
-    .type text_string_render, @function
 text_string_render:
     mov.l r14, @-r15
     mov r4, r14

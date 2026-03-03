@@ -1,6 +1,5 @@
-    .section .text.FUN_06038BD4
+	.text
     .global channel_nibble_config
-    .type channel_nibble_config, @function
 channel_nibble_config:
     .byte 0x2F, 0xE6
     .byte 0xE7, 0x01

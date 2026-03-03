@@ -1,6 +1,5 @@
-    .section .text.FUN_0600AFB2
+	.text
     .global camera_track_setup
-    .type camera_track_setup, @function
 camera_track_setup:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

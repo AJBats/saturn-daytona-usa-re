@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06015FB0
-
-
+	.text
     .global results_init_stub
-    .type results_init_stub, @function
 results_init_stub:
     mov.l r14, @-r15
     mov r4, r14

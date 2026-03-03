@@ -1,6 +1,5 @@
-    .section .text.FUN_06010470
+	.text
     .global throttle_state_toggle
-    .type throttle_state_toggle, @function
 throttle_state_toggle:
     .byte 0x2F, 0xE6
     .byte 0xE2, 0x00

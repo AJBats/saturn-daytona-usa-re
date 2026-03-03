@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600D92C
-
-
+	.text
     .global lap_time_record
-    .type lap_time_record, @function
 lap_time_record:
     mov.l r14, @-r15
     sts.l pr, @-r15

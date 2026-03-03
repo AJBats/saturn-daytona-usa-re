@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600F822
-
-
+	.text
     .global transition_small_a
-    .type transition_small_a, @function
 transition_small_a:
     sts.l pr, @-r15
     .byte   0xD5, 0x0C    /* mov.l .L_pool_0600F85E, r5 */

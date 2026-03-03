@@ -1,6 +1,5 @@
-    .section .text.FUN_06032F9A
+	.text
     .global disp_helper_a
-    .type disp_helper_a, @function
 disp_helper_a:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B

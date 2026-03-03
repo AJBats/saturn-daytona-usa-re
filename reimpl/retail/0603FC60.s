@@ -1,6 +1,5 @@
-    .section .text.FUN_0603FC60
+	.text
     .global vblank_palette_apply
-    .type vblank_palette_apply, @function
 vblank_palette_apply:
     .byte 0x2F, 0xE6
     .byte 0x6E, 0x43

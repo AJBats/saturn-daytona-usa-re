@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06032C68
-
-
+	.text
     .global hud_gear_idx_3
-    .type hud_gear_idx_3, @function
 hud_gear_idx_3:
     sts.l pr, @-r15
     jsr @r0

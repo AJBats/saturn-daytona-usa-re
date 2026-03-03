@@ -1,6 +1,5 @@
-    .section .text.FUN_06023290
+	.text
     .global projection_mgr
-    .type projection_mgr, @function
 projection_mgr:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

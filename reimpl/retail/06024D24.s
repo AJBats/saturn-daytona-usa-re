@@ -1,6 +1,5 @@
-    .section .text.FUN_06024D24
+	.text
     .global render_finalize_b
-    .type render_finalize_b, @function
 render_finalize_b:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF8

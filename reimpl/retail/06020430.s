@@ -1,6 +1,5 @@
-    .section .text.FUN_06020430
+	.text
     .global obj_init_defaults
-    .type obj_init_defaults, @function
 obj_init_defaults:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF4

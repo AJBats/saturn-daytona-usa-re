@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06041B3C
-
-
+	.text
     .global track_surface_validate
-    .type track_surface_validate, @function
 track_surface_validate:
     mov.l r14, @-r15
     mov.l r13, @-r15

@@ -1,6 +1,5 @@
-    .section .text.FUN_060198E0
+	.text
     .global car_select_setup
-    .type car_select_setup, @function
 car_select_setup:
     .byte 0x4F, 0x22
     .byte 0xD3, 0x0B

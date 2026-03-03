@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602E726
-
-
+	.text
     .global vdp2_light_intensity
-    .type vdp2_light_intensity, @function
 vdp2_light_intensity:
     sts.l pr, @-r15
     jsr @r13

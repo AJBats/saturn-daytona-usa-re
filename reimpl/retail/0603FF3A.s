@@ -1,6 +1,5 @@
-    .section .text.FUN_0603FF3A
+	.text
     .global attract_cleanup
-    .type attract_cleanup, @function
 attract_cleanup:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

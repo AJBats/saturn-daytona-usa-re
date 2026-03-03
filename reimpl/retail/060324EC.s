@@ -1,6 +1,5 @@
-    .section .text.FUN_060324EC
+	.text
     .global disp_tile_idx_0
-    .type disp_tile_idx_0, @function
 disp_tile_idx_0:
     .byte 0x4F, 0x22
     .byte 0xB4, 0xBD

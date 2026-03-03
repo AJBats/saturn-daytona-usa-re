@@ -1,6 +1,5 @@
-    .section .text.FUN_060092D0
+	.text
     .global state_post_lap
-    .type state_post_lap, @function
 state_post_lap:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

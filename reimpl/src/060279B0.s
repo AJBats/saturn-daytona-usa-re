@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060279B0
-
-
+	.text
     .global transform_pipeline
-    .type transform_pipeline, @function
 transform_pipeline:
 
 

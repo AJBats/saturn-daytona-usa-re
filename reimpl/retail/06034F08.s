@@ -1,6 +1,5 @@
-    .section .text.FUN_06034F08
+	.text
     .global slave_main_loop
-    .type slave_main_loop, @function
 slave_main_loop:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF8

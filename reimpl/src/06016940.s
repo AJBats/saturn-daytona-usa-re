@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06016940
-
-
+	.text
     .global hud_text_stub
-    .type hud_text_stub, @function
 hud_text_stub:
     mov.l r14, @-r15
     mov #0x7, r2

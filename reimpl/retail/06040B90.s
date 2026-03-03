@@ -1,6 +1,5 @@
-    .section .text.FUN_06040B90
+	.text
     .global event_callback_dispatch
-    .type event_callback_dispatch, @function
 event_callback_dispatch:
     .byte 0x2F, 0xE6
     .byte 0x62, 0xF3

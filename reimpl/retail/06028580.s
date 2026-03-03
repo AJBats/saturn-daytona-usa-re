@@ -1,6 +1,5 @@
-    .section .text.FUN_06028580
+	.text
     .global effect_cleanup_stub
-    .type effect_cleanup_stub, @function
 effect_cleanup_stub:
     .byte 0x2F, 0xE6
     .byte 0x45, 0x18

@@ -1,6 +1,5 @@
-    .section .text.FUN_06035C08
+	.text
     .global smpc_cmd_helper_a
-    .type smpc_cmd_helper_a, @function
 smpc_cmd_helper_a:
     .byte 0x4F, 0x22
     .byte 0x61, 0x53

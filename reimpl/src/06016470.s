@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06016470
-
-
+	.text
     .global results_car_name
-    .type results_car_name, @function
 results_car_name:
     sts.l pr, @-r15
     extu.b r13, r14

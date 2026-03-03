@@ -1,6 +1,5 @@
-    .section .text.FUN_0602052C
+	.text
     .global obj_visibility_test
-    .type obj_visibility_test, @function
 obj_visibility_test:
     .byte 0x2F, 0xE6
     .byte 0x60, 0x43

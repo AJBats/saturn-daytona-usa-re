@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603F4E0
-
-
+	.text
     .global audio_sync_master
-    .type audio_sync_master, @function
 audio_sync_master:
     sts.l pr, @-r15
     mov #0x2, r6

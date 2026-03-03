@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06040964
-
-
+	.text
     .global evt_condition_return
-    .type evt_condition_return, @function
 evt_condition_return:
     sts.l pr, @-r15
     .byte   0xD3, 0x12    /* mov.l .L_pool_060409B0, r3 */

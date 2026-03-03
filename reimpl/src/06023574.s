@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06023574
-
-
+	.text
     .global render_stage_c
-    .type render_stage_c, @function
 render_stage_c:
     mov.l r14, @-r15
     mov.l r13, @-r15

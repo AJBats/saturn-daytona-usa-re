@@ -1,6 +1,5 @@
-    .section .text.FUN_06012C3C
+	.text
     .global cd_dma_setup
-    .type cd_dma_setup, @function
 cd_dma_setup:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

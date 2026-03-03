@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060362B0
-
-
+	.text
     .global road_width_calc
-    .type road_width_calc, @function
 road_width_calc:
     sts.l pr, @-r15
     add #-0x8, r15

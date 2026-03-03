@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060148A2
-
-
+	.text
     .global display_channels_load
-    .type display_channels_load, @function
 display_channels_load:
     mov.l r14, @-r15
     mov.l r13, @-r15

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603FCE4
-
-
+	.text
     .global hud_palette_select
-    .type hud_palette_select, @function
 hud_palette_select:
     mov.l r14, @-r15
     mov #0x1, r2

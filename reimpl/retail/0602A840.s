@@ -1,6 +1,5 @@
-    .section .text.FUN_0602A840
+	.text
     .global render_pass_secondary
-    .type render_pass_secondary, @function
 render_pass_secondary:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

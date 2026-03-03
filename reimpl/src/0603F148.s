@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603F148
-
-
+	.text
     .global slave_sh2_setup
-    .type slave_sh2_setup, @function
 slave_sh2_setup:
     mov.l r14, @-r15
     mov.l r13, @-r15

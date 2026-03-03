@@ -1,6 +1,5 @@
-    .section .text.FUN_06013A74
+	.text
     .global best_time_compare
-    .type best_time_compare, @function
 best_time_compare:
     .byte 0x4F, 0x22
     .byte 0xB4, 0x73

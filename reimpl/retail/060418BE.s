@@ -1,6 +1,5 @@
-    .section .text.FUN_060418BE
+	.text
     .global track_road_validate
-    .type track_road_validate, @function
 track_road_validate:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

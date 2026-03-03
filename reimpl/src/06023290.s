@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06023290
-
-
+	.text
     .global projection_mgr
-    .type projection_mgr, @function
 projection_mgr:
     mov.l r14, @-r15
     mov.l r13, @-r15

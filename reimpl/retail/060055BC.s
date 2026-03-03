@@ -1,6 +1,5 @@
-    .section .text.FUN_060055BC
+	.text
     .global perspective_project
-    .type perspective_project, @function
 perspective_project:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

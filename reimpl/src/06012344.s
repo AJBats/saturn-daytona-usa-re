@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06012344
-
-
+	.text
     .global file_data_parse
-    .type file_data_parse, @function
 file_data_parse:
     mov.l r14, @-r15
     mov #0x0, r3

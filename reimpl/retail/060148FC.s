@@ -1,6 +1,5 @@
-    .section .text.FUN_060148FC
+	.text
     .global display_channels_clear
-    .type display_channels_clear, @function
 display_channels_clear:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

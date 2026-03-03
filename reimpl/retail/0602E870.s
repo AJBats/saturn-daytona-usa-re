@@ -1,6 +1,5 @@
-    .section .text.FUN_0602E870
+	.text
     .global billboard_uv_map
-    .type billboard_uv_map, @function
 billboard_uv_map:
     .byte 0x4F, 0x22
     .byte 0x4D, 0x0B

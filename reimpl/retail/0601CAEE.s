@@ -1,6 +1,5 @@
-    .section .text.FUN_0601CAEE
+	.text
     .global render_stage_2
-    .type render_stage_2, @function
 render_stage_2:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
@@ -350,9 +349,8 @@ DAT_0601cb48:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .section .text.FUN_0601CDC0
+	.text
     .global render_stage_3
-    .type render_stage_3, @function
 render_stage_3:
     .byte 0x2F, 0xE6
     .byte 0xE2, 0x12
@@ -499,9 +497,8 @@ render_stage_3:
     .4byte dma_transfer
     .byte 0x25, 0xF0
     .byte 0x04, 0x00
-    .section .text.FUN_0601CEFC
+	.text
     .global render_stage_4
-    .type render_stage_4, @function
 render_stage_4:
     .byte 0x2F, 0xE6
     .byte 0xE2, 0x12
@@ -639,9 +636,8 @@ render_stage_4:
     .4byte dma_transfer
     .byte 0x25, 0xF0
     .byte 0x04, 0x00
-    .section .text.FUN_0601D014
+	.text
     .global render_stage_5
-    .type render_stage_5, @function
 render_stage_5:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC
@@ -685,9 +681,8 @@ render_stage_5:
     .4byte sym_06028400
     .4byte sym_06063970
     .4byte sym_06086020
-    .section .text.FUN_0601D074
+	.text
     .global render_stage_6
-    .type render_stage_6, @function
 render_stage_6:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC
@@ -774,9 +769,8 @@ render_stage_6:
     .byte 0x30, 0x2C
     .byte 0x00, 0x0B
     .byte 0x60, 0x0D
-    .section .text.FUN_0601D12C
+	.text
     .global render_matrix_calc
-    .type render_matrix_calc, @function
 render_matrix_calc:
     .byte 0x2F, 0xE6
     .byte 0xDE, 0x18

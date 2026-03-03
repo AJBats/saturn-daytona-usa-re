@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06032D0E
-
-
+	.text
     .global hud_master_compositor
-    .type hud_master_compositor, @function
 hud_master_compositor:
     sts.l pr, @-r15
     jsr @r0

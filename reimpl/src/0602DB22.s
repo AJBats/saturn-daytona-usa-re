@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602DB22
-
-
+	.text
     .global vdp1_cmd_list_reset
-    .type vdp1_cmd_list_reset, @function
 vdp1_cmd_list_reset:
     sts.l pr, @-r15
     jsr @r13

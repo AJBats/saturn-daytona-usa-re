@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601BBDC
-
-
+	.text
     .global replay_recorder
-    .type replay_recorder, @function
 replay_recorder:
     sts.l pr, @-r15
     add #-0x24, r15

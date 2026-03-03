@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601FFB8
-
-
+	.text
     .global vram_defrag
-    .type vram_defrag, @function
 vram_defrag:
     sts.l pr, @-r15
     sts.l macl, @-r15

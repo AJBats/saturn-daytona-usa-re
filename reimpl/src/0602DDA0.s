@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602DDA0
-
-
+	.text
     .global vdp1_line_draw
-    .type vdp1_line_draw, @function
 vdp1_line_draw:
     sts.l pr, @-r15
     jsr @r12

@@ -1,6 +1,5 @@
-    .section .text.FUN_06041204
+	.text
     .global evt_field_update
-    .type evt_field_update, @function
 evt_field_update:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060268B0
-
-
+	.text
     .global menu_overlay_render
-    .type menu_overlay_render, @function
 menu_overlay_render:
     mov.l r14, @-r15
     exts.w r4, r4
@@ -548,7 +544,6 @@ DAT_06026922:
     .4byte  sym_060594A6
 
     .global vdp2_reg_block_setup
-    .type vdp2_reg_block_setup, @function
 vdp2_reg_block_setup:
     mov.l r14, @-r15
     sts.l pr, @-r15

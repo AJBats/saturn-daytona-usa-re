@@ -1,6 +1,5 @@
-    .section .text.FUN_0601918C
+	.text
     .global transition_sound_trigger
-    .type transition_sound_trigger, @function
 transition_sound_trigger:
     .byte 0x4F, 0x22
     .byte 0xDE, 0x0D

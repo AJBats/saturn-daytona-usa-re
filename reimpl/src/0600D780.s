@@ -1,10 +1,5 @@
-
-    .section .text.FUN_0600D780
-
-
+	.text
     .global checkpoint_detect
-    .type checkpoint_detect, @function
-
 checkpoint_detect:
     mov.l r14, @-r15
     mov r4, r14

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601424C
-
-
+	.text
     .global camera_angle_interp
-    .type camera_angle_interp, @function
 camera_angle_interp:
     mov.l r14, @-r15
     mov.l r13, @-r15

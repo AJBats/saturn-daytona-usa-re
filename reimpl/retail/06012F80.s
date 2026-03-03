@@ -1,6 +1,5 @@
-    .section .text.FUN_06012F80
+	.text
     .global game_init_master
-    .type game_init_master, @function
 game_init_master:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

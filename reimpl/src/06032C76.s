@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06032C76
-
-
+	.text
     .global gear_indicator_render
-    .type gear_indicator_render, @function
 gear_indicator_render:
     sts.l pr, @-r15
     jsr @r0

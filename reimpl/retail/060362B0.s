@@ -1,6 +1,5 @@
-    .section .text.FUN_060362B0
+	.text
     .global road_width_calc
-    .type road_width_calc, @function
 road_width_calc:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF8

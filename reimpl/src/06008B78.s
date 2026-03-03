@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06008B78
-
-
+	.text
     .global state_car_select_init
-    .type state_car_select_init, @function
 state_car_select_init:
     sts.l pr, @-r15
     mov #0x9, r3

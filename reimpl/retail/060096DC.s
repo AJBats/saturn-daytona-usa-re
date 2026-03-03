@@ -1,6 +1,5 @@
-    .section .text.FUN_060096DC
+	.text
     .global state_time_extend_setup
-    .type state_time_extend_setup, @function
 state_time_extend_setup:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

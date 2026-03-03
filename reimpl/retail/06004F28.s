@@ -1,6 +1,5 @@
-    .section .text.FUN_06004F28
+	.text
     .global obj_position_update
-    .type obj_position_update, @function
 obj_position_update:
     .byte 0x4F, 0x22
     .byte 0x4F, 0x12

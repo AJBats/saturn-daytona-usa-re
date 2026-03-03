@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06041034
-
-
+	.text
     .global buffer_slot_alloc
-    .type buffer_slot_alloc, @function
 buffer_slot_alloc:
     mov.l r14, @-r15
     mov #0x54, r0

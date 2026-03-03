@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603BE9C
-
-
+	.text
     .global save_data_size
-    .type save_data_size, @function
 save_data_size:
     mov.l r14, @-r15
     mov #0x1D, r0

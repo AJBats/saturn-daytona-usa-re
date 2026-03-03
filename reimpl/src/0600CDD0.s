@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600CDD0
-
-
+	.text
     .global race_heading_calc
-    .type race_heading_calc, @function
 race_heading_calc:
     mov.l r14, @-r15
     mov.l r13, @-r15

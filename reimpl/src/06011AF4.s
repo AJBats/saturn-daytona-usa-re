@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06011AF4
-
-
+	.text
     .global rigid_body_transform
-    .type rigid_body_transform, @function
 rigid_body_transform:
     mov.l r14, @-r15
     mov #0x3A, r0

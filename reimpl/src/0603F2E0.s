@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603F2E0
-
-
+	.text
     .global attract_demo_chooser
-    .type attract_demo_chooser, @function
 attract_demo_chooser:
     mov.l r14, @-r15
     mov r5, r14

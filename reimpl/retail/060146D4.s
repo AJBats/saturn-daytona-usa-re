@@ -1,6 +1,5 @@
-    .section .text.FUN_060146D4
+	.text
     .global track_elev_map
-    .type track_elev_map, @function
 track_elev_map:
     .byte 0x4F, 0x22
     .byte 0xD2, 0x08

@@ -1,6 +1,5 @@
-    .section .text.FUN_0603F2EC
+	.text
     .global credits_text_format
-    .type credits_text_format, @function
 credits_text_format:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xC8

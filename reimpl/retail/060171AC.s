@@ -1,6 +1,5 @@
-    .section .text.FUN_060171AC
+	.text
     .global vdp2_frame_update
-    .type vdp2_frame_update, @function
 vdp2_frame_update:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

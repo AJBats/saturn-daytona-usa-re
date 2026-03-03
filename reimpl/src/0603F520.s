@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603F520
-
-
+	.text
     .global audio_event_trigger
-    .type audio_event_trigger, @function
 audio_event_trigger:
     sts.l pr, @-r15
     mov #0x4, r6

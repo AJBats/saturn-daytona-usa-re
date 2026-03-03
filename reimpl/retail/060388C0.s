@@ -1,6 +1,5 @@
-    .section .text.FUN_060388C0
+	.text
     .global scene_data_block_copy
-    .type scene_data_block_copy, @function
 scene_data_block_copy:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

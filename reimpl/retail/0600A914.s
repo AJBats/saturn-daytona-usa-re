@@ -1,6 +1,5 @@
-    .section .text.FUN_0600A914
+	.text
     .global car_proximity_check
-    .type car_proximity_check, @function
 car_proximity_check:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

@@ -1,6 +1,5 @@
-    .section .text.FUN_060321DC
+	.text
     .global display_init_helper
-    .type display_init_helper, @function
 display_init_helper:
     .byte 0x4F, 0x22
     .byte 0xB5, 0xD7

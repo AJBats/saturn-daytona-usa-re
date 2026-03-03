@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060321C0
-
-
+	.text
     .global disp_init_setup
-    .type disp_init_setup, @function
 disp_init_setup:
     mov.l r14, @-r15
     mov.l r13, @-r15

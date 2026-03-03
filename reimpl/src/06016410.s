@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06016410
-
-
+	.text
     .global results_bonus_calc
-    .type results_bonus_calc, @function
 results_bonus_calc:
     mov.l r14, @-r15
     mov.l   .L_pool_0601645C, r0

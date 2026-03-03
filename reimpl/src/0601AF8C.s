@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601AF8C
-
-
+	.text
     .global replay_init_stub
-    .type replay_init_stub, @function
 replay_init_stub:
     sts.l pr, @-r15
     .byte   0xB0, 0xA3    /* bsr 0x0601B0D8 (external) */

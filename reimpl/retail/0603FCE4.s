@@ -1,6 +1,5 @@
-    .section .text.FUN_0603FCE4
+	.text
     .global hud_palette_select
-    .type hud_palette_select, @function
 hud_palette_select:
     .byte 0x2F, 0xE6
     .byte 0xE2, 0x01

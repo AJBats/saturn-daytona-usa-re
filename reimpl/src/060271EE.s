@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060271EE
-
-
+	.text
     .global mat_rot_yz_b
-    .type mat_rot_yz_b, @function
 mat_rot_yz_b:
     sts.l pr, @-r15
     .byte   0xD6, 0x50    /* mov.l .L_pool_06027334, r6 */

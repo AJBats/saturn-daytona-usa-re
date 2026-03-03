@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06020B58
-
-
+	.text
     .global obj_collision_box
-    .type obj_collision_box, @function
 obj_collision_box:
     mov.l r14, @-r15
     mov.l r13, @-r15

@@ -1,6 +1,5 @@
-    .section .text.FUN_06014468
+	.text
     .global track_normal_calc
-    .type track_normal_calc, @function
 track_normal_calc:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

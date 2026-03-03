@@ -1,6 +1,5 @@
-    .section .text.FUN_06013E3C
+	.text
     .global obj_render_loop_3d
-    .type obj_render_loop_3d, @function
 obj_render_loop_3d:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

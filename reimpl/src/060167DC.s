@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060167DC
-
-
+	.text
     .global results_input_handler
-    .type results_input_handler, @function
 results_input_handler:
     sts.l pr, @-r15
     shll2 r3

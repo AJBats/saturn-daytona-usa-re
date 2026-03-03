@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600893C
-
-
+	.text
     .global attract_init_body
-    .type attract_init_body, @function
 attract_init_body:
     sts.l pr, @-r15
     mov #0x0, r14

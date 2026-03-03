@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06012C3C
-
-
+	.text
     .global cd_dma_setup
-    .type cd_dma_setup, @function
 cd_dma_setup:
     mov.l r14, @-r15
     mov.l r13, @-r15

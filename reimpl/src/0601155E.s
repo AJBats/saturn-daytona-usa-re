@@ -1,10 +1,5 @@
-
-    .section .text.FUN_0601155E
-
-
+	.text
     .global sprite_batch_renderer
-    .type sprite_batch_renderer, @function
-
 sprite_batch_renderer:
     mov.l r14, @-r15
     mov.l r13, @-r15

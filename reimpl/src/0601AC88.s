@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601AC88
-
-
+	.text
     .global replay_cam_main_loop
-    .type replay_cam_main_loop, @function
 replay_cam_main_loop:
     sts.l pr, @-r15
     mov.l   .L_0601ACF4, r13

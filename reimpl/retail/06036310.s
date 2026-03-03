@@ -1,6 +1,5 @@
-    .section .text.FUN_06036310
+	.text
     .global course_data_read
-    .type course_data_read, @function
 course_data_read:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF0

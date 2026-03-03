@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06036A98
-
-
+	.text
     .global track_shadow_ground
-    .type track_shadow_ground, @function
 track_shadow_ground:
     mov.l r14, @-r15
     mov r4, r14

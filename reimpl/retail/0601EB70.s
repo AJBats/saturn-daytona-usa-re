@@ -1,6 +1,5 @@
-    .section .text.FUN_0601EB70
+	.text
     .global geom_normal_compute
-    .type geom_normal_compute, @function
 geom_normal_compute:
     .byte 0x2F, 0xE6
     .byte 0xEE, 0x10

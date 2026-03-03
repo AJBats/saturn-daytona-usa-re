@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602CA84
-
-
+	.text
     .global vdp1_coord_setup
-    .type vdp1_coord_setup, @function
 vdp1_coord_setup:
     sts.l pr, @-r15
     mov.w   DAT_0602cb04, r1

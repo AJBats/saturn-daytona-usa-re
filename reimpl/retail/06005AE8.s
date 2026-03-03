@@ -1,6 +1,5 @@
-    .section .text.FUN_06005AE8
+	.text
     .global display_compositor
-    .type display_compositor, @function
 display_compositor:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

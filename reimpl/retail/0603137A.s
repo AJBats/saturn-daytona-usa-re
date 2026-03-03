@@ -1,6 +1,5 @@
-    .section .text.FUN_0603137A
+	.text
     .global display_element_stub
-    .type display_element_stub, @function
 display_element_stub:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B

@@ -1,6 +1,5 @@
-    .section .text.FUN_06016950
+	.text
     .global bcd_sprite_map
-    .type bcd_sprite_map, @function
 bcd_sprite_map:
     .byte 0x4F, 0x22
     .byte 0xDD, 0x2F

@@ -1,6 +1,5 @@
-    .section .text.FUN_06036A54
+	.text
     .global track_shadow_stub
-    .type track_shadow_stub, @function
 track_shadow_stub:
     .byte 0x2F, 0xE6
     .byte 0x6E, 0x53

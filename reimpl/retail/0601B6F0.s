@@ -1,6 +1,5 @@
-    .section .text.FUN_0601B6F0
+	.text
     .global anim_data_loader
-    .type anim_data_loader, @function
 anim_data_loader:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF4

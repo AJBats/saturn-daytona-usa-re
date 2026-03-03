@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603B634
-
-
+	.text
     .global menu_timer_clock
-    .type menu_timer_clock, @function
 menu_timer_clock:
     sts.l pr, @-r15
     mov r4, r14

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060328E2
-
-
+	.text
     .global hud_speed_decimal
-    .type hud_speed_decimal, @function
 hud_speed_decimal:
     sts.l pr, @-r15
     jsr @r0

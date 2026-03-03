@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603B21C
-
-
+	.text
     .global cmd_multi_validate
-    .type cmd_multi_validate, @function
 cmd_multi_validate:
     mov.l r14, @-r15
     mov r4, r14

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603B3FE
-
-
+	.text
     .global menu_header_render
-    .type menu_header_render, @function
 menu_header_render:
     sts.l pr, @-r15
     add #-0x4, r15

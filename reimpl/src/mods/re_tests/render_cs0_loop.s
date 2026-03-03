@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600B6A0
-
-
+	.text
     .global render_cs0_loop
-    .type render_cs0_loop, @function
 render_cs0_loop:
     mov.l r14, @-r15
     mov.l r13, @-r15

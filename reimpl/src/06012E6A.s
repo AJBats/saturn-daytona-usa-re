@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06012E6A
-
-
+	.text
     .global sound_scsp_boot
-    .type sound_scsp_boot, @function
 sound_scsp_boot:
     sts.l pr, @-r15
     .byte   0xD5, 0x0B    /* mov.l .L_pool_06012E9C, r5 */

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600E060
-
-
+	.text
     .global race_update_ending
-    .type race_update_ending, @function
 race_update_ending:
     mov.l r14, @-r15
     mov.l r13, @-r15

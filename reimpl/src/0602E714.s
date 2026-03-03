@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602E714
-
-
+	.text
     .global vdp2_light_dir_stub
-    .type vdp2_light_dir_stub, @function
 vdp2_light_dir_stub:
     sts.l pr, @-r15
     jsr @r13

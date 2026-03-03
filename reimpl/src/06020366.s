@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06020366
-
-
+	.text
     .global obj_create
-    .type obj_create, @function
 obj_create:
     mov.l r14, @-r15
     mov.l r13, @-r15

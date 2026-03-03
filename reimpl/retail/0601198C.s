@@ -1,6 +1,5 @@
-    .section .text.FUN_0601198C
+	.text
     .global split_screen_layout
-    .type split_screen_layout, @function
 split_screen_layout:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC

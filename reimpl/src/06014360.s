@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06014360
-
-
+	.text
     .global multi_obj_physics
-    .type multi_obj_physics, @function
 multi_obj_physics:
     mov.l r14, @-r15
     mov.l r13, @-r15

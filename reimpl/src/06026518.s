@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06026518
-
-
+	.text
     .global mat_multiply_basic
-    .type mat_multiply_basic, @function
 mat_multiply_basic:
     sts.l pr, @-r15
     extu.w r4, r0

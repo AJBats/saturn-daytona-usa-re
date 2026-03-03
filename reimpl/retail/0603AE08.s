@@ -1,6 +1,5 @@
-    .section .text.FUN_0603AE08
+	.text
     .global cmd_status_check
-    .type cmd_status_check, @function
 cmd_status_check:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

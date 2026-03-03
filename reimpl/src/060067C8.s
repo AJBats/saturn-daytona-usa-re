@@ -5,12 +5,8 @@
  * Also calls sym_0601A5F8 + sprite_pair_render (unverified, display-related).
  * Evidence: RE_TEST #3 swapped LEFT/RIGHT masks, confirmed inverted steering.
  */
-
-    .section .text.FUN_060067C8
-
-
+	.text
     .global steering_input_dispatch
-    .type steering_input_dispatch, @function
 steering_input_dispatch:
     sts.l pr, @-r15
     mov.l   .L_pool_0600681C, r3

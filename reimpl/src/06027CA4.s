@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06027CA4
-
-
+	.text
     .global scene_3d_processor
-    .type scene_3d_processor, @function
 scene_3d_processor:
     mov.l r14, @-r15
     mov.l r13, @-r15

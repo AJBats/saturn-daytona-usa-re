@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060138BE
-
-
+	.text
     .global race_timer_format
-    .type race_timer_format, @function
 race_timer_format:
     mov.l r14, @-r15
     .byte   0xD3, 0x17    /* mov.l .L_06013920, r3 */

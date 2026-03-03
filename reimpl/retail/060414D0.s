@@ -1,6 +1,5 @@
-    .section .text.FUN_060414D0
+	.text
     .global track_segment_interp
-    .type track_segment_interp, @function
 track_segment_interp:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

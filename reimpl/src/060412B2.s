@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060412B2
-
-
+	.text
     .global evt_checkpoint_validate
-    .type evt_checkpoint_validate, @function
 evt_checkpoint_validate:
     sts.l pr, @-r15
     add #-0x4, r15

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06041128
-
-
+	.text
     .global queue_validator
-    .type queue_validator, @function
 queue_validator:
     sts.l pr, @-r15
     add #-0x4, r15

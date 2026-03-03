@@ -1,6 +1,5 @@
-    .section .text.FUN_06012B58
+	.text
     .global cd_status_reader
-    .type cd_status_reader, @function
 cd_status_reader:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

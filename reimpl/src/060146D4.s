@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060146D4
-
-
+	.text
     .global track_elev_map
-    .type track_elev_map, @function
 track_elev_map:
     sts.l pr, @-r15
     mov.l   .L_060146F8, r2

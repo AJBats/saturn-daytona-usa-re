@@ -1,6 +1,5 @@
-    .section .text.FUN_060156AC
+	.text
     .global minimap_car_dot
-    .type minimap_car_dot, @function
 minimap_car_dot:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC

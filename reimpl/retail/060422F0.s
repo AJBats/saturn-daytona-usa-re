@@ -1,6 +1,5 @@
-    .section .text.FUN_060422F0
+	.text
     .global validator_dispatch
-    .type validator_dispatch, @function
 validator_dispatch:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC

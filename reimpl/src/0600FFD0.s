@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600FFD0
-
-
+	.text
     .global hud_race_display
-    .type hud_race_display, @function
 hud_race_display:
     mov.l r14, @-r15
     mov.l r13, @-r15

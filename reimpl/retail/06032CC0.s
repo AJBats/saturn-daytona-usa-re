@@ -1,6 +1,5 @@
-    .section .text.FUN_06032CC0
+	.text
     .global hud_gear_neutral
-    .type hud_gear_neutral, @function
 hud_gear_neutral:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B

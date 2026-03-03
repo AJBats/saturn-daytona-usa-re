@@ -1,6 +1,5 @@
-    .section .text.FUN_0600E7C8
+	.text
     .global per_frame_race_update
-    .type per_frame_race_update, @function
 per_frame_race_update:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

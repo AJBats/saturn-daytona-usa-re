@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06033020
-
-
+	.text
     .global disp_mode_switch
-    .type disp_mode_switch, @function
 disp_mode_switch:
     mov.l r14, @-r15
     mov.l r13, @-r15

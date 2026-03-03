@@ -1,6 +1,5 @@
-    .section .text.FUN_0600955E
+	.text
     .global state_results_screen
-    .type state_results_screen, @function
 state_results_screen:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

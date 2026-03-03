@@ -1,6 +1,5 @@
-    .section .text.FUN_0600E0C0
+	.text
     .global car_update_racing
-    .type car_update_racing, @function
 car_update_racing:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

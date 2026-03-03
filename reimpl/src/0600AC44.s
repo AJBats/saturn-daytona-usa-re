@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600AC44
-
-
+	.text
     .global render_obj_absolute
-    .type render_obj_absolute, @function
 render_obj_absolute:
     mov.l r14, @-r15
     mov.l r13, @-r15

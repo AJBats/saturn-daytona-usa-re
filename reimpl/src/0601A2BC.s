@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601A2BC
-
-
+	.text
     .global start_light_render
-    .type start_light_render, @function
 start_light_render:
     mov.l r14, @-r15
     sts.l pr, @-r15

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06021178
-
-
+	.text
     .global obj_overlay_render
-    .type obj_overlay_render, @function
 obj_overlay_render:
     mov.l r14, @-r15
     mov.l r13, @-r15

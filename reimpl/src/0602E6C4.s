@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602E6C4
-
-
+	.text
     .global palette_full_update
-    .type palette_full_update, @function
 palette_full_update:
     sts.l pr, @-r15
     jsr @r13

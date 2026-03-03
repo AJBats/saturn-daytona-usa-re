@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060088CC
-
-
+	.text
     .global state_boot_init
-    .type state_boot_init, @function
 state_boot_init:
     sts.l pr, @-r15
     mov.l   .L_pool_06008910, r3

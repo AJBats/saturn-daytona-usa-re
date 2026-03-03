@@ -1,6 +1,5 @@
-    .section .text.FUN_0600D31C
+	.text
     .global physics_calc_dispatch
-    .type physics_calc_dispatch, @function
 physics_calc_dispatch:
     .byte 0x4F, 0x22
     .byte 0xD3, 0x14
@@ -130,9 +129,8 @@ DAT_0600d406:
     .4byte sym_0607EA98
     .4byte sym_0607E9EC
     .4byte sym_060786B4
-    .section .text.FUN_0600D41C
+	.text
     .global vehicle_state_update
-    .type vehicle_state_update, @function
 vehicle_state_update:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
@@ -252,9 +250,8 @@ DAT_0600d4a6:
     .byte 0x21, 0x22
     .byte 0x00, 0x0B
     .byte 0x7F, 0x04
-    .section .text.FUN_0600D50C
+	.text
     .global render_batch
-    .type render_batch, @function
 render_batch:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

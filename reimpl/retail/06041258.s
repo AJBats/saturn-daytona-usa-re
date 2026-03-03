@@ -1,6 +1,5 @@
-    .section .text.FUN_06041258
+	.text
     .global ai_brake_handler
-    .type ai_brake_handler, @function
 ai_brake_handler:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

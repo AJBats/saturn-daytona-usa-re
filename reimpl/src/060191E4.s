@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060191E4
-
-
+	.text
     .global transition_multi_step
-    .type transition_multi_step, @function
 transition_multi_step:
     sts.l pr, @-r15
     mov.l   .L_06019224, r14

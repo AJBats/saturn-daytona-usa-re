@@ -1,6 +1,5 @@
-    .section .text.FUN_0601B7F4
+	.text
     .global disc_texture_load_ext
-    .type disc_texture_load_ext, @function
 disc_texture_load_ext:
     .byte 0x2F, 0xE6
     .byte 0xEE, 0x04

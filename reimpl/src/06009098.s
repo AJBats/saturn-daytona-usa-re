@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06009098
-
-
+	.text
     .global state_race_main
-    .type state_race_main, @function
 state_race_main:
     mov.l r14, @-r15
     mov.l r13, @-r15

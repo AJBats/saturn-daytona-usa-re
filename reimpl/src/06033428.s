@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06033428
-
-
+	.text
     .global disp_attract_elem
-    .type disp_attract_elem, @function
 disp_attract_elem:
     sts.l pr, @-r15
     .byte   0xB1, 0x69    /* bsr 0x06033700 (external) */

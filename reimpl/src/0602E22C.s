@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602E22C
-
-
+	.text
     .global vdp2_scroll_pos_a
-    .type vdp2_scroll_pos_a, @function
 vdp2_scroll_pos_a:
     sts.l pr, @-r15
     jsr @r13

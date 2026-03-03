@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06010994
-
-
+	.text
     .global hud_coord_calc
-    .type hud_coord_calc, @function
 hud_coord_calc:
     mov.l r14, @-r15
     mov.l r13, @-r15

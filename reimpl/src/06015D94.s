@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06015D94
-
-
+	.text
     .global lap_progress_bar
-    .type lap_progress_bar, @function
 lap_progress_bar:
     mov.l r14, @-r15
     mov.l r13, @-r15

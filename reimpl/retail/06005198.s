@@ -1,6 +1,5 @@
-    .section .text.FUN_06005198
+	.text
     .global controller_input_update
-    .type controller_input_update, @function
 controller_input_update:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

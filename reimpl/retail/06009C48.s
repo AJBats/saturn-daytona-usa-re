@@ -1,6 +1,5 @@
-    .section .text.FUN_06009C48
+	.text
     .global state_post_race_cleanup
-    .type state_post_race_cleanup, @function
 state_post_race_cleanup:
     .byte 0x4F, 0x22
     .byte 0xD3, 0x1B

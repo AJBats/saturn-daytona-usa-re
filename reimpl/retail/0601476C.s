@@ -1,6 +1,5 @@
-    .section .text.FUN_0601476C
+	.text
     .global perspective_proj_3d
-    .type perspective_proj_3d, @function
 perspective_proj_3d:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

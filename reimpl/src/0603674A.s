@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603674A
-
-
+	.text
     .global track_collision_stub
-    .type track_collision_stub, @function
 track_collision_stub:
     mov.l r14, @-r15
     mov.l r13, @-r15

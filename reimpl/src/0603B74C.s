@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603B74C
-
-
+	.text
     .global sys_boot_table_init
-    .type sys_boot_table_init, @function
 sys_boot_table_init:
     mov.l r14, @-r15
     mov.l r13, @-r15

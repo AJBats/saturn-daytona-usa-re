@@ -1,6 +1,5 @@
-    .section .text.FUN_0602B334
+	.text
     .global scene_proc_d
-    .type scene_proc_d, @function
 scene_proc_d:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

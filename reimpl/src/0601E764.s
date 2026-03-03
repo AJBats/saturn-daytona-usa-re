@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601E764
-
-
+	.text
     .global hud_render_stage
-    .type hud_render_stage, @function
 hud_render_stage:
     mov.l r14, @-r15
     mov r4, r0

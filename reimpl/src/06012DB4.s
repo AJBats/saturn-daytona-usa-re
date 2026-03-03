@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06012DB4
-
-
+	.text
     .global cd_texture_loader
-    .type cd_texture_loader, @function
 cd_texture_loader:
     mov.l r14, @-r15
     mov r4, r0

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601A1BA
-
-
+	.text
     .global start_light_ctrl
-    .type start_light_ctrl, @function
 start_light_ctrl:
     mov.l r14, @-r15
     mov.l r13, @-r15

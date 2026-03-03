@@ -1,6 +1,5 @@
-    .section .text.FUN_060196A4
+	.text
     .global course_select_input
-    .type course_select_input, @function
 course_select_input:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

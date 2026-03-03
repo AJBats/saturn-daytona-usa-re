@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060337AE
-
-
+	.text
     .global disp_course_icon
-    .type disp_course_icon, @function
 disp_course_icon:
     sts.l pr, @-r15
     .byte   0xBE, 0xB6    /* bsr 0x06033520 (external) */

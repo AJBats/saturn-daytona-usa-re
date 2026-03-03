@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06014F34
-
-
+	.text
     .global ai_position_ranking
-    .type ai_position_ranking, @function
 ai_position_ranking:
     mov.l r14, @-r15
     mov.l r13, @-r15

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06018DDC
-
-
+	.text
     .global handler_dispatch
-    .type handler_dispatch, @function
 handler_dispatch:
     sts.l pr, @-r15
     mov #0x2, r7

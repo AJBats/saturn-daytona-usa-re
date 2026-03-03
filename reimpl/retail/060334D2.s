@@ -1,6 +1,5 @@
-    .section .text.FUN_060334D2
+	.text
     .global disp_split_stub
-    .type disp_split_stub, @function
 disp_split_stub:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B

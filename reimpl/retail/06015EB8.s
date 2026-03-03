@@ -1,6 +1,5 @@
-    .section .text.FUN_06015EB8
+	.text
     .global vdp2_layer_init
-    .type vdp2_layer_init, @function
 vdp2_layer_init:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

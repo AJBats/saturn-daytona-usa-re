@@ -1,6 +1,5 @@
-    .section .text.FUN_06035D5A
+	.text
     .global smpc_peripheral_query
-    .type smpc_peripheral_query, @function
 smpc_peripheral_query:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

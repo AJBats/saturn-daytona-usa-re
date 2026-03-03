@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06033100
-
-
+	.text
     .global display_palette_load
-    .type display_palette_load, @function
 display_palette_load:
     sts.l pr, @-r15
     .byte   0xB0, 0x41    /* bsr 0x06033188 (external) */

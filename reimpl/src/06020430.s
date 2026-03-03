@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06020430
-
-
+	.text
     .global obj_init_defaults
-    .type obj_init_defaults, @function
 obj_init_defaults:
     sts.l pr, @-r15
     add #-0xC, r15

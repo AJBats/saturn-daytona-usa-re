@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601AF1E
-
-
+	.text
     .global replay_cam_auto_cut
-    .type replay_cam_auto_cut, @function
 replay_cam_auto_cut:
     mov.l r14, @-r15
     sts.l pr, @-r15

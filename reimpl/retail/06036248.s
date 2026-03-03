@@ -1,6 +1,5 @@
-    .section .text.FUN_06036248
+	.text
     .global track_bank_angle
-    .type track_bank_angle, @function
 track_bank_angle:
     .byte 0x4F, 0x22
     .byte 0x6C, 0x43

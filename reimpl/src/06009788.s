@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06009788
-
-
+	.text
     .global state_time_extend_active
-    .type state_time_extend_active, @function
 state_time_extend_active:
     mov.l r14, @-r15
     mov.l r13, @-r15

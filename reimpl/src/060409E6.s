@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060409E6
-
-
+	.text
     .global evt_checkpoint_handler
-    .type evt_checkpoint_handler, @function
 evt_checkpoint_handler:
     mov.l r14, @-r15
     mov.l r13, @-r15

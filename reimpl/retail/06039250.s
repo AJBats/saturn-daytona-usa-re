@@ -1,6 +1,5 @@
-    .section .text.FUN_06039250
+	.text
     .global vdp2_scroll_update
-    .type vdp2_scroll_update, @function
 vdp2_scroll_update:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6
@@ -102,9 +101,8 @@ DAT_060392e6:
     .byte 0x25, 0xC0
     .byte 0x00, 0x00
     .4byte sym_060635CC
-    .section .text.FUN_0603931C
+	.text
     .global polygon_param_setup
-    .type polygon_param_setup, @function
 polygon_param_setup:
     .byte 0x2F, 0xE6
     .byte 0x61, 0x4D

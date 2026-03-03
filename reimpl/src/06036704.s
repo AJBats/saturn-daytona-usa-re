@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06036704
-
-
+	.text
     .global track_dist_threshold
-    .type track_dist_threshold, @function
 track_dist_threshold:
     mov.l r14, @-r15
     mov r5, r14

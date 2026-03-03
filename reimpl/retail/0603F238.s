@@ -1,6 +1,5 @@
-    .section .text.FUN_0603F238
+	.text
     .global credits_scroll_entry
-    .type credits_scroll_entry, @function
 credits_scroll_entry:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

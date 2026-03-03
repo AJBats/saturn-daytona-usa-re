@@ -1,6 +1,5 @@
-    .section .text.FUN_060125D0
+	.text
     .global lap_display_anim
-    .type lap_display_anim, @function
 lap_display_anim:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

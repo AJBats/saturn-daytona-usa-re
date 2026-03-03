@@ -1,6 +1,5 @@
-    .section .text.FUN_0603B5D0
+	.text
     .global menu_bg_color
-    .type menu_bg_color, @function
 menu_bg_color:
     .byte 0x4F, 0x22
     .byte 0x63, 0x43

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060140C8
-
-
+	.text
     .global render_iter_loop
-    .type render_iter_loop, @function
 render_iter_loop:
     sts.l pr, @-r15
     add #-0x4, r15

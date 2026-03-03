@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06024D14
-
-
+	.text
     .global render_finalize_a
-    .type render_finalize_a, @function
 render_finalize_a:
     mov.l r14, @-r15
     mov.l r13, @-r15

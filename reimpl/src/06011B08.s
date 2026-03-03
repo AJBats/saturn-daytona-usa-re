@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06011B08
-
-
+	.text
     .global hud_damage_warning
-    .type hud_damage_warning, @function
 hud_damage_warning:
     sts.l pr, @-r15
     add #-0x18, r15

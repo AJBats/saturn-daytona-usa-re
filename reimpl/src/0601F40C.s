@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601F40C
-
-
+	.text
     .global geom_output_handler
-    .type geom_output_handler, @function
 geom_output_handler:
     mov.l r14, @-r15
     sts.l pr, @-r15

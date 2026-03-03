@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06020D50
-
-
+	.text
     .global obj_state_serialize
-    .type obj_state_serialize, @function
 obj_state_serialize:
     sts.l pr, @-r15
     add #-0x24, r15

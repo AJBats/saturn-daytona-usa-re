@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06015754
-
-
+	.text
     .global minimap_full_update
-    .type minimap_full_update, @function
 minimap_full_update:
     sts.l pr, @-r15
     mov r4, r3

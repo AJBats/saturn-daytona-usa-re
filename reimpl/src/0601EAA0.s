@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601EAA0
-
-
+	.text
     .global geom_coord_calc
-    .type geom_coord_calc, @function
 geom_coord_calc:
     mov.l r14, @-r15
     mov.l r13, @-r15

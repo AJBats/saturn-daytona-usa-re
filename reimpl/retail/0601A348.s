@@ -1,6 +1,5 @@
-    .section .text.FUN_0601A348
+	.text
     .global green_light_anim
-    .type green_light_anim, @function
 green_light_anim:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xFC

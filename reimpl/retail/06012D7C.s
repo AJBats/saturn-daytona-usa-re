@@ -1,6 +1,5 @@
-    .section .text.FUN_06012D7C
+	.text
     .global cd_course_loader
-    .type cd_course_loader, @function
 cd_course_loader:
     .byte 0x2F, 0xE6
     .byte 0x60, 0x43

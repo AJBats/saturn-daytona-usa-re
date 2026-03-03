@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601B024
-
-
+	.text
     .global disc_sector_read
-    .type disc_sector_read, @function
 disc_sector_read:
     sts.l pr, @-r15
     mov #0x30, r14

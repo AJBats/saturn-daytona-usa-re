@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06041382
-
-
+	.text
     .global error_trap_handler
-    .type error_trap_handler, @function
 error_trap_handler:
     mov.l r14, @-r15
     sts.l pr, @-r15

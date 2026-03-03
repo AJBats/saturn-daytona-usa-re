@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06036E90
-
-
+	.text
     .global tilemap_dma_update
-    .type tilemap_dma_update, @function
 tilemap_dma_update:
     mov.l r14, @-r15
     mov.l r13, @-r15

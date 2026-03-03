@@ -1,6 +1,5 @@
-    .section .text.FUN_0604077C
+	.text
     .global obj_setup_decomp
-    .type obj_setup_decomp, @function
 obj_setup_decomp:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

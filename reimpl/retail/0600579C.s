@@ -1,6 +1,5 @@
-    .section .text.FUN_0600579C
+	.text
     .global vdp_mode_setup
-    .type vdp_mode_setup, @function
 vdp_mode_setup:
     .byte 0x4F, 0x22
     .byte 0x66, 0xE3

@@ -1,6 +1,5 @@
-    .section .text.FUN_060038D4
+	.text
     .global dma_vram_init
-    .type dma_vram_init, @function
 dma_vram_init:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

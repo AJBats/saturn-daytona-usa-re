@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060405B8
-
-
+	.text
     .global evt_validate_multi
-    .type evt_validate_multi, @function
 evt_validate_multi:
     sts.l pr, @-r15
     add #-0x14, r15

@@ -1,6 +1,5 @@
-    .section .text.FUN_0601A770
+	.text
     .global preview_camera_pos
-    .type preview_camera_pos, @function
 preview_camera_pos:
     .byte 0x4F, 0x22
     .byte 0xD0, 0x1C

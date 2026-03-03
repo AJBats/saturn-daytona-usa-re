@@ -1,6 +1,5 @@
-    .section .text.FUN_0601FD9C
+	.text
     .global vram_alloc_mgr
-    .type vram_alloc_mgr, @function
 vram_alloc_mgr:
     .byte 0x4F, 0x22
     .byte 0xD4, 0x18

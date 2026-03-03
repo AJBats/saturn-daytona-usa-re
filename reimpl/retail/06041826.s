@@ -1,6 +1,5 @@
-    .section .text.FUN_06041826
+	.text
     .global evt_callback_handler
-    .type evt_callback_handler, @function
 evt_callback_handler:
     .byte 0x2F, 0xE6
     .byte 0x6E, 0x53

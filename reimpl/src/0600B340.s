@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600B340
-
-
+	.text
     .global scene_render_coord
-    .type scene_render_coord, @function
 scene_render_coord:
     mov.l r14, @-r15
     mov.l r13, @-r15

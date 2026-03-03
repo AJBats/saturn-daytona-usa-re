@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06035E00
-
-
+	.text
     .global input_proc_init
-    .type input_proc_init, @function
 input_proc_init:
     mov.l r14, @-r15
     mov.l r13, @-r15

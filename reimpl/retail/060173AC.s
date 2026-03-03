@@ -1,6 +1,5 @@
-    .section .text.FUN_060173AC
+	.text
     .global geom_pipeline_coord
-    .type geom_pipeline_coord, @function
 geom_pipeline_coord:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

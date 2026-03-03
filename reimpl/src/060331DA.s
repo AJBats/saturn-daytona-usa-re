@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060331DA
-
-
+	.text
     .global results_digit_group
-    .type results_digit_group, @function
 results_digit_group:
     sts.l pr, @-r15
     jsr @r0

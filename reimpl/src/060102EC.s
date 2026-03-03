@@ -4,12 +4,8 @@
  * CONFIRM path: checks mask at DAT_0601038c (C=0x0200), plays sound, advances dispatch to 2.
  * Evidence: RE_TEST #2 swapped B/C masks, confirmed working in-game.
  */
-
-    .section .text.FUN_060102EC
-
-
+	.text
     .global circuit_confirm_handler
-    .type circuit_confirm_handler, @function
 circuit_confirm_handler:
     mov.l r14, @-r15
     sts.l pr, @-r15

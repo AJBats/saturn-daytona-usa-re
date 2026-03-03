@@ -1,6 +1,5 @@
-    .section .text.FUN_06017784
+	.text
     .global geom_computation
-    .type geom_computation, @function
 geom_computation:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

@@ -1,6 +1,5 @@
-    .section .text.FUN_0602DDCA
+	.text
     .global vdp1_polyline
-    .type vdp1_polyline, @function
 vdp1_polyline:
     .byte 0x4F, 0x22
     .byte 0x4C, 0x0B

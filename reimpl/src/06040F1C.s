@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06040F1C
-
-
+	.text
     .global event_queue_overflow
-    .type event_queue_overflow, @function
 event_queue_overflow:
     sts.l pr, @-r15
     mov.l   .L_pool_06040F3C, r13

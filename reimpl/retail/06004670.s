@@ -1,6 +1,5 @@
-    .section .text.FUN_06004670
+	.text
     .global obj_template_init
-    .type obj_template_init, @function
 obj_template_init:
     .byte 0x2F, 0xE6
     .byte 0xEE, 0x00

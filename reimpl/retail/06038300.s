@@ -1,6 +1,5 @@
-    .section .text.FUN_06038300
+	.text
     .global display_hw_init
-    .type display_hw_init, @function
 display_hw_init:
     .byte 0x4F, 0x22
     .byte 0xD3, 0x11

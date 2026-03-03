@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600F8BE
-
-
+	.text
     .global transition_handler_b
-    .type transition_handler_b, @function
 transition_handler_b:
     sts.l pr, @-r15
     .byte   0xD4, 0x07    /* mov.l .L_pool_0600F8E2, r4 */

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06040668
-
-
+	.text
     .global sys_timer_init
-    .type sys_timer_init, @function
 sys_timer_init:
     sts.l pr, @-r15
     .byte   0xBF, 0xA5    /* bsr 0x060405B8 (external) */

@@ -1,6 +1,5 @@
-    .section .text.FUN_06009E60
+	.text
     .global state_attract_return
-    .type state_attract_return, @function
 state_attract_return:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

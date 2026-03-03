@@ -1,6 +1,5 @@
-    .section .text.FUN_06027EDE
+	.text
     .global scene_render_alt
-    .type scene_render_alt, @function
 scene_render_alt:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

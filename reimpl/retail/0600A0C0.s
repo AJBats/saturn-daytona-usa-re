@@ -1,6 +1,5 @@
-    .section .text.FUN_0600A0C0
+	.text
     .global race_resource_init
-    .type race_resource_init, @function
 race_resource_init:
     .byte 0x2F, 0xE6
     .byte 0x4F, 0x22

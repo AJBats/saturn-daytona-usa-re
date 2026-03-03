@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06004A98
-
-
+	.text
     .global engine_init_global
-    .type engine_init_global, @function
 engine_init_global:
     mov.l r14, @-r15
     mov #0x0, r14

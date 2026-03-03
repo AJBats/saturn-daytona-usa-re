@@ -1,6 +1,5 @@
-    .section .text.FUN_0603BC86
+	.text
     .global save_serialize
-    .type save_serialize, @function
 save_serialize:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

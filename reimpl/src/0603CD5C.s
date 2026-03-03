@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603CD5C
-
-
+	.text
     .global hud_display_large
-    .type hud_display_large, @function
 hud_display_large:
     mov.l r14, @-r15
     mov #0x1, r6

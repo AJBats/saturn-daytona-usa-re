@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060034D4
-
-
+	.text
     .global vdp2_course1_init
-    .type vdp2_course1_init, @function
 vdp2_course1_init:
     mov.l r14, @-r15
     sts.l pr, @-r15

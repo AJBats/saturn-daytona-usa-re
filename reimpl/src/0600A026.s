@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600A026
-
-
+	.text
     .global audio_display_init
-    .type audio_display_init, @function
 audio_display_init:
     mov.l r14, @-r15
     sts.l pr, @-r15

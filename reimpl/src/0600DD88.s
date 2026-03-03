@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600DD88
-
-
+	.text
     .global audio_dist_calc
-    .type audio_dist_calc, @function
 audio_dist_calc:
     sts.l pr, @-r15
     add #-0x1, r4

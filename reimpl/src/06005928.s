@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06005928
-
-
+	.text
     .global anim_frame_counter
-    .type anim_frame_counter, @function
 anim_frame_counter:
     mov.l r14, @-r15
     mov.l r13, @-r15

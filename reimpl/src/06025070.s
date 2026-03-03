@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06025070
-
-
+	.text
     .global scene_finalize_a
-    .type scene_finalize_a, @function
 scene_finalize_a:
     mov.l r14, @-r15
     mov.l r13, @-r15

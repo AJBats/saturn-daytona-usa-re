@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602745C
-
-
+	.text
     .global atan2_full
-    .type atan2_full, @function
 atan2_full:
     sts.l pr, @-r15
     cmp/pz r5

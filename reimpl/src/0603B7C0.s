@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603B7C0
-
-
+	.text
     .global sys_timer_config
-    .type sys_timer_config, @function
 sys_timer_config:
     mov.l r14, @-r15
     mov.l r13, @-r15

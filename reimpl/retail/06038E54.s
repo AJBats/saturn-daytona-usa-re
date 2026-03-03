@@ -1,6 +1,5 @@
-    .section .text.FUN_06038E54
+	.text
     .global display_param_set
-    .type display_param_set, @function
 display_param_set:
     .byte 0x2F, 0xE6
     .byte 0x63, 0x4D

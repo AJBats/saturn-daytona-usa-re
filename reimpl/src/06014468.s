@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06014468
-
-
+	.text
     .global track_normal_calc
-    .type track_normal_calc, @function
 track_normal_calc:
     mov.l r14, @-r15
     sts.l pr, @-r15

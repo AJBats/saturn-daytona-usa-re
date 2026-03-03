@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602E2E0
-
-
+	.text
     .global vdp2_coeff_load
-    .type vdp2_coeff_load, @function
 vdp2_coeff_load:
     sts.l pr, @-r15
     jsr @r12

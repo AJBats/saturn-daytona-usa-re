@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060367B4
-
-
+	.text
     .global impact_force_calc
-    .type impact_force_calc, @function
 impact_force_calc:
     sts.l pr, @-r15
     add #-0x8, r15

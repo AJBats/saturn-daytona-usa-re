@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06016950
-
-
+	.text
     .global bcd_sprite_map
-    .type bcd_sprite_map, @function
 bcd_sprite_map:
     sts.l pr, @-r15
     mov.l   .L_pool_06016A10, r13

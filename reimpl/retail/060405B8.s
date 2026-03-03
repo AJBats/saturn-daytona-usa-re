@@ -1,6 +1,5 @@
-    .section .text.FUN_060405B8
+	.text
     .global evt_validate_multi
-    .type evt_validate_multi, @function
 evt_validate_multi:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xEC

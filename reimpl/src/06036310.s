@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06036310
-
-
+	.text
     .global course_data_read
-    .type course_data_read, @function
 course_data_read:
     sts.l pr, @-r15
     add #-0x10, r15

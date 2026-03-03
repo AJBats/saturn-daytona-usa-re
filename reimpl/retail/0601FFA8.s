@@ -1,6 +1,5 @@
-    .section .text.FUN_0601FFA8
+	.text
     .global vram_ptr_get
-    .type vram_ptr_get, @function
 vram_ptr_get:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

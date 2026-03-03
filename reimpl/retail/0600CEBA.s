@@ -1,6 +1,5 @@
-    .section .text.FUN_0600CEBA
+	.text
     .global FUN_0600CEBA
-    .type FUN_0600CEBA, @function
 FUN_0600CEBA:
     .byte 0x4F, 0x22
     .byte 0xD4, 0x22

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0603B9A4
-
-
+	.text
     .global save_data_validate
-    .type save_data_validate, @function
 save_data_validate:
     sts.l pr, @-r15
     add #-0x4, r15

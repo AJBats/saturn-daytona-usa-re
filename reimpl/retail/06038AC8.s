@@ -1,6 +1,5 @@
-    .section .text.FUN_06038AC8
+	.text
     .global display_mode_config
-    .type display_mode_config, @function
 display_mode_config:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

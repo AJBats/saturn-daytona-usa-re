@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602DDF8
-
-
+	.text
     .global vdp1_poly3
-    .type vdp1_poly3, @function
 vdp1_poly3:
     sts.l pr, @-r15
     jsr @r12

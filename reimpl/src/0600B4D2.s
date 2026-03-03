@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0600B4D2
-
-
+	.text
     .global camera_lerp
-    .type camera_lerp, @function
 camera_lerp:
     mov.l r14, @-r15
     mov.l r13, @-r15

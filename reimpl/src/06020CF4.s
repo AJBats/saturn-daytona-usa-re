@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06020CF4
-
-
+	.text
     .global obj_data_compact
-    .type obj_data_compact, @function
 obj_data_compact:
     mov.l r14, @-r15
     sts.l pr, @-r15

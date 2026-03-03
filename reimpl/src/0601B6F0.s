@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0601B6F0
-
-
+	.text
     .global anim_data_loader
-    .type anim_data_loader, @function
 anim_data_loader:
     sts.l pr, @-r15
     add #-0xC, r15

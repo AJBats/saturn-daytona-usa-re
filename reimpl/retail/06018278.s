@@ -1,6 +1,5 @@
-    .section .text.FUN_06018278
+	.text
     .global track_calc_helper
-    .type track_calc_helper, @function
 track_calc_helper:
     .byte 0x4F, 0x22
     .byte 0xD5, 0x21

@@ -1,6 +1,5 @@
-    .section .text.FUN_06032C76
+	.text
     .global gear_indicator_render
-    .type gear_indicator_render, @function
 gear_indicator_render:
     .byte 0x4F, 0x22
     .byte 0x40, 0x0B

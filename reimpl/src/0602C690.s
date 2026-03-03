@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602C690
-
-
+	.text
     .global vdp1_display_list_setup
-    .type vdp1_display_list_setup, @function
 vdp1_display_list_setup:
     sts.l pr, @-r15
     mov.w   .L_0602C71A, r1

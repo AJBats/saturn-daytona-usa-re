@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060170FC
-
-
+	.text
     .global poly_table_read
-    .type poly_table_read, @function
 poly_table_read:
     sts.l pr, @-r15
     mov #0x0, r6

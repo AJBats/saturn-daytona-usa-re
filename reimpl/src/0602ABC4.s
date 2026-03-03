@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602ABC4
-
-
+	.text
     .global scene_proc_b
-    .type scene_proc_b, @function
 scene_proc_b:
     mov.l r14, @-r15
     sts.l pr, @-r15

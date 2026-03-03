@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06010F04
-
-
+	.text
     .global race_position_track
-    .type race_position_track, @function
 race_position_track:
     mov.l r14, @-r15
     mov.l r13, @-r15

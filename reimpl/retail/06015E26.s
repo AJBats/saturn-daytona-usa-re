@@ -1,6 +1,5 @@
-    .section .text.FUN_06015E26
+	.text
     .global speed_unit_display
-    .type speed_unit_display, @function
 speed_unit_display:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

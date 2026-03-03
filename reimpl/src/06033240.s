@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06033240
-
-
+	.text
     .global results_full_render
-    .type results_full_render, @function
 results_full_render:
     sts.l pr, @-r15
     bsr     .L_06033278

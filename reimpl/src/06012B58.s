@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06012B58
-
-
+	.text
     .global cd_status_reader
-    .type cd_status_reader, @function
 cd_status_reader:
     mov.l r14, @-r15
     mov.l r13, @-r15

@@ -1,6 +1,5 @@
-    .section .text.FUN_060423A0
+	.text
     .global bulk_struct_init
-    .type bulk_struct_init, @function
 bulk_struct_init:
     .byte 0x4F, 0x22
     .byte 0x7F, 0xF4

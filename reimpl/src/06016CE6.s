@@ -1,9 +1,5 @@
-
-    .section .text.FUN_06016CE6
-
-
+	.text
     .global text_scroll_marquee
-    .type text_scroll_marquee, @function
 text_scroll_marquee:
     sts.l pr, @-r15
     extu.b r4, r1

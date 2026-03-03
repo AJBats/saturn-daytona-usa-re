@@ -1,9 +1,5 @@
-
-    .section .text.FUN_060322B6
-
-
+	.text
     .global display_dispatch_pop
-    .type display_dispatch_pop, @function
 display_dispatch_pop:
     sts.l pr, @-r15
     bsr     .L_060322E8

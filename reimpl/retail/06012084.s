@@ -1,6 +1,5 @@
-    .section .text.FUN_06012084
+	.text
     .global file_size_get
-    .type file_size_get, @function
 file_size_get:
     .byte 0x4F, 0x22
     .byte 0xDE, 0x0F

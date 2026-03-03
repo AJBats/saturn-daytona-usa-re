@@ -1,6 +1,5 @@
-    .section .text.FUN_06036E90
+	.text
     .global tilemap_dma_update
-    .type tilemap_dma_update, @function
 tilemap_dma_update:
     .byte 0x2F, 0xE6
     .byte 0x2F, 0xD6

@@ -1,9 +1,5 @@
-
-    .section .text.FUN_0602304C
-
-
+	.text
     .global render_batch_proc
-    .type render_batch_proc, @function
 render_batch_proc:
     mov.l r14, @-r15
     mov.l r13, @-r15
