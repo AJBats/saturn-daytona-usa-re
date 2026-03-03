@@ -158,7 +158,7 @@ race_position_track:
 .L_0601102C:
     .4byte  sym_06078878
 .L_06011030:
-    .4byte  mat_rot_xy_b
+    .4byte  mat_rot_xz_b    /* RE_TEST 4H: X-axis tumble (was mat_rot_xy_b = Y turntable) */
 .L_06011034:
     .4byte  sym_0606212C
 .L_06011038:

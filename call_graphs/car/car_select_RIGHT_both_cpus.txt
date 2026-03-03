@@ -1,0 +1,842 @@
+CALL GRAPH: car select RIGHT press (frame 70, both CPUs)
+Primary SH-2: 186 edges, Secondary SH-2: 23 edges
+
+=== PRIMARY SH-2 ===
+
+DAT_060101b2+0x6e
+    `-- rigid_body_transform
+
+hud_damage_warning+0xc8
+    `-- fpmul
+
+display_mode_config+0xa
+    `-- hud_display_ext
+
+vdp_mode_select+0xc6
+    `-- sym_06026DBC
+
+hud_damage_warning+0x3a
+    `-- fpmul
+
+hud_damage_warning+0x4a
+    `-- fpmul
+
+transition_large_results+0x16
+    `-- graphics_mode_setup
+
+0x060118C2
+    `-- swap_sign_ext
+
+vdp_mode_select+0xe8
+    `-- sym_06031A28
+
+framebuf_swap_ctrl+0x48
+    `-- 0x060007C0
+
+controller_input_update+0xe
+    `-- smpc_data_manage
+
+DAT_060113b4+0x44
+    `-- sym_06028400
+
+transition_large_results+0x1c
+    `-- sym_06011EB4
+
+hud_main_draw+0x118
+    `-- swap_sign_ext
+
+hud_damage_warning+0x98
+    `-- swap_sign_ext
+
+vdp_mode_select+0xe0
+    `-- sym_06031D8C
+
+post_sprite_cleanup+0x6c
+    `-- sym_060280C4
+
+hud_main_draw+0x1fc
+    `-- swap_sign_ext
+
+hud_main_draw+0xfe
+    `-- fpmul
+
+hud_main_draw+0x1a6
+    `-- fpmul
+
+vdp_mode_select+0x52
+    `-- sym_06031D8C
+
+vdp_mode_select+0xaa
+    `-- sym_06026E2E
+
+transition_large_results+0x176
+    `-- brake_state_toggle
+
+transition_large_results+0x160
+    `-- anim_ui_transition
+
+split_screen_layout+0x9c
+    `-- swap_sign_ext
+
+hud_main_draw+0x94
+    `-- swap_sign_ext
+
+hud_main_draw+0xbc
+    `-- fpmul
+
+0x06011904
+    `-- swap_sign_ext
+
+DAT_06010c4e+0xe6
+    `-- sym_0603C000
+
+hud_main_draw+0x12
+    `-- sincos_pair
+
+brake_state_toggle+0x5a
+    `-- dma_transfer
+
+frame_end_commit+0x96
+    `-- vdp1_sprite_builder
+
+hud_main_draw+0x82
+    `-- fpmul
+
+hud_damage_warning+0x1c0
+    `-- swap_sign_ext
+
+hud_damage_warning+0x132
+    `-- swap_sign_ext
+
+0x06011D10
+    `-- swap_sign_ext
+
+game_state_dispatch+0x1a2
+    `-- sym_060284AE
+
+mat_rot_y+0x6
+    `-- sincos_pair
+
+state_pre_race+0x22
+    `-- game_state_dispatch
+
+hud_main_draw+0x1f0
+    `-- fpmul
+
+hud_damage_warning+0x176
+    `-- swap_sign_ext
+
+hud_damage_warning+0x56
+    `-- swap_sign_ext
+
+hud_main_draw+0x1ae
+    `-- fpmul
+
+game_state_dispatch+0x36
+    `-- sym_06028430
+
+0x06011D4C
+    `-- swap_sign_ext
+
+game_state_dispatch+0x1c0
+    `-- sym_06026DBC
+
+FUN_06006F3C+0x154
+    `-- dma_transfer
+
+data_table_copy+0xc
+    `-- menu_anim_system
+
+vdp_mode_select+0xd6
+    `-- sym_06026E2E
+
+hud_damage_warning+0x8e
+    `-- fpmul
+
+DAT_06031b22+0x7a
+    `-- loc_06031CC4+0x56
+
+0x06011D40
+    `-- fpmul
+
+hud_damage_warning+0x12e
+    `-- fpmul
+
+DAT_060113b4+0x5c
+    `-- sym_06028400
+
+split_screen_layout+0x42
+    `-- swap_sign_ext
+
+vdp_mode_select+0x3e
+    `-- sym_06026E2E
+
+hud_damage_warning+0x42
+    `-- fpmul
+
+hud_damage_warning+0x126
+    `-- fpmul
+
+hud_damage_warning+0x160
+    `-- fpmul
+
+0x06011D38
+    `-- fpmul
+
+0x060118FE
+    `-- swap_sign_ext
+
+hud_main_draw+0x4c
+    `-- swap_sign_ext
+
+post_sprite_cleanup+0x4e
+    `-- sym_060280F8
+
+hud_damage_warning+0x4e
+    `-- swap_sign_ext
+
+screen_fade_ctrl+0xc
+    `-- sym_06028248+0xbe
+
+hud_main_draw+0x178
+    `-- swap_sign_ext
+
+game_state_dispatch+0x1ae
+    `-- sym_060284AE
+
+hud_main_draw+0x40
+    `-- fpmul
+
+vdp_mode_select+0x90
+    `-- sym_06031A28
+
+vdp_mode_select+0x6e
+    `-- sym_06026DBC
+
+split_screen_layout+0x24
+    `-- swap_sign_ext
+
+game_state_dispatch+0x2a
+    `-- sym_06034FE0
+
+vdp_mode_select+0x7e
+    `-- sym_06026E2E
+
+hud_damage_warning+0x17e
+    `-- swap_sign_ext
+
+DAT_06010c4e+0x9c
+    `-- position_ranking_display
+
+hud_damage_warning+0xdc
+    `-- swap_sign_ext
+
+DAT_06010c4e+0xd2
+    `-- vdp_mode_select
+
+DAT_060079ce+0x60
+    `-- sym_06026CE0
+
+position_ranking_display+0x7a
+    `-- sym_06028400
+
+hud_main_draw+0x1ba
+    `-- swap_sign_ext
+
+split_screen_layout+0x60
+    `-- swap_sign_ext
+
+hud_main_draw+0x52
+    `-- swap_sign_ext
+
+split_screen_layout+0x7e
+    `-- swap_sign_ext
+
+split_screen_layout+0xba
+    `-- swap_sign_ext
+
+hud_main_draw+0x7a
+    `-- fpmul
+
+frame_end_commit+0x6e
+    `-- sym_0602C494
+
+FUN_0600A392+0xe
+    `-- cdb_read_status
+
+hud_main_draw+0x1c0
+    `-- swap_sign_ext
+
+hud_damage_warning+0x1fc
+    `-- swap_sign_ext
+
+FUN_0600A392+0x2e
+    `-- cd_block_read_safe
+
+hud_main_draw+0x106
+    `-- fpmul
+
+hud_damage_warning+0xc0
+    `-- fpmul
+
+game_state_dispatch+0x1ba
+    `-- sym_060283E0
+
+hud_damage_warning+0x1a6
+    `-- fpmul
+
+hud_main_draw+0x8e
+    `-- swap_sign_ext
+
+cd_block_read_atomic+0x32
+    `-- sym_06035E5E
+
+vdp_mode_select+0xbc
+    `-- sym_06031A28
+
+0x060071EE
+    `-- sym_06033354
+
+cdb_read_status+0x6
+    `-- cd_block_read_safe
+
+cd_block_read_safe+0x28
+    `-- sym_06035F16
+
+frame_end_commit+0x5c
+    `-- memcpy_word_idx
+
+DAT_06031b22+0xa6
+    `-- loc_06031CC4+0x56
+
+0x06039E0A
+    `-- game_logic_main
+
+FUN_06006F3C+0x4e
+    `-- scene_data_dispatch
+
+frame_end_commit+0xa2
+    `-- sym_060394C2
+
+vdp_mode_select+0x68
+    `-- sym_06031A28
+
+vdp_mode_select+0x9a
+    `-- sym_06026DBC
+
+results_sub_elem+0x2
+    `-- memcpy_word_idx
+
+hud_main_draw+0x10e
+    `-- fpmul
+
+split_screen_layout+0xf6
+    `-- swap_sign_ext
+
+hud_layer_composite+0x76
+    `-- sprite_3d_render
+
+0x06011D48
+    `-- fpmul
+
+0x06039BBA
+    `-- sym_0603AB46
+
+hud_damage_warning+0x1e8
+    `-- fpmul
+
+hud_main_draw+0xc4
+    `-- fpmul
+
+hud_main_draw+0x1b6
+    `-- fpmul
+
+smpc_data_manage+0xee
+    `-- 0x0603A6C4
+
+hud_main_draw+0x8a
+    `-- fpmul
+
+hud_damage_warning+0x1f0
+    `-- fpmul
+
+hud_damage_warning+0x86
+    `-- fpmul
+
+hud_main_draw+0x17e
+    `-- swap_sign_ext
+
+cd_block_read_atomic+0x2e
+    `-- sym_06035E5E
+
+hud_damage_warning+0x1b6
+    `-- fpmul
+
+hud_damage_warning+0x1ba
+    `-- swap_sign_ext
+
+hud_damage_warning+0x1ae
+    `-- fpmul
+
+hud_main_draw+0x164
+    `-- fpmul
+
+disp_result_sub_a+0x2
+    `-- memcpy_word_idx
+
+game_state_dispatch+0x1d0
+    `-- transition_large_results
+
+0x06000924
+    |-- vblank_out_handler
+    |-- master_menu_render
+    `-- FUN_06006F3C
+
+hud_damage_warning+0x1f8
+    `-- fpmul
+
+vdp_mode_select+0x46
+    `-- mat_rot_y
+
+DAT_06031b22+0x36
+    `-- loc_06031CC4+0x56
+
+vdp_mode_select+0xb4
+    `-- sym_06031D8C
+
+hud_main_draw+0x16c
+    `-- fpmul
+
+DAT_060113b4+0x74
+    `-- sym_06028400
+
+position_ranking_display+0x92
+    `-- sym_06028400
+
+hud_main_draw+0xd0
+    `-- swap_sign_ext
+
+DAT_06031a64+0xb2
+    `-- loc_06031CC4+0x56
+
+framebuf_swap_ctrl+0x2a
+    `-- 0x060007C0
+
+hud_damage_warning+0x7e
+    `-- fpmul
+
+vdp1_sprite_builder+0x92
+    `-- sym_060280F8
+
+hud_main_draw+0xd6
+    `-- swap_sign_ext
+
+hud_damage_warning+0x92
+    `-- swap_sign_ext
+
+frame_end_commit+0x86
+    `-- dma_transfer
+
+hud_main_draw+0x174
+    `-- fpmul
+
+hud_damage_warning+0x104
+    `-- fpmul
+
+0x06011D52
+    `-- swap_sign_ext
+
+vblank_out_handler+0x14
+    `-- controller_input_update
+
+hud_damage_warning+0x12
+    `-- sincos_pair
+
+hud_layer_composite+0x82
+    `-- vertex_transform_rot
+
+hud_damage_warning+0x172
+    `-- fpmul
+
+frame_end_commit+0x4a
+    `-- memcpy_long_idx
+
+position_ranking_display+0x60
+    `-- sym_06028400
+
+0x06039C26
+    `-- 0x06039FEC
+
+brake_state_toggle+0x78
+    `-- dma_transfer
+
+sym_06003000+0xc
+    `-- FUN_0600A392
+
+split_screen_layout+0xd8
+    `-- swap_sign_ext
+
+frame_end_commit+0xb6
+    `-- dma_transfer
+
+vdp_mode_select+0x88
+    `-- sym_06031D8C
+
+cd_block_read_safe+0xa
+    `-- cd_block_read_atomic
+
+0x060118EA
+    `-- fpmul
+
+hud_race_display+0x20
+    `-- sprite_anim_render
+
+hud_main_draw+0x38
+    `-- fpmul
+
+FUN_06006F3C+0x168
+    `-- dma_transfer
+
+hud_damage_warning+0x16a
+    `-- fpmul
+
+0x06039E86
+    `-- 0x06039FEC
+
+DAT_06010c4e+0xa6
+    `-- sym_060270D0
+
+hud_damage_warning+0xd0
+    `-- fpmul
+
+hud_main_draw+0x1e8
+    `-- fpmul
+
+game_state_dispatch+0x1d4
+    `-- hud_race_display
+
+sym_06003000+0x58
+    `-- state_pre_race
+
+0x06039D8E
+    `-- data_table_copy
+
+hud_main_draw+0x1f8
+    `-- fpmul
+
+vdp1_sprite_builder+0xc6
+    `-- post_sprite_cleanup
+
+0x060118F2
+    `-- fpmul
+
+hud_main_draw+0x48
+    `-- fpmul
+
+DAT_060100f8+0x30
+    `-- dma_transfer
+
+0x060118FA
+    `-- fpmul
+
+hud_race_display+0x6a
+    `-- sym_060284AE
+
+hud_damage_warning+0xd4
+    `-- swap_sign_ext
+
+hud_damage_warning+0x138
+    `-- swap_sign_ext
+
+hud_main_draw+0xcc
+    `-- fpmul
+
+hud_main_draw+0x112
+    `-- swap_sign_ext
+
+vdp_mode_select+0x34
+    `-- sym_06026E0C
+
+EDGES:
+  0x06000924 -> vblank_out_handler
+  vblank_out_handler+0x14 -> controller_input_update
+  controller_input_update+0xe -> smpc_data_manage
+  smpc_data_manage+0xee -> 0x0603A6C4
+  sym_06003000+0xc -> FUN_0600A392
+  FUN_0600A392+0xe -> cdb_read_status
+  cdb_read_status+0x6 -> cd_block_read_safe
+  cd_block_read_safe+0xa -> cd_block_read_atomic  (x2)
+  cd_block_read_atomic+0x2e -> sym_06035E5E  (x2)
+  cd_block_read_atomic+0x32 -> sym_06035E5E  (x2)
+  cd_block_read_safe+0x28 -> sym_06035F16  (x2)
+  FUN_0600A392+0x2e -> cd_block_read_safe
+  framebuf_swap_ctrl+0x2a -> 0x060007C0  (x163)
+  framebuf_swap_ctrl+0x48 -> 0x060007C0  (x163)
+  sym_06003000+0x58 -> state_pre_race
+  state_pre_race+0x22 -> game_state_dispatch
+  game_state_dispatch+0x2a -> sym_06034FE0
+  game_state_dispatch+0x36 -> sym_06028430
+  screen_fade_ctrl+0xc -> sym_06028248+0xbe
+  game_state_dispatch+0x1a2 -> sym_060284AE
+  game_state_dispatch+0x1ae -> sym_060284AE
+  game_state_dispatch+0x1ba -> sym_060283E0
+  game_state_dispatch+0x1c0 -> sym_06026DBC
+  game_state_dispatch+0x1d0 -> transition_large_results
+  transition_large_results+0x16 -> graphics_mode_setup
+  DAT_06010c4e+0x9c -> position_ranking_display
+  position_ranking_display+0x60 -> sym_06028400
+  position_ranking_display+0x7a -> sym_06028400
+  position_ranking_display+0x92 -> sym_06028400
+  DAT_060113b4+0x44 -> sym_06028400
+  DAT_060113b4+0x5c -> sym_06028400
+  DAT_060113b4+0x74 -> sym_06028400
+  DAT_06010c4e+0xa6 -> sym_060270D0
+  DAT_06010c4e+0xd2 -> vdp_mode_select
+  vdp_mode_select+0x34 -> sym_06026E0C
+  vdp_mode_select+0x3e -> sym_06026E2E
+  vdp_mode_select+0x46 -> mat_rot_y
+  mat_rot_y+0x6 -> sincos_pair
+  vdp_mode_select+0x52 -> sym_06031D8C
+  0x06000924 -> master_menu_render  (x2)
+  vdp_mode_select+0x68 -> sym_06031A28
+  DAT_06031a64+0xb2 -> loc_06031CC4+0x56  (x80)
+  DAT_06031b22+0x36 -> loc_06031CC4+0x56  (x80)
+  DAT_06031b22+0x7a -> loc_06031CC4+0x56  (x80)
+  DAT_06031b22+0xa6 -> loc_06031CC4+0x56  (x80)
+  vdp_mode_select+0x6e -> sym_06026DBC
+  vdp_mode_select+0x7e -> sym_06026E2E
+  vdp_mode_select+0x88 -> sym_06031D8C
+  vdp_mode_select+0x90 -> sym_06031A28
+  vdp_mode_select+0x9a -> sym_06026DBC
+  vdp_mode_select+0xaa -> sym_06026E2E
+  vdp_mode_select+0xb4 -> sym_06031D8C
+  vdp_mode_select+0xbc -> sym_06031A28
+  vdp_mode_select+0xc6 -> sym_06026DBC
+  vdp_mode_select+0xd6 -> sym_06026E2E
+  vdp_mode_select+0xe0 -> sym_06031D8C
+  vdp_mode_select+0xe8 -> sym_06031A28
+  DAT_06010c4e+0xe6 -> sym_0603C000
+  transition_large_results+0x1c -> sym_06011EB4
+  transition_large_results+0x160 -> anim_ui_transition
+  hud_layer_composite+0x76 -> sprite_3d_render
+  hud_main_draw+0x12 -> sincos_pair
+  hud_main_draw+0x38 -> fpmul
+  hud_main_draw+0x40 -> fpmul
+  hud_main_draw+0x48 -> fpmul
+  hud_main_draw+0x4c -> swap_sign_ext
+  hud_main_draw+0x52 -> swap_sign_ext
+  hud_main_draw+0x7a -> fpmul
+  hud_main_draw+0x82 -> fpmul
+  hud_main_draw+0x8a -> fpmul
+  hud_main_draw+0x8e -> swap_sign_ext
+  hud_main_draw+0x94 -> swap_sign_ext
+  hud_main_draw+0xbc -> fpmul
+  hud_main_draw+0xc4 -> fpmul
+  hud_main_draw+0xcc -> fpmul
+  hud_main_draw+0xd0 -> swap_sign_ext
+  hud_main_draw+0xd6 -> swap_sign_ext
+  hud_main_draw+0xfe -> fpmul
+  hud_main_draw+0x106 -> fpmul
+  hud_main_draw+0x10e -> fpmul
+  hud_main_draw+0x112 -> swap_sign_ext
+  hud_main_draw+0x118 -> swap_sign_ext
+  hud_main_draw+0x164 -> fpmul
+  hud_main_draw+0x16c -> fpmul
+  hud_main_draw+0x174 -> fpmul
+  hud_main_draw+0x178 -> swap_sign_ext
+  hud_main_draw+0x17e -> swap_sign_ext
+  hud_main_draw+0x1a6 -> fpmul
+  hud_main_draw+0x1ae -> fpmul
+  hud_main_draw+0x1b6 -> fpmul
+  hud_main_draw+0x1ba -> swap_sign_ext
+  hud_main_draw+0x1c0 -> swap_sign_ext
+  hud_main_draw+0x1e8 -> fpmul
+  hud_main_draw+0x1f0 -> fpmul
+  hud_main_draw+0x1f8 -> fpmul
+  hud_main_draw+0x1fc -> swap_sign_ext
+  0x060118C2 -> swap_sign_ext
+  0x060118EA -> fpmul
+  0x060118F2 -> fpmul
+  0x060118FA -> fpmul
+  0x060118FE -> swap_sign_ext
+  0x06011904 -> swap_sign_ext
+  hud_layer_composite+0x82 -> vertex_transform_rot
+  split_screen_layout+0x24 -> swap_sign_ext  (x2)
+  split_screen_layout+0x42 -> swap_sign_ext  (x2)
+  split_screen_layout+0x60 -> swap_sign_ext  (x2)
+  split_screen_layout+0x7e -> swap_sign_ext  (x2)
+  split_screen_layout+0x9c -> swap_sign_ext  (x2)
+  split_screen_layout+0xba -> swap_sign_ext  (x2)
+  split_screen_layout+0xd8 -> swap_sign_ext  (x2)
+  split_screen_layout+0xf6 -> swap_sign_ext  (x2)
+  transition_large_results+0x176 -> brake_state_toggle
+  brake_state_toggle+0x5a -> dma_transfer
+  brake_state_toggle+0x78 -> dma_transfer
+  game_state_dispatch+0x1d4 -> hud_race_display
+  hud_race_display+0x20 -> sprite_anim_render  (x3)
+  DAT_060100f8+0x30 -> dma_transfer  (x3)
+  DAT_060101b2+0x6e -> rigid_body_transform
+  hud_damage_warning+0x12 -> sincos_pair
+  hud_damage_warning+0x3a -> fpmul
+  hud_damage_warning+0x42 -> fpmul
+  hud_damage_warning+0x4a -> fpmul
+  hud_damage_warning+0x4e -> swap_sign_ext
+  hud_damage_warning+0x56 -> swap_sign_ext
+  hud_damage_warning+0x7e -> fpmul
+  hud_damage_warning+0x86 -> fpmul
+  hud_damage_warning+0x8e -> fpmul
+  hud_damage_warning+0x92 -> swap_sign_ext
+  hud_damage_warning+0x98 -> swap_sign_ext
+  hud_damage_warning+0xc0 -> fpmul
+  hud_damage_warning+0xc8 -> fpmul
+  hud_damage_warning+0xd0 -> fpmul
+  hud_damage_warning+0xd4 -> swap_sign_ext
+  hud_damage_warning+0xdc -> swap_sign_ext
+  hud_damage_warning+0x104 -> fpmul
+  hud_damage_warning+0x126 -> fpmul
+  hud_damage_warning+0x12e -> fpmul
+  hud_damage_warning+0x132 -> swap_sign_ext
+  hud_damage_warning+0x138 -> swap_sign_ext
+  hud_damage_warning+0x160 -> fpmul
+  hud_damage_warning+0x16a -> fpmul
+  hud_damage_warning+0x172 -> fpmul
+  hud_damage_warning+0x176 -> swap_sign_ext
+  hud_damage_warning+0x17e -> swap_sign_ext
+  hud_damage_warning+0x1a6 -> fpmul
+  hud_damage_warning+0x1ae -> fpmul
+  hud_damage_warning+0x1b6 -> fpmul
+  hud_damage_warning+0x1ba -> swap_sign_ext
+  hud_damage_warning+0x1c0 -> swap_sign_ext
+  hud_damage_warning+0x1e8 -> fpmul
+  hud_damage_warning+0x1f0 -> fpmul
+  hud_damage_warning+0x1f8 -> fpmul
+  hud_damage_warning+0x1fc -> swap_sign_ext
+  0x06011D10 -> swap_sign_ext
+  0x06011D38 -> fpmul
+  0x06011D40 -> fpmul
+  0x06011D48 -> fpmul
+  0x06011D4C -> swap_sign_ext
+  0x06011D52 -> swap_sign_ext
+  hud_race_display+0x6a -> sym_060284AE
+  frame_end_commit+0x4a -> memcpy_long_idx
+  frame_end_commit+0x5c -> memcpy_word_idx
+  frame_end_commit+0x6e -> sym_0602C494
+  frame_end_commit+0x86 -> dma_transfer
+  frame_end_commit+0x96 -> vdp1_sprite_builder
+  vdp1_sprite_builder+0x92 -> sym_060280F8  (x155)
+  vdp1_sprite_builder+0xc6 -> post_sprite_cleanup
+  post_sprite_cleanup+0x6c -> sym_060280C4  (x3)
+  post_sprite_cleanup+0x4e -> sym_060280F8
+  frame_end_commit+0xa2 -> sym_060394C2
+  frame_end_commit+0xb6 -> dma_transfer
+  DAT_060079ce+0x60 -> sym_06026CE0
+  0x06039BBA -> sym_0603AB46  (x2)
+  0x06039C26 -> 0x06039FEC  (x2)
+  0x06039D8E -> data_table_copy  (x2)
+  data_table_copy+0xc -> menu_anim_system  (x2)
+  0x06039E0A -> game_logic_main  (x2)
+  0x06039E86 -> 0x06039FEC
+  0x06000924 -> FUN_06006F3C
+  FUN_06006F3C+0x4e -> scene_data_dispatch
+  display_mode_config+0xa -> hud_display_ext
+  FUN_06006F3C+0x154 -> dma_transfer
+  FUN_06006F3C+0x168 -> dma_transfer
+  0x060071EE -> sym_06033354
+  disp_result_sub_a+0x2 -> memcpy_word_idx  (x6)
+  results_sub_elem+0x2 -> memcpy_word_idx
+
+=== SECONDARY SH-2 ===
+
+race_position_track+0x1a
+    `-- sym_0603C000
+
+race_position_track+0x96
+    `-- sym_06031DF4
+
+race_position_track+0x88
+    `-- sym_06032158
+
+race_position_track+0x44
+    `-- sym_060270F2
+
+race_position_track+0xe6
+    `-- sym_06032158
+
+race_position_track+0x82
+    `-- sym_060270F2
+
+race_position_track+0xb2
+    `-- sym_060270F2
+
+race_position_track+0xf4
+    `-- sym_06031DF4
+
+DAT_06031eee+0x36
+    `-- loc_06032090+0x56
+
+race_position_track+0xe0
+    `-- sym_060270F2
+
+race_position_track+0xd0
+    `-- sym_06027080
+
+slave_main_loop+0x4c
+    `-- race_position_track
+
+race_position_track+0xb8
+    `-- sym_06032158
+
+DAT_06031e30+0xb2
+    `-- loc_06032090+0x56
+
+DAT_06031eee+0x7a
+    `-- loc_06032090+0x56
+
+DAT_06031eee+0xa6
+    `-- loc_06032090+0x56
+
+race_position_track+0xa2
+    `-- sym_06027080
+
+race_position_track+0x4c
+    `-- mat_rot_xy_b
+
+race_position_track+0xc6
+    `-- sym_06031DF4
+
+mat_rot_xy_b+0x6
+    `-- sincos_pair
+
+race_position_track+0x58
+    `-- sym_06032158
+
+race_position_track+0x70
+    `-- sym_06031DF4
+
+race_position_track+0x76
+    `-- sym_06027080
+
+EDGES:
+  slave_main_loop+0x4c -> race_position_track
+  race_position_track+0x1a -> sym_0603C000
+  race_position_track+0x44 -> sym_060270F2
+  race_position_track+0x4c -> mat_rot_xy_b
+  mat_rot_xy_b+0x6 -> sincos_pair
+  race_position_track+0x58 -> sym_06032158
+  race_position_track+0x70 -> sym_06031DF4
+  DAT_06031e30+0xb2 -> loc_06032090+0x56  (x75)
+  DAT_06031eee+0x36 -> loc_06032090+0x56  (x75)
+  DAT_06031eee+0x7a -> loc_06032090+0x56  (x75)
+  DAT_06031eee+0xa6 -> loc_06032090+0x56  (x75)
+  race_position_track+0x76 -> sym_06027080
+  race_position_track+0x82 -> sym_060270F2
+  race_position_track+0x88 -> sym_06032158
+  race_position_track+0x96 -> sym_06031DF4
+  race_position_track+0xa2 -> sym_06027080
+  race_position_track+0xb2 -> sym_060270F2
+  race_position_track+0xb8 -> sym_06032158
+  race_position_track+0xc6 -> sym_06031DF4
+  race_position_track+0xd0 -> sym_06027080
+  race_position_track+0xe0 -> sym_060270F2
+  race_position_track+0xe6 -> sym_06032158
+  race_position_track+0xf4 -> sym_06031DF4

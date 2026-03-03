@@ -69,10 +69,34 @@ no upstream input remapping, no global hacks.
    - **Technique locked in**: Same playbook as Goals 1 & 2 — call-trace differential →
      Ghidra C to read candidates → find pool constants → swap → first-try success.
      Three for three.
-4. **Flip car select models upside down** — spinning car models on the car select screen
-   render inverted. Stepping stone before the full race car flip (Goal 5).
-   - Target file: `reimpl/src/mods/re_tests/graphics_mode_setup.s` (FUN_06010BC4)
+4. ~~**Flip car select models upside down**~~ DONE (2026-03-02) — both spinning car models on
+   the car select screen tumble around the X axis (head-over-tail) instead of the normal Y
+   turntable spin. Demonstrates understanding of the 3D matrix pipeline across both CPUs.
+   - Files: `reimpl/src/mods/re_tests/vdp_mode_select.s` (primary SH-2),
+     `reimpl/src/mods/re_tests/race_position_track.s` (secondary SH-2),
+     `reimpl/src/mods/re_tests/graphics_mode_setup.s` (spin setup)
    - Build: `make RE_TESTS=1 MODS=1 disc`
+   - Method: swapped rotation function pointers in pool constants (zero-cost, same as Goals 1-3):
+     - `vdp_mode_select.s` `.L_06010EB0`: `mat_rot_y` → `mat_rot_x` (primary SH-2)
+     - `race_position_track.s` `.L_06011030`: `mat_rot_xy_b` → `mat_rot_xz_b` (secondary SH-2)
+   - **Key discovery — corrected rotation function naming**:
+     - `mat_rot_y` (FUN_06026EDE) = Y-axis turntable rotation (modifies cols 0,2). This is what
+       the vanilla car select calls for the normal left/right spin.
+     - `mat_rot_x` (FUN_06026E94) = X-axis rotation (modifies cols 1,2). Causes forward/backward
+       tumble, showing car underside and top.
+     - Prior VERIFIED tags had mat_rot_x and mat_rot_y naming correct, but the _b variants
+       (secondary SH-2) follow the same axis convention.
+   - **Key discovery — screenshot methodology was broken**: ALL prior "zero pixel difference"
+     results (Tests 4C-4G) were invalid. Two bugs:
+     1. Screenshot overwrite: `os.path.exists()` found pre-existing files and reported "saved"
+        without capturing new screenshots. Both baseline and modified used the SAME stale files.
+     2. RE_TESTS navigation: With Goal 2 active, C backs out on circuit select → game returned
+        to mode select → screenshots showed wrong screen.
+     Fixed in `tools/test_car_select_screenshot.py`: pre-deletes old screenshots, `--re-tests`
+     flag uses B to confirm on circuit select.
+   - **Lesson — size-neutral modifications are the only viable approach**: Binary is exactly at
+     the 394,896-byte limit. Function pointer swaps and pool constant changes are zero-cost.
+     Adding even 4 bytes of code causes boot failure.
 
    **Pipeline (discovered via call graph + Ghidra C):**
    ```
@@ -123,13 +147,21 @@ no upstream input remapping, no global hacks.
    Each has its own rotation call and camera params. Modifying `race_position_track`
    only affects the right car.
 
-   ### Rotation function variants (discovered via static analysis)
+   ### Rotation function variants (discovered via static analysis + empirical test)
 
+   **Primary SH-2** (called by `vdp_mode_select` for left car):
+   | Function | Address | Modifies cols | Leaves col | Rotation axis |
+   |----------|---------|--------------|------------|---------------|
+   | `mat_rot_x` | FUN_06026E94 | 1,2 (Y,Z) | 0 (X) | Around X (tumble) |
+   | `mat_rot_y` | FUN_06026EDE | 0,2 (X,Z) | 1 (Y) | Around Y (turntable) |
+   | FUN_06026F2A | FUN_06026F2A | 0,1 (X,Y) | 2 (Z) | Around Z |
+
+   **Secondary SH-2** (called by `race_position_track` for right car):
    | Function | Modifies cols | Leaves col | Rotation axis |
    |----------|--------------|------------|---------------|
    | `mat_rot_xy_b` | 0,2 (X,Z) | 1 (Y) | Around Y (turntable spin) |
    | `mat_rot_yz_b` | 0,1 (X,Y) | 2 (Z) | Around Z |
-   | `mat_rot_xz_b` | 1,2 (Y,Z) | 0 (X) | Around X (flip axis!) |
+   | `mat_rot_xz_b` | 1,2 (Y,Z) | 0 (X) | Around X (tumble) |
 
    ### Experiments
 
@@ -163,12 +195,46 @@ no upstream input remapping, no global hacks.
    Result: **Black screen.** Growing the function shifted the binary layout, likely triggering
    the SCDQ boot hang or breaking section placement.
 
-   ### Key constraint
+   **Test 4H: X-axis tumble (both CPUs)** — PRIMARY: `mat_rot_y` → `mat_rot_x`, SECONDARY: `mat_rot_xy_b` → `mat_rot_xz_b`
+   Result: **Both cars tumble forward/backward around X axis.** Dramatic visual change — cars show
+   their undersides and tops during each revolution. All 3 screenshot frames different from vanilla.
+   Size-neutral (pool constant swap only). **This is the final Goal 4 configuration.** ✓
 
-   Goals 1-3 succeeded by changing pool CONSTANTS — same size, no layout shift.
-   Adding CODE either lands in overwritten memory (wrapper) or breaks binary layout (inline).
-   The actual flip requires a different strategy — either a size-neutral code change or
-   a way to hijack an existing code path.
+   **Test 4I: Static 180° upside-down** — `graphics_mode_setup.s`: spin_speed=0x8000, `add r6,r3` → `mov r6,r3`
+   Result: **Cars are statically upside-down.** Frozen at 180° X rotation. Both screenshot frames
+   identical (angle freeze works). Demonstrates precise angle control. Size-neutral (`mov` = 2 bytes
+   like `add`). Reverted in favor of 4H as primary demonstration. ✓
+
+   ### Key constraint — Binary size limit (root-caused 2026-03-02)
+
+   **The binary cannot exceed 394,896 bytes (0x60690).** The original APROG.BIN loads
+   into WRAM at 0x06003000-0x06063690. The first runtime data variable is `sym_06063690`.
+   CD sector zero-padding after the binary serves as zero-initialization for runtime
+   variables. If the binary grows past 394,896 bytes, code overwrites runtime variables
+   (sym_06063690 = motion blur, obj template init, screen fade) → black screen on boot.
+
+   **Empirical evidence (binary search):**
+   | Config | Size | vs Original | Result |
+   |--------|------|-------------|--------|
+   | MODS only | 394,880 | -16 | PASS |
+   | 4-byte NOP | 394,884 | -12 | PASS |
+   | 16-byte NOP / SHIFT=16 | 394,896 | 0 | PASS |
+   | 20-byte NOP / SHIFT=20 | 394,900 | +4 | FAIL |
+   | 24-byte NOP | 394,904 | +8 | FAIL |
+
+   **SHIFT=20 also fails** — uniform shift, no non-uniform distortion. Pure size issue.
+
+   **Guard added**: `free.ld` ASSERT catches overflow at link time.
+
+   **Size budget**: SCDQ fix (MODS=1) saves 16 bytes. Net headroom for code growth: 16 bytes.
+   Goals 1-3 used 12 bytes (local pool entries in mode_select_handler), leaving 4 bytes.
+   Goal 4 inline flip needs ~24+ bytes — exceeds budget by 8+ bytes.
+
+   **Implication**: Goals 1-3 succeeded by changing pool CONSTANTS — same size, no layout shift.
+   Goal 4 requires either:
+   1. A size-neutral approach (constant-only, like Goals 1-3)
+   2. Compressing another function to create headroom
+   3. Hijacking an existing code path (no new code)
 
 5. **Flip car graphics upside down** — all cars appear to drive on their roofs.
 

@@ -86,7 +86,7 @@ graphics_mode_setup:
 DAT_06010c4e:
     .2byte  0x0080
 .L_06010C50:
-    .2byte  0x0100  /* RE_TEST 4C: reverted */
+    .2byte  0x0100  /* RE_TEST 4H: normal spin speed, X-axis tumble via rotation swap */
     .2byte  0xFFFF
     .4byte  0xAB110BFF
     .4byte  sym_0607EAB8
@@ -245,10 +245,10 @@ DAT_06010c4e:
 .L_06010D80:
     .4byte  sym_060788A0
 .L_06010D84:
-    .4byte  0x00038000  /* RE_TEST 4D: reverted */
+    .4byte  0x00038000  /* RE_TEST 4H: camera X (vanilla value) */
 .L_06010D88:
-    .4byte  0xFFFF0000  /* RE_TEST 4A: reverted */
+    .4byte  0xFFFF0000  /* RE_TEST 4H: camera Y (vanilla value) */
 .L_06010D8C:
-    .4byte  0x0006B333  /* RE_TEST 4B: reverted */
+    .4byte  0x0006B333  /* RE_TEST 4H: camera Z (vanilla value) */
 .L_06010D90:
-    .4byte  0xFFFC8000  /* RE_TEST 4D: reverted */
+    .4byte  0xFFFC8000  /* RE_TEST 4H: camera X alt (vanilla value) */

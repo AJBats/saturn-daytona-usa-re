@@ -9,6 +9,11 @@
  * placed by SORT_BY_NAME, so recompiled functions slot in naturally.
  * DAT_/sym_ PROVIDEs: within-binary ones are FUN_-relative (shift correctly).
  * Runtime WRAM ones (>= 0x06063690) are absolute — they're not in the binary.
+ *
+ * SIZE LIMIT: The binary loads at 0x06003000. Runtime data (sym_06063690+)
+ * starts at 0x06063690, initialized to zero by CD sector padding. If code
+ * extends past 0x06063690, it overwrites runtime variables → boot failure.
+ * Maximum binary size: 394,896 bytes (0x60690). The ASSERT below catches this.
  */
 
 OUTPUT_FORMAT("elf32-sh")
@@ -33,6 +38,9 @@ SECTIONS
         *(.eh_frame)
     }
 }
+
+/* Guard: code must not overflow into runtime data at 0x06063690 */
+ASSERT(. <= 0x06063690, "LINK ERROR: Code extends past 0x06063690 into runtime data! Binary must be <= 394896 bytes.")
 /* DAT_ symbols (1341) */
 PROVIDE(DAT_060024d6 = 0x060024D6);
 PROVIDE(DAT_06002554 = 0x06002554);
