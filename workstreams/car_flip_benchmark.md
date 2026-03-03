@@ -69,7 +69,107 @@ no upstream input remapping, no global hacks.
    - **Technique locked in**: Same playbook as Goals 1 & 2 — call-trace differential →
      Ghidra C to read candidates → find pool constants → swap → first-try success.
      Three for three.
-4. *(more goals TBD as we learn)*
+4. **Flip car select models upside down** — spinning car models on the car select screen
+   render inverted. Stepping stone before the full race car flip (Goal 5).
+   - Target file: `reimpl/src/mods/re_tests/graphics_mode_setup.s` (FUN_06010BC4)
+   - Build: `make RE_TESTS=1 MODS=1 disc`
+
+   **Pipeline (discovered via call graph + Ghidra C):**
+   ```
+   PRIMARY SH-2:
+     FUN_06010BC4 (graphics_mode_setup) — sets camera params, spins angle, triggers secondary
+       → sym_06078850/54/58 = camera X/Y/Z for secondary SH-2
+       → sym_06078878 += 0x0100 each frame (spin angle, ~1.4°/frame)
+       → sym_06063574 = race_position_track (secondary SH-2 callback)
+       → FUN_06010D94 = primary SH-2 camera/matrix setup
+
+   SECONDARY SH-2:
+     race_position_track — 4 passes per frame
+       → sym_060270F2(X, Y, Z) — camera offset × rotation matrix → translation
+       → mat_rot_xy_b(angle) — apply spin rotation
+       → sym_06032158 — vertex transform setup
+       → sym_06031DF4 → FUN_060320E6 (×364/frame) — per-polygon vertex transform
+       → sym_06027080 — matrix push, next sub-object
+       → VDP1 end command 0xFFFF
+   ```
+
+   **Key pool constants in graphics_mode_setup.s (unlocked path):**
+   | Label | Value | Meaning |
+   |-------|-------|---------|
+   | `.L_06010D84` | 0x00038000 | Camera X for secondary SH-2 (+3.5) |
+   | `.L_06010D88` | 0xFFFF0000 | Camera Y (-1.0) — shared with FUN_06010D94 |
+   | `.L_06010D8C` | 0x0006B333 | Camera Z (+6.7) — shared with FUN_06010D94 |
+   | `.L_06010D90` | 0xFFFC8000 | Camera X for FUN_06010D94 (-3.5) |
+   | `.L_06010C50` | 0x0100 | Spin angle increment per frame |
+
+   **Car select state variable:** `sym_0607EADC` (car index, 0-N depending on mode).
+   Handled by FUN_060104E0: RIGHT (0x8000) increments, LEFT (0x4000) decrements.
+
+   ### Coordinate system (mapped via experiments 4A-4D)
+
+   | Axis | Direction | Value | Notes |
+   |------|-----------|-------|-------|
+   | X | Horizontal (car placement) | ±3.5 (0x00038000/0xFFFC8000) | Positive = right |
+   | Y | Vertical | -1.0 (0xFFFF0000) | Negative = normal height |
+   | Z | Depth (viewing distance) | +6.7 (0x0006B333) | Positive = away from camera |
+   | Spin | Counter-clockwise | +0x0100/frame (~1.4°/frame) | 0x10000 = 360° |
+
+   ### Dual-CPU rendering (discovered via test 4F)
+
+   The two cars on the arcade car select screen are rendered by DIFFERENT CPUs:
+   - **Left car (auto transmission)**: Primary SH-2 via `FUN_06010D94`
+   - **Right car (manual transmission)**: Secondary SH-2 via `race_position_track`
+
+   Each has its own rotation call and camera params. Modifying `race_position_track`
+   only affects the right car.
+
+   ### Rotation function variants (discovered via static analysis)
+
+   | Function | Modifies cols | Leaves col | Rotation axis |
+   |----------|--------------|------------|---------------|
+   | `mat_rot_xy_b` | 0,2 (X,Z) | 1 (Y) | Around Y (turntable spin) |
+   | `mat_rot_yz_b` | 0,1 (X,Y) | 2 (Z) | Around Z |
+   | `mat_rot_xz_b` | 1,2 (Y,Z) | 0 (X) | Around X (flip axis!) |
+
+   ### Experiments
+
+   **Test 4A: Negate camera Y** — `.L_06010D88`: 0xFFFF0000 → 0x00010000
+   Result: **Cars moved WAY higher on screen.** Y controls vertical position. ✓
+
+   **Test 4B: Negate camera Z** — `.L_06010D8C`: 0x0006B333 → 0xFFF94CCD
+   Result: **Cars disappeared.** Z is depth — negating it put models behind the camera. ✓
+
+   **Test 4C: Reverse spin** — `.L_06010C50`: 0x0100 → 0xFF00
+   Result: **Cars spin clockwise** (retail is counter-clockwise). Spin direction confirmed. ✓
+
+   **Test 4D: Swap camera X** — `.L_06010D84`: 0x00038000 ↔ `.L_06010D90`: 0xFFFC8000
+   Result: **Two cars swapped positions.** Auto (yellow) appeared under manual's spot and
+   vice versa. X controls horizontal car placement. ✓
+
+   **Test 4E: Zero camera Y** — `.L_06010D88`: 0xFFFF0000 → 0x00000000
+   Not tested (superseded by 4A result).
+
+   **Test 4F: X-axis tumble** — `race_position_track` pool: `mat_rot_xy_b` → `mat_rot_xz_b`
+   Result: **Right car (manual) tumbles forward/backward around X axis.** Left car (auto)
+   still spins normally — confirmed dual-CPU rendering. ✓
+
+   **Test 4G: Spin + flip (wrapper function)** — New `mat_rot_xy_flipped` wrapper
+   Result: **Crash.** New function placed at 0x0606368c (past original binary end) — that
+   memory is used for runtime data and gets overwritten. Identity wrapper also crashed,
+   confirming the address is the problem, not the logic.
+
+   **Test 4G v2: Inline matrix flip** — Added 24 bytes to `race_position_track` to negate
+   rows 1+2 of the transform matrix after Y-spin.
+   Result: **Black screen.** Growing the function shifted the binary layout, likely triggering
+   the SCDQ boot hang or breaking section placement.
+
+   ### Key constraint
+
+   Goals 1-3 succeeded by changing pool CONSTANTS — same size, no layout shift.
+   Adding CODE either lands in overwritten memory (wrapper) or breaks binary layout (inline).
+   The actual flip requires a different strategy — either a size-neutral code change or
+   a way to hijack an existing code path.
+
 5. **Flip car graphics upside down** — all cars appear to drive on their roofs.
 
 ## Prior Art
