@@ -67,14 +67,14 @@ framebuf_swap_ctrl:
     nop
 
 .L_0600735C:
-    .2byte  0x0083
+    .short  0x0083
 .L_0600735E:
-    .2byte  0xFE11
+    .short  0xFE11
 .L_06007360:
-    .2byte  0xFF7C
-    .2byte  0xFFFF
+    .short  0xFF7C
+    .short  0xFFFF
 
 .L_06007364:
-    .4byte  sym_06000344
+    .long  sym_06000344
 .L_06007368:
-    .4byte  sym_06059F40
+    .long  sym_06059F40

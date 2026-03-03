@@ -59,26 +59,26 @@ menu_ranking_display:
     lds.l @r15+, pr
     .byte   0xA1, 0x14    /* bra 0x0603B93C (external) */
     mov.l @r15+, r14
-    .4byte  0x7F044F26
-    .4byte  0x000B6EF6
+    .long  0x7F044F26
+    .long  0x000B6EF6
 .L_wpool_0603B71C:
-    .2byte  0x00A0
+    .short  0x00A0
 .L_wpool_0603B71E:
-    .2byte  0x00A4
+    .short  0x00A4
 .L_wpool_0603B720:
-    .2byte  0x0098
-    .2byte  0xFFFF
+    .short  0x0098
+    .short  0xFFFF
 .L_pool_0603B724:
-    .4byte  sym_060A4D14
+    .long  sym_060A4D14
 .L_pool_0603B728:
-    .4byte  sym_0603F1F0
+    .long  sym_0603F1F0
 .L_pool_0603B72C:
-    .4byte  sym_060360FC
+    .long  sym_060360FC
 .L_pool_0603B730:
-    .4byte  sym_0603F1E0
-    .4byte  0xD41DD31E
-    .4byte  0x64427404
-    .4byte  0x2432D21D
-    .4byte  0x1421D31D
-    .4byte  0x1432D21D
-    .4byte  0x000B1423
+    .long  sym_0603F1E0
+    .long  0xD41DD31E
+    .long  0x64427404
+    .long  0x2432D21D
+    .long  0x1421D31D
+    .long  0x1432D21D
+    .long  0x000B1423

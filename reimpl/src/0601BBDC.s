@@ -25,7 +25,7 @@ replay_recorder:
     extu.w r13, r3
     mov.l @(16, r15), r2
     cmp/ge r2, r3
-    bf/s    .L_0601BC14
+    bf.s    .L_0601BC14
     mov r6, r14
     bra     .L_0601BDD2
     nop
@@ -118,25 +118,25 @@ replay_recorder:
 
     .global DAT_0601bcba
 DAT_0601bcba:
-    .2byte  0x7000
+    .short  0x7000
 .L_pool_0601BCBC:
-    .4byte  sym_06028400
+    .long  sym_06028400
 .L_pool_0601BCC0:
-    .4byte  sym_060284AE
+    .long  sym_060284AE
 .L_pool_0601BCC4:
-    .4byte  sym_0605DF3E
+    .long  sym_0605DF3E
 .L_pool_0601BCC8:
-    .4byte  sym_06035228
+    .long  sym_06035228
 .L_pool_0601BCCC:
-    .4byte  sym_06063918
+    .long  sym_06063918
 .L_pool_0601BCD0:
-    .4byte  sym_06063D08
+    .long  sym_06063D08
 .L_pool_0601BCD4:
-    .4byte  sym_06063920
+    .long  sym_06063920
 .L_pool_0601BCD8:
-    .4byte  sym_0605DE64
+    .long  sym_0605DE64
 .L_pool_0601BCDC:
-    .4byte  anim_frame_transform
+    .long  anim_frame_transform
 .L_0601BCE0:
     bf      .L_0601BCE6
     mov #0x2, r2
@@ -208,11 +208,11 @@ DAT_0601bcba:
     bra     .L_0601BD88
     mov.l @(4, r15), r5
 .L_pool_0601BD68:
-    .4byte  sym_06063750
+    .long  sym_06063750
 .L_pool_0601BD6C:
-    .4byte  sym_0604A4B8
+    .long  sym_0604A4B8
 .L_pool_0601BD70:
-    .4byte  sym_06078644
+    .long  sym_06078644
 .L_0601BD74:
     mov.l @(8, r15), r7
     extu.w r14, r6
@@ -260,7 +260,7 @@ DAT_0601bcba:
     mov.l @(16, r15), r2
     extu.w r13, r3
     cmp/ge r2, r3
-    bt/s    .L_0601BDD2
+    bt.s    .L_0601BDD2
     add #0x3, r14
     bra     .L_0601BC14
     nop
@@ -275,6 +275,6 @@ DAT_0601bcba:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_0601BDE8:
-    .4byte  0x00008000
+    .long  0x00008000

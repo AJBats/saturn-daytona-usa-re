@@ -13,15 +13,15 @@ geom_vertex_compute:
     bra     .L_0601EFBC
     nop
 .L_0601EBF0:
-    .2byte  0x00F0
-    .2byte  0xFFFF
-    .4byte  sym_0604A5C0
-    .4byte  sym_060877D8
-    .4byte  sym_0605E098
-    .4byte  sym_0604A5AC
-    .4byte  sym_0605E09C
+    .short  0x00F0
+    .short  0xFFFF
+    .long  sym_0604A5C0
+    .long  sym_060877D8
+    .long  sym_0605E098
+    .long  sym_0604A5AC
+    .long  sym_0605E09C
 .L_0601EC08:
-    .4byte  sym_06087080
+    .long  sym_06087080
 .L_0601EC0C:
     .byte   0xD4, 0xB5    /* mov.l .L_0601EEE4, r4 */
     mov.l @r4, r4
@@ -76,7 +76,7 @@ geom_vertex_compute:
     add #0x1, r14
     mov.b @r4+, r2
     cmp/hs r12, r6
-    bf/s    .L_0601EC22
+    bf.s    .L_0601EC22
     mov.b r2, @r14
     add #0x8, r7
     cmp/hs r11, r7
@@ -112,7 +112,7 @@ geom_vertex_compute:
     add #0x1, r14
     mov.b @r4+, r2
     cmp/hs r7, r6
-    bf/s    .L_0601EC82
+    bf.s    .L_0601EC82
     mov.b r2, @r14
     .byte   0xD6, 0x8C    /* mov.l .L_0601EEF0, r6 */
     mov r6, r7
@@ -144,7 +144,7 @@ geom_vertex_compute:
     add #0x1, r14
     mov.b @r4+, r2
     cmp/hs r7, r6
-    bf/s    .L_0601ECC2
+    bf.s    .L_0601ECC2
     mov.b r2, @r14
     .byte   0xD6, 0x7E    /* mov.l .L_0601EEF4, r6 */
     mov r6, r7
@@ -176,7 +176,7 @@ geom_vertex_compute:
     add #0x1, r14
     mov.b @r4+, r2
     cmp/hs r7, r6
-    bf/s    .L_0601ED00
+    bf.s    .L_0601ED00
     mov.b r2, @r14
     .byte   0xD6, 0x6F    /* mov.l .L_0601EEF8, r6 */
     mov r6, r7
@@ -220,7 +220,7 @@ geom_vertex_compute:
     add #0x1, r6
     mov.b @r4+, r2
     cmp/hs r14, r7
-    bf/s    .L_0601ED40
+    bf.s    .L_0601ED40
     mov.b r2, @r6
     .byte   0xD6, 0x5B    /* mov.l .L_0601EEFC, r6 */
     mov.b @r4+, r1
@@ -394,65 +394,65 @@ geom_vertex_compute:
     bra     .L_0601EF5C
     nop
 .L_0601EEE4:
-    .4byte  sym_0605E098
+    .long  sym_0605E098
 .L_0601EEE8:
-    .4byte  sym_0605DD6C
+    .long  sym_0605DD6C
 .L_0601EEEC:
-    .4byte  sym_0605DE24
+    .long  sym_0605DE24
 .L_0601EEF0:
-    .4byte  sym_0605DDB4
+    .long  sym_0605DDB4
 .L_0601EEF4:
-    .4byte  sym_0605DDD4
+    .long  sym_0605DDD4
 .L_0601EEF8:
-    .4byte  sym_0605DE40
+    .long  sym_0605DE40
 .L_0601EEFC:
-    .4byte  sym_0605AD00
+    .long  sym_0605AD00
 .L_0601EF00:
-    .4byte  sym_0605AD04
+    .long  sym_0605AD04
 .L_0601EF04:
-    .4byte  sym_0605AD0C
+    .long  sym_0605AD0C
 .L_0601EF08:
-    .4byte  sym_0605AB16
+    .long  sym_0605AB16
 .L_0601EF0C:
-    .4byte  sym_0605AB17
+    .long  sym_0605AB17
 .L_0601EF10:
-    .4byte  sym_0605D240
+    .long  sym_0605D240
 .L_0601EF14:
-    .4byte  sym_0605D241
+    .long  sym_0605D241
 .L_0601EF18:
-    .4byte  sym_06060D44
+    .long  sym_06060D44
 .L_0601EF1C:
-    .4byte  sym_06060D46
+    .long  sym_06060D46
 .L_0601EF20:
-    .4byte  sym_06060D40
+    .long  sym_06060D40
 .L_0601EF24:
-    .4byte  sym_06060D42
+    .long  sym_06060D42
 .L_0601EF28:
-    .4byte  sym_06060D48
+    .long  sym_06060D48
 .L_0601EF2C:
-    .4byte  sym_06060D4A
+    .long  sym_06060D4A
 .L_0601EF30:
-    .4byte  sym_06060D4C
+    .long  sym_06060D4C
 .L_0601EF34:
-    .4byte  sym_06060D4E
+    .long  sym_06060D4E
 .L_0601EF38:
-    .4byte  sym_06060D54
+    .long  sym_06060D54
 .L_0601EF3C:
-    .4byte  sym_06060D58
+    .long  sym_06060D58
 .L_0601EF40:
-    .4byte  sym_06060D50
+    .long  sym_06060D50
 .L_0601EF44:
-    .4byte  sym_06060D60
+    .long  sym_06060D60
 .L_0601EF48:
-    .4byte  sym_06060D62
+    .long  sym_06060D62
 .L_0601EF4C:
-    .4byte  sym_06060D5C
+    .long  sym_06060D5C
 .L_0601EF50:
-    .4byte  sym_06060D5E
+    .long  sym_06060D5E
 .L_0601EF54:
-    .4byte  sym_06060D64
+    .long  sym_06060D64
 .L_0601EF58:
-    .4byte  sym_06060D66
+    .long  sym_06060D66
 .L_0601EF5C:
     .byte   0xD6, 0x1F    /* mov.l .L_ptr_xform_param_28, r6 */
     mov.b @r4+, r1

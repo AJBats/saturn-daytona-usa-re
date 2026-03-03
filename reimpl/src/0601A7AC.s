@@ -31,17 +31,17 @@ preview_camera_target:
     .byte   0xAF, 0xAE    /* bra 0x0601A73E (external) */
     lds.l @r15+, pr
 .L_0601A7E2:
-    .2byte  0x4000
-    .4byte  sym_06085FF6
-    .4byte  sym_06012EC4
-    .4byte  sym_06012F00
-    .4byte  sym_06085FF7
-    .4byte  race_variant_e
-    .4byte  0xAE0001FF
-    .4byte  sound_cmd_dispatch
+    .short  0x4000
+    .long  sym_06085FF6
+    .long  sym_06012EC4
+    .long  sym_06012F00
+    .long  sym_06085FF7
+    .long  race_variant_e
+    .long  0xAE0001FF
+    .long  sound_cmd_dispatch
 .L_pool_0601A800:
-    .4byte  sym_0605D241
+    .long  sym_0605D241
 .L_pool_0601A804:
-    .4byte  g_pad_state
+    .long  g_pad_state
 .L_pool_0601A808:
-    .4byte  0x00008000
+    .long  0x00008000

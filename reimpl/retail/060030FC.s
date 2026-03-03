@@ -43,15 +43,15 @@ system_init:
     .byte 0xA0, 0x11
     .byte 0x64, 0x42
     .byte 0xFF, 0xFF
-    .4byte sym_06059C58
-    .4byte sym_06059C50
+    .long sym_06059C58
+    .long sym_06059C50
     .byte 0x20, 0x10
     .byte 0x00, 0x63
-    .4byte sym_06000320
+    .long sym_06000320
     .byte 0x20, 0x10
     .byte 0x00, 0x1F
-    .4byte sym_06059C4C
-    .4byte sym_06059C54
+    .long sym_06059C4C
+    .long sym_06059C54
     .byte 0x24, 0xC2
     .byte 0x74, 0x04
     .byte 0x62, 0xA2
@@ -114,18 +114,18 @@ system_init:
     .byte 0x00, 0x83
     .byte 0xFF, 0x7C
     .byte 0xFF, 0xFF
-    .4byte sym_0603BF7C
-    .4byte sym_06034E58
-    .4byte sym_06000344
-    .4byte cd_progress_notify
-    .4byte engine_init_global
-    .4byte sound_scsp_boot
-    .4byte race_sound_handler
-    .4byte sym_06005174
-    .4byte sym_0601F936
-    .4byte channel_config_a
-    .4byte sym_060149E0
-    .4byte g_game_state
+    .long sym_0603BF7C
+    .long sym_06034E58
+    .long sym_06000344
+    .long cd_progress_notify
+    .long engine_init_global
+    .long sound_scsp_boot
+    .long race_sound_handler
+    .long sym_06005174
+    .long sym_0601F936
+    .long channel_config_a
+    .long sym_060149E0
+    .long g_game_state
 	.text
     .global sound_timer_init
 sound_timer_init:
@@ -216,8 +216,8 @@ vdp_init_dispatch:
     .byte 0x01, 0x04
     .byte 0x01, 0x06
     .byte 0x01, 0x09
-    .4byte sym_06000310
-    .4byte sym_060072E4
-    .4byte sym_06028218
-    .4byte sym_06028230
-    .4byte sym_06028248
+    .long sym_06000310
+    .long sym_060072E4
+    .long sym_06028218
+    .long sym_06028230
+    .long sym_06028248

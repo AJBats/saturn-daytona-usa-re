@@ -45,16 +45,16 @@ replay_camera_ctrl:
     .byte 0xA0, 0x26
     .byte 0x00, 0x09
     .byte 0xFF, 0xFF
-    .4byte sym_06078900
+    .long sym_06078900
     .byte 0x00, 0x00
     .byte 0x90, 0x00
-    .4byte sym_0608706C
-    .4byte sym_06028400
-    .4byte sym_06087074
-    .4byte sym_06087068
-    .4byte sym_06087070
-    .4byte sym_060786AC
-    .4byte sym_0607EBF4
+    .long sym_0608706C
+    .long sym_06028400
+    .long sym_06087074
+    .long sym_06087068
+    .long sym_06087070
+    .long sym_060786AC
+    .long sym_0607EBF4
     .byte 0x60, 0xD0
     .byte 0x60, 0x0C
     .byte 0x20, 0x08
@@ -191,19 +191,19 @@ DAT_0601dd34:
     .byte 0x07, 0xC8
     .byte 0x08, 0x42
     .byte 0x09, 0x42
-    .4byte sym_0607EABC
-    .4byte sym_0608706A
-    .4byte sym_0605DFED
-    .4byte sym_060786A0
-    .4byte sym_0605DDB4
-    .4byte sym_0607EAD8
-    .4byte sym_0605DDD4
-    .4byte sym_060350B0
-    .4byte sym_0608707C
-    .4byte sym_060639F8
-    .4byte sym_0605E008
-    .4byte sym_060639E0
-    .4byte sym_060639D8
+    .long sym_0607EABC
+    .long sym_0608706A
+    .long sym_0605DFED
+    .long sym_060786A0
+    .long sym_0605DDB4
+    .long sym_0607EAD8
+    .long sym_0605DDD4
+    .long sym_060350B0
+    .long sym_0608707C
+    .long sym_060639F8
+    .long sym_0605E008
+    .long sym_060639E0
+    .long sym_060639D8
     .byte 0x65, 0xF2
     .byte 0x65, 0x52
     .byte 0x4B, 0x0B
@@ -307,16 +307,16 @@ DAT_0601de26:
     .byte 0x07, 0xC2
     .byte 0x08, 0xC2
     .byte 0x09, 0xC2
-    .4byte sym_0605DFF4
+    .long sym_0605DFF4
     .byte 0x00, 0x09
     .byte 0x27, 0xBF
-    .4byte sym_060639F8
-    .4byte sym_0608706A
-    .4byte sym_0605ACE3
-    .4byte sym_060284AE
+    .long sym_060639F8
+    .long sym_0608706A
+    .long sym_0605ACE3
+    .long sym_060284AE
     .byte 0x00, 0x00
     .byte 0xE0, 0x00
-    .4byte sym_060283E0
+    .long sym_060283E0
 	.text
     .global camera_event_handler
 camera_event_handler:
@@ -436,22 +436,22 @@ DAT_0601df1c:
     .byte 0x03, 0xC2
     .byte 0x04, 0x44
     .byte 0xFF, 0xFF
-    .4byte sym_0607EBD0
+    .long sym_0607EBD0
     .byte 0x00, 0x09
     .byte 0x27, 0xBF
-    .4byte sym_06063750
-    .4byte sym_06028400
+    .long sym_06063750
+    .long sym_06028400
     .byte 0x00, 0x00
     .byte 0x90, 0x00
-    .4byte sym_0605DFF4
-    .4byte sym_06078900
-    .4byte sym_06086008
-    .4byte sym_0607EAD8
-    .4byte sym_0607EAE0
-    .4byte sym_0605DE24
+    .long sym_0605DFF4
+    .long sym_06078900
+    .long sym_06086008
+    .long sym_0607EAD8
+    .long sym_0607EAE0
+    .long sym_0605DE24
     .byte 0x00, 0x00
     .byte 0xA0, 0x00
-    .4byte sym_0605DFEC
+    .long sym_0605DFEC
     .byte 0xD7, 0x08
     .byte 0xD6, 0x09
     .byte 0x95, 0x0D
@@ -470,10 +470,10 @@ DAT_0601df1c:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .byte 0x04, 0x42
-    .4byte sym_0605ACE3
+    .long sym_0605ACE3
     .byte 0x00, 0x00
     .byte 0xE0, 0x00
-    .4byte sym_060283E0
+    .long sym_060283E0
 	.text
     .global camera_special_mode
 camera_special_mode:
@@ -577,15 +577,15 @@ DAT_0601e02e:
     .byte 0xA0, 0x00
     .byte 0x00, 0x09
     .byte 0x27, 0xBF
-    .4byte sym_06063750
-    .4byte sym_0607863C
-    .4byte sym_06028400
-    .4byte sym_06078900
-    .4byte sym_06086008
-    .4byte sym_0605DFF4
+    .long sym_06063750
+    .long sym_0607863C
+    .long sym_06028400
+    .long sym_06078900
+    .long sym_06086008
+    .long sym_0605DFF4
     .byte 0x00, 0x00
     .byte 0x90, 0x00
-    .4byte sym_06086004
+    .long sym_06086004
     .byte 0xB1, 0x06
     .byte 0x64, 0xD2
     .byte 0x67, 0xC3
@@ -664,12 +664,12 @@ DAT_0601e0e4:
     .byte 0x05, 0x42
     .byte 0x00, 0x00
     .byte 0x90, 0x00
-    .4byte sym_0605DFF4
-    .4byte sym_0605DFEC
-    .4byte sym_0605ACE3
+    .long sym_0605DFF4
+    .long sym_0605DFEC
+    .long sym_0605ACE3
     .byte 0x00, 0x00
     .byte 0xE0, 0x00
-    .4byte sym_060283E0
+    .long sym_060283E0
 	.text
     .global geom_matrix_setup
 geom_matrix_setup:
@@ -733,17 +733,17 @@ DAT_0601e166:
     .byte 0x06, 0xC6
     .byte 0x00, 0xF8
     .byte 0xFF, 0xFF
-    .4byte sym_06063750
-    .4byte sym_06028400
+    .long sym_06063750
+    .long sym_06028400
     .byte 0x00, 0x00
     .byte 0x80, 0x00
-    .4byte sym_0607EAE0
-    .4byte sym_0604892C
+    .long sym_0607EAE0
+    .long sym_0604892C
     .byte 0x25, 0xF0
     .byte 0x01, 0x00
-    .4byte memcpy_word_idx
-    .4byte sym_0605DFCC
-    .4byte sym_06078644
+    .long memcpy_word_idx
+    .long sym_0605DFCC
+    .long sym_06078644
     .byte 0x97, 0x52
     .byte 0x37, 0xDC
     .byte 0x2F, 0x72
@@ -860,12 +860,12 @@ DAT_0601e24e:
     .byte 0x06, 0x44
     .byte 0x00, 0x00
     .byte 0x90, 0x00
-    .4byte sym_0601AB8C
-    .4byte sym_06086008
-    .4byte sym_0605DFF4
-    .4byte sym_06086004
-    .4byte sym_06087068
-    .4byte sym_0605DFF0
+    .long sym_0601AB8C
+    .long sym_06086008
+    .long sym_0605DFF4
+    .long sym_06086004
+    .long sym_06087068
+    .long sym_0605DFF0
 	.text
     .global hud_element_pos
 hud_element_pos:
@@ -899,6 +899,6 @@ hud_element_pos:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .byte 0xFF, 0xFF
-    .4byte sym_0605DFF4
-    .4byte sym_06087064
-    .4byte anim_frame_transform
+    .long sym_0605DFF4
+    .long sym_06087064
+    .long anim_frame_transform

@@ -72,54 +72,54 @@ dma_vram_init:
     rts
     mov.l @r15+, r14
 .L_06003960:
-    .4byte  dma_transfer
+    .long  dma_transfer
 .L_06003964:
-    .4byte  sym_0604814C
+    .long  sym_0604814C
 .L_06003968:
-    .4byte  0x25F00000
+    .long  0x25F00000
 .L_0600396C:
-    .4byte  sym_0604848C
+    .long  sym_0604848C
 .L_06003970:
-    .4byte  0x25F00060
+    .long  0x25F00060
 .L_06003974:
-    .4byte  sym_060484CC
+    .long  sym_060484CC
 .L_06003978:
-    .4byte  0x25F000A0
+    .long  0x25F000A0
 .L_0600397C:
-    .4byte  sym_060485AC
+    .long  sym_060485AC
 .L_06003980:
-    .4byte  0x25F000E0
+    .long  0x25F000E0
 .L_06003984:
-    .4byte  sym_0604892C
+    .long  sym_0604892C
 .L_06003988:
-    .4byte  0x25F00100
+    .long  0x25F00100
 .L_0600398C:
-    .4byte  sym_060488EC
+    .long  sym_060488EC
 .L_06003990:
-    .4byte  0x25F00120
+    .long  0x25F00120
 .L_06003994:
-    .4byte  sym_0604890C
+    .long  sym_0604890C
 .L_06003998:
-    .4byte  0x25F00140
+    .long  0x25F00140
 .L_0600399C:
-    .4byte  sym_0605CDBC
+    .long  sym_0605CDBC
 .L_060039A0:
-    .4byte  0x25F00160
+    .long  0x25F00160
 .L_060039A4:
-    .4byte  sym_060487EC
+    .long  sym_060487EC
 .L_060039A8:
-    .4byte  0x25F001A0
+    .long  0x25F001A0
 .L_060039AC:
-    .4byte  sym_060483EC
+    .long  sym_060483EC
 .L_060039B0:
-    .4byte  0x25F001C0
+    .long  0x25F001C0
 .L_060039B4:
-    .4byte  0x25F00600
+    .long  0x25F00600
 .L_060039B8:
-    .4byte  sym_0604888C
+    .long  sym_0604888C
 .L_060039BC:
-    .4byte  0x25F00660
+    .long  0x25F00660
 .L_060039C0:
-    .4byte  0x25F007A0
+    .long  0x25F007A0
 .L_060039C4:
-    .4byte  0x25F007C0
+    .long  0x25F007C0

@@ -14,15 +14,15 @@ palette_fade_calc:
     bf      .L_0602E648
     .byte   0xA0, 0xAB    /* bra 0x0602E78C (external) */
     nop
-    .2byte  0x0000
+    .short  0x0000
 .L_pool_0602E639:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_pool_0602E63D:
-    .4byte  0x00000008
+    .long  0x00000008
 .L_pool_0602E641:
-    .4byte  0x00000238
+    .long  0x00000238
 .L_pool_0602E645:
-    .4byte  DAT_06083264
+    .long  DAT_06083264
 .L_0602E648:
     mov.l   .L_pool_0602E655, r3
     mov.l @r3, r3
@@ -31,7 +31,7 @@ palette_fade_calc:
     .byte   0xA0, 0x4A    /* bra 0x0602E6E8 (external) */
     nop
 .L_pool_0602E655:
-    .4byte  DAT_06083268
+    .long  DAT_06083268
 .L_0602E658:
     .byte   0xD0, 0x14    /* mov.l .L_pool_0602E6AC, r0 */
     mov.l @(r0, r10), r8

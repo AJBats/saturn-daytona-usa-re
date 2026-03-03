@@ -22,15 +22,15 @@ ai_master_update:
     rts
     mov r0, r4
 .L_06036BCE:
-    .2byte  0x0200
-    .4byte  0x00FFFFFF
-    .4byte  smpc_secondary_proc
+    .short  0x0200
+    .long  0x00FFFFFF
+    .long  smpc_secondary_proc
 .L_06036BD8:
-    .4byte  input_proc_analog
+    .long  input_proc_analog
 .L_06036BDC:
-    .4byte  input_proc_buttons
+    .long  input_proc_buttons
 .L_06036BE0:
-    .4byte  sym_06035C92
+    .long  sym_06035C92
 
     .global sym_06036BE4
 sym_06036BE4:
@@ -131,12 +131,12 @@ sym_06036BE4:
     mov.l r2, @r1
     rts
     mov.l @r15+, r2
-    .2byte  0x0009
+    .short  0x0009
 .L_06036CA4:
-    .4byte  sym_060A246C
+    .long  sym_060A246C
 .L_06036CA8:
-    .4byte  0x0000044E
-    .4byte  0x2F362F46
+    .long  0x0000044E
+    .long  0x2F362F46
 
     .global sym_06036CB0
 sym_06036CB0:
@@ -249,33 +249,33 @@ sym_06036D14:
     .byte   0xD3, 0x01    /* mov.l .L_06036D74, r3 */
     jmp @r3
     nop
-    .2byte  0x0009
+    .short  0x0009
 .L_06036D74:
-    .4byte  palette_regs_config
+    .long  palette_regs_config
 
     .global sym_06036D78
 sym_06036D78:
     mov #0x0, r7
     mov r7, r3
     cmp/hs r6, r3
-    bt/s    .L_06036D8E
+    bt.s    .L_06036D8E
     mov r4, r0
 .L_06036D82:
     extu.b r5, r2
     add #0x1, r7
     mov.b r2, @r0
     cmp/hs r6, r7
-    bf/s    .L_06036D82
+    bf.s    .L_06036D82
     add #0x1, r0
 .L_06036D8E:
     rts
     mov r4, r0
-    .2byte  0x0000
+    .short  0x0000
 
     .global sym_06036D94
 sym_06036D94:
     tst r6, r6
-    bf/s    .L_06036D9E
+    bf.s    .L_06036D9E
     mov r5, r7
     rts
     mov #0x0, r0

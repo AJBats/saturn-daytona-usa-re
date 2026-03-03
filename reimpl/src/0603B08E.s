@@ -18,11 +18,11 @@ menu_elem_visible:
     lds.l @r15+, pr
     rts
     mov #0x1, r0
-    .4byte  sym_060A4D14
+    .long  sym_060A4D14
 .L_0603B0B4:
     mov #0x0, r0
     add #0x8, r15
     lds.l @r15+, pr
     rts
     nop
-    .2byte  0xE01D
+    .short  0xE01D

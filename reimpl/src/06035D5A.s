@@ -22,17 +22,17 @@ smpc_peripheral_query:
     extu.w r3, r3
     and r12, r3
     cmp/eq r12, r3
-    bt/s    .L_06035D98
+    bt.s    .L_06035D98
     mov r6, r11
     bra     .L_06035DF2
     mov #-0x1, r0
 
-    .4byte  0xFF0FFFFF
-    .4byte  ai_brake_zone_main
+    .long  0xFF0FFFFF
+    .long  ai_brake_zone_main
 .L_06035D90:
-    .4byte  sym_06063590
+    .long  sym_06063590
 .L_06035D94:
-    .4byte  0x25890008
+    .long  0x25890008
 
 .L_06035D98:
     mov.w @r14, r0

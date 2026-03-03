@@ -56,38 +56,38 @@ state_time_extend_setup:
     jmp @r3
     mov.l @r15+, r14
 .L_wpool_06009748:
-    .2byte  0x0090
+    .short  0x0090
 .L_wpool_0600974A:
-    .2byte  0x051C
+    .short  0x051C
 .L_wpool_0600974C:
-    .2byte  0x061C
+    .short  0x061C
 .L_wpool_0600974E:
-    .2byte  0x049C
+    .short  0x049C
 .L_pool_06009750:
-    .4byte  g_game_state
+    .long  g_game_state
 .L_pool_06009754:
-    .4byte  sym_06078654
+    .long  sym_06078654
 .L_pool_06009758:
-    .4byte  sym_06078652
+    .long  sym_06078652
 .L_pool_0600975C:
-    .4byte  sym_06078650
+    .long  sym_06078650
 .L_pool_06009760:
-    .4byte  sym_060446CC
+    .long  sym_060446CC
 .L_pool_06009764:
-    .4byte  sym_060284AE
+    .long  sym_060284AE
 .L_pool_06009768:
-    .4byte  sym_0605AC9C
+    .long  sym_0605AC9C
 .L_0600976C:
-    .4byte  0x0000F000
+    .long  0x0000F000
 .L_pool_06009770:
-    .4byte  sym_060283E0                    /* geom_dispatch — display command writer */
+    .long  sym_060283E0                    /* geom_dispatch — display command writer */
 .L_pool_06009774:
-    .4byte  sym_0605B6D8
+    .long  sym_0605B6D8
 .L_pool_06009778:
-    .4byte  sym_06026CE0
+    .long  sym_06026CE0
 .L_pool_0600977C:
-    .4byte  sym_06059F44
+    .long  sym_06059F44
 .L_pool_06009780:
-    .4byte  0xAE0004FF
+    .long  0xAE0004FF
 .L_pool_06009784:
-    .4byte  sound_cmd_dispatch              /* sound command dispatcher (tail-call target) */
+    .long  sound_cmd_dispatch              /* sound command dispatcher (tail-call target) */

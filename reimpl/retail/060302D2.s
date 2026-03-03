@@ -16,8 +16,8 @@ engine_sound_body:
     .byte 0xA0, 0xC3
     .byte 0x00, 0x09
     .byte 0x00, 0x00
-    .4byte sym_0607E944
-    .4byte sym_0607ED8C
+    .long sym_0607E944
+    .long sym_0607ED8C
     .byte 0xD2, 0x08
     .byte 0x61, 0x21
     .byte 0x61, 0x1D
@@ -36,8 +36,8 @@ engine_sound_body:
     .byte 0x03, 0x45
     .byte 0x00, 0xDE
     .byte 0x00, 0x00
-    .4byte sym_06063D9A
-    .4byte sym_0608188A
+    .long sym_06063D9A
+    .long sym_0608188A
     .byte 0xD2, 0x05
     .byte 0x62, 0x21
     .byte 0x22, 0x18
@@ -50,7 +50,7 @@ engine_sound_body:
     .byte 0xA0, 0x27
     .byte 0x03, 0x45
     .byte 0x00, 0x00
-    .4byte sym_06081888
+    .long sym_06081888
     .byte 0xD2, 0x03
     .byte 0x62, 0x21
     .byte 0x22, 0x18
@@ -59,7 +59,7 @@ engine_sound_body:
     .byte 0xA0, 0x1D
     .byte 0x03, 0x45
     .byte 0x00, 0x00
-    .4byte sym_06081896
+    .long sym_06081896
     .byte 0xD2, 0x03
     .byte 0x62, 0x21
     .byte 0x22, 0x18
@@ -68,7 +68,7 @@ engine_sound_body:
     .byte 0xA0, 0x13
     .byte 0x03, 0x45
     .byte 0x00, 0x00
-    .4byte sym_06081894
+    .long sym_06081894
     .byte 0xD2, 0x03
     .byte 0x62, 0x21
     .byte 0x22, 0x18
@@ -77,7 +77,7 @@ engine_sound_body:
     .byte 0xA0, 0x09
     .byte 0x03, 0x45
     .byte 0x00, 0x00
-    .4byte sym_06081892
+    .long sym_06081892
     .byte 0xD2, 0x0F
     .byte 0x62, 0x21
     .byte 0x22, 0x18
@@ -112,9 +112,9 @@ DAT_060303b6:
     .byte 0x00, 0x6C
     .byte 0x00, 0xB8
     .byte 0x00, 0x00
-    .4byte sym_06081890
-    .4byte g_pad_state
-    .4byte sym_0608188C
+    .long sym_06081890
+    .long g_pad_state
+    .long sym_0608188C
     .byte 0x93, 0x1B
     .byte 0xE5, 0x38
     .byte 0x04, 0x3E
@@ -151,7 +151,7 @@ DAT_06030402:
     .byte 0x00, 0x00
     .byte 0x00, 0x00
     .byte 0x00, 0x6C
-    .4byte sym_0608188E
+    .long sym_0608188E
     .byte 0x00, 0x00
     .byte 0x00, 0x88
     .byte 0x00, 0x00
@@ -200,8 +200,8 @@ DAT_0603045e:
     .byte 0x00, 0x8C
     .byte 0x00, 0x00
     .byte 0x00, 0x88
-    .4byte sym_0607ED90
-    .4byte sym_0607ED88
+    .long sym_0607ED90
+    .long sym_0607ED88
     .byte 0xD2, 0x0F
     .byte 0xD4, 0x10
     .byte 0x66, 0x42
@@ -238,8 +238,8 @@ DAT_060304ae:
     .byte 0x00, 0x6C
     .byte 0x00, 0xB8
     .byte 0x00, 0x00
-    .4byte sym_0607ED90
-    .4byte sym_0607ED88
+    .long sym_0607ED90
+    .long sym_0607ED88
     .byte 0x93, 0x18
     .byte 0xE5, 0x38
     .byte 0x04, 0x3E

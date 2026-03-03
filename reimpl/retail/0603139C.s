@@ -83,8 +83,8 @@ position_lap_display:
     .global DAT_0603143a
 DAT_0603143a:
     .byte 0x80, 0x00
-    .4byte atan2
-    .4byte sin_lookup
+    .long atan2
+    .long sin_lookup
     .byte 0xE8, 0x01
     .byte 0x27, 0x78
     .byte 0x89, 0x01
@@ -101,7 +101,7 @@ DAT_0603143a:
     .byte 0x89, 0x03
     .byte 0xAF, 0x5F
     .byte 0x00, 0x09
-    .4byte sym_0605BCC8
+    .long sym_0605BCC8
     .byte 0x51, 0xEA
     .byte 0x52, 0xDA
     .byte 0xEB, 0x00
@@ -238,8 +238,8 @@ DAT_06031516:
     .byte 0x02, 0x08
     .byte 0x01, 0x94
     .byte 0x00, 0x00
-    .4byte cos_lookup
-    .4byte sym_0602FD9A
+    .long cos_lookup
+    .long sym_0602FD9A
     .byte 0x2F, 0x06
     .byte 0x2F, 0x46
     .byte 0x2B, 0xB8
@@ -252,8 +252,8 @@ DAT_06031516:
     .byte 0x89, 0x09
     .byte 0xA0, 0x11
     .byte 0x00, 0x09
-    .4byte sym_0602FD98
-    .4byte sym_06031A24
+    .long sym_0602FD98
+    .long sym_06031A24
     .byte 0x28, 0x88
     .byte 0x89, 0x19
     .byte 0xA0, 0x10
@@ -400,8 +400,8 @@ DAT_0603162e:
     .byte 0xAE, 0x36
     .byte 0x1D, 0x66
     .byte 0x00, 0x00
-    .4byte cos_lookup
-    .4byte sin_lookup
+    .long cos_lookup
+    .long sin_lookup
     .byte 0x00, 0x00
     .byte 0x80, 0x00
     .global sym_060316C4

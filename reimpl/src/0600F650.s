@@ -68,46 +68,46 @@ post_race_transition:
     bra     .L_0600F728
     mov #0x22, r12
 .L_0600F6D4:
-    .2byte  0x00C0
-    .2byte  0xFFFF
+    .short  0x00C0
+    .short  0xFFFF
 .L_0600F6D8:
-    .4byte  sym_06028400
+    .long  sym_06028400
 .L_0600F6DC:
-    .4byte  audio_display_init
+    .long  audio_display_init
 .L_0600F6E0:
-    .4byte  0xAE0003FF
+    .long  0xAE0003FF
 .L_0600F6E4:
-    .4byte  sound_cmd_dispatch         /* sound command dispatcher */
+    .long  sound_cmd_dispatch         /* sound command dispatcher */
 .L_0600F6E8:
-    .4byte  sound_init_race
+    .long  sound_init_race
 .L_0600F6EC:
-    .4byte  sym_06078870
+    .long  sym_06078870
 .L_0600F6F0:
-    .4byte  sym_060484EC
+    .long  sym_060484EC
 .L_0600F6F4:
-    .4byte  0x25F00460
+    .long  0x25F00460
 .L_0600F6F8:
-    .4byte  memcpy_word_idx
+    .long  memcpy_word_idx
 .L_0600F6FC:
-    .4byte  sym_06094FA8
+    .long  sym_06094FA8
 .L_0600F700:
-    .4byte  0x25E75DDC
+    .long  0x25E75DDC
 .L_0600F704:
-    .4byte  dma_memory_transfer
+    .long  dma_memory_transfer
 .L_0600F708:
-    .4byte  0x0000E000
+    .long  0x0000E000
 .L_0600F70C:
-    .4byte  sym_0601143E
+    .long  sym_0601143E
 .L_0600F710:
-    .4byte  0xAB1103FF
+    .long  0xAB1103FF
 .L_0600F714:
-    .4byte  sym_06011494
+    .long  sym_06011494
 .L_0600F718:
-    .4byte  anim_ui_transition
+    .long  anim_ui_transition
 .L_0600F71C:
-    .4byte  hud_course_render
+    .long  hud_course_render
 .L_0600F720:
-    .4byte  g_pad_state
+    .long  g_pad_state
 .L_0600F724:
     mov #0x29, r10
     mov #0x26, r12

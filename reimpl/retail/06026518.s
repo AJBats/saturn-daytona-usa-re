@@ -55,8 +55,8 @@ DAT_06026576:
 DAT_06026578:
     .byte 0x70, 0x00
     .byte 0xFF, 0xFF
-    .4byte sym_06059128
-    .4byte sym_060284AE
-    .4byte sym_06063B80
-    .4byte sym_06028400
-    .4byte sym_06063B88
+    .long sym_06059128
+    .long sym_060284AE
+    .long sym_06063B80
+    .long sym_06028400
+    .long sym_06063B88

@@ -22,8 +22,8 @@ transition_small_d:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .byte 0x00, 0xB4
-    .4byte sym_0607EBCC
+    .long sym_0607EBCC
     .byte 0xAB, 0x11
     .byte 0x0D, 0xFF
-    .4byte sound_cmd_dispatch
-    .4byte sym_0607887F
+    .long sound_cmd_dispatch
+    .long sym_0607887F

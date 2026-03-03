@@ -8,7 +8,7 @@ camera_track_update:
     mov.w @r4, r4
     mov.l @r0, r0
     tst #0x3, r0
-    bf/s    .L_06014550
+    bf.s    .L_06014550
     mov.l @r14, r5
     extu.w r4, r3
     mov.w   DAT_06014594, r2
@@ -77,23 +77,23 @@ camera_track_update:
 
     .global DAT_06014594
 DAT_06014594:
-    .2byte  0x4000
-    .2byte  0xFFFF
+    .short  0x4000
+    .short  0xFFFF
 .L_06014598:
-    .4byte  sym_06084B08
+    .long  sym_06084B08
 .L_0601459C:
-    .4byte  g_pad_state
+    .long  g_pad_state
 .L_060145A0:
-    .4byte  sym_0607EBC8
+    .long  sym_0607EBC8
 .L_060145A4:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_060145A8:
-    .4byte  sym_06084B18
+    .long  sym_06084B18
 .L_060145AC:
-    .4byte  sym_0605AD2C
+    .long  sym_0605AD2C
 .L_060145B0:
-    .4byte  sym_06084B20
+    .long  sym_06084B20
 .L_060145B4:
-    .4byte  0xAB111DFF
+    .long  0xAB111DFF
 .L_060145B8:
-    .4byte  sound_cmd_dispatch
+    .long  sound_cmd_dispatch

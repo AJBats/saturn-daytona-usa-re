@@ -34,8 +34,8 @@ evt_checkpoint_handler:
     .byte 0xFF, 0xFF
     .byte 0x00, 0x00
     .byte 0xFF, 0xFF
-    .4byte evt_checkpoint_validate
-    .4byte state_field_read
+    .long evt_checkpoint_validate
+    .long state_field_read
     .byte 0x2F, 0xC6
     .byte 0xE5, 0x00
     .byte 0x67, 0xF3
@@ -118,8 +118,8 @@ evt_checkpoint_handler:
     .byte 0xE0, 0xFF
     .byte 0x00, 0x00
     .byte 0xFF, 0xFF
-    .4byte cmd_enqueue
-    .4byte evt_checkpoint_validate
+    .long cmd_enqueue
+    .long evt_checkpoint_validate
     .byte 0x1E, 0xD2
     .byte 0x53, 0xE2
     .byte 0x3D, 0x38

@@ -62,7 +62,7 @@ sym_060172E4:
     rts
     mov.b r2, @(r0, r4)
 .L_pool_0601732C:
-    .4byte  sym_06084FC8
+    .long  sym_06084FC8
 .L_06017330:
     mov #0x8, r7
     mov #0x0, r5

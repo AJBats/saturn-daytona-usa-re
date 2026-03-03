@@ -118,16 +118,16 @@ hud_large_element:
 
     .global DAT_0601e444
 DAT_0601e444:
-    .2byte  0x00FF
-    .2byte  0xFFFF
+    .short  0x00FF
+    .short  0xFFFF
 .L_pool_0601E448:
-    .4byte  sym_06087094
+    .long  sym_06087094
 .L_pool_0601E44C:
-    .4byte  sym_06087086
+    .long  sym_06087086
 .L_pool_0601E450:
-    .4byte  sym_060877D8
+    .long  sym_060877D8
 .L_pool_0601E454:
-    .4byte  sym_0604A5C0
+    .long  sym_0604A5C0
 
 .L_0601E458:
     extu.w r13, r2

@@ -19,7 +19,7 @@ graphics_mode_setup:
     mov.l   .L_06010C70, r0
     mov.b @r0, r0
     tst r0, r0
-    bf/s    .L_06010BF0
+    bf.s    .L_06010BF0
     mov #0x0, r4
     bra     .L_06010CE2
     nop
@@ -76,31 +76,31 @@ graphics_mode_setup:
     bra     .L_06010C90
     mov.l r4, @r5
 .L_06010C4C:
-    .2byte  0xFE11
+    .short  0xFE11
 
     .global DAT_06010c4e
 DAT_06010c4e:
-    .2byte  0x0080
+    .short  0x0080
 .L_06010C50:
-    .2byte  0x0100
-    .2byte  0xFFFF
-    .4byte  0xAB110BFF
-    .4byte  sym_0607EAB8
-    .4byte  sym_0604483C
+    .short  0x0100
+    .short  0xFFFF
+    .long  0xAB110BFF
+    .long  sym_0607EAB8
+    .long  sym_0604483C
 .L_06010C60:
-    .4byte  sym_06078894
+    .long  sym_06078894
 .L_06010C64:
-    .4byte  sym_06078898
+    .long  sym_06078898
 .L_06010C68:
-    .4byte  sym_0608A52C
+    .long  sym_0608A52C
 .L_06010C6C:
-    .4byte  sym_06078878
+    .long  sym_06078878
 .L_06010C70:
-    .4byte  sym_06085FF4
+    .long  sym_06085FF4
 .L_06010C74:
-    .4byte  sym_0607889C
+    .long  sym_0607889C
 .L_06010C78:
-    .4byte  sym_060788A8
+    .long  sym_060788A8
 .L_06010C7C:
     mov.l @r11, r2
     cmp/pl r2
@@ -213,38 +213,38 @@ DAT_06010c4e:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_06010D50:
-    .4byte  sym_060270D0
+    .long  sym_060270D0
 .L_06010D54:
-    .4byte  sym_0607884C
+    .long  sym_0607884C
 .L_06010D58:
-    .4byte  sym_06078850
+    .long  sym_06078850
 .L_06010D5C:
-    .4byte  0xFFFF3334
+    .long  0xFFFF3334
 .L_06010D60:
-    .4byte  sym_06078854
+    .long  sym_06078854
 .L_06010D64:
-    .4byte  0x00063333
+    .long  0x00063333
 .L_06010D68:
-    .4byte  sym_06078858
+    .long  sym_06078858
 .L_06010D6C:
-    .4byte  race_position_track
+    .long  race_position_track
 .L_06010D70:
-    .4byte  sym_06063574
+    .long  sym_06063574
 .L_06010D74:
-    .4byte  0x0000FFFF
+    .long  0x0000FFFF
 .L_06010D78:
-    .4byte  0x21000000
+    .long  0x21000000
 .L_06010D7C:
-    .4byte  sym_0603C000
+    .long  sym_0603C000
 .L_06010D80:
-    .4byte  sym_060788A0
+    .long  sym_060788A0
 .L_06010D84:
-    .4byte  0x00038000
+    .long  0x00038000
 .L_06010D88:
-    .4byte  0xFFFF0000
+    .long  0xFFFF0000
 .L_06010D8C:
-    .4byte  0x0006B333
+    .long  0x0006B333
 .L_06010D90:
-    .4byte  0xFFFC8000
+    .long  0xFFFC8000

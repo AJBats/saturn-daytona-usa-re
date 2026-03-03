@@ -115,15 +115,15 @@ replay_recorder:
     .global DAT_0601bcba
 DAT_0601bcba:
     .byte 0x70, 0x00
-    .4byte sym_06028400
-    .4byte sym_060284AE
-    .4byte sym_0605DF3E
-    .4byte sym_06035228
-    .4byte sym_06063918
-    .4byte sym_06063D08
-    .4byte sym_06063920
-    .4byte sym_0605DE64
-    .4byte anim_frame_transform
+    .long sym_06028400
+    .long sym_060284AE
+    .long sym_0605DF3E
+    .long sym_06035228
+    .long sym_06063918
+    .long sym_06063D08
+    .long sym_06063920
+    .long sym_0605DE64
+    .long anim_frame_transform
     .byte 0x8B, 0x01
     .byte 0xE2, 0x02
     .byte 0x2F, 0x20
@@ -192,9 +192,9 @@ DAT_0601bcba:
     .byte 0x46, 0x00
     .byte 0xA0, 0x10
     .byte 0x55, 0xF1
-    .4byte sym_06063750
-    .4byte sym_0604A4B8
-    .4byte sym_06078644
+    .long sym_06063750
+    .long sym_0604A4B8
+    .long sym_06078644
     .byte 0x57, 0xF2
     .byte 0x66, 0xED
     .byte 0x57, 0x71

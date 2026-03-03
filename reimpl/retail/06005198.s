@@ -69,9 +69,9 @@ controller_input_update:
     .byte 0x60, 0x3C
     .byte 0xA0, 0x20
     .byte 0x81, 0x43
-    .4byte g_pad_state
-    .4byte smpc_data_manage
-    .4byte sym_06059F44
+    .long g_pad_state
+    .long smpc_data_manage
+    .long sym_06059F44
     .byte 0x64, 0xE3
     .byte 0x61, 0x1D
     .byte 0x62, 0x41

@@ -18,10 +18,10 @@ sys_timer_tick:
     bt      .L_060406E8
     bra     .L_06040716
     mov #0x0, r0
-    .4byte  sym_060409DE
-    .4byte  evt_checkpoint_handler
+    .long  sym_060409DE
+    .long  evt_checkpoint_handler
 .L_060406E4:
-    .4byte  sym_06040FB8
+    .long  sym_06040FB8
 .L_060406E8:
     mov r15, r3
     mov #0x1, r2

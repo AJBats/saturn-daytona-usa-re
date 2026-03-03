@@ -41,27 +41,27 @@ scene_data_dispatch:
     mov #0x0, r2
     bra     .L_06038A42
     mov.w r2, @r14
-    .4byte  0x00B000C0
-    .4byte  sym_060A3D84
-    .4byte  sym_060A3D88
-    .4byte  sym_060A3DB0
-    .4byte  sym_060A3DF8
-    .4byte  sym_060A3E38
-    .4byte  sym_060A3E48
+    .long  0x00B000C0
+    .long  sym_060A3D84
+    .long  sym_060A3D88
+    .long  sym_060A3DB0
+    .long  sym_060A3DF8
+    .long  sym_060A3E38
+    .long  sym_060A3E48
 .L_pool_06038A0C:
-    .4byte  sym_060635AC
+    .long  sym_060635AC
 .L_pool_06038A10:
-    .4byte  sym_060635A0
+    .long  sym_060635A0
 .L_pool_06038A14:
-    .4byte  sym_060A3D74
+    .long  sym_060A3D74
 .L_pool_06038A18:
-    .4byte  sym_060A3D70
+    .long  sym_060A3D70
 .L_pool_06038A1C:
-    .4byte  sym_060635A2
+    .long  sym_060635A2
 .L_pool_06038A20:
-    .4byte  sym_060A3D7C
+    .long  sym_060A3D7C
 .L_pool_06038A24:
-    .4byte  sym_060A3D78
+    .long  sym_060A3D78
 .L_06038A28:
     cmp/eq #0x1, r0
     bt      .L_060389B2
@@ -94,7 +94,7 @@ sym_06038A48:
     mov.w r3, @r4
     add #0x2, r4
     cmp/hs r6, r7
-    bf/s    .L_06038A52
+    bf.s    .L_06038A52
     add #0x2, r5
 .L_06038A60:
     rts

@@ -122,51 +122,51 @@ segment_position_track:
     add r11, r3
     bra     .L_06006018
     nop
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_06005FC0:
-    .4byte  sym_06063E88
+    .long  sym_06063E88
 .L_06005FC4:
-    .4byte  sym_06063E4C
+    .long  sym_06063E4C
 .L_06005FC8:
-    .4byte  sym_06063E74
+    .long  sym_06063E74
 .L_06005FCC:
-    .4byte  sym_06063E60
+    .long  sym_06063E60
 .L_06005FD0:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_06005FD4:
-    .4byte  sym_06026DBC
+    .long  sym_06026DBC
 .L_06005FD8:
-    .4byte  sym_06026E0C
+    .long  sym_06026E0C
 .L_06005FDC:
-    .4byte  sym_06063F10
+    .long  sym_06063F10
 .L_06005FE0:
-    .4byte  mat_rot_y
+    .long  mat_rot_y
 .L_06005FE4:
-    .4byte  sym_0604464C
+    .long  sym_0604464C
 .L_06005FE8:
-    .4byte  mat_vec_transform
+    .long  mat_vec_transform
 .L_06005FEC:
-    .4byte  sym_06044640
+    .long  sym_06044640
 .L_06005FF0:
-    .4byte  sym_06044658
+    .long  sym_06044658
 .L_06005FF4:
-    .4byte  sym_06044664
+    .long  sym_06044664
 .L_06005FF8:
-    .4byte  sym_06063E9C
+    .long  sym_06063E9C
 .L_06005FFC:
-    .4byte  sym_06044688
+    .long  sym_06044688
 .L_06006000:
-    .4byte  sym_06063EB0
+    .long  sym_06063EB0
 .L_06006004:
-    .4byte  sym_0604467C
+    .long  sym_0604467C
 .L_06006008:
-    .4byte  sym_06063ED8
+    .long  sym_06063ED8
 .L_0600600C:
-    .4byte  sym_06044694
+    .long  sym_06044694
 .L_06006010:
-    .4byte  sym_06063EC4
+    .long  sym_06063EC4
 .L_06006014:
-    .4byte  sym_060446A0
+    .long  sym_060446A0
 .L_06006018:
     mov.l r3, @(8, r4)
     mov r9, r6
@@ -299,30 +299,30 @@ segment_position_track:
 
     .global DAT_06006116
 DAT_06006116:
-    .2byte  0x01EC
+    .short  0x01EC
 .L_06006118:
-    .2byte  0x00DC
-    .2byte  0xFFFF
+    .short  0x00DC
+    .short  0xFFFF
 .L_0600611C:
-    .4byte  sym_06063ED8
+    .long  sym_06063ED8
 .L_06006120:
-    .4byte  sym_06063EC4
+    .long  sym_06063EC4
 .L_06006124:
-    .4byte  sym_06006838
+    .long  sym_06006838
 .L_06006128:
-    .4byte  scene_render_alt
+    .long  scene_render_alt
 .L_0600612C:
-    .4byte  sym_060446AC
+    .long  sym_060446AC
 .L_06006130:
-    .4byte  mat_vec_transform
+    .long  mat_vec_transform
 .L_06006134:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8
 .L_06006138:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_0600613C:
-    .4byte  fpmul
+    .long  fpmul
 .L_06006140:
-    .4byte  0x0002CCCC
+    .long  0x0002CCCC
 .L_06006144:
     mov.l @(20, r15), r11
     mov.l   .L_060061B0, r13
@@ -380,14 +380,14 @@ DAT_06006116:
     rts
     mov.l @r15+, r14
 .L_060061B0:
-    .4byte  0x000D6666
+    .long  0x000D6666
 .L_060061B4:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_060061B8:
-    .4byte  fpmul
+    .long  fpmul
 .L_060061BC:
-    .4byte  atan2
+    .long  atan2
 .L_060061C0:
-    .4byte  0x00011998
+    .long  0x00011998
 .L_060061C4:
-    .4byte  sym_06089EDC
+    .long  sym_06089EDC

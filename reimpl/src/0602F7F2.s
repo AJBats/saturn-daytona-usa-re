@@ -45,23 +45,23 @@ track_texture_map:
 
     .global DAT_0602f842
 DAT_0602f842:
-    .2byte  0x01EC
+    .short  0x01EC
 
     .global DAT_0602f844
 DAT_0602f844:
-    .2byte  0x4000
-    .2byte  0x0000
-    .4byte  sym_0607E944
+    .short  0x4000
+    .short  0x0000
+    .long  sym_0607E944
 .L_0602F84C:
-    .4byte  sound_cmd_dispatch
+    .long  sound_cmd_dispatch
 .L_0602F850:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8
 .L_0602F854:
-    .4byte  sym_0602FD3C
+    .long  sym_0602FD3C
 .L_0602F858:
-    .4byte  sym_0602FD48
+    .long  sym_0602FD48
 .L_0602F85C:
-    .4byte  0xAE0601FF
+    .long  0xAE0601FF
 .L_0602F860:
     add #-0x1, r5
     tst r5, r5
@@ -91,15 +91,15 @@ DAT_0602f844:
 
     .global DAT_0602f890
 DAT_0602f890:
-    .2byte  0x4000
+    .short  0x4000
 .L_0602F892:
-    .2byte  0x00E4
+    .short  0x00E4
 .L_0602F894:
-    .2byte  0x0708
+    .short  0x0708
 .L_0602F896:
-    .2byte  0x2134
+    .short  0x2134
 .L_0602F898:
-    .4byte  0xAE0600FF
+    .long  0xAE0600FF
 .L_0602F89C:
     cmp/gt r1, r4
     bt      .L_0602F8A2
@@ -118,7 +118,7 @@ DAT_0602f890:
     bra     .L_0602F8C2
     nop
 .L_0602F8BA:
-    .2byte  0x14B4
+    .short  0x14B4
 .L_0602F8BC:
     cmp/gt r0, r4
     bt      .L_0602F8C2
@@ -150,17 +150,17 @@ DAT_0602f890:
 
     .global DAT_0602f8f0
 DAT_0602f8f0:
-    .2byte  0x01BC
+    .short  0x01BC
 
     .global DAT_0602f8f2
 DAT_0602f8f2:
-    .2byte  0x0166
+    .short  0x0166
 .L_0602F8F4:
-    .4byte  sym_0605D241
+    .long  sym_0605D241
 .L_0602F8F8:
-    .4byte  0xAE111EFF
+    .long  0xAE111EFF
 .L_0602F8FC:
-    .4byte  0xAE1142FF
+    .long  0xAE1142FF
 .L_0602F900:
     cmp/eq #0x3, r0
     .byte   0xD5, 0x20    /* mov.l .L_0602F984, r5 */
@@ -195,7 +195,7 @@ DAT_0602f8f2:
     cmp/eq #0x1, r0
     add #-0x1, r0
     mov #0x0, r5
-    bt/s    .L_0602F956
+    bt.s    .L_0602F956
     mov.b r0, @r3
 .L_0602F93E:
     mov.l @(12, r14), r0
@@ -235,24 +235,24 @@ DAT_0602f8f2:
     rts
     mov.l @r15+, r14
 .L_0602F97E:
-    .2byte  0x00B8
+    .short  0x00B8
 
     .global DAT_0602f980
 DAT_0602f980:
-    .2byte  0x0084
+    .short  0x0084
 
     .global DAT_0602f982
 DAT_0602f982:
-    .2byte  0x005C
+    .short  0x005C
 .L_0602F984:
-    .4byte  0xAE111CFF
+    .long  0xAE111CFF
 .L_0602F988:
-    .4byte  0xAE1140FF
+    .long  0xAE1140FF
 .L_0602F98C:
-    .4byte  sym_0605D241
+    .long  sym_0605D241
 .L_0602F990:
-    .4byte  0xAE111BFF
+    .long  0xAE111BFF
 .L_0602F994:
-    .4byte  0xAE113FFF
+    .long  0xAE113FFF
 .L_0602F998:
-    .4byte  sym_0602FD9F
+    .long  sym_0602FD9F

@@ -24,7 +24,7 @@ vdp2_scroll_config:
     mov.w   DAT_060183ee, r3
     mov.l @(r0, r5), r5
     cmp/ge r3, r5
-    bf/s    .L_06018358
+    bf.s    .L_06018358
     mov #0x0, r12
     mov.w   DAT_060183f0, r3
     cmp/gt r3, r5
@@ -112,45 +112,45 @@ vdp2_scroll_config:
 
     .global DAT_060183ec
 DAT_060183ec:
-    .2byte  0x01EC
+    .short  0x01EC
 
     .global DAT_060183ee
 DAT_060183ee:
-    .2byte  0x0086
+    .short  0x0086
 
     .global DAT_060183f0
 DAT_060183f0:
-    .2byte  0x009F
+    .short  0x009F
 
     .global DAT_060183f2
 DAT_060183f2:
-    .2byte  0x1000
+    .short  0x1000
 .L_060183F4:
-    .4byte  sym_0605BE35
+    .long  sym_0605BE35
 .L_060183F8:
-    .4byte  sym_0607E940
+    .long  sym_0607E940
 .L_060183FC:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_06018400:
-    .4byte  sym_0605BE32
+    .long  sym_0605BE32
 .L_06018404:
-    .4byte  sym_06085FC0
+    .long  sym_06085FC0
 .L_06018408:
-    .4byte  sym_0605BE34
+    .long  sym_0605BE34
 .L_0601840C:
-    .4byte  sym_0605BE33
+    .long  sym_0605BE33
 .L_06018410:
-    .4byte  g_pad_state
+    .long  g_pad_state
 .L_06018414:
-    .4byte  sym_0605BE30
+    .long  sym_0605BE30
 .L_06018418:
-    .4byte  sym_0605DE3C
+    .long  sym_0605DE3C
 .L_0601841C:
-    .4byte  sym_0605A010
+    .long  sym_0605A010
 .L_06018420:
-    .4byte  0x00010000
+    .long  0x00010000
 .L_06018424:
-    .4byte  sym_06085FF4
+    .long  sym_06085FF4
 .L_06018428:
     mov.l r12, @r14
     mov.l @(4, r14), r2
@@ -274,13 +274,13 @@ DAT_060183f2:
     bra     .L_06018528
     mov.l r12, @(4, r14)
 .L_06018504:
-    .2byte  0x0200
+    .short  0x0200
 .L_06018506:
-    .2byte  0x0100
+    .short  0x0100
 .L_06018508:
-    .4byte  0x00018000
+    .long  0x00018000
 .L_0601850C:
-    .4byte  0x00020000
+    .long  0x00020000
 .L_06018510:
     cmp/eq #0x0, r0
     bt      .L_06018480
@@ -360,33 +360,33 @@ DAT_060183f2:
 
     .global DAT_060185a0
 DAT_060185a0:
-    .2byte  0x38E3
+    .short  0x38E3
 .L_060185A2:
-    .2byte  0x0178
+    .short  0x0178
 .L_060185A4:
-    .2byte  0x0145
-    .2byte  0xFFFF
+    .short  0x0145
+    .short  0xFFFF
 .L_060185A8:
-    .4byte  sym_06026DBC
+    .long  sym_06026DBC
 .L_060185AC:
-    .4byte  sym_06048140
+    .long  sym_06048140
 .L_060185B0:
-    .4byte  sym_06026E2E
+    .long  sym_06026E2E
 .L_060185B4:
-    .4byte  mat_rot_y
+    .long  mat_rot_y
 .L_060185B8:
-    .4byte  mat_rot_x
+    .long  mat_rot_x
 .L_060185BC:
-    .4byte  0x00200000
+    .long  0x00200000
 .L_060185C0:
-    .4byte  0x000BABE0
+    .long  0x000BABE0
 .L_060185C4:
-    .4byte  sym_06031D8C
+    .long  sym_06031D8C
 .L_060185C8:
-    .4byte  sym_06089E98
+    .long  sym_06089E98
 .L_060185CC:
-    .4byte  0x000BBD80
+    .long  0x000BBD80
 .L_060185D0:
-    .4byte  sym_06031A28
+    .long  sym_06031A28
 .L_060185D4:
-    .4byte  sym_06026DF8
+    .long  sym_06026DF8

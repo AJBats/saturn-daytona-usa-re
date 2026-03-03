@@ -34,27 +34,27 @@ game_state_dispatch:
     bra     .L_0600F4BA
     nop
 .L_0600F462:
-    .2byte  0x0148
-    .4byte  0x25F00720
-    .4byte  sym_060487CC
-    .4byte  0x25F00680
-    .4byte  0x25F00140
-    .4byte  sym_060483EC
-    .4byte  0x25F000C0
-    .4byte  0x25F006C0
-    .4byte  sym_0605AAA0
+    .short  0x0148
+    .long  0x25F00720
+    .long  sym_060487CC
+    .long  0x25F00680
+    .long  0x25F00140
+    .long  sym_060483EC
+    .long  0x25F000C0
+    .long  0x25F006C0
+    .long  sym_0605AAA0
 .L_0600F484:
-    .4byte  sym_0607887F
-    .4byte  sym_0605B6D8
-    .4byte  0x40000000
-    .4byte  sym_06026CE0
-    .4byte  sym_06059F44
+    .long  sym_0607887F
+    .long  sym_0605B6D8
+    .long  0x40000000
+    .long  sym_06026CE0
+    .long  sym_06059F44
 .L_0600F498:
-    .4byte  sym_0607EBCC
+    .long  sym_0607EBCC
 .L_0600F49C:
-    .4byte  sym_06034FE0
+    .long  sym_06034FE0
 .L_0600F4A0:
-    .4byte  sym_06028430
+    .long  sym_06028430
 .L_0600F4A4:
     mov.l   .L_0600F524, r1
     mov.l   .L_0600F528, r2
@@ -122,30 +122,30 @@ game_state_dispatch:
     bra     .L_0600F562
     nop
 .L_0600F520:
-    .2byte  0x0148
-    .2byte  0xFFFF
+    .short  0x0148
+    .short  0xFFFF
 .L_0600F524:
-    .4byte  sym_0607EBCC
+    .long  sym_0607EBCC
 .L_0600F528:
-    .4byte  sym_06034FE0
+    .long  sym_06034FE0
 .L_0600F52C:
-    .4byte  sym_06028430
+    .long  sym_06028430
 .L_0600F530:
-    .4byte  sym_0607865E
+    .long  sym_0607865E
 .L_0600F534:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_0600F538:
-    .4byte  sym_0605AB18
+    .long  sym_0605AB18
 .L_0600F53C:
-    .4byte  g_pad_state
+    .long  g_pad_state
 .L_0600F540:
-    .4byte  sym_06078648
+    .long  sym_06078648
 .L_0600F544:
-    .4byte  sym_06078656
+    .long  sym_06078656
 .L_0600F548:
-    .4byte  sym_06078658
+    .long  sym_06078658
 .L_0600F54C:
-    .4byte  sym_0607865A
+    .long  sym_0607865A
 .L_0600F550:
     exts.w r4, r4
     mov.l   .L_0600F61C, r2
@@ -251,44 +251,44 @@ game_state_dispatch:
 
     .global DAT_0600f612
 DAT_0600f612:
-    .2byte  0x08A4
+    .short  0x08A4
 
     .global DAT_0600f614
 DAT_0600f614:
-    .2byte  0x5000
+    .short  0x5000
 .L_0600F616:
-    .2byte  0x0090
+    .short  0x0090
 
     .global DAT_0600f618
 DAT_0600f618:
-    .2byte  0x09A4
+    .short  0x09A4
 
     .global DAT_0600f61a
 DAT_0600f61a:
-    .2byte  0x0AA4
+    .short  0x0AA4
 .L_0600F61C:
-    .4byte  sym_0607865C
+    .long  sym_0607865C
 .L_0600F620:
-    .4byte  sym_0607EAE0
+    .long  sym_0607EAE0
 .L_0600F624:
-    .4byte  sym_06078644
+    .long  sym_06078644
 .L_0600F628:
-    .4byte  sym_06063848
+    .long  sym_06063848
 .L_0600F62C:
-    .4byte  sym_06028400
+    .long  sym_06028400
 .L_0600F630:
-    .4byte  sym_06063850
+    .long  sym_06063850
 .L_0600F634:
-    .4byte  sym_0605ACE4
+    .long  sym_0605ACE4
 .L_0600F638:
-    .4byte  sym_060284AE
+    .long  sym_060284AE
 .L_0600F63C:
-    .4byte  sym_060283E0
+    .long  sym_060283E0
 .L_0600F640:
-    .4byte  sym_06026DBC
+    .long  sym_06026DBC
 .L_0600F644:
-    .4byte  sym_0605AC2C
+    .long  sym_0605AC2C
 .L_0600F648:
-    .4byte  sym_06089EDC
+    .long  sym_06089EDC
 .L_0600F64C:
-    .4byte  frame_end_commit
+    .long  frame_end_commit

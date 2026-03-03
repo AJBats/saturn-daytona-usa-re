@@ -41,10 +41,10 @@ obj_coord_setter:
     .byte 0x00, 0x09
     .byte 0x25, 0xE2
     .byte 0x00, 0x00
-    .4byte dma_memory_transfer
-    .4byte memcpy_word_idx
-    .4byte sym_06063D90
-    .4byte sym_06063D94
+    .long dma_memory_transfer
+    .long memcpy_word_idx
+    .long sym_06063D90
+    .long sym_06063D94
     .byte 0x6E, 0xD3
     .byte 0xD5, 0x1B
     .byte 0xD4, 0x1B

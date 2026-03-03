@@ -53,10 +53,10 @@ obj_state_serialize:
     .global DAT_06020db2
 DAT_06020db2:
     .byte 0x01, 0x2C
-    .4byte sym_06087C6C
-    .4byte sym_060785FC
-    .4byte sym_060280F8
-    .4byte sym_0605A008
-    .4byte sym_0608782C
-    .4byte sym_0605F5A8
-    .4byte sym_06035168
+    .long sym_06087C6C
+    .long sym_060785FC
+    .long sym_060280F8
+    .long sym_0605A008
+    .long sym_0608782C
+    .long sym_0605F5A8
+    .long sym_06035168

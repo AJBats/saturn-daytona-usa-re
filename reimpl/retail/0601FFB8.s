@@ -91,15 +91,15 @@ vram_defrag:
     .byte 0x03, 0x5A
     .byte 0x01, 0x94
     .byte 0x01, 0xF8
-    .4byte sym_06087802
-    .4byte sym_06087800
-    .4byte sym_060877FC
-    .4byte sym_060877F8
-    .4byte sym_060877F4
-    .4byte sym_06087804
-    .4byte sym_06078900
-    .4byte fpmul
-    .4byte g_game_state
+    .long sym_06087802
+    .long sym_06087800
+    .long sym_060877FC
+    .long sym_060877F8
+    .long sym_060877F4
+    .long sym_06087804
+    .long sym_06078900
+    .long fpmul
+    .long g_game_state
     .global loc_06020090
 loc_06020090:
     .byte 0xD0, 0x03
@@ -110,4 +110,4 @@ loc_06020090:
     .byte 0x00, 0x09
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
-    .4byte g_game_state
+    .long g_game_state

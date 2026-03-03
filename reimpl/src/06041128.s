@@ -44,9 +44,9 @@ queue_validator:
 
     .global DAT_06041174
 DAT_06041174:
-    .2byte  0x00FF
+    .short  0x00FF
 .L_06041176:
-    .2byte  0x0304
-    .4byte  ai_checkpoint_validate
+    .short  0x0304
+    .long  ai_checkpoint_validate
 .L_pool_0604117C:
-    .4byte  sym_060A5400
+    .long  sym_060A5400

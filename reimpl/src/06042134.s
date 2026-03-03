@@ -136,20 +136,20 @@ player_vehicle_interp:
 
     .global DAT_0604222c
 DAT_0604222c:
-    .2byte  0x00FF
+    .short  0x00FF
 
     .global DAT_0604222e
 DAT_0604222e:
-    .2byte  0x01E4
+    .short  0x01E4
 .L_wpool_06042230:
-    .2byte  0x01DC
-    .2byte  0xFFFF
+    .short  0x01DC
+    .short  0xFFFF
 .L_pool_06042234:
-    .4byte  ai_checkpoint_validate
+    .long  ai_checkpoint_validate
 .L_pool_06042238:
-    .4byte  sym_060A5400
+    .long  sym_060A5400
 .L_pool_0604223C:
-    .4byte  track_road_edge_c
+    .long  track_road_edge_c
 .L_06042240:
     bra     .L_06042296
     mov r12, r5

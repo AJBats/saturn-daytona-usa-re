@@ -10,6 +10,6 @@ audio_frame_process:
     lds.l @r15+, pr
     rts
     nop
-    .2byte  0x0800
-    .4byte  cmd_multi_validate
-    .4byte  sym_060360FC
+    .short  0x0800
+    .long  cmd_multi_validate
+    .long  sym_060360FC

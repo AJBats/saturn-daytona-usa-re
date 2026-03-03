@@ -26,9 +26,9 @@ ground_shadow_render:
     rts
     mov.l @r15+, r14
 .L_06036A8C:
-    .2byte  0x0200
-    .2byte  0xFFFF                      /* alignment padding between word and longword pools */
+    .short  0x0200
+    .short  0xFFFF                      /* alignment padding between word and longword pools */
 .L_06036A90:
-    .4byte  input_proc_analog           /* [HIGH] -> SMPC analog axis reader / command struct initializer */
+    .long  input_proc_analog           /* [HIGH] -> SMPC analog axis reader / command struct initializer */
 .L_06036A94:
-    .4byte  input_proc_buttons          /* [HIGH] -> SMPC digital button reader / command dispatcher */
+    .long  input_proc_buttons          /* [HIGH] -> SMPC digital button reader / command dispatcher */

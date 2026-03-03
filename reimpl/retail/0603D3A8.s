@@ -69,6 +69,6 @@ DAT_0603d426:
     .byte 0x02, 0x00
     .byte 0x00, 0x00
     .byte 0xFF, 0x00
-    .4byte sym_060A4D58
-    .4byte sym_060A4D30
-    .4byte sym_06034F78
+    .long sym_060A4D58
+    .long sym_060A4D30
+    .long sym_06034F78

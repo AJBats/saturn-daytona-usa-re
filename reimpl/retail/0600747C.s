@@ -87,12 +87,12 @@ system_watchdog:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .byte 0x00, 0xFF
-    .4byte sym_0606A4F4
-    .4byte sym_060684EC
-    .4byte sym_06063F64
-    .4byte sym_0606A4EC
-    .4byte sym_06063F5C
-    .4byte memcpy_word_idx
+    .long sym_0606A4F4
+    .long sym_060684EC
+    .long sym_06063F64
+    .long sym_0606A4EC
+    .long sym_06063F5C
+    .long memcpy_word_idx
     .global sym_06007540
 sym_06007540:
     .byte 0x7F, 0xFC
@@ -189,9 +189,9 @@ sym_06007590:
     .byte 0xA0, 0x09
     .byte 0x61, 0x1D
     .byte 0xFF, 0xFF
-    .4byte sym_060684EC
-    .4byte sym_0606A4F4
-    .4byte sym_06063F64
+    .long sym_060684EC
+    .long sym_0606A4F4
+    .long sym_06063F64
     .byte 0x85, 0x42
     .byte 0x61, 0x03
     .byte 0x63, 0x62
@@ -228,7 +228,7 @@ sym_06007590:
     .byte 0x60, 0x33
     .byte 0x00, 0x0B
     .byte 0x81, 0x42
-    .4byte sym_060684EC
-    .4byte sym_06063F64
+    .long sym_060684EC
+    .long sym_06063F64
     .byte 0x00, 0x00
     .byte 0xFF, 0x00

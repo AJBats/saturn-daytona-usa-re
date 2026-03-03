@@ -41,13 +41,13 @@ DAT_0602e520:
 DAT_0602e522:
     sett
 .L_0602E524:
-    .2byte  0x0028
-    .2byte  0x0000
-    .4byte  sym_0607EAD8
-    .4byte  sym_0602E8AC
-    .4byte  atan2
+    .short  0x0028
+    .short  0x0000
+    .long  sym_0607EAD8
+    .long  sym_0602E8AC
+    .long  atan2
 .L_pool_0602E534:
-    .4byte  0xFFFFFF00
+    .long  0xFFFFFF00
 .L_0602E538:
     .byte   0xD1, 0x1C    /* mov.l .L_pool_0602E5AC, r1 */
     cmp/gt r1, r6

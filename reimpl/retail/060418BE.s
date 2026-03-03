@@ -80,10 +80,10 @@ track_road_validate:
     .byte 0xA0, 0x55
     .byte 0x00, 0x09
     .byte 0xFF, 0xFF
-    .4byte sym_060A5400
-    .4byte ai_checkpoint_validate
-    .4byte track_road_width_main
-    .4byte track_bank_calc
+    .long sym_060A5400
+    .long ai_checkpoint_validate
+    .long track_road_width_main
+    .long track_bank_calc
     .byte 0x64, 0xF3
     .byte 0x4C, 0x0B
     .byte 0x74, 0x04
@@ -208,9 +208,9 @@ track_road_validate:
     .byte 0xA0, 0x08
     .byte 0xE4, 0x01
     .byte 0xFF, 0xFF
-    .4byte track_seg_interpolate
-    .4byte sym_06035168
-    .4byte sym_06035C4E
+    .long track_seg_interpolate
+    .long sym_06035168
+    .long sym_06035C4E
     .byte 0xE4, 0x00
     .byte 0x24, 0x48
     .byte 0x89, 0x07

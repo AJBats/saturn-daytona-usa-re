@@ -18,7 +18,7 @@ course2_physics_init:
     .byte   0xD0, 0x09    /* mov.l .L_pool_06019FF9, r0 */
     mov.b @r0, r0
     cmp/eq #0x2, r0
-    bt/s    .L_0601A050
+    bt.s    .L_0601A050
     mov #0x5, r14
 
     mov #0x0, r13
@@ -30,18 +30,18 @@ course2_physics_init:
     bf      .L_06019FFC
     bra     .L_06019FFE
     extu.b r11, r10
-    .2byte  0xFFFF
+    .short  0xFFFF
 
 .L_pool_06019FED:
-    .4byte  sym_06049B2C
+    .long  sym_06049B2C
 .L_pool_06019FF1:
-    .4byte  sym_06028400
+    .long  sym_06028400
 .L_pool_06019FF5:
-    .4byte  sym_0605D242
+    .long  sym_0605D242
 .L_pool_06019FF9:
-    .4byte  sym_06085FF0
+    .long  sym_06085FF0
 .L_pool_06019FFD:
-    .4byte  sym_0605AD04
+    .long  sym_0605AD04
 
 .L_06019FFC:
     extu.b r14, r10
@@ -112,7 +112,7 @@ course2_physics_init:
     mov.b @r12, r2
     extu.b r2, r2
     cmp/gt r3, r2
-    bf/s    .L_0601A07A
+    bf.s    .L_0601A07A
     mov #0x7, r10
     mov #0x0, r3
     mov.b r3, @r12
@@ -177,11 +177,11 @@ course2_physics_init:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0xFFFF
+    .short  0xFFFF
 
 .L_pool_0601A0EE:
-    .4byte  sym_06063750
+    .long  sym_06063750
 .L_pool_0601A0F2:
-    .4byte  sym_06049B22
+    .long  sym_06049B22
 .L_pool_0601A0F6:
-    .4byte  sym_0605AD04
+    .long  sym_0605AD04

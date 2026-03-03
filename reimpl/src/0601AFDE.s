@@ -22,7 +22,7 @@ replay_cam_cleanup:
     mov r2, r3
     .byte   0x92, 0x2B    /* mov.w .L_wpool_0601B05E, r2 */
     cmp/hs r2, r3
-    bf/s    .L_0601B01A
+    bf.s    .L_0601B01A
     add #0x10, r15
     .byte   0xD4, 0x17    /* mov.l .L_pool_0601B06C, r4 */
     mov.b @r4, r2

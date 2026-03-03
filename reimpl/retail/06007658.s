@@ -73,12 +73,12 @@ vdp1_sprite_render:
     .global DAT_060076e2
 DAT_060076e2:
     .byte 0x00, 0xFF
-    .4byte sym_06063F64
-    .4byte sym_0606A4EC
-    .4byte sym_0606A4F4
-    .4byte sym_06063F5C
-    .4byte sym_06063F60
-    .4byte sym_060684EC
+    .long sym_06063F64
+    .long sym_0606A4EC
+    .long sym_0606A4F4
+    .long sym_06063F5C
+    .long sym_06063F60
+    .long sym_060684EC
     .byte 0x64, 0x5D
     .byte 0xE0, 0x03
     .byte 0x92, 0x3D
@@ -147,7 +147,7 @@ DAT_060076e2:
     .global DAT_0600777e
 DAT_0600777e:
     .byte 0x3F, 0x00
-    .4byte sym_06034FE0
-    .4byte sym_0606A4F0
-    .4byte sym_06063F5C
-    .4byte dma_memory_transfer
+    .long sym_06034FE0
+    .long sym_0606A4F0
+    .long sym_06063F5C
+    .long dma_memory_transfer

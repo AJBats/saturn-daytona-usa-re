@@ -5,7 +5,7 @@ results_bonus_calc:
     mov.l   .L_pool_0601645C, r0
     mov.b @r0, r0
     tst r0, r0
-    bt/s    .L_06016464
+    bt.s    .L_06016464
     mov r4, r14
     mov.l   .L_pool_06016460, r5
     extu.b r14, r4
@@ -40,11 +40,11 @@ results_bonus_calc:
     .byte   0xA4, 0xBF    /* bra 0x06016DD8 (external: hud_sprite_vertex_project) */
     mov.l @r15+, r14
 .L_0601645A:
-    .2byte  0x0800
+    .short  0x0800
 .L_pool_0601645C:
-    .4byte  sym_06085F89
+    .long  sym_06085F89
 .L_pool_06016460:
-    .4byte  sym_06084FC8
+    .long  sym_06084FC8
 .L_06016464:
     rts
     mov.l @r15+, r14

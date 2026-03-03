@@ -9,7 +9,7 @@ results_ranking_table:
     .byte   0xD0, 0x0D    /* mov.l .L_06016510, r0 */
     mov.b @r0, r0
     tst r0, r0
-    bt/s    .L_06016514
+    bt.s    .L_06016514
     mov r4, r14
     extu.b r14, r4
     mov r4, r3
@@ -25,14 +25,14 @@ results_ranking_table:
     mov r2, r0
     bra     .L_0601661A
     mov.b r0, @(2, r4)
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_06016500:
-    .4byte  sym_06084FC8
-    .4byte  0x000B0000
-    .4byte  0x00040000
-    .4byte  0x0000C000
+    .long  sym_06084FC8
+    .long  0x000B0000
+    .long  0x00040000
+    .long  0x0000C000
 .L_06016510:
-    .4byte  sym_06085F89
+    .long  sym_06085F89
 .L_06016514:
     .byte   0xD5, 0x44    /* mov.l .L_06016628, r5 */
     extu.b r14, r2
@@ -175,9 +175,9 @@ results_ranking_table:
     .byte   0xA3, 0xDA    /* bra 0x06016DD8 (external) */
     mov.l @r15+, r14
 .L_06016624:
-    .2byte  0x0600
-    .2byte  0xFFFF
+    .short  0x0600
+    .short  0xFFFF
 .L_06016628:
-    .4byte  0x00010000
+    .long  0x00010000
 .L_0601662C:
-    .4byte  0x00020000
+    .long  0x00020000

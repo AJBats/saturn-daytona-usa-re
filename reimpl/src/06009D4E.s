@@ -28,33 +28,33 @@ state_post_race_display:
     jmp @r3
     lds.l @r15+, pr
 
-    .4byte  sym_0605A016
-    .4byte  display_mode_init
-    .4byte  race_state_pair_2
-    .4byte  g_game_state
-    .4byte  sym_06078654
-    .4byte  gameover_channel_setup
-    .4byte  obj_render_update
-    .4byte  sym_0607E944
-    .4byte  sym_0605B6D8
-    .4byte  0x40000000
-    .4byte  sym_06026CE0
-    .4byte  sym_06059F44
+    .long  sym_0605A016
+    .long  display_mode_init
+    .long  race_state_pair_2
+    .long  g_game_state
+    .long  sym_06078654
+    .long  gameover_channel_setup
+    .long  obj_render_update
+    .long  sym_0607E944
+    .long  sym_0605B6D8
+    .long  0x40000000
+    .long  sym_06026CE0
+    .long  sym_06059F44
 .L_pool_06009DB5:
-    .4byte  ai_waypoint_pathfind
+    .long  ai_waypoint_pathfind
 .L_pool_06009DB9:
-    .4byte  sym_06085F8A
+    .long  sym_06085F8A
 .L_pool_06009DBD:
-    .4byte  camera_system
+    .long  camera_system
 .L_pool_06009DC1:
-    .4byte  sym_06063E24
+    .long  sym_06063E24
 .L_pool_06009DC5:
-    .4byte  sym_06063EEC
+    .long  sym_06063EEC
 .L_pool_06009DC9:
-    .4byte  sym_06063EF8
+    .long  sym_06063EF8
 .L_pool_06009DCD:
-    .4byte  camera_orient_calc
+    .long  camera_orient_calc
 .L_pool_06009DD1:
-    .4byte  scene_master
+    .long  scene_master
 .L_pool_06009DD5:
-    .4byte  frame_end_commit
+    .long  frame_end_commit

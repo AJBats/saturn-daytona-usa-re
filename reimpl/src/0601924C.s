@@ -33,32 +33,32 @@ transition_full_exec:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-    .2byte  0x000B
-    .4byte  0x0009FFFF
+    .short  0x000B
+    .long  0x0009FFFF
 .L_06019290:
-    .4byte  sound_cmd_dispatch
+    .long  sound_cmd_dispatch
 .L_06019294:
-    .4byte  sym_06086050
+    .long  sym_06086050
 .L_06019298:
-    .4byte  0xAE0001FF
+    .long  0xAE0001FF
 .L_0601929C:
-    .4byte  0xAE0005FF
+    .long  0xAE0005FF
 .L_060192A0:
-    .4byte  0x0006D000
+    .long  0x0006D000
 .L_060192A4:
-    .4byte  0x0026D000
+    .long  0x0026D000
 .L_060192A8:
-    .4byte  0x25A03000
+    .long  0x25A03000
 .L_060192AC:
-    .4byte  memcpy_byte_idx
+    .long  memcpy_byte_idx
 .L_060192B0:
-    .4byte  0x25A02DBE
-    .4byte  0xE500D611
-    .4byte  0xD4116363
-    .4byte  0x625E7601
-    .4byte  0x44108FFA
-    .4byte  0x2320000B
-    .2byte  0x0009
+    .long  0x25A02DBE
+    .long  0xE500D611
+    .long  0xD4116363
+    .long  0x625E7601
+    .long  0x44108FFA
+    .long  0x2320000B
+    .short  0x0009
 
     .global sym_060192CA
 sym_060192CA:

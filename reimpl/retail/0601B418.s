@@ -35,11 +35,11 @@ disc_load_complete_check:
     .byte 0x00, 0x0B
     .byte 0x60, 0x00
     .byte 0x01, 0x01
-    .4byte sym_0608600C
-    .4byte sym_0608600E
-    .4byte handler_dispatch
-    .4byte sym_0608600D
-    .4byte sym_0605DEB4
+    .long sym_0608600C
+    .long sym_0608600E
+    .long handler_dispatch
+    .long sym_0608600D
+    .long sym_0605DEB4
     .byte 0x00, 0x01
     .byte 0x00, 0x00
     .byte 0x00, 0x00
@@ -48,6 +48,6 @@ disc_load_complete_check:
     .byte 0x00, 0x00
     .byte 0x01, 0x00
     .byte 0x00, 0x00
-    .4byte rigid_body_transform
-    .4byte frame_end_commit
-    .4byte sym_0605D4F8
+    .long rigid_body_transform
+    .long frame_end_commit
+    .long sym_0605D4F8

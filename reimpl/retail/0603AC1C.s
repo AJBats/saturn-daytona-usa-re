@@ -69,8 +69,8 @@ cmd_validate_exec:
     .global DAT_0603ac9e
 DAT_0603ac9e:
     .byte 0x00, 0xC4
-    .4byte sym_060A4D14
-    .4byte error_code_stub
+    .long sym_060A4D14
+    .long error_code_stub
     .byte 0x2E, 0xE8
     .byte 0x8B, 0x0A
     .byte 0xD3, 0x20

@@ -64,16 +64,16 @@ bus_lock_table_ctrl:
     rts
     nop
 .L_wpool_0603D424:
-    .2byte  0x0201
+    .short  0x0201
 
     .global DAT_0603d426
 DAT_0603d426:
-    .2byte  0x0200
+    .short  0x0200
 .L_pool_0603D428:
-    .4byte  0x0000FF00
+    .long  0x0000FF00
 .L_pool_0603D42C:
-    .4byte  sym_060A4D58
+    .long  sym_060A4D58
 .L_pool_0603D430:
-    .4byte  sym_060A4D30
+    .long  sym_060A4D30
 .L_pool_0603D434:
-    .4byte  sym_06034F78
+    .long  sym_06034F78

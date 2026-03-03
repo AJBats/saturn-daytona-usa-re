@@ -73,14 +73,14 @@ camera_track_update:
 DAT_06014594:
     .byte 0x40, 0x00
     .byte 0xFF, 0xFF
-    .4byte sym_06084B08
-    .4byte g_pad_state
-    .4byte sym_0607EBC8
+    .long sym_06084B08
+    .long g_pad_state
+    .long sym_0607EBC8
     .byte 0x00, 0x00
     .byte 0x80, 0x00
-    .4byte sym_06084B18
-    .4byte sym_0605AD2C
-    .4byte sym_06084B20
+    .long sym_06084B18
+    .long sym_0605AD2C
+    .long sym_06084B20
     .byte 0xAB, 0x11
     .byte 0x1D, 0xFF
-    .4byte sound_cmd_dispatch
+    .long sound_cmd_dispatch

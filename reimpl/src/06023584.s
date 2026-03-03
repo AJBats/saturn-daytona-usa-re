@@ -150,17 +150,17 @@ render_stage_b:
     bra     .L_060236C0
     nop
 .L_060236AC:
-    .2byte  0xFE6C
+    .short  0xFE6C
 .L_060236AE:
-    .2byte  0x018C
+    .short  0x018C
 .L_060236B0:
-    .4byte  sym_0606A4EC
+    .long  sym_0606A4EC
 .L_060236B4:
-    .4byte  sym_06060A48
+    .long  sym_06060A48
 .L_060236B8:
-    .4byte  sym_06035168
+    .long  sym_06035168
 .L_060236BC:
-    .4byte  sym_06089E44
+    .long  sym_06089E44
 .L_060236C0:
     mov #0x36, r2
     add #0x56, r4
@@ -204,7 +204,7 @@ render_stage_b:
     mov.w @r15, r3
     extu.w r3, r3
     cmp/pl r3
-    bf/s    .L_06023786
+    bf.s    .L_06023786
     extu.w r8, r13
 .L_06023716:
     tst r11, r11
@@ -233,21 +233,21 @@ render_stage_b:
     bra     .L_0602376E
     nop
 .L_06023744:
-    .2byte  0x5780
+    .short  0x5780
 .L_06023746:
-    .2byte  0x03C0
+    .short  0x03C0
 .L_06023748:
-    .4byte  0x002A8000
+    .long  0x002A8000
 .L_0602374C:
-    .4byte  sym_06059FFC
+    .long  sym_06059FFC
 .L_06023750:
-    .4byte  sym_06063F5C
+    .long  sym_06063F5C
 .L_06023754:
-    .4byte  memcpy_word_idx
+    .long  memcpy_word_idx
 .L_06023758:
-    .4byte  sym_06089E30
+    .long  sym_06089E30
 .L_0602375C:
-    .4byte  sym_06089E2C
+    .long  sym_06089E2C
 .L_06023760:
     extu.w r13, r2
     mov.w   .L_06023814, r3
@@ -267,7 +267,7 @@ render_stage_b:
     extu.w r13, r2
     extu.w r3, r3
     cmp/ge r3, r2
-    bf/s    .L_06023716
+    bf.s    .L_06023716
     add #0xC, r11
 .L_06023786:
     mov r14, r4
@@ -298,7 +298,7 @@ render_stage_b:
     mov.w @r15, r2
     extu.w r2, r2
     cmp/pl r2
-    bf/s    .L_060237D6
+    bf.s    .L_060237D6
     extu.w r8, r13
 .L_060237C0:
     extu.w r12, r5
@@ -310,7 +310,7 @@ render_stage_b:
     extu.w r13, r2
     extu.w r3, r3
     cmp/ge r3, r2
-    bf/s    .L_060237C0
+    bf.s    .L_060237C0
     add #0x6, r11
 .L_060237D6:
     extu.w r14, r0
@@ -350,16 +350,16 @@ render_stage_b:
     rts
     mov.l @r15+, r14
 .L_06023814:
-    .2byte  0x00D0
+    .short  0x00D0
 .L_06023816:
-    .2byte  0x0194
+    .short  0x0194
 .L_06023818:
-    .4byte  sym_06089E28
+    .long  sym_06089E28
 .L_0602381C:
-    .4byte  vdp1_sprite_render_alt
+    .long  vdp1_sprite_render_alt
 .L_06023820:
-    .4byte  sym_06060A40
+    .long  sym_06060A40
 .L_06023824:
-    .4byte  sym_06007590
+    .long  sym_06007590
 .L_06023828:
-    .4byte  sym_0607886C
+    .long  sym_0607886C

@@ -79,46 +79,46 @@ state_demo_setup:
     mov.l   .L_06009FF8, r3
     jmp @r3
     lds.l @r15+, pr
-    .2byte  0x4F26
-    .4byte  0x000B0009
+    .short  0x4F26
+    .long  0x000B0009
 .L_06009FAC:
-    .2byte  0x0224
-    .2byte  0xFFFF
+    .short  0x0224
+    .short  0xFFFF
 .L_06009FB0:
-    .4byte  sym_0607EBCC
+    .long  sym_0607EBCC
 .L_06009FB4:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_06009FB8:
-    .4byte  sym_06078637
+    .long  sym_06078637
 .L_06009FBC:
-    .4byte  sym_06078638
+    .long  sym_06078638
 .L_06009FC0:
-    .4byte  sym_0607863C
+    .long  sym_0607863C
 .L_06009FC4:
-    .4byte  sym_060786A4
+    .long  sym_060786A4
 .L_06009FC8:
-    .4byte  g_game_state
+    .long  g_game_state
 .L_06009FCC:
-    .4byte  sym_06087804
+    .long  sym_06087804
 .L_06009FD0:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8
 .L_06009FD4:
-    .4byte  disp_score_renderer
+    .long  disp_score_renderer
 .L_06009FD8:
-    .4byte  geom_display_ctrl_b
+    .long  geom_display_ctrl_b
 .L_06009FDC:
-    .4byte  sym_06078900
+    .long  sym_06078900
 .L_06009FE0:
-    .4byte  race_countdown_update
+    .long  race_countdown_update
 .L_06009FE4:
-    .4byte  car_proximity_check
+    .long  car_proximity_check
 .L_06009FE8:
-    .4byte  perspective_project
+    .long  perspective_project
 .L_06009FEC:
-    .4byte  scene_master
+    .long  scene_master
 .L_06009FF0:
-    .4byte  frame_end_commit
+    .long  frame_end_commit
 .L_06009FF4:
-    .4byte  sym_0605A00C
+    .long  sym_0605A00C
 .L_06009FF8:
-    .4byte  sym_06026CE0
+    .long  sym_06026CE0

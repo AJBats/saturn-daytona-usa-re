@@ -29,4 +29,4 @@ hud_utility:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .4byte sym_06000354
+    .long sym_06000354

@@ -24,7 +24,7 @@ mat_scale_columns:
     sts macl, r2
     xtrct r1, r2
     mov.l r2, @(24, r7)
-    bf/s    .L_06026E66
+    bf.s    .L_06026E66
     add #0x4, r7
     rts
     nop

@@ -12,33 +12,33 @@ vdp1_distorted_sprite:
     bf      .L_0602DEE0
     bra     .L_0602E05A
     nop
-    .4byte  sym_06082A30
-    .4byte  0x00000002
-    .4byte  sym_06082A3C
+    .long  sym_06082A30
+    .long  0x00000002
+    .long  sym_06082A3C
 .L_0602DE84:
-    .4byte  sym_06082A40
-    .4byte  sym_06082A54
-    .4byte  sym_06082A58
-    .4byte  sym_06082A44
-    .4byte  sym_06082A48
-    .4byte  sym_06082A50
-    .4byte  0x00000010
-    .4byte  sym_06082A70
-    .4byte  sym_06034FFC
-    .4byte  0x00000000
-    .4byte  sym_06082A6C
-    .4byte  0x00000008
-    .4byte  sym_06082A78
-    .4byte  sym_06082A74
-    .4byte  0x00000004
-    .4byte  sym_06063EEC
-    .4byte  sym_06082A5C
-    .4byte  sym_06063EF0
-    .4byte  sym_06082A60
-    .4byte  0x00000001
-    .4byte  sym_06063E24
-    .4byte  sym_06082A68
-    .4byte  car_param_lookup
+    .long  sym_06082A40
+    .long  sym_06082A54
+    .long  sym_06082A58
+    .long  sym_06082A44
+    .long  sym_06082A48
+    .long  sym_06082A50
+    .long  0x00000010
+    .long  sym_06082A70
+    .long  sym_06034FFC
+    .long  0x00000000
+    .long  sym_06082A6C
+    .long  0x00000008
+    .long  sym_06082A78
+    .long  sym_06082A74
+    .long  0x00000004
+    .long  sym_06063EEC
+    .long  sym_06082A5C
+    .long  sym_06063EF0
+    .long  sym_06082A60
+    .long  0x00000001
+    .long  sym_06063E24
+    .long  sym_06082A68
+    .long  car_param_lookup
 .L_0602DEE0:
     add #-0x1, r0
     mov.l r0, @r2
@@ -61,17 +61,17 @@ vdp1_distorted_sprite:
     bt      .L_0602DF34
     bra     .L_0602DF2A
     nop
-    .2byte  0x0000
+    .short  0x0000
 .L_0602DF0C:
-    .4byte  sym_06082A3C
+    .long  sym_06082A3C
 .L_0602DF10:
-    .4byte  0x00000010
+    .long  0x00000010
 .L_0602DF14:
-    .4byte  sym_06082A54
+    .long  sym_06082A54
 .L_0602DF18:
-    .4byte  sym_06082A70
+    .long  sym_06082A70
 .L_0602DF1C:
-    .4byte  sym_06082A6C
+    .long  sym_06082A6C
 .L_0602DF20:
     .byte   0xD0, 0x03    /* mov.l .L_0602DF30, r0 */
     mov.l @r0, r0
@@ -83,7 +83,7 @@ vdp1_distorted_sprite:
     bra     .L_0602DF36
     nop
 .L_0602DF30:
-    .4byte  sym_06082A6C
+    .long  sym_06082A6C
 .L_0602DF34:
     mov.l r2, @r1
 .L_0602DF36:
@@ -105,13 +105,13 @@ vdp1_distorted_sprite:
     bra     .L_0602DF72
     nop
 .L_0602DF58:
-    .4byte  0x00000008
+    .long  0x00000008
 .L_0602DF5C:
-    .4byte  sym_06082A58
+    .long  sym_06082A58
 .L_0602DF60:
-    .4byte  sym_06082A78
+    .long  sym_06082A78
 .L_0602DF64:
-    .4byte  sym_06082A74
+    .long  sym_06082A74
 .L_0602DF68:
     .byte   0xD0, 0x03    /* mov.l .L_0602DF78, r0 */
     mov.l @r0, r0
@@ -123,7 +123,7 @@ vdp1_distorted_sprite:
     bra     .L_0602DF7E
     nop
 .L_0602DF78:
-    .4byte  sym_06082A74
+    .long  sym_06082A74
 .L_0602DF7C:
     mov.l r2, @r1
 .L_0602DF7E:
@@ -145,13 +145,13 @@ vdp1_distorted_sprite:
     bra     .L_0602DFBA
     nop
 .L_0602DFA0:
-    .4byte  0x00000004
+    .long  0x00000004
 .L_0602DFA4:
-    .4byte  sym_06082A44
+    .long  sym_06082A44
 .L_0602DFA8:
-    .4byte  sym_06063EEC
+    .long  sym_06063EEC
 .L_0602DFAC:
-    .4byte  sym_06082A5C
+    .long  sym_06082A5C
 .L_0602DFB0:
     .byte   0xD0, 0x03    /* mov.l .L_0602DFC0, r0 */
     mov.l @r0, r0
@@ -163,7 +163,7 @@ vdp1_distorted_sprite:
     bra     .L_0602DFC6
     nop
 .L_0602DFC0:
-    .4byte  sym_06082A5C
+    .long  sym_06082A5C
 .L_0602DFC4:
     mov.l r2, @r1
 .L_0602DFC6:
@@ -185,13 +185,13 @@ vdp1_distorted_sprite:
     bra     .L_0602E002
     nop
 .L_0602DFE8:
-    .4byte  0x00000002
+    .long  0x00000002
 .L_0602DFEC:
-    .4byte  sym_06082A48
+    .long  sym_06082A48
 .L_0602DFF0:
-    .4byte  sym_06063EF0
+    .long  sym_06063EF0
 .L_0602DFF4:
-    .4byte  sym_06082A60
+    .long  sym_06082A60
 .L_0602DFF8:
     .byte   0xD0, 0x03    /* mov.l .L_0602E008, r0 */
     mov.l @r0, r0
@@ -203,7 +203,7 @@ vdp1_distorted_sprite:
     bra     .L_0602E00E
     nop
 .L_0602E008:
-    .4byte  sym_06082A60
+    .long  sym_06082A60
 .L_0602E00C:
     mov.l r2, @r1
 .L_0602E00E:
@@ -225,13 +225,13 @@ vdp1_distorted_sprite:
     bra     .L_0602E04A
     nop
 .L_0602E030:
-    .4byte  0x00000001
+    .long  0x00000001
 .L_0602E034:
-    .4byte  sym_06082A50
+    .long  sym_06082A50
 .L_0602E038:
-    .4byte  sym_06063E24
+    .long  sym_06063E24
 .L_0602E03C:
-    .4byte  sym_06082A68
+    .long  sym_06082A68
 .L_0602E040:
     .byte   0xD0, 0x03    /* mov.l .L_0602E050, r0 */
     mov.l @r0, r0
@@ -243,7 +243,7 @@ vdp1_distorted_sprite:
     bra     .L_0602E056
     nop
 .L_0602E050:
-    .4byte  sym_06082A68
+    .long  sym_06082A68
 .L_0602E054:
     mov.l r2, @r1
 .L_0602E056:
@@ -260,11 +260,11 @@ vdp1_distorted_sprite:
     .byte   0xAE, 0x52    /* bra 0x0602DD10 (external) */
     nop
 .L_0602E06C:
-    .4byte  sym_06082A38
+    .long  sym_06082A38
 .L_0602E070:
-    .4byte  sym_06082A30
+    .long  sym_06082A30
 .L_0602E074:
-    .4byte  0x00000001
+    .long  0x00000001
 
     .global loc_0602E078
 loc_0602E078:

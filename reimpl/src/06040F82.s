@@ -20,12 +20,12 @@ evt_boundary_check:
     lds.l @r15+, pr
     rts
     and r3, r0
-    .4byte  0x0000FFFF
-    .4byte  0x00008000
+    .long  0x0000FFFF
+    .long  0x00008000
 .L_06040FB0:
-    .4byte  mesh_boundary_check
+    .long  mesh_boundary_check
 .L_06040FB4:
-    .4byte  0x00FFFFFF
+    .long  0x00FFFFFF
 
     .global sym_06040FB8
 sym_06040FB8:
@@ -81,7 +81,7 @@ sym_06040FEA:
     rts
     nop
 .L_06041010:
-    .4byte  sym_060A5400
+    .long  sym_060A5400
 
     .global sym_06041014
 sym_06041014:

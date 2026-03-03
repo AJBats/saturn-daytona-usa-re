@@ -19,22 +19,22 @@ transform_rotation_alt:
     mov.w @(6, r0), r0
     bra     .L_060264D8
     extu.w r0, r0
-    .4byte  0xA001624D
-    .4byte  0x625DA027
-    .4byte  0x2E21A001
-    .4byte  0x624D625D
-    .4byte  0xA0222721
+    .long  0xA001624D
+    .long  0x625DA027
+    .long  0x2E21A001
+    .long  0x624D625D
+    .long  0xA0222721
 .L_060264C4:
     bra     .L_06026508
     nop
 .L_pool_060264CC:
-    .4byte  sym_0606107C
+    .long  sym_0606107C
 .L_pool_060264D0:
-    .4byte  sym_06060D2A
+    .long  sym_06060D2A
 .L_pool_060264D4:
-    .4byte  sym_06060D34
+    .long  sym_06060D34
 .L_pool_060264D8:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_060264D8:
     mov.w   .L_wpool_060264F2, r1
     sub r1, r0
@@ -48,13 +48,13 @@ transform_rotation_alt:
     braf r0
     nop
 .L_wpool_060264F2:
-    .2byte  0x008A
-    .4byte  0xFFC2FFC2                      /* dispatch offsets for render_type 0x008A and 0x008B */
-    .4byte  0xFFCCFFCC                      /* dispatch offsets for render_type 0x008C and 0x008D */
-    .4byte  0xFFC6FFC6                      /* dispatch offsets for render_type 0x008E and 0x008F */
-    .4byte  0xFFC6FFC6                      /* dispatch offsets for render_type 0x0090 and 0x0091 */
-    .4byte  0xFFD0FFD0                      /* dispatch offsets for render_type 0x0092 and 0x0093 */
-    .4byte  0xFFD0FFD0                      /* dispatch offsets for render_type 0x0094 and 0x0095 */
+    .short  0x008A
+    .long  0xFFC2FFC2                      /* dispatch offsets for render_type 0x008A and 0x008B */
+    .long  0xFFCCFFCC                      /* dispatch offsets for render_type 0x008C and 0x008D */
+    .long  0xFFC6FFC6                      /* dispatch offsets for render_type 0x008E and 0x008F */
+    .long  0xFFC6FFC6                      /* dispatch offsets for render_type 0x0090 and 0x0091 */
+    .long  0xFFD0FFD0                      /* dispatch offsets for render_type 0x0092 and 0x0093 */
+    .long  0xFFD0FFD0                      /* dispatch offsets for render_type 0x0094 and 0x0095 */
 .L_06026508:
     add #0x1, r6
     extu.w r6, r2

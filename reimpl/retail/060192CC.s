@@ -29,8 +29,8 @@ sound_channel_reset:
     .byte 0x00, 0x00
     .byte 0x00, 0x07
     .byte 0xFF, 0xFF
-    .4byte sound_cmd_dispatch
-    .4byte sym_06086050
+    .long sound_cmd_dispatch
+    .long sym_06086050
     .byte 0x25, 0xA0
     .byte 0x2D, 0xBE
     .byte 0x00, 0x00

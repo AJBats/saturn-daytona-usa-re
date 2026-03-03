@@ -19,22 +19,22 @@ transform_rotation_apply:
     mov.w @(6, r0), r0
     bra     .L_060263AC
     extu.w r0, r0
-    .4byte  0xA001624D                      /* bra +2 / extu.w r4, r2 (case A entry) */
-    .4byte  0x625DA027                      /* extu.w r5, r2 / bra loop_next (case C entry) */
-    .4byte  0x2E21A001                      /* mov.w r2, @r14 [delay] / bra +2 (case B entry) */
-    .4byte  0x624D625D                      /* extu.w r4, r2 [delay] / extu.w r5, r2 (case D entry) */
-    .4byte  0xA0222721                      /* bra loop_next / mov.w r2, @r7 [delay] */
+    .long  0xA001624D                      /* bra +2 / extu.w r4, r2 (case A entry) */
+    .long  0x625DA027                      /* extu.w r5, r2 / bra loop_next (case C entry) */
+    .long  0x2E21A001                      /* mov.w r2, @r14 [delay] / bra +2 (case B entry) */
+    .long  0x624D625D                      /* extu.w r4, r2 [delay] / extu.w r5, r2 (case D entry) */
+    .long  0xA0222721                      /* bra loop_next / mov.w r2, @r7 [delay] */
 .L_06026398:
     bra     .L_060263DC
     nop
 .L_pool_060263A0:
-    .4byte  sym_06060F2C
+    .long  sym_06060F2C
 .L_pool_060263A4:
-    .4byte  sym_06060D2A
+    .long  sym_06060D2A
 .L_pool_060263A8:
-    .4byte  sym_06060D34
+    .long  sym_06060D34
 .L_060263A8:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_060263AC:
     mov.w   .L_wpool_060263C6, r1
     sub r1, r0
@@ -48,13 +48,13 @@ transform_rotation_apply:
     braf r0
     nop
 .L_wpool_060263C6:
-    .2byte  0x008A
-    .4byte  0xFFC2FFC2
-    .4byte  0xFFCCFFCC
-    .4byte  0xFFC6FFC6
-    .4byte  0xFFC6FFC6
-    .4byte  0xFFD0FFD0
-    .4byte  0xFFD0FFD0
+    .short  0x008A
+    .long  0xFFC2FFC2
+    .long  0xFFCCFFCC
+    .long  0xFFC6FFC6
+    .long  0xFFC6FFC6
+    .long  0xFFD0FFD0
+    .long  0xFFD0FFD0
 .L_060263DC:
     add #0x1, r6
     extu.w r6, r2

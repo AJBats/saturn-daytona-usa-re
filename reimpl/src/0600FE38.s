@@ -48,36 +48,36 @@ transition_medium_b:
     jmp @r3
     lds.l @r15+, pr
 .L_wpool_0600FE92:
-    .2byte  0x00AB
+    .short  0x00AB
 .L_wpool_0600FE94:
-    .2byte  0x0090
+    .short  0x0090
 .L_wpool_0600FE96:
-    .2byte  0x07A2
+    .short  0x07A2
 .L_pool_0600FE98:
-    .4byte  sym_0607EBCC
+    .long  sym_0607EBCC
 .L_pool_0600FE9C:
-    .4byte  sym_06094FA8
+    .long  sym_06094FA8
 .L_pool_0600FEA0:
-    .4byte  sym_060EFB24
+    .long  sym_060EFB24
 .L_pool_0600FEA4:
-    .4byte  dma_memory_transfer
+    .long  dma_memory_transfer
 .L_pool_0600FEA8:
-    .4byte  sym_06063838
+    .long  sym_06063838
 .L_pool_0600FEAC:
-    .4byte  0x00009000
+    .long  0x00009000
 .L_pool_0600FEB0:
-    .4byte  sym_06028400
+    .long  sym_06028400
 .L_pool_0600FEB4:
-    .4byte  sym_06078864
+    .long  sym_06078864
 .L_pool_0600FEB8:
-    .4byte  sym_0607887F
+    .long  sym_0607887F
 .L_pool_0600FEBC:
-    .4byte  sym_0605ACE4
+    .long  sym_0605ACE4
 .L_pool_0600FEC0:
-    .4byte  sym_060284AE
+    .long  sym_060284AE
 .L_0600FEC4:
-    .4byte  0x25F001E0
+    .long  0x25F001E0
 .L_pool_0600FEC8:
-    .4byte  sym_06011F1C
+    .long  sym_06011F1C
 .L_0600FECC:
-    .4byte  0x25F00520
+    .long  0x25F00520

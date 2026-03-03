@@ -57,8 +57,8 @@ DAT_0603b7a8:
     .global DAT_0603b7aa
 DAT_0603b7aa:
     .byte 0x00, 0xF0
-    .4byte sym_060A4D14
-    .4byte sys_boot_sequence
-    .4byte mem_test_verify
-    .4byte sym_060406A6
-    .4byte sym_0604069A
+    .long sym_060A4D14
+    .long sys_boot_sequence
+    .long mem_test_verify
+    .long sym_060406A6
+    .long sym_0604069A

@@ -47,8 +47,8 @@ scene_3d_processor:
     .byte 0x00, 0x00
     .byte 0x03, 0xFF
     .byte 0xFF, 0xFF
-    .4byte sym_0607EAD8
-    .4byte sym_06061270
+    .long sym_0607EAD8
+    .long sym_06061270
     .byte 0xD1, 0x07
     .byte 0x61, 0x12
     .byte 0x90, 0x0B
@@ -67,9 +67,9 @@ scene_3d_processor:
     .global DAT_06027d26
 DAT_06027d26:
     .byte 0x01, 0xEC
-    .4byte sym_0607E940
-    .4byte sym_06061240
-    .4byte sym_06063F50
+    .long sym_0607E940
+    .long sym_06061240
+    .long sym_06063F50
     .byte 0x2C, 0xCA
     .byte 0x61, 0xF6
     .byte 0x2C, 0xC8
@@ -90,7 +90,7 @@ DAT_06027d26:
     .byte 0x63, 0x03
     .byte 0xA0, 0x87
     .byte 0xE6, 0x00
-    .4byte sym_060C2000
+    .long sym_060C2000
     .byte 0xD0, 0x10
     .byte 0x05, 0xDD
     .byte 0xE6, 0x34
@@ -125,8 +125,8 @@ DAT_06027d26:
     .byte 0x7C, 0xFF
     .byte 0x01, 0x00
     .byte 0x00, 0x00
-    .4byte sym_060BF000
-    .4byte sym_060A6000
+    .long sym_060BF000
+    .long sym_060A6000
     .byte 0x43, 0x11
     .byte 0x89, 0x02
     .byte 0x7D, 0x02
@@ -251,9 +251,9 @@ DAT_06027e98:
     .global DAT_06027e9a
 DAT_06027e9a:
     .byte 0x02, 0x5C
-    .4byte sym_060A6000
-    .4byte sym_0602ECCC
-    .4byte sym_0607E940
+    .long sym_060A6000
+    .long sym_0602ECCC
+    .long sym_0607E940
     .byte 0xD6, 0x08
     .byte 0x60, 0x62
     .byte 0x65, 0xF6
@@ -272,8 +272,8 @@ DAT_06027e9a:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .4byte sym_0607E940
-    .4byte sym_0606128A
+    .long sym_0607E940
+    .long sym_0606128A
     .byte 0x00, 0x09
     .byte 0x36, 0x00
     .byte 0x89, 0xFC

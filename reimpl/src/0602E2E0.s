@@ -13,8 +13,8 @@ vdp2_coeff_load:
     mov r3, r0
     bra     .L_0602E306
     nop
-    .4byte  0x14B40000
-    .4byte  sym_0602ECCC
+    .long  0x14B40000
+    .long  sym_0602ECCC
 .L_0602E300:
     cmp/gt r0, r4
     bt      .L_0602E306

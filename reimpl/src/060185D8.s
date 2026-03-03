@@ -80,46 +80,46 @@ sym_06018634:
 
     .global DAT_06018660
 DAT_06018660:
-    .2byte  0x38E3
+    .short  0x38E3
 .L_06018662:
-    .2byte  0x0178
+    .short  0x0178
 .L_06018664:
-    .2byte  0x0145
-    .2byte  0xFFFF
+    .short  0x0145
+    .short  0xFFFF
 .L_06018668:
-    .4byte  sym_06083254
+    .long  sym_06083254
 .L_0601866C:
-    .4byte  sym_06026DBC
+    .long  sym_06026DBC
 .L_06018670:
-    .4byte  sym_06048140
+    .long  sym_06048140
 .L_06018674:
-    .4byte  sym_06026E2E
+    .long  sym_06026E2E
 .L_06018678:
-    .4byte  mat_rot_y
+    .long  mat_rot_y
 .L_0601867C:
-    .4byte  0x00200000
+    .long  0x00200000
 .L_06018680:
-    .4byte  0x000BABE0
+    .long  0x000BABE0
 .L_06018684:
-    .4byte  sym_06031D8C
+    .long  sym_06031D8C
 .L_06018688:
-    .4byte  sym_06089E98
+    .long  sym_06089E98
 .L_0601868C:
-    .4byte  0x000BBD80
+    .long  0x000BBD80
 .L_06018690:
-    .4byte  sym_06031A28
+    .long  sym_06031A28
 .L_06018694:
-    .4byte  sym_06026DF8
+    .long  sym_06026DF8
 .L_06018698:
-    .4byte  sym_0605BE38
+    .long  sym_0605BE38
 .L_0601869C:
-    .4byte  sym_0605BE36
+    .long  sym_0605BE36
 .L_060186A0:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8
 .L_060186A4:
-    .4byte  sym_0605BE1C
+    .long  sym_0605BE1C
 .L_060186A8:
-    .4byte  sym_0605BE1E
+    .long  sym_0605BE1E
 .L_060186AC:
     cmp/eq #0x0, r0
     bt      .L_06018640
@@ -151,32 +151,32 @@ DAT_06018660:
     mov.l   .L_06018718, r2
     rts
     mov.w r4, @r2
-    .4byte  0xE400D20D
-    .4byte  0x634D604D
-    .4byte  0x2231D20C
-    .4byte  0x2241D208
-    .4byte  0x2201D308
-    .4byte  0x000B2341
+    .long  0xE400D20D
+    .long  0x634D604D
+    .long  0x2231D20C
+    .long  0x2241D208
+    .long  0x2201D308
+    .long  0x000B2341
 .L_060186FC:
-    .4byte  sym_0605BE24
+    .long  sym_0605BE24
 .L_06018700:
-    .4byte  sym_0605BE22
+    .long  sym_0605BE22
 .L_06018704:
-    .4byte  sym_0605BE20
+    .long  sym_0605BE20
 .L_06018708:
-    .4byte  sym_0605BE2A
+    .long  sym_0605BE2A
 .L_0601870C:
-    .4byte  sym_0605BE26
+    .long  sym_0605BE26
 .L_06018710:
-    .4byte  sym_0605BE28
+    .long  sym_0605BE28
 .L_06018714:
-    .4byte  sym_0605BE36
+    .long  sym_0605BE36
 .L_06018718:
-    .4byte  sym_0605BE38
-    .4byte  sym_0605BE1C
-    .4byte  sym_0605BE1E
-    .4byte  0xE400D202
-    .4byte  0x2241D202
-    .4byte  0x000B2241
-    .4byte  sym_0605BE36
-    .4byte  sym_0605BE38
+    .long  sym_0605BE38
+    .long  sym_0605BE1C
+    .long  sym_0605BE1E
+    .long  0xE400D202
+    .long  0x2241D202
+    .long  0x000B2241
+    .long  sym_0605BE36
+    .long  sym_0605BE38

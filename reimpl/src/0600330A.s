@@ -45,57 +45,57 @@ vdp_init_advanced:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0x0D00
-    .2byte  0x0D80
+    .short  0x0D00
+    .short  0x0D80
 
     .global DAT_06003366
 .L_06003366:
 DAT_06003366:
-    .2byte  0x0368
+    .short  0x0368
 
     .global DAT_06003368
 .L_06003368:
 DAT_06003368:
-    .2byte  0x3000
+    .short  0x3000
 .L_0600336A:
-    .2byte  0x0BC8
+    .short  0x0BC8
 
     .global DAT_0600336c
 .L_0600336C:
 DAT_0600336c:
-    .2byte  0x0378
+    .short  0x0378
 
     .global DAT_0600336e
 .L_0600336E:
 DAT_0600336e:
-    .2byte  0x4000
+    .short  0x4000
 
     .global DAT_06003370
 .L_06003370:
 DAT_06003370:
-    .2byte  0x00C6
+    .short  0x00C6
 
     .global DAT_06003372
 .L_06003372:
 DAT_06003372:
-    .2byte  0x0370
+    .short  0x0370
 
     .global DAT_06003374
 .L_06003374:
 DAT_06003374:
-    .2byte  0x5000
+    .short  0x5000
 
     .global DAT_06003376
 .L_06003376:
 DAT_06003376:
-    .2byte  0x0C02
-    .4byte  sym_06059ECE
-    .4byte  sym_060283E0
-    .4byte  0x0000F000
+    .short  0x0C02
+    .long  sym_06059ECE
+    .long  sym_060283E0
+    .long  0x0000F000
 .L_pool_06003384:
-    .4byte  sym_06063750
+    .long  sym_06063750
 .L_pool_06003388:
-    .4byte  sym_06028400
+    .long  sym_06028400
 
     .global sym_0600338C
 sym_0600338C:
@@ -170,36 +170,36 @@ sym_060033E6:
     .global DAT_06003406
 .L_06003406:
 DAT_06003406:
-    .2byte  0x0200
+    .short  0x0200
 
     .global DAT_06003408
 .L_06003408:
 DAT_06003408:
-    .2byte  0x5000
+    .short  0x5000
 .L_0600340A:
-    .2byte  0x0090
+    .short  0x0090
 
     .global DAT_0600340c
 .L_0600340C:
 DAT_0600340c:
-    .2byte  0x0C04
-    .2byte  0xFFFF
+    .short  0x0C04
+    .short  0xFFFF
 .L_pool_06003410:
-    .4byte  sym_06063DA0
+    .long  sym_06063DA0
 .L_pool_06003414:
-    .4byte  sym_06063AD0
+    .long  sym_06063AD0
 .L_pool_06003418:
-    .4byte  sym_06028400
+    .long  sym_06028400
 .L_pool_0600341C:
-    .4byte  sym_0605ACDD
+    .long  sym_0605ACDD
 .L_pool_06003420:
-    .4byte  sym_060284AE
+    .long  sym_060284AE
 .L_pool_06003424:
-    .4byte  sym_0607EBC8
+    .long  sym_0607EBC8
 .L_pool_06003428:
-    .4byte  sym_06044638
+    .long  sym_06044638
 .L_pool_0600342C:
-    .4byte  sym_0605ACF0
+    .long  sym_0605ACF0
 
     .global sym_06003430
 sym_06003430:

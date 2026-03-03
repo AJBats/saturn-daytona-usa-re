@@ -12,7 +12,7 @@ scene_graph_walk:
 .L_0602B9FC:
     mov.l r0, @r12
     dt r4
-    bf/s    .L_0602B9FC
+    bf.s    .L_0602B9FC
     add #0x10, r12
     mov.l   .L_0602BA8C, r10
     mov.l @r10, r10
@@ -80,21 +80,21 @@ scene_graph_walk:
     bt      .L_0602BAA4
     bra     .L_0602BC42
     nop
-    .2byte  0x0000
+    .short  0x0000
 .L_0602BA88:
-    .4byte  sym_06094AE4
+    .long  sym_06094AE4
 .L_0602BA8C:
-    .4byte  sym_06063F08
+    .long  sym_06063F08
 .L_0602BA90:
-    .4byte  sym_0602BD6C
+    .long  sym_0602BD6C
 .L_0602BA94:
-    .4byte  sym_0602BD8C
+    .long  sym_0602BD8C
 .L_0602BA98:
-    .4byte  sym_0608A52C
+    .long  sym_0608A52C
 .L_0602BA9C:
-    .4byte  sym_0602BDB4
+    .long  sym_0602BDB4
 .L_0602BAA0:
-    .4byte  sym_0602BD9C
+    .long  sym_0602BD9C
 .L_0602BAA4:
     mov.w @(16, r8), r0
     mov.l   .L_0602BB28, r7
@@ -153,7 +153,7 @@ sym_0602BAF8:
     mov.l   .L_0602BB38, r0
     mov #0x18, r1
     mov.l @r0, r0
-    mulu.w r0, r1
+    mulu r0, r1
     mov.l   .L_0602BB3C, r2
     sts macl, r9
     add r2, r9
@@ -176,19 +176,19 @@ sym_0602BAF8:
 
     .global DAT_0602bb26
 DAT_0602bb26:
-    .2byte  0xFF50
+    .short  0xFF50
 .L_0602BB28:
-    .4byte  sym_0602BAB6
+    .long  sym_0602BAB6
 .L_0602BB2C:
-    .4byte  sym_0602BACC
+    .long  sym_0602BACC
 .L_0602BB30:
-    .4byte  sym_0602BAE2
+    .long  sym_0602BAE2
 .L_0602BB34:
-    .4byte  sym_0602BAF8
+    .long  sym_0602BAF8
 .L_0602BB38:
-    .4byte  sym_060620D4
+    .long  sym_060620D4
 .L_0602BB3C:
-    .4byte  sym_0608AC20
+    .long  sym_0608AC20
 .L_0602BB40:
     mov.w   DAT_0602bbba, r12
     cmp/gt r0, r12
@@ -257,17 +257,17 @@ DAT_0602bb26:
 
     .global DAT_0602bbba
 DAT_0602bbba:
-    .2byte  0x00B0
+    .short  0x00B0
 
     .global DAT_0602bbbc
 DAT_0602bbbc:
-    .2byte  0xFF81
+    .short  0xFF81
 
     .global DAT_0602bbbe
 DAT_0602bbbe:
-    .2byte  0x0051
+    .short  0x0051
 .L_0602BBC0:
-    .4byte  sym_0602BDB8
+    .long  sym_0602BDB8
 
     .global loc_0602BBC4
 loc_0602BBC4:
@@ -365,19 +365,19 @@ loc_0602BC00:
     bra     .L_0602BA10
     nop
 .L_0602BC4C:
-    .4byte  0x000B8000
+    .long  0x000B8000
 .L_0602BC50:
-    .4byte  sym_0602BDB4
+    .long  sym_0602BDB4
 .L_0602BC54:
-    .4byte  sym_06063F54
+    .long  sym_06063F54
 .L_0602BC58:
-    .4byte  0x00020000
+    .long  0x00020000
 .L_0602BC5C:
-    .4byte  0x000A0000
+    .long  0x000A0000
 .L_0602BC60:
-    .4byte  sym_060620D4
+    .long  sym_060620D4
 .L_0602BC64:
-    .4byte  sym_0606A4F8
+    .long  sym_0606A4F8
 .L_0602BC68:
     lds.l @r15+, pr
     mov.l @r15+, r14
@@ -452,12 +452,12 @@ vdp1_cmd_emit:
     rts
     add #-0x18, r6
 .L_0602BCF2:
-    .2byte  0xFF00
+    .short  0xFF00
 .L_0602BCF4:
-    .2byte  0x00A0
-    .2byte  0x0000
+    .short  0x00A0
+    .short  0x0000
 .L_0602BCF8:
-    .4byte  sym_0602BDA8
+    .long  sym_0602BDA8
 .L_0602BCFC:
     mov.w   .L_0602BD34, r9
     mov.l @(28, r9), r7
@@ -488,19 +488,19 @@ vdp1_cmd_emit:
     rts
     nop
 .L_0602BD34:
-    .2byte  0xFF00
+    .short  0xFF00
 
     .global DAT_0602bd36
 DAT_0602bd36:
-    .2byte  0x0190
+    .short  0x0190
 
     .global DAT_0602bd38
 DAT_0602bd38:
-    .2byte  0xFE70
+    .short  0xFE70
 
     .global DAT_0602bd3a
 DAT_0602bd3a:
-    .2byte  0x00C8
+    .short  0x00C8
 .L_0602BD3C:
     and #0x3F, r0
     mov.l   .L_0602BD64, r12
@@ -521,9 +521,9 @@ DAT_0602bd3a:
     mov.l r3, @r5
     jmp @r7
     add #0x4, r5
-    .2byte  0x0000
+    .short  0x0000
 .L_0602BD64:
-    .4byte  sym_06094AE4
+    .long  sym_06094AE4
 .L_0602BD68:
     rts
     nop
@@ -593,8 +593,8 @@ sym_0602BDB4:
 
     .global sym_0602BDB8
 sym_0602BDB8:
-    .4byte  loc_0602BBC4
-    .4byte  loc_0602BBCE
-    .4byte  loc_0602BBE4
-    .4byte  loc_0602BBFA
-    .4byte  loc_0602BC00
+    .long  loc_0602BBC4
+    .long  loc_0602BBCE
+    .long  loc_0602BBE4
+    .long  loc_0602BBFA
+    .long  loc_0602BC00

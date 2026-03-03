@@ -16,7 +16,7 @@ throttle_state_toggle:
     and #0xFF, r0
     extu.w r0, r4
     cmp/gt r14, r4
-    bf/s    .L_06010498
+    bf.s    .L_06010498
     mov.l r2, @r13
     mov.l @r13, r2
     add #0x1, r2

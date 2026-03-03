@@ -11,7 +11,7 @@ vdp1_texture_setup:
     mov.l @r1, r4
     rts
     mov.l @r15+, r10
-    .4byte  0x000100EE
+    .long  0x000100EE
 
     .global DAT_0602c89c
 DAT_0602c89c:
@@ -28,16 +28,16 @@ DAT_0602c8a0:
     .word 0x00FA
     mov.l r9, @(r0, r0)
     .word 0x0000
-    .4byte  sym_06045AEC
-    .4byte  sym_0602ECCC
-    .4byte  0x4808328C
-    .4byte  0x6AF6000B
-    .4byte  0x64224801
-    .4byte  0x4808328C
-    .4byte  0x6AF6000B
-    .4byte  0x64224809
-    .4byte  0x4808328C
-    .4byte  0x6AF6000B
-    .4byte  0x6422E401
-    .4byte  0x6AF6000B
-    .2byte  0x4428
+    .long  sym_06045AEC
+    .long  sym_0602ECCC
+    .long  0x4808328C
+    .long  0x6AF6000B
+    .long  0x64224801
+    .long  0x4808328C
+    .long  0x6AF6000B
+    .long  0x64224809
+    .long  0x4808328C
+    .long  0x6AF6000B
+    .long  0x6422E401
+    .long  0x6AF6000B
+    .short  0x4428

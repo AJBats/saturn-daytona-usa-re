@@ -63,30 +63,30 @@ scene_data_block_copy:
     bra     .L_06038968
     nop
 .L_wpool_06038932:
-    .2byte  0x0100
+    .short  0x0100
 .L_wpool_06038934:
-    .2byte  0x0080
-    .2byte  0xFFFF
+    .short  0x0080
+    .short  0xFFFF
 .L_pool_06038938:
-    .4byte  sym_060A4C40
+    .long  sym_060A4C40
 .L_pool_0603893C:
-    .4byte  sym_060A4C44
+    .long  sym_060A4C44
 .L_pool_06038940:
-    .4byte  sym_060A4C38
+    .long  sym_060A4C38
 .L_pool_06038944:
-    .4byte  sym_060A3F68
+    .long  sym_060A3F68
 .L_pool_06038948:
-    .4byte  sym_060A4C48
+    .long  sym_060A4C48
 .L_pool_0603894C:
-    .4byte  sym_060A4C3C
+    .long  sym_060A4C3C
 .L_pool_06038950:
-    .4byte  sym_060A45D0
+    .long  sym_060A45D0
 .L_pool_06038954:
-    .4byte  sym_060635B2
+    .long  sym_060635B2
 .L_pool_06038958:
-    .4byte  sym_060A3E68
+    .long  sym_060A3E68
 .L_pool_0603895C:
-    .4byte  sym_060A4C5C
+    .long  sym_060A4C5C
 .L_06038960:
     cmp/eq #0x1, r0
     bt      .L_06038924

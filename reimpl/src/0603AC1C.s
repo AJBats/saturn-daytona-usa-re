@@ -6,7 +6,7 @@ cmd_validate_exec:
     mov.l r13, @-r15
     sts.l pr, @-r15
     cmp/ge r3, r4
-    bf/s    .L_0603AC30
+    bf.s    .L_0603AC30
     mov r6, r14
     mov #0x18, r3
     cmp/gt r3, r4
@@ -78,11 +78,11 @@ cmd_validate_exec:
 
     .global DAT_0603ac9e
 DAT_0603ac9e:
-    .2byte  0x00C4
+    .short  0x00C4
 .L_pool_0603ACA0:
-    .4byte  sym_060A4D14
+    .long  sym_060A4D14
 .L_pool_0603ACA4:
-    .4byte  error_code_stub
+    .long  error_code_stub
 .L_0603ACA8:
     tst r14, r14
     bf      .L_0603ACC2

@@ -36,7 +36,7 @@ mat_rot_y:
     sts macl, r2
     xtrct r0, r2
     mov.l r2, @(8, r4)
-    bf/s    .L_06026EFA
+    bf.s    .L_06026EFA
     add #0xC, r4
     rts
     nop

@@ -19,7 +19,7 @@ evt_cmd_enqueue:
     mov.l @(4, r14), r4
     mov r0, r4
     tst r4, r4
-    bt/s    .L_060408DC
+    bt.s    .L_060408DC
     add #0x4, r15
     bra     .L_0604093C
     mov #0x0, r0
@@ -82,8 +82,8 @@ evt_cmd_enqueue:
     rts
     mov.l @r15+, r14
 .L_06040948:
-    .4byte  cmd_enqueue
+    .long  cmd_enqueue
 .L_0604094C:
-    .4byte  state_field_read
+    .long  state_field_read
 .L_06040950:
-    .4byte  sym_06040220
+    .long  sym_06040220

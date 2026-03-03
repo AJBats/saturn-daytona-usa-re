@@ -72,34 +72,34 @@ vdp1_coord_setup:
 
     .global DAT_0602cb04
 DAT_0602cb04:
-    .2byte  0x0104
+    .short  0x0104
 
     .global DAT_0602cb06
 DAT_0602cb06:
-    .2byte  0x0100
+    .short  0x0100
 
     .global DAT_0602cb08
 DAT_0602cb08:
-    .2byte  0x0060
+    .short  0x0060
 
     .global DAT_0602cb0a
 DAT_0602cb0a:
-    .2byte  0x0064
+    .short  0x0064
 
     .global DAT_0602cb0c
 DAT_0602cb0c:
-    .2byte  0x0148
+    .short  0x0148
 
     .global DAT_0602cb0e
 DAT_0602cb0e:
-    .2byte  0x00EC
+    .short  0x00EC
 .L_wpool_0602CB10:
-    .2byte  0x00F8
-    .2byte  0x0000
+    .short  0x00F8
+    .short  0x0000
 .L_pool_0602CB14:
-    .4byte  0x03700000
+    .long  0x03700000
 .L_pool_0602CB18:
-    .4byte  0x02D00000
+    .long  0x02D00000
 .L_0602CB1C:
     shar r6
     shar r6
@@ -150,27 +150,27 @@ DAT_0602cb0e:
 
     .global DAT_0602cb72
 DAT_0602cb72:
-    .2byte  0x0140
+    .short  0x0140
 
     .global DAT_0602cb74
 DAT_0602cb74:
-    .2byte  0x0108
+    .short  0x0108
 
     .global DAT_0602cb76
 DAT_0602cb76:
-    .2byte  0x00F4
+    .short  0x00F4
 
     .global DAT_0602cb78
 DAT_0602cb78:
-    .2byte  0x00F0
+    .short  0x00F0
 
     .global DAT_0602cb7a
 DAT_0602cb7a:
-    .2byte  0x011C
+    .short  0x011C
 .L_0602CB7C:
-    .4byte  0x00010000
+    .long  0x00010000
 .L_0602CB80:
-    .4byte  fpdiv_setup
+    .long  fpdiv_setup
 .L_0602CB84:
     shar r3
     shar r3
@@ -323,77 +323,77 @@ DAT_0602cb7a:
 
     .global DAT_0602cc9c
 DAT_0602cc9c:
-    .2byte  0x0144
+    .short  0x0144
 
     .global DAT_0602cc9e
 DAT_0602cc9e:
-    .2byte  0x010C
+    .short  0x010C
 
     .global DAT_0602cca0
 DAT_0602cca0:
-    .2byte  0x00D8
+    .short  0x00D8
 
     .global DAT_0602cca2
 DAT_0602cca2:
-    .2byte  0x00D0
+    .short  0x00D0
 
     .global DAT_0602cca4
 DAT_0602cca4:
-    .2byte  0x0040
+    .short  0x0040
 
     .global DAT_0602cca6
 DAT_0602cca6:
-    .2byte  0x0150
+    .short  0x0150
 
     .global DAT_0602cca8
 DAT_0602cca8:
-    .2byte  0x0058
+    .short  0x0058
 
     .global DAT_0602ccaa
 DAT_0602ccaa:
-    .2byte  0x005C
+    .short  0x005C
 
     .global DAT_0602ccac
 DAT_0602ccac:
-    .2byte  0x0060
+    .short  0x0060
 
     .global DAT_0602ccae
 DAT_0602ccae:
-    .2byte  0x0064
+    .short  0x0064
 
     .global DAT_0602ccb0
 DAT_0602ccb0:
-    .2byte  0x0250
+    .short  0x0250
 
     .global DAT_0602ccb2
 DAT_0602ccb2:
-    .2byte  0x0110
+    .short  0x0110
 
     .global DAT_0602ccb4
 DAT_0602ccb4:
-    .2byte  0x0108
+    .short  0x0108
 
     .global DAT_0602ccb6
 DAT_0602ccb6:
-    .2byte  0x0114
+    .short  0x0114
 
     .global DAT_0602ccb8
 DAT_0602ccb8:
-    .2byte  0x007C
+    .short  0x007C
 
     .global DAT_0602ccba
 DAT_0602ccba:
-    .2byte  0x00FC
+    .short  0x00FC
 .L_0602CCBC:
-    .4byte  fpdiv_setup
+    .long  fpdiv_setup
 .L_pool_0602CCC0:
-    .4byte  0x0000CCCC
+    .long  0x0000CCCC
 .L_0602CCC4:
-    .4byte  0xFFFF0000
+    .long  0xFFFF0000
 .L_pool_0602CCC8:
-    .4byte  0x00000140
+    .long  0x00000140
 .L_pool_0602CCCC:
-    .4byte  0x00000100
+    .long  0x00000100
 
     .global sym_0602CCD0
 sym_0602CCD0:
@@ -412,4 +412,4 @@ sym_0602CCD0:
     rts
     nop
 .L_wpool_0602CCEA:
-    .2byte  0x0152
+    .short  0x0152

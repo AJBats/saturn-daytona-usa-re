@@ -59,13 +59,13 @@ error_trap_handler:
     rts
     mov.l @r15+, r14
 .L_060413EE:
-    .2byte  0x0348
-    .4byte  ai_recovery_handler
+    .short  0x0348
+    .long  ai_recovery_handler
 .L_pool_060413F5:
-    .4byte  sym_060A5400
-    .4byte  0xD3149026
-    .4byte  0x6332003E
-    .4byte  0x20088901
-    .4byte  0x000BE000
-    .4byte  0xE001000B
-    .2byte  0x0009
+    .long  sym_060A5400
+    .long  0xD3149026
+    .long  0x6332003E
+    .long  0x20088901
+    .long  0x000BE000
+    .long  0xE001000B
+    .short  0x0009

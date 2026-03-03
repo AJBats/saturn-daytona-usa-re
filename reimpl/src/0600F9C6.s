@@ -33,30 +33,30 @@ transition_large_menu:
     bra     .L_0600FA44
     mov #0x23, r13
 .L_0600FA04:
-    .2byte  0x0080
-    .2byte  0xFFFF
-    .4byte  sym_0607885C
-    .4byte  0x00100000
-    .4byte  display_channel_b
-    .4byte  sym_0607886E
-    .4byte  sprite_batch_renderer
-    .4byte  sym_0607887F
+    .short  0x0080
+    .short  0xFFFF
+    .long  sym_0607885C
+    .long  0x00100000
+    .long  display_channel_b
+    .long  sym_0607886E
+    .long  sprite_batch_renderer
+    .long  sym_0607887F
 .L_0600FA20:
-    .4byte  0xAE0003FF
+    .long  0xAE0003FF
 .L_0600FA24:
-    .4byte  sound_cmd_dispatch              /* sound command dispatcher */
+    .long  sound_cmd_dispatch              /* sound command dispatcher */
 .L_0600FA28:
-    .4byte  sym_0602853E
+    .long  sym_0602853E
 .L_0600FA2C:
-    .4byte  sym_0605CA9C
+    .long  sym_0605CA9C
 .L_0600FA30:
-    .4byte  0x25F00460
+    .long  0x25F00460
 .L_0600FA34:
-    .4byte  memcpy_word_idx
+    .long  memcpy_word_idx
 .L_0600FA38:
-    .4byte  sym_0601209E
+    .long  sym_0601209E
 .L_0600FA3C:
-    .4byte  g_pad_state
+    .long  g_pad_state
 .L_0600FA40:
     mov #0x28, r14
     mov #0x27, r13
@@ -164,63 +164,63 @@ transition_large_menu:
     jmp @r3
     mov.l @r15+, r14
 .L_0600FB0C:
-    .2byte  0x0B04
+    .short  0x0B04
 .L_0600FB0E:
-    .2byte  0x0B38
+    .short  0x0B38
 .L_0600FB10:
-    .2byte  0x0170
+    .short  0x0170
 .L_0600FB12:
-    .2byte  0x4000
+    .short  0x4000
 .L_0600FB14:
-    .2byte  0x0C26
+    .short  0x0C26
 .L_0600FB16:
-    .2byte  0x0090
+    .short  0x0090
 .L_0600FB18:
-    .2byte  0x07A2
-    .2byte  0xFFFF
+    .short  0x07A2
+    .short  0xFFFF
 .L_0600FB1C:
-    .4byte  sym_06063750
+    .long  sym_06063750
 .L_0600FB20:
-    .4byte  sym_06028400
+    .long  sym_06028400
 .L_0600FB24:
-    .4byte  0x00009000
+    .long  0x00009000
 .L_0600FB28:
-    .4byte  0xAB1104FF
+    .long  0xAB1104FF
 .L_0600FB2C:
-    .4byte  sound_cmd_dispatch              /* sound command dispatcher */
+    .long  sound_cmd_dispatch              /* sound command dispatcher */
 .L_0600FB30:
-    .4byte  sym_0607887F
+    .long  sym_0607887F
 .L_0600FB34:
-    .4byte  sym_0607EADC
+    .long  sym_0607EADC
 .L_0600FB38:
-    .4byte  sym_0607EAB8
+    .long  sym_0607EAB8
 .L_0600FB3C:
-    .4byte  sym_06078868
+    .long  sym_06078868
 .L_0600FB40:
-    .4byte  sym_060788A0
+    .long  sym_060788A0
 .L_0600FB44:
-    .4byte  sym_060788A4
+    .long  sym_060788A4
 .L_0600FB48:
-    .4byte  sym_06085FF4
+    .long  sym_06085FF4
 .L_0600FB4C:
-    .4byte  sym_06078894
+    .long  sym_06078894
 .L_0600FB50:
-    .4byte  0x000C0000
+    .long  0x000C0000
 .L_0600FB54:
-    .4byte  sym_06078898
+    .long  sym_06078898
 .L_0600FB58:
-    .4byte  sym_0607889C
+    .long  sym_0607889C
 .L_0600FB5C:
-    .4byte  sym_060788A8
+    .long  sym_060788A8
 .L_0600FB60:
-    .4byte  sym_0605ACE4
+    .long  sym_0605ACE4
 .L_0600FB64:
-    .4byte  sym_060284AE
+    .long  sym_060284AE
 .L_0600FB68:
-    .4byte  sym_06011494
+    .long  sym_06011494
 .L_0600FB6C:
-    .4byte  anim_ui_transition
+    .long  anim_ui_transition
 .L_0600FB70:
-    .4byte  graphics_mode_setup
+    .long  graphics_mode_setup
 .L_0600FB74:
-    .4byte  sym_06011EB4
+    .long  sym_06011EB4

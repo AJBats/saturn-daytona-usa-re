@@ -29,7 +29,7 @@ track_distance_calc:
     rts
     mov.l @r15+, r14
 .L_pool_06036646:
-    .4byte  input_proc_analog
-    .4byte  input_proc_buttons
+    .long  input_proc_analog
+    .long  input_proc_buttons
 .L_0603664C:
-    .4byte  0x00FFFFFF
+    .long  0x00FFFFFF

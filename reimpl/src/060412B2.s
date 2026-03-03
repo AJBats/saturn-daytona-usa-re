@@ -46,15 +46,15 @@ evt_checkpoint_validate:
     rts
     nop
 .L_06041306:
-    .2byte  0x0338
-    .4byte  ai_checkpoint_validate
+    .short  0x0338
+    .long  ai_checkpoint_validate
 .L_pool_0604130D:
-    .4byte  sym_060A5400
-    .4byte  0xD5149025
-    .4byte  0x6352003E
-    .4byte  0x20088906
-    .4byte  0x63529020
-    .4byte  0x023E3240
-    .4byte  0x8B01000B
-    .4byte  0xE000E001
-    .4byte  0x000B0009
+    .long  sym_060A5400
+    .long  0xD5149025
+    .long  0x6352003E
+    .long  0x20088906
+    .long  0x63529020
+    .long  0x023E3240
+    .long  0x8B01000B
+    .long  0xE000E001
+    .long  0x000B0009

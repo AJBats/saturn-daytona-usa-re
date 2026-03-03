@@ -48,11 +48,11 @@ obj_create:
     .global DAT_060203be
 DAT_060203be:
     .byte 0x00, 0xFF
-    .4byte sym_0608780A
-    .4byte sym_0608782C
-    .4byte sym_0604BD72
-    .4byte sym_0605F458
-    .4byte sym_0605F478
+    .long sym_0608780A
+    .long sym_0608782C
+    .long sym_0604BD72
+    .long sym_0605F458
+    .long sym_0605F478
     .byte 0x84, 0xE2
     .byte 0x65, 0xE0
     .byte 0x64, 0x03

@@ -33,7 +33,7 @@ sym_0600D336:
     mov.l @(r0, r4), r3
     mov.l @(r0, r5), r2
     cmp/ge r2, r3
-    bf/s    .L_0600D360
+    bf.s    .L_0600D360
     mov #0x0, r6
     mov.w   .L_0600D36E, r0
     mov.l r6, @(r0, r4)
@@ -47,17 +47,17 @@ sym_0600D336:
     rts
     nop
 .L_0600D36A:
-    .2byte  0x0268
+    .short  0x0268
 .L_0600D36C:
-    .2byte  0x01F4
+    .short  0x01F4
 .L_0600D36E:
-    .2byte  0x0224
+    .short  0x0224
 .L_0600D370:
-    .4byte  sym_0607EBC4
+    .long  sym_0607EBC4
 .L_0600D374:
-    .4byte  0x00200000
+    .long  0x00200000
 .L_0600D378:
-    .4byte  sym_06078900
+    .long  sym_06078900
 .L_0600D37C:
     mov.l r13, @-r15
     mov #0x1, r13
@@ -69,7 +69,7 @@ sym_0600D336:
     mov.l @r5, r5
     mov.l @(r0, r1), r1
     cmp/hi r13, r5
-    bf/s    .L_0600D3B8
+    bf.s    .L_0600D3B8
     mov #0x0, r12
 .L_0600D394:
     mov.l @(4, r4), r6
@@ -90,7 +90,7 @@ sym_0600D336:
     add #-0x1, r5
     mov.l r2, @(r0, r3)
     cmp/hi r13, r5
-    bt/s    .L_0600D394
+    bt.s    .L_0600D394
     add #0x1, r12
 .L_0600D3B8:
     mov.l @r4, r2
@@ -108,7 +108,7 @@ sym_0600D336:
     mov.l @r3, r3
     mov.l @(r0, r5), r5
     cmp/hi r5, r3
-    bf/s    .L_0600D3DC
+    bf.s    .L_0600D3DC
     mov #0x1, r13
     bra     vehicle_state_update
     mov.l @r15+, r13
@@ -132,7 +132,7 @@ sym_0600D336:
 .L_0600D3F8:
     add #-0x1, r6
     cmp/hi r13, r6
-    bt/s    .L_0600D3E4
+    bt.s    .L_0600D3E4
     add #0x4, r4
 .L_0600D400:
     bra     .L_0600D496
@@ -140,22 +140,22 @@ sym_0600D336:
 
     .global DAT_0600d404
 DAT_0600d404:
-    .2byte  0x01F4
+    .short  0x01F4
 
     .global DAT_0600d406
 DAT_0600d406:
-    .2byte  0x0224
+    .short  0x0224
 .L_0600D408:
-    .2byte  0x01EC
-    .2byte  0xFFFF
+    .short  0x01EC
+    .short  0xFFFF
 .L_0600D40C:
-    .4byte  sym_0607E94C
+    .long  sym_0607E94C
 .L_0600D410:
-    .4byte  sym_0607EA98
+    .long  sym_0607EA98
 .L_0600D414:
-    .4byte  sym_0607E9EC
+    .long  sym_0607E9EC
 .L_0600D418:
-    .4byte  sym_060786B4
+    .long  sym_060786B4
 
     .global vehicle_state_update
 vehicle_state_update:
@@ -186,7 +186,7 @@ vehicle_state_update:
     mov r4, r5
     mov #0x0, r2
     cmp/hi r2, r5
-    bf/s    .L_0600D45E
+    bf.s    .L_0600D45E
     mov r13, r6
 .L_0600D450:
     mov.l @r6+, r1
@@ -194,14 +194,14 @@ vehicle_state_update:
     mov #0x0, r3
     mov.l r1, @r7
     cmp/hi r3, r5
-    bt/s    .L_0600D450
+    bt.s    .L_0600D450
     add #0x4, r7
 .L_0600D45E:
     mov.l   .L_0600D4B4, r5
     mov.l @r5, r5
     sub r4, r5
     cmp/hi r14, r5
-    bf/s    .L_0600D478
+    bf.s    .L_0600D478
     mov r13, r7
 .L_0600D46A:
     mov r7, r2
@@ -209,7 +209,7 @@ vehicle_state_update:
     add #-0x1, r5
     add #0x4, r7
     cmp/hi r14, r5
-    bt/s    .L_0600D46A
+    bt.s    .L_0600D46A
     mov.l r1, @r2
 .L_0600D478:
     mov.l   .L_0600D4B0, r5
@@ -222,7 +222,7 @@ vehicle_state_update:
     mov #0x0, r3
     mov.l r1, @r7
     cmp/hi r3, r4
-    bt/s    .L_0600D480
+    bt.s    .L_0600D480
     add #0x4, r7
 .L_0600D48E:
     mov.l @r15+, r12
@@ -241,15 +241,15 @@ vehicle_state_update:
 
     .global DAT_0600d4a6
 DAT_0600d4a6:
-    .2byte  0x01EC
+    .short  0x01EC
 .L_0600D4A8:
-    .4byte  sym_060786B4
+    .long  sym_060786B4
 .L_0600D4AC:
-    .4byte  sym_0607E9EC
+    .long  sym_0607E9EC
 .L_0600D4B0:
-    .4byte  sym_0607EA8C
+    .long  sym_0607EA8C
 .L_0600D4B4:
-    .4byte  sym_0607EA98
+    .long  sym_0607EA98
 .L_0600D4B8:
     mov.l @r4, r2
     mov r4, r3
@@ -318,21 +318,21 @@ render_batch:
     bra     .L_0600D586
     mov r14, r5
 .L_0600D534:
-    .2byte  0x0238
+    .short  0x0238
 
     .global DAT_0600d536
 DAT_0600d536:
-    .2byte  0x023C
+    .short  0x023C
 .L_0600D538:
-    .4byte  sym_060786B4
+    .long  sym_060786B4
 .L_0600D53C:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_0600D540:
-    .4byte  sym_0607EA98
+    .long  sym_0607EA98
 .L_0600D544:
-    .4byte  sym_0607EBDC
+    .long  sym_0607EBDC
 .L_0600D548:
-    .4byte  sym_0607E94C
+    .long  sym_0607E94C
 .L_0600D54C:
     mov.l @r6+, r4
     mov.w   DAT_0600d5d6, r0
@@ -374,7 +374,7 @@ DAT_0600d536:
     mov.l @r2, r2
     and r3, r2
     tst r2, r2
-    bf/s    .L_0600D604
+    bf.s    .L_0600D604
     mov r4, r10
     mov r15, r6
     mov r15, r5
@@ -407,34 +407,34 @@ DAT_0600d536:
 
     .global DAT_0600d5d6
 DAT_0600d5d6:
-    .2byte  0x0218
+    .short  0x0218
 .L_0600D5D8:
-    .2byte  0x0801
+    .short  0x0801
 .L_0600D5DA:
-    .2byte  0x0901
+    .short  0x0901
 .L_0600D5DC:
-    .2byte  0x0A01
+    .short  0x0A01
 .L_0600D5DE:
-    .2byte  0x0701
+    .short  0x0701
 .L_0600D5E0:
-    .2byte  0x0601
-    .2byte  0xFFFF
+    .short  0x0601
+    .short  0xFFFF
 .L_0600D5E4:
-    .4byte  sym_06034F78
+    .long  sym_06034F78
 .L_0600D5E8:
-    .4byte  sym_0607EBC4
+    .long  sym_0607EBC4
 .L_0600D5EC:
-    .4byte  0x10060000
+    .long  0x10060000
 .L_0600D5F0:
-    .4byte  sym_06063EF0
+    .long  sym_06063EF0
 .L_0600D5F4:
-    .4byte  sincos_pair
+    .long  sincos_pair
 .L_0600D5F8:
-    .4byte  0x00070000
+    .long  0x00070000
 .L_0600D5FC:
-    .4byte  fpmul
+    .long  fpmul
 .L_0600D600:
-    .4byte  sym_06063DF8
+    .long  sym_06063DF8
 .L_0600D604:
     mov r15, r6
     mov r15, r5
@@ -535,23 +535,23 @@ DAT_0600d5d6:
     bra     .L_0600D6E8
     add #0x1, r8
 .L_0600D6BA:
-    .2byte  0x0238
+    .short  0x0238
 .L_0600D6BC:
-    .2byte  0x0801
+    .short  0x0801
 .L_0600D6BE:
-    .2byte  0x0901
+    .short  0x0901
 .L_0600D6C0:
-    .4byte  sincos_pair
+    .long  sincos_pair
 .L_0600D6C4:
-    .4byte  0x00050000
+    .long  0x00050000
 .L_0600D6C8:
-    .4byte  fpmul
+    .long  fpmul
 .L_0600D6CC:
-    .4byte  0x000C0000
+    .long  0x000C0000
 .L_0600D6D0:
-    .4byte  sym_06034F78
+    .long  sym_06034F78
 .L_0600D6D4:
-    .4byte  0x00230000
+    .long  0x00230000
 .L_0600D6D8:
     mov.l   .L_0600D774, r2
     cmp/ge r2, r5
@@ -631,23 +631,23 @@ DAT_0600d5d6:
     rts
     mov.l @r15+, r14
 .L_0600D766:
-    .2byte  0x0A01
+    .short  0x0A01
 .L_0600D768:
-    .2byte  0x0801
+    .short  0x0801
 
     .global DAT_0600d76a
 DAT_0600d76a:
-    .2byte  0x01EC
+    .short  0x01EC
 .L_0600D76C:
-    .2byte  0x0701
+    .short  0x0701
 .L_0600D76E:
-    .2byte  0x0601
+    .short  0x0601
 .L_0600D770:
-    .2byte  0x0268
-    .2byte  0xFFFF
+    .short  0x0268
+    .short  0xFFFF
 .L_0600D774:
-    .4byte  0x00780000
+    .long  0x00780000
 .L_0600D778:
-    .4byte  sym_06034F78
+    .long  sym_06034F78
 .L_0600D77C:
-    .4byte  sym_06078B68
+    .long  sym_06078B68

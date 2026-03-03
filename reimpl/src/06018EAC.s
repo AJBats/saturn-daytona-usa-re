@@ -32,8 +32,8 @@ scsp_set_master_volume:
 
     .align 2
 .L_06018ED8:
-    .4byte  cd_block_read_safe
+    .long  cd_block_read_safe
 .L_06018EDC:
-    .4byte  0x25B00217
+    .long  0x25B00217
 .L_06018EE0:
-    .4byte  0x25B00237
+    .long  0x25B00237

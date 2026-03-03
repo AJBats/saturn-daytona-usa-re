@@ -45,10 +45,10 @@ sym_0600D336:
     .byte 0x02, 0x68
     .byte 0x01, 0xF4
     .byte 0x02, 0x24
-    .4byte sym_0607EBC4
+    .long sym_0607EBC4
     .byte 0x00, 0x20
     .byte 0x00, 0x00
-    .4byte sym_06078900
+    .long sym_06078900
     .byte 0x2F, 0xD6
     .byte 0xED, 0x01
     .byte 0x2F, 0xC6
@@ -125,10 +125,10 @@ DAT_0600d406:
     .byte 0x02, 0x24
     .byte 0x01, 0xEC
     .byte 0xFF, 0xFF
-    .4byte sym_0607E94C
-    .4byte sym_0607EA98
-    .4byte sym_0607E9EC
-    .4byte sym_060786B4
+    .long sym_0607E94C
+    .long sym_0607EA98
+    .long sym_0607E9EC
+    .long sym_060786B4
 	.text
     .global vehicle_state_update
 vehicle_state_update:
@@ -204,10 +204,10 @@ vehicle_state_update:
     .global DAT_0600d4a6
 DAT_0600d4a6:
     .byte 0x01, 0xEC
-    .4byte sym_060786B4
-    .4byte sym_0607E9EC
-    .4byte sym_0607EA8C
-    .4byte sym_0607EA98
+    .long sym_060786B4
+    .long sym_0607E9EC
+    .long sym_0607EA8C
+    .long sym_0607EA98
     .byte 0x62, 0x42
     .byte 0x63, 0x43
     .byte 0x73, 0xFC
@@ -277,11 +277,11 @@ render_batch:
     .global DAT_0600d536
 DAT_0600d536:
     .byte 0x02, 0x3C
-    .4byte sym_060786B4
-    .4byte sym_0607E944
-    .4byte sym_0607EA98
-    .4byte sym_0607EBDC
-    .4byte sym_0607E94C
+    .long sym_060786B4
+    .long sym_0607E944
+    .long sym_0607EA98
+    .long sym_0607EBDC
+    .long sym_0607E94C
     .byte 0x64, 0x66
     .byte 0x90, 0x42
     .byte 0x04, 0xE6
@@ -360,16 +360,16 @@ DAT_0600d5d6:
     .byte 0x07, 0x01
     .byte 0x06, 0x01
     .byte 0xFF, 0xFF
-    .4byte sym_06034F78
-    .4byte sym_0607EBC4
+    .long sym_06034F78
+    .long sym_0607EBC4
     .byte 0x10, 0x06
     .byte 0x00, 0x00
-    .4byte sym_06063EF0
-    .4byte sincos_pair
+    .long sym_06063EF0
+    .long sincos_pair
     .byte 0x00, 0x07
     .byte 0x00, 0x00
-    .4byte fpmul
-    .4byte sym_06063DF8
+    .long fpmul
+    .long sym_06063DF8
     .byte 0x66, 0xF3
     .byte 0x65, 0xF3
     .byte 0x64, 0x92
@@ -464,13 +464,13 @@ DAT_0600d5d6:
     .byte 0x02, 0x38
     .byte 0x08, 0x01
     .byte 0x09, 0x01
-    .4byte sincos_pair
+    .long sincos_pair
     .byte 0x00, 0x05
     .byte 0x00, 0x00
-    .4byte fpmul
+    .long fpmul
     .byte 0x00, 0x0C
     .byte 0x00, 0x00
-    .4byte sym_06034F78
+    .long sym_06034F78
     .byte 0x00, 0x23
     .byte 0x00, 0x00
     .byte 0xD2, 0x26
@@ -555,5 +555,5 @@ DAT_0600d76a:
     .byte 0xFF, 0xFF
     .byte 0x00, 0x78
     .byte 0x00, 0x00
-    .4byte sym_06034F78
-    .4byte sym_06078B68
+    .long sym_06034F78
+    .long sym_06078B68

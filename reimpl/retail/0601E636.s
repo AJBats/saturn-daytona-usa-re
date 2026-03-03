@@ -52,5 +52,5 @@ mat_multiply_helper:
     .byte 0x00, 0x63
     .byte 0x20, 0x10
     .byte 0x00, 0x1F
-    .4byte sym_06000354
-    .4byte sym_060870F4
+    .long sym_06000354
+    .long sym_060870F4

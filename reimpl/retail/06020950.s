@@ -41,6 +41,6 @@ obj_lod_selector:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .4byte sym_06028400
-    .4byte sym_0605F52A
-    .4byte sym_06035228
+    .long sym_06028400
+    .long sym_0605F52A
+    .long sym_06035228

@@ -15,7 +15,7 @@ geom_normal_compute:
     mov.b @r0, r0
     extu.b r0, r0
     tst r0, r0
-    bt/s    .L_0601EB94
+    bt.s    .L_0601EB94
     mov #0x0, r5
     bra     .L_0601EBD0
     nop

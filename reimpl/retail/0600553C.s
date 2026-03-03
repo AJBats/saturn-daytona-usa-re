@@ -53,9 +53,9 @@ sprite_frame_select:
     .byte 0x6E, 0xF6
     .byte 0x02, 0x68
     .byte 0xFF, 0xFF
-    .4byte sym_06026E0C
-    .4byte sym_06078900
-    .4byte sym_06026E2E
-    .4byte mat_rot_y
-    .4byte mat_rot_x
-    .4byte mat_rot_z
+    .long sym_06026E0C
+    .long sym_06078900
+    .long sym_06026E2E
+    .long mat_rot_y
+    .long mat_rot_x
+    .long mat_rot_z

@@ -81,7 +81,7 @@ input_proc_complete:
     .byte 0x00, 0x0B
     .byte 0x62, 0xF6
     .byte 0x00, 0x09
-    .4byte sym_060A246C
+    .long sym_060A246C
     .byte 0x00, 0x00
     .byte 0x04, 0x4E
     .global sym_06035FEC
@@ -124,12 +124,12 @@ sym_06035FEC:
     .byte 0x43, 0x2B
     .byte 0x00, 0x09
     .byte 0x00, 0x09
-    .4byte sym_06036CB0
+    .long sym_06036CB0
     .global sym_0603603C
 sym_0603603C:
     .byte 0x0E, 0x0C
     .byte 0x0A, 0x08
-    .4byte loc_06040200
+    .long loc_06040200
     .byte 0x20, 0x1E
     .byte 0x1C, 0x1A
     .byte 0x18, 0x16
@@ -158,8 +158,8 @@ sym_06036068:
     .byte 0x41, 0x2B
     .byte 0x00, 0x09
     .byte 0x00, 0x09
-    .4byte sym_06036086
-    .4byte sym_0603603C
+    .long sym_06036086
+    .long sym_0603603C
     .byte 0xE0, 0x00
     .byte 0x00, 0x0B
     .byte 0x62, 0xF6

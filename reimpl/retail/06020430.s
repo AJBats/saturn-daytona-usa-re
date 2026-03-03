@@ -63,5 +63,5 @@ obj_init_defaults:
     .byte 0x6E, 0xF6
     .byte 0x3C, 0x79
     .byte 0xFF, 0xFF
-    .4byte sym_0605F44E
-    .4byte sym_06028400
+    .long sym_0605F44E
+    .long sym_06028400

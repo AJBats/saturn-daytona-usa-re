@@ -69,16 +69,16 @@ loc_06013ADA:
     .byte   0xA0, 0x0D    /* bra 0x06013B04 (external) */
     nop
 .L_wpool_06013AEA:
-    .2byte  0x0800
+    .short  0x0800
 .L_pool_06013AEC:
-    .4byte  sym_06063D9E
+    .long  sym_06063D9E
 .L_pool_06013AF0:
-    .4byte  sym_06063D9A
+    .long  sym_06063D9A
 .L_pool_06013AF4:
-    .4byte  sym_06084B18
+    .long  sym_06084B18
 .L_pool_06013AF8:
-    .4byte  sym_06084AF0
+    .long  sym_06084AF0
 .L_pool_06013AFC:
-    .4byte  sym_06084AF2
+    .long  sym_06084AF2
 .L_pool_06013B00:
-    .4byte  sym_06084AF6
+    .long  sym_06084AF6

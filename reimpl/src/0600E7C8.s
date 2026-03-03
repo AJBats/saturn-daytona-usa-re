@@ -96,36 +96,36 @@ per_frame_race_update:
 
     .global DAT_0600e86c
 DAT_0600e86c:
-    .2byte  0x025C
+    .short  0x025C
 
     .global DAT_0600e86e
 DAT_0600e86e:
-    .2byte  0x0208
+    .short  0x0208
 
     .global DAT_0600e870
 DAT_0600e870:
-    .2byte  0x01E4
+    .short  0x01E4
 .L_0600E872:
-    .2byte  0x01F8
+    .short  0x01F8
 .L_0600E874:
-    .2byte  0x0400
-    .2byte  0xFFFF
+    .short  0x0400
+    .short  0xFFFF
 .L_0600E878:
-    .4byte  sym_0607E940
+    .long  sym_0607E940
 .L_0600E87C:
-    .4byte  FUN_06008318
+    .long  FUN_06008318
 .L_0600E880:
-    .4byte  sym_06008640
+    .long  sym_06008640
 .L_0600E884:
-    .4byte  FUN_0600D26A
+    .long  FUN_0600D26A
 .L_0600E888:
-    .4byte  FUN_0600C4F8
+    .long  FUN_0600C4F8
 .L_0600E88C:
-    .4byte  sym_0602D88E
+    .long  sym_0602D88E
 .L_0600E890:
-    .4byte  sym_06083261
+    .long  sym_06083261
 .L_0600E894:
-    .4byte  0x00008000
+    .long  0x00008000
 
 .L_0600E898:
     cmp/eq #0x1, r0

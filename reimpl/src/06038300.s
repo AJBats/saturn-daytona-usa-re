@@ -36,22 +36,22 @@ display_hw_init:
     mov.l r2, @(4, r5)
     .byte   0xA0, 0x13    /* bra 0x0603836C (external */
     lds.l @r15+, pr
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_pool_06038348:
-    .4byte  sym_06038F34
+    .long  sym_06038F34
 .L_pool_0603834C:
-    .4byte  sym_060A4C60
+    .long  sym_060A4C60
 .L_pool_06038350:
-    .4byte  sym_060A4C68
+    .long  sym_060A4C68
 .L_pool_06038354:
-    .4byte  sym_060A4C78
+    .long  sym_060A4C78
 .L_pool_06038358:
-    .4byte  sym_060A4C40
+    .long  sym_060A4C40
 .L_pool_0603835C:
-    .4byte  sym_060A4C54
+    .long  sym_060A4C54
 .L_pool_06038360:
-    .4byte  sym_060A4C44
+    .long  sym_060A4C44
 .L_pool_06038364:
-    .4byte  sym_060A4C4C
+    .long  sym_060A4C4C
 .L_pool_06038368:
-    .4byte  display_init_chain
+    .long  display_init_chain

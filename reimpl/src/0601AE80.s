@@ -41,34 +41,34 @@ sym_0601AEB6:
     jmp @r3
     nop
 .L_wpool_0601AEC8:
-    .2byte  0x0180
-    .2byte  0xFFFF
-    .4byte  sym_06078868
-    .4byte  sym_06078663
+    .short  0x0180
+    .short  0xFFFF
+    .long  sym_06078868
+    .long  sym_06078663
 .L_pool_0601AED4:
-    .4byte  sym_06086010
+    .long  sym_06086010
 .L_pool_0601AED8:
-    .4byte  sym_0608600F
+    .long  sym_0608600F
 .L_pool_0601AEDC:
-    .4byte  sym_06086011
+    .long  sym_06086011
 .L_pool_0601AEE0:
-    .4byte  sym_0604866C
+    .long  sym_0604866C
 .L_pool_0601AEE4:
-    .4byte  0x25F006C0
+    .long  0x25F006C0
 .L_pool_0601AEE8:
-    .4byte  memcpy_word_idx
+    .long  memcpy_word_idx
 .L_pool_0601AEEC:
-    .4byte  sym_060485CC
+    .long  sym_060485CC
 .L_pool_0601AEF0:
-    .4byte  0x25F00180
+    .long  0x25F00180
 .L_pool_0601AEF4:
-    .4byte  sym_0604996C
+    .long  sym_0604996C
 .L_pool_0601AEF8:
-    .4byte  0x25F00000
+    .long  0x25F00000
 .L_pool_0601AEFC:
-    .4byte  dma_transfer
+    .long  dma_transfer
 .L_pool_0601AF00:
-    .4byte  sym_0605DEC8
+    .long  sym_0605DEC8
 
     .global loc_0601AF04
 loc_0601AF04:

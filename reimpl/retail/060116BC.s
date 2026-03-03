@@ -145,11 +145,11 @@ hud_main_draw:
     .byte 0x64, 0x93
     .byte 0xA0, 0x10
     .byte 0x00, 0x09
-    .4byte sincos_pair
-    .4byte sym_060786CC
-    .4byte sym_0605AAA0
-    .4byte swap_sign_ext
-    .4byte fpmul
+    .long sincos_pair
+    .long sym_060786CC
+    .long sym_0605AAA0
+    .long swap_sign_ext
+    .long fpmul
     .byte 0xFF, 0xC8
     .byte 0x00, 0x00
     .byte 0x00, 0x1E

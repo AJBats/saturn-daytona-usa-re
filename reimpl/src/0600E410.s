@@ -39,23 +39,23 @@ car_update_simple:
 
     .global DAT_0600e456
 DAT_0600e456:
-    .2byte  0x00E4
+    .short  0x00E4
 .L_wpool_0600E458:
-    .2byte  0x00E0
-    .2byte  0xFFFF
+    .short  0x00E0
+    .short  0xFFFF
 .L_pool_0600E45C:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_pool_0600E460:
-    .4byte  sym_0607E940
+    .long  sym_0607E940
 .L_pool_0600E464:
-    .4byte  gas_force_apply
+    .long  gas_force_apply
 .L_pool_0600E468:
-    .4byte  brake_force_apply
+    .long  brake_force_apply
 .L_pool_0600E46C:
-    .4byte  sym_06030A06
+    .long  sym_06030A06
 .L_pool_0600E470:
-    .4byte  sym_06030EE0
+    .long  sym_06030EE0
 .L_pool_0600E474:
-    .4byte  0x066505B3
+    .long  0x066505B3
 .L_pool_0600E478:
-    .4byte  fpmul
+    .long  fpmul

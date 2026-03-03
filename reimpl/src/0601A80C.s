@@ -16,7 +16,7 @@ course_data_rom_load:
     extu.w r3, r3
     and r6, r3
     tst r3, r3
-    bt/s    .L_0601A83A
+    bt.s    .L_0601A83A
     mov #0x0, r12
     mov.l @r14, r3
     add #0x1, r3
@@ -57,15 +57,15 @@ course_data_rom_load:
 
     .global DAT_0601a872
 DAT_0601a872:
-    .2byte  0x4000
+    .short  0x4000
 .L_pool_0601A874:
-    .4byte  g_pad_state
+    .long  g_pad_state
 .L_pool_0601A878:
-    .4byte  sym_0605D248
+    .long  sym_0605D248
 .L_pool_0601A87C:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_pool_0601A880:
-    .4byte  sym_0605D243
+    .long  sym_0605D243
 .L_0601A884:
     mov.w @r13, r2
     extu.w r2, r2
@@ -156,22 +156,22 @@ DAT_0601a872:
 
     .global DAT_0601a926
 DAT_0601a926:
-    .2byte  0x0600
+    .short  0x0600
 
     .global DAT_0601a928
 DAT_0601a928:
-    .2byte  0x079C
+    .short  0x079C
 
     .global DAT_0601a92a
 DAT_0601a92a:
-    .2byte  0x081C
+    .short  0x081C
 .L_pool_0601A92C:
-    .4byte  handler_dispatch
+    .long  handler_dispatch
 .L_pool_0601A930:
-    .4byte  sym_060283E0
+    .long  sym_060283E0
 .L_pool_0601A934:
-    .4byte  sym_06049CDC
+    .long  sym_06049CDC
 .L_pool_0601A938:
-    .4byte  sym_0605D2B4
+    .long  sym_0605D2B4
 .L_pool_0601A93C:
-    .4byte  0x0000E000
+    .long  0x0000E000

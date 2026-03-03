@@ -19,7 +19,7 @@ channel_nibble_config:
     mov.w   .L_wpool_06038CCA, r3
     and r4, r3
     tst r3, r3
-    bt/s    .L_06038C14
+    bt.s    .L_06038C14
     extu.b r5, r5
     mov r7, r0
     mov.w   .L_wpool_06038CCC, r1
@@ -131,39 +131,39 @@ channel_nibble_config:
 
     .global DAT_06038cc8
 DAT_06038cc8:
-    .2byte  0x00FF
+    .short  0x00FF
 .L_wpool_06038CCA:
-    .2byte  0x0100
+    .short  0x0100
 .L_wpool_06038CCC:
-    .2byte  0x0101
+    .short  0x0101
 .L_wpool_06038CCE:
-    .2byte  0x0200
+    .short  0x0200
 .L_wpool_06038CD0:
-    .2byte  0x0400
+    .short  0x0400
 .L_wpool_06038CD2:
-    .2byte  0x0800
+    .short  0x0800
 
     .global DAT_06038cd4
 DAT_06038cd4:
-    .2byte  0x1000
+    .short  0x1000
 
     .global DAT_06038cd6
 DAT_06038cd6:
-    .2byte  0x2000
+    .short  0x2000
 .L_06038CD8:
-    .4byte  0x0000FF00
+    .long  0x0000FF00
 .L_pool_06038CDC:
-    .4byte  0x0000F0FF
+    .long  0x0000F0FF
 .L_pool_06038CE0:
-    .4byte  0x0000FFF0
+    .long  0x0000FFF0
 .L_pool_06038CE4:
-    .4byte  sym_060A4D30
+    .long  sym_060A4D30
 .L_pool_06038CE8:
-    .4byte  sym_060A4D58
+    .long  sym_060A4D58
 .L_pool_06038CEC:
-    .4byte  sym_060A4D28
+    .long  sym_060A4D28
 .L_pool_06038CF0:
-    .4byte  sym_06034F78
+    .long  sym_06034F78
 .L_06038CF4:
     extu.w r2, r2
     mov r2, r0
@@ -324,18 +324,18 @@ DAT_06038cd6:
 
     .global DAT_06038e1a
 DAT_06038e1a:
-    .2byte  0x4000
+    .short  0x4000
 .L_wpool_06038E1C:
-    .2byte  0x0101
+    .short  0x0101
 .L_wpool_06038E1E:
-    .2byte  0x0201
+    .short  0x0201
 .L_wpool_06038E20:
-    .2byte  0x0080
-    .2byte  0xFFFF
+    .short  0x0080
+    .short  0xFFFF
 .L_pool_06038E24:
-    .4byte  sym_06034F78
+    .long  sym_06034F78
 .L_06038E28:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_06038E2C:
     bt      .L_06038E3C
     mov r7, r0
@@ -355,7 +355,7 @@ DAT_06038e1a:
     rts
     mov.l @r15+, r14
 .L_wpool_06038E4C:
-    .2byte  0x0201
-    .2byte  0xFFFF
+    .short  0x0201
+    .short  0xFFFF
 .L_pool_06038E50:
-    .4byte  sym_06034F78
+    .long  sym_06034F78

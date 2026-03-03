@@ -28,7 +28,7 @@ speed_unit_display:
     mov.l r3, @(4, r4)
     mov.l r14, @(44, r4)
     cmp/ge r13, r2
-    bf/s    .L_06015E38
+    bf.s    .L_06015E38
     mov.l r14, @(48, r4)
     mov.b @r15, r4
     extu.b r4, r4
@@ -38,8 +38,8 @@ speed_unit_display:
     .byte   0xD3, 0x02    /* mov.l .L_pool_06015E76, r3 */
     jmp @r3
     mov.l @r15+, r14
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_pool_06015E72:
-    .4byte  sym_06084FC8
+    .long  sym_06084FC8
 .L_pool_06015E76:
-    .4byte  sym_060172E4
+    .long  sym_060172E4

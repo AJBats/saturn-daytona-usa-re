@@ -103,7 +103,7 @@ scene_finalize_b:
     .byte 0x6E, 0xF6
     .byte 0x00, 0xB4
     .byte 0xFF, 0xFF
-    .4byte sym_060610BC
-    .4byte sym_0606107C
-    .4byte sym_060590A8
-    .4byte sym_06060D7C
+    .long sym_060610BC
+    .long sym_0606107C
+    .long sym_060590A8
+    .long sym_06060D7C

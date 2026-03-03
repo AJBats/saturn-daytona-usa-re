@@ -32,20 +32,20 @@ evt_validate_multi:
     bra     .L_06040634
     and #0xF, r0
 
-    .4byte  0x7F144F26
-    .4byte  0x000BE002
-    .4byte  0x7F144F26
-    .4byte  0x000BE000
-    .4byte  0x7F144F26
-    .4byte  0x000BE001
-    .4byte  0x7F144F26
-    .4byte  0x000BE002
-    .4byte  0x7F144F26
-    .4byte  0x000BE001
-    .4byte  0x7F144F26
-    .4byte  0x000BE003
-    .4byte  0x7F144F26
-    .4byte  0x000BE004
+    .long  0x7F144F26
+    .long  0x000BE002
+    .long  0x7F144F26
+    .long  0x000BE000
+    .long  0x7F144F26
+    .long  0x000BE001
+    .long  0x7F144F26
+    .long  0x000BE002
+    .long  0x7F144F26
+    .long  0x000BE001
+    .long  0x7F144F26
+    .long  0x000BE003
+    .long  0x7F144F26
+    .long  0x000BE004
 .L_06040628:
     add #0x14, r15
     lds.l @r15+, pr
@@ -53,7 +53,7 @@ evt_validate_multi:
     mov #0x5, r0
 
 .L_pool_06040630:
-    .4byte  evt_validator_pair
+    .long  evt_validator_pair
 
 .L_06040634:
     mov #0xB, r1
@@ -83,4 +83,4 @@ evt_validate_multi:
     lds.l @r15+, pr
     rts
     nop
-    .2byte  0xE500
+    .short  0xE500

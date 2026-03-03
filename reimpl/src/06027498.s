@@ -44,32 +44,32 @@ vec3_normalize:
     sts macl, r0
     rts
     xtrct r1, r0
-    .2byte  0x0009
-    .4byte  0x002F2F20
-    .4byte  0x002F0000
-    .4byte  0x00008000
+    .short  0x0009
+    .long  0x002F2F20
+    .long  0x002F0000
+    .long  0x00008000
 .L_060274F8:
-    .4byte  0x00010000
-    .4byte  0x40003FFC
-    .4byte  0x0FFC4000
-    .4byte  0x3FEB3FD6
-    .4byte  0x3FBA3F97
-    .4byte  0x3F6A3F2F
-    .4byte  0x3EFB3EA4
-    .4byte  0x3D7403E8
-    .4byte  0x001E0028
-    .4byte  0x00320046
-    .4byte  0x00640096
-    .4byte  0x00FA01F4
-    .4byte  0x00000AC0
-    .4byte  0x00001581
-    .4byte  0x000047AE
-    .4byte  0x0000B333
-    .4byte  0x00018000
-    .4byte  0x0002F333
-    .4byte  0x00053333
-    .4byte  0x0008B333
-    .4byte  0x0015B6DB
+    .long  0x00010000
+    .long  0x40003FFC
+    .long  0x0FFC4000
+    .long  0x3FEB3FD6
+    .long  0x3FBA3F97
+    .long  0x3F6A3F2F
+    .long  0x3EFB3EA4
+    .long  0x3D7403E8
+    .long  0x001E0028
+    .long  0x00320046
+    .long  0x00640096
+    .long  0x00FA01F4
+    .long  0x00000AC0
+    .long  0x00001581
+    .long  0x000047AE
+    .long  0x0000B333
+    .long  0x00018000
+    .long  0x0002F333
+    .long  0x00053333
+    .long  0x0008B333
+    .long  0x0015B6DB
 
     .global swap_sign_ext
 swap_sign_ext:

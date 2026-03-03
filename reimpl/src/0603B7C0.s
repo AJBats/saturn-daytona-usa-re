@@ -56,57 +56,57 @@ sys_timer_config:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0xE700
-    .4byte  0xD6096462
-    .4byte  0x9309343C
-    .4byte  0xA0136573
-    .4byte  0x9006004E
-    .4byte  0x20088B0B
-    .4byte  0xA0110009
+    .short  0xE700
+    .long  0xD6096462
+    .long  0x9309343C
+    .long  0xA0136573
+    .long  0x9006004E
+    .long  0x20088B0B
+    .long  0xA0110009
 
     .global DAT_0603b838
 DAT_0603b838:
-    .2byte  0x0080
+    .short  0x0080
 
     .global DAT_0603b83a
 DAT_0603b83a:
-    .2byte  0x0C3C
-    .4byte  0x00ECFFFF
+    .short  0x0C3C
+    .long  0x00ECFFFF
 .L_pool_0603B840:
-    .4byte  sym_0603F216
+    .long  sym_0603F216
 .L_pool_0603B844:
-    .4byte  sprite_batch_emit
-    .4byte  sym_060A4D14
-    .4byte  0x921E342C
-    .4byte  0x75016362
-    .4byte  0x62323523
-    .4byte  0x8BE86262
-    .4byte  0x63223530
-    .4byte  0x8B01A003
-    .4byte  0x6473E201
-    .4byte  0x90110426
-    .4byte  0x000B6043
-    .4byte  0xE300900C
-    .4byte  0x000B0436
-    .4byte  0xD7066572
-    .4byte  0x9308353C
-    .4byte  0xA00DE600
-    .4byte  0x35408B07
-    .4byte  0xA00D0009
+    .long  sprite_batch_emit
+    .long  sym_060A4D14
+    .long  0x921E342C
+    .long  0x75016362
+    .long  0x62323523
+    .long  0x8BE86262
+    .long  0x63223530
+    .long  0x8B01A003
+    .long  0x6473E201
+    .long  0x90110426
+    .long  0x000B6043
+    .long  0xE300900C
+    .long  0x000B0436
+    .long  0xD7066572
+    .long  0x9308353C
+    .long  0xA00DE600
+    .long  0x35408B07
+    .long  0xA00D0009
 
     .global DAT_0603b88c
 DAT_0603b88c:
-    .2byte  0x00F0
+    .short  0x00F0
 
     .global DAT_0603b88e
 DAT_0603b88e:
-    .2byte  0x00EC
-    .4byte  0x0C3CFFFF
-    .4byte  sym_060A4D14
-    .4byte  0x923F352C
-    .4byte  0x76016372
-    .4byte  0x62323623
-    .4byte  0x8BEE6272
-    .4byte  0x63223630
-    .4byte  0x8B00E500
-    .4byte  0x000B6053
+    .short  0x00EC
+    .long  0x0C3CFFFF
+    .long  sym_060A4D14
+    .long  0x923F352C
+    .long  0x76016372
+    .long  0x62323623
+    .long  0x8BEE6272
+    .long  0x63223630
+    .long  0x8B00E500
+    .long  0x000B6053

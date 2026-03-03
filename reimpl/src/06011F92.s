@@ -43,10 +43,10 @@ DAT_06011fd4:
 
     .global DAT_06011fd6
 DAT_06011fd6:
-    .2byte  0x7C00                 /* blue channel mask (bits 10-14) — loaded by mov.w */
-    .2byte  0xF800                 /* (adjacent data, not used by this function) */
+    .short  0x7C00                 /* blue channel mask (bits 10-14) — loaded by mov.w */
+    .short  0xF800                 /* (adjacent data, not used by this function) */
 .L_wpool_06011FDA:
-    .2byte  0x0400
+    .short  0x0400
 
 .L_06011FDC:
     mov.l @(4, r15), r2
@@ -101,7 +101,7 @@ DAT_06011fd6:
     mov.w r1, @r4
     add #0x2, r4
     cmp/ge r8, r3
-    bf/s    .L_06011FB2
+    bf.s    .L_06011FB2
     add #0x2, r5
 
     add #0x8, r15

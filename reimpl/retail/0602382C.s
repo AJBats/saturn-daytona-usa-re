@@ -119,10 +119,10 @@ DAT_06023904:
     .byte 0x07, 0x38
     .byte 0x02, 0x08
     .byte 0x0A, 0x28
-    .4byte sym_06089E44
+    .long sym_06089E44
     .byte 0x00, 0x2A
     .byte 0x29, 0x9B
-    .4byte vdp1_sprite_render
+    .long vdp1_sprite_render
     .byte 0x00, 0x2A
     .byte 0x29, 0xA3
     .byte 0x00, 0x2A
@@ -293,7 +293,7 @@ DAT_06023a62:
     .byte 0x04, 0x1C
     .byte 0x03, 0x48
     .byte 0xFF, 0xFF
-    .4byte vdp1_sprite_render
+    .long vdp1_sprite_render
     .byte 0x00, 0x2A
     .byte 0x06, 0xAC
     .byte 0x00, 0x2A
@@ -460,7 +460,7 @@ DAT_06023a62:
     .byte 0x03, 0x08
     .byte 0x04, 0x10
     .byte 0xFF, 0xFF
-    .4byte vdp1_sprite_render
+    .long vdp1_sprite_render
     .byte 0x00, 0x2A
     .byte 0x11, 0x40
     .byte 0x00, 0x2A
@@ -635,7 +635,7 @@ DAT_06023d02:
     .byte 0xFF, 0xFF
     .byte 0x00, 0x2A
     .byte 0x1C, 0xC8
-    .4byte vdp1_sprite_render
+    .long vdp1_sprite_render
     .byte 0x00, 0x2A
     .byte 0x1D, 0x2C
     .byte 0x00, 0x2A
@@ -804,7 +804,7 @@ DAT_06023e52:
     .byte 0x08, 0x0C
     .byte 0x01, 0x08
     .byte 0xFF, 0xFF
-    .4byte vdp1_sprite_render
+    .long vdp1_sprite_render
     .byte 0x00, 0x2A
     .byte 0x21, 0x94
     .byte 0x00, 0x2A
@@ -967,8 +967,8 @@ DAT_06023e52:
     .byte 0xA0, 0x05
     .byte 0x74, 0x16
     .byte 0xFF, 0xFF
-    .4byte sym_06089E46
-    .4byte sym_06007540
+    .long sym_06089E46
+    .long sym_06007540
     .byte 0xD3, 0x47
     .byte 0x43, 0x0B
     .byte 0x00, 0x09
@@ -1113,7 +1113,7 @@ DAT_06023e52:
     .byte 0xA0, 0x03
     .byte 0x00, 0x09
     .byte 0xFF, 0xFF
-    .4byte sym_06007540
+    .long sym_06007540
     .byte 0x85, 0xF3
     .byte 0xD3, 0x46
     .byte 0x64, 0x03
@@ -1256,7 +1256,7 @@ DAT_06023e52:
     .byte 0xA0, 0x03
     .byte 0x74, 0x39
     .byte 0xFF, 0xFF
-    .4byte sym_06007540
+    .long sym_06007540
     .byte 0xD3, 0x3E
     .byte 0x43, 0x0B
     .byte 0x00, 0x09
@@ -1387,19 +1387,19 @@ DAT_060242e0:
 DAT_060242e4:
     .byte 0x0E, 0x82
     .byte 0x02, 0x10
-    .4byte sym_06007540
-    .4byte sym_06089E9C
+    .long sym_06007540
+    .long sym_06089E9C
     .byte 0x00, 0x2A
     .byte 0x39, 0x87
-    .4byte vdp1_sprite_render
+    .long vdp1_sprite_render
     .byte 0x00, 0x2A
     .byte 0x3C, 0x2F
     .byte 0x00, 0x2A
     .byte 0x3D, 0x23
     .byte 0x00, 0x2A
     .byte 0x3E, 0x23
-    .4byte sym_06089EA0
-    .4byte sym_0607EAB8
+    .long sym_06089EA0
+    .long sym_0607EAB8
     .byte 0x00, 0x2A
     .byte 0x43, 0xA6
     .byte 0x00, 0x2A
@@ -1514,14 +1514,14 @@ DAT_060242e4:
     .byte 0xFF, 0xFF
     .byte 0x00, 0x2A
     .byte 0x45, 0x2A
-    .4byte vdp1_sprite_render
+    .long vdp1_sprite_render
     .byte 0x00, 0x2A
     .byte 0x45, 0x5C
     .byte 0x00, 0x2A
     .byte 0x45, 0xCD
     .byte 0x00, 0x2A
     .byte 0x46, 0x3C
-    .4byte sym_06078635
+    .long sym_06078635
     .byte 0x00, 0x2A
     .byte 0x46, 0xAC
     .byte 0x00, 0x2A
@@ -1656,7 +1656,7 @@ DAT_060242e4:
     .byte 0xFF, 0xFF
     .byte 0x00, 0x2A
     .byte 0x48, 0x36
-    .4byte vdp1_sprite_render
+    .long vdp1_sprite_render
     .byte 0x00, 0x2A
     .byte 0x48, 0x62
     .byte 0x00, 0x2A
@@ -1671,7 +1671,7 @@ DAT_060242e4:
     .byte 0x4A, 0x61
     .byte 0x00, 0x2A
     .byte 0x4A, 0xD7
-    .4byte sym_0607EAD8
+    .long sym_0607EAD8
     .byte 0x00, 0x2A
     .byte 0x3F, 0x1F
     .byte 0x00, 0x2A
@@ -1690,7 +1690,7 @@ DAT_060242e4:
     .byte 0x0C, 0x40
     .byte 0x00, 0x2A
     .byte 0x41, 0xC5
-    .4byte vdp1_sprite_render
+    .long vdp1_sprite_render
     .byte 0x88, 0x00
     .byte 0x89, 0xBC
     .byte 0x88, 0x01
@@ -1817,9 +1817,9 @@ DAT_06024638:
     .byte 0xFF, 0xFF
     .byte 0x00, 0x2A
     .byte 0x7A, 0x5E
-    .4byte vdp1_sprite_render
-    .4byte sym_0606A4F4
-    .4byte sym_06085F98
+    .long vdp1_sprite_render
+    .long sym_0606A4F4
+    .long sym_06085F98
     .byte 0x00, 0x2A
     .byte 0x7A, 0xC5
     .byte 0x00, 0x2A
@@ -1830,7 +1830,7 @@ DAT_06024638:
     .byte 0x7B, 0xE9
     .byte 0x00, 0x2A
     .byte 0x7C, 0x3B
-    .4byte sym_06007540
+    .long sym_06007540
     .byte 0x00, 0x2A
     .byte 0x7C, 0xA5
     .byte 0x00, 0x2A
@@ -1987,11 +1987,11 @@ DAT_06024786:
 DAT_06024788:
     .byte 0x0E, 0x40
     .byte 0x01, 0x08
-    .4byte sym_06007540
+    .long sym_06007540
     .byte 0x00, 0x2A
     .byte 0x92, 0xCB
-    .4byte vdp1_sprite_render
-    .4byte sym_06089E9E
+    .long vdp1_sprite_render
+    .long sym_06089E9E
     .byte 0x00, 0x2A
     .byte 0x7D, 0x76
     .byte 0x00, 0x2A
@@ -2146,7 +2146,7 @@ DAT_060248be:
     .byte 0xFF, 0xFF
     .byte 0x00, 0x2A
     .byte 0x7D, 0xA6
-    .4byte vdp1_sprite_render
+    .long vdp1_sprite_render
     .byte 0x00, 0x2A
     .byte 0x7D, 0xC6
     .byte 0x00, 0x2A
@@ -2313,7 +2313,7 @@ DAT_06024a0a:
     .byte 0x02, 0x1C
     .byte 0x05, 0x08
     .byte 0x02, 0x10
-    .4byte vdp1_sprite_render
+    .long vdp1_sprite_render
     .byte 0x00, 0x2A
     .byte 0x7F, 0x12
     .byte 0x00, 0x2A
@@ -2480,7 +2480,7 @@ DAT_06024b54:
     .byte 0x03, 0x20
     .byte 0x01, 0x20
     .byte 0x03, 0x08
-    .4byte vdp1_sprite_render
+    .long vdp1_sprite_render
     .byte 0x00, 0x2A
     .byte 0x82, 0xA2
     .byte 0x00, 0x2A
@@ -2651,7 +2651,7 @@ DAT_06024ca2:
     .byte 0x02, 0x0A
     .byte 0x02, 0x0C
     .byte 0xFF, 0xFF
-    .4byte vdp1_sprite_render
+    .long vdp1_sprite_render
     .byte 0x00, 0x2A
     .byte 0x87, 0x3E
     .byte 0x00, 0x2A
@@ -2700,6 +2700,6 @@ DAT_06024ca2:
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
     .byte 0x01, 0x08
-    .4byte vdp1_sprite_render
+    .long vdp1_sprite_render
     .byte 0x00, 0x2A
     .byte 0x8A, 0x06

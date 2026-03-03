@@ -12,19 +12,19 @@ palette_regs_config:
     bf      .L_06036E82
     mov.l @r1+, r4
     cmp/str r5, r4
-    bt/s    .L_06036E56
+    bt.s    .L_06036E56
     mov.l @r0+, r3
     cmp/eq r3, r4
     bf      .L_06036E82
     mov.l @r1+, r4
     cmp/str r5, r4
-    bt/s    .L_06036E56
+    bt.s    .L_06036E56
     mov.l @r0+, r3
     cmp/eq r3, r4
     bf      .L_06036E82
     mov.l @r1+, r4
     cmp/str r5, r4
-    bt/s    .L_06036E56
+    bt.s    .L_06036E56
     mov.l @r0+, r3
     cmp/eq r3, r4
     bf      .L_06036E82
@@ -61,4 +61,4 @@ palette_regs_config:
     mov.l @r15+, r4
     rts
     mov.l @r15+, r3
-    .2byte  0x0000
+    .short  0x0000

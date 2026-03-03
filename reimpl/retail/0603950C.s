@@ -87,21 +87,21 @@ scene_state_process:
     .byte 0xA0, 0x23
     .byte 0x00, 0x09
     .byte 0xFF, 0x7F
-    .4byte sym_060A4CAE
-    .4byte sym_060A4CBC
-    .4byte sym_06063602
-    .4byte sym_060A4CC0
-    .4byte sym_060A4CAC
-    .4byte sym_060A4CB0
+    .long sym_060A4CAE
+    .long sym_060A4CBC
+    .long sym_06063602
+    .long sym_060A4CC0
+    .long sym_060A4CAC
+    .long sym_060A4CB0
     .byte 0x20, 0x10
     .byte 0x00, 0x79
-    .4byte sym_06000300
-    .4byte master_menu_render
-    .4byte sym_06000344
-    .4byte sym_060A4CAA
-    .4byte sym_060A4CA8
-    .4byte smpc_intback_send
-    .4byte sym_060A4CD8
+    .long sym_06000300
+    .long master_menu_render
+    .long sym_06000344
+    .long sym_060A4CAA
+    .long sym_060A4CA8
+    .long smpc_intback_send
+    .long sym_060A4CD8
     .byte 0x88, 0x00
     .byte 0x89, 0xBF
     .byte 0x88, 0x01
@@ -230,13 +230,13 @@ scene_state_process:
     .byte 0x24, 0x32
     .byte 0xA0, 0x64
     .byte 0x00, 0x09
-    .4byte sym_060A4CAB
-    .4byte sym_060A4CAF
-    .4byte sym_060A4CB8
-    .4byte sym_060A4CD9
-    .4byte sym_060A4CE8
-    .4byte sym_060A4C98
-    .4byte sym_060A4CC8
+    .long sym_060A4CAB
+    .long sym_060A4CAF
+    .long sym_060A4CB8
+    .long sym_060A4CD9
+    .long sym_060A4CE8
+    .long sym_060A4C98
+    .long sym_060A4CC8
     .byte 0x62, 0xD1
     .byte 0x61, 0xE2
     .byte 0x62, 0x2D
@@ -363,9 +363,9 @@ DAT_060397f6:
 DAT_060397f8:
     .byte 0x00, 0xFF
     .byte 0xFF, 0xFF
-    .4byte sym_060A4CB4
-    .4byte display_channel_iter
-    .4byte sym_060A4CC4
+    .long sym_060A4CB4
+    .long display_channel_iter
+    .long sym_060A4CC4
 	.text
     .global smpc_data_manage
 smpc_data_manage:
@@ -449,16 +449,16 @@ smpc_data_manage:
     .byte 0xA0, 0x15
     .byte 0x2E, 0x20
     .byte 0xFF, 0xFF
-    .4byte sym_060A4CAA
-    .4byte sym_06063601
-    .4byte sym_06063608
+    .long sym_060A4CAA
+    .long sym_06063601
+    .long sym_06063608
     .byte 0x20, 0x10
     .byte 0x00, 0x61
-    .4byte sym_060A4CB8
-    .4byte sym_060A4CAB
-    .4byte sym_06063600
-    .4byte sym_060A4CAC
-    .4byte sym_060A4CB4
+    .long sym_060A4CB8
+    .long sym_060A4CAB
+    .long sym_06063600
+    .long sym_060A4CAC
+    .long sym_060A4CB4
     .byte 0x62, 0xDC
     .byte 0x2E, 0x20
     .byte 0xD5, 0x1F
@@ -528,17 +528,17 @@ master_menu_render:
     .byte 0x00, 0xF0
     .byte 0xFF, 0x0F
     .byte 0xFF, 0xFF
-    .4byte sym_060A4CE8
-    .4byte sym_060A4CC4
-    .4byte sym_060A4C98
-    .4byte sym_060A4CC0
-    .4byte sym_060A4CBC
+    .long sym_060A4CE8
+    .long sym_060A4CC4
+    .long sym_060A4C98
+    .long sym_060A4CC0
+    .long sym_060A4CBC
     .byte 0x20, 0x10
     .byte 0x00, 0x61
-    .4byte sym_060A4CF4
-    .4byte sym_060A4D04
-    .4byte sym_060A4CEC
-    .4byte sym_060A4CAA
+    .long sym_060A4CF4
+    .long sym_060A4D04
+    .long sym_060A4CEC
+    .long sym_060A4CAA
     .byte 0xD2, 0x38
     .byte 0xD3, 0x39
     .byte 0x63, 0x30
@@ -653,7 +653,7 @@ master_menu_render:
     .byte 0x00, 0x09
     .byte 0xFF, 0x0F
     .byte 0x00, 0xFF
-    .4byte sym_060A4C9C
+    .long sym_060A4C9C
     .byte 0x20, 0x10
     .byte 0x00, 0x31
     .byte 0x20, 0x10
@@ -672,11 +672,11 @@ master_menu_render:
     .byte 0x00, 0x3F
     .byte 0x20, 0x10
     .byte 0x00, 0x21
-    .4byte sym_060A4CA8
-    .4byte sym_060A4CD8
-    .4byte sym_060A4CE8
-    .4byte sym_060A4CF8
-    .4byte sym_0603AB46
+    .long sym_060A4CA8
+    .long sym_060A4CD8
+    .long sym_060A4CE8
+    .long sym_060A4CF8
+    .long sym_0603AB46
     .byte 0xD3, 0x32
     .byte 0x43, 0x0B
     .byte 0x64, 0x8C
@@ -779,12 +779,12 @@ master_menu_render:
     .byte 0x00, 0x09
     .byte 0x00, 0xFF
     .byte 0xFF, 0xFF
-    .4byte sym_0603AB46
-    .4byte sym_060A4CB4
-    .4byte sym_060A4CAC
-    .4byte sym_060A4D0C
-    .4byte sym_060A4CFC
-    .4byte sym_060A4CF8
+    .long sym_0603AB46
+    .long sym_060A4CB4
+    .long sym_060A4CAC
+    .long sym_060A4D0C
+    .long sym_060A4CFC
+    .long sym_060A4CF8
     .byte 0x62, 0xE2
     .byte 0x63, 0x20
     .byte 0x92, 0x57
@@ -879,11 +879,11 @@ master_menu_render:
     .byte 0x00, 0xE0
     .byte 0x00, 0xE3
     .byte 0xFF, 0xFF
-    .4byte sym_060A4CFC
-    .4byte sym_060A4D0D
-    .4byte sym_060A4CAE
-    .4byte sym_060A4D02
-    .4byte sym_060A4D0E
+    .long sym_060A4CFC
+    .long sym_060A4D0D
+    .long sym_060A4CAE
+    .long sym_060A4D02
+    .long sym_060A4D0E
     .byte 0xD0, 0x78
     .byte 0x60, 0x00
     .byte 0x60, 0x0C
@@ -1126,21 +1126,21 @@ master_menu_render:
     .byte 0xA0, 0x68
     .byte 0x00, 0x09
     .byte 0xFF, 0xFF
-    .4byte sym_060A4D0D
-    .4byte sym_060A4D0E
-    .4byte sym_060A4CAE
-    .4byte sym_060A4D11
-    .4byte sym_060A4D0F
-    .4byte sym_060A4D08
-    .4byte sym_060A4D10
-    .4byte sym_060A4CFC
-    .4byte sym_060A4CCC
-    .4byte sym_060A4CD0
+    .long sym_060A4D0D
+    .long sym_060A4D0E
+    .long sym_060A4CAE
+    .long sym_060A4D11
+    .long sym_060A4D0F
+    .long sym_060A4D08
+    .long sym_060A4D10
+    .long sym_060A4CFC
+    .long sym_060A4CCC
+    .long sym_060A4CD0
     .byte 0x20, 0x10
     .byte 0x00, 0x21
-    .4byte sym_060A4CD4
-    .4byte sym_060A4CB4
-    .4byte sym_060A4CAC
+    .long sym_060A4CD4
+    .long sym_060A4CB4
+    .long sym_060A4CAC
     .byte 0xD2, 0x51
     .byte 0x62, 0x20
     .byte 0x62, 0x2C
@@ -1305,13 +1305,13 @@ master_menu_render:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .byte 0xFF, 0x0F
-    .4byte sym_060A4D11
-    .4byte sym_060A4CF8
-    .4byte sym_060A4D0C
-    .4byte sym_060A4D08
-    .4byte sym_060A4D0F
-    .4byte sym_060A4CF0
-    .4byte sym_060A4CA9
+    .long sym_060A4D11
+    .long sym_060A4CF8
+    .long sym_060A4D0C
+    .long sym_060A4D08
+    .long sym_060A4D0F
+    .long sym_060A4CF0
+    .long sym_060A4CA9
     .byte 0x20, 0x10
     .byte 0x00, 0x01
     .byte 0xD3, 0x0D
@@ -1342,12 +1342,12 @@ master_menu_render:
     .byte 0x22, 0x30
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
-    .4byte sym_060A4CAC
-    .4byte sym_060A4CB4
-    .4byte sym_060A4CF4
+    .long sym_060A4CAC
+    .long sym_060A4CB4
+    .long sym_060A4CF4
     .byte 0x20, 0x10
     .byte 0x00, 0x61
-    .4byte sym_060A4CEC
+    .long sym_060A4CEC
 	.text
     .global data_table_copy
 data_table_copy:
@@ -1409,14 +1409,14 @@ data_table_copy:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .4byte sym_060A4CEC
-    .4byte sym_060A4CD4
-    .4byte sym_060A4CC8
-    .4byte sym_060A4CD0
-    .4byte sym_060A4CCC
-    .4byte sym_060A4CFC
-    .4byte sym_060A4D02
-    .4byte sym_060A4CFD
+    .long sym_060A4CEC
+    .long sym_060A4CD4
+    .long sym_060A4CC8
+    .long sym_060A4CD0
+    .long sym_060A4CCC
+    .long sym_060A4CFC
+    .long sym_060A4D02
+    .long sym_060A4CFD
 	.text
     .global game_logic_main
 game_logic_main:
@@ -1546,12 +1546,12 @@ DAT_0603a1a2:
     .byte 0x00, 0xFF
     .byte 0x00, 0x80
     .byte 0xFF, 0xFF
-    .4byte sym_060A4CAE
-    .4byte sym_060A4CB4
-    .4byte sym_060A4CC0
-    .4byte sym_060A4CCC
-    .4byte sym_060A4CD0
-    .4byte sym_060A4CFC
+    .long sym_060A4CAE
+    .long sym_060A4CB4
+    .long sym_060A4CC0
+    .long sym_060A4CCC
+    .long sym_060A4CD0
+    .long sym_060A4CFC
     .byte 0x63, 0x42
     .byte 0x92, 0x82
     .byte 0x61, 0x30
@@ -1688,9 +1688,9 @@ DAT_0603a1a2:
     .global DAT_0603a2ca
 DAT_0603a2ca:
     .byte 0xFF, 0x7F
-    .4byte sym_060A4D02
-    .4byte sym_060A4CBC
-    .4byte sym_060A4CAF
+    .long sym_060A4D02
+    .long sym_060A4CBC
+    .long sym_060A4CAF
     .byte 0x62, 0x72
     .byte 0x61, 0x62
     .byte 0x60, 0x50
@@ -2225,17 +2225,17 @@ DAT_0603a2ca:
     .global DAT_0603a6fe
 DAT_0603a6fe:
     .byte 0x00, 0xFF
-    .4byte sym_060A4D0C
-    .4byte sym_060A4D0D
-    .4byte sym_060A4D0E
-    .4byte sym_060A4D0F
-    .4byte sym_060A4D10
-    .4byte sym_060A4D11
-    .4byte sym_060A4CD8
-    .4byte sym_060A4CB4
-    .4byte sym_060A4CF0
-    .4byte sym_060A4CF8
-    .4byte sym_060A4CA9
+    .long sym_060A4D0C
+    .long sym_060A4D0D
+    .long sym_060A4D0E
+    .long sym_060A4D0F
+    .long sym_060A4D10
+    .long sym_060A4D11
+    .long sym_060A4CD8
+    .long sym_060A4CB4
+    .long sym_060A4CF0
+    .long sym_060A4CF8
+    .long sym_060A4CA9
     .global smpc_intback_send
 smpc_intback_send:
     .byte 0xD5, 0x1B
@@ -2299,11 +2299,11 @@ display_channel_iter:
     .byte 0x00, 0xFF
     .byte 0x20, 0x10
     .byte 0x00, 0x63
-    .4byte sym_06063602
+    .long sym_06063602
     .byte 0x20, 0x10
     .byte 0x00, 0x01
-    .4byte sym_060A4CAC
-    .4byte sym_060A4CB4
+    .long sym_060A4CAC
+    .long sym_060A4CB4
 	.text
     .global vdp1_sprite_draw_main
 vdp1_sprite_draw_main:
@@ -2445,12 +2445,12 @@ vdp1_sprite_draw_main:
 DAT_0603a8bc:
     .byte 0x00, 0xFF
     .byte 0xFF, 0xFF
-    .4byte sym_060A4CAE
-    .4byte sym_060A4CB4
-    .4byte sym_060A4CC0
+    .long sym_060A4CAE
+    .long sym_060A4CB4
+    .long sym_060A4CC0
     .byte 0x00, 0x00
     .byte 0xFF, 0xFF
-    .4byte sym_060A4CAF
+    .long sym_060A4CAF
     .byte 0x62, 0x52
     .byte 0x60, 0x6D
     .byte 0x61, 0x42
@@ -2742,9 +2742,9 @@ menu_anim_system:
     .byte 0xA0, 0x18
     .byte 0x22, 0x50
     .byte 0x00, 0xFF
-    .4byte sym_060A4CAE
-    .4byte sym_060A4CC8
-    .4byte sym_060A4CAF
+    .long sym_060A4CAE
+    .long sym_060A4CC8
+    .long sym_060A4CAF
     .byte 0x88, 0x00
     .byte 0x89, 0xC4
     .byte 0x88, 0x10
@@ -2833,10 +2833,10 @@ sym_0603AB46:
     .byte 0x00, 0xE1
     .byte 0x00, 0xE2
     .byte 0x00, 0xFF
-    .4byte sym_060A4CB4
-    .4byte sym_060A4CC0
-    .4byte sym_060A4CAF
-    .4byte sym_060A4CAE
+    .long sym_060A4CB4
+    .long sym_060A4CC0
+    .long sym_060A4CAF
+    .long sym_060A4CAE
     .byte 0x62, 0x62
     .byte 0x63, 0x23
     .byte 0x42, 0x00

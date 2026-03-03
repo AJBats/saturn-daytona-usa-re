@@ -33,8 +33,8 @@ transition_multi_step:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .byte 0xFF, 0xFF
-    .4byte sound_cmd_dispatch
-    .4byte sym_06086050
+    .long sound_cmd_dispatch
+    .long sym_06086050
     .byte 0xAE, 0x00
     .byte 0x01, 0xFF
     .byte 0xAE, 0x00
@@ -45,6 +45,6 @@ transition_multi_step:
     .byte 0x00, 0x00
     .byte 0x25, 0xA0
     .byte 0x30, 0x00
-    .4byte memcpy_byte_idx
+    .long memcpy_byte_idx
     .byte 0x25, 0xA0
     .byte 0x2D, 0xBE

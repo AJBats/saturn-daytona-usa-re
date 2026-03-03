@@ -40,20 +40,20 @@ replay_cam_auto_cut:
     rts
     mov.l @r15+, r14
 .L_0601AF6A:
-    .2byte  0x0096
+    .short  0x0096
 .L_0601AF6C:
-    .4byte  sym_0608600F
+    .long  sym_0608600F
 .L_0601AF70:
-    .4byte  sym_06086011
+    .long  sym_06086011
 .L_0601AF74:
-    .4byte  sym_060638C8
+    .long  sym_060638C8
 .L_0601AF78:
-    .4byte  0x0000C000
+    .long  0x0000C000
 .L_0601AF7C:
-    .4byte  sym_06028400
+    .long  sym_06028400
 .L_0601AF80:
-    .4byte  sym_06086010
+    .long  sym_06086010
 .L_0601AF84:
-    .4byte  sym_0605AD00
+    .long  sym_0605AD00
 .L_0601AF88:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8

@@ -109,10 +109,10 @@ DAT_0600db44:
     .global DAT_0600db46
 DAT_0600db46:
     .byte 0x40, 0x00
-    .4byte sym_0607E940
-    .4byte sym_0607869A
-    .4byte sym_06078698
-    .4byte sym_06034F78
+    .long sym_0607E940
+    .long sym_0607869A
+    .long sym_06078698
+    .long sym_06034F78
     .byte 0x00, 0x00
     .byte 0xC0, 0x00
     .byte 0x7F, 0x08
@@ -193,16 +193,16 @@ DAT_0600dbda:
 DAT_0600dbdc:
     .byte 0x40, 0x00
     .byte 0x0A, 0xC0
-    .4byte sym_0607E940
-    .4byte sym_0607EABC
-    .4byte sym_0607EAAC
-    .4byte sym_0607EAA0
-    .4byte sound_notify_handler
-    .4byte sym_060786A8
-    .4byte sym_06078698
-    .4byte sym_06078644
-    .4byte sym_060637F8
-    .4byte sym_06028400
+    .long sym_0607E940
+    .long sym_0607EABC
+    .long sym_0607EAAC
+    .long sym_0607EAA0
+    .long sound_notify_handler
+    .long sym_060786A8
+    .long sym_06078698
+    .long sym_06078644
+    .long sym_060637F8
+    .long sym_06028400
     .byte 0xD2, 0x25
     .byte 0x2F, 0x22
     .byte 0x67, 0x23
@@ -290,15 +290,15 @@ DAT_0600dc9c:
     .global DAT_0600dc9e
 DAT_0600dc9e:
     .byte 0x0B, 0xBC
-    .4byte sym_06063808
-    .4byte sym_06028400
-    .4byte sym_06078698
-    .4byte sound_cmd_dispatch
+    .long sym_06063808
+    .long sym_06028400
+    .long sym_06078698
+    .long sound_cmd_dispatch
     .byte 0xAE, 0x11
     .byte 0x38, 0xFF
-    .4byte sym_06078644
+    .long sym_06078644
     .byte 0xAE, 0x11
     .byte 0x39, 0xFF
-    .4byte sym_06086054
-    .4byte sym_0605ACE8
-    .4byte sym_060284AE
+    .long sym_06086054
+    .long sym_0605ACE8
+    .long sym_060284AE

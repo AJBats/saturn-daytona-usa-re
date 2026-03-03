@@ -9,27 +9,27 @@ display_element_mgr:
     mov.l @r15+, r0
     rts
     nop
-    .2byte  0x0000
-    .4byte  sym_06033894
-    .4byte  fpdiv_setup
-    .4byte  0xFFFFC800
-    .4byte  0x00004800
-    .4byte  0x0000FFFF
-    .4byte  sym_06033A8C
-    .4byte  sym_06062970
-    .4byte  sym_060785FC
-    .4byte  sym_060280F8
-    .4byte  0x4008D102
-    .4byte  0x301C6002
-    .4byte  0x402B0009
-    .4byte  sym_0603380C
+    .short  0x0000
+    .long  sym_06033894
+    .long  fpdiv_setup
+    .long  0xFFFFC800
+    .long  0x00004800
+    .long  0x0000FFFF
+    .long  sym_06033A8C
+    .long  sym_06062970
+    .long  sym_060785FC
+    .long  sym_060280F8
+    .long  0x4008D102
+    .long  0x301C6002
+    .long  0x402B0009
+    .long  sym_0603380C
 
     .global sym_0603380C
 sym_0603380C:
-    .4byte  loc_0603381C
-    .4byte  loc_0603382E
-    .4byte  loc_06033840
-    .4byte  loc_06033852
+    .long  loc_0603381C
+    .long  loc_0603382E
+    .long  loc_06033840
+    .long  loc_06033852
 
     .global loc_0603381C
 loc_0603381C:
@@ -81,39 +81,39 @@ loc_06033852:
 
     .global sym_06033864
 sym_06033864:
-    .4byte  sym_0607EAE0
+    .long  sym_0607EAE0
 
     .global sym_06033868
 sym_06033868:
-    .4byte  sym_0607EAB8
+    .long  sym_0607EAB8
 
     .global sym_0603386C
 sym_0603386C:
-    .4byte  sym_0607EA98
+    .long  sym_0607EA98
 
     .global sym_06033870
 sym_06033870:
-    .4byte  sym_06078900
+    .long  sym_06078900
 
     .global sym_06033874
 sym_06033874:
-    .4byte  sym_0607EAD8
-    .4byte  sym_06063750
+    .long  sym_0607EAD8
+    .long  sym_06063750
 
     .global sym_0603387C
 sym_0603387C:
-    .4byte  sym_0605B734
+    .long  sym_0605B734
 
     .global sym_06033880
 sym_06033880:
-    .4byte  sym_06078635
+    .long  sym_06078635
 
     .global sym_06033884
 sym_06033884:
-    .4byte  sym_06078663
-    .4byte  g_pad_state
-    .4byte  sym_0605D240
-    .4byte  sym_06085FF4
+    .long  sym_06078663
+    .long  g_pad_state
+    .long  sym_0605D240
+    .long  sym_06085FF4
 
     .global sym_06033894
 sym_06033894:

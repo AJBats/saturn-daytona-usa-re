@@ -71,8 +71,8 @@ collision_response_b:
     .byte 0x01, 0x56
     .byte 0x00, 0xE0
     .byte 0x00, 0xD8
-    .4byte sym_060477BC
-    .4byte fpdiv_setup
+    .long sym_060477BC
+    .long fpdiv_setup
     .byte 0x22, 0x28
     .byte 0x89, 0x21
     .byte 0x01, 0x65
@@ -149,9 +149,9 @@ collision_response_b:
     .byte 0x00, 0xC0
     .byte 0x00, 0xDC
     .byte 0x00, 0x00
-    .4byte sym_060477BC
-    .4byte fpdiv_setup
-    .4byte sym_0602F3CC
+    .long sym_060477BC
+    .long fpdiv_setup
+    .long sym_0602F3CC
     .byte 0x39, 0x43
     .byte 0x89, 0x00
     .byte 0x64, 0x93
@@ -296,7 +296,7 @@ DAT_0602f4aa:
     .byte 0x00, 0xD4
     .byte 0x01, 0x14
     .byte 0x00, 0x00
-    .4byte sym_060477D8
+    .long sym_060477D8
     .global sym_0602F4B4
 sym_0602F4B4:
     .byte 0xD1, 0x03
@@ -307,7 +307,7 @@ sym_0602F4B4:
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
     .byte 0x00, 0x00
-    .4byte sym_0607EAE0
+    .long sym_0607EAE0
     .byte 0x91, 0x27
     .byte 0x03, 0x1D
     .byte 0x43, 0x15
@@ -358,8 +358,8 @@ DAT_0602f51c:
     .global DAT_0602f51e
 DAT_0602f51e:
     .byte 0x00, 0x18
-    .4byte sym_0607EA98
-    .4byte sym_0607E948
+    .long sym_0607EA98
+    .long sym_0607E948
     .byte 0x44, 0x21
     .byte 0x34, 0x1C
     .byte 0x62, 0x43

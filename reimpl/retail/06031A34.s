@@ -29,9 +29,9 @@ timer_countdown_display:
 DAT_06031a64:
     .byte 0xFF, 0x00
     .byte 0x00, 0x00
-    .4byte sym_06031D5C
-    .4byte sym_06031D3C
-    .4byte sym_06094FA8
+    .long sym_06031D5C
+    .long sym_06031D3C
+    .long sym_06094FA8
     .byte 0x90, 0x32
     .byte 0x1C, 0x04
     .byte 0x1C, 0x30
@@ -86,8 +86,8 @@ DAT_06031a64:
     .byte 0x00, 0x09
     .byte 0x00, 0xA0
     .byte 0x00, 0x00
-    .4byte sym_06031D6C
-    .4byte sym_06089EDC
+    .long sym_06031D6C
+    .long sym_06089EDC
     .byte 0x65, 0xB3
     .byte 0x52, 0x71
     .byte 0x61, 0x72
@@ -120,7 +120,7 @@ DAT_06031a64:
     .global DAT_06031b22
 DAT_06031b22:
     .byte 0x00, 0xA0
-    .4byte sym_06094FA8
+    .long sym_06094FA8
     .byte 0x1D, 0x31
     .byte 0x75, 0x08
     .byte 0x52, 0x71
@@ -153,7 +153,7 @@ DAT_06031b22:
     .byte 0x00, 0x09
     .byte 0x00, 0xA0
     .byte 0x00, 0x00
-    .4byte sym_06094FA8
+    .long sym_06094FA8
     .byte 0x1D, 0x32
     .byte 0x75, 0x08
     .byte 0x52, 0x71
@@ -186,7 +186,7 @@ DAT_06031b22:
     .byte 0x00, 0x09
     .byte 0x00, 0xA0
     .byte 0x00, 0x00
-    .4byte sym_06094FA8
+    .long sym_06094FA8
     .byte 0x1D, 0x33
     .byte 0x75, 0x08
     .byte 0x52, 0x71
@@ -225,8 +225,8 @@ DAT_06031b22:
     .byte 0x00, 0x09
     .byte 0xFF, 0x50
     .byte 0x00, 0x00
-    .4byte sym_060620D0
-    .4byte sym_0608AC20
+    .long sym_060620D0
+    .long sym_0608AC20
     .byte 0x9C, 0x3A
     .byte 0x3C, 0x07
     .byte 0x89, 0x05
@@ -291,7 +291,7 @@ DAT_06031b22:
     .byte 0xFF, 0x81
     .byte 0x00, 0x51
     .byte 0x00, 0x00
-    .4byte sym_06031D78
+    .long sym_06031D78
     .global loc_06031C88
 loc_06031C88:
     .byte 0x33, 0x4C
@@ -362,8 +362,8 @@ loc_06031CC4:
     .byte 0x00, 0x00
     .byte 0x00, 0x40
     .byte 0x00, 0x00
-    .4byte sym_060620D0
-    .4byte sym_0606A4F8
+    .long sym_060620D0
+    .long sym_0606A4F8
     .byte 0x4F, 0x26
     .byte 0x6E, 0xF6
     .byte 0x6D, 0xF6
@@ -434,11 +434,11 @@ sym_06031D6C:
     .byte 0xFF, 0xFF
     .global sym_06031D78
 sym_06031D78:
-    .4byte loc_06031C88
-    .4byte loc_06031C92
-    .4byte loc_06031CA8
-    .4byte loc_06031CBE
-    .4byte loc_06031CC4
+    .long loc_06031C88
+    .long loc_06031C92
+    .long loc_06031CA8
+    .long loc_06031CBE
+    .long loc_06031CC4
     .global sym_06031D8C
 sym_06031D8C:
     .byte 0xD0, 0x17
@@ -489,8 +489,8 @@ sym_06031D8C:
     .byte 0x73, 0x0C
     .byte 0x00, 0x0B
     .byte 0x7F, 0x08
-    .4byte sym_06089EDC
-    .4byte sym_06094FA8
+    .long sym_06089EDC
+    .long sym_06094FA8
     .global sym_06031DF4
 sym_06031DF4:
     .byte 0x2F, 0x86

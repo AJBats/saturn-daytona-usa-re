@@ -26,10 +26,10 @@ channel_config_b:
     rts
     mov.l @r15+, r14
 .L_wpool_060149C4:
-    .2byte  0x0100
-    .2byte  0xFFFF
+    .short  0x0100
+    .short  0xFFFF
 .L_pool_060149C8:
-    .4byte  channel_nibble_config
+    .long  channel_nibble_config
 
     .global sym_060149CC
 sym_060149CC:
@@ -57,11 +57,11 @@ sym_060149E0:
     rts
     mov.w r2, @r3
 .L_wpool_060149F4:
-    .2byte  0x7FFF
-    .2byte  0xFFFF
+    .short  0x7FFF
+    .short  0xFFFF
 .L_pool_060149F8:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_pool_060149FC:
-    .4byte  sym_060A3D88
+    .long  sym_060A3D88
 .L_pool_06014A00:
-    .4byte  sym_060635AC
+    .long  sym_060635AC

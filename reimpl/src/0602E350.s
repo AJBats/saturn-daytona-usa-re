@@ -24,46 +24,46 @@ rbg_rot_matrix_calc:
 DAT_0602e372:
     clrmac
 .L_wpool_0602E374:
-    .2byte  0x0030
+    .short  0x0030
 
     .global DAT_0602e376
 DAT_0602e376:
-    .2byte  0x0020
+    .short  0x0020
 .L_wpool_0602E378:
-    .2byte  0x0008
-    .2byte  0x0000
-    .4byte  sound_cmd_dispatch
+    .short  0x0008
+    .short  0x0000
+    .long  sound_cmd_dispatch
 .L_pool_0602E380:
-    .4byte  sym_0607E940
-    .4byte  sym_0602E450
-    .4byte  sym_0602E4BC
-    .4byte  collision_detect_main
-    .4byte  0x00000000
-    .4byte  sym_0603053C
-    .4byte  checkpoint_detect
+    .long  sym_0607E940
+    .long  sym_0602E450
+    .long  sym_0602E4BC
+    .long  collision_detect_main
+    .long  0x00000000
+    .long  sym_0603053C
+    .long  checkpoint_detect
 .L_pool_0602E39C:
-    .4byte  0x00000096
-    .4byte  0xD10BD30C
-    .4byte  0x2132D10C
-    .4byte  0x6212D10C
-    .4byte  0x2122D10C
-    .4byte  0xD20C2122
-    .4byte  0xD10C9308
-    .4byte  0x2132D30C
-    .4byte  0xD10C0136
-    .4byte  0x93039103
-    .4byte  0x0136AF19
-    .4byte  0x00090000
-    .4byte  0x01B40000
-    .4byte  sym_0605A1D0
-    .4byte  0x00010000
-    .4byte  sym_06082A34
-    .4byte  sym_06063E20
-    .4byte  sym_06082A30
-    .4byte  0x00000000
-    .4byte  sym_0605A1C4
-    .4byte  0x00000001
-    .4byte  sym_0607EAC8
+    .long  0x00000096
+    .long  0xD10BD30C
+    .long  0x2132D10C
+    .long  0x6212D10C
+    .long  0x2122D10C
+    .long  0xD20C2122
+    .long  0xD10C9308
+    .long  0x2132D30C
+    .long  0xD10C0136
+    .long  0x93039103
+    .long  0x0136AF19
+    .long  0x00090000
+    .long  0x01B40000
+    .long  sym_0605A1D0
+    .long  0x00010000
+    .long  sym_06082A34
+    .long  sym_06063E20
+    .long  sym_06082A30
+    .long  0x00000000
+    .long  sym_0605A1C4
+    .long  0x00000001
+    .long  sym_0607EAC8
 .L_0602E3F4:
     mov.l   .L_pool_0602E414, r1
     mov.l @r1, r3
@@ -82,16 +82,16 @@ DAT_0602e376:
     .byte   0xA0, 0x12    /* bra 0x0602E438 (external) */
     nop
 .L_pool_0602E414:
-    .4byte  sym_06082A2C
+    .long  sym_06082A2C
 .L_pool_0602E418:
-    .4byte  0x00000028
+    .long  0x00000028
 .L_pool_0602E41C:
-    .4byte  sym_06082A25
+    .long  sym_06082A25
 .L_pool_0602E420:
-    .4byte  0x00000004
+    .long  0x00000004
 .L_pool_0602E424:
-    .4byte  sym_06082A26
+    .long  sym_06082A26
 .L_pool_0602E428:
-    .4byte  0x00000000
+    .long  0x00000000
 .L_0602E42C:
     .byte   0xDD, 0x07    /* mov.l .L_pool_0602E44C, r13 */

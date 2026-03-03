@@ -15,8 +15,8 @@ rot_scroll_commit:
     mov.l @r15+, r8
     rts
     nop
-    .2byte  0x0000
-    .4byte  display_dispatch_0
+    .short  0x0000
+    .long  display_dispatch_0
 
     .global sym_0602E450
 sym_0602E450:
@@ -31,4 +31,4 @@ sym_0602E450:
 
     .global DAT_0602e460
 DAT_0602e460:
-    .2byte  0x0250
+    .short  0x0250

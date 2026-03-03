@@ -1,23 +1,19 @@
 #!/usr/bin/env python3
 """Batch Cygnus AS assembly via DOSBox-X.
 
-Preprocesses source files (converts ELF directives to COFF-compatible),
-then assembles them with Cygnus AS running in DOSBox-X. Splits work into
-chunks to avoid DOS memory exhaustion.
+Copies source files to build/coff/ and assembles them with Cygnus AS.
+Splits work into chunks of 100 to avoid DOS memory exhaustion.
 
-The preprocessing is done on copies in the build directory, so the
-original source files remain unchanged (they must stay compatible
-with sh-elf-as for the ELF validation pipeline).
+Source files are already in Cygnus-native syntax (.short, .long, bf.s, etc).
 
 Usage:
-    python cygnus_batch.py [--chunk-size N] [--dry-run]
-
-Assembles all src/*.s files. Skips files that already have a .O in build/.
+    python cygnus_batch.py [--chunk-size N] [--clean] [--dry-run]
 """
 
 import argparse
 import glob
 import os
+import shutil
 import subprocess
 import sys
 import time
@@ -29,33 +25,6 @@ BUILD_DIR = os.path.join(REIMPL_PATH, 'build', 'coff')
 DOSBOX_EXE = r'C:\DOSBox-X\dosbox-x.exe'
 
 DEFAULT_CHUNK_SIZE = 100
-
-
-def preprocess_for_cygnus(src_path, dst_path):
-    """Convert a source file to be Cygnus AS compatible.
-
-    Changes:
-    - .2byte -> .short
-    - .4byte -> .long
-    - bf/s -> bf.s (Cygnus uses dot notation, not slash)
-    - bt/s -> bt.s
-    - muls.w -> muls (Cygnus doesn't support .w suffix on muls/mulu)
-    - mulu.w -> mulu
-    """
-    with open(src_path, 'r') as f:
-        content = f.read()
-
-    content = content.replace('.2byte', '.short')
-    content = content.replace('.4byte', '.long')
-    content = content.replace('bf/s', 'bf.s')
-    content = content.replace('bt/s', 'bt.s')
-    content = content.replace('muls.w', 'muls')
-    content = content.replace('mulu.w', 'mulu')
-    # COFF 8-char section name limit — normalize .text.startup to .text
-    content = content.replace('.section .text.startup', '\t.text')
-
-    with open(dst_path, 'w') as f:
-        f.write(content)
 
 
 def generate_chunk_conf(stems, chunk_idx, build_dir):
@@ -107,14 +76,13 @@ def generate_chunk_conf(stems, chunk_idx, build_dir):
 
 def run_chunk(conf_path, done_path, chunk_idx, stems, total_done, total_count):
     """Run DOSBox for one chunk. Returns (success, error_stem_or_None)."""
-    # Remove done marker if it exists
     if os.path.exists(done_path):
         os.remove(done_path)
 
     label = f'Chunk {chunk_idx} ({total_done+1}-{total_done+len(stems)}/{total_count})'
     print(f'  {label}: assembling {len(stems)} files...', end='', flush=True)
 
-    result = subprocess.run(
+    subprocess.run(
         [DOSBOX_EXE, '-silent', '-fastlaunch', '-conf', conf_path],
         capture_output=True, timeout=120
     )
@@ -139,14 +107,13 @@ def main():
     parser.add_argument('--chunk-size', type=int, default=DEFAULT_CHUNK_SIZE,
                         help=f'Files per DOSBox session (default {DEFAULT_CHUNK_SIZE})')
     parser.add_argument('--dry-run', action='store_true',
-                        help='Preprocess and generate configs but don\'t run DOSBox')
+                        help='Generate configs but don\'t run DOSBox')
     parser.add_argument('--clean', action='store_true',
                         help='Remove all .O and .S files from build dir first')
     args = parser.parse_args()
 
     os.makedirs(BUILD_DIR, exist_ok=True)
 
-    # Clean if requested
     if args.clean:
         for ext in ('*.O', '*.S'):
             for f in glob.glob(os.path.join(BUILD_DIR, ext)):
@@ -158,20 +125,19 @@ def main():
     src_files = sorted(glob.glob(os.path.join(SRC_DIR, '*.s')))
     retail_files = sorted(glob.glob(os.path.join(retail_dir, '*.s')))
 
-    # Build stem→path mapping: retail first, then src overwrites
     stem_map = {}
     for r in retail_files:
         stem = os.path.splitext(os.path.basename(r))[0]
         stem_map[stem] = r
     for s in src_files:
         stem = os.path.splitext(os.path.basename(s))[0]
-        stem_map[stem] = s  # src/ overrides retail/
+        stem_map[stem] = s
 
     if not stem_map:
         print('No source files found')
         return 1
 
-    # Determine which files need assembly (skip existing .O)
+    # Skip files that already have a .O
     all_stems = []
     skip_count = 0
     for stem in sorted(stem_map.keys()):
@@ -182,17 +148,19 @@ def main():
         all_stems.append((stem, stem_map[stem]))
 
     total_count = len(all_stems)
-    print(f'Found {len(stem_map)} source files ({len(src_files)} src + {len(retail_files) - len(src_files)} retail-only), {skip_count} already assembled, {total_count} to do')
+    src_only = len(src_files)
+    retail_only = len(stem_map) - src_only
+    print(f'Found {len(stem_map)} source files ({src_only} src + {retail_only} retail-only), {skip_count} already assembled, {total_count} to do')
 
     if total_count == 0:
         print('Nothing to assemble!')
         return 0
 
-    # Preprocess all files
-    print('Preprocessing...', end='', flush=True)
+    # Copy source files to build dir (uppercase .S for DOS)
+    print('Copying...', end='', flush=True)
     for stem, src_path in all_stems:
         dst_path = os.path.join(BUILD_DIR, stem + '.S')
-        preprocess_for_cygnus(src_path, dst_path)
+        shutil.copy2(src_path, dst_path)
     print(f' {total_count} files')
 
     # Split into chunks
@@ -216,10 +184,10 @@ def main():
     t0 = time.time()
     for i, chunk in enumerate(chunks):
         conf_path, done_path = generate_chunk_conf(chunk, i, BUILD_DIR)
-        success, failed_stem = run_chunk(conf_path, done_path, i, chunk, total_done, len(src_files))
+        success, failed_stem = run_chunk(conf_path, done_path, i, chunk, total_done, len(stem_map))
         if not success:
             print(f'\nFAILED: {failed_stem}.S could not be assembled')
-            print(f'Check the preprocessed file: {os.path.join(BUILD_DIR, failed_stem + ".S")}')
+            print(f'Check: {os.path.join(BUILD_DIR, failed_stem + ".S")}')
             return 1
         total_done += len(chunk)
 

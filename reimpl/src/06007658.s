@@ -75,19 +75,19 @@ vdp1_sprite_render:
     .global DAT_060076e2
 .L_wpool_060076E2:
 DAT_060076e2:
-    .2byte  0x00FF
+    .short  0x00FF
 .L_pool_060076E4:
-    .4byte  sym_06063F64
+    .long  sym_06063F64
 .L_pool_060076E8:
-    .4byte  sym_0606A4EC
+    .long  sym_0606A4EC
 .L_pool_060076EC:
-    .4byte  sym_0606A4F4
+    .long  sym_0606A4F4
 .L_pool_060076F0:
-    .4byte  sym_06063F5C
+    .long  sym_06063F5C
 .L_pool_060076F4:
-    .4byte  sym_06063F60
+    .long  sym_06063F60
 .L_pool_060076F8:
-    .4byte  sym_060684EC
+    .long  sym_060684EC
 .L_060076FC:
     extu.w r5, r4
     mov #0x3, r0
@@ -140,7 +140,7 @@ DAT_060076e2:
     mov r0, r4
     mov.w @(12, r15), r0
     mov r0, r3
-    mulu.w r3, r4
+    mulu r3, r4
     mov #0x0, r3
     sts macl, r4
     cmp/gt r4, r3
@@ -159,12 +159,12 @@ DAT_060076e2:
     .global DAT_0600777e
 .L_wpool_0600777E:
 DAT_0600777e:
-    .2byte  0x3F00
+    .short  0x3F00
 .L_pool_06007780:
-    .4byte  sym_06034FE0
+    .long  sym_06034FE0
 .L_pool_06007784:
-    .4byte  sym_0606A4F0
+    .long  sym_0606A4F0
 .L_pool_06007788:
-    .4byte  sym_06063F5C
+    .long  sym_06063F5C
 .L_pool_0600778C:
-    .4byte  dma_memory_transfer
+    .long  dma_memory_transfer

@@ -37,7 +37,7 @@ timer_overflow_handler:
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
-    .4byte ai_section_check
-    .4byte sym_06040FEA
-    .4byte sym_06034FFC
-    .4byte sym_06036BE4
+    .long ai_section_check
+    .long sym_06040FEA
+    .long sym_06034FFC
+    .long sym_06036BE4

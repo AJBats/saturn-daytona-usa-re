@@ -86,65 +86,65 @@ main_loop_timing:
 
     .global DAT_06007412
 DAT_06007412:
-    .2byte  0x2468
+    .short  0x2468
 
     .global DAT_06007414
 DAT_06007414:
-    .2byte  0x00DF
+    .short  0x00DF
 
     .global DAT_06007416
 DAT_06007416:
-    .2byte  0x015F
+    .short  0x015F
 .L_06007418:
-    .2byte  0x03C0
+    .short  0x03C0
 .L_0600741A:
-    .2byte  0x0080
+    .short  0x0080
 .L_0600741C:
-    .2byte  0x0300
-    .2byte  0xFFFF
+    .short  0x0300
+    .short  0xFFFF
 .L_06007420:
-    .4byte  sym_06063F5C
+    .long  sym_06063F5C
 .L_06007424:
-    .4byte  sym_0606A4F4
+    .long  sym_0606A4F4
 .L_06007428:
-    .4byte  sym_0606A4EC
+    .long  sym_0606A4EC
 .L_0600742C:
-    .4byte  vdp2_scroll_update
+    .long  vdp2_scroll_update
 .L_06007430:
-    .4byte  polygon_param_setup
+    .long  polygon_param_setup
 .L_06007434:
-    .4byte  sym_060393FC
+    .long  sym_060393FC
 .L_06007438:
-    .4byte  0x0000FFFF
+    .long  0x0000FFFF
 .L_0600743C:
-    .4byte  display_param_set
+    .long  display_param_set
 .L_06007440:
-    .4byte  sym_06012E00
+    .long  sym_06012E00
 .L_06007444:
-    .4byte  0x002A0000
+    .long  0x002A0000
 .L_06007448:
-    .4byte  sym_06059FFC
+    .long  sym_06059FFC
 .L_0600744C:
-    .4byte  memcpy_word_idx
+    .long  memcpy_word_idx
 .L_06007450:
-    .4byte  sym_0607EAB8
+    .long  sym_0607EAB8
 .L_06007454:
-    .4byte  sym_06059F78
+    .long  sym_06059F78
 .L_06007458:
-    .4byte  sym_0605A018
+    .long  sym_0605A018
 .L_0600745C:
-    .4byte  dma_transfer
+    .long  dma_transfer
 .L_06007460:
-    .4byte  sym_0605A008
+    .long  sym_0605A008
 .L_06007464:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_06007468:
-    .4byte  scene_setup_master
+    .long  scene_setup_master
 .L_0600746C:
-    .4byte  sym_0606B178
+    .long  sym_0606B178
 .L_06007470:
-    .4byte  0x002A3457
+    .long  0x002A3457
 .L_06007474:
-    .4byte  dma_memory_transfer
+    .long  dma_memory_transfer
 .L_06007478:
-    .4byte  sym_06026CE0
+    .long  sym_06026CE0

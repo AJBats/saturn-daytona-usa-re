@@ -25,20 +25,20 @@ cd_dma_setup:
     .global DAT_06012c66
 DAT_06012c66:
     .byte 0x0A, 0x1A
-    .4byte cdb_read_status
-    .4byte sym_060448D4
+    .long cdb_read_status
+    .long sym_060448D4
     .byte 0x00, 0x00
     .byte 0xE0, 0x00
-    .4byte sym_060283E0
-    .4byte sym_060612C4
-    .4byte sym_060612B4
-    .4byte memcpy_word_idx
-    .4byte ai_brake_zone_calc
-    .4byte sym_0605ACCA
-    .4byte cmd_validate_chain
-    .4byte sym_06084AEC
-    .4byte cmd_status_check
-    .4byte sym_0600026C
+    .long sym_060283E0
+    .long sym_060612C4
+    .long sym_060612B4
+    .long memcpy_word_idx
+    .long ai_brake_zone_calc
+    .long sym_0605ACCA
+    .long cmd_validate_chain
+    .long sym_06084AEC
+    .long cmd_status_check
+    .long sym_0600026C
     .byte 0xBF, 0x9E
     .byte 0x00, 0x09
     .byte 0x60, 0xA0

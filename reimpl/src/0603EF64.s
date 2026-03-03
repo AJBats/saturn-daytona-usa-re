@@ -17,18 +17,18 @@ attract_init_setup:
     shlr2 r2
     shlr r2
     cmp/hs r2, r5
-    bt/s    .L_0603EF94
+    bt.s    .L_0603EF94
     mov.l r2, @r15
     bra     .L_0603EF96
     nop
 
     .global DAT_0603ef8a
 DAT_0603ef8a:
-    .2byte  0x07FF
+    .short  0x07FF
 .L_0603EF8C:
-    .4byte  0x0000FFFF
+    .long  0x0000FFFF
 .L_0603EF90:
-    .4byte  0x7FFFFFFF
+    .long  0x7FFFFFFF
 .L_0603EF94:
     mov.l @r15, r5
 .L_0603EF96:
@@ -82,19 +82,19 @@ sym_0603EFE6:
     mov.l   .L_0603EFFC, r3
     mov.l @(32, r3), r0
     tst r0, r0
-    bt/s    .L_0603F000
+    bt.s    .L_0603F000
     mov #0x1, r7
     rts
     mov #0x0, r0
 
     .global DAT_0603eff4
 DAT_0603eff4:
-    .2byte  0x0800
-    .2byte  0xFFFF
+    .short  0x0800
+    .short  0xFFFF
 .L_0603EFF8:
-    .4byte  sym_06036BE4
+    .long  sym_06036BE4
 .L_0603EFFC:
-    .4byte  sym_06063624
+    .long  sym_06063624
 .L_0603F000:
     mov.l   .L_0603F06C, r6
     mov.l @(4, r4), r3
@@ -155,15 +155,15 @@ sym_0603F036:
     rts
     nop
 .L_0603F06A:
-    .2byte  0x07FF
+    .short  0x07FF
 .L_0603F06C:
-    .4byte  sym_06063624
+    .long  sym_06063624
 
     .global sym_0603F070
 sym_0603F070:
     mov.l   .L_0603F0D8, r3
     cmp/eq r3, r5
-    bf/s    .L_0603F08E
+    bf.s    .L_0603F08E
     mov #0x0, r7
     mov r6, r0
     cmp/eq #-0x1, r0
@@ -195,24 +195,24 @@ sym_0603F070:
 .L_0603F0A8:
     rts
     nop
-    .4byte  0x66425664
-    .4byte  0x35678B00
-    .4byte  0x65634511
-    .4byte  0x8900E500
-    .4byte  0x63534318
-    .4byte  0x43084300
-    .4byte  0x14356233
-    .4byte  0x53443237
-    .4byte  0x8B015345
-    .4byte  0x1434000B
-    .4byte  0x6053FFFF
+    .long  0x66425664
+    .long  0x35678B00
+    .long  0x65634511
+    .long  0x8900E500
+    .long  0x63534318
+    .long  0x43084300
+    .long  0x14356233
+    .long  0x53443237
+    .long  0x8B015345
+    .long  0x1434000B
+    .long  0x6053FFFF
 .L_0603F0D8:
-    .4byte  sym_06063624
-    .4byte  0x5045930B
-    .4byte  0x303C4019
-    .4byte  0x4009000B
-    .4byte  0x40015341
-    .4byte  0x25325242
-    .4byte  0x26225343
-    .4byte  0x000B2732
-    .4byte  0x07FF0000
+    .long  sym_06063624
+    .long  0x5045930B
+    .long  0x303C4019
+    .long  0x4009000B
+    .long  0x40015341
+    .long  0x25325242
+    .long  0x26225343
+    .long  0x000B2732
+    .long  0x07FF0000

@@ -141,18 +141,18 @@ DAT_0601bb48:
     .global DAT_0601bb4a
 DAT_0601bb4a:
     .byte 0x0C, 0x86
-    .4byte sym_060284AE
-    .4byte sym_0605D4F7
-    .4byte sym_0605DF3A
-    .4byte sym_06035228
-    .4byte sym_06028400
-    .4byte sym_06063750
+    .long sym_060284AE
+    .long sym_0605D4F7
+    .long sym_0605DF3A
+    .long sym_06035228
+    .long sym_06028400
+    .long sym_06063750
     .byte 0x00, 0x00
     .byte 0xA0, 0x00
     .byte 0x00, 0x00
     .byte 0x90, 0x00
-    .4byte sym_0605DD6C
-    .4byte sym_0605DE24
+    .long sym_0605DD6C
+    .long sym_0605DE24
     .byte 0xE6, 0x60
     .byte 0x95, 0x23
     .byte 0x4A, 0x0B
@@ -195,5 +195,5 @@ DAT_0601bb4a:
 DAT_0601bbc0:
     .byte 0x0C, 0xA4
     .byte 0x0C, 0xB2
-    .4byte sym_0605DE24
-    .4byte anim_frame_transform
+    .long sym_0605DE24
+    .long anim_frame_transform

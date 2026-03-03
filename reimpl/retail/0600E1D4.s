@@ -139,21 +139,21 @@ DAT_0600e2c8:
     .global DAT_0600e2ca
 DAT_0600e2ca:
     .byte 0x02, 0x28
-    .4byte sym_0607EAD8
-    .4byte sym_0607E940
-    .4byte sym_06078680
-    .4byte sym_06047DE4
-    .4byte sym_0605A220
-    .4byte sym_0607EA9C
-    .4byte sym_06035C2C
-    .4byte sym_06085FD0
-    .4byte sym_06047DD0
-    .4byte sym_0605AD04
-    .4byte sym_0605AD00
-    .4byte sym_06086030
-    .4byte sym_06047DDF
-    .4byte sym_06047D8C
-    .4byte fpmul
+    .long sym_0607EAD8
+    .long sym_0607E940
+    .long sym_06078680
+    .long sym_06047DE4
+    .long sym_0605A220
+    .long sym_0607EA9C
+    .long sym_06035C2C
+    .long sym_06085FD0
+    .long sym_06047DD0
+    .long sym_0605AD04
+    .long sym_0605AD00
+    .long sym_06086030
+    .long sym_06047DDF
+    .long sym_06047D8C
+    .long fpmul
     .byte 0xE3, 0xFF
     .byte 0x90, 0x6D
     .byte 0x0E, 0x36
@@ -294,6 +294,6 @@ DAT_0600e3f6:
     .byte 0x2E, 0x38
     .byte 0x00, 0x04
     .byte 0x20, 0x00
-    .4byte FUN_0600CA9A
-    .4byte sym_06006838
-    .4byte scene_render_alt
+    .long FUN_0600CA9A
+    .long sym_06006838
+    .long scene_render_alt

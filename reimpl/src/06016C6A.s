@@ -27,9 +27,9 @@ text_color_set:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-    .4byte  sym_06084FC8
+    .long  sym_06084FC8
 .L_pool_06016CA1:
-    .4byte  sym_06085F88
+    .long  sym_06085F88
 
     .global loc_06016CA4
 loc_06016CA4:
@@ -56,8 +56,8 @@ loc_06016CA4:
     mov.b @r15, r4
     jmp @r3
     add #0x4, r15
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_pool_06016CD7:
-    .4byte  sym_06084FC8
+    .long  sym_06084FC8
 .L_pool_06016CDB:
-    .4byte  sym_0605BB6C
+    .long  sym_0605BB6C

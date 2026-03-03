@@ -7,7 +7,7 @@ mem_pool_reset:
     .byte 0xD3, 0x01
     .byte 0x43, 0x2B
     .byte 0x4F, 0x26
-    .4byte geom_vertex_process
+    .long geom_vertex_process
 	.text
     .global geom_render_util
 geom_render_util:
@@ -123,21 +123,21 @@ geom_render_util:
     .global DAT_0601f6ba
 DAT_0601f6ba:
     .byte 0x27, 0x10
-    .4byte sym_0607ED90
-    .4byte hud_overlay_render
-    .4byte geom_normal_compute
-    .4byte geom_output_handler
-    .4byte sym_06078635
-    .4byte sym_060877F0
-    .4byte sym_060786A4
-    .4byte sym_0605E0A1
-    .4byte sym_0607EAD8
-    .4byte sym_0605E0A0
-    .4byte sym_0607ED88
-    .4byte sym_06085FFC
-    .4byte sym_06086000
-    .4byte sym_0605E06C
-    .4byte sym_060877D8
+    .long sym_0607ED90
+    .long hud_overlay_render
+    .long geom_normal_compute
+    .long geom_output_handler
+    .long sym_06078635
+    .long sym_060877F0
+    .long sym_060786A4
+    .long sym_0605E0A1
+    .long sym_0607EAD8
+    .long sym_0605E0A0
+    .long sym_0607ED88
+    .long sym_06085FFC
+    .long sym_06086000
+    .long sym_0605E06C
+    .long sym_060877D8
     .byte 0xE2, 0x0B
     .byte 0x23, 0x2F
     .byte 0x03, 0x1A
@@ -204,8 +204,8 @@ DAT_0601f6ba:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .byte 0xFF, 0xFF
-    .4byte hud_overlay_render
-    .4byte geom_rotation_apply
+    .long hud_overlay_render
+    .long geom_rotation_apply
 	.text
     .global geom_output_finalize
 geom_output_finalize:
@@ -281,16 +281,16 @@ DAT_0601f806:
     .byte 0x19, 0x00
     .byte 0x23, 0x28
     .byte 0xFF, 0xFF
-    .4byte sym_0607ED90
-    .4byte sym_06078635
-    .4byte sym_0607EAD8
-    .4byte hud_overlay_render
-    .4byte geom_coord_calc
-    .4byte sym_0605E0A1
-    .4byte sym_0605E0A0
+    .long sym_0607ED90
+    .long sym_06078635
+    .long sym_0607EAD8
+    .long hud_overlay_render
+    .long geom_coord_calc
+    .long sym_0605E0A1
+    .long sym_0605E0A0
     .byte 0x00, 0x2F
     .byte 0x80, 0x00
-    .4byte memcpy_long_idx
+    .long memcpy_long_idx
     .byte 0x60, 0xA2
     .byte 0x88, 0x02
     .byte 0x8B, 0x03
@@ -347,13 +347,13 @@ DAT_0601f806:
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
     .byte 0xFF, 0xFF
-    .4byte sym_060877D8
-    .4byte sym_0604A5C0
-    .4byte sym_0605E0A1
-    .4byte sym_06087080
-    .4byte sym_0605E098
-    .4byte sym_060A0FA8
-    .4byte sym_0607ED90
+    .long sym_060877D8
+    .long sym_0604A5C0
+    .long sym_0605E0A1
+    .long sym_06087080
+    .long sym_0605E098
+    .long sym_060A0FA8
+    .long sym_0607ED90
     .global sym_0601F8BC
 sym_0601F8BC:
     .byte 0x00, 0x0B
@@ -387,9 +387,9 @@ geom_output_ctrl:
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
-    .4byte sym_0605E05C
-    .4byte sym_060149E0
-    .4byte sym_060149CC
+    .long sym_0605E05C
+    .long sym_060149E0
+    .long sym_060149CC
 	.text
     .global geom_output_dispatch
 geom_output_dispatch:
@@ -454,13 +454,13 @@ DAT_0601f962:
 DAT_0601f964:
     .byte 0x42, 0x10
     .byte 0xFF, 0xFF
-    .4byte sym_06063D9A
+    .long sym_06063D9A
     .byte 0x25, 0xE7
     .byte 0xFF, 0xFE
-    .4byte tilemap_dma_update
-    .4byte sym_0605B6D8
-    .4byte sym_0605E05C
-    .4byte geom_vertex_process
+    .long tilemap_dma_update
+    .long sym_0605B6D8
+    .long sym_0605E05C
+    .long geom_vertex_process
     .byte 0xD3, 0x2A
     .byte 0x62, 0xE2
     .byte 0x22, 0x3B
@@ -554,25 +554,25 @@ DAT_0601fa26:
     .byte 0xFF, 0xFF
     .byte 0x80, 0x00
     .byte 0x00, 0x00
-    .4byte sym_06026CE0
+    .long sym_06026CE0
     .byte 0x40, 0x00
     .byte 0x00, 0x00
-    .4byte sym_06063D9A
-    .4byte sym_0602853E
-    .4byte sym_06028560
-    .4byte sym_06063750
-    .4byte sym_06028400
-    .4byte sym_06078644
+    .long sym_06063D9A
+    .long sym_0602853E
+    .long sym_06028560
+    .long sym_06063750
+    .long sym_06028400
+    .long sym_06078644
     .byte 0x00, 0x01
     .byte 0x77, 0x00
     .byte 0x25, 0xE7
     .byte 0x21, 0x94
-    .4byte sym_0600511E
-    .4byte sym_0604894C
+    .long sym_0600511E
+    .long sym_0604894C
     .byte 0x25, 0xF0
     .byte 0x06, 0x00
-    .4byte memcpy_word_idx
-    .4byte sym_0605E05C
+    .long memcpy_word_idx
+    .long sym_0605E05C
     .byte 0x97, 0x2A
     .byte 0x37, 0xBC
     .byte 0x2F, 0x72
@@ -627,12 +627,12 @@ DAT_0601fac8:
     .byte 0x04, 0x00
     .byte 0x05, 0x90
     .byte 0x00, 0x90
-    .4byte sym_0605CD9C
+    .long sym_0605CD9C
     .byte 0x25, 0xF0
     .byte 0x06, 0x00
-    .4byte memcpy_word_idx
-    .4byte sym_060284AE
-    .4byte sym_0605E05C
+    .long memcpy_word_idx
+    .long sym_060284AE
+    .long sym_0605E05C
     .byte 0xDA, 0x39
     .byte 0x66, 0xE3
     .byte 0x95, 0x5D
@@ -757,8 +757,8 @@ DAT_0601fbc4:
 DAT_0601fbc8:
     .byte 0x0C, 0xD2
     .byte 0xFF, 0xFF
-    .4byte sym_0605E0A4
-    .4byte sym_0605E0E4
+    .long sym_0605E0A4
+    .long sym_0605E0E4
     .byte 0xD7, 0x35
     .byte 0x66, 0xE3
     .byte 0x95, 0x59
@@ -871,12 +871,12 @@ DAT_0601fc9c:
     .byte 0x08, 0x00
     .byte 0x08, 0x52
     .byte 0xFF, 0xFF
-    .4byte sym_0605E0D0
-    .4byte sym_0605E0D4
-    .4byte sym_0605E0D8
-    .4byte sym_0605E0E4
-    .4byte sym_0605E0DC
-    .4byte sym_0605E0E0
+    .long sym_0605E0D0
+    .long sym_0605E0D4
+    .long sym_0605E0D8
+    .long sym_0605E0E4
+    .long sym_0605E0DC
+    .long sym_0605E0E0
     .byte 0x88, 0x04
     .byte 0x8B, 0x01
     .byte 0xAF, 0x0C
@@ -948,14 +948,14 @@ geom_display_ctrl_a:
     .byte 0x23, 0x42
     .byte 0x01, 0x00
     .byte 0xFF, 0xFF
-    .4byte channel_nibble_config
+    .long channel_nibble_config
     .byte 0x25, 0xE7
     .byte 0xFF, 0xFE
-    .4byte tilemap_dma_update
-    .4byte sym_0605B6D8
-    .4byte sym_06026CE0
-    .4byte sym_060620D0
-    .4byte sym_0605A000
-    .4byte sym_0605A004
-    .4byte sym_0605A008
-    .4byte sym_06059F44
+    .long tilemap_dma_update
+    .long sym_0605B6D8
+    .long sym_06026CE0
+    .long sym_060620D0
+    .long sym_0605A000
+    .long sym_0605A004
+    .long sym_0605A008
+    .long sym_06059F44

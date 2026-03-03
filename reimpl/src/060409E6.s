@@ -11,7 +11,7 @@ evt_checkpoint_handler:
     add #-0x8, r15
     .byte   0xDB, 0x0D    /* mov.l .L_06040A2C, r11 */
     cmp/pz r13
-    bt/s    .L_06040A00
+    bt.s    .L_06040A00
     mov r4, r14
     mov r12, r13
 .L_06040A00:
@@ -33,11 +33,11 @@ evt_checkpoint_handler:
     bf      .L_06040A30
     bra     .L_06040AEA
     mov r13, r0
-    .2byte  0xFFFF
-    .4byte  0x0000FFFF
-    .4byte  evt_checkpoint_validate
+    .short  0xFFFF
+    .long  0x0000FFFF
+    .long  evt_checkpoint_validate
 .L_06040A2C:
-    .4byte  state_field_read
+    .long  state_field_read
 .L_06040A30:
     mov.l r12, @-r15
     mov #0x0, r5
@@ -49,7 +49,7 @@ evt_checkpoint_handler:
     mov.l @(4, r14), r4
     mov r0, r4
     tst r4, r4
-    bt/s    .L_06040A4C
+    bt.s    .L_06040A4C
     add #0x4, r15
     bra     .L_06040AEA
     mov #-0x1, r0
@@ -127,11 +127,11 @@ evt_checkpoint_handler:
     bra     .L_06040AEA
     mov #-0x1, r0
 .L_06040AD0:
-    .4byte  0x0000FFFF
+    .long  0x0000FFFF
 .L_06040AD4:
-    .4byte  cmd_enqueue
+    .long  cmd_enqueue
 .L_06040AD8:
-    .4byte  evt_checkpoint_validate
+    .long  evt_checkpoint_validate
 .L_06040ADC:
     mov.l r13, @(8, r14)
 .L_06040ADE:

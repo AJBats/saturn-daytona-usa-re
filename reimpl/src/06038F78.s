@@ -56,23 +56,23 @@ vblank_display_write:
     bra     .L_06039042
     mov.l r10, @r13
 .L_06038FE0:
-    .4byte  scene_data_dispatch
+    .long  scene_data_dispatch
 .L_06038FE4:
-    .4byte  sym_060A4C84
+    .long  sym_060A4C84
 .L_06038FE8:
-    .4byte  sym_060635C4
+    .long  sym_060635C4
 .L_06038FEC:
-    .4byte  sym_060635C0
+    .long  sym_060635C0
 .L_06038FF0:
-    .4byte  sym_060635B4
+    .long  sym_060635B4
 .L_06038FF4:
-    .4byte  sym_060A4C92
+    .long  sym_060A4C92
 .L_06038FF8:
-    .4byte  0x25D00002
+    .long  0x25D00002
 .L_06038FFC:
-    .4byte  sym_060A4C90
+    .long  sym_060A4C90
 .L_06039000:
-    .4byte  0x25D00000
+    .long  0x25D00000
 .L_06039004:
     mov.l @r14, r2
     add #0x1, r2

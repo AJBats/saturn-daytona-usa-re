@@ -95,29 +95,29 @@ scene_data_write_abs:
     bra     .L_06038614
     mov.l r6, @(4, r14)
 .L_pool_060385E0:
-    .4byte  sym_060A4C78
+    .long  sym_060A4C78
 .L_pool_060385E4:
-    .4byte  sym_060A3DF8
+    .long  sym_060A3DF8
 .L_pool_060385E8:
-    .4byte  sym_060635A8
+    .long  sym_060635A8
 .L_pool_060385EC:
-    .4byte  sym_060A3E68
+    .long  sym_060A3E68
 .L_pool_060385F0:
-    .4byte  sym_060A4C44
+    .long  sym_060A4C44
 .L_pool_060385F4:
-    .4byte  sym_060A4C4C
+    .long  sym_060A4C4C
 .L_pool_060385F8:
-    .4byte  sym_060A4C70
+    .long  sym_060A4C70
 .L_pool_060385FC:
-    .4byte  scene_color_matrix
+    .long  scene_color_matrix
 .L_pool_06038600:
-    .4byte  sym_060A3EE8
+    .long  sym_060A3EE8
 .L_pool_06038604:
-    .4byte  sym_060A4C48
+    .long  sym_060A4C48
 .L_pool_06038608:
-    .4byte  sym_060A4C50
+    .long  sym_060A4C50
 .L_pool_0603860C:
-    .4byte  sym_060A4C74
+    .long  sym_060A4C74
 .L_06038610:
     mov #0x0, r2
     mov.l r2, @(4, r14)

@@ -63,9 +63,9 @@ dma_param_chain_init:
     .byte 0xA0, 0x08
     .byte 0x00, 0x09
     .byte 0xFF, 0xFF
-    .4byte palette_render_main
-    .4byte sym_06042BBE
-    .4byte sym_06042A8C
+    .long palette_render_main
+    .long sym_06042BBE
+    .long sym_06042A8C
     .byte 0x1F, 0xD7
     .byte 0x65, 0xE3
     .byte 0x64, 0xF3
@@ -120,9 +120,9 @@ dma_param_chain_init:
     .byte 0x08, 0x00
     .byte 0x01, 0x7F
     .byte 0xFF, 0xFF
-    .4byte palette_engine_core
-    .4byte sym_06042BAC
-    .4byte sym_0603C05C
+    .long palette_engine_core
+    .long sym_06042BAC
+    .long sym_0603C05C
     .global loc_0603FE40
 loc_0603FE40:
     .byte 0x00, 0x0B

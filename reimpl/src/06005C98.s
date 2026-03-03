@@ -37,7 +37,7 @@ world_camera_update:
     mov r11, r4
     add #-0x7, r4
     cmp/pz r4
-    bt/s    .L_06005CE4
+    bt.s    .L_06005CE4
     mov.l r3, @r15
     bra     .L_06005CE6
     mov #0x0, r13
@@ -45,7 +45,7 @@ world_camera_update:
     mov r4, r13
 .L_06005CE6:
     cmp/gt r11, r13
-    bt/s    .L_06005DB8
+    bt.s    .L_06005DB8
     mov #0x0, r9
 .L_06005CEC:
     mov r13, r12
@@ -88,31 +88,31 @@ world_camera_update:
     mov #0x8, r4
     add #0x1, r13
     cmp/gt r11, r13
-    bf/s    .L_06005CEC
+    bf.s    .L_06005CEC
     add #0x1, r9
     bra     .L_06005DB8
     nop
 
     .global DAT_06005d3e
 DAT_06005d3e:
-    .2byte  0x021C
+    .short  0x021C
 .L_wpool_06005D40:
-    .2byte  0x0240
-    .2byte  0xFFFF
+    .short  0x0240
+    .short  0xFFFF
 .L_pool_06005D44:
-    .4byte  sym_06028430
+    .long  sym_06028430
 .L_pool_06005D48:
-    .4byte  sym_060284AE
+    .long  sym_060284AE
 .L_pool_06005D4C:
-    .4byte  0x000927BF
+    .long  0x000927BF
 .L_pool_06005D50:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_pool_06005D54:
-    .4byte  sym_06063F28
+    .long  sym_06063F28
 .L_pool_06005D58:
-    .4byte  sym_0607EAC0
+    .long  sym_0607EAC0
 .L_pool_06005D5C:
-    .4byte  sym_0607EBF8
+    .long  sym_0607EBF8
 .L_06005D60:
     mov.w   DAT_06005dcc, r0
     mov.l @r6, r3
@@ -175,10 +175,10 @@ DAT_06005d3e:
 
     .global DAT_06005dcc
 DAT_06005dcc:
-    .2byte  0x021C
+    .short  0x021C
 
     .global DAT_06005dce
 DAT_06005dce:
-    .2byte  0x022C
+    .short  0x022C
 .L_pool_06005DD0:
-    .4byte  sym_0607EBD0
+    .long  sym_0607EBD0

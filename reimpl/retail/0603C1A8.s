@@ -77,16 +77,16 @@ hud_menu_system:
     .byte 0x2D, 0x21
     .byte 0x01, 0x00
     .byte 0x03, 0x01
-    .4byte sym_060A4DA6
+    .long sym_060A4DA6
     .byte 0x00, 0x00
     .byte 0xFF, 0x00
-    .4byte sym_060A4D3E
+    .long sym_060A4D3E
     .byte 0x00, 0x00
     .byte 0xFF, 0xBF
-    .4byte sym_060A4D36
-    .4byte sym_060A4D58
-    .4byte sym_060A4D18
-    .4byte sym_06034F78
+    .long sym_060A4D36
+    .long sym_060A4D58
+    .long sym_060A4D18
+    .long sym_06034F78
     .byte 0x00, 0x00
     .byte 0xFD, 0xFF
     .byte 0x00, 0x00
@@ -231,7 +231,7 @@ hud_menu_system:
     .byte 0x03, 0x01
     .byte 0x04, 0x00
     .byte 0x08, 0x00
-    .4byte sym_06034F78
+    .long sym_06034F78
     .byte 0x60, 0x73
     .byte 0x62, 0xE3
     .byte 0xD3, 0x45
@@ -380,7 +380,7 @@ DAT_0603c49a:
 DAT_0603c49c:
     .byte 0x40, 0x00
     .byte 0xFF, 0xFF
-    .4byte sym_06034F78
+    .long sym_06034F78
     .byte 0x60, 0x73
     .byte 0x62, 0xE3
     .byte 0xD3, 0x2E
@@ -477,7 +477,7 @@ DAT_0603c49c:
     .byte 0x2A, 0x21
     .byte 0x03, 0x01
     .byte 0x04, 0x01
-    .4byte sym_06034F78
+    .long sym_06034F78
     .byte 0x00, 0x00
     .byte 0x80, 0x00
     .byte 0x00, 0x00
@@ -580,7 +580,7 @@ DAT_0603c49c:
     .byte 0x00, 0x80
     .byte 0x04, 0x01
     .byte 0xFF, 0xFF
-    .4byte sym_06034F78
+    .long sym_06034F78
     .byte 0x00, 0x00
     .byte 0xFF, 0xFE
     .byte 0x00, 0x00
@@ -693,7 +693,7 @@ DAT_0603c49c:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .byte 0x04, 0x01
-    .4byte sym_06034F78
+    .long sym_06034F78
     .byte 0x00, 0x00
     .byte 0xFF, 0xFB
     .byte 0x00, 0x00
@@ -805,11 +805,11 @@ DAT_0603c7ea:
     .byte 0x04, 0x00
     .byte 0x01, 0x00
     .byte 0xFF, 0xFF
-    .4byte sym_060A4DA6
-    .4byte sym_060A4DA4
-    .4byte sym_060A4D88
-    .4byte sym_060A4D8C
-    .4byte sym_060A4DA8
+    .long sym_060A4DA6
+    .long sym_060A4DA4
+    .long sym_060A4D88
+    .long sym_060A4D8C
+    .long sym_060A4DA8
     .byte 0x65, 0xF2
     .byte 0x90, 0x63
     .byte 0x35, 0x4C
@@ -918,10 +918,10 @@ DAT_0603c7ea:
 DAT_0603c8d4:
     .byte 0x30, 0x00
     .byte 0xFF, 0xFF
-    .4byte sym_060A4D94
-    .4byte sym_060A4D8C
-    .4byte sym_060A3D96
-    .4byte sym_060A4DA8
+    .long sym_060A4D94
+    .long sym_060A4D8C
+    .long sym_060A3D96
+    .long sym_060A4DA8
     .byte 0x53, 0xF1
     .byte 0xE6, 0x01
     .byte 0x23, 0x80
@@ -1022,11 +1022,11 @@ DAT_0603c8d4:
     .byte 0x8B, 0xCD
     .byte 0xA1, 0x56
     .byte 0x00, 0x09
-    .4byte sym_060A4D90
-    .4byte sym_060A4D84
-    .4byte color_palette_effect
-    .4byte sym_060A4D94
-    .4byte sym_060A4DA8
+    .long sym_060A4D90
+    .long sym_060A4D84
+    .long color_palette_effect
+    .long sym_060A4D94
+    .long sym_060A4DA8
     .byte 0x62, 0x42
     .byte 0xD3, 0x0F
     .byte 0x63, 0x32
@@ -1059,9 +1059,9 @@ DAT_0603c8d4:
     .byte 0x62, 0x8C
     .byte 0xA0, 0x13
     .byte 0x29, 0x20
-    .4byte sym_060A4D8C
-    .4byte sym_060A4DA5
-    .4byte sym_060A4DA7
+    .long sym_060A4D8C
+    .long sym_060A4DA5
+    .long sym_060A4DA7
     .byte 0x62, 0xA0
     .byte 0x72, 0xFF
     .byte 0x2A, 0x20
@@ -1174,7 +1174,7 @@ DAT_0603cae0:
     .global DAT_0603cae2
 DAT_0603cae2:
     .byte 0x40, 0x00
-    .4byte sym_060A4D84
+    .long sym_060A4D84
     .byte 0x00, 0x00
     .byte 0x80, 0x00
     .byte 0xD0, 0x2D
@@ -1269,14 +1269,14 @@ DAT_0603cae2:
     .byte 0xA0, 0x17
     .byte 0x00, 0x09
     .byte 0x00, 0x80
-    .4byte sym_060A4D84
-    .4byte sym_060A4D8C
-    .4byte sym_060A4D9C
-    .4byte sym_060A4D9A
-    .4byte sym_060A4D98
-    .4byte sym_060A4D9E
-    .4byte sym_060A4DA0
-    .4byte sym_060A4DA2
+    .long sym_060A4D84
+    .long sym_060A4D8C
+    .long sym_060A4D9C
+    .long sym_060A4D9A
+    .long sym_060A4D98
+    .long sym_060A4D9E
+    .long sym_060A4DA0
+    .long sym_060A4DA2
     .byte 0x62, 0x41
     .byte 0x42, 0x11
     .byte 0x8B, 0x02
@@ -1363,12 +1363,12 @@ DAT_0603cae2:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .4byte sym_060A4D98
-    .4byte sym_060A4D9A
-    .4byte sym_060A4DA0
-    .4byte sym_060A4D9C
-    .4byte sym_060A4DA2
-    .4byte sym_060A4D8C
+    .long sym_060A4D98
+    .long sym_060A4D9A
+    .long sym_060A4DA0
+    .long sym_060A4D9C
+    .long sym_060A4DA2
+    .long sym_060A4D8C
 	.text
     .global display_palette_calc
 display_palette_calc:
@@ -1474,6 +1474,6 @@ display_palette_calc:
 DAT_0603cd4c:
     .byte 0x01, 0xFF
     .byte 0x05, 0x01
-    .4byte sym_060A4D58
-    .4byte sym_060A4D46
-    .4byte sym_06034F78
+    .long sym_060A4D58
+    .long sym_060A4D46
+    .long sym_06034F78

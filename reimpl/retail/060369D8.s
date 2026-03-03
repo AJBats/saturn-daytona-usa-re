@@ -29,6 +29,6 @@ obj_view_frustum:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .byte 0x01, 0x00
-    .4byte input_proc_analog
-    .4byte input_proc_buttons
-    .4byte input_proc_digital
+    .long input_proc_analog
+    .long input_proc_buttons
+    .long input_proc_digital

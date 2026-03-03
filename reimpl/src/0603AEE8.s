@@ -10,7 +10,7 @@ cmd_queue_process:
     mov.l @r14, r3
     mov.l @(r0, r3), r0
     tst r0, r0
-    bt/s    .L_0603AF14
+    bt.s    .L_0603AF14
     mov r4, r13
     cmp/pz r13
     bf      .L_0603AF0C
@@ -77,20 +77,20 @@ cmd_queue_process:
     bra     .L_0603AF88
     nop
 .L_wpool_0603AF72:
-    .2byte  0x00A0
+    .short  0x00A0
 
     .global DAT_0603af72
 DAT_0603af72:
-    .2byte  0x00A4
+    .short  0x00A4
 .L_wpool_0603AF76:
-    .2byte  0x0098
-    .2byte  0xFFFF
+    .short  0x0098
+    .short  0xFFFF
 .L_pool_0603AF7A:
-    .4byte  sym_060A4D14
+    .long  sym_060A4D14
 .L_pool_0603AF7E:
-    .4byte  sym_0603F1E0
+    .long  sym_0603F1E0
 .L_pool_0603AF82:
-    .4byte  sym_0603F1F0
+    .long  sym_0603F1F0
 .L_0603AF84:
     .byte   0xB4, 0xDA    /* bsr 0x0603B93C (external) */
     mov #0x0, r4

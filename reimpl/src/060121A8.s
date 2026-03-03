@@ -59,34 +59,34 @@ race_cleanup_handler:
     jmp @r3
     mov.l @r15+, r14
 .L_wpool_06012218:
-    .2byte  0x0390
+    .short  0x0390
 .L_wpool_0601221A:
-    .2byte  0x0090
+    .short  0x0090
 .L_wpool_0601221C:
-    .2byte  0x0490
+    .short  0x0490
 .L_wpool_0601221E:
-    .2byte  0x0590
-    .4byte  sym_0607EAD8
+    .short  0x0590
+    .long  sym_0607EAD8
 .L_pool_06012224:
-    .4byte  sym_060788AC
+    .long  sym_060788AC
 .L_pool_06012228:
-    .4byte  sym_06063AF0
+    .long  sym_06063AF0
 .L_pool_0601222C:
-    .4byte  0x0000B000
+    .long  0x0000B000
 .L_pool_06012230:
-    .4byte  sym_06028400
+    .long  sym_06028400
 .L_pool_06012234:
-    .4byte  0xAE110EFF
+    .long  0xAE110EFF
 .L_pool_06012238:
-    .4byte  sound_cmd_dispatch              /* sound command dispatch function */
+    .long  sound_cmd_dispatch              /* sound command dispatch function */
 .L_pool_0601223C:
-    .4byte  sym_0605ACF0
+    .long  sym_0605ACF0
 .L_pool_06012240:
-    .4byte  sym_060284AE
+    .long  sym_060284AE
 .L_06012244:
-    .4byte  0x0000E000
+    .long  0x0000E000
 .L_pool_06012248:
-    .4byte  sym_060283E0
+    .long  sym_060283E0
 .L_0601224C:
     mov.l @r14, r2
     mov #0x28, r3

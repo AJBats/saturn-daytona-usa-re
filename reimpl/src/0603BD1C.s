@@ -39,17 +39,17 @@ save_deserialize:
     bra     .L_0603BDA0
     nop
 .L_wpool_0603BD64:
-    .2byte  0x00A8
-    .2byte  0xFFFF
-    .4byte  sym_060401E4
-    .4byte  nop_stub_evt
-    .4byte  sym_06040C50
-    .4byte  event_priority_set
-    .4byte  evt_status_flag_set
-    .4byte  evt_cmd_enqueue
-    .4byte  sym_0603F8B8
+    .short  0x00A8
+    .short  0xFFFF
+    .long  sym_060401E4
+    .long  nop_stub_evt
+    .long  sym_06040C50
+    .long  event_priority_set
+    .long  evt_status_flag_set
+    .long  evt_cmd_enqueue
+    .long  sym_0603F8B8
 .L_pool_0603BD84:
-    .4byte  sym_060A4D14
+    .long  sym_060A4D14
 .L_0603BD88:
     mov r4, r0
     cmp/eq #0x2, r0

@@ -7,16 +7,16 @@ main_scene_render:
     lds.l @r15+, pr
     .byte   0xAF, 0x77    /* bra 0x0602E78C (external) */
     nop
-    .2byte  0x0000
-    .4byte  0x00000000
-    .4byte  0xAE1109FF
-    .4byte  sound_cmd_dispatch
+    .short  0x0000
+    .long  0x00000000
+    .long  0xAE1109FF
+    .long  sound_cmd_dispatch
 
     .global sym_0602E8AC
 sym_0602E8AC:
-    .4byte  loc_06060BD4
-    .4byte  loc_06060C44
-    .4byte  loc_06060CB4
+    .long  loc_06060BD4
+    .long  loc_06060C44
+    .long  loc_06060CB4
 
     .global sym_0602E8B8
 sym_0602E8B8:
@@ -87,11 +87,11 @@ sym_0602E8B8:
 
     .global sym_0602E938
 sym_0602E938:
-    bt/s    .L_0602E9DA
+    bt.s    .L_0602E9DA
     mov.w @r15+, r8
     mov.l @(0, r0), r0
     mov.l @(40, r7), r2
-    bt/s    .L_0602E9E2
+    bt.s    .L_0602E9E2
     mov.w @r15+, r8
     mov.l @(0, r0), r0
     mov.l @(40, r7), r2
@@ -108,25 +108,25 @@ sym_0602E938:
     mov.w   .L_wpool_0602E963, r0
     add #0x7A, r1
 .L_wpool_0602E963:
-    .2byte  0xED4F
-    .2byte  0xD8F5
-    .4byte  0x9000717A
-    .4byte  0xCD4F98F5
-    .4byte  0x81EB847A
-    .4byte  0xCD4F98F5
-    .4byte  0x81EB847A
-    .4byte  0x8D4F68F5
-    .4byte  0x51EB547A
-    .4byte  0x8D4F68F5
-    .4byte  0x51EB547A
-    .4byte  0xCD4FC8F5
-    .4byte  0xA1EB847A
-    .4byte  0xCD4FC8F5
-    .4byte  0xA1EB847A
-    .4byte  0x8D4F68F5
-    .4byte  0x5000517A
-    .4byte  0x8D4F68F5
-    .4byte  0x5000517A
+    .short  0xED4F
+    .short  0xD8F5
+    .long  0x9000717A
+    .long  0xCD4F98F5
+    .long  0x81EB847A
+    .long  0xCD4F98F5
+    .long  0x81EB847A
+    .long  0x8D4F68F5
+    .long  0x51EB547A
+    .long  0x8D4F68F5
+    .long  0x51EB547A
+    .long  0xCD4FC8F5
+    .long  0xA1EB847A
+    .long  0xCD4FC8F5
+    .long  0xA1EB847A
+    .long  0x8D4F68F5
+    .long  0x5000517A
+    .long  0x8D4F68F5
+    .long  0x5000517A
 
     .global loc_0602E9A8
 loc_0602E9A8:
@@ -158,8 +158,8 @@ loc_0602E9A8:
 .L_0602E9DA:
     .byte   0xD0, 0x00    /* mov.l .L_pool_0602E9E0, r0 */
 .L_pool_0602E9E0:
-    .4byte  0x00003C00
-    .2byte  0x0004
+    .long  0x00003C00
+    .short  0x0004
 .L_0602E9E2:
     mov.b r0, @(0, r0)
     .word 0x0000
@@ -206,27 +206,27 @@ loc_0602E9A8:
     mov.w   .L_wpool_0602EA3E, r8
     .word 0x0000
 .L_wpool_0602EA3E:
-    .2byte  0xD200
-    .4byte  0x00006800
-    .4byte  0x0001E800
-    .4byte  0x00000000
-    .4byte  0x00000017
-    .4byte  0x00000010
-    .4byte  0xFFFF0000
-    .4byte  0x00000000
-    .4byte  0x0000D000
-    .4byte  0x0000B000
-    .4byte  0x00021800
-    .4byte  0x00000000
-    .4byte  0x0000001F
-    .4byte  0x00000010
-    .4byte  0x00000000
-    .4byte  0x00000000
-    .4byte  0x0000F300
-    .4byte  0x0000C000
-    .4byte  0x00058000
-    .4byte  0x00000000
-    .4byte  0xFFFFFFFF
+    .short  0xD200
+    .long  0x00006800
+    .long  0x0001E800
+    .long  0x00000000
+    .long  0x00000017
+    .long  0x00000010
+    .long  0xFFFF0000
+    .long  0x00000000
+    .long  0x0000D000
+    .long  0x0000B000
+    .long  0x00021800
+    .long  0x00000000
+    .long  0x0000001F
+    .long  0x00000010
+    .long  0x00000000
+    .long  0x00000000
+    .long  0x0000F300
+    .long  0x0000C000
+    .long  0x00058000
+    .long  0x00000000
+    .long  0xFFFFFFFF
 
     .global loc_0602EA8C
 loc_0602EA8C:
@@ -257,50 +257,50 @@ loc_0602EA8C:
     .word 0x0000
     .byte   0xD0, 0x00    /* mov.l .L_pool_0602EAC5, r0 */
 .L_pool_0602EAC5:
-    .4byte  0x00007C00
-    .4byte  0x00048000
-    .4byte  0x00000000
-    .4byte  0x0000000E
-    .4byte  0x00000018
-    .4byte  0x00000000
-    .4byte  0x00010000
-    .4byte  0x0000E000
-    .4byte  0x0000A000
-    .4byte  0x00000000
-    .4byte  0x00000000
-    .4byte  0x0000000F
-    .4byte  0x0000000C
-    .4byte  0x00000000
-    .4byte  0x00008000
-    .4byte  0x0000E800
-    .4byte  0x0000B000
-    .4byte  0x00050000
-    .4byte  0x00000000
-    .4byte  0x0000001F
-    .4byte  0x00000018
-    .4byte  0xFFFF6800
-    .4byte  0x00002800
-    .4byte  0x0000D200
-    .4byte  0x0000A800
-    .4byte  0x0001E800
-    .4byte  0x00000000
-    .4byte  0x0000000F
-    .4byte  0x00000010
-    .4byte  0x00000000
-    .4byte  0xFFFF0000
-    .4byte  0x0000D000
-    .4byte  0x0000F000
-    .4byte  0x00021800
-    .4byte  0x00000000
-    .4byte  0x0000001F
-    .4byte  0x00000010
-    .4byte  0x00000000
-    .4byte  0x00000000
-    .4byte  0x0000F300
-    .4byte  0x00010000
-    .4byte  0x00058000
-    .4byte  0x00000000
-    .4byte  0xFFFFFFFF
+    .long  0x00007C00
+    .long  0x00048000
+    .long  0x00000000
+    .long  0x0000000E
+    .long  0x00000018
+    .long  0x00000000
+    .long  0x00010000
+    .long  0x0000E000
+    .long  0x0000A000
+    .long  0x00000000
+    .long  0x00000000
+    .long  0x0000000F
+    .long  0x0000000C
+    .long  0x00000000
+    .long  0x00008000
+    .long  0x0000E800
+    .long  0x0000B000
+    .long  0x00050000
+    .long  0x00000000
+    .long  0x0000001F
+    .long  0x00000018
+    .long  0xFFFF6800
+    .long  0x00002800
+    .long  0x0000D200
+    .long  0x0000A800
+    .long  0x0001E800
+    .long  0x00000000
+    .long  0x0000000F
+    .long  0x00000010
+    .long  0x00000000
+    .long  0xFFFF0000
+    .long  0x0000D000
+    .long  0x0000F000
+    .long  0x00021800
+    .long  0x00000000
+    .long  0x0000001F
+    .long  0x00000010
+    .long  0x00000000
+    .long  0x00000000
+    .long  0x0000F300
+    .long  0x00010000
+    .long  0x00058000
+    .long  0x00000000
+    .long  0xFFFFFFFF
 
     .global loc_0602EB70
 loc_0602EB70:
@@ -331,50 +331,50 @@ loc_0602EB70:
     .word 0x0000
     .byte   0xD0, 0x00    /* mov.l .L_pool_0602EBAA, r0 */
 .L_pool_0602EBAA:
-    .4byte  0x0000AF33
-    .4byte  0x00048000
-    .4byte  0x00000000
-    .4byte  0x00000016
-    .4byte  0x00000018
-    .4byte  0xFFFF0000
-    .4byte  0x00000000
-    .4byte  0x0000E000
-    .4byte  0x0000D333
-    .4byte  0x00000000
-    .4byte  0x00000000
-    .4byte  0x00000017
-    .4byte  0x0000000C
-    .4byte  0xFFFF8000
-    .4byte  0x00000000
-    .4byte  0x0000E800
-    .4byte  0x0000E333
-    .4byte  0x00050000
-    .4byte  0x00000000
-    .4byte  0x0000001F
-    .4byte  0x00000018
-    .4byte  0xFFFFD800
-    .4byte  0xFFFF3800
-    .4byte  0x0000D200
-    .4byte  0x0000DB33
-    .4byte  0x0001F800
-    .4byte  0x00000000
-    .4byte  0x00000017
-    .4byte  0x00000010
-    .4byte  0x00010000
-    .4byte  0x00000000
-    .4byte  0x0000D000
-    .4byte  0x00012333
-    .4byte  0x00023800
-    .4byte  0x00000000
-    .4byte  0x0000001F
-    .4byte  0x00000010
-    .4byte  0x00000000
-    .4byte  0x00000000
-    .4byte  0x0000F300
-    .4byte  0x00013333
-    .4byte  0x00058000
-    .4byte  0x00000000
-    .4byte  0xFFFFFFFF
+    .long  0x0000AF33
+    .long  0x00048000
+    .long  0x00000000
+    .long  0x00000016
+    .long  0x00000018
+    .long  0xFFFF0000
+    .long  0x00000000
+    .long  0x0000E000
+    .long  0x0000D333
+    .long  0x00000000
+    .long  0x00000000
+    .long  0x00000017
+    .long  0x0000000C
+    .long  0xFFFF8000
+    .long  0x00000000
+    .long  0x0000E800
+    .long  0x0000E333
+    .long  0x00050000
+    .long  0x00000000
+    .long  0x0000001F
+    .long  0x00000018
+    .long  0xFFFFD800
+    .long  0xFFFF3800
+    .long  0x0000D200
+    .long  0x0000DB33
+    .long  0x0001F800
+    .long  0x00000000
+    .long  0x00000017
+    .long  0x00000010
+    .long  0x00010000
+    .long  0x00000000
+    .long  0x0000D000
+    .long  0x00012333
+    .long  0x00023800
+    .long  0x00000000
+    .long  0x0000001F
+    .long  0x00000010
+    .long  0x00000000
+    .long  0x00000000
+    .long  0x0000F300
+    .long  0x00013333
+    .long  0x00058000
+    .long  0x00000000
+    .long  0xFFFFFFFF
 
     .global sym_0602EC54
 sym_0602EC54:
@@ -410,12 +410,12 @@ sym_0602EC54:
     .word 0x00D0
     .word 0x0000
     .word 0x0080
-    .4byte  0x00000040
-    .4byte  0x00000000
-    .4byte  0xFFFFC000
-    .4byte  0x00000000
-    .4byte  0x00004000
-    .4byte  0x00000000
+    .long  0x00000040
+    .long  0x00000000
+    .long  0xFFFFC000
+    .long  0x00000000
+    .long  0x00004000
+    .long  0x00000000
 
     .global sym_0602ECAC
 sym_0602ECAC:
@@ -430,10 +430,10 @@ sym_0602ECAC:
 
     .global sym_0602ECBC
 sym_0602ECBC:
-    .4byte  loc_0602E9A8
-    .4byte  loc_0602EA8C
-    .4byte  loc_0602EB70
-    .4byte  loc_0602EA8C
+    .long  loc_0602E9A8
+    .long  loc_0602EA8C
+    .long  loc_0602EB70
+    .long  loc_0602EA8C
 
     .global sym_0602ECCC
 sym_0602ECCC:
@@ -441,14 +441,14 @@ sym_0602ECCC:
     mov #-0x10, r3
     stc.l sr, @-r15
     extu.b r3, r3
-    .4byte  0x430ED305
-    .4byte  0x23020009
-    .4byte  0x13110009
-    .4byte  0x50350009
-    .4byte  0x4F0763F6
-    .4byte  0x000B6103
-    .4byte  0xFFFFFF00
-    .2byte  0xFF00
+    .long  0x430ED305
+    .long  0x23020009
+    .long  0x13110009
+    .long  0x50350009
+    .long  0x4F0763F6
+    .long  0x000B6103
+    .long  0xFFFFFF00
+    .short  0xFF00
 
     .global sym_0602ECF2
 sym_0602ECF2:
@@ -460,17 +460,17 @@ sym_0602ECF2:
     mov.l @r3, r3
     jmp @r3
     nop
-    .2byte  0x0000
+    .short  0x0000
 .L_pool_0602ED0C:
-    .4byte  sym_0607EAE4
+    .long  sym_0607EAE4
 .L_pool_0602ED10:
-    .4byte  sym_0602ED0C
+    .long  sym_0602ED0C
 
     .global sym_0602ED0C
 sym_0602ED0C:
-    .4byte  loc_0602ED18
-    .4byte  loc_0602ED18
-    .4byte  loc_0602EEAC
+    .long  loc_0602ED18
+    .long  loc_0602ED18
+    .long  loc_0602EEAC
 
     .global loc_0602ED18
 loc_0602ED18:
@@ -487,32 +487,32 @@ loc_0602ED18:
     shll16 r2
     .byte   0x92, 0x3F    /* mov.w .L_wpool_0602EDB6, r2 */
 .L_pool_0602ED3C:
-    .4byte  0xE3000236
-    .4byte  0x913DE301
-    .4byte  0x923C4328
-    .4byte  0x01360236
-    .4byte  0x9139E301
-    .4byte  0x310C2132
-    .4byte  0x11311132
-    .4byte  0x11339133
-    .4byte  0xD31F310C
-    .4byte  0x21329230
-    .4byte  0xD11E022D
-    .4byte  0x932E4200
-    .4byte  0x312C330C
-    .4byte  0x64142340
-    .4byte  0x64107301
-    .4byte  0x2340D11A
-    .4byte  0x93254200
-    .4byte  0x312C6112
-    .4byte  0x03169121
-    .4byte  0x041D2448
-    .4byte  0xD1168900
-    .4byte  0xD116931C
-    .4byte  0x312C330C
-    .4byte  0x62152321
-    .4byte  0x62117302
-    .4byte  0x23212F86
-    .4byte  0x2F962FA6
-    .4byte  0x2FB62FC6
-    .2byte  0x2FD6
+    .long  0xE3000236
+    .long  0x913DE301
+    .long  0x923C4328
+    .long  0x01360236
+    .long  0x9139E301
+    .long  0x310C2132
+    .long  0x11311132
+    .long  0x11339133
+    .long  0xD31F310C
+    .long  0x21329230
+    .long  0xD11E022D
+    .long  0x932E4200
+    .long  0x312C330C
+    .long  0x64142340
+    .long  0x64107301
+    .long  0x2340D11A
+    .long  0x93254200
+    .long  0x312C6112
+    .long  0x03169121
+    .long  0x041D2448
+    .long  0xD1168900
+    .long  0xD116931C
+    .long  0x312C330C
+    .long  0x62152321
+    .long  0x62117302
+    .long  0x23212F86
+    .long  0x2F962FA6
+    .long  0x2FB62FC6
+    .short  0x2FD6

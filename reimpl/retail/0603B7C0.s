@@ -69,9 +69,9 @@ DAT_0603b83a:
     .byte 0x0C, 0x3C
     .byte 0x00, 0xEC
     .byte 0xFF, 0xFF
-    .4byte sym_0603F216
-    .4byte sprite_batch_emit
-    .4byte sym_060A4D14
+    .long sym_0603F216
+    .long sprite_batch_emit
+    .long sym_060A4D14
     .byte 0x92, 0x1E
     .byte 0x34, 0x2C
     .byte 0x75, 0x01
@@ -112,7 +112,7 @@ DAT_0603b88e:
     .byte 0x00, 0xEC
     .byte 0x0C, 0x3C
     .byte 0xFF, 0xFF
-    .4byte sym_060A4D14
+    .long sym_060A4D14
     .byte 0x92, 0x3F
     .byte 0x35, 0x2C
     .byte 0x76, 0x01

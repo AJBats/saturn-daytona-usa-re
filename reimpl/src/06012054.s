@@ -21,6 +21,6 @@ file_seek:
     rts
     mov.l @r15+, r14
 .L_wpool_0601207A:
-    .2byte  0x0100
+    .short  0x0100
 .L_pool_0601207C:
-    .4byte  channel_nibble_config
+    .long  channel_nibble_config

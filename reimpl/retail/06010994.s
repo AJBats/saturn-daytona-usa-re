@@ -81,15 +81,15 @@ loc_060109E2:
     .global DAT_06010a2a
 DAT_06010a2a:
     .byte 0x00, 0xC0
-    .4byte sym_06059FFC
-    .4byte sym_06063F5C
-    .4byte memcpy_word_idx
-    .4byte sym_06083255
-    .4byte sym_0607EAB8
-    .4byte sym_0605D0AC
-    .4byte sym_0607EAD8
-    .4byte sym_060448B5
-    .4byte sym_0607886C
-    .4byte sym_06078868
-    .4byte sym_0605D05C
-    .4byte sym_0607ED91
+    .long sym_06059FFC
+    .long sym_06063F5C
+    .long memcpy_word_idx
+    .long sym_06083255
+    .long sym_0607EAB8
+    .long sym_0605D0AC
+    .long sym_0607EAD8
+    .long sym_060448B5
+    .long sym_0607886C
+    .long sym_06078868
+    .long sym_0605D05C
+    .long sym_0607ED91

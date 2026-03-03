@@ -35,7 +35,7 @@ DAT_06038a9a:
     .global DAT_06038a9e
 DAT_06038a9e:
     .byte 0x20, 0x00
-    .4byte sym_060A3D88
+    .long sym_060A3D88
     .byte 0x88, 0x00
     .byte 0x89, 0xE1
     .byte 0x88, 0x01
@@ -52,4 +52,4 @@ DAT_06038a9e:
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
     .byte 0xFF, 0xFF
-    .4byte sym_060635AC
+    .long sym_060635AC

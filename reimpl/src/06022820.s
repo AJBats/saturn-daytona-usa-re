@@ -76,7 +76,7 @@ render_list_builder:
     mov.w @r3, r3
     extu.w r3, r3
     tst r3, r3
-    bf/s    .L_060228D4
+    bf.s    .L_060228D4
     add r2, r13
     mov.l @r15, r3
     mov.l @(4, r15), r2
@@ -92,7 +92,7 @@ render_list_builder:
     bra     .L_060228F2
     mov.l r13, @r12
 .L_060228D2:
-    .2byte  0xFE6B
+    .short  0xFE6B
 .L_060228D4:
     mov.l @(16, r15), r2
     mov.w @r2, r3
@@ -165,9 +165,9 @@ render_list_builder:
     bra     .L_06022980
     nop
 .L_0602295C:
-    .2byte  0x0195
+    .short  0x0195
 .L_0602295E:
-    .2byte  0x0131
+    .short  0x0131
 .L_06022960:
     mov.w @r5, r2
     extu.w r2, r2
@@ -224,7 +224,7 @@ render_list_builder:
     mov.w @r3, r3
     extu.w r3, r3
     tst r3, r3
-    bf/s    .L_060229E8
+    bf.s    .L_060229E8
     add r2, r13
     mov.l @r10, r3
     mov.l @r11, r2
@@ -238,9 +238,9 @@ render_list_builder:
     bra     .L_06022A0A
     mov.l r13, @r9
 .L_060229E4:
-    .2byte  0x0195
+    .short  0x0195
 .L_060229E6:
-    .2byte  0x0131
+    .short  0x0131
 .L_060229E8:
     mov.l @(20, r15), r2
     mov.w @r2, r3
@@ -295,7 +295,7 @@ render_list_builder:
     mov.w @r5, r3
     extu.w r3, r3
     tst r3, r3
-    bf/s    .L_06022A6C
+    bf.s    .L_06022A6C
     add r2, r14
     mov.l @r4, r3
     mov.l @r12, r2
@@ -309,9 +309,9 @@ render_list_builder:
     bra     .L_06022A8A
     mov.l r14, @r11
 .L_06022A68:
-    .2byte  0x0195
+    .short  0x0195
 .L_06022A6A:
-    .2byte  0x0131
+    .short  0x0131
 .L_06022A6C:
     mov.l @(8, r15), r2
     mov.w @r2, r3
@@ -374,6 +374,6 @@ render_list_builder:
     rts
     mov.l @r15+, r14
 .L_06022ADC:
-    .2byte  0x0195
+    .short  0x0195
 .L_06022ADE:
-    .2byte  0x0131
+    .short  0x0131

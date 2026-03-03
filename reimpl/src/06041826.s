@@ -37,7 +37,7 @@ evt_callback_handler:
     mov r14, r4
     .byte   0xA4, 0x15    /* bra 0x06042088 (external) */
     mov.l @r15+, r14
-    .2byte  0x0360
+    .short  0x0360
 .L_06041860:
     cmp/eq #0x0, r0
     bt      .L_0604182E

@@ -34,15 +34,15 @@ state_memory_route:
     lds.l @r15+, pr
     rts
     nop
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_pool_06008CBA:
-    .4byte  sym_0605E0A2
-    .4byte  sym_0605A016
+    .long  sym_0605E0A2
+    .long  sym_0605A016
 .L_pool_06008CC2:
-    .4byte  geom_output_dispatch
+    .long  geom_output_dispatch
 .L_pool_06008CC6:
-    .4byte  g_game_state
+    .long  g_game_state
 .L_pool_06008CCA:
-    .4byte  sym_060149E0
+    .long  sym_060149E0
 .L_pool_06008CCE:
-    .4byte  sym_06026CE0
+    .long  sym_06026CE0

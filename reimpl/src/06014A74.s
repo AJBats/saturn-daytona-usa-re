@@ -60,21 +60,21 @@ display_mode_init:
     bra     .L_06014B0C
     nop
 .L_06014AE2:
-    .2byte  0x0100
+    .short  0x0100
 .L_06014AE4:
-    .4byte  sym_06085640
+    .long  sym_06085640
 .L_06014AE8:
-    .4byte  channel_nibble_config
+    .long  channel_nibble_config
 .L_06014AEC:
-    .4byte  sym_06085F8A
+    .long  sym_06085F8A
 .L_06014AF0:
-    .4byte  sym_0602853E
+    .long  sym_0602853E
 .L_06014AF4:
-    .4byte  display_channel_b
+    .long  display_channel_b
 .L_06014AF8:
-    .4byte  sym_06028560
+    .long  sym_06028560
 .L_06014AFC:
-    .4byte  gameover_channel_setup
+    .long  gameover_channel_setup
 
 .L_06014B00:
     mov.l   .L_06014BD8, r3
@@ -187,76 +187,76 @@ display_mode_init:
     bra     .L_06014C7C
     extu.b r11, r5
 .L_06014BCE:
-    .2byte  0x0100
+    .short  0x0100
 .L_06014BD0:
-    .2byte  0x0260
+    .short  0x0260
 .L_06014BD2:
-    .2byte  0x0280
+    .short  0x0280
 .L_06014BD4:
-    .2byte  0x0220
+    .short  0x0220
 .L_06014BD6:
-    .2byte  0x0240
+    .short  0x0240
 .L_06014BD8:
-    .4byte  obj_data_compact
+    .long  obj_data_compact
 .L_06014BDC:
-    .4byte  frame_end_commit
+    .long  frame_end_commit
 .L_06014BE0:
-    .4byte  sym_0602853E
+    .long  sym_0602853E
 .L_06014BE4:
-    .4byte  display_channel_b
+    .long  display_channel_b
 .L_06014BE8:
-    .4byte  memcpy_word_idx
+    .long  memcpy_word_idx
 .L_06014BEC:
-    .4byte  sym_06044A64
+    .long  sym_06044A64
 .L_06014BF0:
-    .4byte  0x25F00660
+    .long  0x25F00660
 .L_06014BF4:
-    .4byte  sym_06044A84
+    .long  sym_06044A84
 .L_06014BF8:
-    .4byte  0x25F00680
+    .long  0x25F00680
 .L_06014BFC:
-    .4byte  sym_06044AA4
+    .long  sym_06044AA4
 .L_06014C00:
-    .4byte  0x25F006A0
+    .long  0x25F006A0
 .L_06014C04:
-    .4byte  sym_06044AC4
+    .long  sym_06044AC4
 .L_06014C08:
-    .4byte  0x25F006C0
+    .long  0x25F006C0
 .L_06014C0C:
-    .4byte  0x25C00000
+    .long  0x25C00000
 .L_06014C10:
-    .4byte  sym_06044AE4
+    .long  sym_06044AE4
 .L_06014C14:
-    .4byte  sym_06059FFC
+    .long  sym_06059FFC
 .L_06014C18:
-    .4byte  sym_06044B24
+    .long  sym_06044B24
 .L_06014C1C:
-    .4byte  sym_06044B04
+    .long  sym_06044B04
 .L_06014C20:
-    .4byte  sym_06044B44
+    .long  sym_06044B44
 .L_06014C24:
-    .4byte  sym_0600511E
+    .long  sym_0600511E
 .L_06014C28:
-    .4byte  0x00017700
+    .long  0x00017700
 .L_06014C2C:
-    .4byte  0x25E73B98
+    .long  0x25E73B98
 .L_06014C30:
-    .4byte  0x000189E0
+    .long  0x000189E0
 .L_06014C34:
-    .4byte  0x25E74158
+    .long  0x25E74158
 .L_06014C38:
-    .4byte  0x0001AFA0
+    .long  0x0001AFA0
 .L_06014C3C:
-    .4byte  0x25E74AFC
+    .long  0x25E74AFC
 .L_06014C40:
-    .4byte  0x0001C980
+    .long  0x0001C980
 .L_06014C44:
-    .4byte  0x25E75730
+    .long  0x25E75730
 
 .L_06014C48:
     extu.b r5, r4
     mov #0x36, r3
-    muls.w r3, r4
+    muls r3, r4
     sts macl, r4
     exts.w r4, r4
     add r9, r4
@@ -266,7 +266,7 @@ display_mode_init:
     mov.w r0, @(2, r4)
     extu.b r11, r4
     extu.b r5, r6
-    muls.w r3, r6
+    muls r3, r6
     sts macl, r6
     exts.w r6, r6
     add r9, r6
@@ -352,33 +352,33 @@ display_mode_init:
 
     .global DAT_06014cf2
 DAT_06014cf2:
-    .2byte  0x0224
+    .short  0x0224
 .L_06014CF4:
-    .2byte  0x0240
-    .2byte  0xFFFF
+    .short  0x0240
+    .short  0xFFFF
 .L_06014CF8:
-    .4byte  vdp2_loop_ctrl
+    .long  vdp2_loop_ctrl
 .L_06014CFC:
-    .4byte  geom_pipeline_coord
+    .long  geom_pipeline_coord
 .L_06014D00:
-    .4byte  sym_06085F89
+    .long  sym_06085F89
 .L_06014D04:
-    .4byte  sym_06085F90
+    .long  sym_06085F90
 .L_06014D08:
-    .4byte  sym_06085F94
+    .long  sym_06085F94
 .L_06014D0C:
-    .4byte  sym_060149CC
+    .long  sym_060149CC
 .L_06014D10:
-    .4byte  sym_0607ED8C
+    .long  sym_0607ED8C
 .L_06014D14:
-    .4byte  sym_0607EBF4
+    .long  sym_0607EBF4
 .L_06014D18:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_06014D1C:
-    .4byte  sym_06078637
+    .long  sym_06078637
 .L_06014D20:
-    .4byte  sym_06078638
+    .long  sym_06078638
 .L_06014D24:
-    .4byte  sym_0607863C
+    .long  sym_0607863C
 .L_06014D28:
-    .4byte  sym_060786A4
+    .long  sym_060786A4

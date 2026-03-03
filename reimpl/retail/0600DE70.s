@@ -37,16 +37,16 @@ car_iteration_loop:
     .global DAT_0600deb2
 DAT_0600deb2:
     .byte 0x02, 0x68
-    .4byte sym_0607EA98
-    .4byte sym_060786CA
-    .4byte sym_0607E944
-    .4byte sym_0607E940
-    .4byte sym_0607ED8C
-    .4byte sym_0607EAE4
-    .4byte sym_0607ED88
-    .4byte sym_06035340
-    .4byte sym_06063EF0
-    .4byte sym_06078900
+    .long sym_0607EA98
+    .long sym_060786CA
+    .long sym_0607E944
+    .long sym_0607E940
+    .long sym_0607ED8C
+    .long sym_0607EAE4
+    .long sym_0607ED88
+    .long sym_06035340
+    .long sym_06063EF0
+    .long sym_06078900
     .byte 0xD0, 0x2D
     .byte 0x60, 0x00
     .byte 0x60, 0x0C

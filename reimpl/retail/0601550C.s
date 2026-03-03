@@ -73,5 +73,5 @@ hud_priority_sort:
     .byte 0x6C, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .4byte sym_0605B838
-    .4byte sym_06084FC8
+    .long sym_0605B838
+    .long sym_06084FC8

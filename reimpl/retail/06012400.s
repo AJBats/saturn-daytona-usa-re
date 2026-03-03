@@ -27,11 +27,11 @@ file_block_read:
     .byte 0xD4, 0x07
     .byte 0xA0, 0x0E
     .byte 0x4F, 0x26
-    .4byte sym_060788F0
+    .long sym_060788F0
     .byte 0xAE, 0x11
     .byte 0x0F, 0xFF
-    .4byte sound_cmd_dispatch
-    .4byte sym_060788C0
-    .4byte sym_060788CC
-    .4byte sym_060788D8
-    .4byte sym_060788E4
+    .long sound_cmd_dispatch
+    .long sym_060788C0
+    .long sym_060788CC
+    .long sym_060788D8
+    .long sym_060788E4

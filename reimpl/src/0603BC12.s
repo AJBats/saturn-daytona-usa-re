@@ -49,10 +49,10 @@ DAT_0603bc54:
 
     .global DAT_0603bc56
 DAT_0603bc56:
-    .2byte  0x00C4
-    .4byte  sym_060360FC
+    .short  0x00C4
+    .long  sym_060360FC
 .L_pool_0603BC5D:
-    .4byte  sym_060A4D14
+    .long  sym_060A4D14
 .L_0603BC60:
     mov r15, r6
     mov.l @r15, r5

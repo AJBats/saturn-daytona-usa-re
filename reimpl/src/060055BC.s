@@ -31,7 +31,7 @@ perspective_project:
     mov.l r13, @r3
     mov.w @r13, r2
     tst r2, r2
-    bf/s    .L_060055FE
+    bf.s    .L_060055FE
     add #0x20, r14
     mov #0x0, r3
     mov.w r3, @r10
@@ -112,19 +112,19 @@ perspective_project:
     mov r14, r4
     bra     .L_060056B0
     add #0x3, r4
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_pool_06005698:
-    .4byte  sym_06063EEC
+    .long  sym_06063EEC
 .L_pool_0600569C:
-    .4byte  sym_06063E08
+    .long  sym_06063E08
 .L_pool_060056A0:
-    .4byte  sym_06063E04
+    .long  sym_06063E04
 .L_pool_060056A4:
-    .4byte  fpdiv_setup
+    .long  fpdiv_setup
 .L_pool_060056A8:
-    .4byte  mat_vec_transform
+    .long  mat_vec_transform
 .L_pool_060056AC:
-    .4byte  fpmul
+    .long  fpmul
 .L_060056B0:
     .byte   0xBF, 0x44    /* bsr 0x0600553C (external) */
     nop
@@ -219,20 +219,20 @@ perspective_project:
     rts
     mov.l @r15+, r14
 .L_pool_06005764:
-    .4byte  sym_06026E0C
+    .long  sym_06026E0C
 .L_pool_06005768:
-    .4byte  sym_06063EEC
+    .long  sym_06063EEC
 .L_pool_0600576C:
-    .4byte  sym_06078663
+    .long  sym_06078663
 .L_pool_06005770:
-    .4byte  0x01A00000
+    .long  0x01A00000
 .L_pool_06005774:
-    .4byte  0xFFA00000
+    .long  0xFFA00000
 .L_pool_06005778:
-    .4byte  sym_0603850C
+    .long  sym_0603850C
 .L_pool_0600577C:
-    .4byte  0x003A0000
+    .long  0x003A0000
 .L_pool_06005780:
-    .4byte  scene_data_write_abs
+    .long  scene_data_write_abs
 .L_pool_06005784:
-    .4byte  sym_06038520
+    .long  sym_06038520

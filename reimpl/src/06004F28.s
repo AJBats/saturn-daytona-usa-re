@@ -11,13 +11,13 @@ obj_position_update:
     mov.l r4, @(4, r15)
     mov.l r7, @r15
     tst r3, r3
-    bt/s    .L_06004F7E
+    bt.s    .L_06004F7E
     mov r6, r13
     mov.l @(4, r15), r4
     mov.w @(2, r4), r0
     mov.w @r4, r2
     mov r0, r3
-    mulu.w r2, r3
+    mulu r2, r3
     sts macl, r3
     add #0x2, r3
     shll r3
@@ -52,7 +52,7 @@ obj_position_update:
     mov #0x3, r3
     and r9, r3
     tst r3, r3
-    bf/s    .L_06005000
+    bf.s    .L_06005000
     mov #0x8, r4
     mov.l @r14, r3
     and r4, r9
@@ -61,7 +61,7 @@ obj_position_update:
     shll r3
     add r10, r3
     tst r9, r9
-    bt/s    .L_06004FB6
+    bt.s    .L_06004FB6
     mov.l r2, @(4, r3)
     mov.l @r12, r5
     mov.l   .L_06004FF8, r3
@@ -96,23 +96,23 @@ obj_position_update:
     bra     .L_06005064
     nop
 .L_06004FDC:
-    .4byte  sym_06063750                 /* display command table base */
+    .long  sym_06063750                 /* display command table base */
 .L_06004FE0:
-    .4byte  sym_06059F1C
+    .long  sym_06059F1C
 .L_06004FE4:
-    .4byte  sym_06059F18
+    .long  sym_06059F18
 .L_06004FE8:
-    .4byte  sym_06059F10
+    .long  sym_06059F10
 .L_06004FEC:
-    .4byte  sym_06063D90
+    .long  sym_06063D90
 .L_06004FF0:
-    .4byte  memcpy_word_idx
+    .long  memcpy_word_idx
 .L_06004FF4:
-    .4byte  sym_06063D94
+    .long  sym_06063D94
 .L_06004FF8:
-    .4byte  0x25E00000
+    .long  0x25E00000
 .L_06004FFC:
-    .4byte  dma_memory_transfer
+    .long  dma_memory_transfer
 .L_06005000:
     mov.l @r14, r2
     and r4, r9
@@ -121,7 +121,7 @@ obj_position_update:
     shll r2
     add r10, r2
     tst r9, r9
-    bt/s    .L_06005028
+    bt.s    .L_06005028
     mov.l r3, @(4, r2)
     mov.l @r11, r5
     .byte   0xD3, 0x30    /* mov.l .L_pool_060050D8, r3 */

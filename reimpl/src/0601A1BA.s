@@ -11,7 +11,7 @@ start_light_ctrl:
     mov.w   .L_0601A23A, r3
     and r3, r2
     tst r2, r2
-    bt/s    .L_0601A1FE
+    bt.s    .L_0601A1FE
     mov #0x0, r14
     .byte   0xD4, 0x1B    /* mov.l .L_pool_0601A24D, r4 */
     mov.b @r4, r3
@@ -67,37 +67,37 @@ start_light_ctrl:
     jmp @r3
     mov.l @r15+, r14
 .L_0601A23A:
-    .2byte  0x0600
+    .short  0x0600
 .L_0601A23C:
-    .2byte  0x0090                        /* VDP1 command table offset */
-    .2byte  0xFFFF
+    .short  0x0090                        /* VDP1 command table offset */
+    .short  0xFFFF
 .L_pool_0601A24D:
-    .4byte  sym_06085FF2
-    .4byte  sym_0605D280
+    .long  sym_06085FF2
+    .long  sym_0605D280
 .L_0601A248:
-    .4byte  sym_06063D9A
+    .long  sym_06063D9A
 .L_0601A24C:
-    .4byte  sym_06085FF3
+    .long  sym_06085FF3
 .L_0601A250:
-    .4byte  sym_0605D245
+    .long  sym_0605D245
 .L_0601A254:
-    .4byte  sym_06059F44
+    .long  sym_06059F44
 .L_0601A258:
-    .4byte  sym_0605B6D8
+    .long  sym_0605B6D8
 .L_0601A25C:
-    .4byte  0x80000000
+    .long  0x80000000
 .L_0601A260:
-    .4byte  sym_06026CE0
+    .long  sym_06026CE0
 .L_0601A264:
-    .4byte  sym_06085FF1
+    .long  sym_06085FF1
 .L_0601A268:
-    .4byte  sym_0605D242
+    .long  sym_0605D242
 .L_0601A26C:
-    .4byte  sym_06049E48
+    .long  sym_06049E48
 .L_0601A270:
-    .4byte  sym_06049AFC
+    .long  sym_06049AFC
 .L_0601A274:
-    .4byte  sym_060284AE
+    .long  sym_060284AE
 .L_0601A278:
     .byte   0xD7, 0x25    /* mov.l .L_vdp1_table_late, r7 */
     .byte   0x96, 0x48    /* mov.w .L_wpool_0601A30E, r6 */

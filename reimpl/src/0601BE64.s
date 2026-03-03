@@ -19,7 +19,7 @@ replay_playback:
     mov.l   .L_0601BEDC, r0
     mov.l @r0, r0
     tst r0, r0
-    bt/s    .L_0601BE94
+    bt.s    .L_0601BE94
     mov.l @r14, r14
     mov.l   .L_0601BEE0, r0
     mov.l @r0, r0
@@ -49,29 +49,29 @@ replay_playback:
     bra     .L_0601C392
     nop
 .L_0601BEC0:
-    .2byte  0x1901
+    .short  0x1901
 .L_0601BEC2:
-    .2byte  0x1801
+    .short  0x1801
 .L_0601BEC4:
-    .2byte  0x1701
+    .short  0x1701
 .L_0601BEC6:
-    .2byte  0x1601
+    .short  0x1601
 .L_0601BEC8:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_0601BECC:
-    .4byte  sym_06089EDC
+    .long  sym_06089EDC
 .L_0601BED0:
-    .4byte  sym_0605DF57
+    .long  sym_0605DF57
 .L_0601BED4:
-    .4byte  sym_0605DF56
+    .long  sym_0605DF56
 .L_0601BED8:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_0601BEDC:
-    .4byte  sym_06063E1C
+    .long  sym_06063E1C
 .L_0601BEE0:
-    .4byte  sym_06063E20
+    .long  sym_06063E20
 .L_0601BEE4:
-    .4byte  sym_06034F78
+    .long  sym_06034F78
 .L_0601BEE8:
     mov r14, r0
     mov.b @(3, r0), r0
@@ -155,39 +155,39 @@ replay_playback:
     bra     .L_0601BFC6
     nop
 .L_0601BF82:
-    .2byte  0x1901
+    .short  0x1901
 .L_0601BF84:
-    .2byte  0x1801
+    .short  0x1801
 .L_0601BF86:
-    .2byte  0x1701
+    .short  0x1701
 .L_0601BF88:
-    .2byte  0x1601
+    .short  0x1601
 .L_0601BF8A:
-    .2byte  0x6666
+    .short  0x6666
 .L_0601BF8C:
-    .4byte  sym_0605DF4E
+    .long  sym_0605DF4E
 .L_0601BF90:
-    .4byte  sym_06034F78
+    .long  sym_06034F78
 .L_0601BF94:
-    .4byte  sym_0605DF50
+    .long  sym_0605DF50
 .L_0601BF98:
-    .4byte  sym_0605DF52
+    .long  sym_0605DF52
 .L_0601BF9C:
-    .4byte  sym_0605DF54
+    .long  sym_0605DF54
 .L_0601BFA0:
-    .4byte  sym_06026DBC
+    .long  sym_06026DBC
 .L_0601BFA4:
-    .4byte  sym_06063E1C
+    .long  sym_06063E1C
 .L_0601BFA8:
-    .4byte  sym_06063E20
+    .long  sym_06063E20
 .L_0601BFAC:
-    .4byte  0xFFFE4000
+    .long  0xFFFE4000
 .L_0601BFB0:
-    .4byte  0x00014872
+    .long  0x00014872
 .L_0601BFB4:
-    .4byte  sym_06026E2E
+    .long  sym_06026E2E
 .L_0601BFB8:
-    .4byte  mat_scale_columns
+    .long  mat_scale_columns
 .L_0601BFBC:
     mov.w   .L_0601C06E, r6
     mov.l   .L_0601C074, r4
@@ -283,46 +283,46 @@ replay_playback:
     bra     .L_0601C0C6
     nop
 .L_0601C06E:
-    .2byte  0x228F
+    .short  0x228F
 .L_0601C070:
-    .2byte  0x1000
-    .2byte  0xFFFF
+    .short  0x1000
+    .short  0xFFFF
 .L_0601C074:
-    .4byte  0x00014872
+    .long  0x00014872
 .L_0601C078:
-    .4byte  sym_06026E2E
+    .long  sym_06026E2E
 .L_0601C07C:
-    .4byte  mat_rot_y
+    .long  mat_rot_y
 .L_0601C080:
-    .4byte  sym_060621D8
+    .long  sym_060621D8
 .L_0601C084:
-    .4byte  sym_0606212C
+    .long  sym_0606212C
 .L_0601C088:
-    .4byte  sym_06031D8C
+    .long  sym_06031D8C
 .L_0601C08C:
-    .4byte  sym_06062180
+    .long  sym_06062180
 .L_0601C090:
-    .4byte  sym_06089E9C
+    .long  sym_06089E9C
 .L_0601C094:
-    .4byte  sym_060620D8
+    .long  sym_060620D8
 .L_0601C098:
-    .4byte  sym_06031A28
+    .long  sym_06031A28
 .L_0601C09C:
-    .4byte  sym_0605DF4E
+    .long  sym_0605DF4E
 .L_0601C0A0:
-    .4byte  sym_0605DF50
+    .long  sym_0605DF50
 .L_0601C0A4:
-    .4byte  sym_06026DBC
+    .long  sym_06026DBC
 .L_0601C0A8:
-    .4byte  sym_06063E1C
+    .long  sym_06063E1C
 .L_0601C0AC:
-    .4byte  sym_06063E20
+    .long  sym_06063E20
 .L_0601C0B0:
-    .4byte  0xFFFE4000
+    .long  0xFFFE4000
 .L_0601C0B4:
-    .4byte  0xFFFEB78E
+    .long  0xFFFEB78E
 .L_0601C0B8:
-    .4byte  mat_scale_columns
+    .long  mat_scale_columns
 .L_0601C0BC:
     mov.w   .L_0601C132, r6
     mov.l   .L_0601C138, r4
@@ -386,32 +386,32 @@ replay_playback:
     bra     .L_0601C2B0
     nop
 .L_0601C132:
-    .2byte  0x228F
+    .short  0x228F
 .L_0601C134:
-    .2byte  0x7000
-    .2byte  0xFFFF
+    .short  0x7000
+    .short  0xFFFF
 .L_0601C138:
-    .4byte  0xFFFEB78E
+    .long  0xFFFEB78E
 .L_0601C13C:
-    .4byte  sym_06026E2E
+    .long  sym_06026E2E
 .L_0601C140:
-    .4byte  mat_rot_y
+    .long  mat_rot_y
 .L_0601C144:
-    .4byte  sym_060621D8
+    .long  sym_060621D8
 .L_0601C148:
-    .4byte  sym_0606212C
+    .long  sym_0606212C
 .L_0601C14C:
-    .4byte  sym_06031D8C
+    .long  sym_06031D8C
 .L_0601C150:
-    .4byte  sym_06062180
+    .long  sym_06062180
 .L_0601C154:
-    .4byte  sym_06089E9C
+    .long  sym_06089E9C
 .L_0601C158:
-    .4byte  sym_060620D8
+    .long  sym_060620D8
 .L_0601C15C:
-    .4byte  sym_06031A28
+    .long  sym_06031A28
 .L_0601C160:
-    .4byte  sym_0605DF50
+    .long  sym_0605DF50
 .L_0601C164:
     mov.l   .L_0601C1F4, r3
     mov.w @r3, r3
@@ -484,34 +484,34 @@ replay_playback:
     bra     .L_0601C2B0
     nop
 .L_0601C1EE:
-    .2byte  0xDD71
+    .short  0xDD71
 .L_0601C1F0:
-    .2byte  0x1000
-    .2byte  0xFFFF
+    .short  0x1000
+    .short  0xFFFF
 .L_0601C1F4:
-    .4byte  sym_0605DF52
+    .long  sym_0605DF52
 .L_0601C1F8:
-    .4byte  mat_scale_columns
+    .long  mat_scale_columns
 .L_0601C1FC:
-    .4byte  0x00014872
+    .long  0x00014872
 .L_0601C200:
-    .4byte  sym_06026E2E
+    .long  sym_06026E2E
 .L_0601C204:
-    .4byte  mat_rot_y
+    .long  mat_rot_y
 .L_0601C208:
-    .4byte  sym_060621D8
+    .long  sym_060621D8
 .L_0601C20C:
-    .4byte  sym_0606212C
+    .long  sym_0606212C
 .L_0601C210:
-    .4byte  sym_06031D8C
+    .long  sym_06031D8C
 .L_0601C214:
-    .4byte  sym_06062180
+    .long  sym_06062180
 .L_0601C218:
-    .4byte  sym_06089E9C
+    .long  sym_06089E9C
 .L_0601C21C:
-    .4byte  sym_060620D8
+    .long  sym_060620D8
 .L_0601C220:
-    .4byte  sym_06031A28
+    .long  sym_06031A28
 .L_0601C224:
     mov.l   .L_0601C2C0, r3
     mov.w @r3, r3
@@ -592,37 +592,37 @@ replay_playback:
     bra     .L_0601C392
     nop
 .L_0601C2BC:
-    .2byte  0xDD71
+    .short  0xDD71
 .L_0601C2BE:
-    .2byte  0x7000
+    .short  0x7000
 .L_0601C2C0:
-    .4byte  sym_0605DF54
+    .long  sym_0605DF54
 .L_0601C2C4:
-    .4byte  sym_06026DBC
+    .long  sym_06026DBC
 .L_0601C2C8:
-    .4byte  mat_scale_columns
+    .long  mat_scale_columns
 .L_0601C2CC:
-    .4byte  0xFFFEB78E
+    .long  0xFFFEB78E
 .L_0601C2D0:
-    .4byte  sym_06026E2E
+    .long  sym_06026E2E
 .L_0601C2D4:
-    .4byte  mat_rot_y
+    .long  mat_rot_y
 .L_0601C2D8:
-    .4byte  sym_060621D8
+    .long  sym_060621D8
 .L_0601C2DC:
-    .4byte  sym_0606212C
+    .long  sym_0606212C
 .L_0601C2E0:
-    .4byte  sym_06031D8C
+    .long  sym_06031D8C
 .L_0601C2E4:
-    .4byte  sym_06062180
+    .long  sym_06062180
 .L_0601C2E8:
-    .4byte  sym_06089E9C
+    .long  sym_06089E9C
 .L_0601C2EC:
-    .4byte  sym_060620D8
+    .long  sym_060620D8
 .L_0601C2F0:
-    .4byte  sym_06031A28
+    .long  sym_06031A28
 .L_0601C2F4:
-    .4byte  sym_06059F30
+    .long  sym_06059F30
 .L_0601C2F8:
     mov.w   .L_0601C3A6, r0
     mov.w @(r0, r14), r3
@@ -715,36 +715,36 @@ replay_playback:
     rts
     mov.l @r15+, r14
 .L_0601C3A6:
-    .2byte  0x0166
+    .short  0x0166
 .L_0601C3A8:
-    .2byte  0x0152
+    .short  0x0152
 .L_0601C3AA:
-    .2byte  0xCCCD
+    .short  0xCCCD
 .L_0601C3AC:
-    .4byte  sym_0605DF44
+    .long  sym_0605DF44
 .L_0601C3B0:
-    .4byte  sym_06026DBC
+    .long  sym_06026DBC
 .L_0601C3B4:
-    .4byte  sym_06044670
+    .long  sym_06044670
 .L_0601C3B8:
-    .4byte  0xFFFF6000
+    .long  0xFFFF6000
 .L_0601C3BC:
-    .4byte  sym_06026E2E
+    .long  sym_06026E2E
 .L_0601C3C0:
-    .4byte  mat_rot_y
+    .long  mat_rot_y
 .L_0601C3C4:
-    .4byte  sym_0605DF46
+    .long  sym_0605DF46
 .L_0601C3C8:
-    .4byte  sym_060621D8
+    .long  sym_060621D8
 .L_0601C3CC:
-    .4byte  sym_0606212C
+    .long  sym_0606212C
 .L_0601C3D0:
-    .4byte  sym_06031D8C
+    .long  sym_06031D8C
 .L_0601C3D4:
-    .4byte  sym_06062180
+    .long  sym_06062180
 .L_0601C3D8:
-    .4byte  sym_06089E9C
+    .long  sym_06089E9C
 .L_0601C3DC:
-    .4byte  sym_060620D8
+    .long  sym_060620D8
 .L_0601C3E0:
-    .4byte  sym_06031A28
+    .long  sym_06031A28

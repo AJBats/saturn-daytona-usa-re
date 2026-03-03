@@ -37,19 +37,19 @@ DAT_06006802:
 DAT_06006804:
     .byte 0x40, 0x00
     .byte 0xFF, 0xFF
-    .4byte fpmul
-    .4byte sym_06063F04
-    .4byte sym_06063F08
-    .4byte sym_06059F30
-    .4byte sym_06063E20
-    .4byte sym_0601A5F8
-    .4byte sym_0605D240
-    .4byte sprite_pair_render
-    .4byte sym_06063F4A
-    .4byte sym_06063F48
+    .long fpmul
+    .long sym_06063F04
+    .long sym_06063F08
+    .long sym_06059F30
+    .long sym_06063E20
+    .long sym_0601A5F8
+    .long sym_0605D240
+    .long sprite_pair_render
+    .long sym_06063F4A
+    .long sym_06063F48
     .byte 0x00, 0x00
     .byte 0x80, 0x00
-    .4byte sym_06078663
+    .long sym_06078663
     .global sym_06006838
 sym_06006838:
     .byte 0xD3, 0x09

@@ -87,61 +87,61 @@ race_start_obj_init:
 
     .global DAT_0602014a
 DAT_0602014a:
-    .2byte  0x6000
+    .short  0x6000
 
     .global DAT_0602014c
 DAT_0602014c:
-    .2byte  0x0A02
-    .2byte  0xFFFF
+    .short  0x0A02
+    .short  0xFFFF
 .L_06020150:
-    .4byte  sym_0604896C
+    .long  sym_0604896C
 .L_06020154:
-    .4byte  0x25F006C0
+    .long  0x25F006C0
 .L_06020158:
-    .4byte  memcpy_word_idx
+    .long  memcpy_word_idx
 .L_0602015C:
-    .4byte  sym_0604BC14
+    .long  sym_0604BC14
 .L_06020160:
-    .4byte  0x25F00060
+    .long  0x25F00060
 .L_06020164:
-    .4byte  sym_0600511E
+    .long  sym_0600511E
 .L_06020168:
-    .4byte  0x00017700
+    .long  0x00017700
 .L_0602016C:
-    .4byte  0x25E33AD8
+    .long  0x25E33AD8
 .L_06020170:
-    .4byte  0x00018B40
+    .long  0x00018B40
 .L_06020174:
-    .4byte  0x25E33764
+    .long  0x25E33764
 .L_06020178:
-    .4byte  0x0001D2A0
+    .long  0x0001D2A0
 .L_0602017C:
-    .4byte  sym_0605E164
+    .long  sym_0605E164
 .L_06020180:
-    .4byte  0x00018F20
+    .long  0x00018F20
 .L_06020184:
-    .4byte  0x25E3398C
+    .long  0x25E3398C
 .L_06020188:
-    .4byte  sym_06063CA0
+    .long  sym_06063CA0
 .L_0602018C:
-    .4byte  sym_06028400
+    .long  sym_06028400
 .L_06020190:
-    .4byte  display_channel_b
+    .long  display_channel_b
 .L_06020194:
-    .4byte  sym_0608780A
+    .long  sym_0608780A
 .L_06020198:
-    .4byte  sym_06087808
+    .long  sym_06087808
 .L_0602019C:
-    .4byte  sym_06087814
+    .long  sym_06087814
 .L_060201A0:
-    .4byte  sym_06087806
+    .long  sym_06087806
 .L_060201A4:
-    .4byte  0xAB1128FF
+    .long  0xAB1128FF
 .L_060201A8:
-    .4byte  sound_cmd_dispatch         /* sound command dispatch */
+    .long  sound_cmd_dispatch         /* sound command dispatch */
 .L_060201AC:
-    .4byte  sym_06087826
+    .long  sym_06087826
 .L_060201B0:
-    .4byte  sym_06087824
+    .long  sym_06087824
 .L_060201B4:
-    .4byte  sym_06087825
+    .long  sym_06087825

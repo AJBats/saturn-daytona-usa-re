@@ -97,52 +97,52 @@ transition_large_results:
     bra     .L_0600FC7E
     nop
 .L_0600FC2C:
-    .2byte  0x0090
+    .short  0x0090
 .L_0600FC2E:
-    .2byte  0x07A2
+    .short  0x07A2
 .L_0600FC30:
-    .2byte  0x2000
+    .short  0x2000
 .L_0600FC32:
-    .2byte  0x0686
+    .short  0x0686
 .L_0600FC34:
-    .2byte  0x06A0
+    .short  0x06A0
 .L_0600FC36:
-    .2byte  0x0706
+    .short  0x0706
 .L_0600FC38:
-    .2byte  0x0720
-    .2byte  0xFFFF
+    .short  0x0720
+    .short  0xFFFF
 .L_0600FC3C:
-    .4byte  g_pad_state
+    .long  g_pad_state
 .L_0600FC40:
-    .4byte  graphics_mode_setup
+    .long  graphics_mode_setup
 .L_0600FC44:
-    .4byte  sym_06011EB4
+    .long  sym_06011EB4
 .L_0600FC48:
-    .4byte  sym_06085FF4
+    .long  sym_06085FF4
 .L_0600FC4C:
-    .4byte  sym_060284AE
+    .long  sym_060284AE
 .L_0600FC50:
-    .4byte  sym_060283E0
+    .long  sym_060283E0
 .L_0600FC54:
-    .4byte  sym_0607889C
+    .long  sym_0607889C
 .L_0600FC58:
-    .4byte  sym_06044750
+    .long  sym_06044750
 .L_0600FC5C:
-    .4byte  sym_06078868
+    .long  sym_06078868
 .L_0600FC60:
-    .4byte  sym_0605AB28
+    .long  sym_0605AB28
 .L_0600FC64:
-    .4byte  sym_0604475D
+    .long  sym_0604475D
 .L_0600FC68:
-    .4byte  sym_0605AB60
+    .long  sym_0605AB60
 .L_0600FC6C:
-    .4byte  sym_06078644
+    .long  sym_06078644
 .L_0600FC70:
-    .4byte  sym_06044878
+    .long  sym_06044878
 .L_0600FC74:
-    .4byte  sym_06044888
+    .long  sym_06044888
 .L_0600FC78:
-    .4byte  sym_06044898
+    .long  sym_06044898
 .L_0600FC7C:
     mov.l   .L_0600FD3C, r7
 .L_0600FC7E:
@@ -248,20 +248,20 @@ transition_large_results:
     .byte   0xA6, 0xB7    /* bra 0x06010AA4 (external) */
     mov.l @r15+, r14
 .L_0600FD36:
-    .2byte  0x0686
+    .short  0x0686
 .L_0600FD38:
-    .2byte  0x0706
+    .short  0x0706
 .L_0600FD3A:
-    .2byte  0x0800
+    .short  0x0800
 .L_0600FD3C:
-    .4byte  sym_060448A8
+    .long  sym_060448A8
 .L_0600FD40:
-    .4byte  sym_0605AA9C
+    .long  sym_0605AA9C
 .L_0600FD44:
-    .4byte  sym_0605ACE1
+    .long  sym_0605ACE1
 .L_0600FD48:
-    .4byte  sym_0605ACE3
+    .long  sym_0605ACE3
 .L_0600FD4C:
-    .4byte  anim_ui_transition
+    .long  anim_ui_transition
 .L_0600FD50:
-    .4byte  sym_0607EAE0
+    .long  sym_0607EAE0

@@ -31,22 +31,22 @@ slave_sh2_setup:
     bra     .L_0603F1D0
     mov #0x1, r0
 .L_0603F180:
-    .2byte  0x0080
-    .2byte  0xFFFF
-    .4byte  cmd_dispatch_main
-    .4byte  menu_state_handler
+    .short  0x0080
+    .short  0xFFFF
+    .long  cmd_dispatch_main
+    .long  menu_state_handler
 .L_0603F18C:
-    .4byte  sym_06036D94
+    .long  sym_06036D94
 .L_0603F190:
-    .4byte  sym_06059CB8
+    .long  sym_06059CB8
 .L_0603F194:
-    .4byte  sym_06036D14
+    .long  sym_06036D14
 .L_0603F198:
-    .4byte  sym_06059CBC
+    .long  sym_06059CBC
 .L_0603F19C:
     mov #0x2, r14
     cmp/ge r10, r14
-    bt/s    .L_0603F1CE
+    bt.s    .L_0603F1CE
     add #0x30, r13
 .L_0603F1A4:
     mov #0xC, r6
@@ -70,7 +70,7 @@ slave_sh2_setup:
 .L_0603F1C6:
     add #0x1, r14
     cmp/ge r10, r14
-    bf/s    .L_0603F1A4
+    bf.s    .L_0603F1A4
     add #0x18, r13
 .L_0603F1CE:
     mov #-0x1, r0

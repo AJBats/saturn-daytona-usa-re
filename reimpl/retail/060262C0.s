@@ -43,9 +43,9 @@ transform_heading_apply:
     .byte 0xA0, 0x1F
     .byte 0x00, 0x09
     .byte 0xFF, 0xFF
-    .4byte sym_06060F2C
-    .4byte sym_06089ED6
-    .4byte sym_06089ED4
+    .long sym_06060F2C
+    .long sym_06089ED6
+    .long sym_06089ED4
     .byte 0x91, 0x09
     .byte 0x30, 0x18
     .byte 0xE1, 0x0C

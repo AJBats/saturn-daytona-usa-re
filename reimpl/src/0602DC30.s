@@ -7,16 +7,16 @@ vdp1_normal_sprite:
     lds.l @r15+, pr
     .byte   0xA2, 0x98    /* bra 0x0602E16C (external) */
     nop
-    .4byte  sym_06082A30
-    .4byte  sym_0602DC44
+    .long  sym_06082A30
+    .long  sym_0602DC44
 
     .global sym_0602DC44
 sym_0602DC44:
-    .4byte  loc_0602DC58
-    .4byte  loc_0602DD10
-    .4byte  loc_0602DE60
-    .4byte  loc_0602E078
-    .4byte  loc_0602E108
+    .long  loc_0602DC58
+    .long  loc_0602DD10
+    .long  loc_0602DE60
+    .long  loc_0602E078
+    .long  loc_0602E108
 
     .global loc_0602DC58
 loc_0602DC58:

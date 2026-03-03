@@ -29,9 +29,9 @@ speed_tacho_display:
 DAT_06031e30:
     .byte 0xFF, 0x00
     .byte 0x00, 0x00
-    .4byte sym_06032128
-    .4byte sym_06032108
-    .4byte sym_060961A8
+    .long sym_06032128
+    .long sym_06032108
+    .long sym_060961A8
     .byte 0x90, 0x32
     .byte 0x1C, 0x04
     .byte 0x1C, 0x30
@@ -86,8 +86,8 @@ DAT_06031e30:
     .byte 0x00, 0x09
     .byte 0x00, 0xA0
     .byte 0x00, 0x00
-    .4byte sym_06032138
-    .4byte sym_0608A52C
+    .long sym_06032138
+    .long sym_0608A52C
     .byte 0x65, 0xB3
     .byte 0x52, 0x71
     .byte 0x61, 0x72
@@ -120,7 +120,7 @@ DAT_06031e30:
     .global DAT_06031eee
 DAT_06031eee:
     .byte 0x00, 0xA0
-    .4byte sym_060961A8
+    .long sym_060961A8
     .byte 0x1D, 0x31
     .byte 0x75, 0x08
     .byte 0x52, 0x71
@@ -153,7 +153,7 @@ DAT_06031eee:
     .byte 0x00, 0x09
     .byte 0x00, 0xA0
     .byte 0x00, 0x00
-    .4byte sym_060961A8
+    .long sym_060961A8
     .byte 0x1D, 0x32
     .byte 0x75, 0x08
     .byte 0x52, 0x71
@@ -186,7 +186,7 @@ DAT_06031eee:
     .byte 0x00, 0x09
     .byte 0x00, 0xA0
     .byte 0x00, 0x00
-    .4byte sym_060961A8
+    .long sym_060961A8
     .byte 0x1D, 0x33
     .byte 0x75, 0x08
     .byte 0x52, 0x71
@@ -225,8 +225,8 @@ DAT_06031eee:
     .byte 0x00, 0x09
     .byte 0xFF, 0x50
     .byte 0x00, 0x00
-    .4byte sym_060620D4
-    .4byte sym_0608AC20
+    .long sym_060620D4
+    .long sym_0608AC20
     .byte 0x9C, 0x3A
     .byte 0x3C, 0x07
     .byte 0x89, 0x05
@@ -291,7 +291,7 @@ DAT_06031eee:
     .byte 0xFF, 0x81
     .byte 0x00, 0x51
     .byte 0x00, 0x00
-    .4byte sym_06032144
+    .long sym_06032144
     .global loc_06032054
 loc_06032054:
     .byte 0x33, 0x4C
@@ -362,8 +362,8 @@ loc_06032090:
     .byte 0x00, 0x00
     .byte 0x00, 0x40
     .byte 0x00, 0x00
-    .4byte sym_060620D4
-    .4byte sym_0606A4F8
+    .long sym_060620D4
+    .long sym_0606A4F8
     .byte 0x4F, 0x26
     .byte 0x6E, 0xF6
     .byte 0x6D, 0xF6
@@ -434,11 +434,11 @@ sym_06032138:
     .byte 0xFF, 0xFF
     .global sym_06032144
 sym_06032144:
-    .4byte loc_06032054
-    .4byte loc_0603205E
-    .4byte loc_06032074
-    .4byte loc_0603208A
-    .4byte loc_06032090
+    .long loc_06032054
+    .long loc_0603205E
+    .long loc_06032074
+    .long loc_0603208A
+    .long loc_06032090
     .global sym_06032158
 sym_06032158:
     .byte 0xD0, 0x17
@@ -489,5 +489,5 @@ sym_06032158:
     .byte 0x73, 0x0C
     .byte 0x00, 0x0B
     .byte 0x7F, 0x08
-    .4byte sym_0608A52C
-    .4byte sym_060961A8
+    .long sym_0608A52C
+    .long sym_060961A8

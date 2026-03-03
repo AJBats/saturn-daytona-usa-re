@@ -34,12 +34,12 @@ display_channels_load:
     rts
     mov.l @r15+, r14
 .L_wpool_060148E4:
-    .2byte  0x0100
-    .4byte  sym_0603850C
-    .4byte  scene_color_intensity
-    .4byte  sym_06038520
-    .4byte  scene_data_write_abs
+    .short  0x0100
+    .long  sym_0603850C
+    .long  scene_color_intensity
+    .long  sym_06038520
+    .long  scene_data_write_abs
 .L_pool_060148F6:
-    .4byte  sym_0605B71C
+    .long  sym_0605B71C
 .L_pool_060148FA:
-    .4byte  channel_nibble_config
+    .long  channel_nibble_config

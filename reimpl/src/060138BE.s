@@ -25,31 +25,31 @@ DAT_060138d8:
     .global DAT_060138da
 DAT_060138da:
     mov.b @(r0, r0), r2
-    .4byte  sym_06084B0C
-    .4byte  sym_06084B18
-    .4byte  sym_06084B20
-    .4byte  sym_06084AF0
-    .4byte  sym_0607EBCC
-    .4byte  sym_06084AF2
-    .4byte  sym_06084B14
-    .4byte  sym_0605AD5C
-    .4byte  sym_06084AF8
-    .4byte  sym_06084AFC
-    .4byte  sym_0605AAA0
-    .4byte  0xAB1100FF
-    .4byte  sound_cmd_dispatch
-    .4byte  sym_060149CC
-    .4byte  sym_06026CE0
-    .4byte  sym_0605B6B8
-    .4byte  0x00010000
+    .long  sym_06084B0C
+    .long  sym_06084B18
+    .long  sym_06084B20
+    .long  sym_06084AF0
+    .long  sym_0607EBCC
+    .long  sym_06084AF2
+    .long  sym_06084B14
+    .long  sym_0605AD5C
+    .long  sym_06084AF8
+    .long  sym_06084AFC
+    .long  sym_0605AAA0
+    .long  0xAB1100FF
+    .long  sound_cmd_dispatch
+    .long  sym_060149CC
+    .long  sym_06026CE0
+    .long  sym_0605B6B8
+    .long  0x00010000
 .L_06013920:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_pool_06013928:
-    .4byte  0x00960000
+    .long  0x00960000
 .L_pool_0601392C:
-    .4byte  rigid_body_transform
+    .long  rigid_body_transform
 .L_pool_06013930:
-    .4byte  frame_end_commit
+    .long  frame_end_commit
 
     .global loc_06013930
 loc_06013930:
@@ -62,6 +62,6 @@ loc_06013930:
     .byte   0xA0, 0x04    /* bra 0x06013948 (external) */
     nop
 .L_pool_06013946:
-    .4byte  sym_06084AF2
+    .long  sym_06084AF2
 .L_pool_0601394A:
-    .4byte  sym_06084AF4
+    .long  sym_06084AF4

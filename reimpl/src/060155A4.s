@@ -43,7 +43,7 @@ minimap_render:
     mov.l @(28, r12), r4
     mov r0, r2
     cmp/pz r2
-    bt/s    .L_0601562A
+    bt.s    .L_0601562A
     mov.l r0, @(20, r12)
     extu.b r14, r4
     mov r4, r3
@@ -101,15 +101,15 @@ minimap_render:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_pool_06015668:
-    .4byte  0x0000DDB2
+    .long  0x0000DDB2
 .L_0601566C:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_pool_06015670:
-    .4byte  fpmul
+    .long  fpmul
 .L_pool_06015674:
-    .4byte  sym_06084FC8
+    .long  sym_06084FC8
 
     .global loc_06015678
 loc_06015678:

@@ -127,9 +127,9 @@ DAT_0601729e:
     .byte 0x00, 0xA8
     .byte 0x00, 0x90
     .byte 0xFF, 0xFF
-    .4byte sym_06085490
-    .4byte sym_060280F8
-    .4byte sym_0605A008
-    .4byte sym_060785FC
-    .4byte g_game_state
-    .4byte sym_06084FC8
+    .long sym_06085490
+    .long sym_060280F8
+    .long sym_0605A008
+    .long sym_060785FC
+    .long g_game_state
+    .long sym_06084FC8

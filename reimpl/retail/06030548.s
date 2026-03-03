@@ -23,8 +23,8 @@ DAT_0603056a:
     .byte 0x01, 0x20
     .byte 0x00, 0x80
     .byte 0x00, 0x00
-    .4byte sym_06030FBE
-    .4byte sym_0607E940
+    .long sym_06030FBE
+    .long sym_0607E940
     .byte 0x24, 0x39
     .byte 0x26, 0x59
     .byte 0x26, 0x49
@@ -43,7 +43,7 @@ DAT_0603056a:
     .byte 0x56, 0x74
     .byte 0x00, 0x80
     .byte 0x00, 0x00
-    .4byte sym_06063EC4
+    .long sym_06063EC4
     .byte 0x92, 0x05
     .byte 0x26, 0x28
     .byte 0x89, 0x05
@@ -132,8 +132,8 @@ DAT_06030604:
     .global DAT_0603063a
 DAT_0603063a:
     .byte 0x40, 0x00
-    .4byte sym_06063EC4
-    .4byte sym_06030FBC
+    .long sym_06063EC4
+    .long sym_06030FBC
     .byte 0xE5, 0x01
     .byte 0x52, 0xEC
     .byte 0x45, 0x28
@@ -168,8 +168,8 @@ DAT_0603063a:
 DAT_06030680:
     .byte 0x40, 0x00
     .byte 0x00, 0x00
-    .4byte sym_06063E9C
-    .4byte sym_06030FBC
+    .long sym_06063E9C
+    .long sym_06030FBC
     .byte 0xE4, 0x02
     .byte 0x2C, 0x48
     .byte 0xD7, 0x0E
@@ -204,9 +204,9 @@ DAT_06030680:
 DAT_060306c8:
     .byte 0x40, 0x00
     .byte 0x00, 0x00
-    .4byte sym_06063EB0
-    .4byte sym_06063ED8
-    .4byte sym_06030FBC
+    .long sym_06063EB0
+    .long sym_06063ED8
+    .long sym_06030FBC
     .byte 0xE4, 0x01
     .byte 0xD7, 0x0F
     .byte 0xED, 0x00
@@ -243,9 +243,9 @@ DAT_06030714:
     .global DAT_06030716
 DAT_06030716:
     .byte 0xC0, 0x00
-    .4byte sym_06063E9C
-    .4byte sym_06063EC4
-    .4byte sym_06030FBC
+    .long sym_06063E9C
+    .long sym_06063EC4
+    .long sym_06030FBC
     .byte 0x4F, 0x26
     .byte 0x6E, 0xF6
     .byte 0x6D, 0xF6
@@ -272,7 +272,7 @@ DAT_06030742:
     .byte 0x61, 0x22
     .byte 0x41, 0x2B
     .byte 0xEC, 0x00
-    .4byte sym_06030F1C
+    .long sym_06030F1C
     .global loc_06030758
 loc_06030758:
     .byte 0xD0, 0x09
@@ -295,8 +295,8 @@ loc_06030758:
     .byte 0x00, 0x11
     .byte 0x02, 0x14
     .byte 0x00, 0x00
-    .4byte sym_0607866D
-    .4byte sym_06089595
+    .long sym_0607866D
+    .long sym_06089595
     .global loc_06030788
 loc_06030788:
     .byte 0xD0, 0x09
@@ -319,8 +319,8 @@ loc_06030788:
     .byte 0x00, 0x22
     .byte 0x02, 0x14
     .byte 0x00, 0x00
-    .4byte sym_0607866D
-    .4byte sym_06089595
+    .long sym_0607866D
+    .long sym_06089595
     .global loc_060307B8
 loc_060307B8:
     .byte 0xD0, 0x09
@@ -343,8 +343,8 @@ loc_060307B8:
     .byte 0x00, 0x44
     .byte 0x02, 0x14
     .byte 0x00, 0x00
-    .4byte sym_0607866D
-    .4byte sym_06089595
+    .long sym_0607866D
+    .long sym_06089595
     .global loc_060307E8
 loc_060307E8:
     .byte 0xD0, 0x26
@@ -425,12 +425,12 @@ loc_060307E8:
     .byte 0x00, 0x0A
     .byte 0x00, 0xBC
     .byte 0x01, 0xD4
-    .4byte sym_0607866D
-    .4byte sym_06089595
-    .4byte sym_06030F74
-    .4byte sym_06030F98
-    .4byte sym_06030FBE
-    .4byte force_steer_impact
+    .long sym_0607866D
+    .long sym_06089595
+    .long sym_06030F74
+    .long sym_06030F98
+    .long sym_06030FBE
+    .long force_steer_impact
     .byte 0x35, 0x03
     .byte 0x89, 0x11
     .byte 0xD0, 0x04
@@ -443,8 +443,8 @@ loc_060307E8:
     .byte 0xA0, 0x09
     .byte 0x67, 0xF6
     .byte 0x00, 0x00
-    .4byte sym_06030FBE
-    .4byte force_steer_calc
+    .long sym_06030FBE
+    .long force_steer_calc
     .byte 0x50, 0xE0
     .byte 0xD4, 0x19
     .byte 0x20, 0x4B
@@ -499,7 +499,7 @@ loc_060307E8:
     .byte 0x00, 0x09
     .byte 0x08, 0x00
     .byte 0x00, 0x00
-    .4byte sym_060A6000
+    .long sym_060A6000
     .byte 0x88, 0x00
     .byte 0x8B, 0x15
     .byte 0xA0, 0x07
@@ -522,7 +522,7 @@ loc_060307E8:
     .byte 0x65, 0x5B
     .byte 0xA2, 0x53
     .byte 0x00, 0x09
-    .4byte fpdiv_setup
+    .long fpdiv_setup
     .byte 0x52, 0xE6
     .byte 0x32, 0xAC
     .byte 0x63, 0x8B
@@ -563,7 +563,7 @@ loc_060307E8:
     .byte 0xA0, 0x0E
     .byte 0x00, 0x09
     .byte 0x7F, 0xFF
-    .4byte fpdiv_setup
+    .long fpdiv_setup
     .byte 0x23, 0x2D
     .byte 0x54, 0xE4
     .byte 0x34, 0x3C
@@ -600,7 +600,7 @@ loc_060307E8:
     .byte 0xA0, 0x06
     .byte 0x35, 0x0C
     .byte 0x00, 0x00
-    .4byte fpdiv_setup
+    .long fpdiv_setup
     .byte 0x40, 0x21
     .byte 0x40, 0x21
     .byte 0x35, 0x0C
@@ -647,7 +647,7 @@ DAT_06030a44:
     .global DAT_06030a46
 DAT_06030a46:
     .byte 0x01, 0xEC
-    .4byte sym_0607E940
+    .long sym_0607E940
     .byte 0xFF, 0xFF
     .byte 0x00, 0x00
     .byte 0x00, 0x20
@@ -676,12 +676,12 @@ DAT_06030a46:
     .byte 0x00, 0x0B
     .byte 0x6C, 0xF6
     .byte 0x00, 0x06
-    .4byte sym_06063E4C
-    .4byte sym_06063E60
-    .4byte sym_06063E74
-    .4byte sym_06063E88
-    .4byte sym_0607EAE8
-    .4byte sym_0607EAEC
+    .long sym_06063E4C
+    .long sym_06063E60
+    .long sym_06063E74
+    .long sym_06063E88
+    .long sym_0607EAE8
+    .long sym_0607EAEC
     .byte 0x2F, 0x66
     .byte 0x2F, 0x76
     .byte 0x67, 0xF6
@@ -764,11 +764,11 @@ DAT_06030b2a:
     .byte 0x02, 0x14
     .byte 0x00, 0xCC
     .byte 0x00, 0x00
-    .4byte sym_0607866D
-    .4byte sym_06089595
-    .4byte sym_060A6000
-    .4byte sym_06030FBE
-    .4byte force_steer_impact
+    .long sym_0607866D
+    .long sym_06089595
+    .long sym_060A6000
+    .long sym_06030FBE
+    .long force_steer_impact
     .byte 0x01, 0x00
     .byte 0x00, 0x00
     .byte 0xD0, 0x05
@@ -785,7 +785,7 @@ DAT_06030b2a:
     .byte 0x00, 0x00
     .byte 0x08, 0x00
     .byte 0x00, 0x00
-    .4byte sym_06030FBC
+    .long sym_06030FBC
     .byte 0xED, 0x00
     .byte 0x50, 0xEA
     .byte 0x66, 0x53
@@ -832,7 +832,7 @@ DAT_06030b2a:
     .byte 0xA0, 0x33
     .byte 0x00, 0x09
     .byte 0x01, 0x50
-    .4byte sym_06089595
+    .long sym_06089595
     .byte 0x50, 0xE0
     .byte 0x94, 0x09
     .byte 0x20, 0x4B
@@ -847,7 +847,7 @@ DAT_06030b2a:
     .byte 0x54, 0x14
     .byte 0x00, 0x40
     .byte 0x02, 0x60
-    .4byte sym_06063E9C
+    .long sym_06063E9C
     .byte 0x50, 0xE0
     .byte 0x94, 0x09
     .byte 0x20, 0x4B
@@ -862,7 +862,7 @@ DAT_06030b2a:
     .byte 0x54, 0x14
     .byte 0x01, 0x00
     .byte 0x02, 0x60
-    .4byte sym_06063EC4
+    .long sym_06063EC4
     .byte 0x50, 0xE0
     .byte 0x94, 0x09
     .byte 0x20, 0x4B
@@ -877,7 +877,7 @@ DAT_06030b2a:
     .byte 0x54, 0x14
     .byte 0x00, 0x80
     .byte 0x02, 0x60
-    .4byte sym_06063EB0
+    .long sym_06063EB0
     .byte 0x50, 0xE0
     .byte 0x94, 0x09
     .byte 0x20, 0x4B
@@ -892,7 +892,7 @@ DAT_06030b2a:
     .byte 0x54, 0x14
     .byte 0x02, 0x00
     .byte 0x02, 0x60
-    .4byte sym_06063ED8
+    .long sym_06063ED8
     .byte 0x2F, 0x46
     .byte 0xD2, 0x20
     .byte 0x65, 0x20
@@ -961,8 +961,8 @@ DAT_06030b2a:
     .global DAT_06030cca
 DAT_06030cca:
     .byte 0x40, 0x00
-    .4byte sym_0602FD9B
-    .4byte sym_060A6000
+    .long sym_0602FD9B
+    .long sym_060A6000
     .byte 0x88, 0x00
     .byte 0x8B, 0x3D
     .byte 0xA0, 0x2F
@@ -1005,8 +1005,8 @@ DAT_06030cca:
     .global DAT_06030d22
 DAT_06030d22:
     .byte 0x40, 0x00
-    .4byte sym_0602FD9C
-    .4byte sym_060A6000
+    .long sym_0602FD9C
+    .long sym_060A6000
     .byte 0x55, 0xE6
     .byte 0x35, 0xAC
     .byte 0x45, 0x15
@@ -1025,7 +1025,7 @@ DAT_06030d22:
     .byte 0x65, 0x5B
     .byte 0xA0, 0x57
     .byte 0x00, 0x09
-    .4byte fpdiv_setup
+    .long fpdiv_setup
     .byte 0x52, 0xE6
     .byte 0x32, 0xAC
     .byte 0x63, 0x8B
@@ -1068,7 +1068,7 @@ DAT_06030d22:
     .global DAT_06030da2
 DAT_06030da2:
     .byte 0x7F, 0xFF
-    .4byte fpdiv_setup
+    .long fpdiv_setup
     .byte 0x23, 0x2D
     .byte 0x54, 0xE4
     .byte 0x34, 0x3C
@@ -1105,7 +1105,7 @@ DAT_06030da2:
     .byte 0xA0, 0x06
     .byte 0x35, 0x0C
     .byte 0x00, 0x00
-    .4byte fpdiv_setup
+    .long fpdiv_setup
     .byte 0x40, 0x21
     .byte 0x40, 0x21
     .byte 0x35, 0x0C
@@ -1132,8 +1132,8 @@ DAT_06030da2:
     .byte 0xA0, 0x08
     .byte 0x22, 0x0D
     .byte 0x00, 0x00
-    .4byte sym_06030FBC
-    .4byte sin_lookup
+    .long sym_06030FBC
+    .long sin_lookup
     .byte 0x00, 0x03
     .byte 0x80, 0x00
     .byte 0xD2, 0x03

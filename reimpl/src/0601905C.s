@@ -33,18 +33,18 @@ state_snapshot_compare:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_pool_0601909C:
-    .4byte  sound_cmd_dispatch
+    .long  sound_cmd_dispatch
 .L_pool_060190A0:
-    .4byte  sym_06086050
+    .long  sym_06086050
 .L_pool_060190A4:
-    .4byte  0xAE0001FF
+    .long  0xAE0001FF
 .L_pool_060190A8:
-    .4byte  0xAE0005FF
+    .long  0xAE0005FF
 .L_pool_060190AC:
-    .4byte  sym_06012F10
+    .long  sym_06012F10
 .L_pool_060190B0:
-    .4byte  0x25A02DBE
+    .long  0x25A02DBE
 .L_pool_060190B4:
-    .4byte  0xAE0600FF
+    .long  0xAE0600FF

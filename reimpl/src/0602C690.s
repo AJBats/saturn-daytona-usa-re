@@ -76,57 +76,57 @@ vdp1_display_list_setup:
     .global DAT_0602c71a
 .L_0602C71A:
 DAT_0602c71a:
-    .2byte  0x0120
+    .short  0x0120
 
     .global DAT_0602c71c
 .L_0602C71C:
 DAT_0602c71c:
-    .2byte  0x0124
+    .short  0x0124
 
     .global DAT_0602c71e
 .L_0602C71E:
 DAT_0602c71e:
-    .2byte  0x0128
+    .short  0x0128
 
     .global DAT_0602c720
 .L_0602C720:
 DAT_0602c720:
-    .2byte  0x012C
+    .short  0x012C
 
     .global DAT_0602c722
 .L_0602C722:
 DAT_0602c722:
-    .2byte  0x0060
+    .short  0x0060
 
     .global DAT_0602c724
 .L_0602C724:
 DAT_0602c724:
-    .2byte  0x0064
+    .short  0x0064
 
     .global DAT_0602c726
 .L_0602C726:
 DAT_0602c726:
-    .2byte  0x0100
+    .short  0x0100
 
     .global DAT_0602c728
 .L_0602C728:
 DAT_0602c728:
-    .2byte  0x0104
+    .short  0x0104
 
     .global DAT_0602c72a
 .L_0602C72A:
 DAT_0602c72a:
-    .2byte  0x00FC
+    .short  0x00FC
 .L_0602C72C:
-    .4byte  0x03700000
+    .long  0x03700000
 .L_0602C730:
-    .4byte  0x02D00000
+    .long  0x02D00000
 .L_0602C734:
-    .4byte  0x00000645
+    .long  0x00000645
 .L_0602C738:
-    .4byte  sin_lookup
+    .long  sin_lookup
 .L_0602C73C:
-    .4byte  0x251B1285
+    .long  0x251B1285
 .L_0602C740:
     neg r13, r13
     shll r13
@@ -182,11 +182,11 @@ DAT_0602c72a:
     bra     .L_0602C7BA
     nop
 .L_0602C7A8:
-    .4byte  0x00028000
+    .long  0x00028000
 .L_0602C7AC:
-    .4byte  0x01600000
+    .long  0x01600000
 .L_0602C7B0:
-    .4byte  0x0C080000
+    .long  0x0C080000
 .L_0602C7B4:
     cmp/ge r10, r2
     bt      .L_0602C7BA
@@ -200,9 +200,9 @@ DAT_0602c72a:
     bra     .L_0602C7D6
     nop
 .L_0602C7C8:
-    .4byte  0x01200000
+    .long  0x01200000
 .L_0602C7CC:
-    .4byte  0x09D80000
+    .long  0x09D80000
 .L_0602C7D0:
     cmp/ge r11, r2
     bt      .L_0602C7D6
@@ -229,25 +229,25 @@ DAT_0602c72a:
     .global DAT_0602c7f8
 .L_0602C7F8:
 DAT_0602c7f8:
-    .2byte  0x0140
+    .short  0x0140
 
     .global DAT_0602c7fa
 .L_0602C7FA:
 DAT_0602c7fa:
-    .2byte  0x0144
+    .short  0x0144
 
 .L_0602C7FC:
     mov.l @(8, r0), r3
     mov #0xA, r2
     mov.l r10, @-r15
     cmp/ge r3, r2
-    .byte   0x8D, 0x69    /* bt/s 0x0602C8DA (external: early exit with 0x10000) */
+    .byte   0x8D, 0x69    /* bt.s 0x0602C8DA (external: early exit with 0x10000) */
     mov #0x0, r9
     mov #0x0, r8
     .byte   0x96, 0x45    /* mov.w .L_wpool_0602C898, r6 (r6 = 0x0001, activation bit 0 mask) [HIGH] */
     tst r6, r4
     not r6, r7
-    bt/s    .L_0602C818
+    bt.s    .L_0602C818
     and r7, r4
     .byte   0x98, 0x41    /* mov.w .L_wpool_0602C89A, r8 (r8 = 0x00EE, activation weight for bit 0 = 238) [HIGH] */
     mov #0x1, r9
@@ -255,7 +255,7 @@ DAT_0602c7fa:
     .byte   0x96, 0x40    /* mov.w .L_wpool_0602C89C, r6 (r6 = 0x0004, activation bit 2 mask) [HIGH] */
     tst r6, r4
     not r6, r7
-    bt/s    .L_0602C828
+    bt.s    .L_0602C828
     and r7, r4
     .byte   0x96, 0x3C    /* mov.w .L_wpool_0602C89E, r6 (r6 = 0x00B4, activation weight for bit 2 = 180) [HIGH] */
     add r6, r8
@@ -264,7 +264,7 @@ DAT_0602c7fa:
     .byte   0x96, 0x3A    /* mov.w .L_wpool_0602C8A0, r6 (r6 = 0x0002, activation bit 1 mask) [HIGH] */
     tst r6, r4
     not r6, r7
-    bt/s    .L_0602C838
+    bt.s    .L_0602C838
     and r7, r4
     .byte   0x96, 0x36    /* mov.w .L_wpool_0602C8A2, r6 (r6 = 0x00D2, activation weight for bit 1 = 210) [HIGH] */
     add r6, r8
@@ -273,7 +273,7 @@ DAT_0602c7fa:
     .byte   0x96, 0x34    /* mov.w .L_wpool_0602C8A4, r6 (r6 = 0x0010, activation bit 4 mask) [HIGH] */
     tst r6, r4
     not r6, r7
-    bt/s    .L_0602C848
+    bt.s    .L_0602C848
     and r7, r4
     .byte   0x96, 0x30    /* mov.w .L_wpool_0602C8A6, r6 (r6 = 0x00F6, activation weight for bit 4 = 246) [HIGH] */
     add r6, r8
@@ -282,7 +282,7 @@ DAT_0602c7fa:
     .byte   0x96, 0x2E    /* mov.w .L_wpool_0602C8A8, r6 (r6 = 0x0020, activation bit 5 mask) [HIGH] */
     tst r6, r4
     not r6, r7
-    bt/s    .L_0602C858
+    bt.s    .L_0602C858
     and r7, r4
     .byte   0x96, 0x2A    /* mov.w .L_wpool_0602C8AA, r6 (r6 = 0x00FA, activation weight for bit 5 = 250) [HIGH] */
     add r6, r8
@@ -296,7 +296,7 @@ DAT_0602c7fa:
     add #0x1, r9
 .L_0602C864:
     tst r9, r9
-    .byte   0x8D, 0x15    /* bt/s 0x0602C894 (external: no flags, return r4=0) */
+    .byte   0x8D, 0x15    /* bt.s 0x0602C894 (external: no flags, return r4=0) */
     mov #0x0, r4
     .byte   0xD2, 0x11    /* mov.l .L_pool_0602C8B0, r2 (r2 = sym_06045AEC, activation weight lookup table) [MEDIUM] */
     mov #0x1, r4

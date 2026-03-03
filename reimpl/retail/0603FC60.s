@@ -47,8 +47,8 @@ vblank_palette_apply:
     .global DAT_0603fcb6
 DAT_0603fcb6:
     .byte 0xFF, 0x7F
-    .4byte sym_06034FFC
-    .4byte sym_0603F8EE
+    .long sym_06034FFC
+    .long sym_0603F8EE
     .byte 0x6D, 0x43
     .byte 0x50, 0xE1
     .byte 0x20, 0x08

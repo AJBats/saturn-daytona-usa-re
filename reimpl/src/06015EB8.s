@@ -116,14 +116,14 @@ vdp2_layer_init:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_pool_06015F9C:
-    .4byte  sym_0605B8B8
+    .long  sym_0605B8B8
 .L_pool_06015FA0:
-    .4byte  sym_06084FC8
+    .long  sym_06084FC8
 .L_pool_06015FA4:
-    .4byte  sym_06035438
+    .long  sym_06035438
 .L_06015FA8:
-    .4byte  0x00100000
+    .long  0x00100000
 .L_pool_06015FAC:
-    .4byte  sym_06085F89
+    .long  sym_06085F89

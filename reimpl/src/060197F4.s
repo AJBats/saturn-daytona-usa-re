@@ -62,32 +62,32 @@ car_select_state:
 DAT_06019864:
     mov.l r0, @(0, r0)
 .L_wpool_06019866:
-    .2byte  0x0600
+    .short  0x0600
 .L_wpool_06019868:
-    .2byte  0x4000
-    .2byte  0xFFFF
-    .4byte  sym_0605D243
-    .4byte  sym_0605D250
+    .short  0x4000
+    .short  0xFFFF
+    .long  sym_0605D243
+    .long  sym_0605D250
 .L_pool_06019874:
-    .4byte  sym_06063D9A
+    .long  sym_06063D9A
 .L_pool_06019878:
-    .4byte  sym_06059F44
+    .long  sym_06059F44
 .L_pool_0601987C:
-    .4byte  sym_0605D242
+    .long  sym_0605D242
 .L_pool_06019880:
-    .4byte  g_game_state
+    .long  g_game_state
 .L_pool_06019884:
-    .4byte  sym_0605D244
+    .long  sym_0605D244
 .L_pool_06019888:
-    .4byte  sym_06049AF4
+    .long  sym_06049AF4
 .L_pool_0601988C:
-    .4byte  sym_06063750
+    .long  sym_06063750
 .L_pool_06019890:
-    .4byte  sym_06049AEC
+    .long  sym_06049AEC
 .L_pool_06019894:
-    .4byte  sym_06028400
+    .long  sym_06028400
 .L_pool_06019898:
-    .4byte  sym_06026CE0
+    .long  sym_06026CE0
 .L_0601989C:
     add #0xC, r15
     lds.l @r15+, pr
@@ -130,8 +130,8 @@ loc_060198D0:
     bra     car_select_state
     mov #0xA, r4
 .L_pool_060198D4:
-    .4byte  sym_06078663
+    .long  sym_06078663
 .L_pool_060198D8:
-    .4byte  sym_0605AA98
+    .long  sym_0605AA98
 .L_pool_060198DC:
-    .4byte  sym_06085FF4
+    .long  sym_06085FF4

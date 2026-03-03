@@ -33,12 +33,12 @@ lap_timer_ctrl:
     .byte 0xA2, 0x23
     .byte 0x4F, 0x26
     .byte 0xFF, 0xFF
-    .4byte sym_06078636
+    .long sym_06078636
     .byte 0xAE, 0x11
     .byte 0x0F, 0xFF
-    .4byte sound_cmd_dispatch
-    .4byte sym_0607EBCC
-    .4byte sym_060788B2
+    .long sound_cmd_dispatch
+    .long sym_0607EBCC
+    .long sym_060788B2
     .byte 0xE5, 0x01
     .byte 0xE2, 0x10
     .byte 0x24, 0x52

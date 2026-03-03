@@ -12,7 +12,7 @@ texture_file_loader:
     extu.w r3, r3
     and r2, r3
     tst r3, r3
-    bt/s    .L_0601B664
+    bt.s    .L_0601B664
     mov #0x0, r5
     mov.l   .L_0601B6D8, r3
     bra     .L_0601B6BE
@@ -71,17 +71,17 @@ texture_file_loader:
     rts
     mov.l @r15+, r14
 .L_0601B6C4:
-    .2byte  0x0F00
+    .short  0x0F00
 .L_0601B6C6:
-    .2byte  0x2000
+    .short  0x2000
 .L_0601B6C8:
-    .2byte  0x1000
-    .2byte  0xFFFF
+    .short  0x1000
+    .short  0xFFFF
 .L_0601B6CC:
-    .4byte  sym_0605D4F4
+    .long  sym_0605D4F4
 .L_0601B6D0:
-    .4byte  sym_0605D4FA
+    .long  sym_0605D4FA
 .L_0601B6D4:
-    .4byte  g_pad_state
+    .long  g_pad_state
 .L_0601B6D8:
-    .4byte  sym_0608600D
+    .long  sym_0608600D

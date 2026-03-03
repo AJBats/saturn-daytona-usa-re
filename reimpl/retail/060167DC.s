@@ -75,7 +75,7 @@ results_input_handler:
     .byte 0x00, 0x09
     .byte 0x0F, 0x00
     .byte 0x18, 0x00
-    .4byte sym_06084FC8
+    .long sym_06084FC8
     .byte 0x65, 0xEC
     .byte 0x63, 0x53
     .byte 0x45, 0x08
@@ -178,4 +178,4 @@ loc_060168DA:
     .byte 0x80, 0x42
     .byte 0xC0, 0x00
     .byte 0x40, 0x00
-    .4byte sym_06084FC8
+    .long sym_06084FC8

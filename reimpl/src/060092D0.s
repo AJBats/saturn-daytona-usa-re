@@ -35,7 +35,7 @@ state_post_lap:
     mov.l @r3, r3
     add #-0x1, r3
     cmp/pl r3
-    bt/s    .L_0600932C
+    bt.s    .L_0600932C
     mov.l r3, @r2
     mov.l   .L_06009370, r3
     jsr @r3
@@ -66,35 +66,35 @@ state_post_lap:
     bra     .L_06009394
     nop
 .L_0600934C:
-    .2byte  0x0800
+    .short  0x0800
 .L_0600934E:
-    .2byte  0x0240
+    .short  0x0240
 .L_06009350:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8
 .L_06009354:
-    .4byte  g_game_state
+    .long  g_game_state
 .L_06009358:
-    .4byte  sym_06063D9A
+    .long  sym_06063D9A
 .L_0600935C:
-    .4byte  sym_0607EACC
+    .long  sym_0607EACC
 .L_06009360:
-    .4byte  sym_0600A33C
+    .long  sym_0600A33C
 .L_06009364:
-    .4byte  sym_06085FF4
+    .long  sym_06085FF4
 .L_06009368:
-    .4byte  sym_0607EAD0
+    .long  sym_0607EAD0
 .L_0600936C:
-    .4byte  sym_0607EAAC
+    .long  sym_0607EAAC
 .L_06009370:
-    .4byte  sym_060192CA
+    .long  sym_060192CA
 .L_06009374:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_06009378:
-    .4byte  sym_06078638
+    .long  sym_06078638
 .L_0600937C:
-    .4byte  sym_0607EBF4
+    .long  sym_0607EBF4
 .L_06009380:
-    .4byte  handler_init_reset
+    .long  handler_init_reset
 .L_06009384:
     mov.l   .L_060093D0, r0
     mov.l @r0, r0
@@ -136,23 +136,23 @@ state_post_lap:
     bra     .L_060093F6
     nop
 .L_060093CE:
-    .2byte  0x00C8
+    .short  0x00C8
 .L_060093D0:
-    .4byte  sym_0607EAD0
+    .long  sym_0607EAD0
 .L_060093D4:
-    .4byte  sym_0607EBD0
+    .long  sym_0607EBD0
 .L_060093D8:
-    .4byte  sym_06086054
+    .long  sym_06086054
 .L_060093DC:
-    .4byte  sym_0607EAAC
+    .long  sym_0607EAAC
 .L_060093E0:
-    .4byte  0xAE1134FF
+    .long  0xAE1134FF
 .L_060093E4:
-    .4byte  sound_cmd_dispatch
+    .long  sound_cmd_dispatch
 .L_060093E8:
-    .4byte  sym_06078636
+    .long  sym_06078636
 .L_060093EC:
-    .4byte  race_cleanup_handler
+    .long  race_cleanup_handler
 .L_060093F0:
     mov.l   .L_060094A4, r3
     jsr @r3
@@ -251,56 +251,56 @@ state_post_lap:
     jmp @r3
     mov.l @r15+, r14
 .L_060094A0:
-    .2byte  0x0082
+    .short  0x0082
 .L_060094A2:
-    .2byte  0x00BC
+    .short  0x00BC
 .L_060094A4:
-    .4byte  sym_06012198
+    .long  sym_06012198
 .L_060094A8:
-    .4byte  sym_0607EAE0
+    .long  sym_0607EAE0
 .L_060094AC:
-    .4byte  camera_event_handler
+    .long  camera_event_handler
 .L_060094B0:
-    .4byte  replay_camera_ctrl
+    .long  replay_camera_ctrl
 .L_060094B4:
-    .4byte  sym_0605AB18
+    .long  sym_0605AB18
 .L_060094B8:
-    .4byte  menu_overlay_render
+    .long  menu_overlay_render
 .L_060094BC:
-    .4byte  sym_0605A1C4
+    .long  sym_0605A1C4
 .L_060094C0:
-    .4byte  camera_attract_init
+    .long  camera_attract_init
 .L_060094C4:
-    .4byte  car_iteration_loop
+    .long  car_iteration_loop
 .L_060094C8:
-    .4byte  car_proximity_check
+    .long  car_proximity_check
 .L_060094CC:
-    .4byte  camera_system
+    .long  camera_system
 .L_060094D0:
-    .4byte  sym_06063E24
+    .long  sym_06063E24
 .L_060094D4:
-    .4byte  sym_06063EEC
+    .long  sym_06063EEC
 .L_060094D8:
-    .4byte  sym_06063EF8
+    .long  sym_06063EF8
 .L_060094DC:
-    .4byte  camera_orient_calc
+    .long  camera_orient_calc
 .L_060094E0:
-    .4byte  snd_race_update
+    .long  snd_race_update
 .L_060094E4:
-    .4byte  scene_master
+    .long  scene_master
 .L_060094E8:
-    .4byte  sym_0607ED8C
+    .long  sym_0607ED8C
 .L_060094EC:
-    .4byte  sym_060033E6
+    .long  sym_060033E6
 .L_060094F0:
-    .4byte  sym_06086030
+    .long  sym_06086030
 .L_060094F4:
-    .4byte  sym_0605A1C8
+    .long  sym_0605A1C8
 .L_060094F8:
-    .4byte  0x0000F000
+    .long  0x0000F000
 .L_060094FC:
-    .4byte  sym_060283E0
+    .long  sym_060283E0
 .L_06009500:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_06009504:
-    .4byte  frame_end_commit
+    .long  frame_end_commit

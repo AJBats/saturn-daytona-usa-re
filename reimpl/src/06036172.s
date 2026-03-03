@@ -31,7 +31,7 @@ seg_data_loader:
     rts
     mov.l @r15+, r14
 .L_pool_060361AE:
-    .4byte  input_proc_analog
-    .4byte  input_proc_buttons
+    .long  input_proc_analog
+    .long  input_proc_buttons
 .L_pool_060361B6:
-    .4byte  input_proc_digital
+    .long  input_proc_digital

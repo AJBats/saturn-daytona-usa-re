@@ -74,8 +74,8 @@ DAT_0600cf3a:
 DAT_0600cf40:
     .byte 0x01, 0xF0
     .byte 0x02, 0x28
-    .4byte sym_0607EB84
-    .4byte sym_0607E940
-    .4byte sym_06035228
-    .4byte sym_0607EA9C
-    .4byte sym_0607EBD0
+    .long sym_0607EB84
+    .long sym_0607E940
+    .long sym_06035228
+    .long sym_0607EA9C
+    .long sym_0607EBD0

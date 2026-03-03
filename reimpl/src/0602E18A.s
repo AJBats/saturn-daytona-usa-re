@@ -15,17 +15,17 @@ draw_priority_resolve:
     bf      .L_0602E1C4
     .byte   0xA0, 0xFD    /* bra 0x0602E3A0 (external) */
     nop
-    .2byte  0x0000
-    .4byte  sym_0608325C
-    .4byte  sym_0602EC54
-    .4byte  sym_06083258
+    .short  0x0000
+    .long  sym_0608325C
+    .long  sym_0602EC54
+    .long  sym_06083258
 .L_pool_0602E1B4:
-    .4byte  sym_0607E940
-    .4byte  sym_0600DB64
+    .long  sym_0607E940
+    .long  sym_0600DB64
 .L_pool_0602E1BC:
-    .4byte  0x00000244
+    .long  0x00000244
 .L_pool_0602E1C0:
-    .4byte  0x00000007
+    .long  0x00000007
 .L_0602E1C4:
     .byte   0xD3, 0x34    /* mov.l .L_pool_0602E298, r3 */
     mov.l @r3, r3

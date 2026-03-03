@@ -31,8 +31,8 @@ save_field_write:
     .byte 0x8B, 0x05
     .byte 0xA0, 0x27
     .byte 0xE0, 0x00
-    .4byte sym_060A4D14
-    .4byte attract_state_change
+    .long sym_060A4D14
+    .long attract_state_change
     .byte 0xE6, 0xFF
     .byte 0xE5, 0x00
     .byte 0x94, 0x37

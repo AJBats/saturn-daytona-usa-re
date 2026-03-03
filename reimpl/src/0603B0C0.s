@@ -45,6 +45,6 @@ menu_elem_alpha:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_pool_0603B114:
-    .4byte  input_proc_complete
+    .long  input_proc_complete

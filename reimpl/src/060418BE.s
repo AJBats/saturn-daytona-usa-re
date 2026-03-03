@@ -82,15 +82,15 @@ track_road_validate:
     bt      .L_0604196C
     bra     .L_06041A04
     nop
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_0604195C:
-    .4byte  sym_060A5400
+    .long  sym_060A5400
 .L_06041960:
-    .4byte  ai_checkpoint_validate
+    .long  ai_checkpoint_validate
 .L_06041964:
-    .4byte  track_road_width_main
+    .long  track_road_width_main
 .L_06041968:
-    .4byte  track_bank_calc
+    .long  track_bank_calc
 .L_0604196C:
     mov r15, r4
     jsr @r12
@@ -225,13 +225,13 @@ track_road_validate:
     bt      .L_06041A70
     bra     .L_06041A72
     mov #0x1, r4
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_06041A64:
-    .4byte  track_seg_interpolate
+    .long  track_seg_interpolate
 .L_06041A68:
-    .4byte  sym_06035168
+    .long  sym_06035168
 .L_06041A6C:
-    .4byte  sym_06035C4E
+    .long  sym_06035C4E
 .L_06041A70:
     mov #0x0, r4
 .L_06041A72:

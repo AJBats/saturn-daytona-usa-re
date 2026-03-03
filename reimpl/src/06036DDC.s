@@ -29,11 +29,11 @@ display_buffer_init:
     add #0x1, r5
     mov.b r3, @r7
     cmp/hs r6, r5
-    bf/s    .L_06036E04
+    bf.s    .L_06036E04
     add #0x1, r7
 .L_06036E10:
     mov r4, r0
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .4byte  0x2F362F46
+    .long  0x2F362F46

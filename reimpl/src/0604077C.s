@@ -95,20 +95,20 @@ obj_setup_decomp:
     jsr @r3
     mov.l @(4, r15), r4
     tst r0, r0
-    bt/s    .L_06040850
+    bt.s    .L_06040850
     add #0x4, r15
     bra     .L_06040872
     mov #0x0, r0
 .L_pool_0604083C:
-    .4byte  sym_06035228
+    .long  sym_06035228
 .L_pool_06040840:
-    .4byte  sym_06040EEC
+    .long  sym_06040EEC
 .L_pool_06040844:
-    .4byte  sym_06040E88
+    .long  sym_06040E88
 .L_pool_06040848:
-    .4byte  evt_reg_save
+    .long  evt_reg_save
 .L_pool_0604084C:
-    .4byte  buffer_slot_alloc
+    .long  buffer_slot_alloc
 .L_06040850:
     .byte   0x96, 0x24    /* mov.w .L_wpool_0604089C, r6 */
     mov.l @(4, r15), r5

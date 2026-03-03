@@ -5,13 +5,13 @@ attract_cleanup:
     mov.l r13, @-r15
     mov r7, r13
     tst r5, r5
-    bf/s    .L_0603FF54
+    bf.s    .L_0603FF54
     mov r5, r14
     bra     .L_0603FF84
     nop
-    .2byte  0x0101
-    .4byte  0x25FE000C
-    .4byte  sym_06000340
+    .short  0x0101
+    .long  0x25FE000C
+    .long  sym_06000340
 .L_0603FF54:
     mov #0x0, r4
     shll2 r6
@@ -20,7 +20,7 @@ attract_cleanup:
     mov r4, r3
     shlr2 r5
     cmp/hs r5, r3
-    bt/s    .L_0603FF74
+    bt.s    .L_0603FF74
     shll2 r7
 .L_0603FF66:
     add #0x1, r4
@@ -28,7 +28,7 @@ attract_cleanup:
     mov.l r3, @r14
     add r6, r14
     cmp/hs r5, r4
-    bf/s    .L_0603FF66
+    bf.s    .L_0603FF66
     add r7, r13
 .L_0603FF74:
     mov r13, r6
@@ -48,7 +48,7 @@ attract_cleanup:
 loc_0603FF8A:
     rts
     mov #0x0, r0
-    .2byte  0x7FFC
-    .4byte  0x2F426043
-    .4byte  0x50095448
-    .4byte  0x402B7F04
+    .short  0x7FFC
+    .long  0x2F426043
+    .long  0x50095448
+    .long  0x402B7F04

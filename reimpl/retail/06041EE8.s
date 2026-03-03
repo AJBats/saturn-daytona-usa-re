@@ -97,12 +97,12 @@ DAT_06041f96:
     .byte 0x03, 0x4C
     .byte 0x00, 0x00
     .byte 0xFF, 0xF7
-    .4byte smpc_cmd_helper_b
-    .4byte ai_checkpoint_validate
-    .4byte sym_060A5400
-    .4byte track_road_edge_b
-    .4byte track_road_width_main
-    .4byte track_post_collision
+    .long smpc_cmd_helper_b
+    .long ai_checkpoint_validate
+    .long sym_060A5400
+    .long track_road_edge_b
+    .long track_road_width_main
+    .long track_post_collision
     .byte 0x64, 0xF3
     .byte 0x4C, 0x0B
     .byte 0x74, 0x04
@@ -209,5 +209,5 @@ DAT_0604207c:
     .global DAT_0604207e
 DAT_0604207e:
     .byte 0x03, 0x5C
-    .4byte sym_06035C4E
-    .4byte track_road_width_main
+    .long sym_06035C4E
+    .long track_road_width_main

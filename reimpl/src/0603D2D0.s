@@ -99,14 +99,14 @@ high_score_render:
     rts
     mov.l @r15+, r14
 .L_0603D392:
-    .2byte  0x0101
+    .short  0x0101
 .L_0603D394:
-    .4byte  0x0000FFF0
+    .long  0x0000FFF0
 .L_0603D398:
-    .4byte  sym_060A4D58
+    .long  sym_060A4D58
 .L_0603D39C:
-    .4byte  sym_060A4D28
+    .long  sym_060A4D28
 .L_0603D3A0:
-    .4byte  sym_06034F78
+    .long  sym_06034F78
 .L_0603D3A4:
-    .4byte  0x0000F0FF
+    .long  0x0000F0FF

@@ -13,7 +13,7 @@ display_param_set:
     mov.l   .L_06038F10, r1
     mov.l   .L_06038F14, r2
     cmp/eq r2, r3
-    bf/s    .L_06038E86
+    bf.s    .L_06038E86
     mov #0x0, r6
 
     mov #0x2, r2
@@ -111,32 +111,32 @@ display_param_set:
 
     .global DAT_06038efa
 DAT_06038efa:
-    .2byte  0x4000
+    .short  0x4000
 
     .global DAT_06038efc
 DAT_06038efc:
-    .2byte  0x7FFF
-    .2byte  0xFFFF
+    .short  0x7FFF
+    .short  0xFFFF
 .L_06038F00:
-    .4byte  sym_060635BC
+    .long  sym_060635BC
 .L_06038F04:
-    .4byte  sym_060A4C92
+    .long  sym_060A4C92
 .L_06038F08:
-    .4byte  0x25D00002
+    .long  0x25D00002
 .L_06038F0C:
-    .4byte  sym_060635B4
+    .long  sym_060635B4
 .L_06038F10:
-    .4byte  sym_060635B8
+    .long  sym_060635B8
 .L_06038F14:
-    .4byte  0x0000FFFF
+    .long  0x0000FFFF
 .L_06038F18:
-    .4byte  0x0000FFFE
-    .4byte  0xD40DD00E
-    .4byte  0x60022008
-    .4byte  0x8904E301
-    .4byte  0x24326042
-    .4byte  0x20088BFC
-    .4byte  0x000B0009
+    .long  0x0000FFFE
+    .long  0xD40DD00E
+    .long  0x60022008
+    .long  0x8904E301
+    .long  0x24326042
+    .long  0x20088BFC
+    .long  0x000B0009
 
     .global sym_06038F34
 sym_06038F34:
@@ -155,16 +155,16 @@ sym_06038F34:
     mov.l   .L_06038F68, r2
     rts
     mov.l r4, @r2
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_06038F54:
-    .4byte  sym_060635C4
+    .long  sym_060635C4
 .L_06038F58:
-    .4byte  sym_060635BC
+    .long  sym_060635BC
 .L_06038F5C:
-    .4byte  sym_060635B4
+    .long  sym_060635B4
 .L_06038F60:
-    .4byte  sym_060635B8
+    .long  sym_060635B8
 .L_06038F64:
-    .4byte  sym_060635C0
+    .long  sym_060635C0
 .L_06038F68:
-    .4byte  sym_060635C8
+    .long  sym_060635C8

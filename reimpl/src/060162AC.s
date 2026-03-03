@@ -87,13 +87,13 @@ results_time_column:
     bra     .L_060163A2
     extu.b r10, r11
 .L_06016354:
-    .4byte  sym_06084FC8
+    .long  sym_06084FC8
 .L_06016358:
-    .4byte  sym_06035438
+    .long  sym_06035438
 .L_0601635C:
-    .4byte  sym_0605BAF8
+    .long  sym_0605BAF8
 .L_06016360:
-    .4byte  sym_06034FE0
+    .long  sym_06034FE0
 .L_06016364:
     extu.b r14, r2
     cmp/ge r4, r2

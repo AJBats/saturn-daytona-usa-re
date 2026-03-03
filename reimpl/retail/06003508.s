@@ -35,13 +35,13 @@ vdp2_course2_init:
     .byte 0x08, 0x60
     .byte 0x25, 0xF0
     .byte 0x02, 0x00
-    .4byte memcpy_word_idx
-    .4byte dma_memory_transfer
+    .long memcpy_word_idx
+    .long dma_memory_transfer
     .byte 0x25, 0xE3
     .byte 0x40, 0x00
     .byte 0x25, 0xE4
     .byte 0x97, 0xE4
-    .4byte sym_060612AC
+    .long sym_060612AC
     .byte 0x25, 0xE4
     .byte 0x10, 0x8C
     .byte 0x25, 0xE4

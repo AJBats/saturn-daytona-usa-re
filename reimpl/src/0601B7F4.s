@@ -73,27 +73,27 @@ disc_texture_load_ext:
 
     .global DAT_0601b87e
 DAT_0601b87e:
-    .2byte  0x4000
+    .short  0x4000
 .L_0601B880:
-    .4byte  sym_06063750
+    .long  sym_06063750
 .L_0601B884:
-    .4byte  sym_0605DF26
+    .long  sym_0605DF26
 .L_0601B888:
-    .4byte  sym_06035228
+    .long  sym_06035228
 .L_0601B88C:
-    .4byte  sym_0605DF28
+    .long  sym_0605DF28
 .L_0601B890:
-    .4byte  sym_06035168
+    .long  sym_06035168
 .L_0601B894:
-    .4byte  sym_0605DF34
+    .long  sym_0605DF34
 .L_0601B898:
-    .4byte  sym_0605DF37
+    .long  sym_0605DF37
 .L_0601B89C:
-    .4byte  g_pad_state
+    .long  g_pad_state
 .L_0601B8A0:
-    .4byte  sym_0608600E
+    .long  sym_0608600E
 .L_0601B8A4:
-    .4byte  sym_0605D4F4
+    .long  sym_0605D4F4
 .L_0601B8A8:
     mov.w @(2, r6), r0
     mov.l   .L_0601B948, r3
@@ -181,25 +181,25 @@ DAT_0601b87e:
     bra     .L_0601B96E
     extu.b r14, r9
 .L_0601B946:
-    .2byte  0x0100
+    .short  0x0100
 .L_0601B948:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_0601B94C:
-    .4byte  sym_0605D4F4
+    .long  sym_0605D4F4
 .L_0601B950:
-    .4byte  0x00010000
+    .long  0x00010000
 .L_0601B954:
-    .4byte  0x001C0000
+    .long  0x001C0000
 .L_0601B958:
-    .4byte  0x002F0000
+    .long  0x002F0000
 .L_0601B95C:
-    .4byte  0xFFD40000
+    .long  0xFFD40000
 .L_0601B960:
-    .4byte  rigid_body_transform
+    .long  rigid_body_transform
 .L_0601B964:
-    .4byte  sym_0605D4F8
+    .long  sym_0605D4F8
 .L_0601B968:
-    .4byte  sym_0608600E
+    .long  sym_0608600E
 .L_0601B96C:
     extu.b r14, r9
 .L_0601B96E:
@@ -312,12 +312,12 @@ DAT_0601b87e:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_0601BA40:
-    .4byte  sym_06028400
+    .long  sym_06028400
 .L_0601BA44:
-    .4byte  sym_0605D4F5
+    .long  sym_0605D4F5
 .L_0601BA48:
-    .4byte  sym_0605D4F8
+    .long  sym_0605D4F8
 .L_0601BA4C:
-    .4byte  sym_0608600E
+    .long  sym_0608600E

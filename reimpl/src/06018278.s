@@ -8,7 +8,7 @@ track_calc_helper:
     mov.w @r7, r0
     extu.w r0, r0
     tst r0, r0
-    bf/s    .L_060182EC
+    bf.s    .L_060182EC
     extu.w r5, r5
     tst r5, r5
     bt      .L_060182EC
@@ -75,23 +75,23 @@ track_calc_helper:
 DAT_060182f2:
     mov.b r3, @(r0, r5)
 .L_wpool_060182F4:
-    .2byte  0x0460
-    .2byte  0xFFFF
-    .4byte  sym_0607EBC4
-    .4byte  0x00800000
+    .short  0x0460
+    .short  0xFFFF
+    .long  sym_0607EBC4
+    .long  0x00800000
 .L_06018300:
-    .4byte  sym_06063D9A
+    .long  sym_06063D9A
 .L_06018304:
-    .4byte  sym_0605BE1C
+    .long  sym_0605BE1C
 .L_06018308:
-    .4byte  sym_0605BE1E
+    .long  sym_0605BE1E
 .L_0601830C:
-    .4byte  sym_06048120
+    .long  sym_06048120
 .L_06018310:
-    .4byte  sym_06035280
+    .long  sym_06035280
 .L_06018314:
-    .4byte  sym_06063F64
+    .long  sym_06063F64
 .L_06018318:
-    .4byte  sym_06069BB6
+    .long  sym_06069BB6
 .L_0601831C:
-    .4byte  sym_06089E3C
+    .long  sym_06089E3C

@@ -40,9 +40,9 @@ course_data_access_c:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_pool_060364C8:
-    .4byte  input_proc_analog
-    .4byte  input_proc_buttons
+    .long  input_proc_analog
+    .long  input_proc_buttons
 .L_pool_060364D0:
-    .4byte  input_proc_digital
+    .long  input_proc_digital

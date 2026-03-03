@@ -79,6 +79,6 @@ race_pos_interp:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .byte 0x01, 0xF8
-    .4byte sym_0607EB88
-    .4byte sym_0607E940
-    .4byte sym_0607EA9C
+    .long sym_0607EB88
+    .long sym_0607E940
+    .long sym_0607EA9C

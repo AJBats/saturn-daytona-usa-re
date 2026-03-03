@@ -57,11 +57,11 @@ vdp2_util_loop:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .4byte  handler_dispatch
-    .4byte  sym_06018E1E
+    .long  handler_dispatch
+    .long  sym_06018E1E
 .L_pool_060171A0:
-    .4byte  sym_06084FC8
+    .long  sym_06084FC8
 .L_pool_060171A4:
-    .4byte  sym_0605BC14
+    .long  sym_0605BC14
 .L_pool_060171A8:
-    .4byte  sym_06035168
+    .long  sym_06035168

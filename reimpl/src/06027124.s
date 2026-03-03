@@ -24,7 +24,7 @@ mat_scale_b:
     sts macl, r2
     xtrct r1, r2
     mov.l r2, @(24, r7)
-    bf/s    .L_0602712A
+    bf.s    .L_0602712A
     add #0x4, r7
     rts
     nop

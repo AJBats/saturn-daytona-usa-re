@@ -29,10 +29,10 @@ sym_06035F16:
     and r2, r3
     rts
     mov.l r3, @(8, r5)
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_06035F38:
-    .4byte  sym_06063594
+    .long  sym_06063594
 .L_06035F3C:
-    .4byte  sym_06035168
+    .long  sym_06035168
 .L_06035F40:
-    .4byte  0x00FFFFFF
+    .long  0x00FFFFFF

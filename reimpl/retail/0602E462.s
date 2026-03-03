@@ -38,8 +38,8 @@ rot_scroll_interp:
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
-    .4byte cos_lookup
-    .4byte sin_lookup
+    .long cos_lookup
+    .long sin_lookup
     .byte 0x00, 0x00
     .byte 0x01, 0x8C
     .byte 0x00, 0x00

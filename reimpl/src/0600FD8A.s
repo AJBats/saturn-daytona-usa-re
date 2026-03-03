@@ -38,23 +38,23 @@ FUN_0600FD8A:
     .byte   0xD3, 0x07    /* mov.l .L_pool_0600FDEC, r3 */
     jmp @r3
     lds.l @r15+, pr
-    .2byte  0xFFFF
-    .4byte  0xAB1101FF
-    .4byte  sound_cmd_dispatch
+    .short  0xFFFF
+    .long  0xAB1101FF
+    .long  sound_cmd_dispatch
 .L_pool_0600FDDC:
-    .4byte  sym_0607887A
+    .long  sym_0607887A
 .L_pool_0600FDE0:
-    .4byte  sym_0607887F
+    .long  sym_0607887F
 .L_pool_0600FDE4:
-    .4byte  sym_06011EB4
+    .long  sym_06011EB4
 .L_pool_0600FDE8:
-    .4byte  sym_06085FF4
+    .long  sym_06085FF4
 .L_pool_0600FDEC:
-    .4byte  anim_ui_transition
+    .long  anim_ui_transition
 .L_pool_0600FDF0:
-    .4byte  sym_0602853E
+    .long  sym_0602853E
 .L_pool_0600FDF4:
-    .4byte  sym_0607EBCC
+    .long  sym_0607EBCC
 .L_0600FDF8:
     lds.l @r15+, pr
     rts

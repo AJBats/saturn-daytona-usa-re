@@ -30,19 +30,19 @@ vblank_cmd_dispatch:
     extu.w r0, r0
     bra     .L_060390E2
     mov.w r0, @r12
-    .2byte  0xFFFF
-    .4byte  sym_060635B8
-    .4byte  sym_060635BC
+    .short  0xFFFF
+    .long  sym_060635B8
+    .long  sym_060635BC
 .L_pool_06039090:
-    .4byte  0x25D00002
+    .long  0x25D00002
 .L_pool_06039094:
-    .4byte  sym_060A4C92
+    .long  sym_060A4C92
 .L_pool_06039098:
-    .4byte  sym_060A4C84
+    .long  sym_060A4C84
 .L_pool_0603909C:
-    .4byte  sym_060A4C94
+    .long  sym_060A4C94
 .L_pool_060390A0:
-    .4byte  0x25F80004
+    .long  0x25F80004
 .L_060390A4:
     mov.l @r14, r0
     tst r0, r0
@@ -85,12 +85,12 @@ vblank_cmd_dispatch:
     rts
     mov.l @r15+, r14
 .L_pool_060390EC:
-    .4byte  sym_060635CC
+    .long  sym_060635CC
 .L_pool_060390F0:
-    .4byte  sym_060394C2
+    .long  sym_060394C2
 .L_pool_060390F4:
-    .4byte  sym_060A4C90
+    .long  sym_060A4C90
 .L_pool_060390F8:
-    .4byte  0x25D00000
+    .long  0x25D00000
 .L_pool_060390FC:
-    .4byte  sym_060635C4
+    .long  sym_060635C4

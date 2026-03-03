@@ -64,25 +64,25 @@ hud_race_display:
     bra     .L_06010094
     nop
 .L_wpool_06010042:
-    .2byte  0x0090
+    .short  0x0090
 
     .global DAT_06010044
 DAT_06010044:
-    .2byte  0x06A2
+    .short  0x06A2
 
     .global DAT_06010046
 DAT_06010046:
-    .2byte  0x0B22
+    .short  0x0B22
 .L_pool_06010048:
-    .4byte  sym_060284AE
+    .long  sym_060284AE
 .L_pool_0601004C:
-    .4byte  sym_0607887F
+    .long  sym_0607887F
 .L_pool_06010050:
-    .4byte  sym_0605AA98
+    .long  sym_0605AA98
 .L_pool_06010054:
-    .4byte  sym_06078663
+    .long  sym_06078663
 .L_pool_06010058:
-    .4byte  sym_0605ACE4
+    .long  sym_0605ACE4
 .L_0601005C:
     mov.l @r4, r0
     cmp/eq #0xC, r0

@@ -9,14 +9,14 @@ results_sub_elem:
     .byte 0x00, 0x09
     .byte 0x07, 0xE0
     .byte 0x00, 0x00
-    .4byte sym_060338DC
-    .4byte sym_06033868
-    .4byte sym_060338E8
-    .4byte sym_06062D95
-    .4byte sym_060338F4
-    .4byte sym_060430CE
-    .4byte sym_060629AC
-    .4byte memcpy_word_idx
+    .long sym_060338DC
+    .long sym_06033868
+    .long sym_060338E8
+    .long sym_06062D95
+    .long sym_060338F4
+    .long sym_060430CE
+    .long sym_060629AC
+    .long memcpy_word_idx
     .byte 0x25, 0xE0
     .byte 0x37, 0x00
     .global sym_060333D8

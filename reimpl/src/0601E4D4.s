@@ -38,13 +38,13 @@ hud_state_machine:
     bra     .L_0601E5C4
     mov r8, r12
 
-    .4byte  sym_06087084
-    .4byte  sym_06000354
-    .4byte  sym_06087094
-    .4byte  sym_060877D8
-    .4byte  sym_0604A5C0
+    .long  sym_06087084
+    .long  sym_06000354
+    .long  sym_06087094
+    .long  sym_060877D8
+    .long  sym_0604A5C0
 .L_0601E52C:
-    .4byte  0x2010001F
+    .long  0x2010001F
 
 .L_0601E530:
     mov r12, r11
@@ -164,7 +164,7 @@ hud_state_machine:
     mov.l @r15, r4
     add #0x7, r6
     cmp/hs r6, r4
-    bt/s    .L_0601E620
+    bt.s    .L_0601E620
     mov #0x3, r5
 
 .L_0601E5F4:
@@ -176,22 +176,22 @@ hud_state_machine:
     extu.b r5, r0
 
 .L_pool_0601E600:
-    .4byte  sym_06087094
+    .long  sym_06087094
 .L_pool_0601E604:
-    .4byte  sym_06000354
+    .long  sym_06000354
 .L_pool_0601E608:
-    .4byte  sym_0605E098
+    .long  sym_0605E098
 .L_pool_0601E60C:
-    .4byte  sym_060877D8
+    .long  sym_060877D8
 .L_pool_0601E610:
-    .4byte  sym_0604A57C
+    .long  sym_0604A57C
 .L_pool_0601E614:
-    .4byte  sym_06087084
+    .long  sym_06087084
 
 .L_0601E618:
     add #0x1, r4
     cmp/hs r6, r4
-    bf/s    .L_0601E5F4
+    bf.s    .L_0601E5F4
     add #0x1, r5
 
 .L_0601E620:

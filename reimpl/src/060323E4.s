@@ -17,9 +17,9 @@ loc_060323F0:
     add r14, r0
     .byte   0xAF, 0x86    /* bra 0x0603230A (external) */
     mov.b r1, @(r0, r2)
-    .2byte  0x0000
+    .short  0x0000
 .L_pool_06032400:
-    .4byte  0x000002DE
+    .long  0x000002DE
 
     .global loc_06032404
 loc_06032404:
@@ -28,9 +28,9 @@ loc_06032404:
     or r7, r1
     .byte   0xAF, 0x7E    /* bra 0x0603230A (external) */
     mov.w r1, @(r0, r14)
-    .2byte  0x0000
+    .short  0x0000
 .L_pool_06032410:
-    .4byte  0x0000000E
+    .long  0x0000000E
 
     .global loc_06032414
 loc_06032414:
@@ -41,7 +41,7 @@ loc_06032414:
     .byte   0xAF, 0x75    /* bra 0x0603230A (external) */
     mov.w r1, @(r0, r14)
 .L_pool_06032420:
-    .4byte  0x0000000E
+    .long  0x0000000E
 
     .global loc_06032424
 loc_06032424:

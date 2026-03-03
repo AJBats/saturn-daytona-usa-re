@@ -27,7 +27,7 @@ replay_cam_main_loop:
     mov.w   .L_0601ACE4, r0
     mov.l @(r0, r4), r2
     cmp/hs r2, r3
-    bt/s    .L_0601AD66
+    bt.s    .L_0601AD66
     mov #0x13, r14
     mov.l   .L_0601AD00, r0
     mov.l @r0, r0
@@ -49,21 +49,21 @@ replay_cam_main_loop:
     bra     .L_0601AD30
     nop
 .L_0601ACE4:
-    .2byte  0x00E8
-    .2byte  0xFFFF
+    .short  0x00E8
+    .short  0xFFFF
 .L_0601ACE8:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8
 .L_0601ACEC:
-    .4byte  sym_0605AD00
+    .long  sym_0605AD00
 .L_0601ACF0:
-    .4byte  sym_0605DD6C
+    .long  sym_0605DD6C
 .L_0601ACF4:
-    .4byte  sym_060786A4
-    .4byte  sym_06085FF8
+    .long  sym_060786A4
+    .long  sym_06085FF8
 .L_0601ACFC:
-    .4byte  sym_0605DE24
+    .long  sym_0605DE24
 .L_0601AD00:
-    .4byte  sym_0607EBF4
+    .long  sym_0607EBF4
 .L_0601AD04:
     extu.b r14, r1
     extu.b r14, r2
@@ -143,50 +143,50 @@ replay_cam_main_loop:
     rts
     mov.l @r15+, r14
 .L_0601AD94:
-    .4byte  sym_06035168
+    .long  sym_06035168
 .L_0601AD98:
-    .4byte  sym_0605DE3C
+    .long  sym_0605DE3C
 .L_0601AD9C:
-    .4byte  sym_0607EAE0
+    .long  sym_0607EAE0
 .L_0601ADA0:
-    .4byte  sym_06085FFC
+    .long  sym_06085FFC
 .L_0601ADA4:
-    .4byte  sym_06086012
+    .long  sym_06086012
 .L_0601ADA8:
-    .4byte  sym_06086000
+    .long  sym_06086000
 .L_0601ADAC:
-    .4byte  sym_06078638
-    .4byte  0xD523D624
-    .4byte  0xD2246452
-    .4byte  0x63624400
-    .4byte  0x6033343C
-    .4byte  0x4408342C
-    .4byte  0x20088D2F
-    .4byte  0x6442D620
-    .4byte  0x52416362
-    .4byte  0x33238906
-    .4byte  0x62624215
-    .4byte  0x8B03D21D
-    .4byte  0x902F032E
-    .4byte  0x1431D71C
-    .4byte  0xD61CD41D
-    .4byte  0x60526262
-    .4byte  0x600E4208
-    .4byte  0x63034008
-    .4byte  0x43084300
-    .4byte  0x303C600E
-    .4byte  0x304C032E
-    .4byte  0x62723232
-    .4byte  0x8910D016
-    .4byte  0x60022008
-    .4byte  0x890C6052
-    .4byte  0x600E6303
-    .4byte  0x40084308
-    .4byte  0x4300303C
-    .4byte  0x600E304C
-    .4byte  0x62624208
-    .4byte  0x63720236
-    .4byte  0x000B0009
+    .long  sym_06078638
+    .long  0xD523D624
+    .long  0xD2246452
+    .long  0x63624400
+    .long  0x6033343C
+    .long  0x4408342C
+    .long  0x20088D2F
+    .long  0x6442D620
+    .long  0x52416362
+    .long  0x33238906
+    .long  0x62624215
+    .long  0x8B03D21D
+    .long  0x902F032E
+    .long  0x1431D71C
+    .long  0xD61CD41D
+    .long  0x60526262
+    .long  0x600E4208
+    .long  0x63034008
+    .long  0x43084300
+    .long  0x303C600E
+    .long  0x304C032E
+    .long  0x62723232
+    .long  0x8910D016
+    .long  0x60022008
+    .long  0x890C6052
+    .long  0x600E6303
+    .long  0x40084308
+    .long  0x4300303C
+    .long  0x600E304C
+    .long  0x62624208
+    .long  0x63720236
+    .long  0x000B0009
 .L_0601AE2C:
     mov.l   .L_0601AE64, r0
     mov.b @r0, r0
@@ -200,20 +200,20 @@ replay_cam_main_loop:
 
     .global DAT_0601ae3e
 DAT_0601ae3e:
-    .2byte  0x0240
-    .4byte  sym_0607EAD8
-    .4byte  sym_0607EAE0
-    .4byte  sym_0605DE24
-    .4byte  sym_06078638
-    .4byte  sym_06078900
-    .4byte  sym_060786A4
-    .4byte  sym_0605AD00
-    .4byte  sym_0605DE40
-    .4byte  sym_0607EBF4
+    .short  0x0240
+    .long  sym_0607EAD8
+    .long  sym_0607EAE0
+    .long  sym_0605DE24
+    .long  sym_06078638
+    .long  sym_06078900
+    .long  sym_060786A4
+    .long  sym_0605AD00
+    .long  sym_0605DE40
+    .long  sym_0607EBF4
 .L_0601AE64:
-    .4byte  sym_06083255
+    .long  sym_06083255
 .L_0601AE68:
-    .4byte  sym_0607EAB8
+    .long  sym_0607EAB8
 .L_0601AE6C:
     .byte   0xD4, 0x17    /* mov.l .L_pool_0601AECC, r4 */
     mov.l @r4, r4
@@ -221,7 +221,7 @@ DAT_0601ae3e:
     .byte   0xD0, 0x17    /* mov.l .L_pool_0601AED0, r0 */
     mov.b @r0, r0
     tst r0, r0
-    bt/s    .L_0601AE7C
+    bt.s    .L_0601AE7C
     extu.b r4, r4
     add #0xC, r4
 .L_0601AE7C:

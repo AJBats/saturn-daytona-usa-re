@@ -73,16 +73,16 @@ DAT_0601d444:
     .global DAT_0601d446
 DAT_0601d446:
     .byte 0x5D, 0x50
-    .4byte sym_0605AB16
-    .4byte sym_06086024
-    .4byte sym_06063D9A
-    .4byte g_pad_state
+    .long sym_0605AB16
+    .long sym_06086024
+    .long sym_06063D9A
+    .long g_pad_state
     .byte 0x00, 0x00
     .byte 0xAA, 0xA8
-    .4byte sym_0605AB17
-    .4byte display_channel_b
-    .4byte sym_06094FA8
-    .4byte sym_06028400
-    .4byte sym_0607EBCC
-    .4byte sym_0607887F
-    .4byte sym_0605DF80
+    .long sym_0605AB17
+    .long display_channel_b
+    .long sym_06094FA8
+    .long sym_06028400
+    .long sym_0607EBCC
+    .long sym_0607887F
+    .long sym_0605DF80

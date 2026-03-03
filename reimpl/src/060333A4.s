@@ -7,16 +7,16 @@ results_sub_elem:
     lds.l @r15+, pr
     rts
     nop
-    .4byte  0x07E00000
-    .4byte  sym_060338DC
-    .4byte  sym_06033868
-    .4byte  sym_060338E8
-    .4byte  sym_06062D95
-    .4byte  sym_060338F4
-    .4byte  sym_060430CE
-    .4byte  sym_060629AC
-    .4byte  memcpy_word_idx
-    .4byte  0x25E03700
+    .long  0x07E00000
+    .long  sym_060338DC
+    .long  sym_06033868
+    .long  sym_060338E8
+    .long  sym_06062D95
+    .long  sym_060338F4
+    .long  sym_060430CE
+    .long  sym_060629AC
+    .long  memcpy_word_idx
+    .long  0x25E03700
 
     .global sym_060333D8
 sym_060333D8:

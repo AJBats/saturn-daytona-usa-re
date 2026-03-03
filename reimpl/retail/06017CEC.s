@@ -103,15 +103,15 @@ DAT_06017d9a:
     .byte 0xFF, 0xFF
     .byte 0x00, 0x08
     .byte 0x87, 0x34
-    .4byte sym_0605BE10
-    .4byte sym_060684EC
-    .4byte sym_06063F64
-    .4byte sym_0607E944
-    .4byte sym_06089E28
-    .4byte sym_0605BE2C
-    .4byte sym_0605BE2E
-    .4byte sym_06063F28
-    .4byte sym_06089E2C
+    .long sym_0605BE10
+    .long sym_060684EC
+    .long sym_06063F64
+    .long sym_0607E944
+    .long sym_06089E28
+    .long sym_0605BE2C
+    .long sym_0605BE2E
+    .long sym_06063F28
+    .long sym_06089E2C
     .byte 0x90, 0x6D
     .byte 0x36, 0xDC
     .byte 0x02, 0xDD
@@ -232,11 +232,11 @@ DAT_06017ea8:
     .global DAT_06017eaa
 DAT_06017eaa:
     .byte 0x17, 0x08
-    .4byte sym_06089E30
-    .4byte sym_0605BE2C
-    .4byte sym_0605BE2E
-    .4byte sym_06089E34
-    .4byte sym_06089E38
+    .long sym_06089E30
+    .long sym_0605BE2C
+    .long sym_0605BE2E
+    .long sym_06089E34
+    .long sym_06089E38
     .byte 0x90, 0x8C
     .byte 0x36, 0xDC
     .byte 0x37, 0xDC
@@ -395,10 +395,10 @@ DAT_06017fe4:
     .global DAT_06017fe6
 DAT_06017fe6:
     .byte 0x00, 0xC1
-    .4byte sym_06089E40
-    .4byte sym_0605BE2E
-    .4byte sym_0605BE36
-    .4byte sym_0605BE38
+    .long sym_06089E40
+    .long sym_0605BE2E
+    .long sym_0605BE36
+    .long sym_0605BE38
     .byte 0xE2, 0x00
     .byte 0x25, 0x21
     .byte 0x93, 0x7E
@@ -543,21 +543,21 @@ DAT_06018102:
 DAT_06018104:
     .byte 0x15, 0x55
     .byte 0xFF, 0xFF
-    .4byte sym_06089E98
-    .4byte sym_06026DBC
-    .4byte sym_06048078
-    .4byte sym_06026E2E
+    .long sym_06089E98
+    .long sym_06026DBC
+    .long sym_06048078
+    .long sym_06026E2E
     .byte 0x00, 0x00
     .byte 0xC0, 0x00
-    .4byte mat_rot_y
-    .4byte mat_rot_z
+    .long mat_rot_y
+    .long mat_rot_z
     .byte 0x00, 0x20
     .byte 0x00, 0x00
-    .4byte sym_06031D8C
+    .long sym_06031D8C
     .byte 0x00, 0x08
     .byte 0x87, 0xC4
-    .4byte sym_06031A28
-    .4byte sym_06026DF8
+    .long sym_06031A28
+    .long sym_06026DF8
     .byte 0xD3, 0x38
     .byte 0x43, 0x0B
     .byte 0x00, 0x09

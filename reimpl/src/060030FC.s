@@ -49,22 +49,22 @@ system_init:
     mov.l   .L_06003168, r4
     bra     .L_06003170
     mov.l @r4, r4
-    .2byte  0xFFFF
+    .short  0xFFFF
 
 .L_06003150:
-    .4byte  sym_06059C58
+    .long  sym_06059C58
 .L_06003154:
-    .4byte  sym_06059C50
+    .long  sym_06059C50
 .L_06003158:
-    .4byte  0x20100063
+    .long  0x20100063
 .L_0600315C:
-    .4byte  sym_06000320
+    .long  sym_06000320
 .L_06003160:
-    .4byte  0x2010001F
+    .long  0x2010001F
 .L_06003164:
-    .4byte  sym_06059C4C
+    .long  sym_06059C4C
 .L_06003168:
-    .4byte  sym_06059C54
+    .long  sym_06059C54
 .L_0600316C:
     mov.l r12, @r4
     add #0x4, r4
@@ -129,35 +129,35 @@ system_init:
     mov.l @r15+, r14
 
 .L_060031E2:
-    .2byte  0x0083
+    .short  0x0083
 .L_060031E4:
-    .2byte  0xFF7C
-    .2byte  0xFFFF
+    .short  0xFF7C
+    .short  0xFFFF
 
 .L_060031E8:
-    .4byte  sym_0603BF7C
+    .long  sym_0603BF7C
 .L_060031EC:
-    .4byte  sym_06034E58
+    .long  sym_06034E58
 .L_060031F0:
-    .4byte  sym_06000344
+    .long  sym_06000344
 .L_060031F4:
-    .4byte  cd_progress_notify
+    .long  cd_progress_notify
 .L_060031F8:
-    .4byte  engine_init_global
+    .long  engine_init_global
 .L_060031FC:
-    .4byte  sound_scsp_boot
+    .long  sound_scsp_boot
 .L_06003200:
-    .4byte  race_sound_handler
+    .long  race_sound_handler
 .L_06003204:
-    .4byte  sym_06005174
+    .long  sym_06005174
 .L_06003208:
-    .4byte  sym_0601F936
+    .long  sym_0601F936
 .L_0600320C:
-    .4byte  channel_config_a
+    .long  channel_config_a
 .L_06003210:
-    .4byte  sym_060149E0
+    .long  sym_060149E0
 .L_06003214:
-    .4byte  g_game_state
+    .long  g_game_state
 
     .global sound_timer_init
 sound_timer_init:
@@ -245,27 +245,27 @@ vdp_init_dispatch:
     mov.l @r15+, r14
 
 .L_060032B2:
-    .2byte  0xFE10
+    .short  0xFE10
 .L_060032B4:
-    .2byte  0xFE11
+    .short  0xFE11
 .L_060032B6:
-    .2byte  0xFE16
+    .short  0xFE16
 .L_060032B8:
-    .2byte  0xFE14
+    .short  0xFE14
 .L_060032BA:
-    .2byte  0x0104
+    .short  0x0104
 .L_060032BC:
-    .2byte  0x0106
+    .short  0x0106
 .L_060032BE:
-    .2byte  0x0109
+    .short  0x0109
 
 .L_060032C0:
-    .4byte  sym_06000310
+    .long  sym_06000310
 .L_060032C4:
-    .4byte  sym_060072E4
+    .long  sym_060072E4
 .L_060032C8:
-    .4byte  sym_06028218
+    .long  sym_06028218
 .L_060032CC:
-    .4byte  sym_06028230
+    .long  sym_06028230
 .L_060032D0:
-    .4byte  sym_06028248
+    .long  sym_06028248

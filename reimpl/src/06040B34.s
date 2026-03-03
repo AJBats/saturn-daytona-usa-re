@@ -11,12 +11,12 @@ event_timer_sched:
     mov.b @(r0, r3), r2
     extu.b r2, r2
     tst r2, r2
-    bt/s    .L_06040B54
+    bt.s    .L_06040B54
     mov r4, r13
     .byte   0xA0, 0x51    /* bra 0x06040BF2 (external: event_callback_dispatch epilogue) */
     mov #0x0, r0
 .L_pool_06040B50:
-    .4byte  sym_0606367C
+    .long  sym_0606367C
 .L_06040B54:
     mov r15, r3
     add #0x4, r3
@@ -29,7 +29,7 @@ event_timer_sched:
     jsr @r3
     mov.l @(4, r13), r4
     tst r0, r0
-    bt/s    .L_06040B72
+    bt.s    .L_06040B72
     add #0x4, r15
     .byte   0xA0, 0x40    /* bra 0x06040BF2 (external: event_callback_dispatch epilogue) */
     mov #0x0, r0

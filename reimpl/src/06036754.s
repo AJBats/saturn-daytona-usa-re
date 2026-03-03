@@ -40,7 +40,7 @@ collision_normal_calc:
     rts
     mov.l @r15+, r14
 .L_pool_060367A0:
-    .4byte  input_proc_analog
-    .4byte  input_proc_buttons
+    .long  input_proc_analog
+    .long  input_proc_buttons
 .L_060367A8:
-    .4byte  0x00FFFFFF
+    .long  0x00FFFFFF

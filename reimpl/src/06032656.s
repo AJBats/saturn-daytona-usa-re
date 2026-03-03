@@ -9,16 +9,16 @@ position_suffix_render:
     mov.l @r13, r13
     rts
     nop
-    .2byte  0x0000
-    .4byte  0x000002D4
-    .4byte  0x0000000D
-    .4byte  sym_06026DBC
+    .short  0x0000
+    .long  0x000002D4
+    .long  0x0000000D
+    .long  sym_06026DBC
 .L_pool_06032675:
-    .4byte  sym_06089EDC
-    .4byte  sym_06026F72
-    .4byte  0x000002DE
-    .4byte  camera_push_save
-    .4byte  0x00000030
-    .4byte  sym_06026DF8
-    .4byte  0xDD476DD2
-    .4byte  0xDC47D048
+    .long  sym_06089EDC
+    .long  sym_06026F72
+    .long  0x000002DE
+    .long  camera_push_save
+    .long  0x00000030
+    .long  sym_06026DF8
+    .long  0xDD476DD2
+    .long  0xDC47D048

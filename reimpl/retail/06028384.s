@@ -21,7 +21,7 @@ screen_flash_effect:
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
     .byte 0x00, 0x00
-    .4byte sym_06028614
+    .long sym_06028614
     .byte 0xA0, 0x03
     .byte 0xE3, 0x02
     .byte 0xA0, 0x01
@@ -44,7 +44,7 @@ screen_flash_effect:
     .byte 0x73, 0xFE
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
-    .4byte sym_06028614
+    .long sym_06028614
     .global sym_060283E0
 sym_060283E0:
     .byte 0xD0, 0x05
@@ -59,7 +59,7 @@ sym_060283E0:
     .byte 0xAF, 0xF9
     .byte 0x72, 0x02
     .byte 0x00, 0x00
-    .4byte sym_06028614
+    .long sym_06028614
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
     .global sym_06028400
@@ -86,7 +86,7 @@ sym_06028400:
     .byte 0x36, 0x4C
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
-    .4byte sym_06028614
+    .long sym_06028614
     .global sym_06028430
 sym_06028430:
     .byte 0x2F, 0x86

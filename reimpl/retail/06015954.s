@@ -115,7 +115,7 @@ position_change_anim:
     .byte 0x80, 0x00
     .byte 0x00, 0x01
     .byte 0x00, 0x00
-    .4byte sym_06084FC8
+    .long sym_06084FC8
     .byte 0x62, 0xEC
     .byte 0x63, 0x23
     .byte 0x42, 0x08
@@ -164,5 +164,5 @@ position_change_anim:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .4byte track_vtx_builder
-    .4byte sym_060172E4
+    .long track_vtx_builder
+    .long sym_060172E4

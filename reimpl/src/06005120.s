@@ -17,7 +17,7 @@ hw_render_dispatch:
     mov #0x8, r2
     and r2, r7
     tst r7, r7
-    bt/s    .L_0600514C
+    bt.s    .L_0600514C
     add r5, r14
     mov r14, r5
     mov.l @r15, r4
@@ -33,17 +33,17 @@ hw_render_dispatch:
     mov.l   .L_06005170, r3
     jmp @r3
     mov.l @r15+, r14
-    .2byte  0xFFFF
-    .4byte  sym_06063750
-    .4byte  sym_06059F10
+    .short  0xFFFF
+    .long  sym_06063750
+    .long  sym_06059F10
 .L_06005164:
-    .4byte  0x25E00000
+    .long  0x25E00000
 .L_06005168:
-    .4byte  0x25E20000
+    .long  0x25E20000
 .L_0600516C:
-    .4byte  dma_memory_transfer
+    .long  dma_memory_transfer
 .L_06005170:
-    .4byte  memcpy_long_idx
+    .long  memcpy_long_idx
 
     .global sym_06005174
 sym_06005174:

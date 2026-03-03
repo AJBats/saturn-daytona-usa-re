@@ -49,13 +49,13 @@ tilemap_dma_update:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .4byte sym_060635B0
-    .4byte sym_060A3DF8
+    .long sym_060635B0
+    .long sym_060A3DF8
     .byte 0x00, 0x07
     .byte 0xFF, 0xFF
     .byte 0x25, 0xE0
     .byte 0x00, 0x00
-    .4byte sym_06038A48
+    .long sym_06038A48
     .byte 0x80, 0x00
     .byte 0x00, 0x00
-    .4byte sym_060635AC
+    .long sym_060635AC

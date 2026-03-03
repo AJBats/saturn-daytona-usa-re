@@ -21,7 +21,7 @@ track_boundary_check:
     mov.l @r2, r3
     add #0x1, r3
     tst r4, r4
-    bf/s    .L_06041AD4
+    bf.s    .L_06041AD4
     mov.l r3, @r2
     mov.l @r14, r3
     mov #0x2, r2
@@ -59,18 +59,18 @@ track_boundary_check:
 
     .global DAT_06041b0a
 DAT_06041b0a:
-    .2byte  0x0304
+    .short  0x0304
 .L_wpool_06041B0C:
-    .2byte  0x0308
-    .2byte  0xFFFF
+    .short  0x0308
+    .short  0xFFFF
 .L_pool_06041B10:
-    .4byte  sym_060A5400
+    .long  sym_060A5400
 .L_pool_06041B14:
-    .4byte  track_seg_boundary
+    .long  track_seg_boundary
 .L_pool_06041B18:
-    .4byte  ai_checkpoint_validate
+    .long  ai_checkpoint_validate
 .L_pool_06041B1C:
-    .4byte  sym_06035C4E
+    .long  sym_06035C4E
 .L_06041B20:
     mov #0x0, r4
 .L_06041B22:

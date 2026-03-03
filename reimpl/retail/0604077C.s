@@ -97,11 +97,11 @@ obj_setup_decomp:
     .byte 0x7F, 0x04
     .byte 0xA0, 0x1B
     .byte 0xE0, 0x00
-    .4byte sym_06035228
-    .4byte sym_06040EEC
-    .4byte sym_06040E88
-    .4byte evt_reg_save
-    .4byte buffer_slot_alloc
+    .long sym_06035228
+    .long sym_06040EEC
+    .long sym_06040E88
+    .long evt_reg_save
+    .long buffer_slot_alloc
     .byte 0x96, 0x24
     .byte 0x55, 0xF1
     .byte 0xD3, 0x12

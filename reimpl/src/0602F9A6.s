@@ -11,7 +11,7 @@ track_render_pipeline:
     bt      .L_0602F9C4
     add #-0x1, r0
     cmp/eq #0x2, r0
-    bf/s    .L_0602F9C4
+    bf.s    .L_0602F9C4
     mov.b r0, @r13
     .byte   0xD5, 0x15    /* mov.l .L_0602FA14, r5 */
     jsr @r12
@@ -22,7 +22,7 @@ track_render_pipeline:
     bt      .L_0602F9D8
     add #-0x1, r0
     cmp/eq #0x2, r0
-    bf/s    .L_0602F9D8
+    bf.s    .L_0602F9D8
     mov.b r0, @(1, r13)
     .byte   0xD5, 0x11    /* mov.l .L_0602FA18, r5 */
     jsr @r12
@@ -33,7 +33,7 @@ track_render_pipeline:
     bt      .L_0602F9EC
     add #-0x1, r0
     cmp/eq #0x2, r0
-    bf/s    .L_0602F9EC
+    bf.s    .L_0602F9EC
     mov.b r0, @(2, r13)
     .byte   0xD5, 0x0C    /* mov.l .L_0602FA18, r5 */
     jsr @r12
@@ -46,28 +46,28 @@ track_render_pipeline:
     add #-0x1, r0
     cmp/eq #0x4, r0
     .byte   0xD5, 0x09    /* mov.l .L_0602FA20, r5 */
-    bt/s    .L_0602FA3E
+    bt.s    .L_0602FA3E
     mov.b r0, @r13
     cmp/eq #0x0, r0
     .byte   0xD5, 0x08    /* mov.l .L_0602FA24, r5 */
     bt      .L_0602FA3E
     bra     .L_0602FA42
     nop
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_0602FA0C:
-    .4byte  sound_cmd_dispatch
+    .long  sound_cmd_dispatch
 .L_0602FA10:
-    .4byte  sym_0602FD98
+    .long  sym_0602FD98
 .L_0602FA14:
-    .4byte  0xAE1103FF
+    .long  0xAE1103FF
 .L_0602FA18:
-    .4byte  0xAE1104FF
+    .long  0xAE1104FF
 .L_0602FA1C:
-    .4byte  sym_0602FD9B
+    .long  sym_0602FD9B
 .L_0602FA20:
-    .4byte  0xAE1110FF
+    .long  0xAE1110FF
 .L_0602FA24:
-    .4byte  0xAE1111FF
+    .long  0xAE1111FF
 .L_0602FA28:
     mov.b @(1, r13), r0
     tst r0, r0
@@ -75,7 +75,7 @@ track_render_pipeline:
     add #-0x1, r0
     cmp/eq #0x4, r0
     .byte   0xD5, 0x0C    /* mov.l .L_0602FA64, r5 */
-    bt/s    .L_0602FA3E
+    bt.s    .L_0602FA3E
     mov.b r0, @(1, r13)
     cmp/eq #0x0, r0
     .byte   0xD5, 0x0B    /* mov.l .L_0602FA68, r5 */
@@ -100,16 +100,16 @@ track_render_pipeline:
     bra     .L_0602FAA2
     add #-0x1, r0
 .L_0602FA60:
-    .2byte  0x01EC
-    .2byte  0x0000
+    .short  0x01EC
+    .short  0x0000
 .L_0602FA64:
-    .4byte  0xAE1112FF
+    .long  0xAE1112FF
 .L_0602FA68:
-    .4byte  0xAE1113FF
+    .long  0xAE1113FF
 .L_0602FA6C:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8
 .L_0602FA70:
-    .4byte  sym_0602FD9D
+    .long  sym_0602FD9D
 .L_0602FA74:
     tst r4, r4
     bt      .L_0602FA8C
@@ -122,7 +122,7 @@ track_render_pipeline:
     bra     .L_0602FAA2
     mov #0x1, r1
 .L_0602FA88:
-    .4byte  0xAE1119FF
+    .long  0xAE1119FF
 .L_0602FA8C:
     tst r1, r1
     bt      .L_0602FAA2
@@ -148,13 +148,13 @@ track_render_pipeline:
     bra     .L_0602FD24
     mov.w r1, @r13
 .L_0602FAB4:
-    .4byte  sym_0605D241
+    .long  sym_0605D241
 .L_0602FAB8:
-    .4byte  0xAE111AFF
+    .long  0xAE111AFF
 .L_0602FABC:
-    .4byte  0xAE113EFF
+    .long  0xAE113EFF
 .L_0602FAC0:
-    .4byte  sym_06086054
+    .long  sym_06086054
 .L_0602FAC4:
     mov.l @(0, r14), r0
     mov #0x8, r1
@@ -198,20 +198,20 @@ track_render_pipeline:
     bra     .L_0602FAE6
     add r3, r4
 .L_0602FB10:
-    .2byte  0x0268
-    .2byte  0x0000
+    .short  0x0268
+    .short  0x0000
 .L_0602FB14:
-    .4byte  sym_0607EAE0
+    .long  sym_0607EAE0
 .L_0602FB18:
-    .4byte  sym_0607EA98
+    .long  sym_0607EA98
 .L_0602FB1C:
-    .4byte  sym_0607E948
+    .long  sym_0607E948
 .L_0602FB20:
-    .4byte  0x01800000
+    .long  0x01800000
 .L_0602FB24:
-    .4byte  0x01400000
+    .long  0x01400000
 .L_0602FB28:
-    .4byte  0x02C00000
+    .long  0x02C00000
 .L_0602FB2C:
     add #0x1, r0
     cmp/eq #0x2, r0
@@ -222,7 +222,7 @@ track_render_pipeline:
     bra     .L_0602FAE6
     add r3, r4
 .L_0602FB3C:
-    .2byte  0x0268
+    .short  0x0268
 .L_0602FB3E:
     .byte   0xD3, 0x03    /* mov.l .L_0602FB4C, r3 */
     mov.b @r3, r5
@@ -232,7 +232,7 @@ track_render_pipeline:
     bra     .L_0602FBB4
     mov.b r5, @r3
 .L_0602FB4C:
-    .4byte  sym_0602FDA1
+    .long  sym_0602FDA1
 .L_0602FB50:
     mov.l @(12, r4), r5
     mov.l @(12, r14), r0
@@ -247,7 +247,7 @@ track_render_pipeline:
     bra     .L_0602FD24
     mov.w r4, @r13
 .L_0602FB68:
-    .4byte  0xAE1135FF
+    .long  0xAE1135FF
 .L_0602FB6C:
     cmp/pl r6
     bf      .L_0602FBB4
@@ -258,9 +258,9 @@ track_render_pipeline:
     add #-0x1, r5
     bra     .L_0602FBB4
     mov.b r5, @r3
-    .2byte  0x0000
+    .short  0x0000
 .L_0602FB80:
-    .4byte  sym_0602FDA0
+    .long  sym_0602FDA0
 .L_0602FB84:
     mov.l @(12, r4), r0
     mov.l @(12, r14), r5
@@ -284,12 +284,12 @@ track_render_pipeline:
 
     .global DAT_0602fba8
 DAT_0602fba8:
-    .2byte  0x8E38
-    .2byte  0x0000
+    .short  0x8E38
+    .short  0x0000
 .L_0602FBAC:
-    .4byte  0xAE113AFF
+    .long  0xAE113AFF
 .L_0602FBB0:
-    .4byte  0xAE1130FF
+    .long  0xAE1130FF
 .L_0602FBB4:
     mov.w   DAT_0602fbca, r0
     mov #0x1, r3
@@ -305,9 +305,9 @@ DAT_0602fba8:
 
     .global DAT_0602fbca
 DAT_0602fbca:
-    .2byte  0x01BC
+    .short  0x01BC
 .L_0602FBCC:
-    .4byte  0xAE1132FF
+    .long  0xAE1132FF
 .L_0602FBD0:
     .byte   0xD3, 0x05    /* mov.l .L_0602FBE8, r3 */
     mov.b @r3+, r0
@@ -322,9 +322,9 @@ DAT_0602fbca:
     bra     .L_0602FD24
     mov.w r4, @r13
 .L_0602FBE8:
-    .4byte  sym_0602FD9B
+    .long  sym_0602FD9B
 .L_0602FBEC:
-    .4byte  0xAE1137FF
+    .long  0xAE1137FF
 .L_0602FBF0:
     .byte   0xD1, 0x09    /* mov.l .L_0602FC18, r1 */
     .byte   0xD4, 0x0A    /* mov.l .L_0602FC1C, r4 */
@@ -346,14 +346,14 @@ DAT_0602fbca:
     bra     .L_0602FC06
     add #0x2, r6
 .L_0602FC14:
-    .2byte  0x01EC
-    .2byte  0x0000
+    .short  0x01EC
+    .short  0x0000
 .L_0602FC18:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8
 .L_0602FC1C:
-    .4byte  sym_0602FD54
+    .long  sym_0602FD54
 .L_0602FC20:
-    .4byte  sym_0602FD60
+    .long  sym_0602FD60
 .L_0602FC24:
     mov.w @r6, r0
     cmp/eq #0x2, r0
@@ -395,25 +395,25 @@ DAT_0602fbca:
 
     .global DAT_0602fc6e
 DAT_0602fc6e:
-    .2byte  0x0250
+    .short  0x0250
 
     .global DAT_0602fc70
 DAT_0602fc70:
-    .2byte  0x0150
+    .short  0x0150
 
     .global DAT_0602fc72
 DAT_0602fc72:
-    .2byte  0x01BC
+    .short  0x01BC
 
     .global DAT_0602fc74
 DAT_0602fc74:
-    .2byte  0x00B8
+    .short  0x00B8
 
     .global DAT_0602fc76
 DAT_0602fc76:
-    .2byte  0x0228
+    .short  0x0228
 .L_0602FC78:
-    .4byte  sym_0602FD30
+    .long  sym_0602FD30
 .L_0602FC7C:
     mov.w   DAT_0602fc9c, r2
     mov.l @(8, r14), r3
@@ -434,13 +434,13 @@ DAT_0602fc76:
 
     .global DAT_0602fc9c
 DAT_0602fc9c:
-    .2byte  0x00C8
+    .short  0x00C8
 
     .global DAT_0602fc9e
 DAT_0602fc9e:
-    .2byte  0x005C
+    .short  0x005C
 .L_0602FCA0:
-    .4byte  0xAE1136FF
+    .long  0xAE1136FF
 .L_0602FCA4:
     mov.w   .L_0602FCB8, r2
     mov.l @(8, r14), r3
@@ -453,10 +453,10 @@ DAT_0602fc9e:
     bra     .L_0602FD24
     mov.w r4, @r13
 .L_0602FCB8:
-    .2byte  0x00F0
-    .2byte  0x0000
+    .short  0x00F0
+    .short  0x0000
 .L_0602FCBC:
-    .4byte  0xAE112CFF
+    .long  0xAE112CFF
 .L_0602FCC0:
     mov.w   .L_0602FCDC, r0
     mov.l @(r0, r14), r0
@@ -473,12 +473,12 @@ DAT_0602fc9e:
     bra     .L_0602FD24
     mov.w r4, @r13
 .L_0602FCDC:
-    .2byte  0x00B8
-    .2byte  0x0000
+    .short  0x00B8
+    .short  0x0000
 .L_0602FCE0:
-    .4byte  0x00028000
+    .long  0x00028000
 .L_0602FCE4:
-    .4byte  0xAE1131FF
+    .long  0xAE1131FF
 .L_0602FCE8:
     .byte   0xD5, 0x0C    /* mov.l .L_0602FD1C, r5 */
     mov.w   DAT_0602fd1a, r4
@@ -509,11 +509,11 @@ DAT_0602fc9e:
 
     .global DAT_0602fd1a
 DAT_0602fd1a:
-    .2byte  0x01EC
+    .short  0x01EC
 .L_0602FD1C:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8
 .L_0602FD20:
-    .4byte  0xAE112EFF
+    .long  0xAE112EFF
 .L_0602FD24:
     lds.l @r15+, pr
     mov.l @r15+, r11
@@ -526,8 +526,8 @@ DAT_0602fd1a:
 sym_0602FD30:
     .byte   0xAE, 0x11    /* bra 0x0602F956 (external) */
     addv r15, r1
-    .4byte  0xAE112FFF
-    .4byte  0xAE1136FF
+    .long  0xAE112FFF
+    .long  0xAE1136FF
 
     .global sym_0602FD3C
 sym_0602FD3C:

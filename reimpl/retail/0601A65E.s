@@ -74,11 +74,11 @@ DAT_0601a6e0:
     .global DAT_0601a6e2
 DAT_0601a6e2:
     .byte 0x04, 0x20
-    .4byte sym_06085FF0
-    .4byte sym_0605D242
-    .4byte sym_06063750
-    .4byte sym_06028400
-    .4byte sym_0605D241
+    .long sym_06085FF0
+    .long sym_0605D242
+    .long sym_06063750
+    .long sym_06028400
+    .long sym_0605D241
     .byte 0x67, 0xCC
     .byte 0x93, 0x2C
     .byte 0x47, 0x18
@@ -139,9 +139,9 @@ DAT_0601a75a:
     .byte 0x04, 0x20
     .byte 0x06, 0x3C
     .byte 0xFF, 0xFF
-    .4byte sym_0605D241
+    .long sym_0605D241
     .byte 0xAE, 0x00
     .byte 0x06, 0xFF
-    .4byte sound_cmd_dispatch
+    .long sound_cmd_dispatch
     .byte 0xAE, 0x00
     .byte 0x07, 0xFF

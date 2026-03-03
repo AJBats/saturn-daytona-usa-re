@@ -4,7 +4,7 @@ bcd_sprite_map:
     sts.l pr, @-r15
     mov.l   .L_pool_06016A10, r13
     cmp/ge r2, r3
-    bt/s    .L_0601699C
+    bt.s    .L_0601699C
     mov #0x4, r5
 
 
@@ -109,10 +109,10 @@ bcd_sprite_map:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0xFFFF
+    .short  0xFFFF
 
 
 .L_pool_06016A10:
-    .4byte  sym_06084FC8
+    .long  sym_06084FC8
 .L_pool_06016A14:
-    .4byte  sym_06034FE0
+    .long  sym_06034FE0

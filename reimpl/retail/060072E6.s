@@ -64,5 +64,5 @@ framebuf_swap_ctrl:
     .byte 0xFE, 0x11
     .byte 0xFF, 0x7C
     .byte 0xFF, 0xFF
-    .4byte sym_06000344
-    .4byte sym_06059F40
+    .long sym_06000344
+    .long sym_06059F40

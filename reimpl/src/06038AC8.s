@@ -100,43 +100,43 @@ display_mode_config:
     mov.l @r4, r4
 
 .L_06038B74:
-    .2byte  0x0101
+    .short  0x0101
 .L_06038B76:
-    .2byte  0x0201
+    .short  0x0201
 .L_06038B78:
-    .2byte  0x0301
+    .short  0x0301
 .L_06038B7A:
-    .2byte  0x0401
+    .short  0x0401
 .L_06038B7C:
-    .4byte  sym_060A4D58
+    .long  sym_060A4D58
 .L_06038B80:
-    .4byte  hud_display_ext
+    .long  hud_display_ext
 .L_06038B84:
-    .4byte  sym_060A4D18
+    .long  sym_060A4D18
 .L_06038B88:
-    .4byte  sym_0606360C
+    .long  sym_0606360C
 .L_06038B8C:
-    .4byte  sym_06034F78
+    .long  sym_06034F78
 .L_06038B90:
-    .4byte  sym_060A4D28
+    .long  sym_060A4D28
 .L_06038B94:
-    .4byte  sym_06063610
+    .long  sym_06063610
 .L_06038B98:
-    .4byte  sym_060A4D30
+    .long  sym_060A4D30
 .L_06038B9C:
-    .4byte  sym_06063614
+    .long  sym_06063614
 .L_06038BA0:
-    .4byte  sym_060A4D36
+    .long  sym_060A4D36
 .L_06038BA4:
-    .4byte  sym_06063618
+    .long  sym_06063618
 .L_06038BA8:
-    .4byte  sym_060A4D3E
+    .long  sym_060A4D3E
 .L_06038BAC:
-    .4byte  sym_0606361C
+    .long  sym_0606361C
 .L_06038BB0:
-    .4byte  sym_060A4D46
+    .long  sym_060A4D46
 .L_06038BB4:
-    .4byte  sym_06063620
+    .long  sym_06063620
 
 .L_06038BB8:
     .byte   0xBF, 0x46    /* bsr 0x06038A48 (data_loader) */
@@ -153,6 +153,6 @@ display_mode_config:
     rts
     mov.l @r15+, r14
 .L_06038BCE:
-    .2byte  0x0501
+    .short  0x0501
 .L_06038BD0:
-    .4byte  sym_06034F78
+    .long  sym_06034F78

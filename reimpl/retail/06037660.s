@@ -51,8 +51,8 @@ DAT_060376a8:
     .byte 0xBF, 0xFF
     .byte 0xDA, 0x20
     .byte 0x00, 0x00
-    .4byte sym_060A3DB0
-    .4byte sym_060A3D88
+    .long sym_060A3DB0
+    .long sym_060A3D88
     .byte 0x64, 0x50
     .byte 0x64, 0x4C
     .byte 0xE2, 0x01
@@ -837,8 +837,8 @@ DAT_06037c96:
     .byte 0x8F, 0xFF
     .byte 0x00, 0x00
     .byte 0xFD, 0xFF
-    .4byte sym_060A4C58
-    .4byte sym_060A4C59
+    .long sym_060A4C58
+    .long sym_060A4C59
     .byte 0xD2, 0x1A
     .byte 0x85, 0x6B
     .byte 0x63, 0x03
@@ -895,8 +895,8 @@ DAT_06037c96:
     .byte 0x00, 0x09
     .byte 0x00, 0x00
     .byte 0xFF, 0xF0
-    .4byte sym_060A4C58
-    .4byte sym_060A4C59
+    .long sym_060A4C58
+    .long sym_060A4C59
     .byte 0x00, 0x00
     .byte 0xFF, 0x0F
     .byte 0xD0, 0x3E
@@ -1025,8 +1025,8 @@ DAT_06037c96:
     .byte 0x6B, 0x63
     .byte 0xA0, 0x28
     .byte 0x7B, 0x38
-    .4byte sym_060A4C58
-    .4byte sym_060A4C59
+    .long sym_060A4C58
+    .long sym_060A4C59
     .byte 0x00, 0x00
     .byte 0xFF, 0xDF
     .byte 0x00, 0x00
@@ -1113,7 +1113,7 @@ DAT_06037c96:
     .byte 0x20, 0x00
     .byte 0x08, 0x00
     .byte 0x40, 0x00
-    .4byte sym_06035280
+    .long sym_06035280
     .byte 0x92, 0x80
     .byte 0x60, 0x23
     .byte 0x81, 0xF2
@@ -1246,8 +1246,8 @@ DAT_06037c96:
     .byte 0x00, 0x09
     .byte 0x10, 0x00
     .byte 0x01, 0xC0
-    .4byte input_proc_complete
-    .4byte sym_06035280
+    .long input_proc_complete
+    .long sym_06035280
     .byte 0x20, 0xE9
     .byte 0x74, 0x01
     .byte 0x40, 0x18
@@ -1280,7 +1280,7 @@ DAT_06037c96:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .4byte sym_060635AC
+    .long sym_060635AC
     .global sym_06038044
 sym_06038044:
     .byte 0xD0, 0x08
@@ -1301,4 +1301,4 @@ sym_06038044:
     .byte 0x8B, 0xF2
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
-    .4byte sym_060A3D88
+    .long sym_060A3D88

@@ -6,7 +6,7 @@ save_data_validate:
     .byte   0xBF, 0xDF    /* bsr 0x0603B96A (external) */
     mov.l r4, @r15
     cmp/eq #-0x1, r0
-    bf/s    .L_0603B9CE
+    bf.s    .L_0603B9CE
     mov r0, r4
     .byte   0xD4, 0x0C    /* mov.l .L_pool_0603B9E4, r4 */
     mov.l @r4, r4

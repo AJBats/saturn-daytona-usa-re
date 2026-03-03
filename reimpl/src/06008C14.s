@@ -18,18 +18,18 @@ state_resource_load:
     mov.l r3, @r14
     bra     .L_06008C5C
     nop
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_pool_06008C38:
-    .4byte  g_game_state
-    .4byte  disc_course_data_load
-    .4byte  sym_06026CE0
-    .4byte  sym_06059F44
-    .4byte  sym_0605A016
-    .4byte  disc_load_complete_check
+    .long  g_game_state
+    .long  disc_course_data_load
+    .long  sym_06026CE0
+    .long  sym_06059F44
+    .long  sym_0605A016
+    .long  disc_load_complete_check
 .L_pool_06008C50:
-    .4byte  geom_output_ctrl
+    .long  geom_output_ctrl
 .L_pool_06008C54:
-    .4byte  sym_0605E0A2
+    .long  sym_0605E0A2
 .L_06008C58:
     mov #0x7, r2
     mov.l r2, @r14

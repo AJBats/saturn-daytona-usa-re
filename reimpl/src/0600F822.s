@@ -20,19 +20,19 @@ transition_small_a:
     lds.l @r15+, pr
     rts
     mov.b r2, @r3
-    .4byte  0x0800FFFF
-    .4byte  sym_06085FF4
-    .4byte  g_pad_state
-    .4byte  sym_06078663
+    .long  0x0800FFFF
+    .long  sym_06085FF4
+    .long  g_pad_state
+    .long  sym_06078663
 .L_pool_0600F85E:
-    .4byte  0xAB1101FF
+    .long  0xAB1101FF
 .L_pool_0600F862:
-    .4byte  sound_cmd_dispatch           /* sound command dispatcher */
+    .long  sound_cmd_dispatch           /* sound command dispatcher */
 .L_pool_0600F866:
-    .4byte  anim_ui_transition
+    .long  anim_ui_transition
 .L_pool_0600F86A:
-    .4byte  hud_course_render
+    .long  hud_course_render
 .L_pool_0600F86E:
-    .4byte  sym_0607887C
+    .long  sym_0607887C
 .L_pool_0600F872:
-    .4byte  sym_0607887F
+    .long  sym_0607887F

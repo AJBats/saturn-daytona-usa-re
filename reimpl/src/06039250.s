@@ -79,34 +79,34 @@ vdp2_scroll_update:
 
     .global DAT_060392e6
 DAT_060392e6:
-    .2byte  0xFF0F
+    .short  0xFF0F
 .L_060392E8:
-    .2byte  0x0080
-    .2byte  0xFFFF
+    .short  0x0080
+    .short  0xFFFF
 .L_060392EC:
-    .4byte  sym_060A4C92
+    .long  sym_060A4C92
 .L_060392F0:
-    .4byte  0x25D00002
+    .long  0x25D00002
 .L_060392F4:
-    .4byte  0x25D00004
+    .long  0x25D00004
 .L_060392F8:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_060392FC:
-    .4byte  0x25D00006
+    .long  0x25D00006
 .L_06039300:
-    .4byte  0x25D00008
+    .long  0x25D00008
 .L_06039304:
-    .4byte  0x0000FFFF
+    .long  0x0000FFFF
 .L_06039308:
-    .4byte  0x25D0000A
+    .long  0x25D0000A
 .L_0603930C:
-    .4byte  sym_060A4C8C
+    .long  sym_060A4C8C
 .L_06039310:
-    .4byte  sym_060A4C88
+    .long  sym_060A4C88
 .L_06039314:
-    .4byte  0x25C00000
+    .long  0x25C00000
 .L_06039318:
-    .4byte  sym_060635CC
+    .long  sym_060635CC
 
     .global polygon_param_setup
 polygon_param_setup:
@@ -122,7 +122,7 @@ polygon_param_setup:
     extu.w r5, r3
     mov #0x7, r2
     cmp/gt r2, r3
-    bf/s    .L_0603933A
+    bf.s    .L_0603933A
     mov #0x0, r7
     extu.w r7, r5
 .L_0603933A:
@@ -178,40 +178,40 @@ polygon_param_setup:
     mov.w r2, @r3
     rts
     mov.l @r15+, r14
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_06039398:
-    .4byte  sym_060A4C8C
+    .long  sym_060A4C8C
 .L_0603939C:
-    .4byte  sym_060A4C90
+    .long  sym_060A4C90
 .L_060393A0:
-    .4byte  0x25D00000
+    .long  0x25D00000
 .L_060393A4:
-    .4byte  sym_060635E0
+    .long  sym_060635E0
 .L_060393A8:
-    .4byte  sym_060A4C88
+    .long  sym_060A4C88
 .L_060393AC:
-    .4byte  sym_060635DE
+    .long  sym_060635DE
 .L_060393B0:
-    .4byte  sym_060A4C94
+    .long  sym_060A4C94
 .L_060393B4:
-    .4byte  sym_060A4C96
-    .4byte  0xD31C6331
-    .4byte  0x2431D21C
-    .4byte  0x6222622D
-    .4byte  0x60238141
-    .4byte  0xD31A6332
-    .4byte  0x633D6033
-    .4byte  0x8142D319
-    .4byte  0x63316033
-    .4byte  0x8143D318
-    .4byte  0x63316033
-    .4byte  0x8144D317
-    .4byte  0x63316033
-    .4byte  0x8145D316
-    .4byte  0x63316033
-    .4byte  0x8146D315
-    .4byte  0x63316033
-    .4byte  0x000B8147
+    .long  sym_060A4C96
+    .long  0xD31C6331
+    .long  0x2431D21C
+    .long  0x6222622D
+    .long  0x60238141
+    .long  0xD31A6332
+    .long  0x633D6033
+    .long  0x8142D319
+    .long  0x63316033
+    .long  0x8143D318
+    .long  0x63316033
+    .long  0x8144D317
+    .long  0x63316033
+    .long  0x8145D316
+    .long  0x63316033
+    .long  0x8146D315
+    .long  0x63316033
+    .long  0x000B8147
 
     .global sym_060393FC
 sym_060393FC:
@@ -238,24 +238,24 @@ sym_060393FC:
     shlr2 r5
     bra     .L_0603945A
     shlr2 r5
-    .2byte  0xFFFF
-    .4byte  sym_060635B4
-    .4byte  sym_060635B8               /* framebuffer swap enable (unreferenced pool) */
-    .4byte  sym_060635BC               /* framebuffer swap delay (unreferenced pool) */
+    .short  0xFFFF
+    .long  sym_060635B4
+    .long  sym_060635B8               /* framebuffer swap enable (unreferenced pool) */
+    .long  sym_060635BC               /* framebuffer swap delay (unreferenced pool) */
 .L_06039438:
-    .4byte  sym_060635D4
+    .long  sym_060635D4
 .L_0603943C:
-    .4byte  sym_060635D6
+    .long  sym_060635D6
 .L_06039440:
-    .4byte  sym_060635D8
+    .long  sym_060635D8
 .L_06039444:
-    .4byte  sym_060635DA
+    .long  sym_060635DA
 .L_06039448:
-    .4byte  sym_060635DC
+    .long  sym_060635DC
 .L_0603944C:
-    .4byte  0x25D00006
+    .long  0x25D00006
 .L_06039450:
-    .4byte  sym_060635DE
+    .long  sym_060635DE
 .L_06039454:
     extu.w r5, r5
     shlr2 r5
@@ -285,7 +285,7 @@ sym_060393FC:
     mov.w @r0, r0
     extu.w r0, r0
     tst r0, r0
-    bt/s    .L_06039494
+    bt.s    .L_06039494
     add #0x1, r7
     extu.w r7, r7
     shlr2 r7
@@ -331,19 +331,19 @@ sym_060394C2:
     rts
     nop
 .L_060394D4:
-    .4byte  sym_060A4C94
+    .long  sym_060A4C94
 .L_060394D8:
-    .4byte  sym_060635D0
+    .long  sym_060635D0
 .L_060394DC:
-    .4byte  0x25D00008
+    .long  0x25D00008
 .L_060394E0:
-    .4byte  sym_060635DE
+    .long  sym_060635DE
 .L_060394E4:
-    .4byte  sym_060635D2
+    .long  sym_060635D2
 .L_060394E8:
-    .4byte  0x25D0000A
+    .long  0x25D0000A
 .L_060394EC:
-    .4byte  0x25D00010
+    .long  0x25D00010
 .L_060394F0:
     tst r4, r4
     bt      .L_060394FE
@@ -360,4 +360,4 @@ sym_060394C2:
     rts
     nop
 .L_06039508:
-    .4byte  sym_060A4C92
+    .long  sym_060A4C92

@@ -26,5 +26,5 @@ vdp2_data_lookup:
     .byte 0x8B, 0xEB
     .byte 0x00, 0x0B
     .byte 0x60, 0x5C
-    .4byte sym_06085490
-    .4byte sym_06084FC8
+    .long sym_06085490
+    .long sym_06084FC8

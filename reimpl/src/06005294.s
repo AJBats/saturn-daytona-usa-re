@@ -27,7 +27,7 @@ vec3_angle_calc:
     jsr @r3
     mov r13, r4
     cmp/pz r13
-    bt/s    .L_060052D0
+    bt.s    .L_060052D0
     mov r0, r9
     bra     .L_060052D2
     neg r13, r11
@@ -57,13 +57,13 @@ vec3_angle_calc:
 
     .global DAT_060052f6
 DAT_060052f6:
-    .2byte  0x61F7
+    .short  0x61F7
 .L_pool_060052F8:
-    .4byte  atan2
+    .long  atan2
 .L_pool_060052FC:
-    .4byte  0x0000EC83
+    .long  0x0000EC83
 .L_pool_06005300:
-    .4byte  fpmul
+    .long  fpmul
 .L_06005304:
     mov.l   .L_pool_0600537C, r4
     mov.l   .L_pool_06005380, r3
@@ -129,28 +129,28 @@ DAT_060052f6:
 
     .global DAT_0600537a
 DAT_0600537a:
-    .2byte  0x61F7
+    .short  0x61F7
 .L_pool_0600537C:
-    .4byte  0x0000EC83
+    .long  0x0000EC83
 .L_pool_06005380:
-    .4byte  fpmul
+    .long  fpmul
 .L_pool_06005384:
-    .4byte  atan2
+    .long  atan2
 .L_pool_06005388:
-    .4byte  sym_06078663
+    .long  sym_06078663
 .L_0600538C:
-    .4byte  0x00010000
+    .long  0x00010000
 .L_06005390:
-    .4byte  0xFFFF0000
+    .long  0xFFFF0000
 .L_pool_06005394:
-    .4byte  mat_scale_columns
+    .long  mat_scale_columns
 .L_pool_06005398:
-    .4byte  mat_rot_x
+    .long  mat_rot_x
 .L_pool_0600539C:
-    .4byte  mat_rot_y
+    .long  mat_rot_y
 .L_pool_060053A0:
-    .4byte  sym_06026E2E
+    .long  sym_06026E2E
 .L_pool_060053A4:
-    .4byte  sym_06063DF8
+    .long  sym_06063DF8
 .L_pool_060053A8:
-    .4byte  sym_06035168
+    .long  sym_06035168

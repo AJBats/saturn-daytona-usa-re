@@ -33,8 +33,8 @@ collision_response_vel:
     rts
     mov.l @r15+, r14
 .L_06036832:
-    .2byte  0x0080
+    .short  0x0080
 .L_06036834:
-    .4byte  input_proc_analog
+    .long  input_proc_analog
 .L_06036838:
-    .4byte  input_proc_buttons
+    .long  input_proc_buttons

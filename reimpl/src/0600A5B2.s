@@ -28,21 +28,21 @@ camera_param_load:
     .byte   0xD3, 0x0B    /* mov.l .L_pool_0600A617, r3 */
     jmp @r3
     mov.l @r15+, r14
-    .4byte  sym_060634A4
-    .4byte  sym_06063450
-    .4byte  sym_060634C0
-    .4byte  sym_0606346C
+    .long  sym_060634A4
+    .long  sym_06063450
+    .long  sym_060634C0
+    .long  sym_0606346C
 .L_pool_0600A5FF:
-    .4byte  sym_06063538
+    .long  sym_06063538
 .L_pool_0600A603:
-    .4byte  sym_06063520
+    .long  sym_06063520
 .L_pool_0600A607:
-    .4byte  sym_06031D8C
+    .long  sym_06031D8C
 .L_pool_0600A60B:
-    .4byte  sym_0606352C
+    .long  sym_0606352C
 .L_pool_0600A60F:
-    .4byte  sym_06089E98
+    .long  sym_06089E98
 .L_pool_0600A613:
-    .4byte  sym_06063514
+    .long  sym_06063514
 .L_pool_0600A617:
-    .4byte  sym_06031A28
+    .long  sym_06031A28

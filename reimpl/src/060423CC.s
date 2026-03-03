@@ -25,15 +25,15 @@ cdb_wait_scdq:
     bra     .L_060423DE
     nop
 .L_wpool_060423F6:
-    .2byte  0x0400
-    .4byte  ai_checkpoint_validate      /* [HIGH] adjacent pool: fn ptr (not used by this TU) */
-    .4byte  sym_060A5400                /* [HIGH] adjacent pool: AI/game state base ptr (not used by this TU) */
+    .short  0x0400
+    .long  ai_checkpoint_validate      /* [HIGH] adjacent pool: fn ptr (not used by this TU) */
+    .long  sym_060A5400                /* [HIGH] adjacent pool: AI/game state base ptr (not used by this TU) */
 .L_pool_06042400:
-    .4byte  smpc_cmd_helper_b
+    .long  smpc_cmd_helper_b
 .L_pool_06042404:
-    .4byte  sym_06035C4E
+    .long  sym_06035C4E
 .L_pool_06042408:
-    .4byte  0x0000FBFF
+    .long  0x0000FBFF
 .L_0604240C:
     lds.l @r15+, pr
     mov.l @r15+, r11

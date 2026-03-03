@@ -55,10 +55,10 @@ distance_3d_calc:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .4byte  sym_06035C4E
+    .long  sym_06035C4E
 .L_060366F8:
-    .4byte  input_proc_digital              /* [HIGH] jsr target: digital input processor */
+    .long  input_proc_digital              /* [HIGH] jsr target: digital input processor */
 .L_060366FC:
-    .4byte  input_proc_analog               /* [HIGH] jsr target: analog input processor */
+    .long  input_proc_analog               /* [HIGH] jsr target: analog input processor */
 .L_06036700:
-    .4byte  0x00FFFFFF
+    .long  0x00FFFFFF

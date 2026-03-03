@@ -16,7 +16,7 @@ dma_channel_setup:
     mov.l @(20, r14), r4
     mov r0, r4
     tst r4, r4
-    bt/s    .L_060409A8
+    bt.s    .L_060409A8
     add #0x4, r15
     lds.l @r15+, pr
     rts
@@ -26,12 +26,12 @@ dma_channel_setup:
     mov.l   .L_pool_060409BC, r3
     jmp @r3
     mov.l @r15+, r14
-    .4byte  track_surface_check
+    .long  track_surface_check
 .L_pool_060409B4:
-    .4byte  sym_06035228
+    .long  sym_06035228
 .L_pool_060409B8:
-    .4byte  buffer_slot_alloc
+    .long  buffer_slot_alloc
 .L_pool_060409BC:
-    .4byte  state_field_read
-    .4byte  0x4F26000B
-    .4byte  0x6EF6E500
+    .long  state_field_read
+    .long  0x4F26000B
+    .long  0x6EF6E500

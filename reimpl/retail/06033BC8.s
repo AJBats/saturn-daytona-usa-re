@@ -34,7 +34,7 @@ camera_attract_init:
     .byte 0xA0, 0x0A
     .byte 0x00, 0x18
     .byte 0x00, 0x00
-    .4byte sym_0607E944
+    .long sym_0607E944
     .byte 0x00, 0x00
     .byte 0x01, 0xEC
     .byte 0x00, 0x00
@@ -72,7 +72,7 @@ disp_timeext_digit_2:
     .byte 0x4F, 0x26
     .byte 0xA0, 0x07
     .byte 0x00, 0x09
-    .4byte sym_06033F54
+    .long sym_06033F54
     .byte 0xD0, 0x08
 	.text
     .global time_extend_digits
@@ -94,8 +94,8 @@ time_extend_digits:
     .byte 0xA0, 0x0C
     .byte 0x00, 0x18
     .byte 0x00, 0x00
-    .4byte sym_0603446C
-    .4byte sym_0607E944
+    .long sym_0603446C
+    .long sym_0607E944
     .byte 0x00, 0x00
     .byte 0x01, 0xEC
     .byte 0x00, 0x00
@@ -276,7 +276,7 @@ selector_group_render:
     .byte 0x89, 0x09
     .byte 0xA0, 0x09
     .byte 0x00, 0x18
-    .4byte sym_0607E944
+    .long sym_0607E944
     .byte 0x00, 0x00
     .byte 0x01, 0xEC
     .byte 0x00, 0x00
@@ -293,7 +293,7 @@ selector_group_render:
     .byte 0x8B, 0x03
     .byte 0xA0, 0x91
     .byte 0x00, 0x09
-    .4byte sym_0607EAE0
+    .long sym_0607EAE0
     .byte 0xD4, 0x3B
 	.text
     .global disp_selext_thunk_00
@@ -476,7 +476,7 @@ score_display_render:
     .byte 0x21, 0x02
     .byte 0x00, 0x00
     .byte 0x00, 0x19
-    .4byte sym_06083250
+    .long sym_06083250
     .byte 0x00, 0x00
     .byte 0x01, 0x3B
     .byte 0x00, 0x00
@@ -505,7 +505,7 @@ score_display_render:
     .byte 0x6E, 0xF6
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
-    .4byte sym_06083250
+    .long sym_06083250
 	.text
     .global disp_score_renderer
 disp_score_renderer:
@@ -589,11 +589,11 @@ bonus_points_display:
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
     .byte 0x00, 0x00
-    .4byte sym_06063E08
-    .4byte sym_06083254
+    .long sym_06063E08
+    .long sym_06083254
     .byte 0x00, 0x00
     .byte 0x00, 0x00
-    .4byte sym_06033F54
+    .long sym_06033F54
     .byte 0x00, 0x00
     .byte 0x00, 0x01
     .byte 0x00, 0x00
@@ -653,8 +653,8 @@ display_frame_mgr:
     .byte 0x00, 0x09
     .byte 0x00, 0x00
     .byte 0x00, 0x2C
-    .4byte DAT_06082A7C
-    .4byte sym_0607E944
+    .long DAT_06082A7C
+    .long sym_0607E944
     .byte 0x00, 0x00
     .byte 0x00, 0x01
     .byte 0x00, 0x00
@@ -804,14 +804,14 @@ phys_velocity_integrate:
     .byte 0x00, 0x12
     .byte 0x00, 0x00
     .byte 0x00, 0x02
-    .4byte cos_lookup
+    .long cos_lookup
     .byte 0x00, 0x00
     .byte 0x00, 0x20
     .byte 0x00, 0x00
     .byte 0x00, 0x14
     .byte 0x00, 0x00
     .byte 0x00, 0x04
-    .4byte sin_lookup
+    .long sin_lookup
     .byte 0x00, 0x00
     .byte 0x00, 0x1C
     .byte 0x00, 0x00
@@ -863,9 +863,9 @@ phys_final_integrate:
     .byte 0xD0, 0x05
     .byte 0xA0, 0x23
     .byte 0x0E, 0x26
-    .4byte sin_lookup
-    .4byte cos_lookup
-    .4byte fpdiv_setup
+    .long sin_lookup
+    .long cos_lookup
+    .long fpdiv_setup
     .byte 0x00, 0x00
     .byte 0x00, 0x18
     .byte 0x00, 0x00
@@ -906,14 +906,14 @@ ai_steering_response:
     .byte 0x00, 0x00
     .byte 0x00, 0x00
     .byte 0x00, 0x04
-    .4byte sym_06083238
+    .long sym_06083238
     .byte 0x00, 0x00
     .byte 0x00, 0x0C
-    .4byte sym_06083240
-    .4byte sym_06006838
-    .4byte sym_06083244
-    .4byte scene_render_alt
-    .4byte sym_0608323C
+    .long sym_06083240
+    .long sym_06006838
+    .long sym_06083244
+    .long scene_render_alt
+    .long sym_0608323C
     .byte 0x00, 0x00
     .byte 0x00, 0x08
     .byte 0xD0, 0x16
@@ -979,22 +979,22 @@ xaxis_integrate_damp:
     .byte 0x00, 0x00
     .byte 0x00, 0x00
     .byte 0x00, 0x01
-    .4byte sym_06026DBC
-    .4byte sym_06089EDC
+    .long sym_06026DBC
+    .long sym_06089EDC
     .byte 0x00, 0x00
     .byte 0x00, 0x04
     .byte 0x00, 0x00
     .byte 0x00, 0x08
     .byte 0x00, 0x00
     .byte 0x00, 0x0C
-    .4byte sym_06026E2E
+    .long sym_06026E2E
     .byte 0x00, 0x00
     .byte 0x00, 0x02
-    .4byte mat_rot_y
+    .long mat_rot_y
     .byte 0x00, 0x00
     .byte 0x00, 0x11
-    .4byte camera_param_load
-    .4byte sym_06026DF8
+    .long camera_param_load
+    .long sym_06026DF8
     .byte 0x88, 0x02
     .byte 0x8B, 0x43
     .byte 0xD0, 0x15
@@ -1056,24 +1056,24 @@ yaxis_integrate:
     .byte 0x6D, 0xD2
     .byte 0xA1, 0x0C
     .byte 0x00, 0x09
-    .4byte sym_06026DBC
-    .4byte sym_06089EDC
+    .long sym_06026DBC
+    .long sym_06089EDC
     .byte 0x00, 0x00
     .byte 0x00, 0x04
     .byte 0x00, 0x00
     .byte 0x00, 0x08
     .byte 0x00, 0x00
     .byte 0x00, 0x0C
-    .4byte sym_06026E2E
+    .long sym_06026E2E
     .byte 0x00, 0x00
     .byte 0x00, 0x02
     .byte 0x00, 0x00
     .byte 0x80, 0x00
-    .4byte mat_rot_y
+    .long mat_rot_y
     .byte 0x00, 0x00
     .byte 0x00, 0x11
-    .4byte camera_scene_setup
-    .4byte sym_06026DF8
+    .long camera_scene_setup
+    .long sym_06026DF8
     .byte 0x88, 0x03
     .byte 0x8B, 0x3F
     .byte 0xD0, 0x14
@@ -1133,22 +1133,22 @@ zaxis_integrate:
     .byte 0xA0, 0xC9
     .byte 0x00, 0x09
     .byte 0x00, 0x00
-    .4byte sym_06026DBC
-    .4byte sym_06089EDC
+    .long sym_06026DBC
+    .long sym_06089EDC
     .byte 0x00, 0x00
     .byte 0x00, 0x14
     .byte 0x00, 0x00
     .byte 0x00, 0x18
     .byte 0x00, 0x00
     .byte 0x00, 0x1C
-    .4byte sym_06026E2E
+    .long sym_06026E2E
     .byte 0x00, 0x00
     .byte 0x00, 0x02
-    .4byte mat_rot_y
+    .long mat_rot_y
     .byte 0x00, 0x00
     .byte 0x00, 0x11
-    .4byte camera_scene_setup
-    .4byte sym_06026DF8
+    .long camera_scene_setup
+    .long sym_06026DF8
     .byte 0x88, 0x04
     .byte 0x89, 0x01
     .byte 0xA0, 0xAE
@@ -1346,23 +1346,23 @@ ai_decision_dispatch:
     .byte 0x6D, 0xD2
     .byte 0xA0, 0x24
     .byte 0x00, 0x09
-    .4byte sym_06026DBC
-    .4byte sym_06089EDC
+    .long sym_06026DBC
+    .long sym_06089EDC
     .byte 0x00, 0x00
     .byte 0x00, 0x04
     .byte 0x00, 0x00
     .byte 0x00, 0x08
     .byte 0x00, 0x00
     .byte 0x00, 0x0C
-    .4byte sym_06026E2E
+    .long sym_06026E2E
     .byte 0x00, 0x00
     .byte 0x00, 0x02
-    .4byte mat_rot_y
+    .long mat_rot_y
     .byte 0x00, 0x00
     .byte 0x00, 0x11
-    .4byte camera_param_load
-    .4byte sym_06026DF8
-    .4byte sym_06083250
+    .long camera_param_load
+    .long sym_06026DF8
+    .long sym_06083250
     .byte 0x00, 0x00
     .byte 0x04, 0xEC
     .byte 0x00, 0x28
@@ -1397,7 +1397,7 @@ sym_0603446C:
     .byte 0x00, 0x00
     .byte 0x00, 0x00
     .byte 0x00, 0x2C
-    .4byte DAT_06082A7C
+    .long DAT_06082A7C
     .byte 0x00, 0x00
     .byte 0x00, 0x26
     .byte 0x00, 0x00
@@ -1469,8 +1469,8 @@ ai_speed_limit:
     .byte 0x00, 0x10
     .byte 0x00, 0x00
     .byte 0x00, 0x18
-    .4byte sym_06083238
-    .4byte isqrt
+    .long sym_06083238
+    .long isqrt
     .byte 0xD0, 0x0A
 	.text
     .global ai_waypoint_follower
@@ -1496,7 +1496,7 @@ ai_waypoint_follower:
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
     .byte 0x00, 0x00
-    .4byte isqrt
+    .long isqrt
     .byte 0x00, 0x08
     .byte 0x00, 0x00
     .byte 0x00, 0x00
@@ -1605,18 +1605,18 @@ ai_car_pos_init:
     .byte 0x40, 0x00
     .byte 0x00, 0x00
     .byte 0x00, 0x28
-    .4byte cos_lookup
+    .long cos_lookup
     .byte 0x00, 0x00
     .byte 0x00, 0x04
-    .4byte sin_lookup
+    .long sin_lookup
     .byte 0x00, 0x00
     .byte 0x00, 0x0C
-    .4byte sym_06083238
-    .4byte sym_06083240
-    .4byte sym_06006838
-    .4byte sym_06083244
-    .4byte scene_render_alt
-    .4byte sym_0608323C
+    .long sym_06083238
+    .long sym_06083240
+    .long sym_06006838
+    .long sym_06083244
+    .long scene_render_alt
+    .long sym_0608323C
     .byte 0x00, 0x00
     .byte 0x00, 0x08
     .byte 0xD0, 0x14
@@ -1676,22 +1676,22 @@ ai_car_full_init:
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
     .byte 0x00, 0x00
-    .4byte sym_06026DBC
-    .4byte sym_06089EDC
+    .long sym_06026DBC
+    .long sym_06089EDC
     .byte 0x00, 0x00
     .byte 0x00, 0x04
     .byte 0x00, 0x00
     .byte 0x00, 0x08
     .byte 0x00, 0x00
     .byte 0x00, 0x0C
-    .4byte sym_06026E2E
+    .long sym_06026E2E
     .byte 0x00, 0x00
     .byte 0x00, 0x02
-    .4byte mat_rot_y
+    .long mat_rot_y
     .byte 0x00, 0x00
     .byte 0x00, 0x11
-    .4byte camera_scene_setup
-    .4byte sym_06026DF8
+    .long camera_scene_setup
+    .long sym_06026DF8
     .byte 0xD0, 0x0B
     .byte 0x00, 0xEC
     .byte 0x70, 0xFF
@@ -1718,8 +1718,8 @@ ai_car_full_init:
     .byte 0x00, 0x09
     .byte 0x00, 0x00
     .byte 0x00, 0x01
-    .4byte sym_060631B4
-    .4byte sym_060631B8
+    .long sym_060631B4
+    .long sym_060631B8
     .byte 0x00, 0x00
     .byte 0x00, 0x10
     .byte 0x00, 0x00
@@ -1807,12 +1807,12 @@ ranking_system_full:
     .byte 0x0E, 0x26
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
-    .4byte sym_0607E944
+    .long sym_0607E944
     .byte 0x00, 0x00
     .byte 0x00, 0x08
     .byte 0x01, 0x2C
     .byte 0x00, 0x00
-    .4byte fpdiv_setup
+    .long fpdiv_setup
     .byte 0x00, 0x06
     .byte 0x00, 0x00
     .byte 0x00, 0x00
@@ -1911,8 +1911,8 @@ ranking_system_full:
     .byte 0xA0, 0x48
     .byte 0x00, 0x09
     .byte 0x00, 0x00
-    .4byte sym_06083255
-    .4byte sym_0607EBC4
+    .long sym_06083255
+    .long sym_0607EBC4
     .byte 0x00, 0x02
     .byte 0x80, 0x00
     .byte 0xD0, 0x0C
@@ -1947,7 +1947,7 @@ DAT_0603489e:
     .byte 0x00, 0x10
     .byte 0x00, 0x00
     .byte 0x00, 0x0C
-    .4byte sym_0607E944
+    .long sym_0607E944
     .byte 0x00, 0x00
     .byte 0x00, 0x08
     .byte 0xD0, 0x04
@@ -1991,7 +1991,7 @@ lap_complete_check:
     .byte 0x3D, 0xFF
     .byte 0x00, 0x00
     .byte 0x00, 0x00
-    .4byte sound_cmd_dispatch
+    .long sound_cmd_dispatch
 	.text
     .global terrain_data_lookup
 terrain_data_lookup:
@@ -2015,7 +2015,7 @@ terrain_data_lookup:
     .byte 0xA0, 0x0E
     .byte 0x00, 0x09
     .byte 0x00, 0x00
-    .4byte sym_0607E944
+    .long sym_0607E944
     .byte 0x00, 0x00
     .byte 0x00, 0xB8
     .byte 0x00, 0x00
@@ -2066,7 +2066,7 @@ DAT_06034976:
     .byte 0x00, 0x00
     .byte 0xAE, 0x11
     .byte 0x28, 0xFF
-    .4byte sound_cmd_dispatch
+    .long sound_cmd_dispatch
 	.text
     .global ai_checkpoint_section
 ai_checkpoint_section:
@@ -2120,9 +2120,9 @@ cd_block_read_safe:
     .byte 0x89, 0x07
     .byte 0xA0, 0x15
     .byte 0x60, 0xE3
-    .4byte input_proc_analog
-    .4byte input_proc_buttons
-    .4byte input_proc_extended
+    .long input_proc_analog
+    .long input_proc_buttons
+    .long input_proc_extended
     .byte 0x65, 0xD3
     .byte 0xD3, 0x2A
     .byte 0x43, 0x0B
@@ -2214,8 +2214,8 @@ DAT_06034a8e:
     .byte 0x00, 0xFF
     .byte 0xFF, 0x0F
     .byte 0xFF, 0xFF
-    .4byte sym_06035F16
-    .4byte sym_06035E5E
+    .long sym_06035F16
+    .long sym_06035E5E
 	.text
     .global ai_nop_stub
 ai_nop_stub:
@@ -2309,11 +2309,11 @@ track_intersect_test:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .byte 0xFF, 0xFF
-    .4byte input_proc_analog
-    .4byte input_proc_digital
+    .long input_proc_analog
+    .long input_proc_digital
     .byte 0x00, 0xFF
     .byte 0xFF, 0xFF
-    .4byte smpc_secondary_proc
+    .long smpc_secondary_proc
 	.text
     .global mesh_boundary_check
 mesh_boundary_check:
@@ -2408,8 +2408,8 @@ ai_drafting_calc:
     .byte 0x00, 0x09
     .byte 0x00, 0x81
     .byte 0x0D, 0xAC
-    .4byte input_proc_analog
-    .4byte input_proc_digital
+    .long input_proc_analog
+    .long input_proc_digital
     .byte 0x62, 0xF2
     .byte 0x72, 0xFF
     .byte 0x2F, 0x22
@@ -2478,10 +2478,10 @@ ai_brake_zone_adjust:
     .byte 0xA0, 0x0A
     .byte 0xE4, 0x02
     .byte 0xFF, 0xFF
-    .4byte sym_06035C92
-    .4byte input_proc_buttons
-    .4byte smpc_cmd_helper_c
-    .4byte input_proc_analog
+    .long sym_06035C92
+    .long input_proc_buttons
+    .long smpc_cmd_helper_c
+    .long input_proc_analog
     .byte 0x94, 0x39
     .byte 0xD3, 0x1D
     .byte 0x43, 0x0B
@@ -2548,12 +2548,12 @@ ai_brake_zone:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .byte 0x00, 0x82
-    .4byte input_proc_init
+    .long input_proc_init
     .byte 0x00, 0x00
     .byte 0xFF, 0xFD
-    .4byte sym_06035C6E
-    .4byte input_proc_analog
-    .4byte input_proc_digital
+    .long sym_06035C6E
+    .long input_proc_analog
+    .long input_proc_digital
     .byte 0x00, 0xFF
     .byte 0xFF, 0xFF
 	.text
@@ -2645,11 +2645,11 @@ ai_throttle_adjust:
     .byte 0xA0, 0x15
     .byte 0x00, 0x09
     .byte 0xFF, 0xFF
-    .4byte input_proc_analog
-    .4byte input_proc_buttons
-    .4byte sym_06059CA7
-    .4byte sym_06035228
-    .4byte sym_06059CA4
+    .long input_proc_analog
+    .long input_proc_buttons
+    .long sym_06059CA7
+    .long sym_06035228
+    .long sym_06059CA4
     .byte 0x88, 0x00
     .byte 0x89, 0xEB
     .byte 0x88, 0x01
@@ -2689,6 +2689,6 @@ ai_recovery_handler:
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .4byte input_proc_analog
-    .4byte input_proc_buttons
+    .long input_proc_analog
+    .long input_proc_buttons
 

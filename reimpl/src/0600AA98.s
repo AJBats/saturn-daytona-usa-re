@@ -122,37 +122,37 @@ render_obj_additive:
     mov.b @(2, r13), r0
     bra     .L_0600ABC8
     nop
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_0600AB8C:
-    .4byte  sym_0605A1D5
+    .long  sym_0605A1D5
 .L_0600AB90:
-    .4byte  sym_06026DBC
+    .long  sym_06026DBC
 .L_0600AB94:
-    .4byte  sym_06044640
+    .long  sym_06044640
 .L_0600AB98:
-    .4byte  sym_06026E2E
+    .long  sym_06026E2E
 .L_0600AB9C:
-    .4byte  mat_rot_y
+    .long  mat_rot_y
 .L_0600ABA0:
-    .4byte  mat_rot_x
+    .long  mat_rot_x
 .L_0600ABA4:
-    .4byte  sym_0606212C
+    .long  sym_0606212C
 .L_0600ABA8:
-    .4byte  sym_060621D8
+    .long  sym_060621D8
 .L_0600ABAC:
-    .4byte  sym_06031D8C
+    .long  sym_06031D8C
 .L_0600ABB0:
-    .4byte  sym_060620D8
+    .long  sym_060620D8
 .L_0600ABB4:
-    .4byte  sym_06062180
+    .long  sym_06062180
 .L_0600ABB8:
-    .4byte  sym_06089E44
+    .long  sym_06089E44
 .L_0600ABBC:
-    .4byte  sym_06031A28
+    .long  sym_06031A28
 .L_0600ABC0:
-    .4byte  sym_06089EDC
+    .long  sym_06089EDC
 .L_0600ABC4:
-    .4byte  sym_0604464C
+    .long  sym_0604464C
 .L_0600ABC8:
     mov r0, r2
     mov.l   .L_0600AC24, r1
@@ -199,20 +199,20 @@ render_obj_additive:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_0600AC24:
-    .4byte  sym_06026DBC
+    .long  sym_06026DBC
 .L_0600AC28:
-    .4byte  sym_06044670
+    .long  sym_06044670
 .L_0600AC2C:
-    .4byte  sym_06026E2E
+    .long  sym_06026E2E
 .L_0600AC30:
-    .4byte  mat_rot_x
+    .long  mat_rot_x
 .L_0600AC34:
-    .4byte  sym_060621D8
+    .long  sym_060621D8
 .L_0600AC38:
-    .4byte  sym_06031D8C
+    .long  sym_06031D8C
 .L_0600AC3C:
-    .4byte  sym_06062180
+    .long  sym_06062180
 .L_0600AC40:
-    .4byte  sym_06031A28
+    .long  sym_06031A28

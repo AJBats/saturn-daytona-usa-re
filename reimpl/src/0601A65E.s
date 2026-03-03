@@ -10,14 +10,14 @@ car_init_handler:
     .byte   0xD0, 0x1E    /* mov.l .L_pool_0601A6E4, r0 */
     mov.b @r0, r0
     cmp/eq #0x3, r0
-    bf/s    .L_0601A69A
+    bf.s    .L_0601A69A
     mov #0x6, r5
     .byte   0xD4, 0x1C    /* mov.l .L_pool_0601A6E8, r4 */
     mov #0x8, r3
     mov.b @r4, r2
     extu.b r2, r2
     cmp/ge r3, r2
-    bt/s    .L_0601A686
+    bt.s    .L_0601A686
     mov #0x3, r12
     bra     .L_0601A69E
     extu.b r5, r14
@@ -26,7 +26,7 @@ car_init_handler:
     mov.b @r4, r2
     extu.b r2, r2
     cmp/gt r3, r2
-    bf/s    .L_0601A696
+    bf.s    .L_0601A696
     mov #0x7, r14
     mov #0x0, r3
     mov.b r3, @r4
@@ -68,29 +68,29 @@ car_init_handler:
     add r3, r7
     bra     .L_0601A726
     nop
-    .2byte  0x00A9
+    .short  0x00A9
 
     .global DAT_0601a6de
 DAT_0601a6de:
-    .2byte  0x0418
+    .short  0x0418
 
     .global DAT_0601a6e0
 DAT_0601a6e0:
-    .2byte  0x0624
+    .short  0x0624
 
     .global DAT_0601a6e2
 DAT_0601a6e2:
-    .2byte  0x0420
+    .short  0x0420
 .L_pool_0601A6E4:
-    .4byte  sym_06085FF0
+    .long  sym_06085FF0
 .L_pool_0601A6E8:
-    .4byte  sym_0605D242
+    .long  sym_0605D242
 .L_pool_0601A6EC:
-    .4byte  sym_06063750
+    .long  sym_06063750
 .L_pool_0601A6F0:
-    .4byte  sym_06028400
+    .long  sym_06028400
 .L_pool_0601A6F4:
-    .4byte  sym_0605D241
+    .long  sym_0605D241
 .L_0601A6F8:
     extu.b r12, r7
     mov.w   DAT_0601a756, r3
@@ -147,23 +147,23 @@ sym_0601A73E:
 
     .global DAT_0601a756
 DAT_0601a756:
-    .2byte  0x0418
+    .short  0x0418
 
     .global DAT_0601a758
 DAT_0601a758:
-    .2byte  0x0624
+    .short  0x0624
 
     .global DAT_0601a75a
 DAT_0601a75a:
-    .2byte  0x0420
+    .short  0x0420
 .L_wpool_0601A75C:
-    .2byte  0x063C
-    .2byte  0xFFFF
+    .short  0x063C
+    .short  0xFFFF
 .L_pool_0601A760:
-    .4byte  sym_0605D241
+    .long  sym_0605D241
 .L_pool_0601A764:
-    .4byte  0xAE0006FF
+    .long  0xAE0006FF
 .L_pool_0601A768:
-    .4byte  sound_cmd_dispatch
+    .long  sound_cmd_dispatch
 .L_pool_0601A76C:
-    .4byte  0xAE0007FF
+    .long  0xAE0007FF

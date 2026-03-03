@@ -55,11 +55,11 @@ course_data_rom_load:
     .global DAT_0601a872
 DAT_0601a872:
     .byte 0x40, 0x00
-    .4byte g_pad_state
-    .4byte sym_0605D248
+    .long g_pad_state
+    .long sym_0605D248
     .byte 0x00, 0x00
     .byte 0x80, 0x00
-    .4byte sym_0605D243
+    .long sym_0605D243
     .byte 0x62, 0xD1
     .byte 0x62, 0x2D
     .byte 0x22, 0x59
@@ -150,9 +150,9 @@ DAT_0601a928:
     .global DAT_0601a92a
 DAT_0601a92a:
     .byte 0x08, 0x1C
-    .4byte handler_dispatch
-    .4byte sym_060283E0
-    .4byte sym_06049CDC
-    .4byte sym_0605D2B4
+    .long handler_dispatch
+    .long sym_060283E0
+    .long sym_06049CDC
+    .long sym_0605D2B4
     .byte 0x00, 0x00
     .byte 0xE0, 0x00

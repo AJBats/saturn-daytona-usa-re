@@ -31,29 +31,29 @@ vdp2_course0_init:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-    .4byte  0x09000490
+    .long  0x09000490
 .L_0600349C:
-    .2byte  0x2000
-    .2byte  0xFFFF
-    .4byte  sym_06083255
-    .4byte  sym_06063798
-    .4byte  sym_06028400
-    .4byte  sym_06063790
+    .short  0x2000
+    .short  0xFFFF
+    .long  sym_06083255
+    .long  sym_06063798
+    .long  sym_06028400
+    .long  sym_06063790
 .L_060034B0:
-    .4byte  0x25F00800
+    .long  0x25F00800
 .L_060034B4:
-    .4byte  0x25F00200
+    .long  0x25F00200
 .L_060034B8:
-    .4byte  memcpy_word_idx
+    .long  memcpy_word_idx
 .L_060034BC:
-    .4byte  dma_memory_transfer
+    .long  dma_memory_transfer
 .L_060034C0:
-    .4byte  0x25E34000
+    .long  0x25E34000
 .L_060034C4:
-    .4byte  0x25E4363C
+    .long  0x25E4363C
 .L_060034C8:
-    .4byte  sym_060612AC
+    .long  sym_060612AC
 .L_060034CC:
-    .4byte  0x25E40000
+    .long  0x25E40000
 .L_060034D0:
-    .4byte  0x25E407F0
+    .long  0x25E407F0

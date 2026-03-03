@@ -44,7 +44,7 @@ render_stage_1:
     mov r5, r2
     add #0x2, r5
     tst r4, r4
-    bf/s    .L_0601C9BC
+    bf.s    .L_0601C9BC
     mov.w r3, @r2
     mov.l   .L_0601CA74, r5
     mov #0x20, r4
@@ -57,7 +57,7 @@ render_stage_1:
     mov r5, r3
     add #0x2, r5
     tst r4, r4
-    bf/s    .L_0601C9D4
+    bf.s    .L_0601C9D4
     mov.w r2, @r3
     mov.l   .L_0601CA78, r5
     mov.l   .L_0601CA7C, r4
@@ -103,66 +103,66 @@ render_stage_1:
 
     .global DAT_0601ca3a
 DAT_0601ca3a:
-    .2byte  0x77BD
+    .short  0x77BD
 
     .global DAT_0601ca3c
 DAT_0601ca3c:
-    .2byte  0x012C
+    .short  0x012C
 .L_0601CA3E:
-    .2byte  0x0518
+    .short  0x0518
 .L_0601CA40:
-    .2byte  0x0100
-    .2byte  0xFFFF
+    .short  0x0100
+    .short  0xFFFF
 .L_0601CA44:
-    .4byte  sym_06086028
+    .long  sym_06086028
 .L_0601CA48:
-    .4byte  sym_0608602C
+    .long  sym_0608602C
 .L_0601CA4C:
-    .4byte  sym_06086030
+    .long  sym_06086030
 .L_0601CA50:
-    .4byte  sym_060149E0
+    .long  sym_060149E0
 .L_0601CA54:
-    .4byte  display_channels_clear
+    .long  display_channels_clear
 .L_0601CA58:
-    .4byte  sym_06026CE0
+    .long  sym_06026CE0
 .L_0601CA5C:
-    .4byte  sym_06059F44
+    .long  sym_06059F44
 .L_0601CA60:
-    .4byte  audio_display_init
+    .long  audio_display_init
 .L_0601CA64:
-    .4byte  sym_0608601C
+    .long  sym_0608601C
 .L_0601CA68:
-    .4byte  sym_06086020
+    .long  sym_06086020
 .L_0601CA6C:
-    .4byte  sym_06086024
+    .long  sym_06086024
 .L_0601CA70:
-    .4byte  0x25F00200
+    .long  0x25F00200
 .L_0601CA74:
-    .4byte  0x25F00400
+    .long  0x25F00400
 .L_0601CA78:
-    .4byte  sym_0604880C
+    .long  sym_0604880C
 .L_0601CA7C:
-    .4byte  0x25F00000
+    .long  0x25F00000
 .L_0601CA80:
-    .4byte  dma_transfer
+    .long  dma_transfer
 .L_0601CA84:
-    .4byte  0x00014000
+    .long  0x00014000
 .L_0601CA88:
-    .4byte  0x25E70E40
+    .long  0x25E70E40
 .L_0601CA8C:
-    .4byte  sym_0600511E
+    .long  sym_0600511E
 .L_0601CA90:
-    .4byte  0x00016BC0
+    .long  0x00016BC0
 .L_0601CA94:
-    .4byte  0x25E7B168
+    .long  0x25E7B168
 .L_0601CA98:
-    .4byte  sym_06063958
+    .long  sym_06063958
 .L_0601CA9C:
-    .4byte  sym_06028400
+    .long  sym_06028400
 .L_0601CAA0:
-    .4byte  sym_06063960
+    .long  sym_06063960
 .L_0601CAA4:
-    .4byte  channel_nibble_config
+    .long  channel_nibble_config
 .L_0601CAA8:
     jsr @r13
     nop

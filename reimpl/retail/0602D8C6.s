@@ -48,5 +48,5 @@ DAT_0602d918:
     .global DAT_0602d91a
 DAT_0602d91a:
     .byte 0x01, 0x90
-    .4byte cos_lookup
-    .4byte sin_lookup
+    .long cos_lookup
+    .long sin_lookup

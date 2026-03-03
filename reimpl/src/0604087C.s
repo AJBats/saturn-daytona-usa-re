@@ -25,9 +25,9 @@ sym_06040894:
 DAT_0604089c:
     mac.l @r15+, @r0+
     .word 0xFFFF
-    .4byte  track_segment_interp
-    .4byte  state_field_read
+    .long  track_segment_interp
+    .long  state_field_read
 .L_pool_060408A8:
-    .4byte  evt_reg_save
+    .long  evt_reg_save
 .L_pool_060408AC:
-    .4byte  sym_06040EBA
+    .long  sym_06040EBA

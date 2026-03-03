@@ -19,7 +19,7 @@ FUN_0600C5D6:
     mov.w @r0, r0
     extu.w r0, r0
     cmp/eq #0x2, r0
-    bt/s    .L_0600C60E
+    bt.s    .L_0600C60E
     add #0x18, r12
     mov.w   DAT_0600c616, r0
     mov.l @(r0, r14), r2
@@ -37,21 +37,21 @@ FUN_0600C5D6:
 
     .global DAT_0600c616
 DAT_0600c616:
-    .2byte  0x01BC
+    .short  0x01BC
 .L_0600C618:
-    .2byte  0x00B8
-    .2byte  0xFFFF
-    .4byte  0x00480000
+    .short  0x00B8
+    .short  0xFFFF
+    .long  0x00480000
 .L_0600C620:
-    .4byte  fpmul
+    .long  fpmul
 .L_0600C624:
-    .4byte  sym_0607EBDC
+    .long  sym_0607EBDC
 .L_0600C628:
-    .4byte  sym_0607E940
+    .long  sym_0607E940
 .L_0600C62C:
-    .4byte  sym_06078680
+    .long  sym_06078680
 .L_0600C630:
-    .4byte  sym_06087804
+    .long  sym_06087804
 .L_0600C634:
     .byte   0xD2, 0x33    /* mov.l .L_0600C704, r2 */
     mov.l @r2, r2
@@ -158,41 +158,41 @@ DAT_0600c616:
 
     .global DAT_0600c6f6
 DAT_0600c6f6:
-    .2byte  0x0208
+    .short  0x0208
 
     .global DAT_0600c6f8
 DAT_0600c6f8:
-    .2byte  0x0161
+    .short  0x0161
 
     .global DAT_0600c6fa
 DAT_0600c6fa:
-    .2byte  0x0204
+    .short  0x0204
 
     .global DAT_0600c6fc
 DAT_0600c6fc:
-    .2byte  0x0198
+    .short  0x0198
 
     .global DAT_0600c6fe
 DAT_0600c6fe:
-    .2byte  0x0194
+    .short  0x0194
 
     .global DAT_0600c700
 DAT_0600c700:
-    .2byte  0x0190
+    .short  0x0190
 
     .global DAT_0600c702
 DAT_0600c702:
-    .2byte  0x018C
+    .short  0x018C
 .L_0600C704:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_0600C708:
-    .4byte  sym_06087804
+    .long  sym_06087804
 .L_0600C70C:
-    .4byte  sym_0607E940
+    .long  sym_0607E940
 .L_0600C710:
-    .4byte  0x00E00000
+    .long  0x00E00000
 .L_0600C714:
-    .4byte  sincos_pair
+    .long  sincos_pair
 .L_0600C718:
     .byte   0xB1, 0x06    /* bsr 0x0600C928 (external) */
     mov r14, r4

@@ -25,7 +25,7 @@ track_vtx_builder:
     mov.l   .L_pool_06016EE0, r0
     mov.l @r0, r0
     cmp/eq #0x15, r0
-    bf/s    .L_06016E10
+    bf.s    .L_06016E10
     mov #0xC, r5
     mov #0x20, r4
     mov #0x18, r5
@@ -133,15 +133,15 @@ track_vtx_builder:
     bra     .L_06016EEC
     nop
 .L_wpool_06016EDA:
-    .2byte  0xFF74
+    .short  0xFF74
 .L_pool_06016EDC:
-    .4byte  fpmul
+    .long  fpmul
 .L_pool_06016EE0:
-    .4byte  g_game_state
+    .long  g_game_state
 .L_pool_06016EE4:
-    .4byte  sym_06084FC8
+    .long  sym_06084FC8
 .L_pool_06016EE8:
-    .4byte  sincos_pair
+    .long  sincos_pair
 .L_06016EEC:
     bf      .L_06016E66
     mov.b @(12, r15), r0
@@ -283,17 +283,17 @@ track_vtx_builder:
 
     .global DAT_06016ffa
 DAT_06016ffa:
-    .2byte  0x0080
+    .short  0x0080
 .L_pool_06016FFC:
-    .4byte  sym_06084FC8
+    .long  sym_06084FC8
 .L_pool_06017000:
-    .4byte  sym_06078663
+    .long  sym_06078663
 .L_06017004:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_pool_06017008:
-    .4byte  sincos_pair
+    .long  sincos_pair
 .L_pool_0601700C:
-    .4byte  fpdiv_setup
+    .long  fpdiv_setup
 .L_06017010:
     mov.l @r5, r5
     mov.l   .L_pool_060170E8, r3
@@ -404,15 +404,15 @@ DAT_06016ffa:
     rts
     mov.l @r15+, r14
 .L_wpool_060170E4:
-    .2byte  0x008C
-    .2byte  0xFFFF
+    .short  0x008C
+    .short  0xFFFF
 .L_pool_060170E8:
-    .4byte  fpdiv_setup
+    .long  fpdiv_setup
 .L_pool_060170EC:
-    .4byte  sym_06034FE0
+    .long  sym_06034FE0
 .L_pool_060170F0:
-    .4byte  sym_06084FC8
+    .long  sym_06084FC8
 .L_pool_060170F4:
-    .4byte  sym_06085490
+    .long  sym_06085490
 .L_pool_060170F8:
-    .4byte  swap_sign_ext              /* swap.w + exts.w (>>16 with sign) */
+    .long  swap_sign_ext              /* swap.w + exts.w (>>16 with sign) */

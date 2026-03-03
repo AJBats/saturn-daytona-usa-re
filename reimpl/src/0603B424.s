@@ -92,23 +92,23 @@ cmd_dispatch_main:
 
     .global DAT_0603b4c6
 DAT_0603b4c6:
-    .2byte  0x00FF
+    .short  0x00FF
 
     .global DAT_0603b4c8
 DAT_0603b4c8:
-    .2byte  0x00E9
+    .short  0x00E9
 
     .global DAT_0603b4ca
 DAT_0603b4ca:
-    .2byte  0x00FE
+    .short  0x00FE
 
     .global DAT_0603b4cc
 DAT_0603b4cc:
-    .2byte  0x00EC
+    .short  0x00EC
 
     .global DAT_0603b4ce
 DAT_0603b4ce:
-    .2byte  0x00E8
+    .short  0x00E8
 .L_0603B4D0:
     cmp/eq #0x0, r0
     bt      .L_0603B4A6
@@ -166,4 +166,4 @@ DAT_0603b4ce:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0xE060
+    .short  0xE060

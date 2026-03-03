@@ -63,24 +63,24 @@ geom_display_handler:
     rts
     mov.l @r15+, r14
 .L_0601FE96:
-    .2byte  0x0268
+    .short  0x0268
 .L_0601FE98:
-    .4byte  sym_0607E940
+    .long  sym_0607E940
 .L_0601FE9C:
-    .4byte  sym_06078900
+    .long  sym_06078900
 .L_0601FEA0:
-    .4byte  sym_0607EA98
+    .long  sym_0607EA98
 .L_0601FEA4:
-    .4byte  sym_060877F4
+    .long  sym_060877F4
 .L_0601FEA8:
-    .4byte  sym_060877FC
+    .long  sym_060877FC
 .L_0601FEAC:
-    .4byte  sym_060054EA
+    .long  sym_060054EA
 .L_0601FEB0:
-    .4byte  sym_06087800
+    .long  sym_06087800
 .L_0601FEB4:
-    .4byte  sym_06087802
+    .long  sym_06087802
 .L_0601FEB8:
-    .4byte  sym_0600D280
+    .long  sym_0600D280
 .L_0601FEBC:
-    .4byte  sym_06087804
+    .long  sym_06087804

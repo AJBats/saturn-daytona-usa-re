@@ -26,23 +26,23 @@ save_commit_write:
     .byte   0xD3, 0x08    /* mov.l .L_0603BF70, r3 */
     jmp @r3
     mov.l @r15+, r14
-    .2byte  0x7F04
-    .4byte  0x4F26000B
-    .4byte  0x6EF6E11D
-    .4byte  0x6042001C
-    .4byte  0x600CC860
-    .4byte  0x8B066542
-    .4byte  0x5556A004
-    .2byte  0x5459
+    .short  0x7F04
+    .long  0x4F26000B
+    .long  0x6EF6E11D
+    .long  0x6042001C
+    .long  0x600CC860
+    .long  0x8B066542
+    .long  0x5556A004
+    .short  0x5459
 
     .global DAT_0603bf6e
 .L_0603BF6E:
 DAT_0603bf6e:
-    .2byte  0x00EC
+    .short  0x00EC
 .L_0603BF70:
-    .4byte  watchdog_timer_reset
-    .4byte  0xE400000B
-    .4byte  0x60430000
+    .long  watchdog_timer_reset
+    .long  0xE400000B
+    .long  0x60430000
 
     .global sym_0603BF7C
 sym_0603BF7C:
@@ -79,7 +79,7 @@ sym_0603BF7C:
     add #0x10, r6
     mov.l r7, @r6
     tst r1, r1
-    bf/s    .L_0603BFB0
+    bf.s    .L_0603BFB0
     add #0x10, r6
     add #0x40, r13
     cmp/hs r12, r13
@@ -111,11 +111,11 @@ sym_0603BF7C:
     rts
     mov.l @r15+, r13
 .L_0603BFF8:
-    .2byte  0x0100
+    .short  0x0100
 .L_0603BFFA:
-    .2byte  0xFE92
+    .short  0xFE92
 .L_0603BFFC:
-    .4byte  0x60000000
+    .long  0x60000000
 
     .global sym_0603C000
 sym_0603C000:
@@ -151,7 +151,7 @@ sym_0603C000:
     add #0x10, r4
     mov.l r7, @r4
     tst r6, r6
-    bf/s    .L_0603C032
+    bf.s    .L_0603C032
     add #0x10, r4
     add #0x40, r1
     cmp/hs r12, r1
@@ -177,7 +177,7 @@ sym_0603C05C:
     mov r4, r7
     add r5, r7
     cmp/hs r7, r4
-    bt/s    .L_0603C076
+    bt.s    .L_0603C076
     mov #0x0, r6
 .L_0603C06E:
     mov.l r6, @r4
@@ -190,13 +190,13 @@ sym_0603C05C:
 
     .global DAT_0603c07a
 DAT_0603c07a:
-    .2byte  0x0100
+    .short  0x0100
 .L_0603C07C:
-    .2byte  0xFE92
-    .2byte  0xFFFF
+    .short  0xFE92
+    .short  0xFFFF
 .L_0603C080:
-    .4byte  0x60000000
+    .long  0x60000000
 .L_0603C084:
-    .4byte  0x1FFFFFF0
+    .long  0x1FFFFFF0
 .L_0603C088:
-    .4byte  0x40000000
+    .long  0x40000000

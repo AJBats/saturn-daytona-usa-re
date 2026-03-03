@@ -22,7 +22,7 @@ vdp_mode_select:
     bra     .L_06010E8A
     nop
 .L_06010DBC:
-    .4byte  sym_060788A0
+    .long  sym_060788A0
 .L_06010DC0:
     mov.l   .L_06010EA0, r14
     mov.l   .L_06010EA4, r3
@@ -136,54 +136,54 @@ vdp_mode_select:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_06010EA0:
-    .4byte  sym_06089EDC
+    .long  sym_06089EDC
 .L_06010EA4:
-    .4byte  sym_06026E0C
+    .long  sym_06026E0C
 .L_06010EA8:
-    .4byte  sym_06026E2E
+    .long  sym_06026E2E
 .L_06010EAC:
-    .4byte  sym_06078878
+    .long  sym_06078878
 .L_06010EB0:
-    .4byte  mat_rot_x    /* RE_TEST 4H: X-axis tumble (was mat_rot_y = Y turntable) */
+    .long  mat_rot_x    /* RE_TEST 4H: X-axis tumble (was mat_rot_y = Y turntable) */
 .L_06010EB4:
-    .4byte  sym_0606212C
+    .long  sym_0606212C
 .L_06010EB8:
-    .4byte  sym_060621D8
+    .long  sym_060621D8
 .L_06010EBC:
-    .4byte  sym_06031D8C
+    .long  sym_06031D8C
 .L_06010EC0:
-    .4byte  sym_060620D8
+    .long  sym_060620D8
 .L_06010EC4:
-    .4byte  sym_06031A28
+    .long  sym_06031A28
 .L_06010EC8:
-    .4byte  sym_06062180
+    .long  sym_06062180
 .L_06010ECC:
-    .4byte  sym_06089E44
+    .long  sym_06089E44
 .L_06010ED0:
-    .4byte  sym_06026DBC
+    .long  sym_06026DBC
 .L_06010ED4:
-    .4byte  sym_06044648
+    .long  sym_06044648
 .L_06010ED8:
-    .4byte  sym_06044644
+    .long  sym_06044644
 .L_06010EDC:
-    .4byte  sym_06044640
+    .long  sym_06044640
 .L_06010EE0:
-    .4byte  sym_060621DC
+    .long  sym_060621DC
 .L_06010EE4:
-    .4byte  sym_06044654
+    .long  sym_06044654
 .L_06010EE8:
-    .4byte  sym_06044650
+    .long  sym_06044650
 .L_06010EEC:
-    .4byte  sym_0604464C
+    .long  sym_0604464C
 .L_06010EF0:
-    .4byte  sym_060621E0
+    .long  sym_060621E0
 .L_06010EF4:
-    .4byte  sym_06044678
+    .long  sym_06044678
 .L_06010EF8:
-    .4byte  sym_06044674
+    .long  sym_06044674
 .L_06010EFC:
-    .4byte  sym_06044670
+    .long  sym_06044670
 .L_06010F00:
-    .4byte  sym_060621E4
+    .long  sym_060621E4

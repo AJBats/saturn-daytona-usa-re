@@ -8,7 +8,7 @@ display_cmd_position:
     .byte 0xAF, 0x6A
     .byte 0x00, 0x09
     .byte 0x00, 0x00
-    .4byte sound_cmd_dispatch
+    .long sound_cmd_dispatch
     .global loc_0603243C
 loc_0603243C:
     .byte 0xD2, 0x04
@@ -23,8 +23,8 @@ loc_0603243C:
     .byte 0x00, 0x00
     .byte 0x00, 0x00
     .byte 0x00, 0x01
-    .4byte sym_06082A25
-    .4byte sym_06082A28
+    .long sym_06082A25
+    .long sym_06082A28
     .global loc_0603245C
 loc_0603245C:
     .byte 0xD2, 0x03
@@ -37,7 +37,7 @@ loc_0603245C:
     .byte 0x00, 0x00
     .byte 0x00, 0x00
     .byte 0x00, 0x01
-    .4byte sym_06082A25
+    .long sym_06082A25
     .global loc_06032474
 loc_06032474:
     .byte 0xD2, 0x03
@@ -50,7 +50,7 @@ loc_06032474:
     .byte 0x00, 0x00
     .byte 0x00, 0x00
     .byte 0x00, 0x02
-    .4byte sym_06082A25
+    .long sym_06082A25
     .global loc_0603248C
 loc_0603248C:
     .byte 0xD2, 0x02
@@ -61,7 +61,7 @@ loc_0603248C:
     .byte 0x20, 0x10
     .byte 0x00, 0x00
     .byte 0x00, 0x02
-    .4byte sym_06082A25
+    .long sym_06082A25
     .global loc_060324A0
 loc_060324A0:
     .byte 0xD0, 0x07
@@ -80,11 +80,11 @@ loc_060324A0:
     .byte 0xAF, 0x26
     .byte 0x20, 0x10
     .byte 0x00, 0x00
-    .4byte sym_0607E944
+    .long sym_0607E944
     .byte 0xFF, 0xFE
     .byte 0xFF, 0xFF
-    .4byte sym_06082A24
-    .4byte sym_06082A25
+    .long sym_06082A24
+    .long sym_06082A25
     .byte 0x00, 0x00
     .byte 0x00, 0x04
     .byte 0xD0, 0x04

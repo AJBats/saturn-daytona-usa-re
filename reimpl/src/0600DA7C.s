@@ -11,7 +11,7 @@ finish_proximity:
     mov.l @r4, r4
     mov.l @(r0, r4), r0
     tst r0, r0
-    bt/s    .L_0600DAB4
+    bt.s    .L_0600DAB4
     mov #0x1, r6
     mov.w @r14, r0
     extu.w r0, r0
@@ -59,7 +59,7 @@ finish_proximity:
     mov.l r2, @r15
     mov.w   DAT_0600db46, r1
     cmp/ge r1, r2
-    bf/s    .L_0600DB0A
+    bf.s    .L_0600DB0A
     extu.w r7, r7
     mov.l @r15, r3
     mov.l   .L_0600DB58, r2
@@ -105,27 +105,27 @@ finish_proximity:
 
     .global DAT_0600db40
 DAT_0600db40:
-    .2byte  0x00B8
+    .short  0x00B8
 .L_0600DB42:
-    .2byte  0x1C01
+    .short  0x1C01
 
     .global DAT_0600db44
 DAT_0600db44:
-    .2byte  0x01E4
+    .short  0x01E4
 
     .global DAT_0600db46
 DAT_0600db46:
-    .2byte  0x4000
+    .short  0x4000
 .L_0600DB48:
-    .4byte  sym_0607E940
+    .long  sym_0607E940
 .L_0600DB4C:
-    .4byte  sym_0607869A
+    .long  sym_0607869A
 .L_0600DB50:
-    .4byte  sym_06078698
+    .long  sym_06078698
 .L_0600DB54:
-    .4byte  sym_06034F78
+    .long  sym_06034F78
 .L_0600DB58:
-    .4byte  0x0000C000
+    .long  0x0000C000
 .L_0600DB5C:
     add #0x8, r15
     lds.l @r15+, pr
@@ -203,33 +203,33 @@ finish_display:
 
     .global DAT_0600dbda
 DAT_0600dbda:
-    .2byte  0x015C
+    .short  0x015C
 
     .global DAT_0600dbdc
 DAT_0600dbdc:
-    .2byte  0x4000
+    .short  0x4000
 .L_0600DBDE:
-    .2byte  0x0AC0
+    .short  0x0AC0
 .L_0600DBE0:
-    .4byte  sym_0607E940
+    .long  sym_0607E940
 .L_0600DBE4:
-    .4byte  sym_0607EABC
+    .long  sym_0607EABC
 .L_0600DBE8:
-    .4byte  sym_0607EAAC
+    .long  sym_0607EAAC
 .L_0600DBEC:
-    .4byte  sym_0607EAA0
+    .long  sym_0607EAA0
 .L_0600DBF0:
-    .4byte  sound_notify_handler
+    .long  sound_notify_handler
 .L_0600DBF4:
-    .4byte  sym_060786A8
+    .long  sym_060786A8
 .L_0600DBF8:
-    .4byte  sym_06078698
+    .long  sym_06078698
 .L_0600DBFC:
-    .4byte  sym_06078644
+    .long  sym_06078644
 .L_0600DC00:
-    .4byte  sym_060637F8
+    .long  sym_060637F8
 .L_0600DC04:
-    .4byte  sym_06028400
+    .long  sym_06028400
 .L_0600DC08:
     mov.l   .L_0600DCA0, r2
     mov.l r2, @r15
@@ -315,36 +315,36 @@ checkpoint_sound_trigger:
 
     .global DAT_0600dc98
 DAT_0600dc98:
-    .2byte  0x4000
+    .short  0x4000
 
     .global DAT_0600dc9a
 DAT_0600dc9a:
-    .2byte  0x0B3C
+    .short  0x0B3C
 
     .global DAT_0600dc9c
 DAT_0600dc9c:
-    .2byte  0x0ABC
+    .short  0x0ABC
 
     .global DAT_0600dc9e
 DAT_0600dc9e:
-    .2byte  0x0BBC
+    .short  0x0BBC
 .L_0600DCA0:
-    .4byte  sym_06063808
+    .long  sym_06063808
 .L_0600DCA4:
-    .4byte  sym_06028400
+    .long  sym_06028400
 .L_0600DCA8:
-    .4byte  sym_06078698
+    .long  sym_06078698
 .L_0600DCAC:
-    .4byte  sound_cmd_dispatch          /* -> sound command dispatcher */
+    .long  sound_cmd_dispatch          /* -> sound command dispatcher */
 .L_0600DCB0:
-    .4byte  0xAE1138FF
+    .long  0xAE1138FF
 .L_0600DCB4:
-    .4byte  sym_06078644
+    .long  sym_06078644
 .L_0600DCB8:
-    .4byte  0xAE1139FF
+    .long  0xAE1139FF
 .L_0600DCBC:
-    .4byte  sym_06086054
+    .long  sym_06086054
 .L_0600DCC0:
-    .4byte  sym_0605ACE8
+    .long  sym_0605ACE8
 .L_0600DCC4:
-    .4byte  sym_060284AE
+    .long  sym_060284AE

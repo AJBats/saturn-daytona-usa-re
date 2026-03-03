@@ -87,27 +87,27 @@ ranking_pts_calc:
     mov #0x0, r4
     bra     .L_06013C04
     nop
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_pool_06013BA8:
-    .4byte  sound_cmd_dispatch
+    .long  sound_cmd_dispatch
 .L_pool_06013BAC:
-    .4byte  sym_06084FB4
+    .long  sym_06084FB4
 .L_pool_06013BB0:
-    .4byte  sym_06084AF6
+    .long  sym_06084AF6
 .L_pool_06013BB4:
-    .4byte  sym_06084FB8
+    .long  sym_06084FB8
 .L_pool_06013BB8:
-    .4byte  handler_init_reset
+    .long  handler_init_reset
 .L_pool_06013BBC:
-    .4byte  0xAE1000FF
+    .long  0xAE1000FF
 .L_pool_06013BC0:
-    .4byte  race_variant_b
+    .long  race_variant_b
 .L_pool_06013BC4:
-    .4byte  race_variant_c
+    .long  race_variant_c
 .L_pool_06013BC8:
-    .4byte  race_variant_d
+    .long  race_variant_d
 .L_pool_06013BCC:
-    .4byte  sym_0605B294
+    .long  sym_0605B294
 .L_06013BD0:
     mov r4, r2
     mov #0x3, r3

@@ -64,13 +64,13 @@ sound_channel_alloc:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .4byte sym_0605AAA2
+    .long sym_0605AAA2
     .byte 0x01, 0x50
     .byte 0x00, 0x00
-    .4byte sym_0607885C
-    .4byte display_channel_b
-    .4byte sym_0607886E
-    .4byte sym_0607887F
+    .long sym_0607885C
+    .long display_channel_b
+    .long sym_0607886E
+    .long sym_0607887F
     .byte 0x00, 0x10
     .byte 0x00, 0x00
     .global loc_0601D50C
@@ -111,12 +111,12 @@ loc_0601D546:
     .byte 0xD3, 0x06
     .byte 0x43, 0x2B
     .byte 0x64, 0x42
-    .4byte sym_0607885C
-    .4byte sym_0607EBC8
-    .4byte display_channel_b
-    .4byte sym_0607887F
-    .4byte sym_0607EBCC
-    .4byte sym_0600338C
+    .long sym_0607885C
+    .long sym_0607EBC8
+    .long display_channel_b
+    .long sym_0607887F
+    .long sym_0607EBCC
+    .long sym_0600338C
     .global loc_0601D568
 loc_0601D568:
     .byte 0xD3, 0x1C
@@ -180,9 +180,9 @@ camera_view_update:
     .byte 0x43, 0x2B
     .byte 0x6E, 0xF6
     .byte 0xFF, 0xFF
-    .4byte sym_0607EBCC
-    .4byte g_game_state
-    .4byte sym_06094FAC
-    .4byte sym_0605AAA6
-    .4byte sym_0605AAA2
-    .4byte sym_06028400
+    .long sym_0607EBCC
+    .long g_game_state
+    .long sym_06094FAC
+    .long sym_0605AAA6
+    .long sym_0605AAA2
+    .long sym_06028400

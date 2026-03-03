@@ -17,7 +17,7 @@ geom_vertex_process:
     mov.l   .L_pool_0601EA00, r0
     mov.b @r0, r0
     tst r0, r0
-    bt/s    .L_0601E980
+    bt.s    .L_0601E980
     mov #0x0, r8
     bra     .L_0601EA8E
     mov.b r8, @r13
@@ -79,23 +79,23 @@ geom_vertex_process:
     mov.l @r15+, r13
     .byte   0xA5, 0x0E    /* bra 0x0601F40C (geom_output_handler) */
     mov.l @r15+, r14
-    .4byte  0x2010001F
+    .long  0x2010001F
 .L_pool_0601E9F4:
-    .4byte  sym_0605E098
+    .long  sym_0605E098
 .L_pool_0601E9F8:
-    .4byte  sym_0601F8BC
+    .long  sym_0601F8BC
 .L_pool_0601E9FC:
-    .4byte  sym_0605E05C
+    .long  sym_0605E05C
 .L_pool_0601EA00:
-    .4byte  sym_0605E05D
+    .long  sym_0605E05D
 .L_pool_0601EA04:
-    .4byte  sym_060877D8
+    .long  sym_060877D8
 .L_pool_0601EA08:
-    .4byte  sym_0604A57C
+    .long  sym_0604A57C
 .L_pool_0601EA0C:
-    .4byte  sym_060877DD
+    .long  sym_060877DD
 .L_pool_0601EA10:
-    .4byte  sym_060877D9
+    .long  sym_060877D9
 .L_0601EA14:
     mov.b @r14, r2
     .byte   0xD3, 0x2F    /* mov.l @(0xBC,PC), r3 */

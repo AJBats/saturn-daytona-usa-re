@@ -34,6 +34,6 @@ time_delta_format:
     .byte 0x6E, 0xF6
     .byte 0xE0, 0x00
     .byte 0xFF, 0xFF
-    .4byte sym_06084FC8
-    .4byte sym_0605B8B0
-    .4byte sym_060172E4
+    .long sym_06084FC8
+    .long sym_0605B8B0
+    .long sym_060172E4

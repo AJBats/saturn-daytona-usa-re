@@ -31,4 +31,4 @@ fixpt_div_helper:
     .byte 0x00, 0x00
     .byte 0x00, 0x5A
     .byte 0x00, 0x00
-    .4byte sym_060424A2
+    .long sym_060424A2

@@ -27,4 +27,4 @@ menu_bg_scroll:
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
     .byte 0xFF, 0xFF
-    .4byte sym_06040894
+    .long sym_06040894

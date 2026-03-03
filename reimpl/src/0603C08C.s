@@ -10,7 +10,7 @@ display_scene_update:
     lds r2, macl
     rts
     xtrct r3, r0
-    .2byte  0x0009
+    .short  0x0009
 
     .global sym_0603C0A0
 sym_0603C0A0:
@@ -23,25 +23,25 @@ sym_0603C0A0:
     mov.l r4, @(20, r0)
     rts
     mov.l @(20, r0), r0
-    .2byte  0x0009
-    .4byte  0x6043000B
-    .4byte  0x40280009
-    .4byte  0x60434029
-    .4byte  0x000B600F
-    .4byte  0x010A021A
-    .4byte  0xE000400A
-    .4byte  0x401A054F
-    .4byte  0x054F054F
-    .4byte  0x030A001A
-    .4byte  0x410A421A
-    .4byte  0x000B203D
-    .4byte  0x2F36E3F0
-    .4byte  0x4F03633C
-    .4byte  0x430ED305
-    .4byte  0x23020009
-    .4byte  0x13110009
-    .4byte  0x50350009
-    .4byte  0x4F0763F6
-    .4byte  0x000B6103
+    .short  0x0009
+    .long  0x6043000B
+    .long  0x40280009
+    .long  0x60434029
+    .long  0x000B600F
+    .long  0x010A021A
+    .long  0xE000400A
+    .long  0x401A054F
+    .long  0x054F054F
+    .long  0x030A001A
+    .long  0x410A421A
+    .long  0x000B203D
+    .long  0x2F36E3F0
+    .long  0x4F03633C
+    .long  0x430ED305
+    .long  0x23020009
+    .long  0x13110009
+    .long  0x50350009
+    .long  0x4F0763F6
+    .long  0x000B6103
 .L_0603C100:
-    .4byte  0xFFFFFF00
+    .long  0xFFFFFF00

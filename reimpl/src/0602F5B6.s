@@ -29,21 +29,21 @@ color_material_blend:
 
     .global DAT_0602f5e8
 DAT_0602f5e8:
-    .2byte  0x0068
+    .short  0x0068
 
     .global DAT_0602f5ea
 DAT_0602f5ea:
-    .2byte  0x00E0
+    .short  0x00E0
 .L_pool_0602F5EC:
-    .4byte  sym_06045AEC
+    .long  sym_06045AEC
 .L_pool_0602F5F0:
-    .4byte  0x00016666
+    .long  0x00016666
 .L_pool_0602F5F4:
-    .4byte  0x00006666
+    .long  0x00006666
 .L_pool_0602F5F8:
-    .4byte  0x00000000
+    .long  0x00000000
 .L_pool_0602F5FC:
-    .4byte  0x00002134
+    .long  0x00002134
 .L_0602F600:
     cmp/gt r5, r4
     bt      .L_0602F606
@@ -163,69 +163,69 @@ DAT_0602f5ea:
 
     .global DAT_0602f6e0
 DAT_0602f6e0:
-    .2byte  0x00DC
+    .short  0x00DC
 
     .global DAT_0602f6e2
 DAT_0602f6e2:
-    .2byte  0x00C8
+    .short  0x00C8
 
     .global DAT_0602f6e4
 DAT_0602f6e4:
-    .2byte  0x00E8
+    .short  0x00E8
 
     .global DAT_0602f6e6
 DAT_0602f6e6:
-    .2byte  0x011C
+    .short  0x011C
 
     .global DAT_0602f6e8
 DAT_0602f6e8:
-    .2byte  0x0084
+    .short  0x0084
 
     .global DAT_0602f6ea
 DAT_0602f6ea:
-    .2byte  0x00EC
+    .short  0x00EC
 
     .global DAT_0602f6ec
 DAT_0602f6ec:
-    .2byte  0x00F0
+    .short  0x00F0
 
     .global DAT_0602f6ee
 DAT_0602f6ee:
-    .2byte  0x001C
+    .short  0x001C
 
     .global DAT_0602f6f0
 DAT_0602f6f0:
-    .2byte  0x00F4
+    .short  0x00F4
 
     .global DAT_0602f6f2
 DAT_0602f6f2:
-    .2byte  0x00D6
+    .short  0x00D6
 
     .global DAT_0602f6f4
 DAT_0602f6f4:
-    .2byte  0x7333
+    .short  0x7333
 
     .global DAT_0602f6f6
 DAT_0602f6f6:
-    .2byte  0x00F8
+    .short  0x00F8
 .L_pool_0602F6F8:
-    .4byte  sym_060477BC
+    .long  sym_060477BC
 .L_pool_0602F6FC:
-    .4byte  0x00019999
+    .long  0x00019999
 .L_pool_0602F700:
-    .4byte  fpdiv_setup
+    .long  fpdiv_setup
 .L_pool_0602F704:
-    .4byte  sym_06045AEC
+    .long  sym_06045AEC
 .L_pool_0602F708:
-    .4byte  0x0B400000
+    .long  0x0B400000
 .L_pool_0602F70C:
-    .4byte  0x07800000
+    .long  0x07800000
 .L_pool_0602F710:
-    .4byte  0x06400000
+    .long  0x06400000
 .L_pool_0602F714:
-    .4byte  sin_lookup
+    .long  sin_lookup
 .L_pool_0602F718:
-    .4byte  sym_060454CC
+    .long  sym_060454CC
 .L_0602F71C:
     mov #0x0, r4
     mov.w   .L_wpool_0602F786, r3
@@ -285,13 +285,13 @@ DAT_0602f6f6:
     rts
     shar r4
 .L_wpool_0602F786:
-    .2byte  0x0004
+    .short  0x0004
 .L_wpool_0602F788:
-    .2byte  0x0120
+    .short  0x0120
 .L_wpool_0602F78A:
-    .2byte  0x007C
+    .short  0x007C
 .L_pool_0602F78C:
-    .4byte  sym_0604679C
+    .long  sym_0604679C
 .L_0602F790:
     mov.l @(8, r0), r2
     .byte   0xD3, 0x03    /* mov.l .L_pool_0602F7A0, r3 */
@@ -301,9 +301,9 @@ DAT_0602f6f6:
 .L_0602F79A:
     rts
     shar r4
-    .2byte  0x0000
+    .short  0x0000
 .L_pool_0602F7A0:
-    .4byte  sym_06046F9C
+    .long  sym_06046F9C
 .L_0602F7A4:
     rts
     mov #0x0, r4
@@ -315,9 +315,9 @@ DAT_0602f6f6:
     mov.l @r3, r4
     rts
     shll r4
-    .2byte  0x0000
+    .short  0x0000
 .L_pool_0602F7B8:
-    .4byte  sym_0604679C
+    .long  sym_0604679C
 
     .global sym_0602F7BC
 sym_0602F7BC:
@@ -347,12 +347,12 @@ sym_0602F7BC:
 
     .global DAT_0602f7e4
 DAT_0602f7e4:
-    .2byte  0x0166
+    .short  0x0166
 
     .global DAT_0602f7e6
 DAT_0602f7e6:
-    .2byte  0x0152
+    .short  0x0152
 
     .global DAT_0602f7e8
 DAT_0602f7e8:
-    .2byte  0x0208
+    .short  0x0208

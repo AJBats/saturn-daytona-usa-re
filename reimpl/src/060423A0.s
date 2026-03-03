@@ -15,7 +15,7 @@ bulk_struct_init:
     lds.l @r15+, pr
     rts
     mov.b r1, @(r0, r2)
-    .4byte  0xD60FE04C
-    .4byte  0x63620346
-    .4byte  0x6362E050
-    .4byte  0x000B0356
+    .long  0xD60FE04C
+    .long  0x63620346
+    .long  0x6362E050
+    .long  0x000B0356

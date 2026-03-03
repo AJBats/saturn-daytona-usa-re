@@ -28,9 +28,9 @@ scene_render_alt:
     .byte 0x08, 0xBD
     .byte 0xA0, 0x38
     .byte 0x48, 0x01
-    .4byte sym_060C2000
-    .4byte sym_060BF000
-    .4byte sym_0607EAD8
+    .long sym_060C2000
+    .long sym_060BF000
+    .long sym_0607EAD8
     .byte 0xD1, 0x04
     .byte 0x29, 0x9A
     .byte 0x60, 0x15
@@ -41,7 +41,7 @@ scene_render_alt:
     .byte 0xAF, 0xF9
     .byte 0x79, 0x02
     .byte 0x00, 0x00
-    .4byte sym_06061270
+    .long sym_06061270
     .byte 0xD1, 0x07
     .byte 0x61, 0x12
     .byte 0x90, 0x0B
@@ -60,9 +60,9 @@ scene_render_alt:
     .global DAT_06027f56
 DAT_06027f56:
     .byte 0x01, 0xEC
-    .4byte sym_0607E940
-    .4byte sym_06061240
-    .4byte sym_06063F50
+    .long sym_0607E940
+    .long sym_06061240
+    .long sym_06063F50
     .byte 0x29, 0x9A
     .byte 0x29, 0x98
     .byte 0x8B, 0x09
@@ -111,10 +111,10 @@ DAT_06027f56:
     .byte 0x00, 0x09
     .byte 0x01, 0x00
     .byte 0x00, 0x00
-    .4byte sym_06063F50
+    .long sym_06063F50
     .byte 0x00, 0x00
     .byte 0x00, 0x34
-    .4byte sym_060A6000
+    .long sym_060A6000
     .byte 0x01, 0x00
     .byte 0x00, 0x00
     .byte 0x60, 0x53
@@ -263,7 +263,7 @@ sym_060280C4:
     .byte 0x00, 0x0B
     .byte 0x11, 0x06
     .byte 0x00, 0x00
-    .4byte sym_060280F4
+    .long sym_060280F4
     .global sym_060280F4
 sym_060280F4:
     .byte 0x00, 0x04
@@ -322,11 +322,11 @@ sym_060280F8:
     .byte 0x15, 0x35
     .byte 0x00, 0x0B
     .byte 0x15, 0x16
-    .4byte sym_060684EC
-    .4byte sym_06063F64
-    .4byte sym_06028178
-    .4byte sym_06028174
-    .4byte sym_06059FFC
+    .long sym_060684EC
+    .long sym_06063F64
+    .long sym_06028178
+    .long sym_06028174
+    .long sym_06059FFC
     .global sym_06028174
 sym_06028174:
     .byte 0x14, 0xC8
@@ -361,7 +361,7 @@ sym_06028178:
     .byte 0x00, 0x0B
     .byte 0x11, 0x06
     .byte 0x00, 0x00
-    .4byte sym_060281B4
+    .long sym_060281B4
     .global sym_060281B4
 sym_060281B4:
     .byte 0x00, 0x05
@@ -388,7 +388,7 @@ sym_060281B8:
     .byte 0x00, 0x0B
     .byte 0x11, 0x06
     .byte 0x00, 0x00
-    .4byte sym_060281E4
+    .long sym_060281E4
     .global sym_060281E4
 sym_060281E4:
     .byte 0x00, 0x04
@@ -413,7 +413,7 @@ sym_060281E4:
     .byte 0x00, 0x0B
     .byte 0x11, 0x06
     .byte 0x00, 0x00
-    .4byte sym_06028214
+    .long sym_06028214
     .global sym_06028214
 sym_06028214:
     .byte 0x00, 0x04
@@ -492,15 +492,15 @@ sym_06028248:
     .byte 0x00, 0x09
     .byte 0x01, 0x80
     .byte 0x00, 0x00
-    .4byte sym_060612B8
-    .4byte sym_060612C4
-    .4byte memcpy_word_idx
+    .long sym_060612B8
+    .long sym_060612C4
+    .long memcpy_word_idx
     .byte 0x00, 0xF0
     .byte 0x00, 0x09
-    .4byte sym_06059C5C
-    .4byte sym_06059C74
-    .4byte sym_06059C7B
-    .4byte sym_06059C8C
+    .long sym_06059C5C
+    .long sym_06059C74
+    .long sym_06059C7B
+    .long sym_06059C8C
     .byte 0xD2, 0x0E
     .byte 0xD0, 0x0F
     .byte 0x12, 0x00
@@ -531,7 +531,7 @@ sym_06028248:
     .byte 0x00, 0x0B
     .byte 0x60, 0x23
     .byte 0x00, 0x09
-    .4byte sym_060620C4
+    .long sym_060620C4
     .byte 0x20, 0x20
     .byte 0x20, 0x20
     .byte 0xFF, 0x00
@@ -564,7 +564,7 @@ sym_06028248:
     .byte 0x02, 0x74
     .byte 0x00, 0x0B
     .byte 0x60, 0x23
-    .4byte sym_060620C4
+    .long sym_060620C4
     .byte 0x0A, 0x0A
     .byte 0x0A, 0x0A
     .byte 0xFF, 0x00

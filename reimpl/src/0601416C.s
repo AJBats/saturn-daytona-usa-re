@@ -89,32 +89,32 @@ race_variant_setup_a:
     rts
     mov.l @r15+, r14
 .L_wpool_06014212:
-    .2byte  0xCCCD
+    .short  0xCCCD
 .L_pool_06014214:
-    .4byte  sym_06089EDC
+    .long  sym_06089EDC
 .L_pool_06014218:
-    .4byte  0x00010000
+    .long  0x00010000
 .L_pool_0601421C:
-    .4byte  sym_06026E0C
+    .long  sym_06026E0C
 .L_pool_06014220:
-    .4byte  sym_06089E4A
+    .long  sym_06089E4A
 .L_pool_06014224:
-    .4byte  sym_06084B18
+    .long  sym_06084B18
 .L_pool_06014228:
-    .4byte  sym_06026DBC
+    .long  sym_06026DBC
 .L_pool_0601422C:
-    .4byte  sym_0605AD4C
+    .long  sym_0605AD4C
 .L_pool_06014230:
-    .4byte  sym_06026E2E
+    .long  sym_06026E2E
 .L_pool_06014234:
-    .4byte  mat_scale_columns
+    .long  mat_scale_columns
 .L_pool_06014238:
-    .4byte  sym_06084B14
+    .long  sym_06084B14
 .L_pool_0601423C:
-    .4byte  sym_06062338
+    .long  sym_06062338
 .L_pool_06014240:
-    .4byte  sym_06031D8C
+    .long  sym_06031D8C
 .L_pool_06014244:
-    .4byte  sym_060622C0
+    .long  sym_060622C0
 .L_pool_06014248:
-    .4byte  sym_06031A28
+    .long  sym_06031A28

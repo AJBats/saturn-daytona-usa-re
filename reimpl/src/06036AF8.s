@@ -32,13 +32,13 @@ shadow_color_alpha:
     bt      .L_06036B44
     bra     .L_06036B5A
     mov r4, r0
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_pool_06036B38:
-    .4byte  input_proc_analog
+    .long  input_proc_analog
 .L_pool_06036B3C:
-    .4byte  input_proc_digital
+    .long  input_proc_digital
 .L_pool_06036B40:
-    .4byte  0x00FFFFFF
+    .long  0x00FFFFFF
 .L_06036B44:
     mov r15, r3
     mov r13, r5

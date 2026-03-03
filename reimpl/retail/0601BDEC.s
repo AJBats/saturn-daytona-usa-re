@@ -51,8 +51,8 @@ replay_playback_engine:
     .byte 0x27, 0x22
     .byte 0x00, 0xA0
     .byte 0xFF, 0xFF
-    .4byte sym_06086018
-    .4byte sym_06059F3C
-    .4byte sym_06059F38
-    .4byte sym_0607E944
-    .4byte sym_06034FE0
+    .long sym_06086018
+    .long sym_06059F3C
+    .long sym_06059F38
+    .long sym_0607E944
+    .long sym_06034FE0

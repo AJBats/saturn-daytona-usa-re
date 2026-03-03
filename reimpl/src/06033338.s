@@ -7,10 +7,10 @@ results_time_render:
     lds.l @r15+, pr
     rts
     nop
-    .4byte  0x07E00000
-    .4byte  sym_060430CE
-    .4byte  sym_060629AC
-    .4byte  memcpy_word_idx
+    .long  0x07E00000
+    .long  sym_060430CE
+    .long  sym_060629AC
+    .long  memcpy_word_idx
 
     .global sym_06033354
 sym_06033354:

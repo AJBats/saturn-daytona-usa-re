@@ -31,15 +31,15 @@ transition_sound_trigger:
     rts
     mov.l @r15+, r14
 .L_pool_060191C4:
-    .4byte  sound_cmd_dispatch
+    .long  sound_cmd_dispatch
 .L_pool_060191C8:
-    .4byte  sym_06086050
+    .long  sym_06086050
 .L_pool_060191CC:
-    .4byte  0xAE0001FF
+    .long  0xAE0001FF
 .L_pool_060191D0:
-    .4byte  0xAE0005FF
-    .4byte  sym_06012F58
+    .long  0xAE0005FF
+    .long  sym_06012F58
 .L_pool_060191D8:
-    .4byte  0x25A02DBE
+    .long  0x25A02DBE
 .L_pool_060191DC:
-    .4byte  sym_06012F60
+    .long  sym_06012F60

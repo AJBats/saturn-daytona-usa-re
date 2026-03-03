@@ -19,7 +19,7 @@ replay_cam_interp:
     .byte 0x43, 0x2B
     .byte 0x4F, 0x26
     .byte 0x01, 0x96
-    .4byte sym_0608600F
-    .4byte sym_06086011
-    .4byte sym_0604A480
-    .4byte sym_060284AE
+    .long sym_0608600F
+    .long sym_06086011
+    .long sym_0604A480
+    .long sym_060284AE

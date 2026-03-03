@@ -23,33 +23,33 @@ car_update_racing:
     bra     .L_0600E192
     mov #0x1, r13
 .L_0600E0EA:
-    .2byte  0x0268
-    .4byte  sym_0607E944
-    .4byte  sym_0607EA98
-    .4byte  sym_060786CA
+    .short  0x0268
+    .long  sym_0607E944
+    .long  sym_0607EA98
+    .long  sym_060786CA
 .L_0600E0F8:
-    .4byte  sym_0607E940
-    .4byte  sym_06078B68
-    .4byte  sym_0607E948
-    .4byte  sym_0602DC18
-    .4byte  sym_06006838
-    .4byte  sym_060786B8
-    .4byte  segment_position_track
+    .long  sym_0607E940
+    .long  sym_06078B68
+    .long  sym_0607E948
+    .long  sym_0602DC18
+    .long  sym_06006838
+    .long  sym_060786B8
+    .long  segment_position_track
 .L_0600E114:
-    .4byte  scene_3d_processor
-    .4byte  sym_06063EB0
-    .4byte  sym_06063E9C
-    .4byte  sym_06063ED8
-    .4byte  sym_06063EC4
-    .4byte  disp_mode_switch
+    .long  scene_3d_processor
+    .long  sym_06063EB0
+    .long  sym_06063E9C
+    .long  sym_06063ED8
+    .long  sym_06063EC4
+    .long  disp_mode_switch
 .L_0600E12C:
-    .4byte  sym_0607EBC4
+    .long  sym_0607EBC4
 .L_0600E130:
-    .4byte  sym_06078900
+    .long  sym_06078900
 .L_0600E134:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_0600E138:
-    .4byte  sym_0607EAE0
+    .long  sym_0607EAE0
 .L_0600E13C:
     mul.l r10, r13
     mov.l   .L_0600E1B0, r3
@@ -112,22 +112,22 @@ car_update_racing:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_0600E1B0:
-    .4byte  sym_06030A06
+    .long  sym_06030A06
 .L_0600E1B4:
-    .4byte  sym_06030EE0
+    .long  sym_06030EE0
 .L_0600E1B8:
-    .4byte  pre_render_transform
+    .long  pre_render_transform
 .L_0600E1BC:
-    .4byte  sym_06063EB0
+    .long  sym_06063EB0
 .L_0600E1C0:
-    .4byte  sym_06063E9C
+    .long  sym_06063E9C
 .L_0600E1C4:
-    .4byte  sym_06063ED8
+    .long  sym_06063ED8
 .L_0600E1C8:
-    .4byte  sym_06063EC4
+    .long  sym_06063EC4
 .L_0600E1CC:
-    .4byte  sym_0603053C
+    .long  sym_0603053C
 .L_0600E1D0:
-    .4byte  sym_0607EA98
+    .long  sym_0607EA98

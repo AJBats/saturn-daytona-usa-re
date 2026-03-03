@@ -20,7 +20,7 @@ scene_fallback_render:
     mov.l r1, @r12
     mov.l @r14, r3
     cmp/gt r11, r3
-    bt/s    .L_06006532
+    bt.s    .L_06006532
     mov #0x1, r10
     .byte   0xD0, 0x1E    /* mov.l .L_06006598, r0 */
     mov.b @r0, r0
@@ -48,34 +48,34 @@ scene_fallback_render:
     mov.l r3, @r13
     bra     .L_06006780
     nop
-    .4byte  0x00DCFFFF
-    .4byte  sym_060620D0
+    .long  0x00DCFFFF
+    .long  sym_060620D0
 .L_06006554:
-    .4byte  sym_06063E1C
-    .4byte  sym_06059F30
+    .long  sym_06063E1C
+    .long  sym_06059F30
 .L_0600655C:
-    .4byte  channel_nibble_config
-    .4byte  0x00058000
+    .long  channel_nibble_config
+    .long  0x00058000
 .L_06006564:
-    .4byte  sym_06063E24
-    .4byte  0x0000F300
-    .4byte  sym_06063E34
-    .4byte  0x006E0000
-    .4byte  sym_06063E28
-    .4byte  0x00100000
-    .4byte  sym_06063E2C
-    .4byte  sym_06063E30
-    .4byte  sym_06063EEC
+    .long  sym_06063E24
+    .long  0x0000F300
+    .long  sym_06063E34
+    .long  0x006E0000
+    .long  sym_06063E28
+    .long  0x00100000
+    .long  sym_06063E2C
+    .long  sym_06063E30
+    .long  sym_06063EEC
 .L_06006588:
-    .4byte  sym_06063E20
+    .long  sym_06063E20
 .L_0600658C:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_06006590:
-    .4byte  sym_06063F4C
+    .long  sym_06063F4C
 .L_06006594:
-    .4byte  sym_060446B8
+    .long  sym_060446B8
 .L_06006598:
-    .4byte  sym_06078654
+    .long  sym_06078654
 .L_0600659C:
     .byte   0xD0, 0x33    /* mov.l .L_0600666C, r0 */
     .byte   0xD1, 0x34    /* mov.l .L_06006670, r1 */
@@ -182,45 +182,45 @@ scene_fallback_render:
     bra     .L_06006780
     nop
 .L_06006662:
-    .2byte  0xFDC0
+    .short  0xFDC0
 .L_06006664:
-    .2byte  0x4000
+    .short  0x4000
 
     .global DAT_06006666
 DAT_06006666:
-    .2byte  0xE000
+    .short  0xE000
 
     .global DAT_06006668
 DAT_06006668:
-    .2byte  0x1000
+    .short  0x1000
 .L_0600666A:
-    .2byte  0xFEA0
+    .short  0xFEA0
 .L_0600666C:
-    .4byte  0x00058000
+    .long  0x00058000
 .L_06006670:
-    .4byte  0x00010000
+    .long  0x00010000
 .L_06006674:
-    .4byte  sym_06063E30
+    .long  sym_06063E30
 .L_06006678:
-    .4byte  sym_06063E2C
+    .long  sym_06063E2C
 .L_0600667C:
-    .4byte  sym_06063E28
+    .long  sym_06063E28
 .L_06006680:
-    .4byte  sym_06063E34
+    .long  sym_06063E34
 .L_06006684:
-    .4byte  0x00078000
+    .long  0x00078000
 .L_06006688:
-    .4byte  0x0003C000
+    .long  0x0003C000
 .L_0600668C:
-    .4byte  0x0001C000
+    .long  0x0001C000
 .L_06006690:
-    .4byte  0x0000A000
+    .long  0x0000A000
 .L_06006694:
-    .4byte  0x000D0000
+    .long  0x000D0000
 .L_06006698:
-    .4byte  sym_06083255
+    .long  sym_06083255
 .L_0600669C:
-    .4byte  0x000A0000
+    .long  0x000A0000
 .L_060066A0:
     mov.l @r12, r2
     mov.l @r14, r3
@@ -317,35 +317,35 @@ DAT_06006668:
 
     .global DAT_06006752
 DAT_06006752:
-    .2byte  0x1000
+    .short  0x1000
 .L_06006754:
-    .2byte  0xFEA0
+    .short  0xFEA0
 
     .global DAT_06006756
 DAT_06006756:
-    .2byte  0xE000
+    .short  0xE000
 
     .global DAT_06006758
 DAT_06006758:
-    .2byte  0x4000
+    .short  0x4000
 .L_0600675A:
-    .2byte  0xFDC0
+    .short  0xFDC0
 .L_0600675C:
-    .4byte  0x000D0000
+    .long  0x000D0000
 .L_06006760:
-    .4byte  sym_06083255
+    .long  sym_06083255
 .L_06006764:
-    .4byte  0x000A0000
+    .long  0x000A0000
 .L_06006768:
-    .4byte  0x0000A000
+    .long  0x0000A000
 .L_0600676C:
-    .4byte  0x00078000
+    .long  0x00078000
 .L_06006770:
-    .4byte  0x0001C000
+    .long  0x0001C000
 .L_06006774:
-    .4byte  0x00178000
+    .long  0x00178000
 .L_06006778:
-    .4byte  0x0003C000
+    .long  0x0003C000
 .L_0600677C:
     mov #0x4, r2
     mov.l r2, @r13

@@ -16,7 +16,7 @@ vtx_clip_flag_set:
     .byte 0x69, 0xF6
     .byte 0x00, 0x0B
     .byte 0x68, 0xF6
-    .4byte sym_0607E944
+    .long sym_0607E944
     .global sym_0602D8BC
 sym_0602D8BC:
     .byte 0xE4, 0x00

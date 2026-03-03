@@ -32,7 +32,7 @@ tilemap_dma_update:
     extu.w r13, r0
     shlr r2
     cmp/eq #0x1, r0
-    bt/s    .L_06036ED8
+    bt.s    .L_06036ED8
     mov.l r2, @(60, r14)
     mov.l   .L_06036F04, r2
     mov.l @(60, r14), r3
@@ -53,16 +53,16 @@ tilemap_dma_update:
     rts
     mov.l @r15+, r14
 .L_06036EF0:
-    .4byte  sym_060635B0
+    .long  sym_060635B0
 .L_06036EF4:
-    .4byte  sym_060A3DF8
+    .long  sym_060A3DF8
 .L_06036EF8:
-    .4byte  0x0007FFFF
+    .long  0x0007FFFF
 .L_06036EFC:
-    .4byte  0x25E00000
+    .long  0x25E00000
 .L_06036F00:
-    .4byte  sym_06038A48
+    .long  sym_06038A48
 .L_06036F04:
-    .4byte  0x80000000
+    .long  0x80000000
 .L_06036F08:
-    .4byte  sym_060635AC
+    .long  sym_060635AC

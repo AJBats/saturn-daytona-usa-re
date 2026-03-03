@@ -30,9 +30,9 @@ transform_rotation_apply:
     .byte 0x27, 0x21
     .byte 0xA0, 0x20
     .byte 0x00, 0x09
-    .4byte sym_06060F2C
-    .4byte sym_06060D2A
-    .4byte sym_06060D34
+    .long sym_06060F2C
+    .long sym_06060D2A
+    .long sym_06060D34
     .byte 0x00, 0x00
     .byte 0x80, 0x00
     .byte 0x91, 0x09

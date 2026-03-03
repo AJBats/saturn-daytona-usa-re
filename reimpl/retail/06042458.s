@@ -33,7 +33,7 @@ fixpt_div_full:
     .byte 0x00, 0x00
     .byte 0x00, 0x5A
     .byte 0x00, 0x00
-    .4byte sym_0604249C
+    .long sym_0604249C
     .global sym_0604249C
 sym_0604249C:
     .byte 0xD2, 0x09

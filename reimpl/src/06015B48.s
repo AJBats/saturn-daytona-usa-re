@@ -115,13 +115,13 @@ time_compare_display:
     rts
     mov.l @r15+, r14
 .L_wpool_06015C22:
-    .2byte  0x0C00
+    .short  0x0C00
 .L_pool_06015C24:
-    .4byte  sym_06084FC8
+    .long  sym_06084FC8
 .L_pool_06015C28:
-    .4byte  track_vtx_builder
+    .long  track_vtx_builder
 .L_pool_06015C2C:
-    .4byte  sym_060172E4
+    .long  sym_060172E4
 
     .global loc_06015C30
 loc_06015C30:

@@ -76,8 +76,8 @@ sym_06042BFC:
     .global DAT_06042c7a
 DAT_06042c7a:
     .byte 0x70, 0x00
-    .4byte sym_060A4D18
-    .4byte sym_060A4D5C
+    .long sym_060A4D18
+    .long sym_060A4D5C
     .byte 0x88, 0x01
     .byte 0x89, 0xF0
     .byte 0x88, 0x02
@@ -5294,38 +5294,38 @@ loc_0604508C:
     .byte 0x00, 0x10
     .global loc_0604538C
 loc_0604538C:
-    .4byte loc_0604508C
+    .long loc_0604508C
     .byte 0x00, 0x00
     .byte 0x00, 0x40
-    .4byte loc_06044C90
+    .long loc_06044C90
     .byte 0x00, 0x00
     .byte 0x00, 0x55
     .global loc_0604539C
 loc_0604539C:
-    .4byte loc_0604508C
+    .long loc_0604508C
     .byte 0x00, 0x00
     .byte 0x00, 0x40
-    .4byte loc_06044C90
+    .long loc_06044C90
     .byte 0x00, 0x00
     .byte 0x00, 0x55
     .global loc_060453AC
 loc_060453AC:
-    .4byte loc_06044C90
+    .long loc_06044C90
     .byte 0x00, 0x00
     .byte 0x00, 0x55
     .global sym_060453B4
 sym_060453B4:
-    .4byte loc_0604538C
+    .long loc_0604538C
     .byte 0x00, 0x00
     .byte 0x00, 0x02
     .global sym_060453BC
 sym_060453BC:
-    .4byte loc_0604539C
+    .long loc_0604539C
     .byte 0x00, 0x00
     .byte 0x00, 0x02
     .global sym_060453C4
 sym_060453C4:
-    .4byte loc_060453AC
+    .long loc_060453AC
     .byte 0x00, 0x00
     .byte 0x00, 0x01
     .global sym_060453CC

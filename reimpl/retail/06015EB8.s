@@ -115,9 +115,9 @@ vdp2_layer_init:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .byte 0xFF, 0xFF
-    .4byte sym_0605B8B8
-    .4byte sym_06084FC8
-    .4byte sym_06035438
+    .long sym_0605B8B8
+    .long sym_06084FC8
+    .long sym_06035438
     .byte 0x00, 0x10
     .byte 0x00, 0x00
-    .4byte sym_06085F89
+    .long sym_06085F89

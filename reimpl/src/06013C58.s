@@ -62,39 +62,39 @@ lap_time_display:
     .global DAT_06013cca
 .L_06013CCA:
 DAT_06013cca:
-    .2byte  0x00F0
+    .short  0x00F0
 
     .global DAT_06013ccc
 .L_06013CCC:
 DAT_06013ccc:
-    .2byte  0x7000
+    .short  0x7000
 
     .global DAT_06013cce
 .L_06013CCE:
 DAT_06013cce:
-    .2byte  0x0228
+    .short  0x0228
 
     .global DAT_06013cd0
 .L_06013CD0:
 DAT_06013cd0:
-    .2byte  0x0230
+    .short  0x0230
 .L_wpool_06013CD2:
-    .2byte  0x0CB0
+    .short  0x0CB0
 .L_wpool_06013CD4:
-    .2byte  0x0238
-    .2byte  0xFFFF
+    .short  0x0238
+    .short  0xFFFF
 .L_pool_06013CD8:
-    .4byte  sym_06028400
+    .long  sym_06028400
 .L_pool_06013CDC:
-    .4byte  sym_06063750
+    .long  sym_06063750
 .L_pool_06013CE0:
-    .4byte  sym_06078900
+    .long  sym_06078900
 .L_pool_06013CE4:
-    .4byte  sym_0602853E
+    .long  sym_0602853E
 .L_pool_06013CE8:
-    .4byte  sym_06028560
+    .long  sym_06028560
 .L_pool_06013CEC:
-    .4byte  sym_06085FF4
+    .long  sym_06085FF4
 .L_06013CF0:
     mov.w   .L_06013DC6, r7
 .L_06013CF2:
@@ -182,7 +182,7 @@ DAT_06013cd0:
     shll r7
     add r14, r7
     cmp/ge r11, r12
-    bt/s    .L_06013D9A
+    bt.s    .L_06013D9A
     mov.l @(4, r7), r7
     bra     .L_06013D9C
     mov r12, r5
@@ -215,66 +215,66 @@ DAT_06013cd0:
     .global DAT_06013dc6
 .L_06013DC6:
 DAT_06013dc6:
-    .2byte  0x0588
+    .short  0x0588
 
     .global DAT_06013dc8
 .L_06013DC8:
 DAT_06013dc8:
-    .2byte  0x0C84
+    .short  0x0C84
 
     .global DAT_06013dca
 .L_06013DCA:
 DAT_06013dca:
-    .2byte  0x0240
+    .short  0x0240
 
     .global DAT_06013dcc
 .L_06013DCC:
 DAT_06013dcc:
-    .2byte  0x009C
+    .short  0x009C
 
     .global DAT_06013dce
 .L_06013DCE:
 DAT_06013dce:
-    .2byte  0x0CC4
+    .short  0x0CC4
 .L_wpool_06013DD0:
-    .2byte  0x0C98
+    .short  0x0C98
 
     .global DAT_06013dd2
 .L_06013DD2:
 DAT_06013dd2:
-    .2byte  0x0104
+    .short  0x0104
 
     .global DAT_06013dd4
 .L_06013DD4:
 DAT_06013dd4:
-    .2byte  0x010C
+    .short  0x010C
 
     .global DAT_06013dd6
 .L_06013DD6:
 DAT_06013dd6:
-    .2byte  0x0102
+    .short  0x0102
 .L_pool_06013DD8:
-    .4byte  display_channel_b
+    .long  display_channel_b
 .L_pool_06013DDC:
-    .4byte  anim_frame_transform
+    .long  anim_frame_transform
 .L_pool_06013DE0:
-    .4byte  sym_060284AE
+    .long  sym_060284AE
 .L_pool_06013DE4:
-    .4byte  sym_060786A4
+    .long  sym_060786A4
 .L_pool_06013DE8:
-    .4byte  0x000927BF
+    .long  0x000927BF
 .L_pool_06013DEC:
-    .4byte  sym_06085FF8
+    .long  sym_06085FF8
 .L_pool_06013DF0:
-    .4byte  sym_06086012
+    .long  sym_06086012
 .L_pool_06013DF4:
-    .4byte  sym_06028430
+    .long  sym_06028430
 .L_pool_06013DF8:
-    .4byte  sym_06044A58
+    .long  sym_06044A58
 .L_pool_06013DFC:
-    .4byte  0x0000F000
+    .long  0x0000F000
 .L_pool_06013E00:
-    .4byte  sym_060283E0
+    .long  sym_060283E0
 .L_06013E04:
     add #0x8, r15
     lds.l @r15+, pr

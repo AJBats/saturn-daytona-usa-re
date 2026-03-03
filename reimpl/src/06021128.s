@@ -24,20 +24,20 @@ obj_render_cleanup:
     lds.l @r15+, pr
     rts
     mov.l r4, @r3
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_06021158:
-    .4byte  sym_0603850C
+    .long  sym_0603850C
 .L_0602115C:
-    .4byte  sym_06087C87
+    .long  sym_06087C87
 .L_06021160:
-    .4byte  sym_06087C84
+    .long  sym_06087C84
 .L_06021164:
-    .4byte  scene_buffer_init
+    .long  scene_buffer_init
 .L_06021168:
-    .4byte  sym_06038520
+    .long  sym_06038520
 .L_0602116C:
-    .4byte  sym_06089594
+    .long  sym_06089594
 .L_06021170:
-    .4byte  sym_06089595
+    .long  sym_06089595
 .L_06021174:
-    .4byte  sym_06089598
+    .long  sym_06089598

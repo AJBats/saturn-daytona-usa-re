@@ -77,8 +77,8 @@ DAT_0604009e:
     .byte 0x00, 0xC4
     .byte 0x00, 0xD0
     .byte 0x00, 0xC8
-    .4byte sym_060A4D14
-    .4byte road_segment_check
+    .long sym_060A4D14
+    .long road_segment_check
     .byte 0x7F, 0x04
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
@@ -130,7 +130,7 @@ obj_init_validate:
     .byte 0x08, 0x00
     .byte 0x40, 0x00
     .byte 0x00, 0x00
-    .4byte track_shadow_test
+    .long track_shadow_test
     .byte 0x63, 0xF3
     .byte 0x64, 0xF3
     .byte 0x62, 0x32
@@ -245,7 +245,7 @@ sym_060401E4:
 DAT_060401e8:
     .byte 0x07, 0xFF
     .byte 0xFF, 0xFF
-    .4byte input_proc_complete
-    .4byte sym_06036BE4
+    .long input_proc_complete
+    .long sym_06036BE4
     .byte 0x7F, 0xFF
     .byte 0xFF, 0xFF

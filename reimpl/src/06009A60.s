@@ -92,42 +92,42 @@ state_race_complete:
     bra     .L_06009B66
     or r11, r2
 .L_06009B10:
-    .2byte  0x0224
-    .2byte  0xFFFF
+    .short  0x0224
+    .short  0xFFFF
 .L_06009B14:
-    .4byte  sym_06078637
+    .long  sym_06078637
 .L_06009B18:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_06009B1C:
-    .4byte  sym_0605AB17
+    .long  sym_0605AB17
 .L_06009B20:
-    .4byte  vdp1_cmd_update                  /* VDP1 command table update fn */
+    .long  vdp1_cmd_update                  /* VDP1 command table update fn */
 .L_06009B24:
-    .4byte  obj_render_update
+    .long  obj_render_update
 .L_06009B28:
-    .4byte  sym_06078648
+    .long  sym_06078648
 .L_06009B2C:
-    .4byte  handler_dispatch
+    .long  handler_dispatch
 .L_06009B30:
-    .4byte  sym_06078638
+    .long  sym_06078638
 .L_06009B34:
-    .4byte  sym_060786A4
+    .long  sym_060786A4
 .L_06009B38:
-    .4byte  sym_0607863C
+    .long  sym_0607863C
 .L_06009B3C:
-    .4byte  sym_06083255
+    .long  sym_06083255
 .L_06009B40:
-    .4byte  sym_0605AD00
+    .long  sym_0605AD00
 .L_06009B44:
-    .4byte  sym_0607EAE0
+    .long  sym_0607EAE0
 .L_06009B48:
-    .4byte  sym_06085FF4
+    .long  sym_06085FF4
 .L_06009B4C:
-    .4byte  sym_0605AD04
+    .long  sym_0605AD04
 .L_06009B50:
-    .4byte  sym_0605AB16
+    .long  sym_0605AB16
 .L_06009B54:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8
 .L_06009B58:
     mov.b @r4, r0
     or #0x2, r0
@@ -254,18 +254,18 @@ state_race_complete:
     rts
     mov.l @r15+, r14
 .L_06009C28:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8
 .L_06009C2C:
-    .4byte  sym_06083261
+    .long  sym_06083261
 .L_06009C30:
-    .4byte  0xFFB80000
+    .long  0xFFB80000
 .L_06009C34:
-    .4byte  0xFEC60000
+    .long  0xFEC60000
 .L_06009C38:
-    .4byte  g_game_state
+    .long  g_game_state
 .L_06009C3C:
-    .4byte  sym_0607EBCC
+    .long  sym_0607EBCC
 .L_06009C40:
-    .4byte  sym_06078654
+    .long  sym_06078654
 .L_06009C44:
-    .4byte  sym_0605A016
+    .long  sym_0605A016

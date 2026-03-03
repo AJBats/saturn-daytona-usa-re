@@ -23,24 +23,24 @@ course_setup_handler:
 loc_0601B096:
     rts
     nop
-    .2byte  0x644E
-    .4byte  0x655E7FFC
-    .4byte  0x63432F60
-    .4byte  0x44004308
-    .4byte  0x343C4500
-    .4byte  0x345CD208
-    .4byte  0x6220622C
-    .4byte  0x342C4408
-    .4byte  0xD306343C
-    .4byte  0x6442E606
-    .4byte  0x65F0A583
-    .2byte  0x7F04
+    .short  0x644E
+    .long  0x655E7FFC
+    .long  0x63432F60
+    .long  0x44004308
+    .long  0x343C4500
+    .long  0x345CD208
+    .long  0x6220622C
+    .long  0x342C4408
+    .long  0xD306343C
+    .long  0x6442E606
+    .long  0x65F0A583
+    .short  0x7F04
 .L_0601B0C6:
-    .2byte  0x0100
+    .short  0x0100
 .L_0601B0C8:
-    .2byte  0x0160
-    .2byte  0xFFFF
+    .short  0x0160
+    .short  0xFFFF
 .L_0601B0CC:
-    .4byte  color_transform_calc
-    .4byte  sym_0605D4F7
-    .4byte  sym_0605DD6C
+    .long  color_transform_calc
+    .long  sym_0605D4F7
+    .long  sym_0605DD6C

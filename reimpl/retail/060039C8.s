@@ -47,11 +47,11 @@ sym_060039F2:
     .byte 0xD2, 0x07
     .byte 0x42, 0x2B
     .byte 0x65, 0x52
-    .4byte sym_06083255
-    .4byte sym_0607EAB8
-    .4byte sym_0605CA4C
-    .4byte sym_06078868
-    .4byte sym_0605C97C
+    .long sym_06083255
+    .long sym_0607EAB8
+    .long sym_0605CA4C
+    .long sym_06078868
+    .long sym_0605C97C
     .byte 0x25, 0xF0
     .byte 0x04, 0x00
-    .4byte dma_transfer
+    .long dma_transfer

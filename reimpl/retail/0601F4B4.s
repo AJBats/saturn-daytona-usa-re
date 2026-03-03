@@ -141,5 +141,5 @@ geom_display_proc:
     .global DAT_0601f5c6
 DAT_0601f5c6:
     .byte 0xF8, 0x44
-    .4byte sym_060877E4
-    .4byte sym_060A4C98
+    .long sym_060877E4
+    .long sym_060A4C98

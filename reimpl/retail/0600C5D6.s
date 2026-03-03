@@ -40,11 +40,11 @@ DAT_0600c616:
     .byte 0xFF, 0xFF
     .byte 0x00, 0x48
     .byte 0x00, 0x00
-    .4byte fpmul
-    .4byte sym_0607EBDC
-    .4byte sym_0607E940
-    .4byte sym_06078680
-    .4byte sym_06087804
+    .long fpmul
+    .long sym_0607EBDC
+    .long sym_0607E940
+    .long sym_06078680
+    .long sym_06087804
     .byte 0xD2, 0x33
     .byte 0x62, 0x22
     .byte 0x60, 0x23
@@ -163,12 +163,12 @@ DAT_0600c700:
     .global DAT_0600c702
 DAT_0600c702:
     .byte 0x01, 0x8C
-    .4byte sym_0607E944
-    .4byte sym_06087804
-    .4byte sym_0607E940
+    .long sym_0607E944
+    .long sym_06087804
+    .long sym_0607E940
     .byte 0x00, 0xE0
     .byte 0x00, 0x00
-    .4byte sincos_pair
+    .long sincos_pair
     .byte 0xB1, 0x06
     .byte 0x64, 0xE3
     .byte 0x65, 0xD3

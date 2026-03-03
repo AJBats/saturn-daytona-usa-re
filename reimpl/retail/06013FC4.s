@@ -107,19 +107,19 @@ DAT_06014084:
     .global DAT_06014086
 DAT_06014086:
     .byte 0xB3, 0x34
-    .4byte mat_rot_z
-    .4byte sym_06089EDC
-    .4byte sym_06026E2E
+    .long mat_rot_z
+    .long sym_06089EDC
+    .long sym_06026E2E
     .byte 0x00, 0x01
     .byte 0x00, 0x00
-    .4byte sym_06026E0C
-    .4byte sym_0605AD5C
-    .4byte sym_06089E4A
-    .4byte sym_06026DBC
-    .4byte sym_06084AF6
-    .4byte fpmul
-    .4byte mat_scale_columns
-    .4byte sym_06062338
-    .4byte sym_06031D8C
-    .4byte sym_060622C0
-    .4byte sym_06031A28
+    .long sym_06026E0C
+    .long sym_0605AD5C
+    .long sym_06089E4A
+    .long sym_06026DBC
+    .long sym_06084AF6
+    .long fpmul
+    .long mat_scale_columns
+    .long sym_06062338
+    .long sym_06031D8C
+    .long sym_060622C0
+    .long sym_06031A28

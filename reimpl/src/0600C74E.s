@@ -74,17 +74,17 @@ ai_orchestrator:
 
     .global DAT_0600c7be
 DAT_0600c7be:
-    .2byte  0x01EC
+    .short  0x01EC
 
     .global DAT_0600c7c0
 DAT_0600c7c0:
-    .2byte  0x4000
-    .2byte  0xFFFF
+    .short  0x4000
+    .short  0xFFFF
 .L_pool_0600C7C8:
-    .4byte  sym_06006838
+    .long  sym_06006838
 .L_pool_0600C7CC:
-    .4byte  scene_render_alt
+    .long  scene_render_alt
 .L_pool_0600C7D0:
-    .4byte  sym_0607E940
+    .long  sym_0607E940
 .L_pool_0600C7D4:
-    .4byte  sym_06078680
+    .long  sym_06078680

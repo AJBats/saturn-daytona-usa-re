@@ -12,10 +12,10 @@ ai_section_check:
     .byte 0xE0, 0xF7
     .byte 0x03, 0x38
     .byte 0x03, 0x3C
-    .4byte sym_060A5400
-    .4byte cd_block_read_safe
-    .4byte ai_checkpoint_section
-    .4byte sym_06035C4E
+    .long sym_060A5400
+    .long cd_block_read_safe
+    .long ai_checkpoint_section
+    .long sym_06035C4E
     .byte 0xD3, 0x1E
     .byte 0x43, 0x0B
     .byte 0x00, 0x09

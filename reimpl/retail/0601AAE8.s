@@ -53,22 +53,22 @@ preview_camera_path:
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
     .byte 0x07, 0x00
-    .4byte sym_06063D9A
-    .4byte g_game_state
-    .4byte sym_0605E0A2
-    .4byte sym_06085FF0
-    .4byte sym_0605D245
-    .4byte sym_06085FF1
-    .4byte sym_06085FF2
-    .4byte sym_06085FF3
-    .4byte sym_0602853E
-    .4byte sym_0605B6D8
-    .4byte sym_06028560
-    .4byte course_select_draw
+    .long sym_06063D9A
+    .long g_game_state
+    .long sym_0605E0A2
+    .long sym_06085FF0
+    .long sym_0605D245
+    .long sym_06085FF1
+    .long sym_06085FF2
+    .long sym_06085FF3
+    .long sym_0602853E
+    .long sym_0605B6D8
+    .long sym_06028560
+    .long course_select_draw
     .byte 0xAE, 0x00
     .byte 0x01, 0xFF
-    .4byte sound_cmd_dispatch
-    .4byte handler_init_reset
+    .long sound_cmd_dispatch
+    .long handler_init_reset
     .global sym_0601AB8C
 sym_0601AB8C:
     .byte 0xD4, 0x21

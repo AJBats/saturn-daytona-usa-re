@@ -7,7 +7,7 @@ attract_display_orch:
     mov.l @r14, r10
     mov.l @(20, r14), r3
     cmp/gt r11, r3
-    bt/s    .L_0603FAFA
+    bt.s    .L_0603FAFA
     mov.l @(8, r14), r9
     mov.l r12, @r8
     bra     .L_0603FC4C
@@ -37,13 +37,13 @@ attract_display_orch:
 
     .global DAT_0603fb22
 DAT_0603fb22:
-    .2byte  0x0080
+    .short  0x0080
 
     .global DAT_0603fb24
 DAT_0603fb24:
-    .2byte  0xFF7F
-    .2byte  0xFFFF
-    .4byte  sym_0603F91C
+    .short  0xFF7F
+    .short  0xFFFF
+    .long  sym_0603F91C
 .L_0603FB2C:
     mov r9, r6
     mov r10, r5
@@ -179,9 +179,9 @@ DAT_0603fb24:
 .L_0603FC1E:
     bra     .L_0603FC40
     nop
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_0603FC24:
-    .4byte  sym_0603F91C
+    .long  sym_0603F91C
 .L_0603FC28:
     cmp/eq #0x0, r0
     bf      .L_0603FC30

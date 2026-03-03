@@ -34,9 +34,9 @@ obj_visibility_check:
     rts
     mov.l @r15+, r14
 .L_060368D0:
-    .2byte  0x0080
-    .2byte  0xFFFF
+    .short  0x0080
+    .short  0xFFFF
 .L_060368D4:
-    .4byte  input_proc_analog
+    .long  input_proc_analog
 .L_060368D8:
-    .4byte  input_proc_buttons
+    .long  input_proc_buttons

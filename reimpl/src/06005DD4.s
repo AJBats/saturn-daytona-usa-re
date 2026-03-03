@@ -118,17 +118,17 @@ anim_frame_transform:
     nop
 
 .L_06005EAE:
-    .2byte  0xFF04
+    .short  0xFF04
 .L_06005EB0:
-    .2byte  0xFF00
+    .short  0xFF00
 .L_06005EB2:
-    .2byte  0xFF18
+    .short  0xFF18
 .L_06005EB4:
-    .2byte  0xFF1C
-    .2byte  0xFFFF
+    .short  0xFF1C
+    .short  0xFFFF
 
 .L_pool_06005EB8:
-    .4byte  sym_06063E14
+    .long  sym_06063E14
 
 .L_06005EBC:
     mov #0xB, r4

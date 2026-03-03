@@ -73,32 +73,32 @@ render_setup_dispatch:
 
     .global DAT_0601d444
 DAT_0601d444:
-    .2byte  0x0800
+    .short  0x0800
 
     .global DAT_0601d446
 DAT_0601d446:
-    .2byte  0x5D50
+    .short  0x5D50
 .L_pool_0601D448:
-    .4byte  sym_0605AB16
+    .long  sym_0605AB16
 .L_pool_0601D44C:
-    .4byte  sym_06086024
+    .long  sym_06086024
 .L_pool_0601D450:
-    .4byte  sym_06063D9A
+    .long  sym_06063D9A
 .L_pool_0601D454:
-    .4byte  g_pad_state
+    .long  g_pad_state
 .L_pool_0601D458:
-    .4byte  0x0000AAA8
+    .long  0x0000AAA8
 .L_pool_0601D45C:
-    .4byte  sym_0605AB17
+    .long  sym_0605AB17
 .L_pool_0601D460:
-    .4byte  display_channel_b
+    .long  display_channel_b
 .L_pool_0601D464:
-    .4byte  sym_06094FA8
+    .long  sym_06094FA8
 .L_pool_0601D468:
-    .4byte  sym_06028400
+    .long  sym_06028400
 .L_pool_0601D46C:
-    .4byte  sym_0607EBCC
+    .long  sym_0607EBCC
 .L_pool_0601D470:
-    .4byte  sym_0607887F
+    .long  sym_0607887F
 .L_pool_0601D474:
-    .4byte  sym_0605DF80
+    .long  sym_0605DF80

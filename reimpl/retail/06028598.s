@@ -35,7 +35,7 @@ particle_sys_mgr:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .byte 0x27, 0x10
-    .4byte sym_06028614
+    .long sym_06028614
     .byte 0x45, 0x18
     .byte 0x67, 0x63
     .byte 0x96, 0x14
@@ -64,20 +64,20 @@ particle_sys_mgr:
     .byte 0x00, 0x09
     .global sym_06028614
 sym_06028614:
-    .4byte sym_06061294
-    .4byte sym_06061298
-    .4byte sym_0606129C
-    .4byte sym_060612A0
-    .4byte loc_060612A4
-    .4byte loc_060612A8
+    .long sym_06061294
+    .long sym_06061298
+    .long sym_0606129C
+    .long sym_060612A0
+    .long loc_060612A4
+    .long loc_060612A8
     .global sym_0602862C
 sym_0602862C:
-    .4byte sym_060612AC
-    .4byte sym_060612B0
-    .4byte sym_060612B4
-    .4byte sym_060612B8
-    .4byte loc_060612BC
-    .4byte loc_060612C0
+    .long sym_060612AC
+    .long sym_060612B0
+    .long sym_060612B4
+    .long sym_060612B8
+    .long loc_060612BC
+    .long loc_060612C0
     .global sym_06028644
 sym_06028644:
     .byte 0x00, 0x00

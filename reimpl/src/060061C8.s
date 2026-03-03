@@ -78,32 +78,32 @@ pre_render_transform:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_pool_06006264:
-    .4byte  sym_0607E940
+    .long  sym_0607E940
 .L_pool_06006268:
-    .4byte  sym_06026DBC
+    .long  sym_06026DBC
 .L_pool_0600626C:
-    .4byte  sym_06026E0C
+    .long  sym_06026E0C
 .L_pool_06006270:
-    .4byte  mat_rot_y
+    .long  mat_rot_y
 .L_pool_06006274:
-    .4byte  mat_vec_transform
+    .long  mat_vec_transform
 .L_pool_06006278:
-    .4byte  sym_06063E9C
+    .long  sym_06063E9C
 .L_pool_0600627C:
-    .4byte  sym_0604464C
+    .long  sym_0604464C
 .L_pool_06006280:
-    .4byte  sym_06063EB0
+    .long  sym_06063EB0
 .L_pool_06006284:
-    .4byte  sym_06044640
+    .long  sym_06044640
 .L_pool_06006288:
-    .4byte  sym_06063ED8
+    .long  sym_06063ED8
 .L_pool_0600628C:
-    .4byte  sym_06044658
+    .long  sym_06044658
 .L_pool_06006290:
-    .4byte  sym_06063EC4
+    .long  sym_06063EC4
 .L_pool_06006294:
-    .4byte  sym_06044664
+    .long  sym_06044664
 .L_pool_06006298:
-    .4byte  sym_06089EDC
+    .long  sym_06089EDC

@@ -59,7 +59,7 @@ minimap_full_update:
     .byte 0x52, 0x4D
     .byte 0xA0, 0x1A
     .byte 0x14, 0x21
-    .4byte sym_06084FC8
+    .long sym_06084FC8
     .byte 0x64, 0xEC
     .byte 0x63, 0x43
     .byte 0x44, 0x08
@@ -174,7 +174,7 @@ loc_060158A4:
     .byte 0x00, 0x09
     .byte 0x00, 0x01
     .byte 0x00, 0x00
-    .4byte track_vtx_builder
+    .long track_vtx_builder
     .global loc_060158B0
 loc_060158B0:
     .byte 0x7F, 0xFC

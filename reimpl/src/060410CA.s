@@ -27,11 +27,11 @@ vblank_int_ext:
     lds.l @r15+, pr
     rts
     mov #-0xA, r0
-    .4byte  sym_06035228
+    .long  sym_06035228
 .L_pool_06041102:
-    .4byte  track_road_edge_b
+    .long  track_road_edge_b
 .L_pool_06041106:
-    .4byte  track_road_width_stub
+    .long  track_road_width_stub
 .L_06041108:
     mov r15, r4
     .byte   0xD3, 0x1B    /* mov.l .L_pool_06041178, r3 */

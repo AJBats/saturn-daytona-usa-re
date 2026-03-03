@@ -102,7 +102,7 @@ score_calculator:
     mov.l r2, @r3
     mov.l @(4, r15), r1
     cmp/hs r1, r13
-    bf/s    .L_06013990
+    bf.s    .L_06013990
     add #0x4, r9
     add #0x8, r15
     lds.l @r15+, macl
@@ -116,44 +116,44 @@ score_calculator:
     rts
     mov.l @r15+, r14
 .L_06013A28:
-    .2byte  0x4CCC
+    .short  0x4CCC
 .L_06013A2A:
-    .2byte  0x03A0
+    .short  0x03A0
 .L_06013A2C:
-    .2byte  0x8000
+    .short  0x8000
 .L_06013A2E:
-    .2byte  0x07AE
+    .short  0x07AE
 .L_06013A30:
-    .4byte  sym_06026E2E
+    .long  sym_06026E2E
 .L_06013A34:
-    .4byte  sym_06084AF4
+    .long  sym_06084AF4
 .L_06013A38:
-    .4byte  0x00010000
+    .long  0x00010000
 .L_06013A3C:
-    .4byte  sym_06084AF2
+    .long  sym_06084AF2
 .L_06013A40:
-    .4byte  sym_06026E0C
+    .long  sym_06026E0C
 .L_06013A44:
-    .4byte  sym_0605AD5C
+    .long  sym_0605AD5C
 .L_06013A48:
-    .4byte  sym_06089E4A
+    .long  sym_06089E4A
 .L_06013A4C:
-    .4byte  sym_06026DBC
+    .long  sym_06026DBC
 .L_06013A50:
-    .4byte  mat_rot_z
+    .long  mat_rot_z
 .L_06013A54:
-    .4byte  fpmul
+    .long  fpmul
 .L_06013A58:
-    .4byte  mat_rot_y
+    .long  mat_rot_y
 .L_06013A5C:
-    .4byte  mat_scale_columns
+    .long  mat_scale_columns
 .L_06013A60:
-    .4byte  sym_06062338
+    .long  sym_06062338
 .L_06013A64:
-    .4byte  sym_06031D8C
+    .long  sym_06031D8C
 .L_06013A68:
-    .4byte  sym_060622C0
+    .long  sym_060622C0
 .L_06013A6C:
-    .4byte  sym_06031A28
+    .long  sym_06031A28
 .L_06013A70:
-    .4byte  sym_06089EDC
+    .long  sym_06089EDC

@@ -29,7 +29,7 @@ sym_06035F16:
     .byte 0x00, 0x0B
     .byte 0x15, 0x32
     .byte 0xFF, 0xFF
-    .4byte sym_06063594
-    .4byte sym_06035168
+    .long sym_06063594
+    .long sym_06035168
     .byte 0x00, 0xFF
     .byte 0xFF, 0xFF

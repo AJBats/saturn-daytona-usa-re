@@ -21,18 +21,18 @@ render_cs0_loop:
     bt      .L_0600B6E4
     bra     .L_0600B8F8
     nop
-    .4byte  sym_06031DF4
-    .4byte  sym_0608A52C
+    .long  sym_06031DF4
+    .long  sym_0608A52C
 .L_0600B6D0:
-    .4byte  sym_06089EDC
+    .long  sym_06089EDC
 .L_0600B6D4:
-    .4byte  sym_06089E44
+    .long  sym_06089E44
 .L_0600B6D8:
-    .4byte  sym_06031D8C
+    .long  sym_06031D8C
 .L_0600B6DC:
-    .4byte  sym_06031A28
+    .long  sym_06031A28
 .L_0600B6E0:
-    .4byte  sym_0607EAE0
+    .long  sym_0607EAE0
 .L_0600B6E4:
     mov #0x1, r10
     mov.l   .L_0600B750, r5
@@ -89,13 +89,13 @@ render_cs0_loop:
     bra     .L_0600B8EC
     mov.l r7, @(32, r15)
 .L_0600B750:
-    .4byte  sym_060621D8
+    .long  sym_060621D8
 .L_0600B754:
-    .4byte  sym_0606212C
+    .long  sym_0606212C
 .L_0600B758:
-    .4byte  sym_06062180
+    .long  sym_06062180
 .L_0600B75C:
-    .4byte  sym_060620D8
+    .long  sym_060620D8
 .L_0600B760:
     mov.w   .L_0600B838, r14
     mov.l   .L_0600B848, r3
@@ -167,7 +167,7 @@ render_cs0_loop:
     mov.b @(1, r0), r0
     mov.b @r9, r9
     tst #0x40, r0
-    bf/s    .L_0600B7FA
+    bf.s    .L_0600B7FA
     extu.b r9, r9
     mov.l   .L_0600B86C, r0
     mov.l   .L_0600B870, r3
@@ -210,48 +210,48 @@ render_cs0_loop:
     bra     .L_0600B8E4
     nop
 .L_0600B838:
-    .2byte  0x0268
+    .short  0x0268
 
     .global DAT_0600b83a
 DAT_0600b83a:
-    .2byte  0x01B4
+    .short  0x01B4
 
     .global DAT_0600b83c
 DAT_0600b83c:
-    .2byte  0x01BC
+    .short  0x01BC
 .L_0600B83E:
-    .2byte  0x00B8
+    .short  0x00B8
 
     .global DAT_0600b840
 DAT_0600b840:
-    .2byte  0x01D8
+    .short  0x01D8
 .L_0600B842:
-    .2byte  0x01D0
+    .short  0x01D0
 .L_0600B844:
-    .2byte  0x01C8
-    .2byte  0xFFFF
+    .short  0x01C8
+    .short  0xFFFF
 .L_0600B848:
-    .4byte  sym_06078900
+    .long  sym_06078900
 .L_0600B84C:
-    .4byte  0x00E00000
+    .long  0x00E00000
 .L_0600B850:
-    .4byte  sym_06026DBC
+    .long  sym_06026DBC
 .L_0600B854:
-    .4byte  sym_06026E2E
+    .long  sym_06026E2E
 .L_0600B858:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_0600B85C:
-    .4byte  mat_rot_y
+    .long  mat_rot_y
 .L_0600B860:
-    .4byte  mat_rot_z
+    .long  mat_rot_z
 .L_0600B864:
-    .4byte  mat_rot_x
+    .long  mat_rot_x
 .L_0600B868:
-    .4byte  sym_06047FC4
+    .long  sym_06047FC4
 .L_0600B86C:
-    .4byte  sym_06063E1C
+    .long  sym_06063E1C
 .L_0600B870:
-    .4byte  sym_06063E20
+    .long  sym_06063E20
 .L_0600B874:
     mov r14, r0
     mov.b @(1, r0), r0
@@ -339,6 +339,6 @@ DAT_0600b840:
 
     .global DAT_0600b90e
 DAT_0600b90e:
-    .2byte  0x01BC
+    .short  0x01BC
 .L_0600B910:
-    .4byte  sym_06078664
+    .long  sym_06078664

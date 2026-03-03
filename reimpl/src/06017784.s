@@ -18,25 +18,25 @@ geom_computation:
     add #0x2, r7
     bra     .L_060177F8
     extu.w r11, r12
-    .2byte  0xFFFF
-    .4byte  sym_06028400
+    .short  0xFFFF
+    .long  sym_06028400
 .L_pool_060177AC:
-    .4byte  sym_06085640
+    .long  sym_06085640
 .L_060177B0:
     extu.b r7, r10
-    mulu.w r13, r12
+    mulu r13, r12
     extu.w r13, r3
     shll r10
     sts macl, r1
     shll r1
     cmp/pl r3
-    bf/s    .L_060177F0
+    bf.s    .L_060177F0
     extu.w r11, r14
 .L_060177C2:
     extu.b r6, r0
     mov #0x36, r3
     extu.w r14, r2
-    muls.w r3, r0
+    muls r3, r0
     shll r2
     add #0x1, r14
     sts macl, r0
@@ -54,7 +54,7 @@ geom_computation:
     extu.w r13, r2
     extu.w r14, r3
     cmp/ge r2, r3
-    bf/s    .L_060177C2
+    bf.s    .L_060177C2
     add #0x1, r6
 .L_060177F0:
     extu.w r13, r2

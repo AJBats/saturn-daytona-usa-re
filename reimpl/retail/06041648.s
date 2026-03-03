@@ -17,10 +17,10 @@ track_surface_check:
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0xE0, 0xF6
-    .4byte track_shadow_shape
-    .4byte ai_checkpoint_validate
-    .4byte sym_060A5400
-    .4byte track_surface_type_b
+    .long track_shadow_shape
+    .long ai_checkpoint_validate
+    .long sym_060A5400
+    .long track_surface_type_b
     .byte 0x64, 0xF3
     .byte 0xD3, 0x2C
     .byte 0x43, 0x0B

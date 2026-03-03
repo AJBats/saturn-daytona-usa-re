@@ -18,6 +18,6 @@ mode_flag_set_a:
     lds.l @r15+, pr
     rts
     nop
-    .4byte  ai_throttle_modulate
+    .long  ai_throttle_modulate
 .L_06018E48:
-    .4byte  ai_recovery_handler
+    .long  ai_recovery_handler

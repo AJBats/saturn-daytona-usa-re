@@ -53,12 +53,12 @@ DAT_060100f6:
 DAT_060100f8:
     .byte 0x80, 0x00
     .byte 0xFF, 0xFF
-    .4byte sym_0605AB19
-    .4byte sym_060447C8
+    .long sym_0605AB19
+    .long sym_060447C8
     .byte 0x00, 0x01
     .byte 0x00, 0x00
-    .4byte sym_0607EAD8
-    .4byte sym_0605D0BC
+    .long sym_0607EAD8
+    .long sym_0605D0BC
     .byte 0xE6, 0x20
     .byte 0x65, 0xEC
     .byte 0x45, 0x08
@@ -143,13 +143,13 @@ DAT_060100f8:
     .global DAT_060101b2
 DAT_060101b2:
     .byte 0x02, 0x0C
-    .4byte sym_0605D0BC
-    .4byte sym_06078888
-    .4byte dma_transfer
-    .4byte sym_0607887F
-    .4byte sym_06078870
-    .4byte sym_0607EAD8
-    .4byte sym_060447F8
+    .long sym_0605D0BC
+    .long sym_06078888
+    .long dma_transfer
+    .long sym_0607887F
+    .long sym_06078870
+    .long sym_0607EAD8
+    .long sym_060447F8
     .byte 0x60, 0xEC
     .byte 0x40, 0x00
     .byte 0x04, 0x5D
@@ -236,20 +236,20 @@ DAT_060101b2:
     .byte 0x00, 0x80
     .byte 0x00, 0xC0
     .byte 0xFF, 0xFF
-    .4byte sym_0607887F
+    .long sym_0607887F
     .byte 0x00, 0x96
     .byte 0x00, 0x00
-    .4byte sym_0605AA98
-    .4byte sym_06044844
+    .long sym_0605AA98
+    .long sym_06044844
     .byte 0x00, 0x20
     .byte 0x00, 0x00
-    .4byte rigid_body_transform
-    .4byte sym_0607EADC
-    .4byte sym_06063D9C
+    .long rigid_body_transform
+    .long sym_0607EADC
+    .long sym_06063D9C
     .byte 0x00, 0x00
     .byte 0xFF, 0xFF
-    .4byte sym_0607887E
-    .4byte sym_0607EAD8
+    .long sym_0607887E
+    .long sym_0607EAD8
     .byte 0xD5, 0x19
     .byte 0x63, 0x4D
     .byte 0xD2, 0x19

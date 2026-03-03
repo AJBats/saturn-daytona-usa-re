@@ -28,6 +28,6 @@ course_data_access_d:
     rts
     mov.l @r15+, r14
 .L_pool_06036510:
-    .4byte  input_proc_analog
+    .long  input_proc_analog
 .L_pool_06036514:
-    .4byte  input_proc_buttons
+    .long  input_proc_buttons

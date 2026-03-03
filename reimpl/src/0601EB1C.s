@@ -35,12 +35,12 @@ geom_rotation_apply:
     rts
     mov.l @r15+, r14
 .L_pool_0601EB5C:
-    .4byte  sym_060877D9
+    .long  sym_060877D9
 .L_pool_0601EB60:
-    .4byte  sym_060877D8
+    .long  sym_060877D8
 .L_pool_0601EB64:
-    .4byte  sym_060877DD
+    .long  sym_060877DD
 .L_pool_0601EB68:
-    .4byte  sym_0605E098
+    .long  sym_0605E098
 .L_pool_0601EB6C:
-    .4byte  sym_0604A57C
+    .long  sym_0604A57C

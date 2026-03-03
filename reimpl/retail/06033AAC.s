@@ -69,7 +69,7 @@ hud_subsystem_init:
     .byte 0x00, 0x09
     .byte 0x00, 0x00
     .byte 0x00, 0x2C
-    .4byte DAT_06082A7C
+    .long DAT_06082A7C
     .byte 0x00, 0x00
     .byte 0x00, 0x00
     .byte 0x00, 0x00
@@ -82,7 +82,7 @@ hud_subsystem_init:
     .byte 0x00, 0x28
     .byte 0x00, 0x00
     .byte 0x00, 0x0E
-    .4byte sym_060631BC
+    .long sym_060631BC
     .byte 0x00, 0x00
     .byte 0x00, 0x14
     .byte 0x00, 0x00
@@ -129,10 +129,10 @@ hud_subsystem_init:
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
     .byte 0x00, 0x00
-    .4byte sym_06083254
-    .4byte sym_06083250
-    .4byte sym_0607EB94
-    .4byte sym_060631AC
+    .long sym_06083254
+    .long sym_06083250
+    .long sym_0607EB94
+    .long sym_060631AC
     .byte 0x00, 0x00
     .byte 0x00, 0x14
     .byte 0x00, 0x00

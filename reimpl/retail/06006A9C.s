@@ -97,12 +97,12 @@ scene_path_a:
     .byte 0xA0, 0x14
     .byte 0x1F, 0x2A
     .byte 0xFF, 0xFF
-    .4byte sym_060620D4
-    .4byte sym_06089E44
-    .4byte sym_0607EAD8
-    .4byte sym_06062248
-    .4byte sym_06062260
-    .4byte sym_06063DF8
+    .long sym_060620D4
+    .long sym_06089E44
+    .long sym_0607EAD8
+    .long sym_06062248
+    .long sym_06062260
+    .long sym_06063DF8
     .byte 0x04, 0x00
     .byte 0x00, 0x00
     .byte 0xE2, 0x01
@@ -193,8 +193,8 @@ DAT_06006c1e:
     .byte 0x00, 0x80
     .byte 0x06, 0x40
     .byte 0xFF, 0xFF
-    .4byte sym_06062230
-    .4byte sym_0602A214
+    .long sym_06062230
+    .long sym_0602A214
     .byte 0x67, 0xDF
     .byte 0x66, 0x93
     .byte 0x55, 0xF3
@@ -277,7 +277,7 @@ DAT_06006c1e:
     .global DAT_06006cca
 DAT_06006cca:
     .byte 0x06, 0x40
-    .4byte vdp1_list_finalize
-    .4byte sym_06062230
-    .4byte sym_0602ABB8
-    .4byte sym_0602B9E0
+    .long vdp1_list_finalize
+    .long sym_06062230
+    .long sym_0602ABB8
+    .long sym_0602B9E0

@@ -37,10 +37,10 @@ obj_lod_select:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0x0080
+    .short  0x0080
 .L_06036972:
-    .2byte  0x0100                      /* [MEDIUM] command parameter mask — 0x100 (cf. 0x0080 in obj_visibility_check, 0x0200 in ai_master_update) */
+    .short  0x0100                      /* [MEDIUM] command parameter mask — 0x100 (cf. 0x0080 in obj_visibility_check, 0x0200 in ai_master_update) */
 .L_06036974:
-    .4byte  input_proc_analog
+    .long  input_proc_analog
 .L_06036978:
-    .4byte  input_proc_buttons          /* [HIGH] fn ptr: SMPC digital button reader / command dispatcher */
+    .long  input_proc_buttons          /* [HIGH] fn ptr: SMPC digital button reader / command dispatcher */

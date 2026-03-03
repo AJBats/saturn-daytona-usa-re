@@ -87,12 +87,12 @@ DAT_06018f76:
     .byte 0x00, 0x1F
     .byte 0x25, 0xB0
     .byte 0x04, 0x00
-    .4byte sym_06012E84
-    .4byte sym_06012EBC
+    .long sym_06012E84
+    .long sym_06012EBC
     .byte 0xAE, 0x06
     .byte 0x00, 0xFF
-    .4byte sound_cmd_dispatch
+    .long sound_cmd_dispatch
     .byte 0xAE, 0x00
     .byte 0x07, 0xFF
-    .4byte sym_06086038
-    .4byte scsp_set_master_volume
+    .long sym_06086038
+    .long scsp_set_master_volume

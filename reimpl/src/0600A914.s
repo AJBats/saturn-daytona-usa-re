@@ -62,7 +62,7 @@ car_proximity_check:
     mov.l @(24, r14), r3
     sub r2, r6
     cmp/pz r6
-    bt/s    .L_0600A98A
+    bt.s    .L_0600A98A
     sub r3, r4
     neg r6, r6
 .L_0600A98A:
@@ -76,22 +76,22 @@ car_proximity_check:
     bra     .L_0600A9C0
     shar r4
 .L_0600A99A:
-    .2byte  0x0268
+    .short  0x0268
 .L_0600A99C:
-    .2byte  0x01EC
-    .2byte  0xFFFF
+    .short  0x01EC
+    .short  0xFFFF
 .L_0600A9A0:
-    .4byte  0x0004B333
+    .long  0x0004B333
 .L_0600A9A4:
-    .4byte  sym_0607EA98
+    .long  sym_0607EA98
 .L_0600A9A8:
-    .4byte  sym_06078900
+    .long  sym_06078900
 .L_0600A9AC:
-    .4byte  sym_0607EAE0
+    .long  sym_0607EAE0
 .L_0600A9B0:
-    .4byte  sym_0607E940
+    .long  sym_0607E940
 .L_0600A9B4:
-    .4byte  0x00E00000
+    .long  0x00E00000
 .L_0600A9B8:
     mov r6, r2
     shar r2
@@ -158,7 +158,7 @@ car_proximity_check:
     mov.l @(24, r11), r3
     sub r2, r6
     cmp/pz r6
-    bt/s    .L_0600AA32
+    bt.s    .L_0600AA32
     sub r3, r4
     neg r6, r6
 .L_0600AA32:
@@ -209,17 +209,17 @@ car_proximity_check:
 
     .global DAT_0600aa7e
 DAT_0600aa7e:
-    .2byte  0x01B4
+    .short  0x01B4
 .L_0600AA80:
-    .2byte  0x01EC
-    .2byte  0xFFFF
+    .short  0x01EC
+    .short  0xFFFF
 .L_0600AA84:
-    .4byte  0x00010000
+    .long  0x00010000
 .L_0600AA88:
-    .4byte  sym_060316C4
+    .long  sym_060316C4
 .L_0600AA8C:
-    .4byte  sym_0607E940
+    .long  sym_0607E940
 .L_0600AA90:
-    .4byte  0x00E00000
+    .long  0x00E00000
 .L_0600AA94:
-    .4byte  sym_06030FC0
+    .long  sym_06030FC0

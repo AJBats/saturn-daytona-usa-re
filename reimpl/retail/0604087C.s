@@ -23,7 +23,7 @@ sym_06040894:
 DAT_0604089c:
     .byte 0x00, 0xFF
     .byte 0xFF, 0xFF
-    .4byte track_segment_interp
-    .4byte state_field_read
-    .4byte evt_reg_save
-    .4byte sym_06040EBA
+    .long track_segment_interp
+    .long state_field_read
+    .long evt_reg_save
+    .long sym_06040EBA

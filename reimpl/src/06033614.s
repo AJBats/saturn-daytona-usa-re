@@ -9,9 +9,9 @@ course_desc_display:
     mov.l @r15+, r0
     rts
     nop
-    .4byte  sym_0603363C
-    .4byte  sin_lookup
-    .4byte  cos_lookup
+    .long  sym_0603363C
+    .long  sin_lookup
+    .long  cos_lookup
 
     .global sym_06033630
 sym_06033630:

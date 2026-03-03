@@ -22,26 +22,26 @@ multi_state_anim:
 .L_06010504:
     bra     .L_06010570
     mov #0x5, r4
-    .4byte  0x00C0FFFF
+    .long  0x00C0FFFF
 .L_0601050C:
-    .4byte  sym_0607EADC
-    .4byte  sym_06063D9C
-    .4byte  0x0000FFFF
+    .long  sym_0607EADC
+    .long  sym_06063D9C
+    .long  0x0000FFFF
 .L_06010518:
-    .4byte  sym_0607EAB8
+    .long  sym_0607EAB8
 .L_0601051C:
-    .4byte  sym_06078868
-    .4byte  dma_transfer
-    .4byte  sym_0605D084
-    .4byte  sym_06078884
-    .4byte  sym_0605D060
-    .4byte  sym_0605D05C
-    .4byte  sym_0605D088
-    .4byte  sym_06078880
+    .long  sym_06078868
+    .long  dma_transfer
+    .long  sym_0605D084
+    .long  sym_06078884
+    .long  sym_0605D060
+    .long  sym_0605D05C
+    .long  sym_0605D088
+    .long  sym_06078880
 .L_0601053C:
-    .4byte  sym_060788A8
+    .long  sym_060788A8
 .L_06010540:
-    .4byte  sym_0605AB16
+    .long  sym_0605AB16
 .L_06010544:
     bra     .L_06010570
     mov #0x7, r4
@@ -187,35 +187,35 @@ multi_state_anim:
 
     .global DAT_0601064a
 DAT_0601064a:
-    .2byte  0x4000
+    .short  0x4000
 .L_0601064C:
-    .4byte  sym_0605AB17
+    .long  sym_0605AB17
 .L_06010650:
-    .4byte  sym_0607889C
+    .long  sym_0607889C
 .L_06010654:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_06010658:
-    .4byte  0xFFFF0000
+    .long  0xFFFF0000
 .L_0601065C:
-    .4byte  0x40280000
+    .long  0x40280000
 .L_06010660:
-    .4byte  0x40F00000
+    .long  0x40F00000
 .L_06010664:
-    .4byte  sym_060359E4
+    .long  sym_060359E4
 .L_06010668:
-    .4byte  sym_060357B8
+    .long  sym_060357B8
 .L_0601066C:
-    .4byte  sym_06078894
+    .long  sym_06078894
 .L_06010670:
-    .4byte  sym_060788A0
+    .long  sym_060788A0
 .L_06010674:
-    .4byte  sym_06078898
+    .long  sym_06078898
 .L_06010678:
-    .4byte  sym_060788A4
+    .long  sym_060788A4
 .L_0601067C:
-    .4byte  0x00010000
+    .long  0x00010000
 .L_06010680:
-    .4byte  0xFFF40000
+    .long  0xFFF40000
 .L_06010684:
     mov.b r10, @r12
     mov.l   .L_06010738, r3
@@ -314,24 +314,24 @@ DAT_0601064a:
     rts
     mov.l @r15+, r14
 .L_06010736:
-    .2byte  0x00C0
+    .short  0x00C0
 .L_06010738:
-    .4byte  sym_06078898
+    .long  sym_06078898
 .L_0601073C:
-    .4byte  sym_060788A4
+    .long  sym_060788A4
 .L_06010740:
-    .4byte  sym_0605D05C
+    .long  sym_0605D05C
 .L_06010744:
-    .4byte  sym_06078880
+    .long  sym_06078880
 .L_06010748:
-    .4byte  sym_06078884
+    .long  sym_06078884
 .L_0601074C:
-    .4byte  dma_transfer
+    .long  dma_transfer
 .L_06010750:
-    .4byte  0x0000C000
+    .long  0x0000C000
 .L_06010754:
-    .4byte  sym_0605CA9C
+    .long  sym_0605CA9C
 .L_06010758:
-    .4byte  0x25F00000
+    .long  0x25F00000
 .L_0601075C:
-    .4byte  memcpy_word_idx
+    .long  memcpy_word_idx

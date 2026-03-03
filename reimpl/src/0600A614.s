@@ -118,44 +118,44 @@ camera_collision_avoid:
     bra     .L_0600A744
     nop
 .L_0600A6FA:
-    .2byte  0xCCCD
+    .short  0xCCCD
 .L_0600A6FC:
-    .2byte  0x8000
-    .2byte  0xFFFF
+    .short  0x8000
+    .short  0xFFFF
 .L_0600A700:
-    .4byte  sym_06089EDC
+    .long  sym_06089EDC
 .L_0600A704:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_0600A708:
-    .4byte  sym_0607EB8C
+    .long  sym_0607EB8C
 .L_0600A70C:
-    .4byte  sym_06026DBC
+    .long  sym_06026DBC
 .L_0600A710:
-    .4byte  sym_06044640
+    .long  sym_06044640
 .L_0600A714:
-    .4byte  0xFFFF0F5D
+    .long  0xFFFF0F5D
 .L_0600A718:
-    .4byte  sym_06026E2E
+    .long  sym_06026E2E
 .L_0600A71C:
-    .4byte  mat_scale_columns
+    .long  mat_scale_columns
 .L_0600A720:
-    .4byte  sym_060621D8
+    .long  sym_060621D8
 .L_0600A724:
-    .4byte  sym_0606212C
+    .long  sym_0606212C
 .L_0600A728:
-    .4byte  sym_06031D8C
+    .long  sym_06031D8C
 .L_0600A72C:
-    .4byte  sym_06062180
+    .long  sym_06062180
 .L_0600A730:
-    .4byte  sym_06089E9C
+    .long  sym_06089E9C
 .L_0600A734:
-    .4byte  sym_060620D8
+    .long  sym_060620D8
 .L_0600A738:
-    .4byte  sym_06031A28
+    .long  sym_06031A28
 .L_0600A73C:
-    .4byte  sym_06044670
+    .long  sym_06044670
 .L_0600A740:
-    .4byte  0xFFFDB334
+    .long  0xFFFDB334
 .L_0600A744:
     mov.l   .L_0600A764, r2
     mov.l   .L_0600A768, r1
@@ -173,8 +173,8 @@ camera_collision_avoid:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_0600A764:
-    .4byte  sym_060620D8
+    .long  sym_060620D8
 .L_0600A768:
-    .4byte  sym_06031A28
+    .long  sym_06031A28

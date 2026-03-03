@@ -31,14 +31,14 @@ course0_physics_init:
 DAT_06019bfc:
     .byte 0x10, 0x00
     .byte 0xFF, 0xFF
-    .4byte sym_0605D4F0
-    .4byte sym_0605D243
-    .4byte sym_0605D242
-    .4byte sym_0605D260
-    .4byte sym_06049B12
-    .4byte sym_06028400
-    .4byte sym_06085FF0
-    .4byte sym_0605AD00
+    .long sym_0605D4F0
+    .long sym_0605D243
+    .long sym_0605D242
+    .long sym_0605D260
+    .long sym_06049B12
+    .long sym_06028400
+    .long sym_06085FF0
+    .long sym_0605AD00
     .byte 0xEA, 0x05
     .byte 0x67, 0xAC
     .byte 0x60, 0xDC
@@ -155,6 +155,6 @@ DAT_06019bfc:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .byte 0xFF, 0xFF
-    .4byte sym_06063750
-    .4byte sym_06049B0C
-    .4byte sym_0605AD00
+    .long sym_06063750
+    .long sym_06049B0C
+    .long sym_0605AD00

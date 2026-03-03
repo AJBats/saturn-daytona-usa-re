@@ -20,13 +20,13 @@ sym_06035C92:
     or r4, r3
     rts
     mov.w r3, @r2
-    .4byte  0xD002000B
-    .2byte  0x6001
+    .long  0xD002000B
+    .short  0x6001
 .L_06035CA6:
-    .2byte  0x0BE1
+    .short  0x0BE1
 .L_06035CA8:
-    .4byte  sym_06063590
-    .4byte  0x2589000C
-    .4byte  0xD30A000B
-    .4byte  0x2341D00A
-    .4byte  0x000B0009
+    .long  sym_06063590
+    .long  0x2589000C
+    .long  0xD30A000B
+    .long  0x2341D00A
+    .long  0x000B0009

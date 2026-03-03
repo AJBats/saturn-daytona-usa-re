@@ -101,53 +101,53 @@ obj_visibility_test:
     bra     .L_06020644
     mov #0x10, r4
 .L_060205F2:
-    .2byte  0x0558
+    .short  0x0558
 .L_060205F4:
-    .2byte  0x0560
+    .short  0x0560
 .L_060205F6:
-    .2byte  0x0294
+    .short  0x0294
 .L_060205F8:
-    .2byte  0x0550
+    .short  0x0550
 .L_060205FA:
-    .2byte  0x6000
+    .short  0x6000
 .L_060205FC:
-    .2byte  0x0082
+    .short  0x0082
 .L_060205FE:
-    .2byte  0x0100
+    .short  0x0100
 .L_06020600:
-    .4byte  sym_06087804
+    .long  sym_06087804
 .L_06020604:
-    .4byte  sym_06028560
+    .long  sym_06028560
 .L_06020608:
-    .4byte  gameover_channel_setup
+    .long  gameover_channel_setup
 .L_0602060C:
-    .4byte  sym_0602853E
+    .long  sym_0602853E
 .L_06020610:
-    .4byte  memcpy_word_idx
+    .long  memcpy_word_idx
 .L_06020614:
-    .4byte  sym_0604898C
+    .long  sym_0604898C
 .L_06020618:
-    .4byte  0x25F006E0
+    .long  0x25F006E0
 .L_0602061C:
-    .4byte  sym_060489AC
+    .long  sym_060489AC
 .L_06020620:
-    .4byte  0x25F00300
+    .long  0x25F00300
 .L_06020624:
-    .4byte  sym_060489CC
+    .long  sym_060489CC
 .L_06020628:
-    .4byte  0x25F00400
+    .long  0x25F00400
 .L_0602062C:
-    .4byte  0x25F00060
+    .long  0x25F00060
 .L_06020630:
-    .4byte  sym_06063750
+    .long  sym_06063750
 .L_06020634:
-    .4byte  sym_06028400
+    .long  sym_06028400
 .L_06020638:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_0602063C:
-    .4byte  display_channel_b
+    .long  display_channel_b
 .L_06020640:
-    .4byte  channel_nibble_config
+    .long  channel_nibble_config
 .L_06020644:
     jsr @r14
     nop
@@ -216,36 +216,36 @@ obj_visibility_test:
     jmp @r3
     mov.l @r15+, r14
 .L_060206C8:
-    .4byte  sym_06059F6F
+    .long  sym_06059F6F
 .L_060206CC:
-    .4byte  sym_06087820
+    .long  sym_06087820
 .L_060206D0:
-    .4byte  0x00040000
+    .long  0x00040000
 .L_060206D4:
-    .4byte  sym_06087818
+    .long  sym_06087818
 .L_060206D8:
-    .4byte  sym_0608781C
+    .long  sym_0608781C
 .L_060206DC:
-    .4byte  0x00030000
+    .long  0x00030000
 .L_060206E0:
-    .4byte  0x00B00000
+    .long  0x00B00000
 .L_060206E4:
-    .4byte  fpmul
+    .long  fpmul
 .L_060206E8:
-    .4byte  fpdiv_setup
+    .long  fpdiv_setup
 .L_060206EC:
-    .4byte  sym_06087810
+    .long  sym_06087810
 .L_060206F0:
-    .4byte  0xFFFF0000
+    .long  0xFFFF0000
 .L_060206F4:
-    .4byte  0x00700000
+    .long  0x00700000
 .L_060206F8:
-    .4byte  sym_06087814
+    .long  sym_06087814
 .L_060206FC:
-    .4byte  sym_0603850C
+    .long  sym_0603850C
 .L_06020700:
-    .4byte  scene_color_intensity
+    .long  scene_color_intensity
 .L_06020704:
-    .4byte  scene_data_write_add
+    .long  scene_data_write_add
 .L_06020708:
-    .4byte  sym_06038520
+    .long  sym_06038520

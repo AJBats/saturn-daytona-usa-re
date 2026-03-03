@@ -40,7 +40,7 @@ sprite_anim_update:
     mov.l   .L_pool_0602674C, r4
     and r2, r3
     tst r3, r3
-    bt/s    .L_06026784
+    bt.s    .L_06026784
     mov #0x6, r5
     mov.w @r14, r0
     extu.w r0, r0
@@ -49,35 +49,35 @@ sprite_anim_update:
     bra     .L_06026752
     mov #0x1, r3
 .L_wpool_06026728:
-    .2byte  0x0090
+    .short  0x0090
 
     .global DAT_0602672a
 DAT_0602672a:
-    .2byte  0x0926
+    .short  0x0926
 
     .global DAT_0602672c
 DAT_0602672c:
-    .2byte  0x0A26
+    .short  0x0A26
 
     .global DAT_0602672e
 DAT_0602672e:
-    .2byte  0x0E00
+    .short  0x0E00
 .L_pool_06026730:
-    .4byte  sym_06059128
+    .long  sym_06059128
 .L_pool_06026734:
-    .4byte  sym_060284AE
+    .long  sym_060284AE
 .L_pool_06026738:
-    .4byte  sym_06089EDA
+    .long  sym_06089EDA
 .L_pool_0602673C:
-    .4byte  sym_0605912C
+    .long  sym_0605912C
 .L_pool_06026740:
-    .4byte  sym_06059134
+    .long  sym_06059134
 .L_pool_06026744:
-    .4byte  sym_06063D9A
+    .long  sym_06063D9A
 .L_pool_06026748:
-    .4byte  sym_06061198
+    .long  sym_06061198
 .L_pool_0602674C:
-    .4byte  sym_06089ED8
+    .long  sym_06089ED8
 .L_06026750:
     mov #0x0, r3
 .L_06026752:
@@ -211,20 +211,20 @@ DAT_0602672e:
     bra     .L_06026892
     nop
 .L_wpool_06026848:
-    .2byte  0x0100
+    .short  0x0100
 
     .global DAT_0602684a
 DAT_0602684a:
-    .2byte  0x1000
+    .short  0x1000
 .L_wpool_0602684C:
-    .2byte  0x2000
-    .2byte  0xFFFF
+    .short  0x2000
+    .short  0xFFFF
 .L_pool_06026850:
-    .4byte  sym_0605913C
+    .long  sym_0605913C
 .L_pool_06026854:
-    .4byte  sym_06059144
+    .long  sym_06059144
 .L_pool_06026858:
-    .4byte  sym_06089EC6
+    .long  sym_06089EC6
 .L_0602685C:
     mov.l   .L_pool_060268A8, r2
     mov.l r2, @r15
@@ -267,8 +267,8 @@ DAT_0602684a:
 
     .global DAT_060268a6
 DAT_060268a6:
-    .2byte  0x7000
+    .short  0x7000
 .L_pool_060268A8:
-    .4byte  sym_06063B88
+    .long  sym_06063B88
 .L_pool_060268AC:
-    .4byte  sym_06028400
+    .long  sym_06028400

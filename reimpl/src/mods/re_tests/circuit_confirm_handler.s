@@ -30,18 +30,18 @@ circuit_confirm_handler:
     mov.l r3, @r2
     bra     .L_06010386
     nop
-    .2byte  0x4000
+    .short  0x4000
 .L_wpool_0601030C:
-    .2byte  0x0200                              /* BACK: was 0x0100 (B), now 0x0200 (C) */
-    .2byte  0xFFFF
-    .4byte  sym_0607EADC
-    .4byte  0x00008000
-    .4byte  sym_0607887E
-    .4byte  sym_0607EAD8
+    .short  0x0200                              /* BACK: was 0x0100 (B), now 0x0200 (C) */
+    .short  0xFFFF
+    .long  sym_0607EADC
+    .long  0x00008000
+    .long  sym_0607887E
+    .long  sym_0607EAD8
 .L_pool_06010320:
-    .4byte  sym_0607EBCC
+    .long  sym_0607EBCC
 .L_pool_06010324:
-    .4byte  g_game_state
+    .long  g_game_state
 .L_06010328:
     mov.l @r14, r2
     cmp/pl r2
@@ -98,28 +98,28 @@ circuit_confirm_handler:
 
     .global DAT_0601038c
 DAT_0601038c:
-    .2byte  0x0100                              /* CONFIRM: was 0x0200 (C), now 0x0100 (B) */
+    .short  0x0100                              /* CONFIRM: was 0x0200 (C), now 0x0100 (B) */
 
     .global DAT_0601038e
 DAT_0601038e:
-    .2byte  0x1000
+    .short  0x1000
 .L_pool_06010390:
-    .4byte  sym_0607EADC
+    .long  sym_0607EADC
 .L_pool_06010394:
-    .4byte  sym_0604481C                    /* sound command table base (4-byte entries) */
+    .long  sym_0604481C                    /* sound command table base (4-byte entries) */
 .L_pool_06010398:
-    .4byte  sound_cmd_dispatch
+    .long  sound_cmd_dispatch
 .L_pool_0601039C:
-    .4byte  sym_0607887F
+    .long  sym_0607887F
 .L_pool_060103A0:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8
 .L_pool_060103A4:
-    .4byte  sym_06078648
+    .long  sym_06078648
 .L_pool_060103A8:
-    .4byte  sym_0605AB18
+    .long  sym_0605AB18
 .L_pool_060103AC:
-    .4byte  sym_06085FF4
+    .long  sym_06085FF4
 .L_pool_060103B0:
-    .4byte  sym_0605AD00
+    .long  sym_0605AD00
 .L_pool_060103B4:
-    .4byte  g_pad_state
+    .long  g_pad_state

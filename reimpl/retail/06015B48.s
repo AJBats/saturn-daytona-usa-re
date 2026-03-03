@@ -111,9 +111,9 @@ time_compare_display:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .byte 0x0C, 0x00
-    .4byte sym_06084FC8
-    .4byte track_vtx_builder
-    .4byte sym_060172E4
+    .long sym_06084FC8
+    .long track_vtx_builder
+    .long sym_060172E4
     .global loc_06015C30
 loc_06015C30:
     .byte 0x7F, 0xFC

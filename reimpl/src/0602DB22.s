@@ -74,90 +74,90 @@ vdp1_cmd_list_reset:
 
     .global DAT_0602dbac
 DAT_0602dbac:
-    .2byte  0x0114
+    .short  0x0114
 
     .global DAT_0602dbae
 DAT_0602dbae:
-    .2byte  0x00D0
+    .short  0x00D0
 
     .global DAT_0602dbb0
 DAT_0602dbb0:
-    .2byte  0x0040
+    .short  0x0040
 
     .global DAT_0602dbb2
 DAT_0602dbb2:
-    .2byte  0x0244
+    .short  0x0244
 
     .global DAT_0602dbb4
 DAT_0602dbb4:
-    .2byte  0x0058
+    .short  0x0058
 
     .global DAT_0602dbb6
 DAT_0602dbb6:
-    .2byte  0x005C
+    .short  0x005C
 
     .global DAT_0602dbb8
 DAT_0602dbb8:
-    .2byte  0x025C
+    .short  0x025C
 
     .global DAT_0602dbba
 DAT_0602dbba:
-    .2byte  0x0030
+    .short  0x0030
 
     .global DAT_0602dbbc
 DAT_0602dbbc:
-    .2byte  0x0028
+    .short  0x0028
 
     .global DAT_0602dbbe
 DAT_0602dbbe:
-    .2byte  0x0148
+    .short  0x0148
 
     .global DAT_0602dbc0
 DAT_0602dbc0:
-    .2byte  0x0008
+    .short  0x0008
 
     .global DAT_0602dbc2
 DAT_0602dbc2:
-    .2byte  0x0002
-    .4byte  0x00000002
+    .short  0x0002
+    .long  0x00000002
 .L_pool_0602DBC8:
-    .4byte  0x00000000
-    .4byte  sound_cmd_dispatch
-    .4byte  0x00000003
+    .long  0x00000000
+    .long  sound_cmd_dispatch
+    .long  0x00000003
 .L_pool_0602DBD4:
-    .4byte  sym_06082A30
+    .long  sym_06082A30
 .L_pool_0602DBD8:
-    .4byte  sym_06082A26
+    .long  sym_06082A26
 .L_pool_0602DBDC:
-    .4byte  sym_060788FC
+    .long  sym_060788FC
 .L_pool_0602DBE0:
-    .4byte  sym_06082A38
+    .long  sym_06082A38
 .L_pool_0602DBE4:
-    .4byte  sym_0607E940
+    .long  sym_0607E940
 .L_pool_0602DBE8:
-    .4byte  0x000000C8
+    .long  0x000000C8
 .L_pool_0602DBEC:
-    .4byte  sym_0607EAC8
+    .long  sym_0607EAC8
 .L_pool_0602DBF0:
-    .4byte  sym_06082A2C
+    .long  sym_06082A2C
 .L_pool_0602DBF4:
-    .4byte  0x00FA0000
+    .long  0x00FA0000
 .L_pool_0602DBF8:
-    .4byte  0x0000038E
+    .long  0x0000038E
 .L_pool_0602DBFC:
-    .4byte  0x000000FA
+    .long  0x000000FA
 .L_pool_0602DC00:
-    .4byte  0x0000000C
+    .long  0x0000000C
 .L_pool_0602DC04:
-    .4byte  0x00000194
+    .long  0x00000194
 .L_pool_0602DC08:
-    .4byte  sym_0605A1C4
+    .long  sym_0605A1C4
 .L_pool_0602DC0C:
-    .4byte  sym_06063E1C
+    .long  sym_06063E1C
 .L_pool_0602DC10:
-    .4byte  sym_06082A34
+    .long  sym_06082A34
 .L_pool_0602DC14:
-    .4byte  sym_06063E20
+    .long  sym_06063E20
 
     .global sym_0602DC18
 sym_0602DC18:

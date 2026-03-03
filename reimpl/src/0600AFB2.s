@@ -45,42 +45,42 @@ camera_track_setup:
     mov.l @r3, r2
     bra     .L_0600B080
     add r2, r4
-    .2byte  0xFFFF
-    .4byte  sym_06083258
-    .4byte  sym_060621D8
-    .4byte  sym_0606212C
-    .4byte  sym_06031D8C
-    .4byte  sym_06062180
-    .4byte  sym_06089E44
-    .4byte  sym_060620D8
-    .4byte  sym_06031A28
+    .short  0xFFFF
+    .long  sym_06083258
+    .long  sym_060621D8
+    .long  sym_0606212C
+    .long  sym_06031D8C
+    .long  sym_06062180
+    .long  sym_06089E44
+    .long  sym_060620D8
+    .long  sym_06031A28
 .L_0600B02C:
-    .4byte  sym_0607EBC4
-    .4byte  0x20020000
-    .4byte  replay_playback
-    .4byte  sym_06089EDC
+    .long  sym_0607EBC4
+    .long  0x20020000
+    .long  replay_playback
+    .long  sym_06089EDC
 .L_0600B03C:
-    .4byte  sym_06063F46
+    .long  sym_06063F46
 .L_0600B040:
-    .4byte  mat_rot_xz_b
+    .long  mat_rot_xz_b
 .L_0600B044:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_0600B048:
-    .4byte  sym_0607E940
+    .long  sym_0607E940
 .L_0600B04C:
-    .4byte  sym_06027080
+    .long  sym_06027080
 .L_0600B050:
-    .4byte  sym_060270F2
+    .long  sym_060270F2
 .L_0600B054:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_0600B058:
-    .4byte  mat_rot_xy_b
+    .long  mat_rot_xy_b
 .L_0600B05C:
-    .4byte  mat_rot_yz_b
+    .long  mat_rot_yz_b
 .L_0600B060:
-    .4byte  0x00800008
+    .long  0x00800008
 .L_0600B064:
-    .4byte  sym_0605BDCC
+    .long  sym_0605BDCC
 .L_0600B068:
     mov.l @(28, r14), r4
     neg r4, r4
@@ -148,7 +148,7 @@ camera_track_setup:
     mov r14, r0
     mov.b @(1, r0), r0
     tst #0x1, r0
-    bt/s    .L_0600B148
+    bt.s    .L_0600B148
     mov #0x0, r12
     mov #0xD, r12
     mov.w @r11, r4
@@ -163,51 +163,51 @@ camera_track_setup:
 
     .global DAT_0600b100
 DAT_0600b100:
-    .2byte  0x01D8
+    .short  0x01D8
 
     .global DAT_0600b102
 DAT_0600b102:
-    .2byte  0x01B4
+    .short  0x01B4
 
     .global DAT_0600b104
 DAT_0600b104:
-    .2byte  0x01D0
+    .short  0x01D0
 
     .global DAT_0600b106
 DAT_0600b106:
-    .2byte  0x01C8
+    .short  0x01C8
 .L_0600B108:
-    .4byte  sym_06078668
+    .long  sym_06078668
 .L_0600B10C:
-    .4byte  sym_0605BDCC
+    .long  sym_0605BDCC
 .L_0600B110:
-    .4byte  mat_rot_xy_b
+    .long  mat_rot_xy_b
 .L_0600B114:
-    .4byte  sym_06059F30
+    .long  sym_06059F30
 .L_0600B118:
-    .4byte  sym_060621E8
+    .long  sym_060621E8
 .L_0600B11C:
-    .4byte  sym_0606213C
+    .long  sym_0606213C
 .L_0600B120:
-    .4byte  sym_06032158
+    .long  sym_06032158
 .L_0600B124:
-    .4byte  sym_06062190
+    .long  sym_06062190
 .L_0600B128:
-    .4byte  sym_06089E44
+    .long  sym_06089E44
 .L_0600B12C:
-    .4byte  sym_060620E8
+    .long  sym_060620E8
 .L_0600B130:
-    .4byte  sym_06031DF4
+    .long  sym_06031DF4
 .L_0600B134:
-    .4byte  sym_060270F2
+    .long  sym_060270F2
 .L_0600B138:
-    .4byte  mat_rot_yz_b
+    .long  mat_rot_yz_b
 .L_0600B13C:
-    .4byte  sym_06082A25
+    .long  sym_06082A25
 .L_0600B140:
-    .4byte  sym_06044740
+    .long  sym_06044740
 .L_0600B144:
-    .4byte  sym_06083258
+    .long  sym_06083258
 .L_0600B148:
     .byte   0xD4, 0x23    /* mov.l .L_0600B148_base, r4 */
     mov.l @r4, r4

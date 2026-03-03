@@ -89,56 +89,56 @@ hud_menu_logic:
 
     .global DAT_06012884
 DAT_06012884:
-    .2byte  0x01EC
+    .short  0x01EC
 .L_06012886:
-    .2byte  0x0090
+    .short  0x0090
 
     .global DAT_06012888
 DAT_06012888:
-    .2byte  0x0098
+    .short  0x0098
 .L_0601288A:
-    .2byte  0x0880                          /* display command ID: menu item A */
+    .short  0x0880                          /* display command ID: menu item A */
 
     .global DAT_0601288c
 DAT_0601288c:
-    .2byte  0x00A0
+    .short  0x00A0
 
     .global DAT_0601288e
 DAT_0601288e:
-    .2byte  0x088C                          /* display command ID: menu item B */
+    .short  0x088C                          /* display command ID: menu item B */
 
     .global DAT_06012890
 DAT_06012890:
-    .2byte  0x4000
-    .2byte  0xFFFF
+    .short  0x4000
+    .short  0xFFFF
 .L_06012894:
-    .4byte  sym_060788F8
+    .long  sym_060788F8
 .L_06012898:
-    .4byte  sym_0605B714
+    .long  sym_0605B714
 .L_0601289C:
-    .4byte  sym_0605B6D8
+    .long  sym_0605B6D8
 .L_060128A0:
-    .4byte  0x0004CCCC
+    .long  0x0004CCCC
 .L_060128A4:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_060128A8:
-    .4byte  sym_060283E0                    /* display command writer function */
+    .long  sym_060283E0                    /* display command writer function */
 .L_060128AC:
-    .4byte  sound_cmd_dispatch              /* sound command dispatch function */
+    .long  sound_cmd_dispatch              /* sound command dispatch function */
 .L_060128B0:
-    .4byte  sym_0605ACDD
+    .long  sym_0605ACDD
 .L_060128B4:
-    .4byte  sym_06028400
+    .long  sym_06028400
 .L_060128B8:
-    .4byte  sym_06063750
+    .long  sym_06063750
 .L_060128BC:
-    .4byte  sym_060788F4
+    .long  sym_060788F4
 .L_060128C0:
-    .4byte  g_pad_state
+    .long  g_pad_state
 .L_060128C4:
-    .4byte  sym_0608188C
+    .long  sym_0608188C
 .L_060128C8:
-    .4byte  sym_0607ED8C
+    .long  sym_0607ED8C
 .L_060128CC:
     mov.w   DAT_0601299a, r7
     add r13, r7
@@ -252,45 +252,45 @@ DAT_06012890:
 
     .global DAT_0601299a
 DAT_0601299a:
-    .2byte  0x0088
+    .short  0x0088
 
     .global DAT_0601299c
 DAT_0601299c:
-    .2byte  0x4000
+    .short  0x4000
 
     .global DAT_0601299e
 DAT_0601299e:
-    .2byte  0x061C
+    .short  0x061C
 
     .global DAT_060129a0
 DAT_060129a0:
-    .2byte  0x069C
+    .short  0x069C
 
     .global DAT_060129a2
 DAT_060129a2:
-    .2byte  0x071C
+    .short  0x071C
 
     .global DAT_060129a4
 DAT_060129a4:
-    .2byte  0x3000
+    .short  0x3000
 
     .global DAT_060129a6
 DAT_060129a6:
-    .2byte  0x0626
+    .short  0x0626
 .L_060129A8:
-    .4byte  0x0000F000
+    .long  0x0000F000
 .L_060129AC:
-    .4byte  0xAE1122FF
+    .long  0xAE1122FF
 .L_060129B0:
-    .4byte  sym_06078654
+    .long  sym_06078654
 .L_060129B4:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_060129B8:
-    .4byte  sym_06063EF0
+    .long  sym_06063EF0
 .L_060129BC:
-    .4byte  0xAE1123FF
+    .long  0xAE1123FF
 .L_060129C0:
-    .4byte  0xAE1124FF
+    .long  0xAE1124FF
 .L_060129C4:
     mov r4, r0
     cmp/eq #0x61, r0
@@ -406,37 +406,37 @@ DAT_060129a6:
 
     .global DAT_06012a92
 DAT_06012a92:
-    .2byte  0x0080
+    .short  0x0080
 
     .global DAT_06012a94
 DAT_06012a94:
-    .2byte  0x3000
+    .short  0x3000
 .L_06012A96:
-    .2byte  0x0520
+    .short  0x0520
 .L_06012A98:
-    .2byte  0x0620
+    .short  0x0620
 .L_06012A9A:
-    .2byte  0x0720
+    .short  0x0720
 .L_06012A9C:
-    .2byte  0x0820
+    .short  0x0820
 .L_06012A9E:
-    .2byte  0x0880
+    .short  0x0880
 .L_06012AA0:
-    .2byte  0x0980
-    .2byte  0xFFFF
+    .short  0x0980
+    .short  0xFFFF
 .L_06012AA4:
-    .4byte  0xAE1125FF
+    .long  0xAE1125FF
 .L_06012AA8:
-    .4byte  sym_06086056
+    .long  sym_06086056
 .L_06012AAC:
-    .4byte  sym_0608605A
+    .long  sym_0608605A
 .L_06012AB0:
-    .4byte  sym_060284AE
+    .long  sym_060284AE
 .L_06012AB4:
-    .4byte  0x0000F000
+    .long  0x0000F000
 .L_06012AB8:
-    .4byte  sym_0605AC9C
+    .long  sym_0605AC9C
 .L_06012ABC:
-    .4byte  sym_0605B714
+    .long  sym_0605B714
 .L_06012AC0:
-    .4byte  sym_06078636
+    .long  sym_06078636

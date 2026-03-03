@@ -16,14 +16,14 @@ menu_toggle_switch:
     lds.l @r15+, pr
     rts
     mov #0x1, r0
-    .4byte  sym_0603F9DA
-    .4byte  sym_0603EF54
-    .4byte  race_timer_sync
+    .long  sym_0603F9DA
+    .long  sym_0603EF54
+    .long  race_timer_sync
 .L_0603B3BC:
     mov #0x0, r0
     add #0x4, r15
     lds.l @r15+, pr
     rts
     nop
-    .2byte  0xE300
-    .2byte  0xE012
+    .short  0xE300
+    .short  0xE012

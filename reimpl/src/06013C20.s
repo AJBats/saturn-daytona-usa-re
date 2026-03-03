@@ -20,10 +20,10 @@ bonus_multiplier:
     nop
     .byte   0xA2, 0x95    /* bra race_variant_setup_a (external */
     lds.l @r15+, pr
-    .2byte  0xFFFF
-    .4byte  sym_06084B14
-    .4byte  sym_0605B0FC
-    .4byte  0xAB1102FF
-    .4byte  sym_06084AF2
+    .short  0xFFFF
+    .long  sym_06084B14
+    .long  sym_0605B0FC
+    .long  0xAB1102FF
+    .long  sym_06084AF2
 .L_pool_06013C54:
-    .4byte  sym_06084AF6
+    .long  sym_06084AF6

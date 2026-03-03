@@ -57,7 +57,7 @@ sys_dma_channel_init:
     .global DAT_0603b91e
 DAT_0603b91e:
     .byte 0x00, 0xB4
-    .4byte sym_060A4D14
-    .4byte race_timer_sync
+    .long sym_060A4D14
+    .long race_timer_sync
     .byte 0x00, 0x0B
     .byte 0x7F, 0x04

@@ -14,7 +14,7 @@ track_surface_validate:
     mov.l @r14, r0
     mov.l @(r0, r1), r0
     cmp/eq #0x1, r0
-    bf/s    .L_06041BFC
+    bf.s    .L_06041BFC
     mov r4, r12
     mov r15, r5
     mov.l @r14, r4
@@ -80,27 +80,27 @@ DAT_06041bc6:
 
     .global DAT_06041bc8
 DAT_06041bc8:
-    .2byte  0x030C
+    .short  0x030C
 .L_wpool_06041BCA:
-    .2byte  0x0310
+    .short  0x0310
 
     .global DAT_06041bcc
 DAT_06041bcc:
-    .2byte  0x0314
+    .short  0x0314
 .L_wpool_06041BCE:
-    .2byte  0x0318
+    .short  0x0318
 .L_wpool_06041BD0:
-    .2byte  0x0320
+    .short  0x0320
 
     .global DAT_06041bd2
 DAT_06041bd2:
-    .2byte  0x0324
+    .short  0x0324
 .L_pool_06041BD4:
-    .4byte  ai_checkpoint_validate
+    .long  ai_checkpoint_validate
 .L_pool_06041BD8:
-    .4byte  sym_060A5400
+    .long  sym_060A5400
 .L_pool_06041BDC:
-    .4byte  track_surface_type_c
+    .long  track_surface_type_c
 .L_06041BE0:
     mov.l @r14, r3
     mov.w   DAT_06041ca8, r0
@@ -211,18 +211,18 @@ DAT_06041bd2:
 
     .global DAT_06041ca8
 DAT_06041ca8:
-    .2byte  0x0324
+    .short  0x0324
 
     .global DAT_06041caa
 DAT_06041caa:
-    .2byte  0x030C
+    .short  0x030C
 .L_wpool_06041CAC:
-    .2byte  0x0320
-    .2byte  0xFFFF
+    .short  0x0320
+    .short  0xFFFF
 .L_pool_06041CB0:
-    .4byte  track_surface_type_d
+    .long  track_surface_type_d
 .L_pool_06041CB4:
-    .4byte  track_distance_calc
+    .long  track_distance_calc
 .L_06041CB8:
     mov #0x1, r0
 .L_06041CBA:

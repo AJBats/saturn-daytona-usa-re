@@ -143,10 +143,10 @@ DAT_06038cd6:
     .byte 0xF0, 0xFF
     .byte 0x00, 0x00
     .byte 0xFF, 0xF0
-    .4byte sym_060A4D30
-    .4byte sym_060A4D58
-    .4byte sym_060A4D28
-    .4byte sym_06034F78
+    .long sym_060A4D30
+    .long sym_060A4D58
+    .long sym_060A4D28
+    .long sym_06034F78
     .byte 0x62, 0x2D
     .byte 0x60, 0x23
     .byte 0x81, 0x62
@@ -301,7 +301,7 @@ DAT_06038e1a:
     .byte 0x02, 0x01
     .byte 0x00, 0x80
     .byte 0xFF, 0xFF
-    .4byte sym_06034F78
+    .long sym_06034F78
     .byte 0x00, 0x00
     .byte 0x80, 0x00
     .byte 0x89, 0x06
@@ -322,4 +322,4 @@ DAT_06038e1a:
     .byte 0x6E, 0xF6
     .byte 0x02, 0x01
     .byte 0xFF, 0xFF
-    .4byte sym_06034F78
+    .long sym_06034F78

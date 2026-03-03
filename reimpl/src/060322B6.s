@@ -14,12 +14,12 @@ display_dispatch_pop:
     mov.l @r15+, r14
     rts
     nop
-    .4byte  0x00000000
-    .4byte  0x00000001
-    .4byte  0x00000002
-    .4byte  0x00000003
-    .4byte  0x00000004
-    .4byte  0x00000005
+    .long  0x00000000
+    .long  0x00000001
+    .long  0x00000002
+    .long  0x00000003
+    .long  0x00000004
+    .long  0x00000005
 
 .L_060322E8:
     .byte   0xD0, 0x04    /* mov.l .L_pool_060322FC, r0 */
@@ -34,42 +34,42 @@ display_dispatch_pop:
     rts
     nop
 .L_pool_060322FC:
-    .4byte  sym_06082A24
+    .long  sym_06082A24
 .L_pool_06032300:
-    .4byte  sym_06082A20
-    .4byte  0xD0074408
-    .4byte  0x0E4ED007
-    .4byte  0x01EE6516
-    .4byte  0x66166716
-    .4byte  0xD0056202
-    .4byte  0x35208B09
-    .4byte  0xD002A023
-    .4byte  0x0E160000
-    .4byte  sym_060623B0
-    .4byte  0x000002D8
-    .4byte  sym_06082A20
-    .4byte  0xA0D00009
+    .long  sym_06082A20
+    .long  0xD0074408
+    .long  0x0E4ED007
+    .long  0x01EE6516
+    .long  0x66166716
+    .long  0xD0056202
+    .long  0x35208B09
+    .long  0xD002A023
+    .long  0x0E160000
+    .long  sym_060623B0
+    .long  0x000002D8
+    .long  sym_06082A20
+    .long  0xA0D00009
 
     .global sym_06032334
 sym_06032334:
-    .4byte  loc_0603239C
-    .4byte  loc_060323CC
-    .4byte  display_cmd_vscroll
-    .4byte  loc_0603237C
-    .4byte  loc_060323F0
-    .4byte  loc_06032404
-    .4byte  loc_06032414
-    .4byte  loc_06032424
-    .4byte  loc_0603243C
-    .4byte  loc_0603245C
-    .4byte  loc_06032474
-    .4byte  loc_0603248C
-    .4byte  loc_060324A0
-    .4byte  0x6163D002
-    .4byte  0x4108001E
-    .4byte  0x402B0009
-    .4byte  sym_06032334
-    .4byte  0xAFC70009
+    .long  loc_0603239C
+    .long  loc_060323CC
+    .long  display_cmd_vscroll
+    .long  loc_0603237C
+    .long  loc_060323F0
+    .long  loc_06032404
+    .long  loc_06032414
+    .long  loc_06032424
+    .long  loc_0603243C
+    .long  loc_0603245C
+    .long  loc_06032474
+    .long  loc_0603248C
+    .long  loc_060324A0
+    .long  0x6163D002
+    .long  0x4108001E
+    .long  0x402B0009
+    .long  sym_06032334
+    .long  0xAFC70009
 
     .global loc_0603237C
 loc_0603237C:
@@ -84,11 +84,11 @@ loc_0603237C:
     bra     .L_060323A8
     nop
 .L_pool_06032390:
-    .4byte  0x0000000E
+    .long  0x0000000E
 .L_pool_06032394:
-    .4byte  0x00000002
+    .long  0x00000002
 .L_pool_06032398:
-    .4byte  0x00000001
+    .long  0x00000001
 
     .global loc_0603239C
 loc_0603239C:

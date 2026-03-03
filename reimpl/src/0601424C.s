@@ -97,49 +97,49 @@ camera_angle_interp:
 
     .global DAT_06014306
 DAT_06014306:
-    .2byte  0x8000
+    .short  0x8000
 .L_06014308:
-    .2byte  0x020C
-    .2byte  0xFFFF
+    .short  0x020C
+    .short  0xFFFF
 .L_0601430C:
-    .4byte  sym_06026E0C
+    .long  sym_06026E0C
 .L_06014310:
-    .4byte  sym_06026DBC
+    .long  sym_06026DBC
 .L_06014314:
-    .4byte  0x000108F5
+    .long  0x000108F5
 .L_06014318:
-    .4byte  sym_06026E2E
+    .long  sym_06026E2E
 .L_0601431C:
-    .4byte  sym_06084B08
+    .long  sym_06084B08
 .L_06014320:
-    .4byte  sym_0605AD5C
+    .long  sym_0605AD5C
 .L_06014324:
-    .4byte  sym_06084AF8
+    .long  sym_06084AF8
 .L_06014328:
-    .4byte  mat_rot_z
+    .long  mat_rot_z
 .L_0601432C:
-    .4byte  sym_06084AFC
+    .long  sym_06084AFC
 .L_06014330:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_06014334:
-    .4byte  fpmul
+    .long  fpmul
 .L_06014338:
-    .4byte  sym_0607EBC8
+    .long  sym_0607EBC8
 .L_0601433C:
-    .4byte  mat_rot_y
+    .long  mat_rot_y
 .L_06014340:
-    .4byte  0x00010000
+    .long  0x00010000
 .L_06014344:
-    .4byte  mat_scale_columns
+    .long  mat_scale_columns
 .L_06014348:
-    .4byte  sym_060623AC
+    .long  sym_060623AC
 .L_0601434C:
-    .4byte  sym_06031D8C
+    .long  sym_06031D8C
 .L_06014350:
-    .4byte  sym_06089E4A
+    .long  sym_06089E4A
 .L_06014354:
-    .4byte  sym_06062334
+    .long  sym_06062334
 .L_06014358:
-    .4byte  sym_06031A28
+    .long  sym_06031A28
 .L_0601435C:
-    .4byte  sym_06089EDC
+    .long  sym_06089EDC

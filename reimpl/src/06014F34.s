@@ -16,7 +16,7 @@ ai_position_ranking:
     mov.l @r3, r3
     and r3, r0
     tst #0x1, r0
-    bt/s    .L_06014F5C
+    bt.s    .L_06014F5C
     mov #0x23, r4
     mov.l   .L_pool_0601501C, r13
     bra     .L_06014F66
@@ -112,25 +112,25 @@ ai_position_ranking:
     bra     .L_06014F94
     nop
 .L_pool_06015008:
-    .4byte  sym_06085F94
+    .long  sym_06085F94
 .L_pool_0601500C:
-    .4byte  sym_06085F90
+    .long  sym_06085F90
 .L_pool_06015010:
-    .4byte  sym_0605B73A
+    .long  sym_0605B73A
 .L_pool_06015014:
-    .4byte  g_game_state
+    .long  g_game_state
 .L_pool_06015018:
-    .4byte  sym_0607EBF4
+    .long  sym_0607EBF4
 .L_pool_0601501C:
-    .4byte  sym_0605B7A6
+    .long  sym_0605B7A6
 .L_pool_06015020:
-    .4byte  sym_0605B821
+    .long  sym_0605B821
 .L_pool_06015024:
-    .4byte  sym_0606BDF8
+    .long  sym_0606BDF8
 .L_pool_06015028:
-    .4byte  vdp2_data_lookup
+    .long  vdp2_data_lookup
 .L_pool_0601502C:
-    .4byte  sym_06084FC8
+    .long  sym_06084FC8
 .L_06015030:
     lds.l @r15+, pr
     mov.l @r15+, r12

@@ -19,6 +19,6 @@ score_commit_save:
     rts
     mov.l @r15+, r14
 .L_06013E34:
-    .4byte  sym_0607EBC8
+    .long  sym_0607EBC8
 .L_06013E38:
-    .4byte  mat_rot_y
+    .long  mat_rot_y

@@ -53,10 +53,10 @@ vec3_angle_calc:
     .global DAT_060052f6
 DAT_060052f6:
     .byte 0x61, 0xF7
-    .4byte atan2
+    .long atan2
     .byte 0x00, 0x00
     .byte 0xEC, 0x83
-    .4byte fpmul
+    .long fpmul
     .byte 0xD4, 0x1D
     .byte 0xD3, 0x1E
     .byte 0x43, 0x0B
@@ -121,16 +121,16 @@ DAT_0600537a:
     .byte 0x61, 0xF7
     .byte 0x00, 0x00
     .byte 0xEC, 0x83
-    .4byte fpmul
-    .4byte atan2
-    .4byte sym_06078663
+    .long fpmul
+    .long atan2
+    .long sym_06078663
     .byte 0x00, 0x01
     .byte 0x00, 0x00
     .byte 0xFF, 0xFF
     .byte 0x00, 0x00
-    .4byte mat_scale_columns
-    .4byte mat_rot_x
-    .4byte mat_rot_y
-    .4byte sym_06026E2E
-    .4byte sym_06063DF8
-    .4byte sym_06035168
+    .long mat_scale_columns
+    .long mat_rot_x
+    .long mat_rot_y
+    .long sym_06026E2E
+    .long sym_06063DF8
+    .long sym_06035168

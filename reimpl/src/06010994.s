@@ -84,28 +84,28 @@ loc_060109E2:
 
     .global DAT_06010a2a
 DAT_06010a2a:
-    .2byte  0x00C0
+    .short  0x00C0
 .L_pool_06010A2C:
-    .4byte  sym_06059FFC
+    .long  sym_06059FFC
 .L_pool_06010A30:
-    .4byte  sym_06063F5C
+    .long  sym_06063F5C
 .L_pool_06010A34:
-    .4byte  memcpy_word_idx
+    .long  memcpy_word_idx
 .L_pool_06010A38:
-    .4byte  sym_06083255
+    .long  sym_06083255
 .L_pool_06010A3C:
-    .4byte  sym_0607EAB8
+    .long  sym_0607EAB8
 .L_pool_06010A40:
-    .4byte  sym_0605D0AC
+    .long  sym_0605D0AC
 .L_pool_06010A44:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8
 .L_pool_06010A48:
-    .4byte  sym_060448B5
+    .long  sym_060448B5
 .L_pool_06010A4C:
-    .4byte  sym_0607886C
+    .long  sym_0607886C
 .L_pool_06010A50:
-    .4byte  sym_06078868
+    .long  sym_06078868
 .L_pool_06010A54:
-    .4byte  sym_0605D05C
+    .long  sym_0605D05C
 .L_pool_06010A58:
-    .4byte  sym_0607ED91
+    .long  sym_0607ED91

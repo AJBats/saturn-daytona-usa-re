@@ -33,8 +33,8 @@ menu_timer_clock:
     lds.l @r15+, pr
     .byte   0xA1, 0x67    /* bra 0x0603B93C (external) */
     mov.l @r15+, r14
-    .2byte  0xD60C
-    .4byte  0x63629012
-    .4byte  0x03466362
-    .4byte  0x70040356
-    .4byte  0xA15EE400
+    .short  0xD60C
+    .long  0x63629012
+    .long  0x03466362
+    .long  0x70040356
+    .long  0xA15EE400

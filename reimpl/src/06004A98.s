@@ -27,20 +27,20 @@ engine_init_global:
     bra     .L_06004AF2
     nop
 .L_06004AC8:
-    .2byte  0x0083
-    .2byte  0xFFFF
+    .short  0x0083
+    .short  0xFFFF
 .L_06004ACC:
-    .4byte  sym_06000344
+    .long  sym_06000344
 .L_06004AD0:
-    .4byte  vdp1_polygon_build
+    .long  vdp1_polygon_build
 .L_06004AD4:
-    .4byte  0x25FE00A4
+    .long  0x25FE00A4
 .L_06004AD8:
-    .4byte  sym_06087C84
+    .long  sym_06087C84
 .L_06004ADC:
-    .4byte  0x25E00000
+    .long  0x25E00000
 .L_06004AE0:
-    .4byte  0x00020000
+    .long  0x00020000
 .L_06004AE4:
     mov r5, r2
     add #0x4, r5
@@ -163,46 +163,46 @@ engine_init_global:
     bra     .L_06004C10
     mov #0x4, r4
 .L_06004BC0:
-    .2byte  0x2000
-    .2byte  0xFFFF
+    .short  0x2000
+    .short  0xFFFF
 .L_06004BC4:
-    .4byte  display_hw_init
+    .long  display_hw_init
 .L_06004BC8:
-    .4byte  vdp_init_master
+    .long  vdp_init_master
 .L_06004BCC:
-    .4byte  display_extra_config
+    .long  display_extra_config
 .L_06004BD0:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_06004BD4:
-    .4byte  sym_06086028
+    .long  sym_06086028
 .L_06004BD8:
-    .4byte  0x25F00FFE
+    .long  0x25F00FFE
 .L_06004BDC:
-    .4byte  tilemap_dma_update
+    .long  tilemap_dma_update
 .L_06004BE0:
-    .4byte  sym_06000300
+    .long  sym_06000300
 .L_06004BE4:
-    .4byte  FUN_06006F3C
+    .long  FUN_06006F3C
 .L_06004BE8:
-    .4byte  vblank_out_handler
+    .long  vblank_out_handler
 .L_06004BEC:
-    .4byte  sym_06063DA8
+    .long  sym_06063DA8
 .L_06004BF0:
-    .4byte  scene_state_process
+    .long  scene_state_process
 .L_06004BF4:
-    .4byte  display_param_set
+    .long  display_param_set
 .L_06004BF8:
-    .4byte  0x25E58000
+    .long  0x25E58000
 .L_06004BFC:
-    .4byte  sym_06061294
+    .long  sym_06061294
 .L_06004C00:
-    .4byte  sym_060612AC
+    .long  sym_060612AC
 .L_06004C04:
-    .4byte  sym_06037618
+    .long  sym_06037618
 .L_06004C08:
-    .4byte  sym_060A3DB8
+    .long  sym_060A3DB8
 .L_06004C0C:
-    .4byte  0x0000C024
+    .long  0x0000C024
 
 .L_06004C10:
     mov.l   .L_06004CC0, r3
@@ -296,35 +296,35 @@ engine_init_global:
 .L_06004CBA:
     bra     .L_06004B1E
     nop
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_06004CC0:
-    .4byte  sym_0603850C
+    .long  sym_0603850C
 .L_06004CC4:
-    .4byte  0x00010000
+    .long  0x00010000
 .L_06004CC8:
-    .4byte  scene_color_intensity
+    .long  scene_color_intensity
 .L_06004CCC:
-    .4byte  sym_06038520
+    .long  sym_06038520
 .L_06004CD0:
-    .4byte  0x25E5C000
+    .long  0x25E5C000
 .L_06004CD4:
-    .4byte  sym_06061298
+    .long  sym_06061298
 .L_06004CD8:
-    .4byte  sym_060612B0
+    .long  sym_060612B0
 .L_06004CDC:
-    .4byte  sym_06037618
+    .long  sym_06037618
 .L_06004CE0:
-    .4byte  sym_060A3DBA
+    .long  sym_060A3DBA
 .L_06004CE4:
-    .4byte  0x0000C044
+    .long  0x0000C044
 .L_06004CE8:
-    .4byte  sym_06087C84
+    .long  sym_06087C84
 .L_06004CEC:
-    .4byte  display_enable_ctrl
+    .long  display_enable_ctrl
 .L_06004CF0:
-    .4byte  0x25E5FE80
+    .long  0x25E5FE80
 .L_06004CF4:
-    .4byte  0x25E5FF00
+    .long  0x25E5FF00
 
 .L_06004CF8:
     mov.w   .L_06004DDA, r2
@@ -444,40 +444,40 @@ engine_init_global:
     bra     .L_06004E1C
     nop
 .L_06004DDA:
-    .2byte  0x1810
+    .short  0x1810
 .L_06004DDC:
-    .2byte  0x0100
-    .2byte  0xFFFF
+    .short  0x0100
+    .short  0xFFFF
 .L_06004DE0:
-    .4byte  sym_06087C84
+    .long  sym_06087C84
 .L_06004DE4:
-    .4byte  scene_buffer_init
+    .long  scene_buffer_init
 .L_06004DE8:
-    .4byte  0x00010000
+    .long  0x00010000
 .L_06004DEC:
-    .4byte  scene_color_intensity
+    .long  scene_color_intensity
 .L_06004DF0:
-    .4byte  sym_06038520
+    .long  sym_06038520
 .L_06004DF4:
-    .4byte  sym_060612C4
+    .long  sym_060612C4
 .L_06004DF8:
-    .4byte  sym_0606129C
+    .long  sym_0606129C
 .L_06004DFC:
-    .4byte  0x25E5E000
+    .long  0x25E5E000
 .L_06004E00:
-    .4byte  sym_060612B4
+    .long  sym_060612B4
 .L_06004E04:
-    .4byte  sym_06037618
+    .long  sym_06037618
 .L_06004E08:
-    .4byte  sym_060A3DBC
+    .long  sym_060A3DBC
 .L_06004E0C:
-    .4byte  0x0000C000
+    .long  0x0000C000
 .L_06004E10:
-    .4byte  0x25E7E000
+    .long  0x25E7E000
 .L_06004E14:
-    .4byte  sym_060612A0
+    .long  sym_060612A0
 .L_06004E18:
-    .4byte  sym_060612B8
+    .long  sym_060612B8
 
 .L_06004E1C:
     mov r15, r5
@@ -579,38 +579,38 @@ engine_init_global:
     rts
     mov.l @r15+, r14
 .L_06004ED0:
-    .2byte  0xFF7C
+    .short  0xFF7C
 .L_06004ED2:
-    .2byte  0x0083
+    .short  0x0083
 .L_06004ED4:
-    .4byte  sym_060A3DBE
+    .long  sym_060A3DBE
 .L_06004ED8:
-    .4byte  0x0000C060
+    .long  0x0000C060
 .L_06004EDC:
-    .4byte  sym_060370C0
+    .long  sym_060370C0
 .L_06004EE0:
-    .4byte  texture_bank_setup
+    .long  texture_bank_setup
 .L_06004EE4:
-    .4byte  sym_06059F20
+    .long  sym_06059F20
 .L_06004EE8:
-    .4byte  sym_06038044
+    .long  sym_06038044
 .L_06004EEC:
-    .4byte  display_channels_clear
+    .long  display_channels_clear
 .L_06004EF0:
-    .4byte  sym_060149E0
+    .long  sym_060149E0
 .L_06004EF4:
-    .4byte  sym_06026CE0
+    .long  sym_06026CE0
 .L_06004EF8:
-    .4byte  sym_06012E62
+    .long  sym_06012E62
 .L_06004EFC:
-    .4byte  vdp2_register_init
+    .long  vdp2_register_init
 .L_06004F00:
-    .4byte  master_init_dispatch
+    .long  master_init_dispatch
 .L_06004F04:
-    .4byte  obj_template_init
+    .long  obj_template_init
 .L_06004F08:
-    .4byte  audio_display_init
+    .long  audio_display_init
 .L_06004F0C:
-    .4byte  sym_060A3DA8
+    .long  sym_060A3DA8
 .L_06004F10:
-    .4byte  sym_060635AC
+    .long  sym_060635AC

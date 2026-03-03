@@ -32,8 +32,8 @@ DAT_0603bbb4:
     .global DAT_0603bbb6
 DAT_0603bbb6:
     .byte 0x04, 0x3C
-    .4byte evt_boundary_check
-    .4byte sym_060A4D14
+    .long evt_boundary_check
+    .long sym_060A4D14
     .byte 0x63, 0xD2
     .byte 0xE6, 0x04
     .byte 0x92, 0x45

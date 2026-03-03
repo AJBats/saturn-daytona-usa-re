@@ -50,22 +50,22 @@ slave_main_loop:
     bra     .L_06034F34
     nop
 .L_06034F62:
-    .2byte  0xFF0F
+    .short  0xFF0F
 .L_06034F64:
-    .2byte  0xFEE2
+    .short  0xFEE2
 .L_06034F66:
-    .2byte  0xFE60
+    .short  0xFE60
 .L_06034F68:
-    .2byte  0xFE10
+    .short  0xFE10
 .L_06034F6A:
-    .2byte  0xFE11
+    .short  0xFE11
 .L_06034F6C:
-    .2byte  0x0080
-    .2byte  0xFFFF
+    .short  0x0080
+    .short  0xFFFF
 .L_06034F70:
-    .4byte  sym_06063574
+    .long  sym_06063574
 .L_06034F74:
-    .4byte  sym_06063574 + 0x20000000
+    .long  sym_06063574 + 0x20000000
 
     .global sym_06034F78
 sym_06034F78:
@@ -142,7 +142,7 @@ sym_06034FE0:
     rts
     mov.l @r15+, r2
 .L_06034FFA:
-    .2byte  0xFF00
+    .short  0xFF00
 
     .global sym_06034FFC
 sym_06034FFC:
@@ -232,11 +232,11 @@ sym_06034FFC:
     mov.l r2, @r1
     rts
     mov.l @r15+, r2
-    .2byte  0x0009
+    .short  0x0009
 .L_060350A8:
-    .4byte  sym_060A246C
+    .long  sym_060A246C
 .L_060350AC:
-    .4byte  0x0000044E
+    .long  0x0000044E
 
     .global sym_060350B0
 sym_060350B0:
@@ -329,11 +329,11 @@ sym_060350B0:
     mov.l r2, @r1
     rts
     mov.l @r15+, r2
-    .2byte  0x0009
+    .short  0x0009
 .L_06035160:
-    .4byte  sym_060A246C
+    .long  sym_060A246C
 .L_06035164:
-    .4byte  0x0000044E
+    .long  0x0000044E
 
     .global sym_06035168
 sym_06035168:
@@ -346,8 +346,8 @@ sym_06035168:
     jmp @r3
     nop
 .L_06035178:
-    .4byte  sym_060351C4
-    .2byte  0x0009
+    .long  sym_060351C4
+    .short  0x0009
     .global loc_0603517E
 loc_0603517E:
     mov.l @(60, r2), r0
@@ -432,27 +432,27 @@ loc_060351BA:
 loc_060351BE:
     rts
     mov.l @r15+, r3
-    .2byte  0x0009
+    .short  0x0009
 
     .global sym_060351C4
 sym_060351C4:
-    .4byte  loc_060351BE
-    .4byte  loc_060351BA
-    .4byte  loc_060351B6
-    .4byte  loc_060351B2
-    .4byte  loc_060351AE
-    .4byte  loc_060351AA
-    .4byte  loc_060351A6
-    .4byte  loc_060351A2
-    .4byte  loc_0603519E
-    .4byte  loc_0603519A
-    .4byte  loc_06035196
-    .4byte  loc_06035192
-    .4byte  loc_0603518E
-    .4byte  loc_0603518A
-    .4byte  loc_06035186
-    .4byte  loc_06035182
-    .4byte  loc_0603517E
+    .long  loc_060351BE
+    .long  loc_060351BA
+    .long  loc_060351B6
+    .long  loc_060351B2
+    .long  loc_060351AE
+    .long  loc_060351AA
+    .long  loc_060351A6
+    .long  loc_060351A2
+    .long  loc_0603519E
+    .long  loc_0603519A
+    .long  loc_06035196
+    .long  loc_06035192
+    .long  loc_0603518E
+    .long  loc_0603518A
+    .long  loc_06035186
+    .long  loc_06035182
+    .long  loc_0603517E
 .L_06035208:
     mov.l r2, @-r15
     mov r2, r3
@@ -510,19 +510,19 @@ sym_06035228:
 sym_06035260:
     mov.b @(r0, r0), r14
     .word 0x0A08
-    .4byte  loc_06040200
-    .4byte  0x201E1C1A
-    .4byte  0x18161412
-    .4byte  0x3432302E
-    .4byte  0x2C2A2826
-    .4byte  0x403E3C3A
-    .4byte  0x4856626C
+    .long  loc_06040200
+    .long  0x201E1C1A
+    .long  0x18161412
+    .long  0x3432302E
+    .long  0x2C2A2826
+    .long  0x403E3C3A
+    .long  0x4856626C
 
     .global sym_06035280
 sym_06035280:
     mov.l r2, @-r15
     cmp/pz r1
-    bf/s    .L_060352B8
+    bf.s    .L_060352B8
     mov #0x20, r2
     cmp/ge r2, r1
     bt      .L_060352A4
@@ -533,11 +533,11 @@ sym_06035280:
     add r2, r1
     jmp @r1
     nop
-    .2byte  0x0009
+    .short  0x0009
 .L_0603529C:
-    .4byte  sym_060352AA
+    .long  sym_060352AA
 .L_060352A0:
-    .4byte  sym_06035260
+    .long  sym_06035260
 .L_060352A4:
     mov #0x0, r0
     rts
@@ -555,37 +555,37 @@ sym_060352AA:
 .L_060352B8:
     rts
     mov.l @r15+, r2
-    .4byte  0x40004000
-    .4byte  0x40004000
-    .4byte  0x40004000
-    .4byte  0x40004018
-    .4byte  0x000B62F6
-    .4byte  0x40004000
-    .4byte  0x40004000
-    .4byte  0x40004000
-    .4byte  0x40004028
-    .4byte  0x000B62F6
-    .4byte  0x40004000
-    .4byte  0x40004018
-    .4byte  0x4028000B
-    .4byte  0x62F6C90F
-    .4byte  0x40054005
-    .4byte  0x40054005
-    .4byte  0x000B62F6
-    .4byte  0xC9074005
-    .4byte  0x40054005
-    .4byte  0x000B62F6
-    .4byte  0xC9034005
-    .4byte  0x4005000B
-    .4byte  0x62F6C901
-    .4byte  0x4005000B
-    .4byte  0x62F60000
-    .4byte  0xFCFAF8F6
-    .4byte  0xF4F2F0EE
-    .4byte  0xECEAE8E6
-    .4byte  0xE4E2E0DE
-    .4byte  0xDCDAD8D6
-    .4byte  0xD4D2D0CE
+    .long  0x40004000
+    .long  0x40004000
+    .long  0x40004000
+    .long  0x40004018
+    .long  0x000B62F6
+    .long  0x40004000
+    .long  0x40004000
+    .long  0x40004000
+    .long  0x40004028
+    .long  0x000B62F6
+    .long  0x40004000
+    .long  0x40004018
+    .long  0x4028000B
+    .long  0x62F6C90F
+    .long  0x40054005
+    .long  0x40054005
+    .long  0x000B62F6
+    .long  0xC9074005
+    .long  0x40054005
+    .long  0x000B62F6
+    .long  0xC9034005
+    .long  0x4005000B
+    .long  0x62F6C901
+    .long  0x4005000B
+    .long  0x62F60000
+    .long  0xFCFAF8F6
+    .long  0xF4F2F0EE
+    .long  0xECEAE8E6
+    .long  0xE4E2E0DE
+    .long  0xDCDAD8D6
+    .long  0xD4D2D0CE
 
     .global sym_06035338
 sym_06035338:
@@ -598,7 +598,7 @@ sym_06035338:
 sym_06035340:
     mov.l r2, @-r15
     cmp/pz r1
-    bf/s    .L_060353BA
+    bf.s    .L_060353BA
     mov #0x20, r2
     cmp/ge r2, r1
     bt      .L_0603537C
@@ -621,13 +621,13 @@ sym_06035340:
     mov.l   .L_06035378, r2
     jmp @r2
     nop
-    .2byte  0x0009
+    .short  0x0009
 .L_06035370:
-    .4byte  sym_06035338
+    .long  sym_06035338
 .L_06035374:
-    .4byte  sym_060353BE
+    .long  sym_060353BE
 .L_06035378:
-    .4byte  sym_06036068
+    .long  sym_06036068
 .L_0603537C:
     shll r0
     bt      .L_06035386
@@ -638,18 +638,18 @@ sym_06035340:
     mov #-0x1, r0
     rts
     mov.l @r15+, r2
-    .4byte  0x40214021
-    .4byte  0x40214021
-    .4byte  0x40214021
-    .4byte  0x40214021
-    .4byte  0x40214021
-    .4byte  0x40214021
-    .4byte  0x40214021
-    .4byte  0x40214021
-    .4byte  0x40214021
-    .4byte  0x40214021
-    .4byte  0x40214021
-    .2byte  0x4021
+    .long  0x40214021
+    .long  0x40214021
+    .long  0x40214021
+    .long  0x40214021
+    .long  0x40214021
+    .long  0x40214021
+    .long  0x40214021
+    .long  0x40214021
+    .long  0x40214021
+    .long  0x40214021
+    .long  0x40214021
+    .short  0x4021
 .L_060353BA:
     rts
     mov.l @r15+, r2
@@ -662,34 +662,34 @@ sym_060353BE:
     or r1, r0
     rts
     mov.l @r15+, r2
-    .2byte  0x4004
-    .4byte  0x40044004
-    .4byte  0x40044004
-    .4byte  0x40044004
-    .4byte  0xE1C0201B
-    .4byte  0x000B62F6
-    .4byte  0x40044004
-    .4byte  0x40044004
-    .4byte  0x40044004
-    .4byte  0xE1E0201B
-    .4byte  0x000B62F6
-    .4byte  0x40044004
-    .4byte  0x40044004
-    .4byte  0x4004E1F0
-    .4byte  0x201B000B
-    .4byte  0x62F64004
-    .4byte  0x40044004
-    .4byte  0x4004E1F8
-    .4byte  0x201B000B
-    .4byte  0x62F64004
-    .4byte  0x40044004
-    .4byte  0xE1FC201B
-    .4byte  0x000B62F6
-    .4byte  0x40044004
-    .4byte  0xE1FE201B
-    .4byte  0x000B62F6
-    .4byte  0xE0FF000B
-    .4byte  0x62F60000
+    .short  0x4004
+    .long  0x40044004
+    .long  0x40044004
+    .long  0x40044004
+    .long  0xE1C0201B
+    .long  0x000B62F6
+    .long  0x40044004
+    .long  0x40044004
+    .long  0x40044004
+    .long  0xE1E0201B
+    .long  0x000B62F6
+    .long  0x40044004
+    .long  0x40044004
+    .long  0x4004E1F0
+    .long  0x201B000B
+    .long  0x62F64004
+    .long  0x40044004
+    .long  0x4004E1F8
+    .long  0x201B000B
+    .long  0x62F64004
+    .long  0x40044004
+    .long  0xE1FC201B
+    .long  0x000B62F6
+    .long  0x40044004
+    .long  0xE1FE201B
+    .long  0x000B62F6
+    .long  0xE0FF000B
+    .long  0x62F60000
 
     .global sym_06035438
 sym_06035438:
@@ -702,13 +702,13 @@ sym_06035438:
 .L_06035442:
     rts
     nop
-    .2byte  0x0000
-    .4byte  0x2F062F46
-    .4byte  0x2F562F66
-    .4byte  0x2F7654F6
-    .4byte  0x55F756F8
-    .4byte  0x57F9D0B4
-    .4byte  0xA061260A
+    .short  0x0000
+    .long  0x2F062F46
+    .long  0x2F562F66
+    .long  0x2F7654F6
+    .long  0x55F756F8
+    .long  0x57F9D0B4
+    .long  0xA061260A
 
     .global sym_06035460
 sym_06035460:
@@ -791,7 +791,7 @@ sym_06035460:
     shll r5
     rotcl r4
     cmp/ge r3, r4
-    bf/s    .L_060354E4
+    bf.s    .L_060354E4
     add #-0x1, r8
 .L_060354EE:
     mov.l   .L_06035728, r3
@@ -803,19 +803,19 @@ sym_06035460:
     shll r7
     rotcl r6
     cmp/ge r3, r6
-    bf/s    .L_060354F8
+    bf.s    .L_060354F8
     add #-0x1, r9
 .L_06035502:
     bra     .L_0603556E
     nop
-    .2byte  0xE800
-    .4byte  0xE400A0DE
-    .4byte  0xE5000009
-    .4byte  0x2F062F46
-    .4byte  0x2F562F66
-    .4byte  0x2F7654F6
-    .4byte  0x55F756F8
-    .2byte  0x57F9
+    .short  0xE800
+    .long  0xE400A0DE
+    .long  0xE5000009
+    .long  0x2F062F46
+    .long  0x2F562F66
+    .long  0x2F7654F6
+    .long  0x55F756F8
+    .short  0x57F9
 .L_06035522:
     mov.l r2, @-r15
     mov.l r3, @-r15
@@ -884,7 +884,7 @@ sym_06035460:
     bt      .L_060355DA
     mov #0x20, r3
     cmp/gt r3, r2
-    bf/s    .L_060355B4
+    bf.s    .L_060355B4
     mov #0x1, r9
     sub r3, r2
     tst r7, r7
@@ -909,7 +909,7 @@ sym_06035460:
     lds.l @r15+, macl
     tst r2, r2
     lds.l @r15+, mach
-    bt/s    .L_060355E8
+    bt.s    .L_060355E8
     or r3, r7
     bra     .L_060355E8
     or r9, r7
@@ -977,51 +977,51 @@ sym_06035460:
     shlr r4
     rotcr r5
     cmp/hi r4, r3
-    bt/s    .L_0603569C
+    bt.s    .L_0603569C
     add #0x1, r8
     shlr r4
     rotcr r5
     cmp/hi r4, r3
-    bt/s    .L_0603569C
+    bt.s    .L_0603569C
     add #0x1, r8
     shlr r4
     rotcr r5
     cmp/hi r4, r3
-    bt/s    .L_0603569C
+    bt.s    .L_0603569C
     add #0x1, r8
     shlr r4
     rotcr r5
     cmp/hi r4, r3
-    bt/s    .L_0603569C
+    bt.s    .L_0603569C
     add #0x1, r8
     bra     .L_06035642
     nop
 .L_0603566E:
     mov.l   .L_0603571C, r3
-    .4byte  0x34338913
-    .4byte  0x45004424
-    .4byte  0x34338D0F
-    .4byte  0x78FF4500
-    .4byte  0x44243433
-    .4byte  0x8D0A78FF
-    .4byte  0x45004424
-    .4byte  0x34338D05
-    .4byte  0x78FF4500
-    .4byte  0x44243433
-    .4byte  0x8FEC78FF
+    .long  0x34338913
+    .long  0x45004424
+    .long  0x34338D0F
+    .long  0x78FF4500
+    .long  0x44243433
+    .long  0x8D0A78FF
+    .long  0x45004424
+    .long  0x34338D05
+    .long  0x78FF4500
+    .long  0x44243433
+    .long  0x8FEC78FF
 .L_0603569C:
-    .4byte  0x48158905
-    .4byte  0x688B7801
-    .4byte  0x44014525
-    .4byte  0x48108BFB
-    .4byte  0x6053C804
-    .4byte  0x890BC80B
-    .4byte  0x8909E008
-    .4byte  0x350EE000
-    .4byte  0x340ED019
-    .4byte  0x30478902
-    .4byte  0x44014525
-    .2byte  0x7801
+    .long  0x48158905
+    .long  0x688B7801
+    .long  0x44014525
+    .long  0x48108BFB
+    .long  0x6053C804
+    .long  0x890BC80B
+    .long  0x8909E008
+    .long  0x350EE000
+    .long  0x340ED019
+    .long  0x30478902
+    .long  0x44014525
+    .short  0x7801
 .L_060356CA:
     shlr r4
     rotcr r5
@@ -1060,22 +1060,22 @@ sym_06035460:
     mov #0x0, r4
     bra     .L_060356CA
     mov #0x0, r5
-    .2byte  0x0009
+    .short  0x0009
 .L_06035714:
-    .4byte  0x000007FF
+    .long  0x000007FF
 .L_06035718:
-    .4byte  0x000FFFFF
+    .long  0x000FFFFF
 .L_0603571C:
-    .4byte  0x00800000
-    .4byte  0x0000FFFF
+    .long  0x00800000
+    .long  0x0000FFFF
 .L_06035724:
-    .4byte  0x01000000
+    .long  0x01000000
 .L_06035728:
-    .4byte  0x00100000
+    .long  0x00100000
 .L_0603572C:
-    .4byte  0x80000000
+    .long  0x80000000
 .L_06035730:
-    .4byte  0xFFFF0000
+    .long  0xFFFF0000
 
     .global DAT_06035734
 DAT_06035734:
@@ -1193,7 +1193,7 @@ sym_060357B8:
     bt      .L_0603581C
 .L_0603580A:
     dt r2
-    bf/s    .L_0603580A
+    bf.s    .L_0603580A
     shll r0
     bra     .L_0603581C
     nop
@@ -1201,7 +1201,7 @@ sym_060357B8:
     neg r2, r2
 .L_06035816:
     dt r2
-    bf/s    .L_06035816
+    bf.s    .L_06035816
     shlr r0
 .L_0603581C:
     shll r3
@@ -1219,13 +1219,13 @@ sym_060357B8:
     bra     .L_06035822
     mov #0x0, r0
 .L_06035834:
-    .4byte  0x000007FF
+    .long  0x000007FF
 .L_06035838:
-    .4byte  0x000FFFFF
+    .long  0x000FFFFF
 .L_0603583C:
-    .4byte  0x00100000
+    .long  0x00100000
 .L_06035840:
-    .4byte  0x000003FF
+    .long  0x000003FF
 
     .global sym_06035844
 sym_06035844:
@@ -1320,9 +1320,9 @@ sym_06035844:
     bra     .L_0603589C
     mov #0x0, r0
 .L_060358E4:
-    .4byte  0x7FF00000
+    .long  0x7FF00000
 .L_060358E8:
-    .4byte  0x000FFFFF
+    .long  0x000FFFFF
 
     .global sym_060358EC
 sym_060358EC:
@@ -1340,7 +1340,7 @@ sym_060358EC:
     mov.l   .L_0603593C, r1
 .L_06035902:
     shll r0
-    bf/s    .L_06035902
+    bf.s    .L_06035902
     add #-0x1, r1
     mov r0, r2
     shll16 r2
@@ -1369,50 +1369,50 @@ sym_060358EC:
     mov #0x0, r2
     bra     .L_06035924
     mov #0x0, r0
-    .2byte  0x0009
+    .short  0x0009
 .L_0603593C:
-    .4byte  0x0000041F
-    .4byte  0x24488B4A
-    .4byte  0x25588B48
-    .4byte  0x39308907
-    .4byte  0x29988B40
-    .4byte  0x26688B3E
-    .4byte  0x27788B3C
-    .4byte  0xA03F0009
-    .4byte  0x26688B3C
-    .4byte  0x27788B3A
-    .4byte  0xA0350009
-    .4byte  0x26688B36
-    .4byte  0x27788B34
-    .4byte  0x28888B2E
-    .4byte  0x24488B2C
-    .4byte  0x25588B2A
-    .4byte  0xA02D0009
-    .4byte  0x24488B03
-    .4byte  0x25588B01
-    .4byte  0xA01E0009
-    .4byte  0xD0664500
-    .4byte  0x44243403
-    .4byte  0x89044500
-    .4byte  0x44243403
-    .4byte  0x8FFB78FF
-    .4byte  0xA04B0009
-    .4byte  0x26688B03
-    .4byte  0x27788B01
-    .4byte  0xA00C0009
-    .4byte  0xD05D4700
-    .4byte  0x46243603
-    .4byte  0x89044700
-    .4byte  0x46243603
-    .4byte  0x8FFB79FF
-    .4byte  0xA03B0009
-    .4byte  0x4A000129
-    .4byte  0xE000A091
-    .4byte  0x4105D853
-    .4byte  0xE100A07E
-    .4byte  0xE000EA00
-    .4byte  0xD850E100
-    .4byte  0xA079E008
+    .long  0x0000041F
+    .long  0x24488B4A
+    .long  0x25588B48
+    .long  0x39308907
+    .long  0x29988B40
+    .long  0x26688B3E
+    .long  0x27788B3C
+    .long  0xA03F0009
+    .long  0x26688B3C
+    .long  0x27788B3A
+    .long  0xA0350009
+    .long  0x26688B36
+    .long  0x27788B34
+    .long  0x28888B2E
+    .long  0x24488B2C
+    .long  0x25588B2A
+    .long  0xA02D0009
+    .long  0x24488B03
+    .long  0x25588B01
+    .long  0xA01E0009
+    .long  0xD0664500
+    .long  0x44243403
+    .long  0x89044500
+    .long  0x44243403
+    .long  0x8FFB78FF
+    .long  0xA04B0009
+    .long  0x26688B03
+    .long  0x27788B01
+    .long  0xA00C0009
+    .long  0xD05D4700
+    .long  0x46243603
+    .long  0x89044700
+    .long  0x46243603
+    .long  0x8FFB79FF
+    .long  0xA03B0009
+    .long  0x4A000129
+    .long  0xE000A091
+    .long  0x4105D853
+    .long  0xE100A07E
+    .long  0xE000EA00
+    .long  0xD850E100
+    .long  0xA079E008
 
     .global sym_060359E4
 sym_060359E4:

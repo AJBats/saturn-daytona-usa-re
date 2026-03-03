@@ -25,7 +25,7 @@ credits_page_build:
     bra     .L_0603F3C0
     nop
 .L_pool_0603F380:
-    .4byte  display_buffer_init
+    .long  display_buffer_init
 .L_0603F384:
     cmp/gt r12, r13
     bf      .L_0603F3A0

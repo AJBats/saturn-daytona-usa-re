@@ -24,7 +24,7 @@ gas_force_apply:
     mov r2, r0
     mov.b @r0, r0
     tst #0x40, r0
-    bt/s    .L_0600822E
+    bt.s    .L_0600822E
     add #0x30, r5
     mov r5, r4
     mov.l   .L_pool_060082BC, r3
@@ -41,7 +41,7 @@ gas_force_apply:
     mov r2, r1
     mov.l @(r0, r1), r3
     cmp/pz r3
-    bt/s    .L_06008248
+    bt.s    .L_06008248
     mov.w @r4, r4
     bra     .L_0600824C
     exts.w r4, r3
@@ -78,7 +78,7 @@ gas_force_apply:
     mov r2, r0
     mov.b @r0, r0
     tst #0x10, r0
-    bt/s    .L_060082D4
+    bt.s    .L_060082D4
     mov #0x30, r4
     mov.l @r14, r3
     mov #-0x1, r2
@@ -98,35 +98,35 @@ gas_force_apply:
     bra     .L_060082FC
     nop
 .L_wpool_060082AA:
-    .2byte  0x00B8
+    .short  0x00B8
 
     .global DAT_060082ac
 DAT_060082ac:
-    .2byte  0x01DC
+    .short  0x01DC
 .L_wpool_060082AE:
-    .2byte  0x01D8
+    .short  0x01D8
 .L_wpool_060082B0:
-    .2byte  0x00E3
+    .short  0x00E3
 
     .global DAT_060082b2
 DAT_060082b2:
-    .2byte  0x00BC
+    .short  0x00BC
 .L_pool_060082B4:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_pool_060082B8:
-    .4byte  sym_0607EBD4
+    .long  sym_0607EBD4
 .L_pool_060082BC:
-    .4byte  sym_0604540C
+    .long  sym_0604540C
 .L_pool_060082C0:
-    .4byte  sym_0604546C
+    .long  sym_0604546C
 .L_pool_060082C4:
-    .4byte  sym_0607EBC4
+    .long  sym_0607EBC4
 .L_pool_060082C8:
-    .4byte  0x00020000
+    .long  0x00020000
 .L_pool_060082CC:
-    .4byte  0xAE111BFF
+    .long  0xAE111BFF
 .L_pool_060082D0:
-    .4byte  sound_cmd_dispatch
+    .long  sound_cmd_dispatch
 .L_060082D4:
     mov.l @r14, r2
     mov r2, r0

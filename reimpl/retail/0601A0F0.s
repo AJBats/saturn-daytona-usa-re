@@ -85,11 +85,11 @@ grid_position_camera:
     .byte 0xAF, 0x0E
     .byte 0x6E, 0xF6
     .byte 0x40, 0x00
-    .4byte g_pad_state
-    .4byte sym_0605AD04
+    .long g_pad_state
+    .long sym_0605AD04
     .byte 0x00, 0x00
     .byte 0x80, 0x00
-    .4byte sym_0605D243
+    .long sym_0605D243
     .global loc_0601A1A8
 loc_0601A1A8:
     .byte 0xD3, 0x25

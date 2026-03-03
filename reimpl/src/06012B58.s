@@ -57,18 +57,18 @@ cd_status_reader:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_pool_06012BC0:
-    .4byte  cmd_validate_exec
+    .long  cmd_validate_exec
 .L_pool_06012BC4:
-    .4byte  sym_06084360
+    .long  sym_06084360
 .L_pool_06012BC8:
-    .4byte  sym_0608436C
+    .long  sym_0608436C
 .L_pool_06012BCC:
-    .4byte  sym_06083274
+    .long  sym_06083274
 .L_pool_06012BD0:
-    .4byte  sym_06084AEC
+    .long  sym_06084AEC
 .L_pool_06012BD4:
-    .4byte  sym_060448C8
+    .long  sym_060448C8
 .L_pool_06012BD8:
-    .4byte  cmd_status_check
+    .long  cmd_status_check

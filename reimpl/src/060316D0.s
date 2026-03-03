@@ -42,7 +42,7 @@ collision_order_a:
     sub r10, r1
     extu.w r1, r1
     cmp/gt r1, r4
-    bt/s    .L_06031720
+    bt.s    .L_06031720
     mov.l @(32, r13), r2
     sub r4, r1
 .L_06031720:
@@ -51,7 +51,7 @@ collision_order_a:
     extu.w r4, r4
     extu.w r2, r2
     cmp/gt r2, r4
-    bt/s    .L_06031730
+    bt.s    .L_06031730
     shlr8 r1
     sub r4, r2
 .L_06031730:
@@ -74,12 +74,12 @@ collision_order_a:
 
     .global DAT_06031750
 DAT_06031750:
-    .2byte  0x8000
-    .2byte  0x0000
+    .short  0x8000
+    .short  0x0000
 .L_pool_06031754:
-    .4byte  atan2
+    .long  atan2
 .L_pool_06031758:
-    .4byte  sym_0605BCC8
+    .long  sym_0605BCC8
 .L_0603175C:
     mov.l @(40, r14), r1
     mov.l @(40, r13), r2
@@ -108,12 +108,12 @@ DAT_06031750:
 
     .global DAT_0603178c
 DAT_0603178c:
-    .2byte  0x4000
-    .2byte  0x0000
+    .short  0x4000
+    .short  0x0000
 .L_pool_06031790:
-    .4byte  0x0001638E
+    .long  0x0001638E
 .L_pool_06031794:
-    .4byte  0x08000000
+    .long  0x08000000
 .L_06031798:
     mov.l @(12, r14), r1
     mov.l @(12, r13), r3
@@ -142,11 +142,11 @@ DAT_0603178c:
 
     .global DAT_060317c6
 DAT_060317c6:
-    .2byte  0x4000
+    .short  0x4000
 .L_pool_060317C8:
-    .4byte  0x0001638E
+    .long  0x0001638E
 .L_pool_060317CC:
-    .4byte  0x08000000
+    .long  0x08000000
 .L_060317D0:
     mov.l r4, @-r15
     mov.l @(32, r14), r4
@@ -237,13 +237,13 @@ DAT_060317c6:
     mov.l @r15+, r9
     rts
     mov.l @r15+, r8
-    .2byte  0x0000
+    .short  0x0000
 .L_pool_06031880:
-    .4byte  cos_lookup
+    .long  cos_lookup
 .L_pool_06031884:
-    .4byte  sin_lookup
+    .long  sin_lookup
 .L_06031888:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_0603188C:
     mov.l r0, @-r15
     mov r8, r4
@@ -267,14 +267,14 @@ collision_order_b:
     sub r10, r1
     extu.w r1, r1
     cmp/gt r1, r4
-    bt/s    .L_060318B8
+    bt.s    .L_060318B8
     mov.l @(32, r13), r2
     sub r4, r1
 .L_060318B8:
     sub r10, r2
     extu.w r2, r2
     cmp/gt r2, r4
-    bt/s    .L_060318C4
+    bt.s    .L_060318C4
     shlr8 r1
     sub r4, r2
 .L_060318C4:
@@ -297,12 +297,12 @@ collision_order_b:
 
     .global DAT_060318e4
 DAT_060318e4:
-    .2byte  0x8000
-    .2byte  0x0000
+    .short  0x8000
+    .short  0x0000
 .L_pool_060318E8:
-    .4byte  atan2
+    .long  atan2
 .L_pool_060318EC:
-    .4byte  sym_0605BCC8
+    .long  sym_0605BCC8
 .L_060318F0:
     mov.l @(40, r14), r1
     mov.l @(40, r13), r2
@@ -327,10 +327,10 @@ DAT_060318e4:
 
     .global DAT_06031918
 DAT_06031918:
-    .2byte  0x4000
-    .2byte  0x0000
+    .short  0x4000
+    .short  0x0000
 .L_pool_0603191C:
-    .4byte  0x0001638E
+    .long  0x0001638E
 .L_06031920:
     mov.l @(0, r13), r0
     mov.l @(0, r14), r1
@@ -341,9 +341,9 @@ DAT_06031918:
     mov.l r1, @(0, r14)
     bra     .L_060319A2
     nop
-    .2byte  0x0000
+    .short  0x0000
 .L_pool_06031934:
-    .4byte  0x08000000
+    .long  0x08000000
 .L_06031938:
     mov.l @(12, r13), r1
     mov.l @(12, r14), r3
@@ -375,12 +375,12 @@ DAT_06031918:
 
     .global DAT_0603196c
 DAT_0603196c:
-    .2byte  0x4000
-    .2byte  0x0000
+    .short  0x4000
+    .short  0x0000
 .L_pool_06031970:
-    .4byte  0x0001638E
+    .long  0x0001638E
 .L_pool_06031974:
-    .4byte  0x08000000
+    .long  0x08000000
 .L_06031978:
     mov.l r4, @-r15
     mov.l @(32, r13), r4
@@ -464,11 +464,11 @@ DAT_0603196c:
     bra     .L_0603186C
     mov.l r6, @(24, r13)
 .L_pool_06031A18:
-    .4byte  cos_lookup
+    .long  cos_lookup
 .L_pool_06031A1C:
-    .4byte  sin_lookup
+    .long  sin_lookup
 .L_06031A20:
-    .4byte  0x00008000
+    .long  0x00008000
 
     .global sym_06031A24
 sym_06031A24:

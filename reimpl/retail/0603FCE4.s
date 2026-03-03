@@ -41,6 +41,6 @@ hud_palette_select:
     .byte 0x00, 0x0B
     .byte 0xE0, 0x01
     .byte 0xFF, 0xFF
-    .4byte sym_0603F900
-    .4byte sym_0603F8EE
-    .4byte sym_0603F90E
+    .long sym_0603F900
+    .long sym_0603F8EE
+    .long sym_0603F90E

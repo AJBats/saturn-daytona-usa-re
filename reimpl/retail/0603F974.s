@@ -33,4 +33,4 @@ attract_transition:
     .byte 0x00, 0x0B
     .byte 0x14, 0x5C
     .byte 0xFF, 0xFF
-    .4byte sym_0606364C
+    .long sym_0606364C

@@ -48,25 +48,25 @@ mat_multiply_basic:
     jmp @r3
     lds.l @r15+, pr
 .L_wpool_06026572:
-    .2byte  0x0090
+    .short  0x0090
 .L_wpool_06026574:
-    .2byte  0x02A0
+    .short  0x02A0
 
     .global DAT_06026576
 DAT_06026576:
-    .2byte  0x02B4
+    .short  0x02B4
 
     .global DAT_06026578
 DAT_06026578:
-    .2byte  0x7000
-    .2byte  0xFFFF
+    .short  0x7000
+    .short  0xFFFF
 .L_pool_0602657C:
-    .4byte  sym_06059128
+    .long  sym_06059128
 .L_pool_06026580:
-    .4byte  sym_060284AE
+    .long  sym_060284AE
 .L_pool_06026584:
-    .4byte  sym_06063B80
+    .long  sym_06063B80
 .L_pool_06026588:
-    .4byte  sym_06028400
+    .long  sym_06028400
 .L_pool_0602658C:
-    .4byte  sym_06063B88
+    .long  sym_06063B88

@@ -19,7 +19,7 @@ atan2_full:
     .global isqrt
 isqrt:
     cmp/pl r4
-    bf/s    .L_06027494
+    bf.s    .L_06027494
     mov #0x0, r0
     .byte   0xD2, 0x1D    /* mov.l .L_pool_060274F4, r2 ! r2 = 0x8000 (initial bit = MSB) */
 .L_0602747E:

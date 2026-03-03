@@ -52,7 +52,7 @@ course_state_setup:
     add #0x1, r11
     extu.w r11, r3
     cmp/ge r10, r3
-    bf/s    .L_0601B0F8
+    bf.s    .L_0601B0F8
     add #0x3, r12
     add #0x4, r15
     lds.l @r15+, pr
@@ -65,8 +65,8 @@ course_state_setup:
     rts
     mov.l @r15+, r14
 .L_pool_0601B154:
-    .4byte  sym_0604A490
+    .long  sym_0604A490
 .L_pool_0601B158:
-    .4byte  sym_0604A4B8
+    .long  sym_0604A4B8
 .L_pool_0601B15C:
-    .4byte  sym_060284AE
+    .long  sym_060284AE

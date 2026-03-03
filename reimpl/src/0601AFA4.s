@@ -19,10 +19,10 @@ replay_cam_interp:
     jmp @r3
     lds.l @r15+, pr
 .L_0601AFC6:
-    .2byte  0x0196
-    .4byte  sym_0608600F
-    .4byte  sym_06086011
+    .short  0x0196
+    .long  sym_0608600F
+    .long  sym_06086011
 .L_pool_0601AFD0:
-    .4byte  sym_0604A480
+    .long  sym_0604A480
 .L_pool_0601AFD4:
-    .4byte  sym_060284AE
+    .long  sym_060284AE

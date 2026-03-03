@@ -18,9 +18,9 @@ event_queue_overflow:
     bt      .L_06040F40
     bra     .L_06040F7A
     mov #-0x7, r0
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_pool_06040F3C:
-    .4byte  sym_060A5400
+    .long  sym_060A5400
 .L_06040F40:
     .byte   0xD6, 0x19    /* mov.l .L_pool_06040FA8, r6 */
     mov #0x0, r5
@@ -33,7 +33,7 @@ event_queue_overflow:
     .byte   0xB3, 0xA3    /* bsr 0x06041698 (external) */
     nop
     cmp/eq #0x3, r0
-    bf/s    .L_06040F5C
+    bf.s    .L_06040F5C
     mov r0, r4
     bra     .L_06040F7A
     mov #-0xC, r0

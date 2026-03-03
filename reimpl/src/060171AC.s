@@ -127,19 +127,19 @@ vdp2_frame_update:
 
     .global DAT_0601729e
 DAT_0601729e:
-    .2byte  0x00A8
+    .short  0x00A8
 .L_wpool_060172A0:
-    .2byte  0x0090
-    .2byte  0xFFFF
+    .short  0x0090
+    .short  0xFFFF
 .L_pool_060172A4:
-    .4byte  sym_06085490
+    .long  sym_06085490
 .L_pool_060172A8:
-    .4byte  sym_060280F8
+    .long  sym_060280F8
 .L_pool_060172AC:
-    .4byte  sym_0605A008
+    .long  sym_0605A008
 .L_pool_060172B0:
-    .4byte  sym_060785FC
+    .long  sym_060785FC
 .L_pool_060172B4:
-    .4byte  g_game_state
+    .long  g_game_state
 .L_pool_060172B8:
-    .4byte  sym_06084FC8
+    .long  sym_06084FC8

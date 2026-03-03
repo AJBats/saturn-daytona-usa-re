@@ -15,14 +15,14 @@ track_elev_map:
     mov.b r3, @r2
     bra     .L_0601470A
     nop
-    .4byte  sym_06084B18
-    .4byte  sym_06084AF0
+    .long  sym_06084B18
+    .long  sym_06084AF0
 .L_060146F8:
-    .4byte  sym_0607EBCC
+    .long  sym_0607EBCC
 .L_060146FC:
-    .4byte  sym_06084FB4
+    .long  sym_06084FB4
 .L_06014700:
-    .4byte  sym_06084AF2
+    .long  sym_06084AF2
 .L_06014704:
     mov #0x4, r2
     mov.l   .L_06014758, r3
@@ -70,12 +70,12 @@ track_elev_map:
     rts
     nop
 .L_06014758:
-    .4byte  sym_06084AF2
+    .long  sym_06084AF2
 .L_0601475C:
-    .4byte  sym_06084B10
+    .long  sym_06084B10
 .L_06014760:
-    .4byte  sym_06085FFC
+    .long  sym_06085FFC
 .L_06014764:
-    .4byte  sym_06084B14
+    .long  sym_06084B14
 .L_06014768:
-    .4byte  sym_06086000
+    .long  sym_06086000

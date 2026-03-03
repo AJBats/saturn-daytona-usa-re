@@ -18,7 +18,7 @@ course_select_draw:
     mov.l   .L_pool_060195C8, r0
     mov.b @r0, r0
     tst r0, r0
-    bt/s    .L_0601959E
+    bt.s    .L_0601959E
     mov #0x0, r11
     mov #0x14, r6
     mov.w   DAT_060195ac, r7
@@ -87,28 +87,28 @@ course_select_draw:
 
     .global DAT_060195ac
 DAT_060195ac:
-    .2byte  0x03B0
+    .short  0x03B0
 
     .global DAT_060195ae
 DAT_060195ae:
-    .2byte  0x1000
+    .short  0x1000
 .L_wpool_060195B0:
-    .2byte  0x2000
-    .2byte  0xFFFF
+    .short  0x2000
+    .short  0xFFFF
 .L_pool_060195B4:
-    .4byte  sym_06049AF4
+    .long  sym_06049AF4
 .L_pool_060195B8:
-    .4byte  sym_06028400
+    .long  sym_06028400
 .L_pool_060195BC:
-    .4byte  sym_06063750
+    .long  sym_06063750
 .L_pool_060195C0:
-    .4byte  sym_0605D244
+    .long  sym_0605D244
 .L_pool_060195C4:
-    .4byte  sym_06049AEC
+    .long  sym_06049AEC
 .L_pool_060195C8:
-    .4byte  sym_06085FF1
+    .long  sym_06085FF1
 .L_pool_060195CC:
-    .4byte  sym_06085FF5
+    .long  sym_06085FF5
 .L_060195D0:
     mov.l   .L_pool_06019698, r14
     mov #0xF, r2
@@ -213,12 +213,12 @@ DAT_060195ae:
 
     .global DAT_06019694
 DAT_06019694:
-    .2byte  0x4000
+    .short  0x4000
 .L_wpool_06019696:
-    .2byte  0x0090
+    .short  0x0090
 .L_pool_06019698:
-    .4byte  sym_0605D242
+    .long  sym_0605D242
 .L_pool_0601969C:
-    .4byte  sym_0605D4EC
+    .long  sym_0605D4EC
 .L_pool_060196A0:
-    .4byte  sym_060284AE
+    .long  sym_060284AE

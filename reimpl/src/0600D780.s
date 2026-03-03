@@ -18,7 +18,7 @@ checkpoint_detect:
     mov #-0x1, r3
     mov.l   .L_0600D838, r6
     cmp/ge r3, r5
-    bt/s    .L_0600D7D8
+    bt.s    .L_0600D7D8
     mov #0x0, r13
     mov.w   .L_0600D82C, r0
     mov.l @(r0, r4), r3
@@ -93,23 +93,23 @@ checkpoint_detect:
 
     .global DAT_0600d82a
 DAT_0600d82a:
-    .2byte  0x01EC
+    .short  0x01EC
 .L_0600D82C:
-    .2byte  0x0228
+    .short  0x0228
 
     .global DAT_0600d82e
 DAT_0600d82e:
-    .2byte  0x01E8
+    .short  0x01E8
 .L_0600D830:
-    .4byte  sym_0607E940
+    .long  sym_0607E940
 .L_0600D834:
-    .4byte  sym_06063F1C
+    .long  sym_06063F1C
 .L_0600D838:
-    .4byte  sym_0607EA9C
+    .long  sym_0607EA9C
 .L_0600D83C:
-    .4byte  sym_06063F18
+    .long  sym_06063F18
 .L_0600D840:
-    .4byte  sym_0605DE3C
+    .long  sym_0605DE3C
 
 .L_0600D844:
     lds.l @r15+, pr
@@ -163,12 +163,12 @@ DAT_0600d82e:
 
     .global DAT_0600d894
 DAT_0600d894:
-    .2byte  0x01EC
+    .short  0x01EC
 .L_0600D896:
-    .2byte  0x01E8
+    .short  0x01E8
 .L_0600D898:
-    .4byte  sym_0607E940
+    .long  sym_0607E940
 .L_0600D89C:
-    .4byte  sym_0607EA9C
+    .long  sym_0607EA9C
 .L_0600D8A0:
-    .4byte  sym_06063F20
+    .long  sym_06063F20

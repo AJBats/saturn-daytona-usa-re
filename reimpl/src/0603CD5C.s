@@ -157,30 +157,30 @@ hud_display_large:
 
     .global DAT_0603ce8e
 DAT_0603ce8e:
-    .2byte  0x0FFF
+    .short  0x0FFF
 
     .global DAT_0603ce90
 DAT_0603ce90:
-    .2byte  0x3000
-    .2byte  0xFFFF
+    .short  0x3000
+    .short  0xFFFF
 .L_0603CE94:
-    .4byte  sym_060A4D58
+    .long  sym_060A4D58
 .L_0603CE98:
-    .4byte  sym_060A4D18
+    .long  sym_060A4D18
 .L_0603CE9C:
-    .4byte  sym_06034F78
+    .long  sym_06034F78
 .L_0603CEA0:
-    .4byte  0x0000FFBF
+    .long  0x0000FFBF
 .L_0603CEA4:
-    .4byte  0x0000FFDF
+    .long  0x0000FFDF
 .L_0603CEA8:
-    .4byte  0x0000FFEF
+    .long  0x0000FFEF
 .L_0603CEAC:
-    .4byte  0x0000FFF0
+    .long  0x0000FFF0
 .L_0603CEB0:
-    .4byte  0x0000FF0F
+    .long  0x0000FF0F
 .L_0603CEB4:
-    .4byte  0x0000F0FF
+    .long  0x0000F0FF
 .L_0603CEB8:
     extu.w r2, r2
     and r12, r2
@@ -375,28 +375,28 @@ DAT_0603ce90:
 
     .global DAT_0603d034
 DAT_0603d034:
-    .2byte  0x7FFF
-    .2byte  0xFFFF
+    .short  0x7FFF
+    .short  0xFFFF
 .L_0603D038:
-    .4byte  sym_06034F78
+    .long  sym_06034F78
 .L_0603D03C:
-    .4byte  0x0000F0FF
+    .long  0x0000F0FF
 .L_0603D040:
-    .4byte  0x0000FFFE
+    .long  0x0000FFFE
 .L_0603D044:
-    .4byte  0x0000FFFD
+    .long  0x0000FFFD
 .L_0603D048:
-    .4byte  0x0000FFFB
+    .long  0x0000FFFB
 .L_0603D04C:
-    .4byte  0x0000FFFC
+    .long  0x0000FFFC
 .L_0603D050:
-    .4byte  0x0000FFF3
+    .long  0x0000FFF3
 .L_0603D054:
-    .4byte  0x0000FFCF
+    .long  0x0000FFCF
 .L_0603D058:
-    .4byte  0x0000FF3F
+    .long  0x0000FF3F
 .L_0603D05C:
-    .4byte  0x0000FCFF
+    .long  0x0000FCFF
 .L_0603D060:
     and r3, r2
     extu.w r2, r0
@@ -578,25 +578,25 @@ DAT_0603d034:
 
     .global DAT_0603d1c2
 DAT_0603d1c2:
-    .2byte  0x0100
+    .short  0x0100
 .L_0603D1C4:
-    .4byte  sym_06034F78
+    .long  sym_06034F78
 .L_0603D1C8:
-    .4byte  0x00008FFF
+    .long  0x00008FFF
 .L_0603D1CC:
-    .4byte  0x0000FBFF
+    .long  0x0000FBFF
 .L_0603D1D0:
-    .4byte  0x0000FDFF
+    .long  0x0000FDFF
 .L_0603D1D4:
-    .4byte  0x0000FEFF
+    .long  0x0000FEFF
 .L_0603D1D8:
-    .4byte  0x0000FFBF
+    .long  0x0000FFBF
 .L_0603D1DC:
-    .4byte  0x0000FFFC
+    .long  0x0000FFFC
 .L_0603D1E0:
-    .4byte  0x0000FFF3
+    .long  0x0000FFF3
 .L_0603D1E4:
-    .4byte  0x0000FFCF
+    .long  0x0000FFCF
 .L_0603D1E8:
     mov.l   .L_0603D2BC, r3
     and r3, r2
@@ -705,10 +705,10 @@ DAT_0603d1c2:
     rts
     mov.l @r15+, r14
 .L_0603D2BC:
-    .4byte  0x0000FF3F
+    .long  0x0000FF3F
 .L_0603D2C0:
-    .4byte  sym_06034F78
+    .long  sym_06034F78
 .L_0603D2C4:
-    .4byte  0x0000FCFF
+    .long  0x0000FCFF
 .L_0603D2C8:
-    .4byte  0x0000FEFF
+    .long  0x0000FEFF

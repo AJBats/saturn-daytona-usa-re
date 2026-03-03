@@ -56,11 +56,11 @@ event_callback_dispatch:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .4byte  cmd_enqueue
-    .4byte  state_field_read
+    .long  cmd_enqueue
+    .long  state_field_read
 .L_pool_06040C04:
-    .4byte  sym_06040220
+    .long  sym_06040220
 .L_pool_06040C08:
-    .4byte  sym_0606367C
+    .long  sym_0606367C
 .L_pool_06040C0C:
-    .4byte  sym_06035C48
+    .long  sym_06035C48

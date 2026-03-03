@@ -175,6 +175,6 @@ split_screen_layout:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .byte 0xFF, 0xFF
-    .4byte swap_sign_ext
-    .4byte sym_060786CC
-    .4byte sym_0605AAA0
+    .long swap_sign_ext
+    .long sym_060786CC
+    .long sym_0605AAA0

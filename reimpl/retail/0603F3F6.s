@@ -30,9 +30,9 @@ menu_element_render:
     .byte 0x04, 0x3C
     .byte 0x08, 0x00
     .byte 0xFF, 0xFF
-    .4byte sym_06036D94
-    .4byte sym_060A4D14
-    .4byte sym_06036D78
+    .long sym_06036D94
+    .long sym_060A4D14
+    .long sym_06036D78
     .byte 0x54, 0xE2
     .byte 0x60, 0x43
     .byte 0x88, 0xFF

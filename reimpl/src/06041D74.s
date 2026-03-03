@@ -10,7 +10,7 @@ major_state_update:
     mov.w   .L_wpool_06041DEC, r0
     mov.l @(r0, r3), r2
     cmp/eq r4, r2
-    bf/s    .L_06041E0C
+    bf.s    .L_06041E0C
     mov r4, r12
     mov.l @r14, r2
     mov.w   .L_wpool_06041DEE, r0
@@ -64,25 +64,25 @@ major_state_update:
     bra     .L_06041E0C
     mov r13, r12
 .L_wpool_06041DEC:
-    .2byte  0x0338
+    .short  0x0338
 .L_wpool_06041DEE:
-    .2byte  0x0340
+    .short  0x0340
 
     .global DAT_06041df0
 DAT_06041df0:
-    .2byte  0x0344
+    .short  0x0344
 
     .global DAT_06041df2
 DAT_06041df2:
-    .2byte  0x033C
+    .short  0x033C
 .L_pool_06041DF4:
-    .4byte  sym_060A5400
+    .long  sym_060A5400
 .L_06041DF8:
-    .4byte  0x0000FFFF
+    .long  0x0000FFFF
 .L_pool_06041DFC:
-    .4byte  track_surface_type_a
+    .long  track_surface_type_a
 .L_pool_06041E00:
-    .4byte  ai_checkpoint_validate
+    .long  ai_checkpoint_validate
 .L_06041E04:
     mov.l @r14, r2
     mov #0x2, r3
@@ -110,7 +110,7 @@ DAT_06041df2:
     mov.l @r2, r3
     add #0x1, r3
     tst r4, r4
-    bf/s    .L_06041E56
+    bf.s    .L_06041E56
     mov.l r3, @r2
     mov.l @r14, r3
     mov #0x3, r2
@@ -181,20 +181,20 @@ DAT_06041df2:
     bra     .L_06041EDC
     mov #0x1, r0
 .L_wpool_06041EB4:
-    .2byte  0x0338
+    .short  0x0338
 
     .global DAT_06041eb6
 DAT_06041eb6:
-    .2byte  0x0344
+    .short  0x0344
 .L_wpool_06041EB8:
-    .2byte  0x0080
-    .2byte  0xFFFF
+    .short  0x0080
+    .short  0xFFFF
 .L_pool_06041EBC:
-    .4byte  track_impact_response
+    .long  track_impact_response
 .L_pool_06041EC0:
-    .4byte  ai_checkpoint_validate
+    .long  ai_checkpoint_validate
 .L_pool_06041EC4:
-    .4byte  sym_06035C4E
+    .long  sym_06035C4E
 .L_06041EC8:
     .byte   0xD4, 0x33    /* mov.l .L_pool_06041F98, r4 */
     .byte   0xD3, 0x34    /* mov.l .L_pool_06041F9C, r3 */

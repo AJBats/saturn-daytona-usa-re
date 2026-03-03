@@ -7,7 +7,7 @@ mem_test_verify:
     add #-0xC, r15
     .byte   0xDE, 0x19    /* mov.l .L_pool_060405AD, r14 */
     tst r5, r5
-    bt/s    .L_0604056C
+    bt.s    .L_0604056C
     mov.l @(24, r4), r13
     mov #0x0, r1
     mov.w   .L_060405A4, r0
@@ -57,13 +57,13 @@ mem_test_verify:
     rts
     mov.l @r15+, r14
 .L_060405A4:
-    .2byte  0x00B0
-    .2byte  0xFFFF
+    .short  0x00B0
+    .short  0xFFFF
 .L_pool_060405AD:
-    .4byte  sym_060A4D14
+    .long  sym_060A4D14
 .L_060405AC:
-    .4byte  ai_section_check
+    .long  ai_section_check
 .L_060405B0:
-    .4byte  sym_06041014
+    .long  sym_06041014
 .L_060405B4:
-    .4byte  sym_06040FEA
+    .long  sym_06040FEA

@@ -9,7 +9,7 @@ pre_race_camera:
     mov.w @r13, r0
     extu.w r0, r0
     tst #0x1, r0
-    bt/s    .L_06019F08
+    bt.s    .L_06019F08
     mov #0x0, r12
     bra     .L_06019F0A
     mov #0x6, r5
@@ -45,18 +45,18 @@ pre_race_camera:
     bra     .L_06019F96
     mov.b r2, @r4
 .L_wpool_06019F40:
-    .2byte  0x4000
-    .2byte  0xFFFF
-    .4byte  sym_06063750
-    .4byte  sym_06049B18
+    .short  0x4000
+    .short  0xFFFF
+    .long  sym_06063750
+    .long  sym_06049B18
 .L_pool_06019F4C:
-    .4byte  g_pad_state
+    .long  g_pad_state
 .L_pool_06019F50:
-    .4byte  sym_0605AD0C
+    .long  sym_0605AD0C
 .L_06019F54:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_pool_06019F58:
-    .4byte  sym_0605D243
+    .long  sym_0605D243
 .L_06019F5C:
     mov.w @r13, r2
     extu.w r2, r2

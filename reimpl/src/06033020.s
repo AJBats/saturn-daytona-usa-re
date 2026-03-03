@@ -16,13 +16,13 @@ disp_mode_switch:
     mov.l   .L_pool_06033048, r5
     bra     .L_0603304E
     nop
-    .2byte  0x0000
+    .short  0x0000
 .L_pool_06033040:
-    .4byte  sym_06082A25
+    .long  sym_06082A25
 .L_pool_06033044:
-    .4byte  0x00000001
+    .long  0x00000001
 .L_pool_06033048:
-    .4byte  0x00003333
+    .long  0x00003333
 .L_0603304C:
     xor r5, r5
 .L_0603304E:
@@ -44,10 +44,10 @@ disp_mode_switch:
     mov.l @r15+, r14
     rts
     nop
-    .2byte  0x0000
+    .short  0x0000
 .L_pool_06033074:
-    .4byte  sym_06082A28
-    .4byte  0x000B0009
-    .4byte  0xD0076002
-    .4byte  0x60024015
-    .2byte  0x8907
+    .long  sym_06082A28
+    .long  0x000B0009
+    .long  0xD0076002
+    .long  0x60024015
+    .short  0x8907

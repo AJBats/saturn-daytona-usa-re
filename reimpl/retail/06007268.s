@@ -45,16 +45,16 @@ vblank_out_handler:
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0x23, 0x22
-    .4byte sym_06059F44
-    .4byte sym_06059F54
-    .4byte controller_input_update
-    .4byte g_game_state
-    .4byte sym_06059F58
-    .4byte sym_06063F58
-    .4byte sym_060A4C92
+    .long sym_06059F44
+    .long sym_06059F54
+    .long controller_input_update
+    .long g_game_state
+    .long sym_06059F58
+    .long sym_06063F58
+    .long sym_060A4C92
     .byte 0x25, 0xD0
     .byte 0x00, 0x02
-    .4byte sym_060635C4
+    .long sym_060635C4
     .global sym_060072E4
 sym_060072E4:
     .byte 0x2F, 0xF6

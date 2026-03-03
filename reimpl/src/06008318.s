@@ -23,7 +23,7 @@ FUN_06008318:
     add r3, r5
     mov.l @(r0, r1), r3
     cmp/pl r3
-    bf/s    .L_0600834C
+    bf.s    .L_0600834C
     mov.w @r5, r5
     bra     .L_06008350
     exts.w r5, r3
@@ -36,22 +36,22 @@ FUN_06008318:
     bra     .L_060083DE
     nop
 .L_06008358:
-    .2byte  0x00B8
+    .short  0x00B8
 
     .global DAT_0600835a
 DAT_0600835a:
-    .2byte  0x01DC
-    .4byte  0x03010201
+    .short  0x01DC
+    .long  0x03010201
 .L_06008360:
-    .2byte  0x01D8
-    .2byte  0xFFFF
-    .4byte  0xAE111BFF
-    .4byte  sound_cmd_dispatch
-    .4byte  sym_06034F78
+    .short  0x01D8
+    .short  0xFFFF
+    .long  0xAE111BFF
+    .long  sound_cmd_dispatch
+    .long  sym_06034F78
 .L_06008370:
-    .4byte  sym_0607E940
+    .long  sym_0607E940
 .L_06008374:
-    .4byte  sym_060453CC
+    .long  sym_060453CC
 .L_06008378:
     mov.l   .L_06008408, r2
     mov.w   .L_060083FA, r3
@@ -70,7 +70,7 @@ DAT_0600835a:
     mov r2, r0
     mov.b @r0, r0
     tst #0x10, r0
-    bt/s    .L_060083BA
+    bt.s    .L_060083BA
     mov #0x20, r5
     mov.l @r4, r3
     mov.w   .L_060083FE, r0
@@ -121,30 +121,30 @@ DAT_0600835a:
     rts
     nop
 .L_060083FA:
-    .2byte  0x0258
+    .short  0x0258
 
     .global DAT_060083fc
 DAT_060083fc:
-    .2byte  0x00BC
+    .short  0x00BC
 .L_060083FE:
-    .2byte  0x00B8
+    .short  0x00B8
 
     .global DAT_06008400
 DAT_06008400:
-    .2byte  0x01DC
+    .short  0x01DC
 
     .global DAT_06008402
 DAT_06008402:
-    .2byte  0x00D4
+    .short  0x00D4
 .L_06008404:
-    .2byte  0x0301
+    .short  0x0301
 .L_06008406:
-    .2byte  0x0201
+    .short  0x0201
 .L_06008408:
-    .4byte  sym_0607EBD0
+    .long  sym_0607EBD0
 .L_0600840C:
-    .4byte  sym_0607E940
+    .long  sym_0607E940
 .L_06008410:
-    .4byte  sym_0607EBE0
+    .long  sym_0607EBE0
 .L_06008414:
-    .4byte  sym_06034F78
+    .long  sym_06034F78

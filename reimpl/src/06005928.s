@@ -10,7 +10,7 @@ anim_frame_counter:
     mov.l   .L_pool_060059F0, r5
     mov.l @r5, r3
     cmp/pl r3
-    bf/s    .L_06005A18
+    bf.s    .L_06005A18
     mov.l @r4, r4
     mov.l @r5, r3
     add #-0x1, r3
@@ -98,58 +98,58 @@ anim_frame_counter:
 
     .global DAT_060059da
 DAT_060059da:
-    .2byte  0x05A4
+    .short  0x05A4
 
     .global DAT_060059dc
 DAT_060059dc:
-    .2byte  0x021C
+    .short  0x021C
 
     .global DAT_060059de
 DAT_060059de:
-    .2byte  0x0220
+    .short  0x0220
 
     .global DAT_060059e0
 DAT_060059e0:
-    .2byte  0x0240
+    .short  0x0240
 
     .global DAT_060059e2
 DAT_060059e2:
-    .2byte  0x7000
+    .short  0x7000
 
     .global DAT_060059e4
 DAT_060059e4:
-    .2byte  0x061C
+    .short  0x061C
 
     .global DAT_060059e6
 DAT_060059e6:
-    .2byte  0x5000
+    .short  0x5000
 .L_wpool_060059E8:
-    .2byte  0x0090
-    .2byte  0xFFFF
+    .short  0x0090
+    .short  0xFFFF
 
 
 .L_pool_060059EC:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_pool_060059F0:
-    .4byte  sym_0607EAC0
+    .long  sym_0607EAC0
 .L_pool_060059F4:
-    .4byte  sym_0607EBF4
+    .long  sym_0607EBF4
 .L_pool_060059F8:
-    .4byte  0x000927BF
+    .long  0x000927BF
 .L_pool_060059FC:
-    .4byte  sym_06063810
+    .long  sym_06063810
 .L_pool_06005A00:
-    .4byte  sym_06028400
+    .long  sym_06028400
 .L_pool_06005A04:
-    .4byte  sym_06063818
+    .long  sym_06063818
 .L_pool_06005A08:
-    .4byte  sym_060284AE
+    .long  sym_060284AE
 .L_pool_06005A0C:
-    .4byte  sym_0605ACE5
+    .long  sym_0605ACE5
 .L_pool_06005A10:
-    .4byte  sym_060283E0
+    .long  sym_060283E0
 .L_pool_06005A14:
-    .4byte  sym_0605ACDD
+    .long  sym_0605ACDD
 
 
 .L_06005A18:

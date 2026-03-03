@@ -77,7 +77,7 @@ state_transition_handler:
     .global DAT_06041d5a
 DAT_06041d5a:
     .byte 0x03, 0x34
-    .4byte sym_060A5400
-    .4byte track_impact_force
-    .4byte ai_checkpoint_validate
-    .4byte ai_brake_zone_adjust
+    .long sym_060A5400
+    .long track_impact_force
+    .long ai_checkpoint_validate
+    .long ai_brake_zone_adjust

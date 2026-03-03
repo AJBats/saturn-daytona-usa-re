@@ -113,8 +113,8 @@ DAT_0601ff8e:
 DAT_0601ff90:
     .byte 0x01, 0xFC
     .byte 0x01, 0xB0
-    .4byte sym_0607E940
-    .4byte sym_06078680
-    .4byte fpmul
-    .4byte race_pos_interp
-    .4byte sym_0607EA9C
+    .long sym_0607E940
+    .long sym_06078680
+    .long fpmul
+    .long race_pos_interp
+    .long sym_0607EA9C

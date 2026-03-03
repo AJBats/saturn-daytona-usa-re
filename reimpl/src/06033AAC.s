@@ -11,7 +11,7 @@ hud_subsystem_init:
     xor r7, r7
 .L_06033ABC:
     mov.l   .L_06033B30, r1
-    mulu.w r7, r1
+    mulu r7, r1
     sts macl, r0
     mov.l   .L_06033B34, r14
     add r0, r14
@@ -27,7 +27,7 @@ hud_subsystem_init:
     mov.l   .L_06033B48, r0
     mov.b r2, @(r0, r14)
     mov.l   .L_06033B4C, r1
-    mulu.w r7, r1
+    mulu r7, r1
     sts macl, r0
     mov.l   .L_06033B50, r1
     add r0, r1
@@ -69,41 +69,41 @@ hud_subsystem_init:
     bra     .L_06033ABC
     nop
 .L_06033B30:
-    .4byte  0x0000002C
+    .long  0x0000002C
 .L_06033B34:
-    .4byte  DAT_06082A7C
+    .long  DAT_06082A7C
 .L_06033B38:
-    .4byte  0x00000000
+    .long  0x00000000
 .L_06033B3C:
-    .4byte  0x00000010
+    .long  0x00000010
 .L_06033B40:
-    .4byte  0x00000011
+    .long  0x00000011
 .L_06033B44:
-    .4byte  0x00000026
+    .long  0x00000026
 .L_06033B48:
-    .4byte  0x00000028
+    .long  0x00000028
 .L_06033B4C:
-    .4byte  0x0000000E
+    .long  0x0000000E
 .L_06033B50:
-    .4byte  sym_060631BC
+    .long  sym_060631BC
 .L_06033B54:
-    .4byte  0x00000014
+    .long  0x00000014
 .L_06033B58:
-    .4byte  0x00000018
+    .long  0x00000018
 .L_06033B5C:
-    .4byte  0x0000001C
+    .long  0x0000001C
 .L_06033B60:
-    .4byte  0x00000020
+    .long  0x00000020
 .L_06033B64:
-    .4byte  0x00000002
+    .long  0x00000002
 .L_06033B68:
-    .4byte  0x00000012
+    .long  0x00000012
 .L_06033B6C:
-    .4byte  0x00000024
+    .long  0x00000024
 .L_06033B70:
-    .4byte  0x00000001
+    .long  0x00000001
 .L_06033B74:
-    .4byte  0x0000002D
+    .long  0x0000002D
 .L_06033B78:
     xor r2, r2
     mov.l   .L_06033BB0, r0
@@ -133,16 +133,16 @@ hud_subsystem_init:
     mov.l @r15+, r14
     rts
     nop
-    .2byte  0x0000
+    .short  0x0000
 .L_06033BB0:
-    .4byte  sym_06083254
+    .long  sym_06083254
 .L_06033BB4:
-    .4byte  sym_06083250
+    .long  sym_06083250
 .L_06033BB8:
-    .4byte  sym_0607EB94
+    .long  sym_0607EB94
 .L_06033BBC:
-    .4byte  sym_060631AC
+    .long  sym_060631AC
 .L_06033BC0:
-    .4byte  0x00000014
+    .long  0x00000014
 .L_06033BC4:
-    .4byte  0x00000006
+    .long  0x00000006

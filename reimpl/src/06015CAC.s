@@ -65,9 +65,9 @@ time_digit_update:
     rts
     mov.l @r15+, r14
 .L_wpool_06015D24:
-    .2byte  0x0800
-    .2byte  0xFFFF
+    .short  0x0800
+    .short  0xFFFF
 .L_pool_06015D28:
-    .4byte  sym_06084FC8
+    .long  sym_06084FC8
 .L_pool_06015D2C:
-    .4byte  sym_060172E4
+    .long  sym_060172E4

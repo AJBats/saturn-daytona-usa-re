@@ -33,4 +33,4 @@ hud_utility:
     rts
     mov.l @r15+, r14
 .L_pool_0601E6DC:
-    .4byte  sym_06000354
+    .long  sym_06000354

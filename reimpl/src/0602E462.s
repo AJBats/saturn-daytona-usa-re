@@ -39,13 +39,13 @@ rot_scroll_interp:
     rts
     nop
 .L_pool_0602E4B0:
-    .4byte  cos_lookup
+    .long  cos_lookup
 .L_pool_0602E4B4:
-    .4byte  sin_lookup
+    .long  sin_lookup
 .L_pool_0602E4B8:
-    .4byte  0x0000018C
+    .long  0x0000018C
 .L_pool_0602E4BC:
-    .4byte  0x00000190
+    .long  0x00000190
 
     .global sym_0602E4BC
 sym_0602E4BC:

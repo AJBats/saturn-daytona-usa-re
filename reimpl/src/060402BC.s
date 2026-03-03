@@ -28,9 +28,9 @@ sys_boot_sequence:
     bra     .L_0604032A
     nop
 .L_060402EC:
-    .4byte  sym_06040FEA
+    .long  sym_06040FEA
 .L_060402F0:
-    .4byte  sym_060A4D14
+    .long  sym_060A4D14
 
 .L_060402F4:
     mov.l   .L_06040344, r3
@@ -86,7 +86,7 @@ sys_boot_sequence:
     bra     .L_0604034A
     nop
 .L_06040344:
-    .4byte  track_surface_check
+    .long  track_surface_check
 .L_06040348:
     mov r4, r11
 
@@ -119,7 +119,7 @@ sys_boot_sequence:
     mov r14, r4
     mov.l @(4, r14), r8
     cmp/pl r9
-    bf/s    .L_06040394
+    bf.s    .L_06040394
     add r0, r8
     mov.l   .L_060403E8, r3
     mov.w   .L_060403D6, r0
@@ -177,19 +177,19 @@ sys_boot_sequence:
     mov #0x6, r0
 
 .L_060403D6:
-    .2byte  0x00AC
+    .short  0x00AC
 .L_060403D8:
-    .4byte  sym_06041014
+    .long  sym_06041014
 .L_060403DC:
-    .4byte  0x7FFFFFFF
+    .long  0x7FFFFFFF
 .L_060403E0:
-    .4byte  evt_cmd_enqueue
+    .long  evt_cmd_enqueue
 .L_060403E4:
-    .4byte  sym_060409DE
+    .long  sym_060409DE
 .L_060403E8:
-    .4byte  sym_060A4D14
+    .long  sym_060A4D14
 .L_060403EC:
-    .4byte  sym_06040FB8
+    .long  sym_06040FB8
 
 .L_060403F0:
     mov.l r9, @(40, r12)
@@ -301,18 +301,18 @@ sys_boot_sequence:
     mov #0x0, r0
 
 .L_060404BA:
-    .2byte  0x00AC
+    .short  0x00AC
 .L_060404BC:
-    .2byte  0x00B0
-    .2byte  0xFFFF
+    .short  0x00B0
+    .short  0xFFFF
 .L_060404C0:
-    .4byte  sym_060409DE
+    .long  sym_060409DE
 .L_060404C4:
-    .4byte  queue_validator
+    .long  queue_validator
 .L_060404C8:
-    .4byte  state_field_read
+    .long  state_field_read
 .L_060404CC:
-    .4byte  queue_helper
+    .long  queue_helper
 
 .L_060404D0:
     mov.l @(8, r14), r3
@@ -378,6 +378,6 @@ sys_boot_sequence:
     mov.l @r15+, r14
 
 .L_06040536:
-    .2byte  0x00B0
+    .short  0x00B0
 .L_06040538:
-    .2byte  0x00AC
+    .short  0x00AC

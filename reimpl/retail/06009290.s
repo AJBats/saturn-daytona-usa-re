@@ -23,8 +23,8 @@ state_post_countdown:
     .byte 0x00, 0x0B
     .byte 0x23, 0x21
     .byte 0xFF, 0xFF
-    .4byte g_game_state
-    .4byte sym_0607EAD8
-    .4byte race_cleanup_handler
-    .4byte sym_06012198
-    .4byte sym_0605A016
+    .long g_game_state
+    .long sym_0607EAD8
+    .long race_cleanup_handler
+    .long sym_06012198
+    .long sym_0605A016

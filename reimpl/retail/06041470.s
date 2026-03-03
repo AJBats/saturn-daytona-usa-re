@@ -45,5 +45,5 @@ checkpoint_state_check:
     .byte 0x00, 0x09
     .byte 0x03, 0x60
     .byte 0xFF, 0xFF
-    .4byte ai_checkpoint_validate
-    .4byte sym_060A5400
+    .long ai_checkpoint_validate
+    .long sym_060A5400

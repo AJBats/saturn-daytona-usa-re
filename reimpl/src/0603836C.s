@@ -149,25 +149,25 @@ vdp2_regs_setup:
     bra     .L_060384B4
     nop
 .L_pool_0603848C:
-    .4byte  0x0000FFFF
+    .long  0x0000FFFF
 .L_pool_06038490:
-    .4byte  sym_060A3D88
+    .long  sym_060A3D88
 .L_pool_06038494:
-    .4byte  sym_060A3DB0
+    .long  sym_060A3DB0
 .L_pool_06038498:
-    .4byte  0x25F80000
+    .long  0x25F80000
 .L_pool_0603849C:
-    .4byte  sym_060A3D84
+    .long  sym_060A3D84
 .L_pool_060384A0:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_pool_060384A4:
-    .4byte  sym_060A3DF8
+    .long  sym_060A3DF8
 .L_pool_060384A8:
-    .4byte  0x00010000
+    .long  0x00010000
 .L_pool_060384AC:
-    .4byte  sym_060A3E38
+    .long  sym_060A3E38
 .L_pool_060384B0:
-    .4byte  sym_060A3E48
+    .long  sym_060A3E48
 .L_060384B4:
     extu.w r4, r0
     mov.w r0, @(2, r6)
@@ -241,8 +241,8 @@ sym_06038520:
 .L_0603852E:
     rts
     nop
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_pool_06038534:
-    .4byte  sym_060635AC                /* command ready flag */
+    .long  sym_060635AC                /* command ready flag */
 .L_pool_06038538:
-    .4byte  sym_060635A8                /* command queue slot (channel ID) */
+    .long  sym_060635A8                /* command queue slot (channel ID) */

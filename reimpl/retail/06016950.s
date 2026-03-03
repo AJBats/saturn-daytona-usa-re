@@ -97,5 +97,5 @@ bcd_sprite_map:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .byte 0xFF, 0xFF
-    .4byte sym_06084FC8
-    .4byte sym_06034FE0
+    .long sym_06084FC8
+    .long sym_06034FE0

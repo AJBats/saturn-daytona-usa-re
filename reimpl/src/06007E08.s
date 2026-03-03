@@ -121,11 +121,11 @@ vblank_frame_handler:
     nop
 
 .L_06007EDC:
-    .2byte  0xFE6B
+    .short  0xFE6B
 .L_06007EDE:
-    .2byte  0xFF58
+    .short  0xFF58
 .L_06007EE0:
-    .2byte  0x00A8
+    .short  0x00A8
 
 .L_06007EE2:
     mov.w @(4, r5), r0
@@ -291,7 +291,7 @@ vblank_frame_handler:
     mov.l @r12, r2
     mov r2, r3
     cmp/ge r7, r3
-    bf/s    .L_06008016
+    bf.s    .L_06008016
     mov.l r2, @r15
     mov.l @r15, r2
     mov.w   .L_06008058, r3
@@ -335,9 +335,9 @@ vblank_frame_handler:
     bra     .L_06008088
     nop
 .L_06008056:
-    .2byte  0x0195
+    .short  0x0195
 .L_06008058:
-    .2byte  0x0131
+    .short  0x0131
 .L_0600805A:
     mov.l @(4, r15), r2
     mov.w @r2, r0
@@ -380,7 +380,7 @@ vblank_frame_handler:
     mov.l @r10, r2
     mov r2, r3
     cmp/ge r7, r3
-    bf/s    .L_060080B6
+    bf.s    .L_060080B6
     mov.l r2, @r15
     mov.l @r15, r2
     mov.w   .L_060080F8, r3
@@ -424,9 +424,9 @@ vblank_frame_handler:
     bra     .L_06008128
     nop
 .L_060080F6:
-    .2byte  0x0195
+    .short  0x0195
 .L_060080F8:
-    .2byte  0x0131
+    .short  0x0131
 .L_060080FA:
     mov.l @(8, r15), r2
     mov.w @r2, r0
@@ -463,7 +463,7 @@ vblank_frame_handler:
     mov.l @r9, r2
     mov r2, r3
     cmp/ge r7, r3
-    bf/s    .L_0600814E
+    bf.s    .L_0600814E
     mov.l r2, @r15
     mov.l @r15, r2
     mov.w   .L_060081DA, r3
@@ -537,7 +537,7 @@ vblank_frame_handler:
     mov.l @r13, r2
     mov r2, r3
     cmp/ge r7, r3
-    bf/s    .L_060081DC
+    bf.s    .L_060081DC
     mov.l r2, @r15
     mov.l @r15, r2
     mov.w   .L_060081DA, r3
@@ -546,9 +546,9 @@ vblank_frame_handler:
     bra     .L_060081E0
     nop
 .L_060081D8:
-    .2byte  0x0195
+    .short  0x0195
 .L_060081DA:
-    .2byte  0x0131
+    .short  0x0131
 .L_060081DC:
     bra     .L_06007F80
     nop
@@ -563,4 +563,4 @@ vblank_frame_handler:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0x0000
+    .short  0x0000

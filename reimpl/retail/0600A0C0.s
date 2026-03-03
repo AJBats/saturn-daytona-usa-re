@@ -49,15 +49,15 @@ DAT_0600a110:
     .global DAT_0600a112
 DAT_0600a112:
     .byte 0x01, 0x5F
-    .4byte sym_0607E944
-    .4byte display_channel_b
-    .4byte sym_0607EBC8
-    .4byte channel_nibble_config
-    .4byte sym_06026CE0
-    .4byte sym_06059F44
-    .4byte sym_06063F5C
-    .4byte vdp2_scroll_update
-    .4byte sym_060393FC
-    .4byte sym_0605A008
+    .long sym_0607E944
+    .long display_channel_b
+    .long sym_0607EBC8
+    .long channel_nibble_config
+    .long sym_06026CE0
+    .long sym_06059F44
+    .long sym_06063F5C
+    .long vdp2_scroll_update
+    .long sym_060393FC
+    .long sym_0605A008
     .byte 0x00, 0x00
     .byte 0x80, 0x00

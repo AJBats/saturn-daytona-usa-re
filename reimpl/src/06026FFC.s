@@ -21,7 +21,7 @@ mat_vec_transform:
     xtrct r0, r1
     add r2, r1
     mov.l r1, @r14
-    bf/s    .L_0602700A
+    bf.s    .L_0602700A
     add #0x4, r14
     add #-0xC, r14
     mov.l @r14+, r0
@@ -33,30 +33,30 @@ mat_vec_transform:
     rts
     mov.l @r15+, r14
 
-    .4byte  0xD00BD60F
-    .4byte  0x6202E303
-    .4byte  0x0028024F
-    .4byte  0x024F024F
-    .4byte  0x431074F4
-    .4byte  0x000A011A
-    .4byte  0x210D2612
-    .4byte  0x8FF47604
-    .4byte  0x76F46062
-    .4byte  0x51615262
-    .4byte  0x25021511
-    .4byte  0x000B1522
+    .long  0xD00BD60F
+    .long  0x6202E303
+    .long  0x0028024F
+    .long  0x024F024F
+    .long  0x431074F4
+    .long  0x000A011A
+    .long  0x210D2612
+    .long  0x8FF47604
+    .long  0x76F46062
+    .long  0x51615262
+    .long  0x25021511
+    .long  0x000B1522
 .L_pool_06027068:
-    .4byte  sym_06089EDC
+    .long  sym_06089EDC
 .L_pool_0602706C:
-    .4byte  sym_06089EE0
+    .long  sym_06089EE0
 .L_pool_06027070:
-    .4byte  sym_0608A4E0
+    .long  sym_0608A4E0
 .L_pool_06027074:
-    .4byte  sym_0608A4F0
+    .long  sym_0608A4F0
 .L_pool_06027078:
-    .4byte  sym_0608A520
+    .long  sym_0608A520
 .L_pool_0602707C:
-    .4byte  0x00010000
+    .long  0x00010000
 
     .global sym_06027080
 sym_06027080:
@@ -91,9 +91,9 @@ sym_06027080:
     rts
     mov.l r3, @(44, r1)
 
-    .4byte  0xD19B6012
-    .4byte  0x70D0000B
-    .2byte  0x2102
+    .long  0xD19B6012
+    .long  0x70D0000B
+    .short  0x2102
 
     .global sym_060270C6
 sym_060270C6:
@@ -148,7 +148,7 @@ sym_060270F2:
     xtrct r1, r2
     add r6, r2
     mov.l r2, @r5
-    bf/s    .L_06027104
+    bf.s    .L_06027104
     add #0x4, r5
     rts
     nop

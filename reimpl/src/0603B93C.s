@@ -10,7 +10,7 @@ save_checksum_calc:
     mov.l @r14, r14
     add r3, r14
     tst r13, r13
-    bt/s    .L_0603B960
+    bt.s    .L_0603B960
     mov.l r4, @(8, r14)
     mov.l @r14, r0
     tst r0, r0
@@ -25,21 +25,21 @@ save_checksum_calc:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0xD607
-    .4byte  0x66627634
-    .4byte  0xA00DE500
-    .4byte  0x62536363
-    .4byte  0x4208323C
-    .4byte  0x62223420
-    .4byte  0x8B04A008
-    .2byte  0x0009
+    .short  0xD607
+    .long  0x66627634
+    .long  0xA00DE500
+    .long  0x62536363
+    .long  0x4208323C
+    .long  0x62223420
+    .long  0x8B04A008
+    .short  0x0009
 .L_wpool_0603B986:
-    .2byte  0x00B8
+    .short  0x00B8
 .L_pool_0603B988:
-    .4byte  sym_060A4D14
-    .4byte  0x7501E060
-    .4byte  0x026E3523
-    .4byte  0x8BEEE060
-    .4byte  0x026E3520
-    .4byte  0x8B00E5FF
-    .4byte  0x000B6053
+    .long  sym_060A4D14
+    .long  0x7501E060
+    .long  0x026E3523
+    .long  0x8BEEE060
+    .long  0x026E3520
+    .long  0x8B00E5FF
+    .long  0x000B6053

@@ -36,11 +36,11 @@ DAT_0600ce8c:
 
     .global DAT_0600ce8e
 DAT_0600ce8e:
-    .2byte  0x01EC
+    .short  0x01EC
 .L_pool_0600CE91:
-    .4byte  sym_0607E940
-    .4byte  sym_0607EA9C
-    .4byte  atan2
+    .long  sym_0607E940
+    .long  sym_0607EA9C
+    .long  atan2
 .L_0600CE9C:
     .byte   0xBF, 0x98    /* bsr 0x0600CDD0 (external) */
     nop

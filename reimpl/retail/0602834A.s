@@ -14,4 +14,4 @@ hud_number_display:
     .byte 0xA0, 0x1B
     .byte 0xE0, 0x00
     .byte 0x00, 0x00
-    .4byte sym_06028614
+    .long sym_06028614

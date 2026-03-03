@@ -10,7 +10,7 @@ render_finalize_b:
     mov.b @r13, r3
     extu.b r3, r3
     tst r3, r3
-    bf/s    .L_06024E10
+    bf.s    .L_06024E10
     mov #0x0, r12
     mov #0x1, r3
     mov.b r3, @r13
@@ -76,49 +76,49 @@ render_finalize_b:
     bra     .L_06024E10
     nop
 .L_06024DB8:
-    .2byte  0x00A9
+    .short  0x00A9
 .L_06024DBA:
-    .2byte  0x0080
+    .short  0x0080
 .L_06024DBC:
-    .4byte  sym_06089EC4
+    .long  sym_06089EC4
 .L_06024DC0:
-    .4byte  sym_06061198
+    .long  sym_06061198
 .L_06024DC4:
-    .4byte  sym_06089EC8
+    .long  sym_06089EC8
 .L_06024DC8:
-    .4byte  0xAE0003FF
+    .long  0xAE0003FF
 .L_06024DCC:
-    .4byte  sound_cmd_dispatch
+    .long  sound_cmd_dispatch
 .L_06024DD0:
-    .4byte  0x40000000
+    .long  0x40000000
 .L_06024DD4:
-    .4byte  sym_0605B6D8
+    .long  sym_0605B6D8
 .L_06024DD8:
-    .4byte  memcpy_word_idx
+    .long  memcpy_word_idx
 .L_06024DDC:
-    .4byte  sym_0605CF9C
+    .long  sym_0605CF9C
 .L_06024DE0:
-    .4byte  0x25F000C0
+    .long  0x25F000C0
 .L_06024DE4:
-    .4byte  sym_0605CD9C
+    .long  sym_0605CD9C
 .L_06024DE8:
-    .4byte  0x25F00000
+    .long  0x25F00000
 .L_06024DEC:
-    .4byte  0x25F006C0
+    .long  0x25F006C0
 .L_06024DF0:
-    .4byte  0x25F00600
+    .long  0x25F00600
 .L_06024DF4:
-    .4byte  0x00017700
+    .long  0x00017700
 .L_06024DF8:
-    .4byte  0x25E76EFC
+    .long  0x25E76EFC
 .L_06024DFC:
-    .4byte  sym_0600511E
+    .long  sym_0600511E
 .L_06024E00:
-    .4byte  sym_0601A5F8
+    .long  sym_0601A5F8
 .L_06024E04:
-    .4byte  sym_06089EC6
+    .long  sym_06089EC6
 .L_06024E08:
-    .4byte  sym_0605D240
+    .long  sym_0605D240
 .L_06024E0C:
     .byte   0xB3, 0x34    /* bsr 0x06025478 (scene_process_b */
     mov.l @r14, r4
@@ -202,26 +202,26 @@ render_finalize_b:
     bra     .L_06024F16
     nop
 .L_06024EA0:
-    .2byte  0x0800
+    .short  0x0800
 .L_06024EA2:
-    .2byte  0x0600
+    .short  0x0600
 .L_06024EA4:
-    .2byte  0x0100
-    .2byte  0xFFFF
+    .short  0x0100
+    .short  0xFFFF
 .L_06024EA8:
-    .4byte  sym_06089EC6
+    .long  sym_06089EC6
 .L_06024EAC:
-    .4byte  mat_multiply_basic
+    .long  mat_multiply_basic
 .L_06024EB0:
-    .4byte  sym_06063D9A
+    .long  sym_06063D9A
 .L_06024EB4:
-    .4byte  sym_06089ECC
+    .long  sym_06089ECC
 .L_06024EB8:
-    .4byte  sym_06089ED6
+    .long  sym_06089ED6
 .L_06024EBC:
-    .4byte  sym_06089ED4
+    .long  sym_06089ED4
 .L_06024EC0:
-    .4byte  sym_0605D240
+    .long  sym_0605D240
 .L_06024EC4:
     extu.w r8, r2
     mov.l   .L_06024F74, r3
@@ -266,7 +266,7 @@ render_finalize_b:
     mov.l @r15, r2
     add #0x1, r2
     cmp/ge r3, r2
-    bf/s    .L_06024E3C
+    bf.s    .L_06024E3C
     mov.l r2, @r15
 .L_06024F16:
     bra     .L_06024F48
@@ -321,13 +321,13 @@ render_finalize_b:
     bra     .L_06024FCA
     nop
 .L_06024F72:
-    .2byte  0x4000
+    .short  0x4000
 .L_06024F74:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_06024F78:
-    .4byte  sprite_anim_update
+    .long  sprite_anim_update
 .L_06024F7C:
-    .4byte  sym_06089ED8
+    .long  sym_06089ED8
 .L_06024F80:
     mov.w @r10, r5
     mov.l @r14, r4
@@ -367,7 +367,7 @@ render_finalize_b:
     add #0x8, r7
     mov #0xE, r3
     cmp/ge r3, r5
-    bf/s    .L_06024F96
+    bf.s    .L_06024F96
     add #0xC, r4
 .L_06024FCA:
     mov.w @r10, r3
@@ -436,24 +436,24 @@ render_finalize_b:
     jmp @r2
     mov.l @r15+, r14
 .L_06025044:
-    .4byte  sprite_pair_render
+    .long  sprite_pair_render
 .L_06025048:
-    .4byte  sym_060610BC
+    .long  sym_060610BC
 .L_0602504C:
-    .4byte  sym_06060D7C
+    .long  sym_06060D7C
 .L_06025050:
-    .4byte  sym_06061199
+    .long  sym_06061199
 .L_06025054:
-    .4byte  sym_0605B6D8
+    .long  sym_0605B6D8
 .L_06025058:
-    .4byte  sym_0602853E
+    .long  sym_0602853E
 .L_0602505C:
-    .4byte  sym_06028560
+    .long  sym_06028560
 .L_06025060:
-    .4byte  sym_06085FF2
+    .long  sym_06085FF2
 .L_06025064:
-    .4byte  sym_06089EC6
+    .long  sym_06089EC6
 .L_06025068:
-    .4byte  sym_06059F44
+    .long  sym_06059F44
 .L_0602506C:
-    .4byte  sym_06026CE0
+    .long  sym_06026CE0

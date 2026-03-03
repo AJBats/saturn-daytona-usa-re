@@ -19,9 +19,9 @@ bonus_multiplier:
     .byte 0xA2, 0x95
     .byte 0x4F, 0x26
     .byte 0xFF, 0xFF
-    .4byte sym_06084B14
-    .4byte sym_0605B0FC
+    .long sym_06084B14
+    .long sym_0605B0FC
     .byte 0xAB, 0x11
     .byte 0x02, 0xFF
-    .4byte sym_06084AF2
-    .4byte sym_06084AF6
+    .long sym_06084AF2
+    .long sym_06084AF6

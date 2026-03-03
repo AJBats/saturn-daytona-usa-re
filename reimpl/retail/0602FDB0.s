@@ -15,8 +15,8 @@ track_scenery_render:
     .byte 0x89, 0x05
     .byte 0xA1, 0x72
     .byte 0x00, 0x09
-    .4byte sym_0607E944
-    .4byte sym_0607ED8C
+    .long sym_0607E944
+    .long sym_0607ED8C
     .byte 0xD2, 0x08
     .byte 0x61, 0x21
     .byte 0x61, 0x1D
@@ -35,8 +35,8 @@ track_scenery_render:
     .byte 0x03, 0x45
     .byte 0x00, 0xDE
     .byte 0x00, 0x00
-    .4byte sym_06063D9A
-    .4byte sym_0608188A
+    .long sym_06063D9A
+    .long sym_0608188A
     .byte 0xD2, 0x05
     .byte 0x62, 0x21
     .byte 0x22, 0x18
@@ -49,7 +49,7 @@ track_scenery_render:
     .byte 0xA0, 0x27
     .byte 0x03, 0x45
     .byte 0x00, 0x00
-    .4byte sym_06081888
+    .long sym_06081888
     .byte 0xD2, 0x03
     .byte 0x62, 0x21
     .byte 0x22, 0x18
@@ -58,7 +58,7 @@ track_scenery_render:
     .byte 0xA0, 0x1D
     .byte 0x03, 0x45
     .byte 0x00, 0x00
-    .4byte sym_06081896
+    .long sym_06081896
     .byte 0xD2, 0x03
     .byte 0x62, 0x21
     .byte 0x22, 0x18
@@ -67,7 +67,7 @@ track_scenery_render:
     .byte 0xA0, 0x13
     .byte 0x03, 0x45
     .byte 0x00, 0x00
-    .4byte sym_06081894
+    .long sym_06081894
     .byte 0xD2, 0x03
     .byte 0x62, 0x21
     .byte 0x22, 0x18
@@ -76,7 +76,7 @@ track_scenery_render:
     .byte 0xA0, 0x09
     .byte 0x03, 0x45
     .byte 0x00, 0x00
-    .4byte sym_06081892
+    .long sym_06081892
     .byte 0xD2, 0x11
     .byte 0x62, 0x21
     .byte 0x22, 0x18
@@ -113,9 +113,9 @@ track_scenery_render:
     .byte 0x00, 0x6C
     .byte 0x00, 0xB8
     .byte 0x00, 0xA0
-    .4byte sym_06081890
-    .4byte g_pad_state
-    .4byte sym_0608188C
+    .long sym_06081890
+    .long g_pad_state
+    .long sym_0608188C
     .byte 0x93, 0x07
     .byte 0xE2, 0xB0
     .byte 0x04, 0x3E
@@ -160,7 +160,7 @@ track_scenery_render:
     .byte 0x00, 0x8C
     .byte 0x00, 0x00
     .byte 0x00, 0x6C
-    .4byte sym_0608188E
+    .long sym_0608188E
     .byte 0x00, 0x00
     .byte 0x00, 0xB8
     .byte 0xD3, 0x0B
@@ -237,8 +237,8 @@ track_scenery_render:
     .byte 0x00, 0xAC
     .byte 0x00, 0xA8
     .byte 0x00, 0x00
-    .4byte sym_06063F48
-    .4byte sym_0602ECCC
+    .long sym_06063F48
+    .long sym_0602ECCC
     .byte 0xD2, 0x15
     .byte 0x62, 0x21
     .byte 0x62, 0x2D
@@ -283,8 +283,8 @@ track_scenery_render:
     .byte 0x00, 0xA4
     .byte 0x00, 0xAC
     .byte 0x00, 0xA8
-    .4byte sym_06063F4A
-    .4byte sym_0602ECCC
+    .long sym_06063F4A
+    .long sym_0602ECCC
     .byte 0x96, 0x0F
     .byte 0xE4, 0x00
     .byte 0x06, 0x46
@@ -361,10 +361,10 @@ track_scenery_render:
     .byte 0x00, 0xAC
     .byte 0x2A, 0xF6
     .byte 0x00, 0x00
-    .4byte sym_06063D9C
-    .4byte sym_06078663
-    .4byte sym_0607ED90
-    .4byte sym_0607ED88
+    .long sym_06063D9C
+    .long sym_06078663
+    .long sym_0607ED90
+    .long sym_0607ED88
     .byte 0xD2, 0x11
     .byte 0xD4, 0x12
     .byte 0x66, 0x42
@@ -401,8 +401,8 @@ track_scenery_render:
     .byte 0x00, 0x6C
     .byte 0x00, 0xB8
     .byte 0x00, 0xA0
-    .4byte sym_0607ED90
-    .4byte sym_0607ED88
+    .long sym_0607ED90
+    .long sym_0607ED88
     .byte 0x93, 0x07
     .byte 0xE2, 0xB0
     .byte 0x04, 0x3E
@@ -475,7 +475,7 @@ track_scenery_render:
     .byte 0x00, 0x8C
     .byte 0x00, 0x00
     .byte 0x00, 0x88
-    .4byte sym_0607ED90
+    .long sym_0607ED90
     .byte 0xE2, 0x20
     .byte 0x22, 0x18
     .byte 0x89, 0x26
@@ -516,7 +516,7 @@ track_scenery_render:
     .byte 0x00, 0xA0
     .byte 0x00, 0xAC
     .byte 0x00, 0xA8
-    .4byte sym_0602ECCC
+    .long sym_0602ECCC
     .byte 0xE2, 0x10
     .byte 0x22, 0x18
     .byte 0x89, 0x26
@@ -557,7 +557,7 @@ track_scenery_render:
     .byte 0x00, 0xA4
     .byte 0x00, 0xAC
     .byte 0x00, 0xA8
-    .4byte sym_0602ECCC
+    .long sym_0602ECCC
     .byte 0x96, 0x0F
     .byte 0xE4, 0x00
     .byte 0x06, 0x46
@@ -618,8 +618,8 @@ track_scenery_render:
     .byte 0x68, 0xF6
     .byte 0x00, 0xAC
     .byte 0x00, 0x00
-    .4byte sym_0607ED90
-    .4byte sym_0607ED88
+    .long sym_0607ED90
+    .long sym_0607ED88
     .byte 0x00, 0x09
     .byte 0x00, 0x09
     .byte 0x40, 0x15

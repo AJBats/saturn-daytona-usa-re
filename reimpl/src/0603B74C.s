@@ -50,22 +50,22 @@ sys_boot_table_init:
 
     .global DAT_0603b7a4
 DAT_0603b7a4:
-    .2byte  0x0094
+    .short  0x0094
 
     .global DAT_0603b7a6
 DAT_0603b7a6:
-    .2byte  0x0C3C
+    .short  0x0C3C
 
     .global DAT_0603b7a8
 DAT_0603b7a8:
-    .2byte  0x00EC
+    .short  0x00EC
 
     .global DAT_0603b7aa
 DAT_0603b7aa:
-    .2byte  0x00F0
+    .short  0x00F0
 .L_pool_0603B7AC:
-    .4byte  sym_060A4D14
-    .4byte  sys_boot_sequence
-    .4byte  mem_test_verify
-    .4byte  sym_060406A6
-    .4byte  sym_0604069A
+    .long  sym_060A4D14
+    .long  sys_boot_sequence
+    .long  mem_test_verify
+    .long  sym_060406A6
+    .long  sym_0604069A

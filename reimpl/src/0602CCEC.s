@@ -106,33 +106,33 @@ vdp1_attr_setup:
     bra     .L_0602CDDE
     nop
 .L_0602CDB6:
-    .2byte  0x2134
+    .short  0x2134
 .L_0602CDB8:
-    .2byte  0x00E0
+    .short  0x00E0
 .L_0602CDBA:
-    .2byte  0x011C
+    .short  0x011C
 .L_0602CDBC:
-    .2byte  0x010C
+    .short  0x010C
 .L_0602CDBE:
-    .2byte  0x0144
+    .short  0x0144
 .L_0602CDC0:
-    .2byte  0x00DC
+    .short  0x00DC
 .L_0602CDC2:
-    .2byte  0x007C
+    .short  0x007C
 .L_0602CDC4:
-    .2byte  0x0264
+    .short  0x0264
 .L_0602CDC6:
-    .2byte  0x016C
+    .short  0x016C
 .L_0602CDC8:
-    .2byte  0x0110
+    .short  0x0110
 .L_0602CDCA:
-    .2byte  0x2B85
+    .short  0x2B85
 .L_0602CDCC:
-    .4byte  fpdiv_setup
+    .long  fpdiv_setup
 .L_0602CDD0:
-    .4byte  sym_0602E938
+    .long  sym_0602E938
 .L_0602CDD4:
-    .4byte  0x23280000
+    .long  0x23280000
 .L_0602CDD8:
     cmp/ge r3, r5
     bt      .L_0602CDDE
@@ -150,6 +150,6 @@ vdp1_attr_setup:
     rts
     mov.l r7, @(r0, r2)
 .L_0602CDF2:
-    .2byte  0x05C2
+    .short  0x05C2
 .L_0602CDF4:
-    .2byte  0x00C0
+    .short  0x00C0

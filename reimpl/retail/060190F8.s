@@ -29,13 +29,13 @@ transition_anim_drive:
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .4byte sound_cmd_dispatch
-    .4byte sym_06086050
+    .long sound_cmd_dispatch
+    .long sym_06086050
     .byte 0xAE, 0x00
     .byte 0x01, 0xFF
     .byte 0xAE, 0x00
     .byte 0x05, 0xFF
-    .4byte sym_06012F20
+    .long sym_06012F20
     .byte 0x25, 0xA0
     .byte 0x2D, 0xBE
-    .4byte sym_06012F50
+    .long sym_06012F50

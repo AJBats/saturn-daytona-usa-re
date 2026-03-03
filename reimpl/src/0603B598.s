@@ -28,6 +28,6 @@ menu_bg_scroll:
     lds.l @r15+, pr
     rts
     nop
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_pool_0603B5CC:
-    .4byte  sym_06040894
+    .long  sym_06040894

@@ -139,9 +139,9 @@ display_element_draw:
     .byte 0xFF, 0xFF
     .byte 0x00, 0x00
     .byte 0xFF, 0xFE
-    .4byte sym_060A4D58
-    .4byte sym_060A4D46
-    .4byte sym_06034F78
+    .long sym_060A4D58
+    .long sym_060A4D46
+    .long sym_06034F78
     .byte 0x00, 0x00
     .byte 0xFF, 0xFD
     .byte 0x00, 0x00
@@ -232,7 +232,7 @@ display_element_draw:
     .byte 0x00, 0x09
     .byte 0x05, 0x01
     .byte 0xFF, 0xFF
-    .4byte sym_06034F78
+    .long sym_06034F78
     .byte 0x00, 0x00
     .byte 0xFF, 0xDF
     .byte 0x00, 0x00

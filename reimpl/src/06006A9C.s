@@ -98,21 +98,21 @@ scene_path_a:
     sub r4, r2
     bra     .L_06006B82
     mov.l r2, @(40, r15)
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_06006B5C:
-    .4byte  sym_060620D4
+    .long  sym_060620D4
 .L_06006B60:
-    .4byte  sym_06089E44
+    .long  sym_06089E44
 .L_06006B64:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8
 .L_06006B68:
-    .4byte  sym_06062248
+    .long  sym_06062248
 .L_06006B6C:
-    .4byte  sym_06062260
+    .long  sym_06062260
 .L_06006B70:
-    .4byte  sym_06063DF8
+    .long  sym_06063DF8
 .L_06006B74:
-    .4byte  0x04000000
+    .long  0x04000000
 .L_06006B78:
     mov #0x1, r2
     cmp/hi r2, r4
@@ -163,7 +163,7 @@ scene_path_a:
     mov.w @r13, r13
     exts.w r13, r2
     cmp/pl r2
-    bf/s    .L_06006C3E
+    bf.s    .L_06006C3E
     mov.w @r4, r11
     mov.l @r14, r3
     mov.l   .L_06006C24, r2
@@ -205,14 +205,14 @@ scene_path_a:
 
     .global DAT_06006c1e
 DAT_06006c1e:
-    .2byte  0x0080
+    .short  0x0080
 .L_06006C20:
-    .2byte  0x0640
-    .2byte  0xFFFF
+    .short  0x0640
+    .short  0xFFFF
 .L_06006C24:
-    .4byte  sym_06062230
+    .long  sym_06062230
 .L_06006C28:
-    .4byte  sym_0602A214
+    .long  sym_0602A214
 .L_06006C2C:
     exts.w r13, r7
     mov r9, r6
@@ -304,12 +304,12 @@ DAT_06006c1e:
 
     .global DAT_06006cca
 DAT_06006cca:
-    .2byte  0x0640
+    .short  0x0640
 .L_06006CCC:
-    .4byte  vdp1_list_finalize
+    .long  vdp1_list_finalize
 .L_06006CD0:
-    .4byte  sym_06062230
+    .long  sym_06062230
 .L_06006CD4:
-    .4byte  sym_0602ABB8
+    .long  sym_0602ABB8
 .L_06006CD8:
-    .4byte  sym_0602B9E0
+    .long  sym_0602B9E0

@@ -16,7 +16,7 @@ rot_scroll_commit:
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
     .byte 0x00, 0x00
-    .4byte display_dispatch_0
+    .long display_dispatch_0
     .global sym_0602E450
 sym_0602E450:
     .byte 0x6E, 0x03

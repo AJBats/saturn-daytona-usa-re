@@ -91,9 +91,9 @@ obj_pool_alloc:
     .byte 0xA0, 0x0D
     .byte 0x6E, 0xF6
     .byte 0x08, 0x00
-    .4byte sym_06087808
-    .4byte sym_06087806
-    .4byte sym_06063D9A
-    .4byte sym_0608780A
-    .4byte sym_0605F4A8
-    .4byte sym_0608782C
+    .long sym_06087808
+    .long sym_06087806
+    .long sym_06063D9A
+    .long sym_0608780A
+    .long sym_0605F4A8
+    .long sym_0608782C

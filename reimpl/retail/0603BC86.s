@@ -40,9 +40,9 @@ save_serialize:
     .byte 0xE0, 0x00
     .byte 0x00, 0xA8
     .byte 0xFF, 0xFF
-    .4byte scene_frame_render
-    .4byte obj_init_validate
-    .4byte obj_setup_decomp
+    .long scene_frame_render
+    .long obj_init_validate
+    .long obj_setup_decomp
     .byte 0x65, 0xD3
     .byte 0xD3, 0x21
     .byte 0x43, 0x0B

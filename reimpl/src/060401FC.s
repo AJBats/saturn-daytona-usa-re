@@ -41,13 +41,13 @@ sym_06040220:
     bra     .L_06040250
     nop
 .L_pool_0604023C:
-    .4byte  0x7FFFFFFF
+    .long  0x7FFFFFFF
 .L_pool_06040240:
-    .4byte  evt_cmd_enqueue
+    .long  evt_cmd_enqueue
 .L_pool_06040244:
-    .4byte  0x40000000
+    .long  0x40000000
 .L_pool_06040248:
-    .4byte  0x3FFFFFFF
+    .long  0x3FFFFFFF
 .L_0604024C:
     mov.l @r4, r2
     mov.l r2, @r5

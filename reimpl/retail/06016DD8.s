@@ -131,10 +131,10 @@ track_vtx_builder:
     .byte 0xA0, 0x09
     .byte 0x00, 0x09
     .byte 0xFF, 0x74
-    .4byte fpmul
-    .4byte g_game_state
-    .4byte sym_06084FC8
-    .4byte sincos_pair
+    .long fpmul
+    .long g_game_state
+    .long sym_06084FC8
+    .long sincos_pair
     .byte 0x8B, 0xBB
     .byte 0x84, 0xFC
     .byte 0xD1, 0x42
@@ -273,12 +273,12 @@ track_vtx_builder:
     .global DAT_06016ffa
 DAT_06016ffa:
     .byte 0x00, 0x80
-    .4byte sym_06084FC8
-    .4byte sym_06078663
+    .long sym_06084FC8
+    .long sym_06078663
     .byte 0x00, 0x00
     .byte 0x80, 0x00
-    .4byte sincos_pair
-    .4byte fpdiv_setup
+    .long sincos_pair
+    .long fpdiv_setup
     .byte 0x65, 0x52
     .byte 0xD3, 0x35
     .byte 0x43, 0x0B
@@ -387,8 +387,8 @@ DAT_06016ffa:
     .byte 0x6E, 0xF6
     .byte 0x00, 0x8C
     .byte 0xFF, 0xFF
-    .4byte fpdiv_setup
-    .4byte sym_06034FE0
-    .4byte sym_06084FC8
-    .4byte sym_06085490
-    .4byte swap_sign_ext
+    .long fpdiv_setup
+    .long sym_06034FE0
+    .long sym_06084FC8
+    .long sym_06085490
+    .long swap_sign_ext

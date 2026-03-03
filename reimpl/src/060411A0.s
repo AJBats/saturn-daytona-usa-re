@@ -48,10 +48,10 @@ cmd_enqueue:
 
     .global DAT_060411f6
 DAT_060411f6:
-    .2byte  0x030C
+    .short  0x030C
 .L_wpool_060411F8:
-    .2byte  0x0324
-    .2byte  0xFFFF
+    .short  0x0324
+    .short  0xFFFF
 .L_pool_060411FC:
-    .4byte  sym_060A5400
-    .4byte  ai_throttle_modulate
+    .long  sym_060A5400
+    .long  ai_throttle_modulate

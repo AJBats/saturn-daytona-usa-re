@@ -30,7 +30,7 @@ vblank_dma_chain:
     .byte 0x00, 0x09
     .byte 0x08, 0x00
     .byte 0xFF, 0xFF
-    .4byte cmd_multi_validate
+    .long cmd_multi_validate
     .byte 0x64, 0xE3
     .byte 0xE6, 0x01
     .byte 0x65, 0xF3
@@ -323,9 +323,9 @@ DAT_0603f682:
     .byte 0x8B, 0xF5
     .byte 0xA0, 0x15
     .byte 0x00, 0x09
-    .4byte sym_06059CB8
-    .4byte sym_06035FEC
-    .4byte sym_06059CBC
+    .long sym_06059CB8
+    .long sym_06035FEC
+    .long sym_06059CBC
     .byte 0xE0, 0x2C
     .byte 0x00, 0xFC
     .byte 0x60, 0x0C

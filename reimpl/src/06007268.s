@@ -48,23 +48,23 @@ vblank_out_handler:
     rts
     mov.l r2, @r3
 .L_pool_060072C0:
-    .4byte  sym_06059F44
+    .long  sym_06059F44
 .L_pool_060072C4:
-    .4byte  sym_06059F54
+    .long  sym_06059F54
 .L_pool_060072C8:
-    .4byte  controller_input_update
+    .long  controller_input_update
 .L_pool_060072CC:
-    .4byte  g_game_state
+    .long  g_game_state
 .L_pool_060072D0:
-    .4byte  sym_06059F58
+    .long  sym_06059F58
 .L_pool_060072D4:
-    .4byte  sym_06063F58
+    .long  sym_06063F58
 .L_pool_060072D8:
-    .4byte  sym_060A4C92
+    .long  sym_060A4C92
 .L_060072DC:
-    .4byte  0x25D00002
+    .long  0x25D00002
 .L_pool_060072E0:
-    .4byte  sym_060635C4
+    .long  sym_060635C4
 
     .global sym_060072E4
 sym_060072E4:

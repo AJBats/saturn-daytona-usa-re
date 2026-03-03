@@ -35,28 +35,28 @@ audio_display_init:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-    .2byte  0xFFFF
-    .4byte  sound_cmd_dispatch
-    .4byte  0xAE0001FF
-    .4byte  0xAE0600FF
+    .short  0xFFFF
+    .long  sound_cmd_dispatch
+    .long  0xAE0001FF
+    .long  0xAE0600FF
 .L_0600A078:
-    .4byte  sym_0602853E
+    .long  sym_0602853E
 .L_0600A07C:
-    .4byte  sym_06028560
+    .long  sym_06028560
 .L_0600A080:
-    .4byte  display_channel_b
-    .4byte  0xD523E401
-    .4byte  0x90406352
-    .4byte  0x023E3247
-    .4byte  0x8904E600
-    .4byte  0x6563D320
-    .4byte  0x432BE410
-    .4byte  0x62529035
-    .4byte  0xD31E052E
-    .4byte  0x63324518
-    .4byte  0x24394508
-    .4byte  0x45084508
-    .4byte  0x45002448
-    .4byte  0x8900655B
-    .4byte  0xE600D317
-    .4byte  0x432BE410
+    .long  display_channel_b
+    .long  0xD523E401
+    .long  0x90406352
+    .long  0x023E3247
+    .long  0x8904E600
+    .long  0x6563D320
+    .long  0x432BE410
+    .long  0x62529035
+    .long  0xD31E052E
+    .long  0x63324518
+    .long  0x24394508
+    .long  0x45084508
+    .long  0x45002448
+    .long  0x8900655B
+    .long  0xE600D317
+    .long  0x432BE410

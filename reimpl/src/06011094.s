@@ -16,7 +16,7 @@ hud_course_render:
     mov.b @r0, r0
     extu.b r0, r0
     cmp/eq #0x3, r0
-    bf/s    .L_060110C4
+    bf.s    .L_060110C4
     mov r4, r14
     mov.l @r5, r0
     tst #0x1, r0
@@ -87,30 +87,30 @@ hud_course_render:
     .global DAT_0601112c
 .L_0601112C:
 DAT_0601112c:
-    .2byte  0x00D4
+    .short  0x00D4
 .L_0601112E:
-    .2byte  0x0282
+    .short  0x0282
 .L_06011130:
-    .2byte  0x048C
-    .2byte  0xFFFF
+    .short  0x048C
+    .short  0xFFFF
 .L_06011134:
-    .4byte  sym_0607EBC8
+    .long  sym_0607EBC8
 .L_06011138:
-    .4byte  sym_0607887F
+    .long  sym_0607887F
 .L_0601113C:
-    .4byte  sym_06063750
+    .long  sym_06063750
 .L_06011140:
-    .4byte  sym_0607EADC
+    .long  sym_0607EADC
 .L_06011144:
-    .4byte  sym_06028400
+    .long  sym_06028400
 .L_06011148:
-    .4byte  sym_06078644
+    .long  sym_06078644
 .L_0601114C:
-    .4byte  sym_0605AC70
+    .long  sym_0605AC70
 .L_06011150:
-    .4byte  sym_0605AD00
+    .long  sym_0605AD00
 .L_06011154:
-    .4byte  sym_0605AB98
+    .long  sym_0605AB98
 .L_06011158:
     mov.l r12, @(4, r15)
 .L_0601115A:

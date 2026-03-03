@@ -13,6 +13,6 @@ hud_number_display:
     add #0x8, r1
     .byte   0xA0, 0x1B    /* bra 0x06028398 (external) */
     mov #0x0, r0
-    .2byte  0x0000
+    .short  0x0000
 .L_06028364:
-    .4byte  sym_06028614
+    .long  sym_06028614

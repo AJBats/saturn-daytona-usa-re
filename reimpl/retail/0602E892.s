@@ -12,12 +12,12 @@ main_scene_render:
     .byte 0x00, 0x00
     .byte 0xAE, 0x11
     .byte 0x09, 0xFF
-    .4byte sound_cmd_dispatch
+    .long sound_cmd_dispatch
     .global sym_0602E8AC
 sym_0602E8AC:
-    .4byte loc_06060BD4
-    .4byte loc_06060C44
-    .4byte loc_06060CB4
+    .long loc_06060BD4
+    .long loc_06060C44
+    .long loc_06060CB4
     .global sym_0602E8B8
 sym_0602E8B8:
     .byte 0x00, 0x01
@@ -548,10 +548,10 @@ sym_0602ECAC:
     .byte 0x00, 0x00
     .global sym_0602ECBC
 sym_0602ECBC:
-    .4byte loc_0602E9A8
-    .4byte loc_0602EA8C
-    .4byte loc_0602EB70
-    .4byte loc_0602EA8C
+    .long loc_0602E9A8
+    .long loc_0602EA8C
+    .long loc_0602EB70
+    .long loc_0602EA8C
     .global sym_0602ECCC
 sym_0602ECCC:
     .byte 0x2F, 0x36
@@ -584,13 +584,13 @@ sym_0602ECF2:
     .byte 0x43, 0x2B
     .byte 0x00, 0x09
     .byte 0x00, 0x00
-    .4byte sym_0607EAE4
-    .4byte sym_0602ED0C
+    .long sym_0607EAE4
+    .long sym_0602ED0C
     .global sym_0602ED0C
 sym_0602ED0C:
-    .4byte loc_0602ED18
-    .4byte loc_0602ED18
-    .4byte loc_0602EEAC
+    .long loc_0602ED18
+    .long loc_0602ED18
+    .long loc_0602EEAC
     .global loc_0602ED18
 loc_0602ED18:
     .byte 0xD0, 0x2A

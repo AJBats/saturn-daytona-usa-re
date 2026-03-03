@@ -55,6 +55,6 @@ results_awards:
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
-    .4byte sym_0605BB0C
-    .4byte sym_06035168
-    .4byte sym_06084FC8
+    .long sym_0605BB0C
+    .long sym_06035168
+    .long sym_06084FC8

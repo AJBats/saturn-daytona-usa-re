@@ -11,7 +11,7 @@ lap_progress_indicator:
     mov.b @r0, r0
     extu.b r0, r0
     cmp/eq #0xB, r0
-    bf/s    .L_0601121E
+    bf.s    .L_0601121E
     mov #0x3, r13
     .byte   0xD0, 0x07    /* mov.l .L_06011218, r0 */
     mov.l @r0, r0
@@ -27,11 +27,11 @@ DAT_06011206:
     .word 0x02BA
     mov.b r12, @(r0, r4)
     .word 0xFFFF
-    .4byte  sym_06078644
+    .long  sym_06078644
 .L_06011214:
-    .4byte  sym_0607887F
+    .long  sym_0607887F
 .L_06011218:
-    .4byte  sym_0607EBC8
+    .long  sym_0607EBC8
 .L_0601121C:
     mov #0x4, r13
 .L_0601121E:
@@ -57,7 +57,7 @@ DAT_06011206:
     mov.w   .L_060112E4, r6
     mov.l @r12, r0
     tst r0, r0
-    bt/s    .L_06011252
+    bt.s    .L_06011252
     add r11, r7
     bra     .L_06011254
     mov #0x1, r0
@@ -78,7 +78,7 @@ DAT_06011206:
     mov.w   DAT_060112e6, r6
     mov.l @r12, r0
     tst r0, r0
-    bt/s    .L_0601127A
+    bt.s    .L_0601127A
     add r11, r7
     .byte   0xD5, 0x23    /* mov.l .L_06011304, r5 */
     bra     .L_060112D0
@@ -103,7 +103,7 @@ DAT_06011206:
     mov.w   .L_060112E4, r6
     mov.l @r12, r0
     tst r0, r0
-    bt/s    .L_060112A6
+    bt.s    .L_060112A6
     add r11, r7
     bra     .L_060112A8
     mov #0x1, r0
@@ -124,7 +124,7 @@ DAT_06011206:
     mov.w   DAT_060112e6, r6
     mov.l @r12, r0
     tst r0, r0
-    bt/s    .L_060112CE
+    bt.s    .L_060112CE
     add r11, r7
     .byte   0xD5, 0x0E    /* mov.l .L_06011304, r5 */
     bra     .L_060112D0
@@ -142,30 +142,30 @@ DAT_06011206:
     rts
     mov.l @r15+, r14
 .L_060112E2:
-    .2byte  0x02A0
+    .short  0x02A0
 .L_060112E4:
-    .2byte  0x0530
+    .short  0x0530
 
     .global DAT_060112e6
 DAT_060112e6:
-    .2byte  0x0534
+    .short  0x0534
 .L_060112E8:
-    .4byte  sym_06078644
+    .long  sym_06078644
 .L_060112EC:
-    .4byte  sym_06028400
+    .long  sym_06028400
 .L_060112F0:
-    .4byte  sym_0607EAB8
+    .long  sym_0607EAB8
 .L_060112F4:
-    .4byte  sym_06063828
+    .long  sym_06063828
 .L_060112F8:
-    .4byte  sym_0605A8B6
+    .long  sym_0605A8B6
 .L_060112FC:
-    .4byte  sym_06078868
+    .long  sym_06078868
 .L_06011300:
-    .4byte  sym_0605ABBC
+    .long  sym_0605ABBC
 .L_06011304:
-    .4byte  sym_0605A9B0
+    .long  sym_0605A9B0
 .L_06011308:
-    .4byte  sym_0605A9B8
+    .long  sym_0605A9B8
 .L_0601130C:
-    .4byte  sym_0605A7FC
+    .long  sym_0605A7FC

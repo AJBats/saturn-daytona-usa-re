@@ -55,24 +55,24 @@ hud_anim_ctrl:
     jmp @r3
     lds.l @r15+, pr
 .L_wpool_060154EE:
-    .2byte  0x0224
+    .short  0x0224
 .L_wpool_060154F0:
-    .2byte  0x0400
+    .short  0x0400
 .L_pool_060154F2:
-    .4byte  sym_060172E4
+    .long  sym_060172E4
 .L_pool_060154F6:
-    .4byte  sym_06085F8A
+    .long  sym_06085F8A
 .L_pool_060154FA:
-    .4byte  sym_06085F92
+    .long  sym_06085F92
 .L_pool_060154FE:
-    .4byte  sym_0607EBF4
+    .long  sym_0607EBF4
 .L_pool_06015502:
-    .4byte  sym_0607EAE0
+    .long  sym_0607EAE0
 .L_pool_06015506:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_pool_0601550A:
-    .4byte  sym_06063DA0
+    .long  sym_06063DA0
 .L_pool_0601550E:
-    .4byte  g_game_state
+    .long  g_game_state
 .L_pool_06015512:
-    .4byte  sym_0601E0DE
+    .long  sym_0601E0DE

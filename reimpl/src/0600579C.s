@@ -42,11 +42,11 @@ vdp_mode_setup:
     mov r6, r3
     add #0x2, r6
     tst r4, r4
-    bf/s    .L_060057D4
+    bf.s    .L_060057D4
     mov.w r1, @r3
     add r14, r7
     cmp/ge r10, r7
-    bf/s    .L_060057C6
+    bf.s    .L_060057C6
     add r14, r12
     mov #0x60, r6
     mov.w   .L_wpool_06005852, r5
@@ -97,32 +97,32 @@ vdp_mode_setup:
     bra     .L_06005888
     nop
 .L_wpool_0600584E:
-    .2byte  0x0480
+    .short  0x0480
 .L_wpool_06005850:
-    .2byte  0x0180
+    .short  0x0180
 .L_wpool_06005852:
-    .2byte  0x0318
+    .short  0x0318
 .L_wpool_06005854:
-    .2byte  0x0110
-    .2byte  0xFFFF
+    .short  0x0110
+    .short  0xFFFF
 .L_pool_06005858:
-    .4byte  sym_06085FF4
+    .long  sym_06085FF4
 .L_pool_0600585C:
-    .4byte  sym_06063750
+    .long  sym_06063750
 .L_pool_06005860:
-    .4byte  sym_0606129C
+    .long  sym_0606129C
 .L_pool_06005864:
-    .4byte  sym_06028400
+    .long  sym_06028400
 .L_pool_06005868:
-    .4byte  sym_0605ACDF
+    .long  sym_0605ACDF
 .L_pool_0600586C:
-    .4byte  sym_060284AE
+    .long  sym_060284AE
 .L_pool_06005870:
-    .4byte  sym_0607EAB8
+    .long  sym_0607EAB8
 .L_pool_06005874:
-    .4byte  sym_06063F28
+    .long  sym_06063F28
 .L_pool_06005878:
-    .4byte  sym_06028430
+    .long  sym_06028430
 .L_0600587C:
     mov.l @r12, r7
     mov #0xC, r6

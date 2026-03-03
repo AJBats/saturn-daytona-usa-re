@@ -20,13 +20,13 @@ track_poly_build:
     mov.l   .L_pool_0602F584, r10
     bra     .L_0602F58C
     or r10, r11
-    .2byte  0x0000
-    .4byte  0x001E0000
-    .4byte  atan2
+    .short  0x0000
+    .long  0x001E0000
+    .long  atan2
 .L_pool_0602F580:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_pool_0602F584:
-    .4byte  0xFFFF0000
+    .long  0xFFFF0000
 .L_0602F588:
     mov.l   .L_pool_0602F5A0, r10
     and r10, r11
@@ -41,11 +41,11 @@ track_poly_build:
     mov #0x14, r12
     bra     .L_0602F5B0
     mov.w r12, @(r0, r1)
-    .2byte  0x0000
+    .short  0x0000
 .L_pool_0602F5A0:
-    .4byte  0x0000FFFF
+    .long  0x0000FFFF
 .L_pool_0602F5A4:
-    .4byte  0x0000071C
+    .long  0x0000071C
 .L_0602F5A8:
     mov.w   DAT_0602f5b4, r11
     add r11, r6
@@ -57,4 +57,4 @@ track_poly_build:
 
     .global DAT_0602f5b4
 DAT_0602f5b4:
-    .2byte  0x0268
+    .short  0x0268

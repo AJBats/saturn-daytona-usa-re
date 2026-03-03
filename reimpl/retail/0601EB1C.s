@@ -33,8 +33,8 @@ geom_rotation_apply:
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .4byte sym_060877D9
-    .4byte sym_060877D8
-    .4byte sym_060877DD
-    .4byte sym_0605E098
-    .4byte sym_0604A57C
+    .long sym_060877D9
+    .long sym_060877D8
+    .long sym_060877DD
+    .long sym_0605E098
+    .long sym_0604A57C

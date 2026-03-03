@@ -125,12 +125,12 @@ scene_proc_d:
     .byte 0xA2, 0xA4
     .byte 0x00, 0x09
     .byte 0x00, 0x00
-    .4byte sym_06063F08
-    .4byte sym_06094AB0
-    .4byte sym_06094A30
-    .4byte sym_06089EDC
-    .4byte sym_06094A28
-    .4byte sym_06094A60
+    .long sym_06063F08
+    .long sym_06094AB0
+    .long sym_06094A30
+    .long sym_06089EDC
+    .long sym_06094A28
+    .long sym_06094A60
     .byte 0x85, 0x89
     .byte 0xE1, 0x06
     .byte 0x64, 0x0D
@@ -337,10 +337,10 @@ scene_proc_d:
     .byte 0x8B, 0x09
     .byte 0xA1, 0xC9
     .byte 0x00, 0x09
-    .4byte sym_06094AB0
-    .4byte sym_06094A30
-    .4byte sym_06089EDC
-    .4byte sym_06094AE0
+    .long sym_06094AB0
+    .long sym_06094A30
+    .long sym_06089EDC
+    .long sym_06094AE0
     .byte 0xD1, 0x18
     .byte 0x40, 0x08
     .byte 0x30, 0x1C
@@ -395,13 +395,13 @@ DAT_0602b64e:
     .byte 0x00, 0xA0
     .byte 0x01, 0x90
     .byte 0x00, 0x00
-    .4byte sym_0602B9AC
-    .4byte sym_06094A30
-    .4byte sym_06094A28
-    .4byte sym_060620D0
-    .4byte sym_0608AC20
-    .4byte sym_06094A90
-    .4byte sym_06094A20
+    .long sym_0602B9AC
+    .long sym_06094A30
+    .long sym_06094A28
+    .long sym_060620D0
+    .long sym_0608AC20
+    .long sym_06094A90
+    .long sym_06094A20
     .byte 0x93, 0x04
     .byte 0x33, 0x17
     .byte 0x8B, 0x03
@@ -748,9 +748,9 @@ DAT_0602b7f8:
     .byte 0x55, 0x18
     .byte 0x40, 0x2B
     .byte 0x56, 0x1B
-    .4byte sym_0602B9BC
-    .4byte sym_0602B9CC
-    .4byte sym_06094A30
+    .long sym_0602B9BC
+    .long sym_0602B9CC
+    .long sym_06094A30
     .global loc_0602B8DC
 loc_0602B8DC:
     .byte 0x33, 0x4C
@@ -843,14 +843,14 @@ loc_0602B930:
     .byte 0x00, 0x09
     .byte 0x00, 0x01
     .byte 0x00, 0x00
-    .4byte sym_06094AE0
-    .4byte sym_06063F54
+    .long sym_06094AE0
+    .long sym_06063F54
     .byte 0x00, 0x02
     .byte 0x00, 0x00
     .byte 0x00, 0x0A
     .byte 0x00, 0x00
-    .4byte sym_060620D0
-    .4byte sym_0606A4F8
+    .long sym_060620D0
+    .long sym_0606A4F8
     .byte 0x4F, 0x26
     .byte 0x6E, 0xF6
     .byte 0x6D, 0xF6
@@ -865,23 +865,23 @@ loc_0602B930:
 sym_0602B9AC:
     .byte 0x00, 0x00
     .byte 0x00, 0x00
-    .4byte spring_damper
-    .4byte transform_pipeline
-    .4byte mega_render_func
+    .long spring_damper
+    .long transform_pipeline
+    .long mega_render_func
     .global sym_0602B9BC
 sym_0602B9BC:
     .byte 0x00, 0x00
     .byte 0x00, 0x00
-    .4byte vblank_frame_handler
-    .4byte render_list_builder
-    .4byte render_obj_processor
+    .long vblank_frame_handler
+    .long render_list_builder
+    .long render_obj_processor
     .global sym_0602B9CC
 sym_0602B9CC:
-    .4byte loc_0602B8DC
-    .4byte loc_0602B8E8
-    .4byte loc_0602B8FE
-    .4byte loc_0602B930
-    .4byte loc_0602B914
+    .long loc_0602B8DC
+    .long loc_0602B8E8
+    .long loc_0602B8FE
+    .long loc_0602B930
+    .long loc_0602B914
     .global sym_0602B9E0
 sym_0602B9E0:
     .byte 0x2F, 0x86

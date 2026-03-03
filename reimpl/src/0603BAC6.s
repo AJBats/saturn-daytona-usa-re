@@ -21,16 +21,16 @@ save_block_copy:
     .global DAT_0603bae6
 DAT_0603bae6:
     mov.b r13, @(r0, r0)
-    .4byte  sym_0603EF34
-    .4byte  sym_0603F070
-    .4byte  sym_0603F036
-    .4byte  sym_0603EFE6
-    .4byte  sym_0603EFD4
-    .4byte  attract_init_setup
-    .4byte  sym_0603F8B8
-    .4byte  attract_replay_loader
+    .long  sym_0603EF34
+    .long  sym_0603F070
+    .long  sym_0603F036
+    .long  sym_0603EFE6
+    .long  sym_0603EFD4
+    .long  attract_init_setup
+    .long  sym_0603F8B8
+    .long  attract_replay_loader
 .L_pool_0603BB09:
-    .4byte  evt_condition_test
+    .long  evt_condition_test
 .L_0603BB0C:
     mov r15, r3
     add #0x4, r3

@@ -21,7 +21,7 @@ mat_vec_transform_b:
     xtrct r0, r1
     add r2, r1
     mov.l r1, @r14
-    bf/s    .L_060272CE
+    bf.s    .L_060272CE
     add #0x4, r14
     add #-0xC, r14
     mov.l @r14+, r0
@@ -33,26 +33,26 @@ mat_vec_transform_b:
     rts
     mov.l @r15+, r14
 
-    .4byte  0xD00BD60F
-    .4byte  0x6202E303
-    .4byte  0x0028024F
-    .4byte  0x024F024F
-    .4byte  0x431074F4
-    .4byte  0x000A011A
-    .4byte  0x210D2612
-    .4byte  0x8FF47604
-    .4byte  0x76F46062
-    .4byte  0x51615262
-    .4byte  0x25021511
-    .4byte  0x000B1522
+    .long  0xD00BD60F
+    .long  0x6202E303
+    .long  0x0028024F
+    .long  0x024F024F
+    .long  0x431074F4
+    .long  0x000A011A
+    .long  0x210D2612
+    .long  0x8FF47604
+    .long  0x76F46062
+    .long  0x51615262
+    .long  0x25021511
+    .long  0x000B1522
 .L_pool_0602732C:
-    .4byte  sym_0608A52C
-    .4byte  sym_0608A530
-    .4byte  sym_0608A6B0
-    .4byte  sym_0608A6C0
+    .long  sym_0608A52C
+    .long  sym_0608A530
+    .long  sym_0608A6B0
+    .long  sym_0608A6C0
 .L_pool_0602733C:
-    .4byte  sym_0608A6F0
-    .4byte  0x00010000
+    .long  sym_0608A6F0
+    .long  0x00010000
 
     .global cos_lookup
 cos_lookup:
@@ -68,7 +68,7 @@ sin_lookup:
     .byte   0xD0, 0x66    /* mov.l .L_pool_060274EC, r0 ! r0 = 0x002F2F20 (ROM table) */
     rts
     mov.l @(r0, r4), r0
-    .2byte  0x0009
+    .short  0x0009
 
     .global sincos_pair
 sincos_pair:
@@ -87,12 +87,12 @@ sincos_pair:
     mov.l @(r0, r3), r1
     rts
     mov.l r1, @r6
-    .2byte  0x0009
+    .short  0x0009
 
     .global atan_piecewise
 atan_piecewise:
     cmp/pz r4
-    bt/s    .L_06027380
+    bt.s    .L_06027380
     .word 0x0629
     neg r4, r4
 .L_06027380:
@@ -198,7 +198,7 @@ atan_piecewise:
     sts mach, r0
     exts.w r0, r0
     tst r6, r6
-    bf/s    .L_0602743E
+    bf.s    .L_0602743E
     add r2, r0
     neg r0, r0
 .L_0602743E:

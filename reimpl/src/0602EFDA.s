@@ -13,4 +13,4 @@ DAT_0602efe6:
     .word 0x0100
     mov.b r0, @(r0, r1)
     .word 0x0000
-    .4byte  sincos_pair
+    .long  sincos_pair

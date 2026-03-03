@@ -38,25 +38,25 @@ transition_handler_c:
     mov.l   .L_pool_0600F988, r3
     jmp @r3
     mov.l @r15+, r14
-    .2byte  0xFFFF
-    .4byte  sym_0602853E
+    .short  0xFFFF
+    .long  sym_0602853E
 .L_pool_0600F964:
-    .4byte  sym_0607887F
+    .long  sym_0607887F
 .L_pool_0600F968:
-    .4byte  sprite_buffer_init                  /* sprite command table reset */
+    .long  sprite_buffer_init                  /* sprite command table reset */
 .L_pool_0600F96C:
-    .4byte  sound_init_bonus
+    .long  sound_init_bonus
 .L_pool_0600F970:
-    .4byte  sym_0607886E
+    .long  sym_0607886E
 .L_pool_0600F974:
-    .4byte  sym_0605AAA2
+    .long  sym_0605AAA2
 .L_pool_0600F978:
-    .4byte  0xFEA00000
+    .long  0xFEA00000
 .L_pool_0600F97C:
-    .4byte  sym_0607885C
+    .long  sym_0607885C
 .L_pool_0600F980:
-    .4byte  display_channel_b
+    .long  display_channel_b
 .L_pool_0600F984:
-    .4byte  sym_06011450
+    .long  sym_06011450
 .L_pool_0600F988:
-    .4byte  sprite_batch_renderer
+    .long  sprite_batch_renderer

@@ -91,30 +91,30 @@ camera_orient_calc:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_06005460:
-    .4byte  sym_06026E0C
+    .long  sym_06026E0C
 .L_06005464:
-    .4byte  sym_06089EDC
+    .long  sym_06089EDC
 .L_06005468:
-    .4byte  sym_06078663
+    .long  sym_06078663
 .L_0600546C:
-    .4byte  0x00010000
+    .long  0x00010000
 .L_06005470:
-    .4byte  0xFFFF0000
+    .long  0xFFFF0000
 .L_06005474:
-    .4byte  mat_scale_columns
+    .long  mat_scale_columns
 .L_06005478:
-    .4byte  mat_rot_x
+    .long  mat_rot_x
 .L_0600547C:
-    .4byte  mat_rot_z
+    .long  mat_rot_z
 .L_06005480:
-    .4byte  mat_rot_y
+    .long  mat_rot_y
 .L_06005484:
-    .4byte  sym_06026E2E
+    .long  sym_06026E2E
 .L_06005488:
-    .4byte  sincos_pair
+    .long  sincos_pair
 .L_0600548C:
-    .4byte  sym_06063DF8
+    .long  sym_06063DF8
 .L_06005490:
-    .4byte  fpmul
+    .long  fpmul

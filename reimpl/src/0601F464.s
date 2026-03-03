@@ -24,15 +24,15 @@ mem_pool_alloc:
     nop
     .byte   0xAF, 0xBD    /* bra 0x0601F40C (geom_output_handler, tail call) */
     lds.l @r15+, pr
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_pool_0601F495:
-    .4byte  sym_060877D8
-    .4byte  sym_060877DD
-    .4byte  sym_0605E098
+    .long  sym_060877D8
+    .long  sym_060877DD
+    .long  sym_0605E098
 .L_pool_0601F4A1:
-    .4byte  sym_0604A57C
+    .long  sym_0604A57C
 .L_pool_0601F4A5:
-    .4byte  sym_060877D9
-    .4byte  sym_0605E05C
-    .4byte  sym_0601F8BC
-    .4byte  0x000B0009
+    .long  sym_060877D9
+    .long  sym_0605E05C
+    .long  sym_0601F8BC
+    .long  0x000B0009

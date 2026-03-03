@@ -39,22 +39,22 @@ loc_0600890A:
     jmp @r3
     nop
 .L_pool_06008910:
-    .4byte  handler_init_reset
+    .long  handler_init_reset
 .L_pool_06008914:
-    .4byte  render_stage_1
+    .long  render_stage_1
 .L_06008918:
-    .4byte  0xFFFF0000
+    .long  0xFFFF0000
 .L_pool_0600891C:
-    .4byte  display_channel_b
+    .long  display_channel_b
 .L_pool_06008920:
-    .4byte  handler_dispatch
+    .long  handler_dispatch
 .L_pool_06008924:
-    .4byte  obj_render_update
+    .long  obj_render_update
 .L_pool_06008928:
-    .4byte  g_game_state
+    .long  g_game_state
 .L_pool_0600892C:
-    .4byte  sym_06026CE0
+    .long  sym_06026CE0
 .L_pool_06008930:
-    .4byte  sym_06059F44
+    .long  sym_06059F44
 .L_pool_06008934:
-    .4byte  render_stage_2
+    .long  render_stage_2

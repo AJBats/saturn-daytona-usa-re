@@ -27,10 +27,10 @@ cmd_dispatch_helper:
     .byte 0x00, 0x98
     .byte 0x00, 0xA0
     .byte 0x00, 0xF4
-    .4byte sym_0603F1E0
-    .4byte sym_0603F1F0
-    .4byte scene_frame_render
-    .4byte sym_060A4D14
+    .long sym_0603F1E0
+    .long sym_0603F1F0
+    .long scene_frame_render
+    .long sym_060A4D14
     .byte 0x61, 0xE3
     .byte 0x62, 0x43
     .byte 0xD3, 0x1C

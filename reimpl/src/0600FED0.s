@@ -77,45 +77,45 @@ transition_medium_c:
     bra     .L_0600FFB4
     nop
 .L_wpool_0600FF5C:
-    .2byte  0x0099
+    .short  0x0099
 .L_wpool_0600FF5E:
-    .2byte  0x5A00
+    .short  0x5A00
 .L_pool_0600FF60:
-    .4byte  sym_0607EBCC
+    .long  sym_0607EBCC
 .L_pool_0600FF64:
-    .4byte  0x25F00540
+    .long  0x25F00540
 .L_pool_0600FF68:
-    .4byte  throttle_input_proc
+    .long  throttle_input_proc
 .L_pool_0600FF6C:
-    .4byte  0x25F004A0
+    .long  0x25F004A0
 .L_pool_0600FF70:
-    .4byte  sym_06028400
+    .long  sym_06028400
 .L_pool_0600FF74:
-    .4byte  dma_memory_transfer
+    .long  dma_memory_transfer
 .L_pool_0600FF78:
-    .4byte  memcpy_word_idx
+    .long  memcpy_word_idx
 .L_pool_0600FF7C:
-    .4byte  0x25E34000
+    .long  0x25E34000
 .L_pool_0600FF80:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8
 .L_pool_0600FF84:
-    .4byte  sym_0604872C
+    .long  sym_0604872C
 .L_pool_0600FF88:
-    .4byte  0x25E61CEC
+    .long  0x25E61CEC
 .L_pool_0600FF8C:
-    .4byte  0x25E60000
+    .long  0x25E60000
 .L_pool_0600FF90:
-    .4byte  sym_0604874C
+    .long  sym_0604874C
 .L_pool_0600FF94:
-    .4byte  0x25E665D4
+    .long  0x25E665D4
 .L_pool_0600FF98:
-    .4byte  0x25E609A4
+    .long  0x25E609A4
 .L_pool_0600FF9C:
-    .4byte  sym_0604876C
+    .long  sym_0604876C
 .L_pool_0600FFA0:
-    .4byte  0x25E6A9CC
+    .long  0x25E6A9CC
 .L_pool_0600FFA4:
-    .4byte  0x25E61348
+    .long  0x25E61348
 .L_0600FFA8:
     cmp/eq #0x0, r0
     bt      .L_0600FF14

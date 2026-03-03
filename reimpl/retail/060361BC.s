@@ -29,5 +29,5 @@ seg_interpolate:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .byte 0xFF, 0xFF
-    .4byte input_proc_analog
-    .4byte input_proc_digital
+    .long input_proc_analog
+    .long input_proc_digital

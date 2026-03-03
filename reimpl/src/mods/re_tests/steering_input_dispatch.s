@@ -3,8 +3,8 @@
  * Based on src/steering_input_dispatch.s (byte-identical to retail)
  *
  * Changes:
- *   Line 46: .2byte 0x4000 → 0x8000  (was LEFT mask, now RIGHT)
- *   Line 64: .4byte 0x00008000 → 0x00004000  (was RIGHT mask, now LEFT)
+ *   Line 46: .short 0x4000 → 0x8000  (was LEFT mask, now RIGHT)
+ *   Line 64: .long 0x00008000 → 0x00004000  (was RIGHT mask, now LEFT)
  */
 	.text
     .global steering_input_dispatch
@@ -47,27 +47,27 @@ DAT_06006802:
 
     .global DAT_06006804
 DAT_06006804:
-    .2byte  0x8000
-    .2byte  0xFFFF
-    .4byte  fpmul
-    .4byte  sym_06063F04
-    .4byte  sym_06063F08
-    .4byte  sym_06059F30
-    .4byte  sym_06063E20
+    .short  0x8000
+    .short  0xFFFF
+    .long  fpmul
+    .long  sym_06063F04
+    .long  sym_06063F08
+    .long  sym_06059F30
+    .long  sym_06063E20
 .L_pool_0600681C:
-    .4byte  sym_0601A5F8
+    .long  sym_0601A5F8
 .L_pool_06006820:
-    .4byte  sym_0605D240
+    .long  sym_0605D240
 .L_pool_06006824:
-    .4byte  sprite_pair_render
+    .long  sprite_pair_render
 .L_pool_06006828:
-    .4byte  sym_06063F4A
+    .long  sym_06063F4A
 .L_pool_0600682C:
-    .4byte  sym_06063F48
+    .long  sym_06063F48
 .L_06006830:
-    .4byte  0x00004000
+    .long  0x00004000
 .L_pool_06006834:
-    .4byte  sym_06078663
+    .long  sym_06078663
 
     .global sym_06006838
 sym_06006838:
@@ -90,8 +90,8 @@ sym_06006838:
     mov r5, r0
     rts
     add r4, r0
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_pool_06006860:
-    .4byte  0x03FFFFFF
+    .long  0x03FFFFFF
 .L_pool_06006864:
-    .4byte  0x04000000
+    .long  0x04000000

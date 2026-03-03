@@ -31,7 +31,7 @@ adv_collision_resp:
     bt      .L_06014628
     mov.l @r14, r0
     tst r0, r0
-    bf/s    .L_06014612
+    bf.s    .L_06014612
     mov #0x0, r13
     mov r11, r4
     mov.b r13, @r4
@@ -109,36 +109,36 @@ adv_collision_resp:
 
     .global DAT_06014682
 DAT_06014682:
-    .2byte  0x0700
+    .short  0x0700
 .L_wpool_06014684:
-    .2byte  0x0100
-    .2byte  0xFFFF
+    .short  0x0100
+    .short  0xFFFF
 .L_pool_06014688:
-    .4byte  sound_cmd_dispatch          /* sound command dispatch function */
+    .long  sound_cmd_dispatch          /* sound command dispatch function */
 .L_pool_0601468C:
-    .4byte  sym_06084B18
+    .long  sym_06084B18
 .L_pool_06014690:
-    .4byte  g_pad_state
+    .long  g_pad_state
 .L_pool_06014694:
-    .4byte  sym_06084B14
+    .long  sym_06084B14
 .L_pool_06014698:
-    .4byte  sym_06084B20
+    .long  sym_06084B20
 .L_pool_0601469C:
-    .4byte  0xAB1101FF
+    .long  0xAB1101FF
 .L_pool_060146A0:
-    .4byte  0xAB1102FF
+    .long  0xAB1102FF
 .L_pool_060146A4:
-    .4byte  sym_0605B0FC
+    .long  sym_0605B0FC
 .L_pool_060146A8:
-    .4byte  sym_06084B08
+    .long  sym_06084B08
 .L_pool_060146AC:
-    .4byte  0xAB111EFF
-    .4byte  0xD30FE204
-    .4byte  0x63323322
-    .4byte  0x8907D20E
-    .4byte  0xD30D6221
-    .4byte  0x72FF2321
-    .4byte  0x622F4215
-    .4byte  0x8901A002
-    .4byte  0x0009000B
-    .2byte  0x0009
+    .long  0xAB111EFF
+    .long  0xD30FE204
+    .long  0x63323322
+    .long  0x8907D20E
+    .long  0xD30D6221
+    .long  0x72FF2321
+    .long  0x622F4215
+    .long  0x8901A002
+    .long  0x0009000B
+    .short  0x0009

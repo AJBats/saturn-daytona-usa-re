@@ -7,7 +7,7 @@ poly_table_lookup:
     .byte   0xDA, 0x18    /* mov.l .L_pool_060177A8, r10 */
     .byte   0xDB, 0x18    /* mov.l .L_pool_060177AC, r11 */
     cmp/pl r3
-    bf/s    .L_06017774
+    bf.s    .L_06017774
     mov #0x0, r14
 .L_06017750:
     mov #0x0, r7
@@ -15,7 +15,7 @@ poly_table_lookup:
     extu.b r14, r5
     mov #0x36, r3
     add #0x40, r6
-    muls.w r3, r5
+    muls r3, r5
     shll r6
     sts macl, r5
     exts.w r5, r5
@@ -26,7 +26,7 @@ poly_table_lookup:
     extu.b r12, r3
     extu.b r14, r2
     cmp/ge r3, r2
-    bf/s    .L_06017750
+    bf.s    .L_06017750
     add #0x1, r13
 .L_06017774:
     lds.l @r15+, macl

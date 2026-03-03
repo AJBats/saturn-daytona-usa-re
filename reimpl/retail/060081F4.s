@@ -101,16 +101,16 @@ DAT_060082ac:
     .global DAT_060082b2
 DAT_060082b2:
     .byte 0x00, 0xBC
-    .4byte sym_0607E944
-    .4byte sym_0607EBD4
-    .4byte sym_0604540C
-    .4byte sym_0604546C
-    .4byte sym_0607EBC4
+    .long sym_0607E944
+    .long sym_0607EBD4
+    .long sym_0604540C
+    .long sym_0604546C
+    .long sym_0607EBC4
     .byte 0x00, 0x02
     .byte 0x00, 0x00
     .byte 0xAE, 0x11
     .byte 0x1B, 0xFF
-    .4byte sound_cmd_dispatch
+    .long sound_cmd_dispatch
     .byte 0x62, 0xE2
     .byte 0x60, 0x23
     .byte 0x60, 0x00

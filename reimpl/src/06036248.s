@@ -42,9 +42,9 @@ track_bank_angle:
     rts
     mov.l @r15+, r14
 .L_06036298:
-    .4byte  input_proc_analog
-    .4byte  input_proc_buttons
+    .long  input_proc_analog
+    .long  input_proc_buttons
 .L_060362A0:
-    .4byte  input_proc_digital
+    .long  input_proc_digital
 .L_060362A4:
-    .4byte  0x00FFFFFF
+    .long  0x00FFFFFF

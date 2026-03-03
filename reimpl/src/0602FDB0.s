@@ -16,9 +16,9 @@ track_scenery_render:
     bra     .L_060300B0
     nop
 .L_0602FDCC:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_0602FDD0:
-    .4byte  sym_0607ED8C
+    .long  sym_0607ED8C
 .L_0602FDD4:
     mov.l   .L_0602FDF8, r2
     mov.w @r2, r1
@@ -38,12 +38,12 @@ track_scenery_render:
     bra     .L_0602FE64
     mov.w r4, @(r0, r3)
 .L_0602FDF4:
-    .2byte  0x00DE
-    .2byte  0x0000
+    .short  0x00DE
+    .short  0x0000
 .L_0602FDF8:
-    .4byte  sym_06063D9A
+    .long  sym_06063D9A
 .L_0602FDFC:
-    .4byte  sym_0608188A
+    .long  sym_0608188A
 .L_0602FE00:
     mov.l   .L_0602FE18, r2
     mov.w @r2, r2
@@ -57,9 +57,9 @@ track_scenery_render:
 .L_0602FE12:
     bra     .L_0602FE64
     mov.w r4, @(r0, r3)
-    .2byte  0x0000
+    .short  0x0000
 .L_0602FE18:
-    .4byte  sym_06081888
+    .long  sym_06081888
 .L_0602FE1C:
     mov.l   .L_0602FE2C, r2
     mov.w @r2, r2
@@ -68,9 +68,9 @@ track_scenery_render:
     mov #0x3, r4
     bra     .L_0602FE64
     mov.w r4, @(r0, r3)
-    .2byte  0x0000
+    .short  0x0000
 .L_0602FE2C:
-    .4byte  sym_06081896
+    .long  sym_06081896
 .L_0602FE30:
     mov.l   .L_0602FE40, r2
     mov.w @r2, r2
@@ -79,9 +79,9 @@ track_scenery_render:
     mov #0x2, r4
     bra     .L_0602FE64
     mov.w r4, @(r0, r3)
-    .2byte  0x0000
+    .short  0x0000
 .L_0602FE40:
-    .4byte  sym_06081894
+    .long  sym_06081894
 .L_0602FE44:
     mov.l   .L_0602FE54, r2
     mov.w @r2, r2
@@ -90,9 +90,9 @@ track_scenery_render:
     mov #0x1, r4
     bra     .L_0602FE64
     mov.w r4, @(r0, r3)
-    .2byte  0x0000
+    .short  0x0000
 .L_0602FE54:
-    .4byte  sym_06081892
+    .long  sym_06081892
 .L_0602FE58:
     mov.l   .L_0602FEA0, r2
     mov.w @r2, r2
@@ -130,17 +130,17 @@ track_scenery_render:
     bra     .L_0602FED6
     mov.l r4, @(r0, r2)
 .L_0602FE9A:
-    .2byte  0x006C
+    .short  0x006C
 .L_0602FE9C:
-    .2byte  0x00B8
+    .short  0x00B8
 .L_0602FE9E:
-    .2byte  0x00A0
+    .short  0x00A0
 .L_0602FEA0:
-    .4byte  sym_06081890
+    .long  sym_06081890
 .L_0602FEA4:
-    .4byte  g_pad_state
+    .long  g_pad_state
 .L_0602FEA8:
-    .4byte  sym_0608188C
+    .long  sym_0608188C
 .L_0602FEAC:
     mov.w   .L_0602FEBE, r3
     mov #-0x50, r2
@@ -152,7 +152,7 @@ track_scenery_render:
     bra     .L_0602FECE
     add #-0x1, r4
 .L_0602FEBE:
-    .2byte  0x0074
+    .short  0x0074
 .L_0602FEC0:
     shlr2 r6
     shlr2 r6
@@ -187,17 +187,17 @@ track_scenery_render:
     bra     .L_0602FF2A
     mov.l r4, @(r0, r3)
 .L_0602FEFA:
-    .2byte  0x0088
+    .short  0x0088
 .L_0602FEFC:
-    .2byte  0x0090
+    .short  0x0090
 .L_0602FEFE:
-    .2byte  0x008C
+    .short  0x008C
 .L_0602FF00:
-    .4byte  0x0000006C
+    .long  0x0000006C
 .L_0602FF04:
-    .4byte  sym_0608188E
+    .long  sym_0608188E
 .L_0602FF08:
-    .4byte  0x000000B8
+    .long  0x000000B8
 .L_0602FF0C:
     mov.l   .L_0602FF3C, r3
     mov.l @(r0, r3), r4
@@ -224,14 +224,14 @@ track_scenery_render:
     bra     .L_0603004C
     mov #0x1, r10
 .L_0602FF38:
-    .2byte  0x009E
-    .2byte  0x0000
+    .short  0x009E
+    .short  0x0000
 .L_0602FF3C:
-    .4byte  0x00000090
+    .long  0x00000090
 .L_0602FF40:
-    .4byte  0x0000008C
+    .long  0x0000008C
 .L_0602FF44:
-    .4byte  0x00000088
+    .long  0x00000088
 .L_0602FF48:
     mov.l   .L_0602FFA0, r2
     mov.w @r2, r2
@@ -275,18 +275,18 @@ track_scenery_render:
     bra     .L_06030068
     mov.l r8, @(r0, r3)
 .L_0602FF96:
-    .2byte  0x00A4
+    .short  0x00A4
 .L_0602FF98:
-    .2byte  0x00A0
+    .short  0x00A0
 .L_0602FF9A:
-    .2byte  0x00AC
+    .short  0x00AC
 .L_0602FF9C:
-    .2byte  0x00A8
-    .2byte  0x0000
+    .short  0x00A8
+    .short  0x0000
 .L_0602FFA0:
-    .4byte  sym_06063F48
+    .long  sym_06063F48
 .L_0602FFA4:
-    .4byte  sym_0602ECCC
+    .long  sym_0602ECCC
 .L_0602FFA8:
     mov.l   .L_06030000, r2
     mov.w @r2, r2
@@ -331,17 +331,17 @@ track_scenery_render:
     bra     .L_06030068
     mov.l r8, @(r0, r3)
 .L_0602FFF8:
-    .2byte  0x00A0
+    .short  0x00A0
 .L_0602FFFA:
-    .2byte  0x00A4
+    .short  0x00A4
 .L_0602FFFC:
-    .2byte  0x00AC
+    .short  0x00AC
 .L_0602FFFE:
-    .2byte  0x00A8
+    .short  0x00A8
 .L_06030000:
-    .4byte  sym_06063F4A
+    .long  sym_06063F4A
 .L_06030004:
-    .4byte  sym_0602ECCC
+    .long  sym_0602ECCC
 .L_06030008:
     mov.w   .L_0603002A, r6
     mov #0x0, r4
@@ -351,7 +351,7 @@ track_scenery_render:
     tst r4, r4
     bt      .L_06030068
     cmp/pl r4
-    bt/s    .L_0603002E
+    bt.s    .L_0603002E
     mov r4, r6
     mov #-0x68, r8
     mov #-0x7, r7
@@ -362,9 +362,9 @@ track_scenery_render:
     bra     .L_06030038
     nop
 .L_0603002A:
-    .2byte  0x00A8
+    .short  0x00A8
 .L_0603002C:
-    .2byte  0x00AC
+    .short  0x00AC
 .L_0603002E:
     mov #0x68, r8
     mov #0x7, r7
@@ -382,9 +382,9 @@ track_scenery_render:
     bra     .L_06030068
     nop
 .L_06030048:
-    .2byte  0x00A0
+    .short  0x00A0
 .L_0603004A:
-    .2byte  0x00A4
+    .short  0x00A4
 .L_0603004C:
     mov.l   .L_060300A0, r3
     mov.w @r3, r1
@@ -430,18 +430,18 @@ track_scenery_render:
     rts
     mov.l @r15+, r8
 .L_0603009A:
-    .2byte  0x00AC
+    .short  0x00AC
 .L_0603009C:
-    .2byte  0x2AF6
-    .2byte  0x0000
+    .short  0x2AF6
+    .short  0x0000
 .L_060300A0:
-    .4byte  sym_06063D9C
+    .long  sym_06063D9C
 .L_060300A4:
-    .4byte  sym_06078663
+    .long  sym_06078663
 .L_060300A8:
-    .4byte  sym_0607ED90
+    .long  sym_0607ED90
 .L_060300AC:
-    .4byte  sym_0607ED88
+    .long  sym_0607ED88
 .L_060300B0:
     mov.l   .L_060300F8, r2
     mov.l   .L_060300FC, r4
@@ -477,17 +477,17 @@ track_scenery_render:
     bra     .L_0603012A
     mov.l r4, @(r0, r2)
 .L_060300F0:
-    .2byte  0x00DE
+    .short  0x00DE
 .L_060300F2:
-    .2byte  0x006C
+    .short  0x006C
 .L_060300F4:
-    .2byte  0x00B8
+    .short  0x00B8
 .L_060300F6:
-    .2byte  0x00A0
+    .short  0x00A0
 .L_060300F8:
-    .4byte  sym_0607ED90
+    .long  sym_0607ED90
 .L_060300FC:
-    .4byte  sym_0607ED88
+    .long  sym_0607ED88
 .L_06030100:
     mov.w   .L_06030112, r3
     mov #-0x50, r2
@@ -499,7 +499,7 @@ track_scenery_render:
     bra     .L_06030122
     add #-0x1, r4
 .L_06030112:
-    .2byte  0x0074
+    .short  0x0074
 .L_06030114:
     shlr2 r6
     shlr2 r6
@@ -531,16 +531,16 @@ track_scenery_render:
     bra     .L_06030176
     mov.l r4, @(r0, r3)
 .L_06030148:
-    .2byte  0x0088
+    .short  0x0088
 .L_0603014A:
-    .2byte  0x0090
+    .short  0x0090
 .L_0603014C:
-    .2byte  0x008C
-    .2byte  0x0000
+    .short  0x008C
+    .short  0x0000
 .L_06030150:
-    .4byte  0x0000006C
+    .long  0x0000006C
 .L_06030154:
-    .4byte  0x000000B8
+    .long  0x000000B8
 .L_06030158:
     mov.l   .L_06030184, r3
     mov.l @(r0, r3), r4
@@ -567,13 +567,13 @@ track_scenery_render:
     bra     .L_06030280
     mov #0x1, r10
 .L_06030184:
-    .4byte  0x00000090
+    .long  0x00000090
 .L_06030188:
-    .4byte  0x0000008C
+    .long  0x0000008C
 .L_0603018C:
-    .4byte  0x00000088
+    .long  0x00000088
 .L_06030190:
-    .4byte  sym_0607ED90
+    .long  sym_0607ED90
 .L_06030194:
     mov #0x20, r2
     tst r1, r2
@@ -614,15 +614,15 @@ track_scenery_render:
     bra     .L_06030296
     mov.l r8, @(r0, r3)
 .L_060301DC:
-    .2byte  0x00A4
+    .short  0x00A4
 .L_060301DE:
-    .2byte  0x00A0
+    .short  0x00A0
 .L_060301E0:
-    .2byte  0x00AC
+    .short  0x00AC
 .L_060301E2:
-    .2byte  0x00A8
+    .short  0x00A8
 .L_060301E4:
-    .4byte  sym_0602ECCC
+    .long  sym_0602ECCC
 .L_060301E8:
     mov #0x10, r2
     tst r1, r2
@@ -663,15 +663,15 @@ track_scenery_render:
     bra     .L_06030296
     mov.l r8, @(r0, r3)
 .L_06030230:
-    .2byte  0x00A0
+    .short  0x00A0
 .L_06030232:
-    .2byte  0x00A4
+    .short  0x00A4
 .L_06030234:
-    .2byte  0x00AC
+    .short  0x00AC
 .L_06030236:
-    .2byte  0x00A8
+    .short  0x00A8
 .L_06030238:
-    .4byte  sym_0602ECCC
+    .long  sym_0602ECCC
 .L_0603023C:
     mov.w   .L_0603025E, r6
     mov #0x0, r4
@@ -681,7 +681,7 @@ track_scenery_render:
     tst r4, r4
     bt      .L_06030296
     cmp/pl r4
-    bt/s    .L_06030262
+    bt.s    .L_06030262
     mov r4, r6
     mov #-0x68, r8
     mov #-0x7, r7
@@ -692,9 +692,9 @@ track_scenery_render:
     bra     .L_0603026C
     nop
 .L_0603025E:
-    .2byte  0x00A8
+    .short  0x00A8
 .L_06030260:
-    .2byte  0x00AC
+    .short  0x00AC
 .L_06030262:
     mov #0x68, r8
     mov #0x7, r7
@@ -712,9 +712,9 @@ track_scenery_render:
     bra     .L_06030296
     nop
 .L_0603027C:
-    .2byte  0x00A0
+    .short  0x00A0
 .L_0603027E:
-    .2byte  0x00A4
+    .short  0x00A4
 .L_06030280:
     mov.l   .L_060302B4, r2
     mov.l   .L_060302B8, r4
@@ -742,15 +742,15 @@ track_scenery_render:
     rts
     mov.l @r15+, r8
 .L_060302B0:
-    .2byte  0x00AC
-    .2byte  0x0000
+    .short  0x00AC
+    .short  0x0000
 .L_060302B4:
-    .4byte  sym_0607ED90
+    .long  sym_0607ED90
 .L_060302B8:
-    .4byte  sym_0607ED88
-    .4byte  0x00090009
-    .4byte  0x401589FB
-    .2byte  0x0009
+    .long  sym_0607ED88
+    .long  0x00090009
+    .long  0x401589FB
+    .short  0x0009
 
     .global sym_060302C6
 sym_060302C6:

@@ -33,9 +33,9 @@ scene_proc_b:
     .byte 0x00, 0x09
     .byte 0x00, 0x97
     .byte 0x00, 0x00
-    .4byte sym_06094220
-    .4byte sym_06063F08
-    .4byte sym_0605BE36
+    .long sym_06094220
+    .long sym_06063F08
+    .long sym_0605BE36
     .byte 0xDB, 0x1B
     .byte 0xD5, 0x1C
     .byte 0xD0, 0x1C
@@ -92,10 +92,10 @@ scene_proc_b:
     .byte 0xA0, 0xBD
     .byte 0x00, 0x09
     .byte 0x00, 0x00
-    .4byte sym_0602AEEC
-    .4byte sym_0602AF0C
-    .4byte sym_0608A52C
-    .4byte sym_0602AF1C
+    .long sym_0602AEEC
+    .long sym_0602AF0C
+    .long sym_0608A52C
+    .long sym_0602AF1C
     .byte 0x85, 0x88
     .byte 0xD7, 0x1C
     .byte 0xB1, 0x13
@@ -164,12 +164,12 @@ sym_0602ACD4:
     .global DAT_0602ad02
 DAT_0602ad02:
     .byte 0xFF, 0x50
-    .4byte sym_0602AC9E
-    .4byte sym_0602ACB0
-    .4byte sym_0602ACC2
-    .4byte sym_0602ACD4
-    .4byte sym_060620D4
-    .4byte sym_0608AC20
+    .long sym_0602AC9E
+    .long sym_0602ACB0
+    .long sym_0602ACC2
+    .long sym_0602ACD4
+    .long sym_060620D4
+    .long sym_0608AC20
     .byte 0x9C, 0x3B
     .byte 0x3C, 0x07
     .byte 0x89, 0x05
@@ -240,7 +240,7 @@ DAT_0602ad98:
     .global DAT_0602ad9a
 DAT_0602ad9a:
     .byte 0x00, 0x51
-    .4byte sym_0602AF28
+    .long sym_0602AF28
     .global loc_0602ADA0
 loc_0602ADA0:
     .byte 0x33, 0x4C
@@ -303,8 +303,8 @@ loc_0602ADCA:
     .byte 0x00, 0x00
     .byte 0x00, 0x0B
     .byte 0x80, 0x00
-    .4byte sym_060620D4
-    .4byte sym_0606A4F8
+    .long sym_060620D4
+    .long sym_0606A4F8
     .byte 0x4F, 0x26
     .byte 0x6E, 0xF6
     .byte 0x6D, 0xF6
@@ -415,7 +415,7 @@ DAT_0602aebc:
     .byte 0x25, 0x32
     .byte 0x47, 0x2B
     .byte 0x75, 0x04
-    .4byte sym_06094220
+    .long sym_06094220
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
     .global sym_0602AEEC
@@ -462,11 +462,11 @@ sym_0602AF1C:
     .byte 0xFF, 0xFF
     .global sym_0602AF28
 sym_0602AF28:
-    .4byte loc_0602ADA0
-    .4byte loc_0602ADAA
-    .4byte loc_0602ADC0
-    .4byte loc_0602ADC4
-    .4byte loc_0602ADCA
+    .long loc_0602ADA0
+    .long loc_0602ADAA
+    .long loc_0602ADC0
+    .long loc_0602ADC4
+    .long loc_0602ADCA
     .global sym_0602AF3C
 sym_0602AF3C:
     .byte 0x2F, 0x86

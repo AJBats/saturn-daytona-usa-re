@@ -85,10 +85,10 @@ results_time_column:
     .byte 0x14, 0x21
     .byte 0xA0, 0x27
     .byte 0x6B, 0xAC
-    .4byte sym_06084FC8
-    .4byte sym_06035438
-    .4byte sym_0605BAF8
-    .4byte sym_06034FE0
+    .long sym_06084FC8
+    .long sym_06035438
+    .long sym_0605BAF8
+    .long sym_06034FE0
     .byte 0x62, 0xEC
     .byte 0x32, 0x43
     .byte 0x00, 0x29

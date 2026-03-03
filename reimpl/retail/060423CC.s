@@ -23,10 +23,10 @@ cdb_wait_scdq:
     .byte 0xAF, 0xF4
     .byte 0x00, 0x09
     .byte 0x04, 0x00
-    .4byte ai_checkpoint_validate
-    .4byte sym_060A5400
-    .4byte smpc_cmd_helper_b
-    .4byte sym_06035C4E
+    .long ai_checkpoint_validate
+    .long sym_060A5400
+    .long smpc_cmd_helper_b
+    .long sym_06035C4E
     .byte 0x00, 0x00
     .byte 0xFB, 0xFF
     .byte 0x4F, 0x26

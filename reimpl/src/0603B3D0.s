@@ -22,5 +22,5 @@ menu_separator:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0x6343
-    .2byte  0xE011
+    .short  0x6343
+    .short  0xE011

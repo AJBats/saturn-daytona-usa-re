@@ -50,14 +50,14 @@ track_render_pipeline:
     .byte 0x89, 0x1C
     .byte 0xA0, 0x1D
     .byte 0x00, 0x09
-    .4byte sym_0607E944
-    .4byte sound_cmd_dispatch
-    .4byte sym_0602FD98
+    .long sym_0607E944
+    .long sound_cmd_dispatch
+    .long sym_0602FD98
     .byte 0xAE, 0x11
     .byte 0x03, 0xFF
     .byte 0xAE, 0x11
     .byte 0x04, 0xFF
-    .4byte sym_0602FD9B
+    .long sym_0602FD9B
     .byte 0xAE, 0x11
     .byte 0x10, 0xFF
     .byte 0xAE, 0x11
@@ -96,8 +96,8 @@ track_render_pipeline:
     .byte 0x12, 0xFF
     .byte 0xAE, 0x11
     .byte 0x13, 0xFF
-    .4byte sym_0607EAD8
-    .4byte sym_0602FD9D
+    .long sym_0607EAD8
+    .long sym_0602FD9D
     .byte 0x24, 0x48
     .byte 0x89, 0x09
     .byte 0x35, 0x43
@@ -130,12 +130,12 @@ track_render_pipeline:
     .byte 0x71, 0xFF
     .byte 0xA1, 0x38
     .byte 0x2D, 0x11
-    .4byte sym_0605D241
+    .long sym_0605D241
     .byte 0xAE, 0x11
     .byte 0x1A, 0xFF
     .byte 0xAE, 0x11
     .byte 0x3E, 0xFF
-    .4byte sym_06086054
+    .long sym_06086054
     .byte 0x50, 0xE0
     .byte 0xE1, 0x08
     .byte 0x21, 0x08
@@ -176,9 +176,9 @@ track_render_pipeline:
     .byte 0x34, 0x3C
     .byte 0x02, 0x68
     .byte 0x00, 0x00
-    .4byte sym_0607EAE0
-    .4byte sym_0607EA98
-    .4byte sym_0607E948
+    .long sym_0607EAE0
+    .long sym_0607EA98
+    .long sym_0607E948
     .byte 0x01, 0x80
     .byte 0x00, 0x00
     .byte 0x01, 0x40
@@ -201,7 +201,7 @@ track_render_pipeline:
     .byte 0x75, 0xFF
     .byte 0xA0, 0x34
     .byte 0x23, 0x50
-    .4byte sym_0602FDA1
+    .long sym_0602FDA1
     .byte 0x55, 0x43
     .byte 0x50, 0xE3
     .byte 0x30, 0x53
@@ -226,7 +226,7 @@ track_render_pipeline:
     .byte 0xA0, 0x1B
     .byte 0x23, 0x50
     .byte 0x00, 0x00
-    .4byte sym_0602FDA0
+    .long sym_0602FDA0
     .byte 0x50, 0x43
     .byte 0x55, 0xE3
     .byte 0x30, 0x58
@@ -281,7 +281,7 @@ DAT_0602fbca:
     .byte 0xE4, 0x3C
     .byte 0xA0, 0x9E
     .byte 0x2D, 0x41
-    .4byte sym_0602FD9B
+    .long sym_0602FD9B
     .byte 0xAE, 0x11
     .byte 0x37, 0xFF
     .byte 0xD1, 0x09
@@ -304,9 +304,9 @@ DAT_0602fbca:
     .byte 0x76, 0x02
     .byte 0x01, 0xEC
     .byte 0x00, 0x00
-    .4byte sym_0607EAD8
-    .4byte sym_0602FD54
-    .4byte sym_0602FD60
+    .long sym_0607EAD8
+    .long sym_0602FD54
+    .long sym_0602FD60
     .byte 0x60, 0x61
     .byte 0x88, 0x02
     .byte 0x89, 0x28
@@ -359,7 +359,7 @@ DAT_0602fc74:
     .global DAT_0602fc76
 DAT_0602fc76:
     .byte 0x02, 0x28
-    .4byte sym_0602FD30
+    .long sym_0602FD30
     .byte 0x92, 0x0E
     .byte 0x53, 0xE2
     .byte 0x32, 0x37
@@ -446,7 +446,7 @@ DAT_0602fc9e:
     .global DAT_0602fd1a
 DAT_0602fd1a:
     .byte 0x01, 0xEC
-    .4byte sym_0607EAD8
+    .long sym_0607EAD8
     .byte 0xAE, 0x11
     .byte 0x2E, 0xFF
     .byte 0x4F, 0x26

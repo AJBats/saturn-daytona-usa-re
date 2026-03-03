@@ -48,15 +48,15 @@ obj_create:
 
     .global DAT_060203be
 DAT_060203be:
-    .2byte  0x00FF
-    .4byte  sym_0608780A
-    .4byte  sym_0608782C
+    .short  0x00FF
+    .long  sym_0608780A
+    .long  sym_0608782C
 .L_pool_060203CF:
-    .4byte  sym_0604BD72
+    .long  sym_0604BD72
 .L_pool_060203D3:
-    .4byte  sym_0605F458
+    .long  sym_0605F458
 .L_pool_060203D7:
-    .4byte  sym_0605F478
+    .long  sym_0605F478
 .L_060203D4:
     mov.b @(2, r14), r0
     mov.b @r14, r5

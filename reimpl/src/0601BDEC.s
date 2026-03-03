@@ -54,15 +54,15 @@ replay_playback_engine:
     rts
     mov.l r2, @r7
 .L_0601BE4C:
-    .2byte  0x00A0
-    .2byte  0xFFFF
+    .short  0x00A0
+    .short  0xFFFF
 .L_pool_0601BE50:
-    .4byte  sym_06086018
+    .long  sym_06086018
 .L_pool_0601BE54:
-    .4byte  sym_06059F3C
+    .long  sym_06059F3C
 .L_pool_0601BE58:
-    .4byte  sym_06059F38
+    .long  sym_06059F38
 .L_pool_0601BE5C:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_pool_0601BE60:
-    .4byte  sym_06034FE0
+    .long  sym_06034FE0

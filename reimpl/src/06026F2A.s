@@ -34,7 +34,7 @@ mat_rot_z:
     sts macl, r2
     xtrct r0, r2
     mov.l r2, @(4, r4)
-    bf/s    .L_06026F46
+    bf.s    .L_06026F46
     add #0xC, r4
     rts
     nop
@@ -61,11 +61,11 @@ sym_06026F72:
     sts macl, r1
     xtrct r0, r1
     mov.l r1, @r6
-    bf/s    .L_06026F7C
+    bf.s    .L_06026F7C
     add #0x4, r6
     add #-0xC, r4
     dt r3
-    bf/s    .L_06026F7A
+    bf.s    .L_06026F7A
     add #0xC, r5
     mov r5, r7
     add #-0x24, r5
@@ -84,7 +84,7 @@ sym_06026F72:
     mov.l @r7+, r0
     add r0, r1
     mov.l r1, @r6
-    bf/s    .L_06026FAA
+    bf.s    .L_06026FAA
     add #0x4, r6
     add #-0x30, r6
     add #-0x30, r7

@@ -66,40 +66,40 @@ hud_lap_gfx_update:
 
     .global DAT_06012586
 DAT_06012586:
-    .2byte  0x1000
+    .short  0x1000
 .L_06012588:
-    .4byte  sym_06026DBC
+    .long  sym_06026DBC
 .L_0601258C:
-    .4byte  sym_06026E0C
+    .long  sym_06026E0C
 .L_06012590:
-    .4byte  sym_060788B4
+    .long  sym_060788B4
 .L_06012594:
-    .4byte  sym_06026E2E
+    .long  sym_06026E2E
 .L_06012598:
-    .4byte  sym_060788B2
+    .long  sym_060788B2
 .L_0601259C:
-    .4byte  mat_rot_z
+    .long  mat_rot_z
 .L_060125A0:
-    .4byte  mat_rot_y
+    .long  mat_rot_y
 .L_060125A4:
-    .4byte  mat_rot_x
+    .long  mat_rot_x
 .L_060125A8:
-    .4byte  sym_0607EBCC
+    .long  sym_0607EBCC
 .L_060125AC:
-    .4byte  sym_06063558
+    .long  sym_06063558
 .L_060125B0:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8
 .L_060125B4:
-    .4byte  sym_0606354C
+    .long  sym_0606354C
 .L_060125B8:
-    .4byte  sym_06031D8C
+    .long  sym_06031D8C
 .L_060125BC:
-    .4byte  sym_06063554
+    .long  sym_06063554
 .L_060125C0:
-    .4byte  sym_06089EA0
+    .long  sym_06089EA0
 .L_060125C4:
-    .4byte  sym_06063544
+    .long  sym_06063544
 .L_060125C8:
-    .4byte  sym_06031A28
+    .long  sym_06031A28
 .L_060125CC:
-    .4byte  sym_06026DF8
+    .long  sym_06026DF8

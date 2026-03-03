@@ -9,7 +9,7 @@ dma_int_handler:
     mov.l @r13, r3
     mov.l @(60, r3), r0
     tst r0, r0
-    bt/s    .L_060416D0
+    bt.s    .L_060416D0
     mov r9, r12
     mov.l @r13, r3
     mov.l @(60, r3), r2
@@ -70,20 +70,20 @@ dma_int_handler:
     bra     .L_06041764
     nop
 .L_0604172A:
-    .2byte  0x0400
-    .4byte  ai_checkpoint_validate
+    .short  0x0400
+    .long  ai_checkpoint_validate
 .L_06041730:
-    .4byte  sym_060A5400
+    .long  sym_060A5400
 .L_06041734:
-    .4byte  sym_06035C4E
+    .long  sym_06035C4E
 .L_06041738:
-    .4byte  0x0000FBFF
+    .long  0x0000FBFF
 .L_0604173C:
-    .4byte  smpc_cmd_helper_b
+    .long  smpc_cmd_helper_b
 .L_06041740:
-    .4byte  ai_checkpoint_section
+    .long  ai_checkpoint_section
 .L_06041744:
-    .4byte  sym_06035168
+    .long  sym_06035168
 .L_06041748:
     mov r15, r4
     mov.l   .L_060417E4, r3
@@ -176,25 +176,25 @@ dma_int_handler:
 
     .global DAT_060417d8
 DAT_060417d8:
-    .2byte  0x0304
+    .short  0x0304
 
     .global DAT_060417da
 DAT_060417da:
-    .2byte  0x030C
+    .short  0x030C
 .L_060417DC:
-    .2byte  0x0328
+    .short  0x0328
 .L_060417DE:
-    .2byte  0x0338
+    .short  0x0338
 .L_060417E0:
-    .2byte  0x0348
+    .short  0x0348
 .L_060417E2:
-    .2byte  0x01E0
+    .short  0x01E0
 .L_060417E4:
-    .4byte  cd_block_read_safe
+    .long  cd_block_read_safe
 .L_060417E8:
-    .4byte  sym_06035168
+    .long  sym_06035168
 .L_060417EC:
-    .4byte  sym_060A5400
+    .long  sym_060A5400
 .L_060417F0:
     mov.l @r5, r4
     .byte   0x90, 0x34    /* mov.w .L_wpool_0604185E, r0 */

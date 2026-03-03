@@ -81,11 +81,11 @@ input_proc_complete:
     mov.l r1, @r2
     rts
     mov.l @r15+, r2
-    .2byte  0x0009
+    .short  0x0009
 .L_06035FE4:
-    .4byte  sym_060A246C
+    .long  sym_060A246C
 .L_06035FE8:
-    .4byte  0x0000044E
+    .long  0x0000044E
 
     .global sym_06035FEC
 sym_06035FEC:
@@ -129,24 +129,24 @@ sym_06035FEC:
     mov.l   .L_06036038, r3
     jmp @r3
     nop
-    .2byte  0x0009
+    .short  0x0009
 .L_06036038:
-    .4byte  sym_06036CB0
+    .long  sym_06036CB0
 
     .global sym_0603603C
 sym_0603603C:
     mov.b @(r0, r0), r14
     .word 0x0A08
-    .4byte  loc_06040200
-    .4byte  0x201E1C1A
-    .4byte  0x18161412
-    .4byte  0x3432302E
-    .4byte  0x2C2A2826
-    .4byte  0x403E3C3A
-    .4byte  0x4856626C
-    .4byte  0x2F264111
-    .4byte  0x8F18E220
-    .4byte  0x3123890B
+    .long  loc_06040200
+    .long  0x201E1C1A
+    .long  0x18161412
+    .long  0x3432302E
+    .long  0x2C2A2826
+    .long  0x403E3C3A
+    .long  0x4856626C
+    .long  0x2F264111
+    .long  0x8F18E220
+    .long  0x3123890B
 
     .global sym_06036068
 sym_06036068:
@@ -157,13 +157,13 @@ sym_06036068:
     add r2, r1
     jmp @r1
     nop
-    .2byte  0x0009
+    .short  0x0009
 .L_06036078:
-    .4byte  sym_06036086
+    .long  sym_06036086
 .L_0603607C:
-    .4byte  sym_0603603C
-    .4byte  0xE000000B
-    .2byte  0x62F6
+    .long  sym_0603603C
+    .long  0xE000000B
+    .short  0x62F6
 
     .global sym_06036086
 sym_06036086:
@@ -176,31 +176,31 @@ sym_06036086:
     shlr r0
     rts
     mov.l @r15+, r2
-    .4byte  0x40014001
-    .4byte  0x40014001
-    .4byte  0x40014001
-    .4byte  0x40014019
-    .4byte  0x000B62F6
-    .4byte  0x40014001
-    .4byte  0x40014001
-    .4byte  0x40014001
-    .4byte  0x40014029
-    .4byte  0x000B62F6
-    .4byte  0x40014001
-    .4byte  0x40014019
-    .4byte  0x4029000B
-    .4byte  0x62F64004
-    .4byte  0x40044004
-    .4byte  0x4004C90F
-    .4byte  0x000B62F6
-    .4byte  0x40044004
-    .4byte  0x4004C907
-    .4byte  0x000B62F6
-    .4byte  0x40044004
-    .4byte  0xC903000B
-    .4byte  0x62F64004
-    .4byte  0xC901000B
-    .4byte  0x62F60000
+    .long  0x40014001
+    .long  0x40014001
+    .long  0x40014001
+    .long  0x40014019
+    .long  0x000B62F6
+    .long  0x40014001
+    .long  0x40014001
+    .long  0x40014001
+    .long  0x40014029
+    .long  0x000B62F6
+    .long  0x40014001
+    .long  0x40014019
+    .long  0x4029000B
+    .long  0x62F64004
+    .long  0x40044004
+    .long  0x4004C90F
+    .long  0x000B62F6
+    .long  0x40044004
+    .long  0x4004C907
+    .long  0x000B62F6
+    .long  0x40044004
+    .long  0xC903000B
+    .long  0x62F64004
+    .long  0xC901000B
+    .long  0x62F60000
 
     .global sym_060360FC
 sym_060360FC:
@@ -208,12 +208,12 @@ sym_060360FC:
     cmp/eq r5, r4
     bt      .L_0603613E
     cmp/hs r5, r4
-    bt/s    .L_06036124
+    bt.s    .L_06036124
     mov #0x0, r7
     mov r4, r13
     mov r5, r0
     cmp/hs r6, r7
-    bt/s    .L_0603613E
+    bt.s    .L_0603613E
     mov r7, r5
 .L_06036112:
     mov r13, r2
@@ -221,7 +221,7 @@ sym_060360FC:
     add #0x1, r5
     add #0x1, r13
     cmp/hs r6, r5
-    bf/s    .L_06036112
+    bf.s    .L_06036112
     mov.b r1, @r2
     bra     .L_0603613E
     nop
@@ -231,14 +231,14 @@ sym_060360FC:
     add r6, r13
     add r6, r0
     cmp/hs r6, r7
-    bt/s    .L_0603613E
+    bt.s    .L_0603613E
     mov r7, r5
 .L_06036132:
     add #-0x1, r0
     add #0x1, r5
     mov.b @r0, r3
     cmp/hs r6, r5
-    bf/s    .L_06036132
+    bf.s    .L_06036132
     mov.b r3, @-r13
 .L_0603613E:
     mov r4, r0

@@ -55,11 +55,11 @@ mat_vec_transform:
     .byte 0x15, 0x11
     .byte 0x00, 0x0B
     .byte 0x15, 0x22
-    .4byte sym_06089EDC
-    .4byte sym_06089EE0
-    .4byte sym_0608A4E0
-    .4byte sym_0608A4F0
-    .4byte sym_0608A520
+    .long sym_06089EDC
+    .long sym_06089EE0
+    .long sym_0608A4E0
+    .long sym_0608A4F0
+    .long sym_0608A520
     .byte 0x00, 0x01
     .byte 0x00, 0x00
     .global sym_06027080

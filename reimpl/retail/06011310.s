@@ -87,17 +87,17 @@ position_ranking_display:
 DAT_060113b4:
     .byte 0x05, 0x1C
     .byte 0x05, 0x18
-    .4byte sym_0607EBC8
-    .4byte sym_0607887F
-    .4byte sym_0607EADC
-    .4byte sym_06028400
-    .4byte sym_06063828
-    .4byte sym_0605A7FC
-    .4byte sym_06078644
-    .4byte sym_0605A9B0
-    .4byte sym_0605A9B8
-    .4byte sym_0605A998
-    .4byte sym_0605A978
+    .long sym_0607EBC8
+    .long sym_0607887F
+    .long sym_0607EADC
+    .long sym_06028400
+    .long sym_06063828
+    .long sym_0605A7FC
+    .long sym_06078644
+    .long sym_0605A9B0
+    .long sym_0605A9B8
+    .long sym_0605A998
+    .long sym_0605A978
     .byte 0x2F, 0xB2
     .byte 0x6C, 0xF2
     .byte 0x57, 0xE1
@@ -172,19 +172,19 @@ DAT_06011462:
     .global DAT_06011466
 DAT_06011466:
     .byte 0x05, 0x46
-    .4byte sym_0605A8B6
-    .4byte sym_0605A9B0
-    .4byte sym_0605A9B8
-    .4byte sym_0605A9A0
-    .4byte sym_0605A980
-    .4byte sym_06063828
+    .long sym_0605A8B6
+    .long sym_0605A9B0
+    .long sym_0605A9B8
+    .long sym_0605A9A0
+    .long sym_0605A980
+    .long sym_06063828
     .byte 0x00, 0x00
     .byte 0xD0, 0x00
-    .4byte sym_0605A634
-    .4byte sym_06028400
+    .long sym_0605A634
+    .long sym_06028400
     .byte 0x00, 0x00
     .byte 0xE0, 0x00
-    .4byte sym_0605A718
+    .long sym_0605A718
     .global sym_06011494
 sym_06011494:
     .byte 0x60, 0x4D

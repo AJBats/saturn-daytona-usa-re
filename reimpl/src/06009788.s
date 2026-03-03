@@ -49,23 +49,23 @@ state_time_extend_active:
     bra     .L_06009824
     mov.b r2, @r12
 .L_060097E4:
-    .4byte  0x0000F000
+    .long  0x0000F000
 .L_060097E8:
-    .4byte  sym_0605B6D8
+    .long  sym_0605B6D8
 .L_060097EC:
-    .4byte  sym_0607ED8C
+    .long  sym_0607ED8C
 .L_060097F0:
-    .4byte  sym_06078649
+    .long  sym_06078649
 .L_060097F4:
-    .4byte  g_pad_state
+    .long  g_pad_state
 .L_060097F8:
-    .4byte  sym_0605AB18
+    .long  sym_0605AB18
 .L_060097FC:
-    .4byte  menu_overlay_render
+    .long  menu_overlay_render
 .L_06009800:
-    .4byte  sym_0607864A
+    .long  sym_0607864A
 .L_06009804:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_06009808:
     mov.w @r15, r2
     mov.w   .L_060098D4, r3
@@ -173,51 +173,51 @@ state_time_extend_active:
     bra     .L_060099F4
     nop
 .L_060098D4:
-    .2byte  0x4000
+    .short  0x4000
 .L_060098D6:
-    .2byte  0x0CCC
+    .short  0x0CCC
 .L_060098D8:
-    .2byte  0x0CB8
+    .short  0x0CB8
 .L_060098DA:
-    .2byte  0x0694
+    .short  0x0694
 .L_060098DC:
-    .2byte  0x0090
+    .short  0x0090
 .L_060098DE:
-    .2byte  0x0800
+    .short  0x0800
 .L_060098E0:
-    .2byte  0x0526
+    .short  0x0526
 .L_060098E2:
-    .2byte  0x079C
+    .short  0x079C
 .L_060098E4:
-    .4byte  hud_number_display
+    .long  hud_number_display
 .L_060098E8:
-    .4byte  sym_060446E0
+    .long  sym_060446E0
 .L_060098EC:
-    .4byte  sym_060283E0
+    .long  sym_060283E0
 .L_060098F0:
-    .4byte  sym_060284AE
+    .long  sym_060284AE
 .L_060098F4:
-    .4byte  sym_06078650
+    .long  sym_06078650
 .L_060098F8:
-    .4byte  sym_0607864A
+    .long  sym_0607864A
 .L_060098FC:
-    .4byte  0xAE0004FF
+    .long  0xAE0004FF
 .L_06009900:
-    .4byte  sound_cmd_dispatch         /* sound command dispatcher */
+    .long  sound_cmd_dispatch         /* sound command dispatcher */
 .L_06009904:
-    .4byte  sym_0605AC9C
+    .long  sym_0605AC9C
 .L_06009908:
-    .4byte  sym_0607EACC
+    .long  sym_0607EACC
 .L_0600990C:
-    .4byte  g_game_state
+    .long  g_game_state
 .L_06009910:
-    .4byte  sym_06078652
+    .long  sym_06078652
 .L_06009914:
-    .4byte  sym_06078654
+    .long  sym_06078654
 .L_06009918:
-    .4byte  handler_dispatch
+    .long  handler_dispatch
 .L_0600991C:
-    .4byte  sym_060446EC
+    .long  sym_060446EC
 .L_06009920:
     mov #0x70, r4
     mov.w @(4, r15), r0
@@ -297,28 +297,28 @@ state_time_extend_active:
     bra     .L_060099EC
     nop
 .L_060099B4:
-    .2byte  0x0794
-    .2byte  0xFFFF
+    .short  0x0794
+    .short  0xFFFF
 .L_060099B8:
-    .4byte  0x80000000
+    .long  0x80000000
 .L_060099BC:
-    .4byte  sym_0607EBF4
+    .long  sym_0607EBF4
 .L_060099C0:
-    .4byte  g_game_state
+    .long  g_game_state
 .L_060099C4:
-    .4byte  sym_06026CE0
+    .long  sym_06026CE0
 .L_060099C8:
-    .4byte  sym_06059F44
+    .long  sym_06059F44
 .L_060099CC:
-    .4byte  sym_0605AD08
+    .long  sym_0605AD08
 .L_060099D0:
-    .4byte  sym_06078650
+    .long  sym_06078650
 .L_060099D4:
-    .4byte  sym_0605ACC4
+    .long  sym_0605ACC4
 .L_060099D8:
-    .4byte  sym_060446FC
+    .long  sym_060446FC
 .L_060099DC:
-    .4byte  sym_06044718
+    .long  sym_06044718
 .L_060099E0:
     mov.l   .L_06009A40, r7
     mov r13, r6
@@ -371,22 +371,22 @@ state_time_extend_active:
     rts
     mov.l @r15+, r14
 .L_06009A3C:
-    .2byte  0x079C
+    .short  0x079C
 .L_06009A3E:
-    .2byte  0x0082
+    .short  0x0082
 .L_06009A40:
-    .4byte  sym_060446FC
+    .long  sym_060446FC
 .L_06009A44:
-    .4byte  sym_0604472C
+    .long  sym_0604472C
 .L_06009A48:
-    .4byte  sym_060033E6
+    .long  sym_060033E6
 .L_06009A4C:
-    .4byte  sym_06086030
+    .long  sym_06086030
 .L_06009A50:
-    .4byte  sym_0605A1C8
+    .long  sym_0605A1C8
 .L_06009A54:
-    .4byte  sym_060283E0
+    .long  sym_060283E0
 .L_06009A58:
-    .4byte  sym_06026CE0
+    .long  sym_06026CE0
 .L_06009A5C:
-    .4byte  sym_06059F44
+    .long  sym_06059F44

@@ -16,26 +16,26 @@ screen_flash_effect:
     add r6, r3
     mov.w r3, @(r0, r5)
     cmp/eq r7, r0
-    bf/s    .L_06028398
+    bf.s    .L_06028398
     add #0x2, r0
     lds.l @r15+, pr
     rts
     nop
-    .2byte  0x0000
+    .short  0x0000
 .L_pool_060283AC:
-    .4byte  sym_06028614
-    .4byte  0xA003E302
-    .4byte  0xA001E306
-    .4byte  0xE30ED008
-    .4byte  0x024E6222
-    .4byte  0x325CE50F
-    .4byte  0x61736033
-    .4byte  0x21594709
-    .4byte  0x316C4709
-    .4byte  0x02152338
-    .4byte  0x8FF673FE
-    .4byte  0x000B0009
-    .4byte  sym_06028614
+    .long  sym_06028614
+    .long  0xA003E302
+    .long  0xA001E306
+    .long  0xE30ED008
+    .long  0x024E6222
+    .long  0x325CE50F
+    .long  0x61736033
+    .long  0x21594709
+    .long  0x316C4709
+    .long  0x02152338
+    .long  0x8FF673FE
+    .long  0x000B0009
+    .long  sym_06028614
 
     .global sym_060283E0
 sym_060283E0:
@@ -51,9 +51,9 @@ sym_060283E0:
     mov.w r3, @r2
     bra     .L_060283E8
     add #0x2, r2
-    .2byte  0x0000
+    .short  0x0000
 .L_pool_060283F8:
-    .4byte  sym_06028614
+    .long  sym_06028614
 .L_060283FC:
     rts
     nop
@@ -77,15 +77,15 @@ sym_06028400:
     add r7, r0
     mov.w r0, @r6
     dt r1
-    bf/s    .L_06028416
+    bf.s    .L_06028416
     add #0x2, r6
     dt r2
-    bf/s    .L_06028414
+    bf.s    .L_06028414
     add r4, r6
     rts
     nop
 .L_pool_0602842C:
-    .4byte  sym_06028614
+    .long  sym_06028614
 
     .global sym_06028430
 sym_06028430:

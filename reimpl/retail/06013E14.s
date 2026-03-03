@@ -17,5 +17,5 @@ score_commit_save:
     .byte 0x6E, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .4byte sym_0607EBC8
-    .4byte mat_rot_y
+    .long sym_0607EBC8
+    .long mat_rot_y

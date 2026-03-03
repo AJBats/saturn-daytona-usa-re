@@ -8,7 +8,7 @@ obj_state_writer:
     mov.l   .L_pool_06005504, r0
     mov.b @r0, r0
     tst r0, r0
-    bt/s    .L_060054B0
+    bt.s    .L_060054B0
     mov r5, r13
     mov.l   .L_pool_06005508, r6
     mov.l   .L_pool_0600550C, r4
@@ -60,32 +60,32 @@ sym_060054EA:
     mov.l   .L_pool_06005538, r3
     rts
     mov.l r1, @r3
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_pool_06005504:
-    .4byte  sym_06078663
+    .long  sym_06078663
 .L_pool_06005508:
-    .4byte  0x00010000
+    .long  0x00010000
 .L_pool_0600550C:
-    .4byte  0xFFFF0000
+    .long  0xFFFF0000
 .L_pool_06005510:
-    .4byte  mat_scale_columns
+    .long  mat_scale_columns
 .L_pool_06005514:
-    .4byte  mat_rot_z
+    .long  mat_rot_z
 .L_pool_06005518:
-    .4byte  mat_rot_x
+    .long  mat_rot_x
 .L_pool_0600551C:
-    .4byte  mat_rot_y
+    .long  mat_rot_y
 .L_pool_06005520:
-    .4byte  sym_06026E2E
+    .long  sym_06026E2E
 .L_pool_06005524:
-    .4byte  sym_06063DF8
+    .long  sym_06063DF8
 .L_pool_06005528:
-    .4byte  sym_06035168
+    .long  sym_06035168
 .L_pool_0600552C:
-    .4byte  sym_06063E04
+    .long  sym_06063E04
 .L_pool_06005530:
-    .4byte  sym_06063E08
+    .long  sym_06063E08
 .L_pool_06005534:
-    .4byte  sym_06063F08
+    .long  sym_06063F08
 .L_pool_06005538:
-    .4byte  sym_06063F04
+    .long  sym_06063F04

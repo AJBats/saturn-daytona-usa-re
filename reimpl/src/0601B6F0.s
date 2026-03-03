@@ -70,23 +70,23 @@ anim_data_loader:
 
     .global DAT_0601b76c
 DAT_0601b76c:
-    .2byte  0x1000
+    .short  0x1000
 
     .global DAT_0601b76e
 DAT_0601b76e:
-    .2byte  0x2000
+    .short  0x2000
 .L_pool_0601B770:
-    .4byte  sym_0608600E
+    .long  sym_0608600E
 .L_pool_0601B774:
-    .4byte  sym_0605DF20
+    .long  sym_0605DF20
 .L_pool_0601B778:
-    .4byte  sym_06035228
+    .long  sym_06035228
 .L_pool_0601B77C:
-    .4byte  sym_0605DF23
+    .long  sym_0605DF23
 .L_pool_0601B780:
-    .4byte  g_pad_state
+    .long  g_pad_state
 .L_pool_0601B784:
-    .4byte  sym_0605D4F8
+    .long  sym_0605D4F8
 .L_0601B788:
     extu.b r13, r11
 .L_0601B78A:
@@ -140,6 +140,6 @@ DAT_0601b76e:
     rts
     mov.l @r15+, r14
 .L_pool_0601B7EC:
-    .4byte  sym_06063750
+    .long  sym_06063750
 .L_pool_0601B7F0:
-    .4byte  sym_06028400
+    .long  sym_06028400

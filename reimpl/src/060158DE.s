@@ -7,7 +7,7 @@ lap_counter_update:
     .byte   0xD0, 0x15    /* mov.l .L_0601593C, r0 */
     mov.l @r0, r0
     tst r0, r0
-    bt/s    .L_060158F8
+    bt.s    .L_060158F8
     mov #0x1, r4
     exts.w r4, r4
     .byte   0xD3, 0x13    /* mov.l .L_06015940, r3 */
@@ -46,19 +46,19 @@ lap_counter_update:
     jmp @r3
     lds.l @r15+, pr
 .L_06015932:
-    .2byte  0x0224
+    .short  0x0224
 .L_06015934:
-    .4byte  sym_06084FC8
-    .4byte  sym_0605B8A4
+    .long  sym_06084FC8
+    .long  sym_0605B8A4
 .L_0601593C:
-    .4byte  sym_0607EAE0
+    .long  sym_0607EAE0
 .L_06015940:
-    .4byte  sym_06085F94
+    .long  sym_06085F94
 .L_06015944:
-    .4byte  sym_06078900
+    .long  sym_06078900
 .L_06015948:
-    .4byte  sym_06044BD8
+    .long  sym_06044BD8
 .L_0601594C:
-    .4byte  sound_cmd_dispatch         /* sound command dispatch */
+    .long  sound_cmd_dispatch         /* sound command dispatch */
 .L_06015950:
-    .4byte  sym_060172E4
+    .long  sym_060172E4

@@ -38,7 +38,7 @@ palette_engine_core:
     shll2 r7
     add #-0x74, r7
     cmp/eq #0x4, r0
-    bf/s    .L_06042B24
+    bf.s    .L_06042B24
     mov.l @r7, r6
     .byte   0xD2, 0x24    /* mov.l .L_pool_06042BA9, r2 */
     and r2, r6
@@ -85,7 +85,7 @@ palette_engine_core:
     and r3, r6
     and #0x40, r0
     cmp/eq #0x40, r0
-    bf/s    .L_06042B72
+    bf.s    .L_06042B72
     and r2, r6
     mov #-0x5, r2
     and r2, r6
@@ -116,21 +116,21 @@ palette_engine_core:
     rts
     nop
 .L_wpool_06042B9D:
-    .2byte  0xCFFF
+    .short  0xCFFF
 .L_wpool_06042B9F:
-    .2byte  0xF3FF
+    .short  0xF3FF
 .L_wpool_06042BA1:
-    .2byte  0xFDFF
+    .short  0xFDFF
 .L_wpool_06042BA3:
-    .2byte  0x0100
+    .short  0x0100
 .L_wpool_06042BA5:
-    .2byte  0x0080
+    .short  0x0080
 
     .global DAT_06042ba6
 DAT_06042ba6:
-    .2byte  0xFE71
+    .short  0xFE71
 .L_pool_06042BA9:
-    .4byte  0xFFFF3FFF
+    .long  0xFFFF3FFF
 
     .global sym_06042BAC
 sym_06042BAC:
@@ -155,11 +155,11 @@ sym_06042BBE:
     and r3, r4
     rts
     mov.l r4, @r5
-    .4byte  0xE5B0E3FE
-    .4byte  0x64522439
-    .4byte  0x000B2542
-    .4byte  0xE5B0E304
-    .4byte  0xE2026552
-    .4byte  0x23592529
-    .4byte  0x2432000B
-    .2byte  0x1451
+    .long  0xE5B0E3FE
+    .long  0x64522439
+    .long  0x000B2542
+    .long  0xE5B0E304
+    .long  0xE2026552
+    .long  0x23592529
+    .long  0x2432000B
+    .short  0x1451

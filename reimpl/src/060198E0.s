@@ -24,16 +24,16 @@ car_select_setup:
     mov.l   .L_06019924, r3
     jmp @r3
     lds.l @r15+, pr
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_06019910:
-    .4byte  sym_0602853E
+    .long  sym_0602853E
 .L_06019914:
-    .4byte  sym_06028560
+    .long  sym_06028560
 .L_06019918:
-    .4byte  sym_06085FF1
+    .long  sym_06085FF1
 .L_0601991C:
-    .4byte  sym_06085FF6
+    .long  sym_06085FF6
 .L_06019920:
-    .4byte  sym_06085FF7
+    .long  sym_06085FF7
 .L_06019924:
-    .4byte  course_init_pipeline
+    .long  course_init_pipeline

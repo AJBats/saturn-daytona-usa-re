@@ -61,7 +61,7 @@ heading_correct:
     shlr2 r14
     shlr2 r14
     tst r14, r14
-    bt/s    .L_0600CD04
+    bt.s    .L_0600CD04
     shlr8 r7
 
     mov #0x7, r3
@@ -111,19 +111,19 @@ heading_correct:
 
     .global DAT_0600ccf6
 DAT_0600ccf6:
-    .2byte  0x01F8
+    .short  0x01F8
 
     .global DAT_0600ccf8
 DAT_0600ccf8:
-    .2byte  0x01FC
+    .short  0x01FC
 
     .global DAT_0600ccfa
 DAT_0600ccfa:
-    .2byte  0x01EC
+    .short  0x01EC
 .L_0600CCFC:
-    .4byte  sym_0607E940
+    .long  sym_0607E940
 .L_0600CD00:
-    .4byte  sym_0607EB88
+    .long  sym_0607EB88
 
 .L_0600CD04:
     .byte   0x90, 0x5A    /* mov.w .L_wpool_0600CDBC, r0 */

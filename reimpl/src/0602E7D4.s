@@ -32,10 +32,10 @@ shadow_intensity:
 
     .global DAT_0602e80a
 DAT_0602e80a:
-    .2byte  0x8000
-    .4byte  atan2
+    .short  0x8000
+    .long  atan2
 .L_pool_0602E811:
-    .4byte  sym_06078663
+    .long  sym_06078663
 .L_0602E814:
     extu.w r1, r1
     cmp/gt r1, r4

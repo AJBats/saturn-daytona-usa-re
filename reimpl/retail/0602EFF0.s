@@ -29,7 +29,7 @@ DAT_0602f01e:
     .byte 0x00, 0xAC
     .byte 0x00, 0x05
     .byte 0x00, 0x50
-    .4byte sym_0607E944
+    .long sym_0607E944
     .byte 0x33, 0x28
     .byte 0x33, 0x17
     .byte 0x89, 0x00
@@ -180,7 +180,7 @@ DAT_0602f128:
     .global DAT_0602f12a
 DAT_0602f12a:
     .byte 0x00, 0x68
-    .4byte sym_0607E944
+    .long sym_0607E944
     .byte 0x00, 0x00
     .byte 0x00, 0x84
     .byte 0xE5, 0x00
@@ -267,8 +267,8 @@ DAT_0602f1bc:
     .global DAT_0602f1be
 DAT_0602f1be:
     .byte 0x00, 0xE0
-    .4byte sym_060477AC
-    .4byte sym_0604779C
+    .long sym_060477AC
+    .long sym_0604779C
     .byte 0xE1, 0x05
     .byte 0x08, 0x16
     .byte 0x01, 0x9D
@@ -293,7 +293,7 @@ DAT_0602f1be:
     .global DAT_0602f1f2
 DAT_0602f1f2:
     .byte 0x00, 0xE0
-    .4byte sym_060477CC
+    .long sym_060477CC
     .byte 0xE1, 0xFB
     .byte 0x08, 0x16
     .byte 0x01, 0x9D

@@ -17,7 +17,7 @@ ai_waypoint_pathfind:
     mov.l   .L_pool_06014DF4, r4
     mov.b @r4, r3
     tst r3, r3
-    bt/s    .L_06014D54
+    bt.s    .L_06014D54
     mov #0x1, r13
     bra     .L_06014E70
     nop
@@ -37,7 +37,7 @@ ai_waypoint_pathfind:
     mov.l @r3, r3
     and r13, r3
     tst r3, r3
-    bf/s    .L_06014E04
+    bf.s    .L_06014E04
     mov #0xB, r6
     mov.w @r14, r5
     extu.w r5, r5
@@ -68,7 +68,7 @@ ai_waypoint_pathfind:
     mov.w @r14, r3
     extu.w r3, r3
     cmp/gt r2, r3
-    bf/s    .L_06014DB2
+    bf.s    .L_06014DB2
     mov #0x20, r4
     mov #0x22, r4
 .L_06014DB2:
@@ -102,22 +102,22 @@ ai_waypoint_pathfind:
 
     .global DAT_06014de4
 DAT_06014de4:
-    .2byte  0x0800
-    .2byte  0xFFFF
+    .short  0x0800
+    .short  0xFFFF
 .L_pool_06014DE8:
-    .4byte  sym_06085F94
+    .long  sym_06085F94
 .L_pool_06014DEC:
-    .4byte  sym_06063F64
+    .long  sym_06063F64
 .L_pool_06014DF0:
-    .4byte  sym_06085F90
+    .long  sym_06085F90
 .L_pool_06014DF4:
-    .4byte  sym_06085F89
+    .long  sym_06085F89
 .L_pool_06014DF8:
-    .4byte  sym_06063D9A
+    .long  sym_06063D9A
 .L_pool_06014DFC:
-    .4byte  sym_0607EBF4
+    .long  sym_0607EBF4
 .L_pool_06014E00:
-    .4byte  sym_060172E4
+    .long  sym_060172E4
 .L_06014E04:
     mov.w @r14, r5
     extu.w r5, r5
@@ -148,7 +148,7 @@ DAT_06014de4:
     mov.w @r14, r3
     extu.w r3, r3
     cmp/gt r2, r3
-    bf/s    .L_06014E42
+    bf.s    .L_06014E42
     mov #0x23, r4
     mov #0x26, r4
 .L_06014E42:
@@ -251,7 +251,7 @@ DAT_06014de4:
     add #0x1, r4
     extu.b r4, r3
     cmp/ge r9, r3
-    bf/s    .L_06014E98
+    bf.s    .L_06014E98
     mov.w r0, @(6, r10)
     lds.l @r15+, pr
     mov.l @r15+, r8
@@ -262,20 +262,20 @@ DAT_06014de4:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_pool_06014F14:
-    .4byte  sym_060172E4
+    .long  sym_060172E4
 .L_pool_06014F18:
-    .4byte  sym_06085F8A
+    .long  sym_06085F8A
 .L_pool_06014F1C:
-    .4byte  obj_data_compact
+    .long  obj_data_compact
 .L_pool_06014F20:
-    .4byte  vdp2_util_loop
+    .long  vdp2_util_loop
 .L_pool_06014F24:
-    .4byte  sym_06085F98
+    .long  sym_06085F98
 .L_pool_06014F28:
-    .4byte  sym_06084FC8
+    .long  sym_06084FC8
 .L_pool_06014F2C:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_pool_06014F30:
-    .4byte  0x00010000
+    .long  0x00010000

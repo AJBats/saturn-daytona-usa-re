@@ -52,9 +52,9 @@ vblank_palette_apply:
 DAT_0603fcb6:
     .word 0xFF7F
 .L_pool_0603FCB8:
-    .4byte  sym_06034FFC
+    .long  sym_06034FFC
 .L_pool_0603FCBC:
-    .4byte  sym_0603F8EE
+    .long  sym_0603F8EE
 .L_0603FCC0:
     mov r4, r13
 .L_0603FCC2:

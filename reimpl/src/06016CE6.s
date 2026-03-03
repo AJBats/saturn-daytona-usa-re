@@ -24,7 +24,7 @@ text_scroll_marquee:
     mov.l @r3, r3
     and r3, r0
     tst #0x1, r0
-    bt/s    .L_06016D30
+    bt.s    .L_06016D30
     extu.b r4, r7
     mov #0x28, r7
     extu.b r14, r3
@@ -112,14 +112,14 @@ text_scroll_marquee:
     rts
     mov.l @r15+, r14
 .L_pool_06016DC6:
-    .4byte  sym_06084FC8
+    .long  sym_06084FC8
 .L_pool_06016DCA:
-    .4byte  sym_06085F89
+    .long  sym_06085F89
 .L_pool_06016DCE:
-    .4byte  sym_0607EBF4
+    .long  sym_0607EBF4
 .L_06016DCC:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_pool_06016DD6:
-    .4byte  sym_0605BB74
+    .long  sym_0605BB74
 .L_pool_06016DDA:
-    .4byte  sym_06085490
+    .long  sym_06085490

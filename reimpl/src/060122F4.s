@@ -29,20 +29,20 @@ position_vel_limiter:
     rts
     mov.w r2, @r5
 .L_06012326:
-    .2byte  0x2999
+    .short  0x2999
 .L_06012328:
-    .2byte  0x4000
+    .short  0x4000
 .L_0601232A:
-    .2byte  0x1800
+    .short  0x1800
 .L_0601232C:
-    .4byte  g_game_state
+    .long  g_game_state
 .L_06012330:
-    .4byte  sym_06078636
+    .long  sym_06078636
 .L_06012334:
-    .4byte  sym_060788B4
+    .long  sym_060788B4
 .L_06012338:
-    .4byte  0x00020000
+    .long  0x00020000
 .L_0601233C:
-    .4byte  0x0004CCCC
+    .long  0x0004CCCC
 .L_06012340:
-    .4byte  sym_060788B2
+    .long  sym_060788B2

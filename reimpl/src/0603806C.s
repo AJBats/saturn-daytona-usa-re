@@ -73,7 +73,7 @@ display_enable_ctrl:
     add #0x10, r3
     add r3, r7
     cmp/ge r13, r2
-    bf/s    .L_06038098
+    bf.s    .L_06038098
     mov.l r14, @(8, r7)
     lds.l @r15+, pr
     mov.l @r15+, r12
@@ -81,19 +81,19 @@ display_enable_ctrl:
     rts
     mov.l @r15+, r14
 .L_wpool_06038106:
-    .2byte  0x0200
+    .short  0x0200
 
     .global DAT_06038108
 DAT_06038108:
-    .2byte  0x1810
-    .2byte  0xFFFF
+    .short  0x1810
+    .short  0xFFFF
 .L_0603810C:
-    .4byte  0x00010000
+    .long  0x00010000
 .L_06038110:
-    .4byte  sym_06035BC8
+    .long  sym_06035BC8
 .L_06038114:
-    .4byte  0x40F00000
+    .long  0x40F00000
 .L_06038118:
-    .4byte  sym_060359E4
+    .long  sym_060359E4
 .L_0603811C:
-    .4byte  sym_060357B8
+    .long  sym_060357B8

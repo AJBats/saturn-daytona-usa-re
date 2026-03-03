@@ -19,8 +19,8 @@ geom_computation:
     .byte 0xA0, 0x29
     .byte 0x6C, 0xBD
     .byte 0xFF, 0xFF
-    .4byte sym_06028400
-    .4byte sym_06085640
+    .long sym_06028400
+    .long sym_06085640
     .byte 0x6A, 0x7C
     .byte 0x2C, 0xDE
     .byte 0x63, 0xDD

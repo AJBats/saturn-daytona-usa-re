@@ -54,6 +54,6 @@ obj_anim_advance:
     mov #0x40, r0
     rts
     mov.b r2, @(r0, r4)
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_pool_06020E38:
-    .4byte  sym_0608782C
+    .long  sym_0608782C

@@ -59,10 +59,10 @@ DAT_06041b0a:
     .byte 0x03, 0x04
     .byte 0x03, 0x08
     .byte 0xFF, 0xFF
-    .4byte sym_060A5400
-    .4byte track_seg_boundary
-    .4byte ai_checkpoint_validate
-    .4byte sym_06035C4E
+    .long sym_060A5400
+    .long track_seg_boundary
+    .long ai_checkpoint_validate
+    .long sym_06035C4E
     .byte 0xE4, 0x00
     .byte 0x24, 0x48
     .byte 0x89, 0x03

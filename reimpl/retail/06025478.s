@@ -61,12 +61,12 @@ DAT_060254de:
     .global DAT_060254e6
 DAT_060254e6:
     .byte 0x0C, 0x3E
-    .4byte sym_06063750
-    .4byte sym_06028400
-    .4byte sym_06061198
-    .4byte sym_060590B8
-    .4byte sym_060284AE
-    .4byte sym_060590E0
+    .long sym_06063750
+    .long sym_06028400
+    .long sym_06061198
+    .long sym_060590B8
+    .long sym_060284AE
+    .long sym_060590E0
     .byte 0xD7, 0x38
     .byte 0x65, 0xD3
     .byte 0xD3, 0x38
@@ -197,12 +197,12 @@ DAT_060255de:
     .byte 0x04, 0x38
     .byte 0x02, 0xB4
     .byte 0xFF, 0xFF
-    .4byte sym_06059104
-    .4byte sym_060284AE
-    .4byte sym_06058F94
-    .4byte sym_06061184
-    .4byte car_physics_final
-    .4byte sym_06061198
+    .long sym_06059104
+    .long sym_060284AE
+    .long sym_06058F94
+    .long sym_06061184
+    .long car_physics_final
+    .long sym_06061198
     .byte 0xE2, 0x09
     .byte 0x62, 0x2D
     .byte 0x66, 0xD3
@@ -299,8 +299,8 @@ DAT_060255de:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .byte 0xFF, 0xFF
-    .4byte sym_0605900C
+    .long sym_0605900C
     .byte 0x00, 0x00
     .byte 0x80, 0x00
-    .4byte sym_06059074
-    .4byte sym_06059084
+    .long sym_06059074
+    .long sym_06059084

@@ -12,12 +12,12 @@ race_utility_func:
     .byte   0xD3, 0x06    /* mov.l .L_06019388, r3 */
     jmp @r3
     lds.l @r15+, pr
-    .4byte  0x0100FFFF
-    .4byte  channel_nibble_config
+    .long  0x0100FFFF
+    .long  channel_nibble_config
 .L_0601937C:
-    .4byte  sym_0605B6D8
-    .4byte  0x40000000
+    .long  sym_0605B6D8
+    .long  0x40000000
 .L_06019384:
-    .4byte  0x80000000
+    .long  0x80000000
 .L_06019388:
-    .4byte  sym_06026CE0
+    .long  sym_06026CE0

@@ -19,13 +19,13 @@ circuit_confirm_handler:
     .byte 0x40, 0x00
     .byte 0x01, 0x00
     .byte 0xFF, 0xFF
-    .4byte sym_0607EADC
+    .long sym_0607EADC
     .byte 0x00, 0x00
     .byte 0x80, 0x00
-    .4byte sym_0607887E
-    .4byte sym_0607EAD8
-    .4byte sym_0607EBCC
-    .4byte g_game_state
+    .long sym_0607887E
+    .long sym_0607EAD8
+    .long sym_0607EBCC
+    .long g_game_state
     .byte 0x62, 0xE2
     .byte 0x42, 0x15
     .byte 0x8B, 0x04
@@ -82,13 +82,13 @@ DAT_0601038c:
     .global DAT_0601038e
 DAT_0601038e:
     .byte 0x10, 0x00
-    .4byte sym_0607EADC
-    .4byte sym_0604481C
-    .4byte sound_cmd_dispatch
-    .4byte sym_0607887F
-    .4byte sym_0607EAD8
-    .4byte sym_06078648
-    .4byte sym_0605AB18
-    .4byte sym_06085FF4
-    .4byte sym_0605AD00
-    .4byte g_pad_state
+    .long sym_0607EADC
+    .long sym_0604481C
+    .long sound_cmd_dispatch
+    .long sym_0607887F
+    .long sym_0607EAD8
+    .long sym_06078648
+    .long sym_0605AB18
+    .long sym_06085FF4
+    .long sym_0605AD00
+    .long g_pad_state

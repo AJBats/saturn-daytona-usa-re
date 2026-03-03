@@ -28,8 +28,8 @@ seg_interpolate:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_060361F4:
-    .4byte  input_proc_analog
+    .long  input_proc_analog
 .L_060361F8:
-    .4byte  input_proc_digital
+    .long  input_proc_digital

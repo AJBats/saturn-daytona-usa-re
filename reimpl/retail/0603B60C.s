@@ -15,5 +15,5 @@ menu_border_render:
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
-    .4byte attract_timer_tick
-    .4byte sym_0603F9FA
+    .long attract_timer_tick
+    .long sym_0603F9FA

@@ -17,11 +17,11 @@ track_surface_check:
     lds.l @r15+, pr
     rts
     mov #-0xA, r0
-    .4byte  track_shadow_shape
-    .4byte  ai_checkpoint_validate
-    .4byte  sym_060A5400
+    .long  track_shadow_shape
+    .long  ai_checkpoint_validate
+    .long  sym_060A5400
 .L_06041674:
-    .4byte  track_surface_type_b
+    .long  track_surface_type_b
 .L_06041678:
     mov r15, r4
     .byte   0xD3, 0x2C    /* mov.l .L_pool_0604172C, r3 */

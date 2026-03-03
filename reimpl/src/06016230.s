@@ -48,8 +48,8 @@ results_scroll_anim:
     rts
     mov.l @r15+, r14
 .L_pool_0601628C:
-    .4byte  sym_06084FC8
+    .long  sym_06084FC8
 .L_pool_06016290:
-    .4byte  sym_0605BAB8
+    .long  sym_0605BAB8
 .L_pool_06016294:
-    .4byte  sym_06035438
+    .long  sym_06035438

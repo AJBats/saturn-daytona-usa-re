@@ -113,8 +113,8 @@ vdp1_attr_setup:
     .byte 0x01, 0x6C
     .byte 0x01, 0x10
     .byte 0x2B, 0x85
-    .4byte fpdiv_setup
-    .4byte sym_0602E938
+    .long fpdiv_setup
+    .long sym_0602E938
     .byte 0x23, 0x28
     .byte 0x00, 0x00
     .byte 0x35, 0x33

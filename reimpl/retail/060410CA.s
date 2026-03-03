@@ -26,9 +26,9 @@ vblank_int_ext:
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0xE0, 0xF6
-    .4byte sym_06035228
-    .4byte track_road_edge_b
-    .4byte track_road_width_stub
+    .long sym_06035228
+    .long track_road_edge_b
+    .long track_road_width_stub
     .byte 0x64, 0xF3
     .byte 0xD3, 0x1B
     .byte 0x43, 0x0B

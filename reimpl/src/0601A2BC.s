@@ -42,27 +42,27 @@ start_light_render:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-    .2byte  0x0090
-    .4byte  sym_0605D4F0
-    .4byte  sym_06049AFC
-    .4byte  sym_060284AE
+    .short  0x0090
+    .long  sym_0605D4F0
+    .long  sym_06049AFC
+    .long  sym_060284AE
 .L_0601A31C:
-    .4byte  sym_0605B6D8
+    .long  sym_0605B6D8
 .L_0601A320:
-    .4byte  0x80000000
+    .long  0x80000000
 .L_0601A324:
-    .4byte  sym_06026CE0
+    .long  sym_06026CE0
 .L_0601A328:
-    .4byte  sym_0602853E
+    .long  sym_0602853E
 .L_0601A32C:
-    .4byte  sym_06028560
+    .long  sym_06028560
 .L_0601A330:
-    .4byte  0x00017700
+    .long  0x00017700
 .L_0601A334:
-    .4byte  0x25E76EFC
+    .long  0x25E76EFC
 .L_0601A338:
-    .4byte  sym_0600511E
+    .long  sym_0600511E
 .L_0601A33C:
-    .4byte  0x25E77B18
+    .long  0x25E77B18
 .L_0601A340:
-    .4byte  sym_06085FF2
+    .long  sym_06085FF2

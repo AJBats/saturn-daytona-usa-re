@@ -34,27 +34,27 @@ best_lap_render:
     mov.l r2, @(44, r0)
     bra     .L_060327FC
     nop
-    .2byte  0x0000
-    .4byte  sym_06089EDC
-    .4byte  sym_060623C8
-    .4byte  sym_06026DBC
-    .4byte  sym_06026E0C
-    .4byte  0x00000010
-    .4byte  0x00000014
-    .4byte  0x00000018
-    .4byte  sym_06026E2E
-    .4byte  0x0000001E
-    .4byte  mat_rot_y
-    .4byte  0x0000001C
-    .4byte  mat_rot_x
-    .4byte  0x00000020
-    .4byte  mat_rot_z
-    .4byte  0x00000054
-    .4byte  0x0000000C
-    .4byte  0x00000022
-    .4byte  0x00000026
-    .4byte  0x00000024
+    .short  0x0000
+    .long  sym_06089EDC
+    .long  sym_060623C8
+    .long  sym_06026DBC
+    .long  sym_06026E0C
+    .long  0x00000010
+    .long  0x00000014
+    .long  0x00000018
+    .long  sym_06026E2E
+    .long  0x0000001E
+    .long  mat_rot_y
+    .long  0x0000001C
+    .long  mat_rot_x
+    .long  0x00000020
+    .long  mat_rot_z
+    .long  0x00000054
+    .long  0x0000000C
+    .long  0x00000022
+    .long  0x00000026
+    .long  0x00000024
 .L_pool_060327F8:
-    .4byte  0x00000084
+    .long  0x00000084
 .L_060327FC:
     .byte   0xD0, 0x9D    /* mov.l @cross-TU pool (render pipeline dispatch), r0 */

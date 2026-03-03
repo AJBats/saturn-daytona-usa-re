@@ -91,48 +91,48 @@ course_select_state:
     .byte   0xAF, 0x3A    /* bra 0x06019324 (external tail-call) */
     mov.l @r15+, r14
 .L_060194B0:
-    .4byte  sym_06085FF0
+    .long  sym_06085FF0
 .L_060194B4:
-    .4byte  sym_0605D245
+    .long  sym_0605D245
 .L_060194B8:
-    .4byte  sym_06085FF1
+    .long  sym_06085FF1
 .L_060194BC:
-    .4byte  sym_06085FF2
+    .long  sym_06085FF2
 .L_060194C0:
-    .4byte  sym_06085FF3
+    .long  sym_06085FF3
 .L_060194C4:
-    .4byte  sym_06085FF5
+    .long  sym_06085FF5
 .L_060194C8:
-    .4byte  0xAE0003FF
+    .long  0xAE0003FF
 .L_060194CC:
-    .4byte  sound_cmd_dispatch         /* sound command dispatcher */
+    .long  sound_cmd_dispatch         /* sound command dispatcher */
 .L_060194D0:
-    .4byte  sym_0605B6D8
+    .long  sym_0605B6D8
 .L_060194D4:
-    .4byte  0x80000000
+    .long  0x80000000
 .L_060194D8:
-    .4byte  sym_06026CE0
+    .long  sym_06026CE0
 .L_060194DC:
-    .4byte  sym_0601A73E
+    .long  sym_0601A73E
 .L_060194E0:
-    .4byte  0x00014000
+    .long  0x00014000
 .L_060194E4:
-    .4byte  0x25E76174
+    .long  0x25E76174
 .L_060194E8:
-    .4byte  sym_0600511E
+    .long  sym_0600511E
 .L_060194EC:
-    .4byte  0x00017700
+    .long  0x00017700
 .L_060194F0:
-    .4byte  0x25E761FC
+    .long  0x25E761FC
 .L_060194F4:
-    .4byte  display_channel_b
+    .long  display_channel_b
 .L_060194F8:
-    .4byte  sym_0602853E
+    .long  sym_0602853E
 .L_060194FC:
-    .4byte  sym_06028560
+    .long  sym_06028560
 .L_06019500:
-    .4byte  sym_06063AF8
+    .long  sym_06063AF8
 .L_06019504:
-    .4byte  0x0000A000
+    .long  0x0000A000
 .L_06019508:
-    .4byte  sym_06028400
+    .long  sym_06028400

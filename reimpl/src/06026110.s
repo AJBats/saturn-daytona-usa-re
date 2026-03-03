@@ -25,7 +25,7 @@ scene_dual_finalize:
     mov.b @r4, r0
     extu.b r0, r0
     tst r0, r0
-    bt/s    .L_06026148
+    bt.s    .L_06026148
     mov #0xE, r13
     bra     .L_060262AA
     nop
@@ -82,21 +82,21 @@ scene_dual_finalize:
     bra     .L_06026212
     extu.w r14, r5
 .L_060261A4:
-    .4byte  sym_06060F2C
+    .long  sym_06060F2C
 .L_060261A8:
-    .4byte  sym_0606107C
+    .long  sym_0606107C
 .L_060261AC:
-    .4byte  sym_060610BC
+    .long  sym_060610BC
 .L_060261B0:
-    .4byte  sym_06060D7C
+    .long  sym_06060D7C
 .L_060261B4:
-    .4byte  sym_06061198
+    .long  sym_06061198
 .L_060261B8:
-    .4byte  sym_06061199
+    .long  sym_06061199
 .L_060261BC:
-    .4byte  sym_06060D78
+    .long  sym_06060D78
 .L_060261C0:
-    .4byte  scene_finalize_a
+    .long  scene_finalize_a
 .L_060261C4:
     extu.w r14, r4
     extu.b r5, r7
@@ -236,4 +236,4 @@ scene_dual_finalize:
     rts
     mov.l @r15+, r14
 .L_060262BC:
-    .4byte  scene_finalize_b
+    .long  scene_finalize_b

@@ -17,7 +17,7 @@ vtx_clip_flag_set:
     rts
     mov.l @r15+, r8
 .L_pool_0602D8B9:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 
     .global sym_0602D8BC
 sym_0602D8BC:

@@ -16,7 +16,7 @@ FUN_06019A48:
     mov.b @r3, r3
     extu.b r3, r3
     tst r3, r3
-    bt/s    .L_06019A6E
+    bt.s    .L_06019A6E
     mov #0x1, r10
     bra     .L_06019B9A
     nop
@@ -32,7 +32,7 @@ FUN_06019A48:
     extu.w r3, r3
     and r2, r3
     tst r3, r3
-    bt/s    .L_06019AD6
+    bt.s    .L_06019AD6
     mov #0x7, r13
     mov.l   .L_pool_06019B40, r7
     mov r9, r6
@@ -115,30 +115,30 @@ FUN_06019A48:
     bra     .L_06019B9A
     mov.b r10, @r12
 .L_wpool_06019B22:
-    .2byte  0x0090
+    .short  0x0090
 .L_wpool_06019B24:
-    .2byte  0x2000
-    .2byte  0xFFFF
+    .short  0x2000
+    .short  0xFFFF
 .L_pool_06019B28:
-    .4byte  sym_06085FF1
+    .long  sym_06085FF1
 .L_pool_06019B2C:
-    .4byte  sym_06085FF0
+    .long  sym_06085FF0
 .L_pool_06019B30:
-    .4byte  sym_06085FF3
+    .long  sym_06085FF3
 .L_pool_06019B34:
-    .4byte  g_pad_state
+    .long  g_pad_state
 .L_pool_06019B38:
-    .4byte  sym_060284AE
+    .long  sym_060284AE
 .L_pool_06019B3C:
-    .4byte  sym_06049AFC
+    .long  sym_06049AFC
 .L_pool_06019B40:
-    .4byte  sym_0605D4F0
+    .long  sym_0605D4F0
 .L_pool_06019B44:
-    .4byte  g_game_state
+    .long  g_game_state
 .L_pool_06019B48:
-    .4byte  sym_06059F44
+    .long  sym_06059F44
 .L_pool_06019B4C:
-    .4byte  sym_06026CE0
+    .long  sym_06026CE0
 .L_06019B50:
     mov.w @(2, r4), r0
     .byte   0x93, 0x53    /* mov.w _wpool_dpad_left_mask, r3 */

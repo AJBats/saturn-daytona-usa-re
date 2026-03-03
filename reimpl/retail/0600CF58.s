@@ -79,11 +79,11 @@ DAT_0600cfe6:
     .byte 0x02, 0x10
     .byte 0x01, 0xFC
     .byte 0xFF, 0xFF
-    .4byte sym_0607E944
-    .4byte sym_0607E940
+    .long sym_0607E944
+    .long sym_0607E940
     .byte 0x00, 0xC0
     .byte 0x00, 0x00
-    .4byte sym_06035168
+    .long sym_06035168
     .byte 0x60, 0xB3
     .byte 0x60, 0x00
     .byte 0xC8, 0x01
@@ -234,7 +234,7 @@ DAT_0600d11a:
     .byte 0x08, 0x00
     .byte 0x02, 0x04
     .byte 0xFF, 0xFF
-    .4byte sym_0607E944
-    .4byte sym_0607E940
+    .long sym_0607E944
+    .long sym_0607E940
     .byte 0x00, 0xC0
     .byte 0x00, 0x00

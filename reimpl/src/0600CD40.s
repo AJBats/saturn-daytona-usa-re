@@ -73,16 +73,16 @@ DAT_0600cdbc:
 
     .global DAT_0600cdbe
 DAT_0600cdbe:
-    .2byte  0x01E4
+    .short  0x01E4
     .global DAT_0600cdc0
 DAT_0600cdc0:
-    .2byte  0x0184
+    .short  0x0184
     .global DAT_0600cdc2
 DAT_0600cdc2:
-    .2byte  0x4000
+    .short  0x4000
 .L_pool_0600CDC4:
-    .4byte  sym_0607E940
+    .long  sym_0607E940
 .L_pool_0600CDC8:
-    .4byte  atan2
+    .long  atan2
 .L_pool_0600CDCC:
-    .4byte  sym_0607EA9C
+    .long  sym_0607EA9C

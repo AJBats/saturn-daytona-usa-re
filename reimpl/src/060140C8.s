@@ -58,30 +58,30 @@ render_iter_loop:
     rts
     mov.l @r15+, r14
 .L_wpool_06014136:
-    .2byte  0xCCCD
+    .short  0xCCCD
 .L_pool_06014138:
-    .4byte  sym_06084B18
+    .long  sym_06084B18
 .L_pool_0601413C:
-    .4byte  sym_0605AD4C
+    .long  sym_0605AD4C
 .L_pool_06014140:
-    .4byte  sym_06026DBC
+    .long  sym_06026DBC
 .L_pool_06014144:
-    .4byte  0x00010000
+    .long  0x00010000
 .L_pool_06014148:
-    .4byte  sym_06026E2E
+    .long  sym_06026E2E
 .L_pool_0601414C:
-    .4byte  mat_scale_columns
+    .long  mat_scale_columns
 .L_pool_06014150:
-    .4byte  sym_06084B08
+    .long  sym_06084B08
 .L_pool_06014154:
-    .4byte  sym_06062338
+    .long  sym_06062338
 .L_pool_06014158:
-    .4byte  sym_06031D8C
+    .long  sym_06031D8C
 .L_pool_0601415C:
-    .4byte  sym_06089E4A
+    .long  sym_06089E4A
 .L_pool_06014160:
-    .4byte  sym_060622C0
+    .long  sym_060622C0
 .L_pool_06014164:
-    .4byte  sym_06031A28
+    .long  sym_06031A28
 .L_pool_06014168:
-    .4byte  sym_06089EDC
+    .long  sym_06089EDC

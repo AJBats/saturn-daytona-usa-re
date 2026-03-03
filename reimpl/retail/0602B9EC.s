@@ -79,13 +79,13 @@ scene_graph_walk:
     .byte 0xA0, 0xDE
     .byte 0x00, 0x09
     .byte 0x00, 0x00
-    .4byte sym_06094AE4
-    .4byte sym_06063F08
-    .4byte sym_0602BD6C
-    .4byte sym_0602BD8C
-    .4byte sym_0608A52C
-    .4byte sym_0602BDB4
-    .4byte sym_0602BD9C
+    .long sym_06094AE4
+    .long sym_06063F08
+    .long sym_0602BD6C
+    .long sym_0602BD8C
+    .long sym_0608A52C
+    .long sym_0602BDB4
+    .long sym_0602BD9C
     .byte 0x85, 0x88
     .byte 0xD7, 0x20
     .byte 0xB1, 0x48
@@ -162,12 +162,12 @@ sym_0602BAF8:
     .global DAT_0602bb26
 DAT_0602bb26:
     .byte 0xFF, 0x50
-    .4byte sym_0602BAB6
-    .4byte sym_0602BACC
-    .4byte sym_0602BAE2
-    .4byte sym_0602BAF8
-    .4byte sym_060620D4
-    .4byte sym_0608AC20
+    .long sym_0602BAB6
+    .long sym_0602BACC
+    .long sym_0602BAE2
+    .long sym_0602BAF8
+    .long sym_060620D4
+    .long sym_0608AC20
     .byte 0x9C, 0x3B
     .byte 0x3C, 0x07
     .byte 0x89, 0x05
@@ -238,7 +238,7 @@ DAT_0602bbbc:
     .global DAT_0602bbbe
 DAT_0602bbbe:
     .byte 0x00, 0x51
-    .4byte sym_0602BDB8
+    .long sym_0602BDB8
     .global loc_0602BBC4
 loc_0602BBC4:
     .byte 0x33, 0x4C
@@ -319,14 +319,14 @@ loc_0602BC00:
     .byte 0x00, 0x09
     .byte 0x00, 0x0B
     .byte 0x80, 0x00
-    .4byte sym_0602BDB4
-    .4byte sym_06063F54
+    .long sym_0602BDB4
+    .long sym_06063F54
     .byte 0x00, 0x02
     .byte 0x00, 0x00
     .byte 0x00, 0x0A
     .byte 0x00, 0x00
-    .4byte sym_060620D4
-    .4byte sym_0606A4F8
+    .long sym_060620D4
+    .long sym_0606A4F8
     .byte 0x4F, 0x26
     .byte 0x6E, 0xF6
     .byte 0x6D, 0xF6
@@ -402,7 +402,7 @@ vdp1_cmd_emit:
     .byte 0xFF, 0x00
     .byte 0x00, 0xA0
     .byte 0x00, 0x00
-    .4byte sym_0602BDA8
+    .long sym_0602BDA8
     .byte 0x99, 0x1A
     .byte 0x57, 0x97
     .byte 0x37, 0x1D
@@ -461,7 +461,7 @@ DAT_0602bd3a:
     .byte 0x47, 0x2B
     .byte 0x75, 0x04
     .byte 0x00, 0x00
-    .4byte sym_06094AE4
+    .long sym_06094AE4
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
     .global sym_0602BD6C
@@ -520,8 +520,8 @@ sym_0602BDB4:
     .byte 0xFF, 0xFF
     .global sym_0602BDB8
 sym_0602BDB8:
-    .4byte loc_0602BBC4
-    .4byte loc_0602BBCE
-    .4byte loc_0602BBE4
-    .4byte loc_0602BBFA
-    .4byte loc_0602BC00
+    .long loc_0602BBC4
+    .long loc_0602BBCE
+    .long loc_0602BBE4
+    .long loc_0602BBFA
+    .long loc_0602BC00

@@ -34,32 +34,32 @@ camera_scene_setup:
     .byte   0xD4, 0x11    /* mov.l .L_0600A54C, r4 */
     bra     .L_0600A58A
     mov.w @r5, r5
-    .2byte  0xFFFF
-    .4byte  sym_060628C8
-    .4byte  sym_06062874
+    .short  0xFFFF
+    .long  sym_060628C8
+    .long  sym_06062874
 .L_0600A514:
-    .4byte  sym_06031D8C
-    .4byte  sym_0606291C
-    .4byte  sym_06089E9E
-    .4byte  sym_06062820
+    .long  sym_06031D8C
+    .long  sym_0606291C
+    .long  sym_06089E9E
+    .long  sym_06062820
 .L_0600A524:
-    .4byte  sym_06031A28
-    .4byte  sym_060621DC
-    .4byte  sym_06062130
-    .4byte  sym_06062184
+    .long  sym_06031A28
+    .long  sym_060621DC
+    .long  sym_06062130
+    .long  sym_06062184
 .L_0600A534:
-    .4byte  sym_06089E44
-    .4byte  sym_060620DC
+    .long  sym_06089E44
+    .long  sym_060620DC
 .L_0600A53C:
-    .4byte  sym_060634DC
+    .long  sym_060634DC
 .L_0600A540:
-    .4byte  sym_060634F8
+    .long  sym_060634F8
 .L_0600A544:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8
 .L_0600A548:
-    .4byte  sym_06063488
+    .long  sym_06063488
 .L_0600A54C:
-    .4byte  sym_06063434
+    .long  sym_06063434
 .L_0600A550:
     mov r13, r14
     .byte   0xD4, 0x25    /* mov.l .L_s1_chain_a_src, r4 */

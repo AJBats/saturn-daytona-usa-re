@@ -100,16 +100,16 @@ DAT_06018216:
     .global DAT_0601821a
 DAT_0601821a:
     .byte 0x05, 0x6C
-    .4byte sym_06026DF8
-    .4byte obj_overlay_render
-    .4byte sym_0605BE2C
-    .4byte sym_06063F64
-    .4byte sym_060684EC
-    .4byte sym_0607E944
-    .4byte sym_06063F28
-    .4byte sym_06089E2C
-    .4byte sym_06089E28
-    .4byte sym_06089E30
+    .long sym_06026DF8
+    .long obj_overlay_render
+    .long sym_0605BE2C
+    .long sym_06063F64
+    .long sym_060684EC
+    .long sym_0607E944
+    .long sym_06063F28
+    .long sym_06089E2C
+    .long sym_06089E28
+    .long sym_06089E30
     .byte 0x62, 0xE3
     .byte 0x32, 0xBC
     .byte 0x63, 0x21

@@ -76,6 +76,6 @@ hud_priority_sort:
     rts
     mov.l @r15+, r14
 .L_pool_0601559C:
-    .4byte  sym_0605B838
+    .long  sym_0605B838
 .L_pool_060155A0:
-    .4byte  sym_06084FC8
+    .long  sym_06084FC8

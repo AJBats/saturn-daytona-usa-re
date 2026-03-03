@@ -15,19 +15,19 @@ sound_channel_reset:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-    .4byte  0xD107D708
-    .4byte  0xD608E501
-    .4byte  0xD4084410
-    .4byte  0x8B10A013
-    .4byte  0x2152FFFF
-    .4byte  0x25A00000
-    .4byte  0x0007FFFF
+    .long  0xD107D708
+    .long  0xD608E501
+    .long  0xD4084410
+    .long  0x8B10A013
+    .long  0x2152FFFF
+    .long  0x25A00000
+    .long  0x0007FFFF
 .L_pool_06019304:
-    .4byte  sound_cmd_dispatch          /* [HIGH] sound command dispatch function */
-    .4byte  sym_06086050
-    .4byte  0x25A02DBE
-    .4byte  0x0000FFFF
-    .4byte  0x000186A0
-    .4byte  0x6271622D
-    .4byte  0x32608BE8
-    .4byte  0x000B0009
+    .long  sound_cmd_dispatch          /* [HIGH] sound command dispatch function */
+    .long  sym_06086050
+    .long  0x25A02DBE
+    .long  0x0000FFFF
+    .long  0x000186A0
+    .long  0x6271622D
+    .long  0x32608BE8
+    .long  0x000B0009

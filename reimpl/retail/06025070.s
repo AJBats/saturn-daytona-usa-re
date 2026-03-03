@@ -103,7 +103,7 @@ scene_finalize_a:
     .global DAT_06025136
 DAT_06025136:
     .byte 0x00, 0xB4
-    .4byte sym_060610BC
-    .4byte sym_06060F2C
-    .4byte sym_06059094
-    .4byte sym_06060D7C
+    .long sym_060610BC
+    .long sym_06060F2C
+    .long sym_06059094
+    .long sym_06060D7C

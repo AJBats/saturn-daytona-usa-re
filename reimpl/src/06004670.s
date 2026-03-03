@@ -35,7 +35,7 @@ obj_template_init:
     mov r0, r3
     mov.b @(9, r13), r0
     mov r0, r2
-    muls.w r2, r3
+    muls r2, r3
     sts macl, r3
     neg r3, r3
     add #0x40, r3
@@ -46,7 +46,7 @@ obj_template_init:
     mov r0, r3
     mov.b @(7, r13), r0
     mov r0, r2
-    muls.w r2, r3
+    muls r2, r3
     sts macl, r3
     shll r3
     exts.b r3, r0
@@ -73,7 +73,7 @@ obj_template_init:
     mov r0, r3
     mov.b @(9, r13), r0
     mov r0, r2
-    muls.w r2, r3
+    muls r2, r3
     sts macl, r3
     neg r3, r3
     add #0x40, r3
@@ -84,7 +84,7 @@ obj_template_init:
     mov r0, r3
     mov.b @(7, r13), r0
     mov r0, r2
-    muls.w r2, r3
+    muls r2, r3
     sts macl, r3
     shll r3
     exts.b r3, r0
@@ -113,7 +113,7 @@ obj_template_init:
     mov r0, r3
     mov.b @(9, r13), r0
     mov r0, r2
-    muls.w r2, r3
+    muls r2, r3
     sts macl, r3
     neg r3, r3
     add #0x40, r3
@@ -124,7 +124,7 @@ obj_template_init:
     mov r0, r3
     mov.b @(7, r13), r0
     mov r0, r2
-    muls.w r2, r3
+    muls r2, r3
     sts macl, r3
     shll r3
     exts.b r3, r0
@@ -151,7 +151,7 @@ obj_template_init:
     mov r0, r3
     mov.b @(9, r13), r0
     mov r0, r2
-    muls.w r2, r3
+    muls r2, r3
     sts macl, r3
     neg r3, r3
     add #0x40, r3
@@ -162,7 +162,7 @@ obj_template_init:
     mov r0, r3
     mov.b @(7, r13), r0
     mov r0, r2
-    muls.w r2, r3
+    muls r2, r3
     sts macl, r3
     shll r3
     exts.b r3, r0
@@ -181,22 +181,22 @@ obj_template_init:
 
     .global DAT_060047d2
 DAT_060047d2:
-    .2byte  0x2080
+    .short  0x2080
 
     .global DAT_060047d4
 DAT_060047d4:
-    .2byte  0x1080
-    .2byte  0xFFFF
+    .short  0x1080
+    .short  0xFFFF
 .L_pool_060047D8:
-    .4byte  sym_06063690
+    .long  sym_06063690
 .L_pool_060047DC:
-    .4byte  sym_06042CEE
+    .long  sym_06042CEE
 .L_pool_060047E0:
-    .4byte  sym_06042D72
+    .long  sym_06042D72
 .L_pool_060047E4:
-    .4byte  sym_06042D1A
+    .long  sym_06042D1A
 .L_pool_060047E8:
-    .4byte  sym_06042DCA
+    .long  sym_06042DCA
 .L_060047EC:
     mov.l r2, @r13
     exts.w r1, r0
@@ -211,7 +211,7 @@ DAT_060047d4:
     mov r0, r3
     mov.b @(9, r13), r0
     mov r0, r2
-    muls.w r2, r3
+    muls r2, r3
     sts macl, r3
     neg r3, r3
     add #0x40, r3
@@ -222,7 +222,7 @@ DAT_060047d4:
     mov r0, r3
     mov.b @(7, r13), r0
     mov r0, r2
-    muls.w r2, r3
+    muls r2, r3
     sts macl, r3
     shll r3
     exts.b r3, r0
@@ -249,7 +249,7 @@ DAT_060047d4:
     mov r0, r3
     mov.b @(9, r13), r0
     mov r0, r2
-    muls.w r2, r3
+    muls r2, r3
     sts macl, r3
     neg r3, r3
     add #0x40, r3
@@ -260,7 +260,7 @@ DAT_060047d4:
     mov r0, r3
     mov.b @(7, r13), r0
     mov r0, r2
-    muls.w r2, r3
+    muls r2, r3
     sts macl, r3
     shll r3
     exts.b r3, r0
@@ -291,7 +291,7 @@ DAT_060047d4:
     mov r0, r3
     mov.b @(7, r13), r0
     mov r0, r2
-    muls.w r2, r3
+    muls r2, r3
     sts macl, r3
     shll r3
     exts.b r3, r0
@@ -320,7 +320,7 @@ DAT_060047d4:
     mov r0, r3
     mov.b @(7, r13), r0
     mov r0, r2
-    muls.w r2, r3
+    muls r2, r3
     sts macl, r3
     shll r3
     exts.b r3, r0
@@ -349,7 +349,7 @@ DAT_060047d4:
     mov r0, r3
     mov.b @(7, r13), r0
     mov r0, r2
-    muls.w r2, r3
+    muls r2, r3
     sts macl, r3
     shll r3
     exts.b r3, r0
@@ -375,7 +375,7 @@ DAT_060047d4:
     mov r0, r3
     mov.b @(9, r13), r0
     mov r0, r2
-    muls.w r2, r3
+    muls r2, r3
     sts macl, r3
     neg r3, r3
     add #0x40, r3
@@ -386,7 +386,7 @@ DAT_060047d4:
     mov r0, r3
     mov.b @(7, r13), r0
     mov r0, r2
-    muls.w r2, r3
+    muls r2, r3
     sts macl, r3
     shll r3
     exts.b r3, r0
@@ -408,23 +408,23 @@ DAT_060047d4:
 
     .global DAT_0600498a
 DAT_0600498a:
-    .2byte  0x0080
+    .short  0x0080
 
     .global DAT_0600498c
 DAT_0600498c:
-    .2byte  0xD116
+    .short  0xD116
 
     .global DAT_0600498e
 DAT_0600498e:
-    .2byte  0x7080
+    .short  0x7080
 .L_pool_06004990:
-    .4byte  sym_06042CBC
+    .long  sym_06042CBC
 .L_pool_06004994:
-    .4byte  sym_06042CD2
+    .long  sym_06042CD2
 .L_pool_06004998:
-    .4byte  sym_06042E4E
+    .long  sym_06042E4E
 .L_pool_0600499C:
-    .4byte  sym_0604304E
+    .long  sym_0604304E
 .L_060049A0:
     exts.b r5, r0
     mov.b r0, @(6, r13)
@@ -438,7 +438,7 @@ DAT_0600498e:
     mov r0, r3
     mov.b @(7, r13), r0
     mov r0, r2
-    muls.w r2, r3
+    muls r2, r3
     sts macl, r3
     shll r3
     exts.b r3, r0
@@ -462,57 +462,57 @@ DAT_0600498e:
     mov.b r0, @(9, r13)
     mov.b @(6, r13), r0
     mov r0, r3
-    .4byte  0x84D96203
-    .4byte  0x232F031A
-    .4byte  0x633B7340
-    .4byte  0x4300603F
-    .4byte  0x81D584D6
-    .4byte  0x630384D7
-    .4byte  0x6203232F
-    .4byte  0x031A4300
-    .4byte  0x603E80D8
-    .4byte  0x6D637601
-    .4byte  0x63D34D08
-    .4byte  0x43084300
-    .4byte  0x3D3C3D7C
-    .4byte  0xD21C2D22
-    .4byte  0x903381D2
-    .4byte  0x604E80D6
-    .4byte  0x605E80D7
-    .4byte  0xE02080D9
-    .4byte  0x60EF81D5
-    .4byte  0x84D66303
-    .4byte  0x84D76203
-    .4byte  0x232F031A
-    .4byte  0x4300603E
-    .4byte  0x636380D8
-    .4byte  0x46084308
-    .4byte  0x4300363C
-    .4byte  0x367CD210
-    .4byte  0x26229019
-    .4byte  0x8162604E
-    .4byte  0x8066605E
-    .4byte  0x806760EE
-    .4byte  0x806960EF
-    .4byte  0x81658466
-    .4byte  0x63038467
-    .4byte  0x6203232F
-    .4byte  0x031A4300
-    .4byte  0x603E8068
-    .4byte  0x7F044F16
-    .4byte  0x6BF66DF6
-    .4byte  0x000B6EF6
+    .long  0x84D96203
+    .long  0x232F031A
+    .long  0x633B7340
+    .long  0x4300603F
+    .long  0x81D584D6
+    .long  0x630384D7
+    .long  0x6203232F
+    .long  0x031A4300
+    .long  0x603E80D8
+    .long  0x6D637601
+    .long  0x63D34D08
+    .long  0x43084300
+    .long  0x3D3C3D7C
+    .long  0xD21C2D22
+    .long  0x903381D2
+    .long  0x604E80D6
+    .long  0x605E80D7
+    .long  0xE02080D9
+    .long  0x60EF81D5
+    .long  0x84D66303
+    .long  0x84D76203
+    .long  0x232F031A
+    .long  0x4300603E
+    .long  0x636380D8
+    .long  0x46084308
+    .long  0x4300363C
+    .long  0x367CD210
+    .long  0x26229019
+    .long  0x8162604E
+    .long  0x8066605E
+    .long  0x806760EE
+    .long  0x806960EF
+    .long  0x81658466
+    .long  0x63038467
+    .long  0x6203232F
+    .long  0x031A4300
+    .long  0x603E8068
+    .long  0x7F044F16
+    .long  0x6BF66DF6
+    .long  0x000B6EF6
 
     .global DAT_06004a88
 DAT_06004a88:
-    .2byte  0x0080
+    .short  0x0080
 
     .global DAT_06004a8a
 DAT_06004a8a:
-    .2byte  0x01F7
+    .short  0x01F7
 
     .global DAT_06004a8c
 DAT_06004a8c:
-    .4byte  0x91F7FFFF
-    .4byte  sym_06059CC0
-    .4byte  sym_06059DC0
+    .long  0x91F7FFFF
+    .long  sym_06059CC0
+    .long  sym_06059DC0

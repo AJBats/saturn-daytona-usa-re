@@ -10,31 +10,31 @@ display_element_mgr:
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
     .byte 0x00, 0x00
-    .4byte sym_06033894
-    .4byte fpdiv_setup
+    .long sym_06033894
+    .long fpdiv_setup
     .byte 0xFF, 0xFF
     .byte 0xC8, 0x00
     .byte 0x00, 0x00
     .byte 0x48, 0x00
     .byte 0x00, 0x00
     .byte 0xFF, 0xFF
-    .4byte sym_06033A8C
-    .4byte sym_06062970
-    .4byte sym_060785FC
-    .4byte sym_060280F8
+    .long sym_06033A8C
+    .long sym_06062970
+    .long sym_060785FC
+    .long sym_060280F8
     .byte 0x40, 0x08
     .byte 0xD1, 0x02
     .byte 0x30, 0x1C
     .byte 0x60, 0x02
     .byte 0x40, 0x2B
     .byte 0x00, 0x09
-    .4byte sym_0603380C
+    .long sym_0603380C
     .global sym_0603380C
 sym_0603380C:
-    .4byte loc_0603381C
-    .4byte loc_0603382E
-    .4byte loc_06033840
-    .4byte loc_06033852
+    .long loc_0603381C
+    .long loc_0603382E
+    .long loc_06033840
+    .long loc_06033852
     .global loc_0603381C
 loc_0603381C:
     .byte 0x24, 0xC1
@@ -81,32 +81,32 @@ loc_06033852:
     .byte 0x24, 0x75
     .global sym_06033864
 sym_06033864:
-    .4byte sym_0607EAE0
+    .long sym_0607EAE0
     .global sym_06033868
 sym_06033868:
-    .4byte sym_0607EAB8
+    .long sym_0607EAB8
     .global sym_0603386C
 sym_0603386C:
-    .4byte sym_0607EA98
+    .long sym_0607EA98
     .global sym_06033870
 sym_06033870:
-    .4byte sym_06078900
+    .long sym_06078900
     .global sym_06033874
 sym_06033874:
-    .4byte sym_0607EAD8
-    .4byte sym_06063750
+    .long sym_0607EAD8
+    .long sym_06063750
     .global sym_0603387C
 sym_0603387C:
-    .4byte sym_0605B734
+    .long sym_0605B734
     .global sym_06033880
 sym_06033880:
-    .4byte sym_06078635
+    .long sym_06078635
     .global sym_06033884
 sym_06033884:
-    .4byte sym_06078663
-    .4byte g_pad_state
-    .4byte sym_0605D240
-    .4byte sym_06085FF4
+    .long sym_06078663
+    .long g_pad_state
+    .long sym_0605D240
+    .long sym_06085FF4
     .global sym_06033894
 sym_06033894:
     .byte 0x00, 0x84

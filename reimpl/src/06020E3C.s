@@ -29,6 +29,6 @@ obj_render_prepare:
 .L_06020E6A:
     rts
     extu.b r5, r0
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_pool_06020E70:
-    .4byte  sym_0608782C
+    .long  sym_0608782C

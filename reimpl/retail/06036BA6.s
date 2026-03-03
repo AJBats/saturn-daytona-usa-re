@@ -24,10 +24,10 @@ ai_master_update:
     .byte 0x02, 0x00
     .byte 0x00, 0xFF
     .byte 0xFF, 0xFF
-    .4byte smpc_secondary_proc
-    .4byte input_proc_analog
-    .4byte input_proc_buttons
-    .4byte sym_06035C92
+    .long smpc_secondary_proc
+    .long input_proc_analog
+    .long input_proc_buttons
+    .long sym_06035C92
     .global sym_06036BE4
 sym_06036BE4:
     .byte 0x20, 0x08
@@ -126,7 +126,7 @@ sym_06036BE4:
     .byte 0x00, 0x0B
     .byte 0x62, 0xF6
     .byte 0x00, 0x09
-    .4byte sym_060A246C
+    .long sym_060A246C
     .byte 0x00, 0x00
     .byte 0x04, 0x4E
     .byte 0x2F, 0x36
@@ -233,7 +233,7 @@ sym_06036D14:
     .byte 0x43, 0x2B
     .byte 0x00, 0x09
     .byte 0x00, 0x09
-    .4byte palette_regs_config
+    .long palette_regs_config
     .global sym_06036D78
 sym_06036D78:
     .byte 0xE7, 0x00

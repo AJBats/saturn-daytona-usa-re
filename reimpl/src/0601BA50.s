@@ -121,55 +121,55 @@ replay_record_frame:
 
     .global DAT_0601bb3a
 DAT_0601bb3a:
-    .2byte  0x01B0
+    .short  0x01B0
 .L_0601BB3C:
-    .2byte  0x0290
+    .short  0x0290
 
     .global DAT_0601bb3e
 DAT_0601bb3e:
-    .2byte  0x01B8
+    .short  0x01B8
 
     .global DAT_0601bb40
 DAT_0601bb40:
-    .2byte  0x02AC
+    .short  0x02AC
 .L_0601BB42:
-    .2byte  0x0390
+    .short  0x0390
 
     .global DAT_0601bb44
 DAT_0601bb44:
-    .2byte  0x03AC
+    .short  0x03AC
 
     .global DAT_0601bb46
 DAT_0601bb46:
-    .2byte  0x01D8
+    .short  0x01D8
 
     .global DAT_0601bb48
 DAT_0601bb48:
-    .2byte  0x6000
+    .short  0x6000
 
     .global DAT_0601bb4a
 DAT_0601bb4a:
-    .2byte  0x0C86
+    .short  0x0C86
 .L_0601BB4C:
-    .4byte  sym_060284AE
+    .long  sym_060284AE
 .L_0601BB50:
-    .4byte  sym_0605D4F7
+    .long  sym_0605D4F7
 .L_0601BB54:
-    .4byte  sym_0605DF3A
+    .long  sym_0605DF3A
 .L_0601BB58:
-    .4byte  sym_06035228
+    .long  sym_06035228
 .L_0601BB5C:
-    .4byte  sym_06028400
+    .long  sym_06028400
 .L_0601BB60:
-    .4byte  sym_06063750
+    .long  sym_06063750
 .L_0601BB64:
-    .4byte  0x0000A000
+    .long  0x0000A000
 .L_0601BB68:
-    .4byte  0x00009000
+    .long  0x00009000
 .L_0601BB6C:
-    .4byte  sym_0605DD6C
+    .long  sym_0605DD6C
 .L_0601BB70:
-    .4byte  sym_0605DE24
+    .long  sym_0605DE24
 .L_0601BB74:
     mov #0x60, r6
     mov.w   DAT_0601bbc0, r5
@@ -213,10 +213,10 @@ DAT_0601bb4a:
 
     .global DAT_0601bbc0
 DAT_0601bbc0:
-    .2byte  0x0CA4
+    .short  0x0CA4
 .L_0601BBC2:
-    .2byte  0x0CB2
+    .short  0x0CB2
 .L_0601BBC4:
-    .4byte  sym_0605DE24
+    .long  sym_0605DE24
 .L_0601BBC8:
-    .4byte  anim_frame_transform
+    .long  anim_frame_transform

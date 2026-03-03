@@ -33,24 +33,24 @@ state_pre_race:
     lds.l @r15+, pr
     rts
     nop
-    .2byte  0xFFFF
-    .4byte  race_resource_init
-    .4byte  race_prep_init
+    .short  0xFFFF
+    .long  race_resource_init
+    .long  race_prep_init
 .L_06008E8C:
-    .4byte  g_game_state
-    .4byte  car_physics_init
-    .4byte  obj_render_update
-    .4byte  sym_0605B6D8
-    .4byte  0x40000000
+    .long  g_game_state
+    .long  car_physics_init
+    .long  obj_render_update
+    .long  sym_0605B6D8
+    .long  0x40000000
 .L_06008EA0:
-    .4byte  sym_06026CE0
+    .long  sym_06026CE0
 .L_06008EA4:
-    .4byte  sym_06059F44
-    .4byte  sym_0605A016
-    .4byte  handler_dispatch
+    .long  sym_06059F44
+    .long  sym_0605A016
+    .long  handler_dispatch
 .L_06008EB0:
-    .4byte  sym_0607EBCC
+    .long  sym_0607EBCC
 .L_06008EB4:
-    .4byte  game_state_dispatch
+    .long  game_state_dispatch
 .L_06008EB8:
-    .4byte  handler_init_reset
+    .long  handler_init_reset

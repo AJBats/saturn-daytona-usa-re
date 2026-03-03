@@ -8,12 +8,12 @@ ai_physics_main:
     .byte   0xD0, 0x0D    /* mov.l .L_pool_0600E946, r0 */
     mov.l @r0, r0
     tst r0, r0
-    bt/s    .L_0600E948
+    bt.s    .L_0600E948
     mov.l @r14, r14
     mov #0x0, r3
     bra     .L_0600E994
     mov.l r3, @(12, r14)
-    .2byte  0x0228
+    .short  0x0228
 
     .global DAT_0600e920
 DAT_0600e920:
@@ -24,16 +24,16 @@ DAT_0600e922:
     mov.b r14, @(r0, r0)
     .word 0x00E0
     .word 0xFFFF
-    .4byte  FUN_0600CEBA
-    .4byte  sym_0607EA9C
-    .4byte  sym_0607EBC4
-    .4byte  0x00200000
-    .4byte  0x066505B3
-    .4byte  fpmul
+    .long  FUN_0600CEBA
+    .long  sym_0607EA9C
+    .long  sym_0607EBC4
+    .long  0x00200000
+    .long  0x066505B3
+    .long  fpmul
 .L_pool_0600E942:
-    .4byte  sym_0607E940
+    .long  sym_0607E940
 .L_pool_0600E946:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8
 .L_0600E948:
     .byte   0xD3, 0x29    /* mov.l .L_pool_0600E9F0, r3 */
     jsr @r3

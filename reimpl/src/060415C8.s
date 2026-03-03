@@ -19,7 +19,7 @@ track_shadow_test:
     lds.l @r15+, pr
     rts
     mov #-0xB, r0
-    .2byte  0x01E0
+    .short  0x01E0
 
     .global DAT_060415ee
 DAT_060415ee:
@@ -27,7 +27,7 @@ DAT_060415ee:
     mov.b @(r0, r13), r1
     .word 0xFFFF
 .L_pool_060415F4:
-    .4byte  track_shadow_ground
+    .long  track_shadow_ground
 .L_060415F8:
     mov.l @r15, r0
     cmp/eq #0x2, r0

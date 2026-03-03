@@ -35,26 +35,26 @@ disc_load_complete_check:
     rts
     mov.b @r0, r0
 .L_wpool_0601B45A:
-    .2byte  0x0101
+    .short  0x0101
 .L_pool_0601B45C:
-    .4byte  sym_0608600C
-    .4byte  sym_0608600E
-    .4byte  handler_dispatch
+    .long  sym_0608600C
+    .long  sym_0608600E
+    .long  handler_dispatch
 .L_pool_0601B468:
-    .4byte  sym_0608600D
+    .long  sym_0608600D
 .L_pool_0601B46C:
-    .4byte  sym_0605DEB4
+    .long  sym_0605DEB4
 .L_pool_0601B470:
-    .4byte  0x00010000
+    .long  0x00010000
 .L_pool_0601B474:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_pool_0601B478:
-    .4byte  0x00200000
+    .long  0x00200000
 .L_pool_0601B47C:
-    .4byte  0x01000000
+    .long  0x01000000
 .L_pool_0601B480:
-    .4byte  rigid_body_transform
+    .long  rigid_body_transform
 .L_pool_0601B484:
-    .4byte  frame_end_commit
+    .long  frame_end_commit
 .L_pool_0601B488:
-    .4byte  sym_0605D4F8
+    .long  sym_0605D4F8

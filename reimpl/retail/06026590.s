@@ -111,9 +111,9 @@ sprite_pair_render:
     .byte 0x00, 0x09
     .byte 0x00, 0xA8
     .byte 0xFF, 0xFF
-    .4byte sym_060610BC
-    .4byte sym_06061170
-    .4byte sym_06061184
+    .long sym_060610BC
+    .long sym_06061170
+    .long sym_06061184
     .byte 0x66, 0xA2
     .byte 0x36, 0x5C
     .byte 0x63, 0x62

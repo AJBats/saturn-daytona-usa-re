@@ -24,7 +24,7 @@ evt_boundary_check:
     .byte 0xFF, 0xFF
     .byte 0x00, 0x00
     .byte 0x80, 0x00
-    .4byte mesh_boundary_check
+    .long mesh_boundary_check
     .byte 0x00, 0xFF
     .byte 0xFF, 0xFF
     .global sym_06040FB8
@@ -75,7 +75,7 @@ sym_06040FEA:
     .byte 0x60, 0x43
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
-    .4byte sym_060A5400
+    .long sym_060A5400
     .global sym_06041014
 sym_06041014:
     .byte 0xD5, 0x11

@@ -98,7 +98,7 @@ render_obj_processor:
     mov.l @r9, r2
     mov r2, r3
     cmp/ge r6, r3
-    bf/s    .L_06022BB0
+    bf.s    .L_06022BB0
     mov.l r2, @r15
     mov.l @r15, r2
     mov.w   .L_wpool_06022BBE, r3
@@ -114,11 +114,11 @@ render_obj_processor:
     bra     .L_06022BC0
     nop
 .L_wpool_06022BBA:
-    .2byte  0xFE6B
+    .short  0xFE6B
 .L_wpool_06022BBC:
-    .2byte  0x0195
+    .short  0x0195
 .L_wpool_06022BBE:
-    .2byte  0x0131
+    .short  0x0131
 .L_06022BC0:
     bt      .L_06022C16
     mov.l @r8, r3
@@ -154,7 +154,7 @@ render_obj_processor:
     mov.l @r10, r2
     mov r2, r3
     cmp/ge r6, r3
-    bf/s    .L_06022C16
+    bf.s    .L_06022C16
     mov.l r2, @r15
     mov.l @r15, r2
     mov.w   .L_wpool_06022C7C, r3
@@ -204,7 +204,7 @@ render_obj_processor:
     mov.l @r13, r2
     mov r2, r3
     cmp/ge r6, r3
-    bf/s    .L_06022C76
+    bf.s    .L_06022C76
     mov.l r2, @r15
     mov.l @r15, r2
     mov.w   .L_wpool_06022C7C, r3
@@ -217,9 +217,9 @@ render_obj_processor:
     bra     .L_06023014
     nop
 .L_wpool_06022C7A:
-    .2byte  0x0195
+    .short  0x0195
 .L_wpool_06022C7C:
-    .2byte  0x0131
+    .short  0x0131
 .L_06022C7E:
     mov.l @(28, r15), r2
     mov.w @r2, r3
@@ -266,7 +266,7 @@ render_obj_processor:
     mov.l @r11, r2
     mov r2, r3
     cmp/ge r6, r3
-    bf/s    .L_06022CE8
+    bf.s    .L_06022CE8
     mov.l r2, @r15
     mov.l @r15, r2
     mov.w   .L_wpool_06022D50, r3
@@ -313,7 +313,7 @@ render_obj_processor:
     mov.l @r10, r2
     mov r2, r3
     cmp/ge r6, r3
-    bf/s    .L_06022D44
+    bf.s    .L_06022D44
     mov.l r2, @r15
     mov.l @r15, r2
     mov.w   .L_wpool_06022D50, r3
@@ -329,9 +329,9 @@ render_obj_processor:
     bra     .L_06022D52
     nop
 .L_wpool_06022D4E:
-    .2byte  0x0195
+    .short  0x0195
 .L_wpool_06022D50:
-    .2byte  0x0131
+    .short  0x0131
 .L_06022D52:
     bf      .L_06022D58
     bra     .L_06023014
@@ -370,7 +370,7 @@ render_obj_processor:
     mov.l @r13, r2
     mov r2, r3
     cmp/ge r6, r3
-    bf/s    .L_06022DAC
+    bf.s    .L_06022DAC
     mov.l r2, @r15
     mov.l @r15, r2
     mov.w   .L_wpool_06022DB2, r3
@@ -383,9 +383,9 @@ render_obj_processor:
     bra     .L_06023014
     nop
 .L_wpool_06022DB0:
-    .2byte  0x0195
+    .short  0x0195
 .L_wpool_06022DB2:
-    .2byte  0x0131
+    .short  0x0131
 .L_06022DB4:
     mov.l @(24, r15), r2
     mov.w @r2, r3
@@ -432,7 +432,7 @@ render_obj_processor:
     mov.l @r11, r2
     mov r2, r3
     cmp/ge r6, r3
-    bf/s    .L_06022E1E
+    bf.s    .L_06022E1E
     mov.l r2, @r15
     mov.l @r15, r2
     mov.w   .L_wpool_06022E86, r3
@@ -479,7 +479,7 @@ render_obj_processor:
     mov.l @r9, r2
     mov r2, r3
     cmp/ge r6, r3
-    bf/s    .L_06022E7A
+    bf.s    .L_06022E7A
     mov.l r2, @r15
     mov.l @r15, r2
     mov.w   .L_wpool_06022E86, r3
@@ -495,9 +495,9 @@ render_obj_processor:
     bra     .L_06022E88
     nop
 .L_wpool_06022E84:
-    .2byte  0x0195
+    .short  0x0195
 .L_wpool_06022E86:
-    .2byte  0x0131
+    .short  0x0131
 .L_06022E88:
     bf      .L_06022E8E
     bra     .L_06023014
@@ -536,7 +536,7 @@ render_obj_processor:
     mov.l @r13, r2
     mov r2, r3
     cmp/ge r6, r3
-    bf/s    .L_06022EE2
+    bf.s    .L_06022EE2
     mov.l r2, @r15
     mov.l @r15, r2
     mov.w   .L_wpool_06022EE8, r3
@@ -549,9 +549,9 @@ render_obj_processor:
     bra     .L_06023014
     nop
 .L_wpool_06022EE6:
-    .2byte  0x0195
+    .short  0x0195
 .L_wpool_06022EE8:
-    .2byte  0x0131
+    .short  0x0131
 .L_06022EEA:
     mov.l @(32, r15), r2
     mov.w @r2, r3
@@ -598,7 +598,7 @@ render_obj_processor:
     mov.l @r11, r2
     mov r2, r3
     cmp/ge r6, r3
-    bf/s    .L_06022F54
+    bf.s    .L_06022F54
     mov.l r2, @r15
     mov.l @r15, r2
     mov.w   .L_wpool_06022FBC, r3
@@ -645,7 +645,7 @@ render_obj_processor:
     mov.l @r9, r2
     mov r2, r3
     cmp/ge r6, r3
-    bf/s    .L_06022FB0
+    bf.s    .L_06022FB0
     mov.l r2, @r15
     mov.l @r15, r2
     mov.w   .L_wpool_06022FBC, r3
@@ -661,9 +661,9 @@ render_obj_processor:
     bra     .L_06022FBE
     nop
 .L_wpool_06022FBA:
-    .2byte  0x0195
+    .short  0x0195
 .L_wpool_06022FBC:
-    .2byte  0x0131
+    .short  0x0131
 .L_06022FBE:
     bt      .L_06023014
     mov.l @r8, r3
@@ -699,7 +699,7 @@ render_obj_processor:
     mov.l @r10, r2
     mov r2, r3
     cmp/ge r6, r3
-    bf/s    .L_06023014
+    bf.s    .L_06023014
     mov.l r2, @r15
     mov.l @r15, r2
     mov.w   .L_wpool_0602304A, r3
@@ -738,6 +738,6 @@ render_obj_processor:
     rts
     mov.l @r15+, r14
 .L_wpool_06023048:
-    .2byte  0x0195
+    .short  0x0195
 .L_wpool_0602304A:
-    .2byte  0x0131
+    .short  0x0131

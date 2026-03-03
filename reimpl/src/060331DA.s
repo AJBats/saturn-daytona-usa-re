@@ -16,17 +16,17 @@ results_digit_group:
     mov.l @r15+, r0
     rts
     nop
-    .4byte  0x0000FFFF
-    .4byte  sym_0606318C
-    .4byte  sym_06063190
-    .4byte  sincos_pair
-    .4byte  fpmul
-    .4byte  0x2F662F76
-    .4byte  0xD3153138
-    .4byte  0x3238D315
-    .4byte  0x40084000
-    .4byte  0x64034000
-    .4byte  0x304C330C
-    .4byte  0xE606E704
-    .4byte  0x60346503
-    .4byte  0x45094509
+    .long  0x0000FFFF
+    .long  sym_0606318C
+    .long  sym_06063190
+    .long  sincos_pair
+    .long  fpmul
+    .long  0x2F662F76
+    .long  0xD3153138
+    .long  0x3238D315
+    .long  0x40084000
+    .long  0x64034000
+    .long  0x304C330C
+    .long  0xE606E704
+    .long  0x60346503
+    .long  0x45094509

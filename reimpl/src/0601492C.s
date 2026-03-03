@@ -26,7 +26,7 @@ channel_config_a:
     rts
     mov.l @r15+, r14
 .L_0601495C:
-    .2byte  0x0100
-    .2byte  0xFFFF
+    .short  0x0100
+    .short  0xFFFF
 .L_06014960:
-    .4byte  channel_nibble_config
+    .long  channel_nibble_config

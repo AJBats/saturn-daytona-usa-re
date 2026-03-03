@@ -83,9 +83,9 @@ post_sprite_cleanup:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .byte 0xFF, 0xFF
-    .4byte sym_0605AAA0
-    .4byte sym_0605A008
-    .4byte sym_060786CC
-    .4byte sym_060785FC
-    .4byte sym_060280F8
-    .4byte sym_060280C4
+    .long sym_0605AAA0
+    .long sym_0605A008
+    .long sym_060786CC
+    .long sym_060785FC
+    .long sym_060280F8
+    .long sym_060280C4

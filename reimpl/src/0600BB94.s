@@ -87,36 +87,36 @@ camera_system:
 
     .global DAT_0600bc2c
 DAT_0600bc2c:
-    .2byte  0x2C00
+    .short  0x2C00
 
     .global DAT_0600bc2e
 DAT_0600bc2e:
-    .2byte  0x01D8
+    .short  0x01D8
 .L_0600BC30:
-    .2byte  0x01BC
-    .2byte  0xFFFF
+    .short  0x01BC
+    .short  0xFFFF
 .L_0600BC34:
-    .4byte  sym_06038520
+    .long  sym_06038520
 .L_0600BC38:
-    .4byte  sym_06063E28
+    .long  sym_06063E28
 .L_0600BC3C:
-    .4byte  sym_06063E30
+    .long  sym_06063E30
 .L_0600BC40:
-    .4byte  sym_06063EF8
+    .long  sym_06063EF8
 .L_0600BC44:
-    .4byte  sym_06063EEC
+    .long  sym_06063EEC
 .L_0600BC48:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_0600BC4C:
-    .4byte  sym_06063E20
+    .long  sym_06063E20
 .L_0600BC50:
-    .4byte  sym_06063E24
+    .long  sym_06063E24
 .L_0600BC54:
-    .4byte  sym_06078654
+    .long  sym_06078654
 .L_0600BC58:
-    .4byte  sym_0605A1C4
+    .long  sym_0605A1C4
 .L_0600BC5C:
-    .4byte  sym_06063D9A
+    .long  sym_06063D9A
 .L_0600BC60:
     mov.w   DAT_0600bcee, r0
     mov.l @(r0, r14), r5
@@ -199,27 +199,27 @@ DAT_0600bc2e:
 
     .global DAT_0600bcee
 DAT_0600bcee:
-    .2byte  0x01BC
+    .short  0x01BC
 .L_0600BCF0:
-    .4byte  sym_06063E1C
+    .long  sym_06063E1C
 .L_0600BCF4:
-    .4byte  sym_06059F30
+    .long  sym_06059F30
 .L_0600BCF8:
-    .4byte  channel_nibble_config
+    .long  channel_nibble_config
 .L_0600BCFC:
-    .4byte  0x00058000
+    .long  0x00058000
 .L_0600BD00:
-    .4byte  0x0000F300
+    .long  0x0000F300
 .L_0600BD04:
-    .4byte  sym_06063E34
+    .long  sym_06063E34
 .L_0600BD08:
-    .4byte  0x006E0000
+    .long  0x006E0000
 .L_0600BD0C:
-    .4byte  0x00100000
+    .long  0x00100000
 .L_0600BD10:
-    .4byte  sym_06063E2C
+    .long  sym_06063E2C
 .L_0600BD14:
-    .4byte  sym_06063D9A
+    .long  sym_06063D9A
 .L_0600BD18:
     mov.w   DAT_0600bdac, r0
     mov.l @(r0, r14), r5
@@ -305,35 +305,35 @@ DAT_0600bcee:
 
     .global DAT_0600bdac
 DAT_0600bdac:
-    .2byte  0x01BC
+    .short  0x01BC
 
     .global DAT_0600bdae
 DAT_0600bdae:
-    .2byte  0x0244
+    .short  0x0244
 .L_0600BDB0:
-    .4byte  sym_06063E1C
+    .long  sym_06063E1C
 .L_0600BDB4:
-    .4byte  sym_06059F30
+    .long  sym_06059F30
 .L_0600BDB8:
-    .4byte  channel_nibble_config
+    .long  channel_nibble_config
 .L_0600BDBC:
-    .4byte  0x00058000
+    .long  0x00058000
 .L_0600BDC0:
-    .4byte  0x0000F300
+    .long  0x0000F300
 .L_0600BDC4:
-    .4byte  sym_06063E34
+    .long  sym_06063E34
 .L_0600BDC8:
-    .4byte  0x006E0000
+    .long  0x006E0000
 .L_0600BDCC:
-    .4byte  0x00100000
+    .long  0x00100000
 .L_0600BDD0:
-    .4byte  sym_06063E2C
+    .long  sym_06063E2C
 .L_0600BDD4:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_0600BDD8:
-    .4byte  sym_06078663
+    .long  sym_06078663
 .L_0600BDDC:
-    .4byte  0x01A00000
+    .long  0x01A00000
 .L_0600BDE0:
     mov.l @(4, r12), r13
     shll8 r13
@@ -392,24 +392,24 @@ DAT_0600bdae:
     bra     .L_0600BE7A
     nop
 .L_0600BE4C:
-    .2byte  0x01BC
-    .2byte  0xFFFF
+    .short  0x01BC
+    .short  0xFFFF
 .L_0600BE50:
-    .4byte  0xFFA00000
+    .long  0xFFA00000
 .L_0600BE54:
-    .4byte  sym_06082A30
+    .long  sym_06082A30
 .L_0600BE58:
-    .4byte  sym_0603850C
+    .long  sym_0603850C
 .L_0600BE5C:
-    .4byte  scene_data_write_abs
+    .long  scene_data_write_abs
 .L_0600BE60:
-    .4byte  sincos_pair
+    .long  sincos_pair
 .L_0600BE64:
-    .4byte  sym_06082A70
+    .long  sym_06082A70
 .L_0600BE68:
-    .4byte  sym_06082A78
+    .long  sym_06082A78
 .L_0600BE6C:
-    .4byte  scene_fallback_render
+    .long  scene_fallback_render
 .L_0600BE70:
     mov.w   DAT_0600bf3c, r4
     mov.l   .L_0600BF40, r3
@@ -519,32 +519,32 @@ DAT_0600bdae:
 
     .global DAT_0600bf3c
 DAT_0600bf3c:
-    .2byte  0x6666
-    .2byte  0xFFFF
+    .short  0x6666
+    .short  0xFFFF
 .L_0600BF40:
-    .4byte  sym_06063F04
+    .long  sym_06063F04
 .L_0600BF44:
-    .4byte  sym_06063F08
+    .long  sym_06063F08
 .L_0600BF48:
-    .4byte  sym_0603850C
+    .long  sym_0603850C
 .L_0600BF4C:
-    .4byte  scene_data_write_abs
+    .long  scene_data_write_abs
 .L_0600BF50:
-    .4byte  sym_06063F46
+    .long  sym_06063F46
 .L_0600BF54:
-    .4byte  sym_0605BDCC
+    .long  sym_0605BDCC
 .L_0600BF58:
-    .4byte  sym_06063E2C
+    .long  sym_06063E2C
 .L_0600BF5C:
-    .4byte  obj_state_manager
+    .long  obj_state_manager
 .L_0600BF60:
-    .4byte  sincos_pair
+    .long  sincos_pair
 .L_0600BF64:
-    .4byte  cos_lookup
+    .long  cos_lookup
 .L_0600BF68:
-    .4byte  sym_06078668
+    .long  sym_06078668
 .L_0600BF6C:
-    .4byte  fpmul
+    .long  fpmul
 .L_0600BF70:
     sts.l macl, @-r15
     mov.l   .L_0600BFE8, r4
@@ -574,7 +574,7 @@ DAT_0600bf3c:
     mov.l   .L_0600BFF8, r3
     mov.l @r3, r3
     cmp/eq r3, r2
-    bf/s    .L_0600BFDA
+    bf.s    .L_0600BFDA
     exts.w r4, r4
     mov.l @r5, r3
     exts.w r4, r4
@@ -608,18 +608,18 @@ DAT_0600bf3c:
 
     .global DAT_0600bfe2
 DAT_0600bfe2:
-    .2byte  0x0384
+    .short  0x0384
 .L_0600BFE4:
-    .2byte  0x0320
+    .short  0x0320
 .L_0600BFE6:
-    .2byte  0x00E0
+    .short  0x00E0
 .L_0600BFE8:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_0600BFEC:
-    .4byte  sym_06063E34
+    .long  sym_06063E34
 .L_0600BFF0:
-    .4byte  sym_06063EEC
+    .long  sym_06063EEC
 .L_0600BFF4:
-    .4byte  sym_06063E1C
+    .long  sym_06063E1C
 .L_0600BFF8:
-    .4byte  sym_06063E20
+    .long  sym_06063E20

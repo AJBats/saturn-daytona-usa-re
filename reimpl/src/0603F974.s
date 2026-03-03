@@ -9,7 +9,7 @@ attract_transition:
     extu.b r3, r3
     mov.l r3, @r15
     cmp/pz r14
-    bf/s    .L_0603F9A4
+    bf.s    .L_0603F9A4
     mov.b r14, @(r0, r4)
     mov #0x3, r2
     cmp/gt r2, r14
@@ -31,7 +31,7 @@ attract_transition:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-    .2byte  0x000B
-    .4byte  0x145CFFFF
+    .short  0x000B
+    .long  0x145CFFFF
 .L_pool_0603F9B4:
-    .4byte  sym_0606364C
+    .long  sym_0606364C

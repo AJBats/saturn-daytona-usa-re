@@ -26,8 +26,8 @@ text_color_set:
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .4byte sym_06084FC8
-    .4byte sym_06085F88
+    .long sym_06084FC8
+    .long sym_06085F88
     .global loc_06016CA4
 loc_06016CA4:
     .byte 0x7F, 0xFC
@@ -54,5 +54,5 @@ loc_06016CA4:
     .byte 0x43, 0x2B
     .byte 0x7F, 0x04
     .byte 0xFF, 0xFF
-    .4byte sym_06084FC8
-    .4byte sym_0605BB6C
+    .long sym_06084FC8
+    .long sym_0605BB6C

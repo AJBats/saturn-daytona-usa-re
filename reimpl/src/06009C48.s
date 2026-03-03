@@ -60,38 +60,38 @@ state_post_race_cleanup:
     jmp @r3
     lds.l @r15+, pr
 .L_06009CB6:
-    .2byte  0x00BC
+    .short  0x00BC
 .L_06009CB8:
-    .4byte  util_wrapper
+    .long  util_wrapper
 .L_06009CBC:
-    .4byte  sym_0607EAE0
+    .long  sym_0607EAE0
 .L_06009CC0:
-    .4byte  camera_special_mode
+    .long  camera_special_mode
 .L_06009CC4:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8
 .L_06009CC8:
-    .4byte  replay_camera_ctrl
+    .long  replay_camera_ctrl
 .L_06009CCC:
-    .4byte  update_mode_dispatch
+    .long  update_mode_dispatch
 .L_06009CD0:
-    .4byte  car_proximity_check
+    .long  car_proximity_check
 .L_06009CD4:
-    .4byte  camera_system
+    .long  camera_system
 .L_06009CD8:
-    .4byte  sym_06063E24
+    .long  sym_06063E24
 .L_06009CDC:
-    .4byte  sym_06063EEC
+    .long  sym_06063EEC
 .L_06009CE0:
-    .4byte  sym_06063EF8
+    .long  sym_06063EF8
 .L_06009CE4:
-    .4byte  camera_orient_calc
+    .long  camera_orient_calc
 .L_06009CE8:
-    .4byte  scene_master
+    .long  scene_master
 .L_06009CEC:
-    .4byte  sym_0607ED8C
+    .long  sym_0607ED8C
 .L_06009CF0:
-    .4byte  sym_060033E6
+    .long  sym_060033E6
 .L_06009CF4:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_06009CF8:
-    .4byte  frame_end_commit
+    .long  frame_end_commit

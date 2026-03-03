@@ -17,6 +17,6 @@ menu_header_render:
     .byte   0xA2, 0x90    /* bra 0x0603B93C (external) */
     lds.l @r15+, pr
 .L_0603B41C:
-    .4byte  0x7FFFFFFF
+    .long  0x7FFFFFFF
 .L_0603B420:
-    .4byte  attract_init_setup
+    .long  attract_init_setup

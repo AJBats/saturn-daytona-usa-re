@@ -34,11 +34,11 @@ nmi_handler:
     lds.l @r15+, pr
     rts
     mov #-0xA, r0
-    .2byte  0x0348
+    .short  0x0348
 .L_0604144C:
-    .4byte  sym_060A5400
+    .long  sym_060A5400
 .L_06041450:
-    .4byte  track_dist_stub
+    .long  track_dist_stub
 .L_06041454:
     .byte   0xD3, 0x1C    /* mov.l .L_pool_060414C8, r3 */
     jsr @r3

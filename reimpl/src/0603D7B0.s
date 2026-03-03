@@ -142,26 +142,26 @@ options_menu_state:
     bra     .L_0603D8EC
     mov #0x1, r1
 .L_0603D8C4:
-    .2byte  0x0100
-    .2byte  0xFFFF
+    .short  0x0100
+    .short  0xFFFF
 .L_0603D8C8:
-    .4byte  0x0000FFFE
+    .long  0x0000FFFE
 .L_0603D8CC:
-    .4byte  sym_060A4D58
+    .long  sym_060A4D58
 .L_0603D8D0:
-    .4byte  sym_060A4D18
+    .long  sym_060A4D18
 .L_0603D8D4:
-    .4byte  sym_06034F78
+    .long  sym_06034F78
 .L_0603D8D8:
-    .4byte  0x0000FEFF
+    .long  0x0000FEFF
 .L_0603D8DC:
-    .4byte  0x0000FFFB
+    .long  0x0000FFFB
 .L_0603D8E0:
-    .4byte  0x0000FFF7
+    .long  0x0000FFF7
 .L_0603D8E4:
-    .4byte  0x0000FFEF
+    .long  0x0000FFEF
 .L_0603D8E8:
-    .4byte  0x0000FFDF
+    .long  0x0000FFDF
 .L_0603D8EC:
     mov.l   .L_0603D9D4, r3
     jsr @r3
@@ -285,17 +285,17 @@ options_menu_state:
     rts
     mov.l @r15+, r14
 .L_0603D9D0:
-    .2byte  0x0080
-    .2byte  0xFFFF
+    .short  0x0080
+    .short  0xFFFF
 .L_0603D9D4:
-    .4byte  sym_06034F78
+    .long  sym_06034F78
 .L_0603D9D8:
-    .4byte  0x0000FFFB
+    .long  0x0000FFFB
 .L_0603D9DC:
-    .4byte  0x0000FFF7
+    .long  0x0000FFF7
 .L_0603D9E0:
-    .4byte  0x0000FFEF
+    .long  0x0000FFEF
 .L_0603D9E4:
-    .4byte  0x00080000
+    .long  0x00080000
 .L_0603D9E8:
-    .4byte  0x0000FFDF
+    .long  0x0000FFDF

@@ -68,31 +68,31 @@ state_race_setup:
     bra     .L_06008F82
     nop
 .L_06008F3C:
-    .4byte  race_resource_init
+    .long  race_resource_init
 .L_06008F40:
-    .4byte  sym_06078635
+    .long  sym_06078635
 .L_06008F44:
-    .4byte  sym_06078634
+    .long  sym_06078634
 .L_06008F48:
-    .4byte  sym_0607ED88
+    .long  sym_0607ED88
 .L_06008F4C:
-    .4byte  sym_0607865E
+    .long  sym_0607865E
 .L_06008F50:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_06008F54:
-    .4byte  sym_0605AD08
+    .long  sym_0605AD08
 .L_06008F58:
-    .4byte  sym_0605AB18
+    .long  sym_0605AB18
 .L_06008F5C:
-    .4byte  g_pad_state
+    .long  g_pad_state
 .L_06008F60:
-    .4byte  sym_06078648
+    .long  sym_06078648
 .L_06008F64:
-    .4byte  sym_06078656
+    .long  sym_06078656
 .L_06008F68:
-    .4byte  sym_06078658
+    .long  sym_06078658
 .L_06008F6C:
-    .4byte  sym_0607865A
+    .long  sym_0607865A
 .L_06008F70:
     exts.w r4, r4
     mov.l   .L_0600902C, r2
@@ -190,59 +190,59 @@ state_race_setup:
     rts
     mov.l @r15+, r14
 .L_06009028:
-    .2byte  0x0096
-    .2byte  0xFFFF
+    .short  0x0096
+    .short  0xFFFF
 .L_0600902C:
-    .4byte  sym_0607865C
+    .long  sym_0607865C
 .L_06009030:
-    .4byte  vdp2_config_extended
+    .long  vdp2_config_extended
 .L_06009034:
-    .4byte  geom_output_finalize
+    .long  geom_output_finalize
 .L_06009038:
-    .4byte  sym_06078662
+    .long  sym_06078662
 .L_0600903C:
-    .4byte  sym_06078635
+    .long  sym_06078635
 .L_06009040:
-    .4byte  sym_0607ED8C
+    .long  sym_0607ED8C
 .L_06009044:
-    .4byte  race_init_master
+    .long  race_init_master
 .L_06009048:
-    .4byte  sym_0607ED91
+    .long  sym_0607ED91
 .L_0600904C:
-    .4byte  hud_post_update
+    .long  hud_post_update
 .L_06009050:
-    .4byte  hud_subsystem_init
+    .long  hud_subsystem_init
 .L_06009054:
-    .4byte  disp_init_setup
+    .long  disp_init_setup
 .L_06009058:
-    .4byte  sym_0607EBCC
+    .long  sym_0607EBCC
 .L_0600905C:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8
 .L_06009060:
-    .4byte  sym_0605E158
+    .long  sym_0605E158
 .L_06009064:
-    .4byte  sym_060054EA
+    .long  sym_060054EA
 .L_06009068:
-    .4byte  race_start_init
+    .long  race_start_init
 .L_0600906C:
-    .4byte  bg_layer_init
+    .long  bg_layer_init
 .L_06009070:
-    .4byte  geom_matrix_setup
+    .long  geom_matrix_setup
 .L_06009074:
-    .4byte  sym_0605AB18
+    .long  sym_0605AB18
 .L_06009078:
-    .4byte  menu_overlay_render
+    .long  menu_overlay_render
 .L_0600907C:
-    .4byte  g_game_state
+    .long  g_game_state
 .L_06009080:
-    .4byte  sym_0605B6D8
+    .long  sym_0605B6D8
 .L_06009084:
-    .4byte  0x40000000
+    .long  0x40000000
 .L_06009088:
-    .4byte  sym_06026CE0
+    .long  sym_06026CE0
 .L_0600908C:
-    .4byte  sym_06059F44
+    .long  sym_06059F44
 .L_06009090:
-    .4byte  sym_0605A016
+    .long  sym_0605A016
 .L_06009094:
-    .4byte  sym_0607864A
+    .long  sym_0607864A

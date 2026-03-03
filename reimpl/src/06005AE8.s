@@ -23,7 +23,7 @@ display_compositor:
     mov.l @(r0, r14), r7
     add #0x1, r7
     cmp/hi r3, r7
-    bt/s    .L_06005B20
+    bt.s    .L_06005B20
     mov #0x8, r10
     mov #0xC, r6
     mov.w   .L_wpool_06005B7E, r5
@@ -86,56 +86,56 @@ display_compositor:
 
     .global DAT_06005b7c
 DAT_06005b7c:
-    .2byte  0x021C
+    .short  0x021C
 .L_wpool_06005B7E:
-    .2byte  0x0108
+    .short  0x0108
 
     .global DAT_06005b80
 DAT_06005b80:
-    .2byte  0x0220
+    .short  0x0220
 
     .global DAT_06005b82
 DAT_06005b82:
-    .2byte  0x0320
+    .short  0x0320
 
     .global DAT_06005b84
 DAT_06005b84:
-    .2byte  0x0224
+    .short  0x0224
 .L_wpool_06005B86:
-    .2byte  0x0142
+    .short  0x0142
 
     .global DAT_06005b88
 DAT_06005b88:
-    .2byte  0x0236
+    .short  0x0236
 
     .global DAT_06005b8a
 DAT_06005b8a:
-    .2byte  0x0336
+    .short  0x0336
 .L_wpool_06005B8C:
-    .2byte  0x00DE
-    .2byte  0xFFFF
+    .short  0x00DE
+    .short  0xFFFF
 .L_pool_06005B90:
-    .4byte  sym_06085FF4
+    .long  sym_06085FF4
 .L_pool_06005B94:
-    .4byte  sym_0607EAAC
+    .long  sym_0607EAAC
 .L_pool_06005B98:
-    .4byte  sym_06063E10
+    .long  sym_06063E10
 .L_pool_06005B9C:
-    .4byte  sym_06063E0C
+    .long  sym_06063E0C
 .L_pool_06005BA0:
-    .4byte  sym_06028430
+    .long  sym_06028430
 .L_pool_06005BA4:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_pool_06005BA8:
-    .4byte  sym_06063F28
+    .long  sym_06063F28
 .L_pool_06005BAC:
-    .4byte  sym_06078644
+    .long  sym_06078644
 .L_pool_06005BB0:
-    .4byte  0x00009F1A
+    .long  0x00009F1A
 .L_pool_06005BB4:
-    .4byte  sym_0607EAE0
+    .long  sym_0607EAE0
 .L_pool_06005BB8:
-    .4byte  sym_0607EAB8
+    .long  sym_0607EAB8
 .L_06005BBC:
     mov.w   DAT_06005c74, r0
 .L_06005BBE:
@@ -152,7 +152,7 @@ DAT_06005b8a:
     mov.l @r3, r3
     and r2, r3
     tst r3, r3
-    bt/s    .L_06005C1E
+    bt.s    .L_06005C1E
     mov #0x1, r4
     mov.l @r9, r0
     cmp/eq #0x78, r0
@@ -162,20 +162,20 @@ DAT_06005b8a:
     mov.l r10, @r11
 .L_06005BE8:
     mov.l @r9, r3
-    .2byte  0xE278
-    .4byte  0x33238916
-    .4byte  0x62B272FF
-    .4byte  0x22288F12
-    .4byte  0x2B22D522
-    .4byte  0xD322430B
-    .4byte  0xE40062C2
-    .4byte  0x72FD2C22
-    .4byte  0x632333A3
-    .4byte  0x89002CA2
-    .4byte  0x63C24321
-    .4byte  0x43214321
-    .4byte  0x73012B32
-    .2byte  0xE400
+    .short  0xE278
+    .long  0x33238916
+    .long  0x62B272FF
+    .long  0x22288F12
+    .long  0x2B22D522
+    .long  0xD322430B
+    .long  0xE40062C2
+    .long  0x72FD2C22
+    .long  0x632333A3
+    .long  0x89002CA2
+    .long  0x63C24321
+    .long  0x43214321
+    .long  0x73012B32
+    .short  0xE400
 .L_06005C1E:
     tst r4, r4
     bt      .L_06005C40
@@ -226,23 +226,23 @@ DAT_06005b8a:
 
     .global DAT_06005c74
 DAT_06005c74:
-    .2byte  0x00DC
+    .short  0x00DC
 
     .global DAT_06005c76
 DAT_06005c76:
-    .2byte  0x03E7
+    .short  0x03E7
 .L_wpool_06005C78:
-    .2byte  0x00A6
-    .2byte  0xFFFF
+    .short  0x00A6
+    .short  0xFFFF
 .L_pool_06005C7C:
-    .4byte  sym_0607EBC4
+    .long  sym_0607EBC4
 .L_06005C80:
-    .4byte  0x00020000
-    .4byte  0xAE1114FF
-    .4byte  sound_cmd_dispatch
+    .long  0x00020000
+    .long  0xAE1114FF
+    .long  sound_cmd_dispatch
 .L_pool_06005C8C:
-    .4byte  sym_06034FE0
+    .long  sym_06034FE0
 .L_pool_06005C90:
-    .4byte  sym_0605ACF3
+    .long  sym_0605ACF3
 .L_pool_06005C94:
-    .4byte  sym_060284AE
+    .long  sym_060284AE

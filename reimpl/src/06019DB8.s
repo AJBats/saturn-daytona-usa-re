@@ -18,7 +18,7 @@ course1_physics_init:
     mov.l   .L_pool_06019E7C, r0
     mov.b @r0, r0
     cmp/eq #0x1, r0
-    bt/s    .L_06019E40
+    bt.s    .L_06019E40
     mov #0x5, r14
 
     mov #0x0, r13
@@ -99,29 +99,29 @@ course1_physics_init:
     mov.b @r12, r2
     extu.b r2, r2
     cmp/gt r3, r2
-    bf/s    .L_06019E6A
+    bf.s    .L_06019E6A
     mov #0x7, r10
     mov #0x0, r3
     mov.b r3, @r12
 .L_06019E6A:
     bra     .L_06019E8E
     nop
-    .2byte  0xFFFF
+    .short  0xFFFF
 
 .L_pool_06019E70:
-    .4byte  sym_06049B2C
+    .long  sym_06049B2C
 .L_pool_06019E74:
-    .4byte  sym_06028400
+    .long  sym_06028400
 .L_pool_06019E78:
-    .4byte  sym_0605D242
+    .long  sym_0605D242
 .L_pool_06019E7C:
-    .4byte  sym_06085FF0
+    .long  sym_06085FF0
 .L_pool_06019E80:
-    .4byte  sym_0605AD0C
+    .long  sym_0605AD0C
 .L_pool_06019E84:
-    .4byte  sym_06063750
+    .long  sym_06063750
 .L_pool_06019E88:
-    .4byte  sym_06049B18
+    .long  sym_06049B18
 
 .L_06019E8C:
     mov #0x3, r10

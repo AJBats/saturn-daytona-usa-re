@@ -18,7 +18,7 @@ FUN_06019928:
     mov.l   .L_06019A34, r0
     mov.b @r0, r0
     cmp/eq #0x1, r0
-    bf/s    .L_06019A10
+    bf.s    .L_06019A10
     mov #0x8, r10
 
     mov.l   .L_06019A38, r4
@@ -141,21 +141,21 @@ FUN_06019928:
     mov.l @r15+, r14
 
 .L_06019A24:
-    .2byte  0x0090
-    .2byte  0xFFFF
+    .short  0x0090
+    .short  0xFFFF
 .L_06019A28:
-    .4byte  sym_0605D294
+    .long  sym_0605D294
 .L_06019A2C:
-    .4byte  sym_06049AFC
+    .long  sym_06049AFC
 .L_06019A30:
-    .4byte  sym_060284AE
+    .long  sym_060284AE
 .L_06019A34:
-    .4byte  sym_06085FF1
+    .long  sym_06085FF1
 .L_06019A38:
-    .4byte  sym_0605B6D8
+    .long  sym_0605B6D8
 .L_06019A3C:
-    .4byte  sym_06085FF0
+    .long  sym_06085FF0
 .L_06019A40:
-    .4byte  sym_06049E44
+    .long  sym_06049E44
 .L_06019A44:
-    .4byte  sym_0605D4F0
+    .long  sym_0605D4F0

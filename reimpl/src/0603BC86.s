@@ -35,19 +35,19 @@ save_serialize:
     add r12, r4
     mov r0, r13
     tst r13, r13
-    bf/s    .L_0603BCE0
+    bf.s    .L_0603BCE0
     add #0x4, r15
     bra     .L_0603BD10
     mov #0x0, r0
 .L_wpool_0603BCD2:
-    .2byte  0x00A8
-    .2byte  0xFFFF
+    .short  0x00A8
+    .short  0xFFFF
 .L_pool_0603BCD6:
-    .4byte  scene_frame_render
+    .long  scene_frame_render
 .L_pool_0603BCDA:
-    .4byte  obj_init_validate
+    .long  obj_init_validate
 .L_pool_0603BCDE:
-    .4byte  obj_setup_decomp
+    .long  obj_setup_decomp
 .L_0603BCE0:
     mov r13, r5
     .byte   0xD3, 0x21    /* mov.l .L_pool_0603BD6C, r3 */

@@ -34,23 +34,23 @@ sys_dma_channel_init:
     add #0x4, r15
     rts
     mov.l @r15+, r14
-    .4byte  0x7FFC2F42
-    .4byte  0xD4099010
-    .4byte  0x6342023E
-    .4byte  0x63F23230
-    .4byte  0x8B106342
-    .4byte  0xE2009008
-    .4byte  0x0326E5FF
-    .4byte  0x64F25442
-    .4byte  0xD303432B
-    .4byte  0x7F0400F0
+    .long  0x7FFC2F42
+    .long  0xD4099010
+    .long  0x6342023E
+    .long  0x63F23230
+    .long  0x8B106342
+    .long  0xE2009008
+    .long  0x0326E5FF
+    .long  0x64F25442
+    .long  0xD303432B
+    .long  0x7F0400F0
 .L_wpool_0603B91C:
-    .2byte  0x00A8
+    .short  0x00A8
 
     .global DAT_0603b91e
 DAT_0603b91e:
-    .2byte  0x00B4
+    .short  0x00B4
 .L_pool_0603B920:
-    .4byte  sym_060A4D14
-    .4byte  race_timer_sync
-    .4byte  0x000B7F04
+    .long  sym_060A4D14
+    .long  race_timer_sync
+    .long  0x000B7F04

@@ -56,15 +56,15 @@ sprite_batch_renderer:
     .global DAT_060115c6
 DAT_060115c6:
     .byte 0x80, 0x00
-    .4byte sym_060447A4
+    .long sym_060447A4
     .byte 0x00, 0x01
     .byte 0x00, 0x00
-    .4byte sym_060447A8
-    .4byte sym_06044764
-    .4byte sym_06044784
-    .4byte sym_06063788
-    .4byte sym_0605AAA6
+    .long sym_060447A8
+    .long sym_06044764
+    .long sym_06044784
+    .long sym_06063788
+    .long sym_0605AAA6
     .byte 0x00, 0x00
     .byte 0xF0, 0x00
-    .4byte sym_0605AAA2
-    .4byte sym_06028400
+    .long sym_0605AAA2
+    .long sym_06028400

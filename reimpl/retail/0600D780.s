@@ -93,11 +93,11 @@ DAT_0600d82a:
     .global DAT_0600d82e
 DAT_0600d82e:
     .byte 0x01, 0xE8
-    .4byte sym_0607E940
-    .4byte sym_06063F1C
-    .4byte sym_0607EA9C
-    .4byte sym_06063F18
-    .4byte sym_0605DE3C
+    .long sym_0607E940
+    .long sym_06063F1C
+    .long sym_0607EA9C
+    .long sym_06063F18
+    .long sym_0605DE3C
     .byte 0x4F, 0x26
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
@@ -142,6 +142,6 @@ DAT_0600d82e:
 DAT_0600d894:
     .byte 0x01, 0xEC
     .byte 0x01, 0xE8
-    .4byte sym_0607E940
-    .4byte sym_0607EA9C
-    .4byte sym_06063F20
+    .long sym_0607E940
+    .long sym_0607EA9C
+    .long sym_06063F20

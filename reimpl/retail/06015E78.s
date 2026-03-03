@@ -31,4 +31,4 @@ speed_value_format:
     .byte 0x60, 0x33
     .byte 0x00, 0x0B
     .byte 0x80, 0x22
-    .4byte sym_06084FC8
+    .long sym_06084FC8

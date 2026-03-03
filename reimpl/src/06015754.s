@@ -60,7 +60,7 @@ minimap_full_update:
     bra     .L_060157FC
     mov.l r2, @(4, r4)
 .L_060157C8:
-    .4byte  sym_06084FC8
+    .long  sym_06084FC8
 .L_060157CC:
     extu.b r14, r4
     mov r4, r3
@@ -180,9 +180,9 @@ loc_060158A4:
     rts
     nop
 .L_060158A8:
-    .4byte  0x00010000
+    .long  0x00010000
 .L_060158AC:
-    .4byte  track_vtx_builder
+    .long  track_vtx_builder
 
     .global loc_060158B0
 loc_060158B0:

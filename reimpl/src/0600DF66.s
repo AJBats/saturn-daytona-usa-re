@@ -30,22 +30,22 @@ update_mode_dispatch:
     bra     .L_0600DFCC
     nop
 
-    .2byte  0xFFFF
-    .4byte  sym_06078635
-    .4byte  sym_06063EF0
-    .4byte  sym_06078634
-    .4byte  sym_0600A8BC
-    .4byte  sym_06083255
-    .4byte  terrain_data_lookup
-    .4byte  sprite_transform
-    .4byte  sprite_batch_render
+    .short  0xFFFF
+    .long  sym_06078635
+    .long  sym_06063EF0
+    .long  sym_06078634
+    .long  sym_0600A8BC
+    .long  sym_06083255
+    .long  terrain_data_lookup
+    .long  sprite_transform
+    .long  sprite_batch_render
 
 .L_pool_0600DFB7:
-    .4byte  sym_0607EA98
+    .long  sym_0607EA98
 .L_pool_0600DFBB:
-    .4byte  sym_060786CA
+    .long  sym_060786CA
 .L_pool_0600DFBF:
-    .4byte  sym_06083261
+    .long  sym_06083261
 
 .L_0600DFC0:
     cmp/eq #0x0, r0

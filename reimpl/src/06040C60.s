@@ -27,6 +27,6 @@ event_queue_flush:
     rts
     mov.l @r15+, r14
 .L_pool_06040C90:
-    .4byte  ai_brake_handler
+    .long  ai_brake_handler
 .L_pool_06040C94:
-    .4byte  sym_0606367C
+    .long  sym_0606367C

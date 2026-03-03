@@ -9,7 +9,7 @@ credits_text_format:
     add #0x24, r4
     mov #0x0, r4
     cmp/gt r4, r13
-    bf/s    .L_0603F32C
+    bf.s    .L_0603F32C
     mov r4, r12
 .L_0603F300:
     mov r15, r5
@@ -33,7 +33,7 @@ credits_text_format:
     add #0xC, r14
     add #-0x1, r13
     cmp/pl r13
-    bt/s    .L_0603F300
+    bt.s    .L_0603F300
     add #0x1, r12
 .L_0603F32C:
     add #-0xC, r14

@@ -23,4 +23,4 @@ sym_06035C6E:
     .byte 0x80, 0x00
     .byte 0x25, 0x89
     .byte 0x00, 0x08
-    .4byte sym_06063590
+    .long sym_06063590

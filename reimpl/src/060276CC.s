@@ -59,11 +59,11 @@ spring_damper:
     bra     .L_060279A6
     nop
 .L_pool_0602773C:
-    .4byte  0x0000E666
+    .long  0x0000E666
 .L_pool_06027740:
-    .4byte  0x00001999
+    .long  0x00001999
 .L_pool_06027744:
-    .4byte  sym_06063F04
+    .long  sym_06063F04
 .L_06027748:
     mov.l @r4, r7
     dmuls.l r7, r1

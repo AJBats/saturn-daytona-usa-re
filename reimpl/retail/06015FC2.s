@@ -126,8 +126,8 @@ results_screen_render:
     .byte 0xA0, 0x15
     .byte 0x12, 0x14
     .byte 0xF8, 0x00
-    .4byte sym_06084FC8
-    .4byte sym_06035438
+    .long sym_06084FC8
+    .long sym_06035438
     .byte 0x00, 0x0F
     .byte 0x00, 0x00
     .byte 0xFF, 0xFC

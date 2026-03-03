@@ -81,4 +81,4 @@ best_lap_display:
     .byte 0x6E, 0xF6
     .byte 0xE0, 0x00
     .byte 0xFF, 0xFF
-    .4byte sym_06084FC8
+    .long sym_06084FC8

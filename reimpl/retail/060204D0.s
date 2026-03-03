@@ -37,11 +37,11 @@ obj_list_proc:
 loc_06020510:
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
-    .4byte sym_06028560
-    .4byte gameover_channel_setup
-    .4byte sym_06087814
+    .long sym_06028560
+    .long gameover_channel_setup
+    .long sym_06087814
     .byte 0x00, 0x18
     .byte 0x00, 0x00
-    .4byte display_channel_b
+    .long display_channel_b
     .byte 0x00, 0x98
     .byte 0x00, 0x00

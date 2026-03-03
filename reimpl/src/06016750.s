@@ -57,8 +57,8 @@ results_awards:
     rts
     nop
 .L_pool_060167BC:
-    .4byte  sym_0605BB0C
+    .long  sym_0605BB0C
 .L_pool_060167C0:
-    .4byte  sym_06035168
+    .long  sym_06035168
 .L_pool_060167C4:
-    .4byte  sym_06084FC8
+    .long  sym_06084FC8

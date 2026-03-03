@@ -106,26 +106,26 @@ geom_final_output:
 
     .global DAT_0601ff8a
 DAT_0601ff8a:
-    .2byte  0x01EC
+    .short  0x01EC
 .L_0601FF8C:
-    .2byte  0x035A
+    .short  0x035A
 
     .global DAT_0601ff8e
 DAT_0601ff8e:
-    .2byte  0x0194
+    .short  0x0194
 
     .global DAT_0601ff90
 DAT_0601ff90:
-    .2byte  0x01FC
+    .short  0x01FC
 .L_0601FF92:
-    .2byte  0x01B0
+    .short  0x01B0
 .L_0601FF94:
-    .4byte  sym_0607E940
+    .long  sym_0607E940
 .L_0601FF98:
-    .4byte  sym_06078680
+    .long  sym_06078680
 .L_0601FF9C:
-    .4byte  fpmul
+    .long  fpmul
 .L_0601FFA0:
-    .4byte  race_pos_interp
+    .long  race_pos_interp
 .L_0601FFA4:
-    .4byte  sym_0607EA9C
+    .long  sym_0607EA9C

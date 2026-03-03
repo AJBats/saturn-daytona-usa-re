@@ -22,7 +22,7 @@ car_iterate_update:
     tst r4, r4
     .word 0x0029
     cmp/hs r12, r5
-    bt/s    .L_0600D906
+    bt.s    .L_0600D906
     mov.l r0, @r15
 .L_0600D8D2:
     mov r14, r3
@@ -64,12 +64,12 @@ car_iterate_update:
     rts
     mov.l @r15+, r14
 .L_wpool_0600D91A:
-    .2byte  0x01EC
+    .short  0x01EC
 .L_0600D91C:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_0600D920:
-    .4byte  sym_0607E940
+    .long  sym_0607E940
 .L_0600D924:
-    .4byte  sym_060786AC
+    .long  sym_060786AC
 .L_0600D928:
-    .4byte  sym_06063F3C
+    .long  sym_06063F3C

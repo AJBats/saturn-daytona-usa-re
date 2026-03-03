@@ -41,16 +41,16 @@ FUN_0602D8C6:
     lds.l @r15+, pr
     rts
     nop
-    .2byte  0x0250
+    .short  0x0250
 
     .global DAT_0602d918
 DAT_0602d918:
-    .2byte  0x018C
+    .short  0x018C
 
     .global DAT_0602d91a
 DAT_0602d91a:
-    .2byte  0x0190
+    .short  0x0190
 .L_pool_0602D91E:
-    .4byte  cos_lookup
+    .long  cos_lookup
 .L_pool_0602D922:
-    .4byte  sin_lookup
+    .long  sin_lookup

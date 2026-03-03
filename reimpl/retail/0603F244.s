@@ -65,11 +65,11 @@ credits_scroll:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .byte 0x00, 0xC8
-    .4byte large_prologue_save
-    .4byte checkpoint_state_check
-    .4byte sym_060A4D14
+    .long large_prologue_save
+    .long checkpoint_state_check
+    .long sym_060A4D14
     .byte 0x00, 0x00
     .byte 0x80, 0x00
-    .4byte sym_06041884
-    .4byte state_field_read
-    .4byte track_shadow_ground
+    .long sym_06041884
+    .long state_field_read
+    .long track_shadow_ground

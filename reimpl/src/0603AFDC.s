@@ -12,7 +12,7 @@ menu_text_layout:
     shll2 r3
     shll2 r3
     cmp/eq #0x1, r0
-    bf/s    .L_0603B000
+    bf.s    .L_0603B000
     add r3, r12
     mov.l @(12, r12), r3
     jsr @r3
@@ -47,10 +47,10 @@ menu_text_layout:
     mov.l @r15+, r13
     .byte   0xA4, 0x85    /* bra 0x0603B93C (external) */
     mov.l @r15+, r14
-    .2byte  0xFFFF
-    .4byte  save_commit_write
+    .short  0xFFFF
+    .long  save_commit_write
 .L_pool_0603B038:
-    .4byte  sym_060A4D14
+    .long  sym_060A4D14
 .L_0603B03C:
     mov.l @(8, r12), r2
     mov r14, r5

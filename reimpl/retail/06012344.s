@@ -87,10 +87,10 @@ DAT_060123e0:
     .global DAT_060123e2
 DAT_060123e2:
     .byte 0x26, 0x66
-    .4byte sym_060788AC
-    .4byte fpmul
-    .4byte sym_060788C0
-    .4byte sym_060788CC
-    .4byte sym_060788D8
-    .4byte sym_06034FE0
-    .4byte sym_060788E4
+    .long sym_060788AC
+    .long fpmul
+    .long sym_060788C0
+    .long sym_060788CC
+    .long sym_060788D8
+    .long sym_06034FE0
+    .long sym_060788E4

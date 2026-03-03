@@ -79,12 +79,12 @@ road_segment_check:
 DAT_06040d2c:
     .byte 0x00, 0xFF
     .byte 0xFF, 0xFF
-    .4byte ai_checkpoint_section
-    .4byte sym_060A5400
-    .4byte sym_0604231E
+    .long ai_checkpoint_section
+    .long sym_060A5400
+    .long sym_0604231E
     .byte 0x00, 0x00
     .byte 0xFF, 0xFF
-    .4byte road_segment_query
+    .long road_segment_query
     .byte 0x92, 0x3C
     .byte 0xD3, 0x20
     .byte 0x43, 0x0B
@@ -155,12 +155,12 @@ DAT_06040dc2:
     .byte 0x02, 0x58
     .byte 0x04, 0x3C
     .byte 0xFF, 0xFF
-    .4byte sym_06035C4E
+    .long sym_06035C4E
     .byte 0x00, 0x00
     .byte 0xFB, 0xFF
-    .4byte smpc_cmd_helper_b
-    .4byte sym_060A4D14
-    .4byte track_intersect_test
+    .long smpc_cmd_helper_b
+    .long sym_060A4D14
+    .long track_intersect_test
     .byte 0x65, 0xF3
     .byte 0xD3, 0x25
     .byte 0x75, 0x04
@@ -239,13 +239,13 @@ DAT_06040dc2:
     .global DAT_06040e72
 DAT_06040e72:
     .byte 0x00, 0xFC
-    .4byte mesh_boundary_check
+    .long mesh_boundary_check
     .byte 0x40, 0x00
     .byte 0x00, 0x00
-    .4byte track_surface_type_a
+    .long track_surface_type_a
     .byte 0x00, 0x00
     .byte 0x80, 0x00
-    .4byte sym_06035C4E
+    .long sym_06035C4E
     .global sym_06040E88
 sym_06040E88:
     .byte 0xE1, 0x01
@@ -298,7 +298,7 @@ sym_06040EBA:
     .byte 0x60, 0x23
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
-    .4byte sym_060A5400
+    .long sym_060A5400
     .global sym_06040EEC
 sym_06040EEC:
     .byte 0xE1, 0x01

@@ -11,7 +11,7 @@ obj_coord_setter:
     add #-0x4, r15
     mov.l r5, @r15
     tst r6, r6
-    bt/s    .L_060050EC
+    bt.s    .L_060050EC
     mov r4, r13
     mov r13, r4
     mov r13, r5
@@ -20,7 +20,7 @@ obj_coord_setter:
     mov.w @r4, r3
     mov.l @r11, r14
     mov r0, r12
-    mulu.w r3, r12
+    mulu r3, r12
     mov.l   .L_060050E0, r3
     sts macl, r12
     add #0x2, r12
@@ -39,14 +39,14 @@ obj_coord_setter:
     mov.l r3, @r4
     bra     .L_060050EE
     nop
-    .4byte  0x25E20000
-    .4byte  dma_memory_transfer
+    .long  0x25E20000
+    .long  dma_memory_transfer
 .L_060050E0:
-    .4byte  memcpy_word_idx
+    .long  memcpy_word_idx
 .L_060050E4:
-    .4byte  sym_06063D90
+    .long  sym_06063D90
 .L_060050E8:
-    .4byte  sym_06063D94
+    .long  sym_06063D94
 .L_060050EC:
     mov r13, r14
 .L_060050EE:

@@ -73,19 +73,19 @@ vdp1_sprite_render_alt:
     mov r7, r0
     bra     .L_06007870
     mov.w r0, @(4, r2)
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_pool_06007820:
-    .4byte  sym_06063F64
+    .long  sym_06063F64
 .L_pool_06007824:
-    .4byte  sym_0606A4EC                     /* VDP1 command slot counter */
+    .long  sym_0606A4EC                     /* VDP1 command slot counter */
 .L_pool_06007828:
-    .4byte  sym_0606A4F4
+    .long  sym_0606A4F4
 .L_pool_0600782C:
-    .4byte  sym_06063F5C
+    .long  sym_06063F5C
 .L_pool_06007830:
-    .4byte  sym_06063F60
+    .long  sym_06063F60
 .L_pool_06007834:
-    .4byte  sym_060684EC                     /* command type -> VRAM jump table */
+    .long  sym_060684EC                     /* command type -> VRAM jump table */
 .L_06007838:
     extu.w r7, r7
     mov.l r7, @(4, r15)
@@ -146,7 +146,7 @@ vdp1_sprite_render_alt:
     mov r0, r4
     mov.w @(8, r15), r0
     mov r0, r3
-    mulu.w r3, r4
+    mulu r3, r4
     mov #0x0, r3
     sts macl, r4
     cmp/gt r4, r3
@@ -164,12 +164,12 @@ vdp1_sprite_render_alt:
 
     .global DAT_060078ca
 DAT_060078ca:
-    .2byte  0x3F00
+    .short  0x3F00
 .L_pool_060078CC:
-    .4byte  sym_06034FE0
+    .long  sym_06034FE0
 .L_pool_060078D0:
-    .4byte  sym_0606A4F0
+    .long  sym_0606A4F0
 .L_pool_060078D4:
-    .4byte  sym_06063F5C
+    .long  sym_06063F5C
 .L_pool_060078D8:
-    .4byte  dma_memory_transfer
+    .long  dma_memory_transfer

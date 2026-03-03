@@ -79,11 +79,11 @@ DAT_06011f02:
     .byte 0x04, 0x86
     .byte 0x04, 0x20
     .byte 0xFF, 0xFF
-    .4byte sym_060638B0
-    .4byte sym_06028400
-    .4byte sym_060638A0
-    .4byte sym_06085FF4
-    .4byte sym_0607EADC
+    .long sym_060638B0
+    .long sym_06028400
+    .long sym_060638A0
+    .long sym_06085FF4
+    .long sym_0607EADC
     .global sym_06011F1C
 sym_06011F1C:
     .byte 0x2F, 0xD6

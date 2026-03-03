@@ -108,12 +108,12 @@ scene_finalize_a:
 
     .global DAT_06025136
 DAT_06025136:
-    .2byte  0x00B4
+    .short  0x00B4
 .L_pool_06025138:
-    .4byte  sym_060610BC
+    .long  sym_060610BC
 .L_pool_0602513C:
-    .4byte  sym_06060F2C
+    .long  sym_06060F2C
 .L_pool_06025140:
-    .4byte  sym_06059094
+    .long  sym_06059094
 .L_pool_06025144:
-    .4byte  sym_06060D7C
+    .long  sym_06060D7C

@@ -25,9 +25,9 @@ car_select_setup:
     .byte 0x43, 0x2B
     .byte 0x4F, 0x26
     .byte 0xFF, 0xFF
-    .4byte sym_0602853E
-    .4byte sym_06028560
-    .4byte sym_06085FF1
-    .4byte sym_06085FF6
-    .4byte sym_06085FF7
-    .4byte course_init_pipeline
+    .long sym_0602853E
+    .long sym_06028560
+    .long sym_06085FF1
+    .long sym_06085FF6
+    .long sym_06085FF7
+    .long course_init_pipeline

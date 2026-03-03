@@ -63,7 +63,7 @@ menu_list_scroll:
     .byte 0x6D, 0xF6
     .byte 0xA3, 0x18
     .byte 0x6E, 0xF6
-    .4byte cdb_wait_scdq
-    .4byte sym_0603F9DA
-    .4byte sym_0603EF54
-    .4byte sym_0603FA00
+    .long cdb_wait_scdq
+    .long sym_0603F9DA
+    .long sym_0603EF54
+    .long sym_0603FA00

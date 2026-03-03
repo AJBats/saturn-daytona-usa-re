@@ -31,7 +31,7 @@ screen_fade_ctrl:
     mov r3, r13
     mov r1, r9
     mov.b @r0+, r7
-    mulu.w r7, r11
+    mulu r7, r11
     sts macl, r7
     add r7, r9
 .L_06028478:
@@ -40,14 +40,14 @@ screen_fade_ctrl:
     mov.w r7, @r5
     add #0x2, r9
     dt r13
-    bf/s    .L_06028478
+    bf.s    .L_06028478
     add #0x2, r5
     dt r12
     bf      .L_0602846C
     add r3, r1
     add r3, r1
     dt r4
-    bf/s    .L_06028468
+    bf.s    .L_06028468
     add r6, r5
     lds.l @r15+, pr
     mov.l @r15+, r14
@@ -58,10 +58,10 @@ screen_fade_ctrl:
     rts
     mov.l @r15+, r8
 .L_pool_060284A4:
-    .4byte  sym_06028614
+    .long  sym_06028614
 .L_pool_060284A8:
-    .4byte  sym_06063690
-    .2byte  0x0009
+    .long  sym_06063690
+    .short  0x0009
 
     .global sym_060284AE
 sym_060284AE:

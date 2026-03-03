@@ -53,4 +53,4 @@ obj_anim_advance:
     .byte 0x00, 0x0B
     .byte 0x04, 0x24
     .byte 0xFF, 0xFF
-    .4byte sym_0608782C
+    .long sym_0608782C

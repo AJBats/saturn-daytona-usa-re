@@ -40,7 +40,7 @@ display_element_table:
     .byte 0x6E, 0xF6
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
-    .4byte sym_060623B0
+    .long sym_060623B0
     .byte 0x00, 0x00
     .byte 0x02, 0xDC
     .byte 0x00, 0x00
@@ -49,13 +49,13 @@ display_element_table:
     .byte 0x00, 0x0E
     .byte 0x00, 0x00
     .byte 0x00, 0x00
-    .4byte sym_06062464
+    .long sym_06062464
     .byte 0x00, 0x00
     .byte 0x02, 0xDE
     .byte 0x00, 0x00
     .byte 0x00, 0x0D
     .byte 0x00, 0x00
     .byte 0x00, 0x05
-    .4byte sym_06082A20
-    .4byte sym_06082A24
-    .4byte sym_06082A25
+    .long sym_06082A20
+    .long sym_06082A24
+    .long sym_06082A25

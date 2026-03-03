@@ -22,22 +22,22 @@ sym_06012E84:
     .byte 0xD4, 0x0C
     .byte 0xAE, 0xD8
     .byte 0x00, 0x09
-    .4byte sym_06044978
-    .4byte sym_06044984
+    .long sym_06044978
+    .long sym_06044984
     .byte 0x00, 0x2A
     .byte 0x00, 0x00
-    .4byte sym_06044990
+    .long sym_06044990
     .byte 0x00, 0x2F
     .byte 0x00, 0x00
-    .4byte sym_0604499C
-    .4byte sym_060F8000
-    .4byte sym_060449A8
+    .long sym_0604499C
+    .long sym_060F8000
+    .long sym_060449A8
     .byte 0x00, 0x2F
     .byte 0x80, 0x00
-    .4byte sym_060449B4
+    .long sym_060449B4
     .byte 0x25, 0xA0
     .byte 0x00, 0x00
-    .4byte sym_060449BC
+    .long sym_060449BC
     .global sym_06012EBC
 sym_06012EBC:
     .byte 0xD5, 0x09
@@ -66,14 +66,14 @@ sym_06012EDC:
     .byte 0x00, 0x09
     .byte 0x25, 0xA0
     .byte 0x30, 0x00
-    .4byte sym_060449C8
+    .long sym_060449C8
     .byte 0x00, 0x20
     .byte 0x00, 0x00
     .byte 0x25, 0xA1
     .byte 0x00, 0x00
-    .4byte sym_060449D4
-    .4byte sym_060449E0
-    .4byte sym_060449EC
+    .long sym_060449D4
+    .long sym_060449E0
+    .long sym_060449EC
     .global sym_06012F00
 sym_06012F00:
     .byte 0xD5, 0x09
@@ -102,15 +102,15 @@ sym_06012F20:
     .byte 0x00, 0x09
     .byte 0x00, 0x26
     .byte 0xD0, 0x00
-    .4byte sym_060449EC
+    .long sym_060449EC
     .byte 0x25, 0xA1
     .byte 0x00, 0x00
-    .4byte sym_060449F8
+    .long sym_060449F8
     .byte 0x25, 0xA0
     .byte 0x30, 0x00
-    .4byte sym_06044A04
-    .4byte sym_06044A10
-    .4byte sym_06044A1C
+    .long sym_06044A04
+    .long sym_06044A10
+    .long sym_06044A1C
     .byte 0xD5, 0x07
     .byte 0xD4, 0x08
     .byte 0xAE, 0x76
@@ -135,9 +135,9 @@ sym_06012F60:
     .byte 0x00, 0x09
     .byte 0x25, 0xA1
     .byte 0x00, 0x00
-    .4byte sym_06044A28
+    .long sym_06044A28
     .byte 0x25, 0xA0
     .byte 0x30, 0x00
-    .4byte sym_06044A34
-    .4byte sym_06044A40
-    .4byte sym_06044A4C
+    .long sym_06044A34
+    .long sym_06044A40
+    .long sym_06044A4C

@@ -41,22 +41,22 @@ display_element_table:
     mov.l @r15+, r14
     rts
     nop
-    .4byte  sym_060623B0
-    .4byte  0x000002DC
-    .4byte  0x00000004
-    .4byte  0x0000000E
-    .4byte  0x00000000
+    .long  sym_060623B0
+    .long  0x000002DC
+    .long  0x00000004
+    .long  0x0000000E
+    .long  0x00000000
 .L_pool_06032257:
-    .4byte  sym_06062464
+    .long  sym_06062464
 .L_pool_0603225B:
-    .4byte  0x000002DE
+    .long  0x000002DE
 .L_pool_0603225F:
-    .4byte  0x0000000D
+    .long  0x0000000D
 .L_pool_06032263:
-    .4byte  0x00000005
+    .long  0x00000005
 .L_pool_06032267:
-    .4byte  sym_06082A20
+    .long  sym_06082A20
 .L_pool_0603226B:
-    .4byte  sym_06082A24
+    .long  sym_06082A24
 .L_pool_0603226F:
-    .4byte  sym_06082A25
+    .long  sym_06082A25

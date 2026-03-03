@@ -72,8 +72,8 @@ collision_order_a:
 DAT_06031750:
     .byte 0x80, 0x00
     .byte 0x00, 0x00
-    .4byte atan2
-    .4byte sym_0605BCC8
+    .long atan2
+    .long sym_0605BCC8
     .byte 0x51, 0xEA
     .byte 0x52, 0xDA
     .byte 0x31, 0x28
@@ -224,8 +224,8 @@ DAT_060317c6:
     .byte 0x00, 0x0B
     .byte 0x68, 0xF6
     .byte 0x00, 0x00
-    .4byte cos_lookup
-    .4byte sin_lookup
+    .long cos_lookup
+    .long sin_lookup
     .byte 0x00, 0x00
     .byte 0x80, 0x00
     .byte 0x2F, 0x06
@@ -279,8 +279,8 @@ collision_order_b:
 DAT_060318e4:
     .byte 0x80, 0x00
     .byte 0x00, 0x00
-    .4byte atan2
-    .4byte sym_0605BCC8
+    .long atan2
+    .long sym_0605BCC8
     .byte 0x51, 0xEA
     .byte 0x52, 0xDA
     .byte 0x31, 0x28
@@ -433,8 +433,8 @@ DAT_0603196c:
     .byte 0x36, 0x9C
     .byte 0xAF, 0x2A
     .byte 0x1D, 0x66
-    .4byte cos_lookup
-    .4byte sin_lookup
+    .long cos_lookup
+    .long sin_lookup
     .byte 0x00, 0x00
     .byte 0x80, 0x00
     .global sym_06031A24

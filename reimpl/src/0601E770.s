@@ -74,14 +74,14 @@ mat_transpose:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_0601E7FC:
-    .4byte  0x20100063
+    .long  0x20100063
 .L_0601E800:
-    .4byte  sym_06035C1C
+    .long  sym_06035C1C
 .L_0601E804:
-    .4byte  0x2010001F
+    .long  0x2010001F
 .L_0601E808:
-    .4byte  sym_06000354
+    .long  sym_06000354
 .L_0601E80C:
-    .4byte  sym_06087094
+    .long  sym_06087094

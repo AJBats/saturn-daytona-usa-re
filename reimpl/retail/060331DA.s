@@ -18,10 +18,10 @@ results_digit_group:
     .byte 0x00, 0x09
     .byte 0x00, 0x00
     .byte 0xFF, 0xFF
-    .4byte sym_0606318C
-    .4byte sym_06063190
-    .4byte sincos_pair
-    .4byte fpmul
+    .long sym_0606318C
+    .long sym_06063190
+    .long sincos_pair
+    .long fpmul
     .byte 0x2F, 0x66
     .byte 0x2F, 0x76
     .byte 0xD3, 0x15

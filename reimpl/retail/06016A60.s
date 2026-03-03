@@ -61,7 +61,7 @@ text_string_render:
     .byte 0xA0, 0x23
     .byte 0x14, 0x21
     .byte 0xFF, 0xFF
-    .4byte sym_06084FC8
+    .long sym_06084FC8
     .byte 0x00, 0x0B
     .byte 0x00, 0x00
     .byte 0x00, 0x04
@@ -242,9 +242,9 @@ loc_06016C06:
     .byte 0x64, 0xF0
     .byte 0x43, 0x2B
     .byte 0x7F, 0x04
-    .4byte sym_06084FC8
-    .4byte sym_0605BB1C
-    .4byte sym_0605BB48
+    .long sym_06084FC8
+    .long sym_0605BB1C
+    .long sym_0605BB48
     .global loc_06016C40
 loc_06016C40:
     .byte 0x65, 0x4C

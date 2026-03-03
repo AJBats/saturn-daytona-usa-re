@@ -63,12 +63,12 @@ sound_cmd_dispatch:
     .byte 0x23, 0xE2
     .byte 0xA0, 0x1E
     .byte 0x00, 0x09
-    .4byte sym_06086050
+    .long sym_06086050
     .byte 0xA0, 0x00
     .byte 0x00, 0x00
     .byte 0x25, 0xA0
     .byte 0x2C, 0x20
-    .4byte sym_0608604C
+    .long sym_0608604C
     .byte 0xA0, 0x70
     .byte 0x00, 0xFF
     .byte 0xA1, 0x70
@@ -112,7 +112,7 @@ sound_write_direct:
     .byte 0x23, 0x22
     .byte 0x25, 0xA0
     .byte 0x2C, 0x20
-    .4byte sym_0608604C
+    .long sym_0608604C
 	.text
     .global sound_channel_a
 sound_channel_a:
@@ -161,11 +161,11 @@ snd_channel_b_body:
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .4byte sym_0605DF94
-    .4byte sym_0608604C
+    .long sym_0605DF94
+    .long sym_0608604C
     .byte 0x25, 0xA0
     .byte 0x2C, 0x20
-    .4byte sym_0605DF98
+    .long sym_0605DF98
 	.text
     .global sound_channel_c
 sound_channel_c:
@@ -207,8 +207,8 @@ sound_channel_c2:
     .byte 0x00, 0x0B
     .byte 0x23, 0x22
     .byte 0xFF, 0xFF
-    .4byte sym_0605DF9C
-    .4byte sym_0608604C
+    .long sym_0605DF9C
+    .long sym_0608604C
     .byte 0x25, 0xA0
     .byte 0x2C, 0x20
 	.text
@@ -259,11 +259,11 @@ snd_channel_d_handler:
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .4byte sym_0605DFA4
-    .4byte sym_0608604C
+    .long sym_0605DFA4
+    .long sym_0608604C
     .byte 0x25, 0xA0
     .byte 0x2C, 0x20
-    .4byte sym_0605DFA8
+    .long sym_0605DFA8
 	.text
     .global sound_notify_handler
 sound_notify_handler:
@@ -359,16 +359,16 @@ sound_notify_handler:
     .byte 0x00, 0x09
     .byte 0x02, 0x1C
     .byte 0xFF, 0xFF
-    .4byte sym_06086054
-    .4byte sym_0607EAD8
-    .4byte sym_06087060
-    .4byte sym_06086058
-    .4byte sym_0607E944
-    .4byte sym_0604A50C
-    .4byte sym_0605AD00
-    .4byte sym_06085FF4
-    .4byte sym_06063F28
-    .4byte sym_06086034
+    .long sym_06086054
+    .long sym_0607EAD8
+    .long sym_06087060
+    .long sym_06086058
+    .long sym_0607E944
+    .long sym_0604A50C
+    .long sym_0605AD00
+    .long sym_06085FF4
+    .long sym_06063F28
+    .long sym_06086034
     .byte 0xAE, 0x11
     .byte 0x21, 0xFF
     .byte 0xAE, 0x11
@@ -473,12 +473,12 @@ DAT_0601d974:
     .global DAT_0601d976
 DAT_0601d976:
     .byte 0x04, 0xB0
-    .4byte sym_0605AD00
-    .4byte sym_06086056
+    .long sym_0605AD00
+    .long sym_06086056
     .byte 0xAE, 0x11
     .byte 0x26, 0xFF
-    .4byte sym_06063F28
-    .4byte sym_06086034
+    .long sym_06063F28
+    .long sym_06086034
     .byte 0xAE, 0x11
     .byte 0x21, 0xFF
     .byte 0xD5, 0x2B
@@ -574,12 +574,12 @@ snd_race_update:
     .byte 0xFF, 0xFF
     .byte 0xAE, 0x11
     .byte 0x27, 0xFF
-    .4byte sym_06086054
-    .4byte sym_06085FF4
-    .4byte sym_06086056
-    .4byte sym_0608605A
-    .4byte sym_0607EAD8
-    .4byte sym_06086058
+    .long sym_06086054
+    .long sym_06085FF4
+    .long sym_06086056
+    .long sym_0608605A
+    .long sym_0607EAD8
+    .long sym_06086058
     .byte 0xAE, 0x11
     .byte 0x2B, 0xFF
     .byte 0xAE, 0x11
@@ -712,14 +712,14 @@ snd_race_update:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .byte 0xFF, 0xFF
-    .4byte sym_06086056
+    .long sym_06086056
     .byte 0xAE, 0x11
     .byte 0x2C, 0xFF
     .byte 0xAE, 0x11
     .byte 0x2D, 0xFF
     .byte 0xAE, 0x11
     .byte 0x2F, 0xFF
-    .4byte sym_0608605A
+    .long sym_0608605A
     .byte 0xAE, 0x11
     .byte 0x20, 0xFF
     .byte 0x00, 0x0B
@@ -740,7 +740,7 @@ snd_race_update:
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
     .byte 0xFF, 0xFF
-    .4byte sym_06086050
+    .long sym_06086050
     .byte 0x25, 0xA0
     .byte 0x2C, 0x20
     .byte 0x00, 0x01

@@ -17,9 +17,9 @@ sys_timer_tick:
     .byte 0x89, 0x07
     .byte 0xA0, 0x1D
     .byte 0xE0, 0x00
-    .4byte sym_060409DE
-    .4byte evt_checkpoint_handler
-    .4byte sym_06040FB8
+    .long sym_060409DE
+    .long evt_checkpoint_handler
+    .long sym_06040FB8
     .byte 0x63, 0xF3
     .byte 0xE2, 0x01
     .byte 0x73, 0x04

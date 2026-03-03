@@ -28,21 +28,21 @@ transition_handler_a:
     bra     .L_0600F7F4
     nop
 
-    .2byte  0x0B04
-    .4byte  0x0B380170
-    .4byte  0x0C2604B0
-    .4byte  sym_06063750
-    .4byte  0x00009000
-    .4byte  0x0000A000
-    .4byte  sym_0607EADC
-    .4byte  sym_0607EBCC
-    .4byte  sym_0607887F
+    .short  0x0B04
+    .long  0x0B380170
+    .long  0x0C2604B0
+    .long  sym_06063750
+    .long  0x00009000
+    .long  0x0000A000
+    .long  sym_0607EADC
+    .long  sym_0607EBCC
+    .long  sym_0607887F
 .L_pool_0600F7E4:
-    .4byte  g_pad_state
+    .long  g_pad_state
 .L_pool_0600F7E8:
-    .4byte  anim_ui_transition
+    .long  anim_ui_transition
 .L_pool_0600F7EC:
-    .4byte  hud_course_render
+    .long  hud_course_render
 
 .L_0600F7F0:
     .byte   0xB5, 0x5A    /* bsr 0x060102A8 (external) */

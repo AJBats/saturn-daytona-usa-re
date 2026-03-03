@@ -12,26 +12,26 @@ tachometer_ctrl:
     mov.w   .L_wpool_06010ACC, r3
     and r3, r2
     tst r2, r2
-    bt/s    .L_06010AEC
+    bt.s    .L_06010AEC
     mov #0x0, r13
     extu.b r13, r3
     mov.l   .L_06010AE8, r2
     mov.b r3, @r2
     bra     .L_06010B4C
     nop
-    .4byte  0x00C00800
+    .long  0x00C00800
 .L_wpool_06010ACC:
-    .2byte  0x0100
-    .2byte  0xFFFF
-    .4byte  sym_0605D05C
-    .4byte  sym_06059FFC
-    .4byte  sym_06063F5C
-    .4byte  memcpy_word_idx
-    .4byte  sym_0607EAE0
+    .short  0x0100
+    .short  0xFFFF
+    .long  sym_0605D05C
+    .long  sym_06059FFC
+    .long  sym_06063F5C
+    .long  memcpy_word_idx
+    .long  sym_0607EAE0
 .L_06010AE4:
-    .4byte  sym_0607EBCC
+    .long  sym_0607EBCC
 .L_06010AE8:
-    .4byte  sym_0607887F
+    .long  sym_0607887F
 
 .L_06010AEC:
     .byte   0x95, 0x40    /* mov.w .L_wpool_06010B70, r5 */

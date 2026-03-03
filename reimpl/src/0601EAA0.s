@@ -27,15 +27,15 @@ geom_coord_calc:
     mov.b r3, @(r0, r6)
     bra     .L_0601EB12
     nop
-    .4byte  sym_060877D9
+    .long  sym_060877D9
 .L_pool_0601EAD8:
-    .4byte  sym_0604A57C
-    .4byte  sym_06087080
-    .4byte  sym_0604A5AC
+    .long  sym_0604A57C
+    .long  sym_06087080
+    .long  sym_0604A5AC
 .L_pool_0601EAE4:
-    .4byte  sym_060877D8
+    .long  sym_060877D8
 .L_pool_0601EAE8:
-    .4byte  sym_060877DD
+    .long  sym_060877DD
 .L_0601EAEC:
     mov #0x1, r5
     mov #0x3, r2

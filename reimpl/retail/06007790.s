@@ -73,12 +73,12 @@ vdp1_sprite_render_alt:
     .byte 0xA0, 0x29
     .byte 0x81, 0x22
     .byte 0xFF, 0xFF
-    .4byte sym_06063F64
-    .4byte sym_0606A4EC
-    .4byte sym_0606A4F4
-    .4byte sym_06063F5C
-    .4byte sym_06063F60
-    .4byte sym_060684EC
+    .long sym_06063F64
+    .long sym_0606A4EC
+    .long sym_0606A4F4
+    .long sym_06063F5C
+    .long sym_06063F60
+    .long sym_060684EC
     .byte 0x67, 0x7D
     .byte 0x1F, 0x71
     .byte 0x93, 0x45
@@ -155,7 +155,7 @@ vdp1_sprite_render_alt:
     .global DAT_060078ca
 DAT_060078ca:
     .byte 0x3F, 0x00
-    .4byte sym_06034FE0
-    .4byte sym_0606A4F0
-    .4byte sym_06063F5C
-    .4byte dma_memory_transfer
+    .long sym_06034FE0
+    .long sym_0606A4F0
+    .long sym_06063F5C
+    .long dma_memory_transfer

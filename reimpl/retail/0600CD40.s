@@ -75,6 +75,6 @@ DAT_0600cdc0:
     .global DAT_0600cdc2
 DAT_0600cdc2:
     .byte 0x40, 0x00
-    .4byte sym_0607E940
-    .4byte atan2
-    .4byte sym_0607EA9C
+    .long sym_0607E940
+    .long atan2
+    .long sym_0607EA9C

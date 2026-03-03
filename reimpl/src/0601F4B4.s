@@ -138,12 +138,12 @@ geom_display_proc:
     rts
     mov.l @r15+, r14
 .L_0601F5C4:
-    .2byte  0x03E8
+    .short  0x03E8
 
     .global DAT_0601f5c6
 DAT_0601f5c6:
-    .2byte  0xF844
+    .short  0xF844
 .L_0601F5C8:
-    .4byte  sym_060877E4
+    .long  sym_060877E4
 .L_0601F5CC:
-    .4byte  sym_060A4C98
+    .long  sym_060A4C98

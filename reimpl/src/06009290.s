@@ -24,14 +24,14 @@ state_post_countdown:
     lds.l @r15+, pr
     rts
     mov.w r2, @r3
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_060092BC:
-    .4byte  g_game_state
+    .long  g_game_state
 .L_060092C0:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8
 .L_060092C4:
-    .4byte  race_cleanup_handler
+    .long  race_cleanup_handler
 .L_060092C8:
-    .4byte  sym_06012198
+    .long  sym_06012198
 .L_060092CC:
-    .4byte  sym_0605A016
+    .long  sym_0605A016

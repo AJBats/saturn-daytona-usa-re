@@ -76,26 +76,26 @@ obj_collision_update:
     lds.l @r15+, pr
     rts
     mov.w r2, @r3
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_pool_06020CC8:
-    .4byte  sym_0605F588
+    .long  sym_0605F588
 .L_pool_06020CCC:
-    .4byte  sym_06035228
+    .long  sym_06035228
 .L_pool_06020CD0:
-    .4byte  sym_0605F598
+    .long  sym_0605F598
 .L_pool_06020CD4:
-    .4byte  sym_060635AC
+    .long  sym_060635AC
 .L_pool_06020CD8:
-    .4byte  sym_060A3D88
+    .long  sym_060A3D88
 .L_pool_06020CDC:
-    .4byte  sym_060A3DB0
+    .long  sym_060A3DB0
 .L_pool_06020CE0:
-    .4byte  sym_0608780C
+    .long  sym_0608780C
 .L_pool_06020CE4:
-    .4byte  0x0000C060
+    .long  0x0000C060
 .L_pool_06020CE8:
-    .4byte  sym_06038044
+    .long  sym_06038044
 .L_pool_06020CEC:
-    .4byte  0x0000C044
+    .long  0x0000C044
 .L_pool_06020CF0:
-    .4byte  sym_0602853E
+    .long  sym_0602853E

@@ -20,8 +20,8 @@ fpdiv_setup:
     rts
     mov.l @(28, r2), r0
 .L_06027570:
-    .2byte  0xFF00
-    .2byte  0x0000
+    .short  0xFF00
+    .short  0x0000
 
     .global memmove_byte
 memmove_byte:
@@ -39,7 +39,7 @@ memmove_byte:
     mov.b @r5, r7
     dt r6
     mov.b r7, @-r4
-    bf/s    .L_06027588
+    bf.s    .L_06027588
     add #-0x1, r5
 .L_06027592:
     rts
@@ -48,7 +48,7 @@ memmove_byte:
     mov.b @r5+, r7
     dt r6
     mov.b r7, @r4
-    bf/s    .L_06027596
+    bf.s    .L_06027596
     add #0x1, r4
     rts
     nop
@@ -62,7 +62,7 @@ memmove_word:
     bt      .L_060275C6
     mov r6, r7
     cmp/hi r4, r5
-    bt/s    .L_060275CA
+    bt.s    .L_060275CA
     shlr r6
     add r7, r5
     add r7, r4
@@ -71,7 +71,7 @@ memmove_word:
     mov.w @r5, r7
     dt r6
     mov.w r7, @-r4
-    bf/s    .L_060275BC
+    bf.s    .L_060275BC
     add #-0x2, r5
 .L_060275C6:
     rts
@@ -80,7 +80,7 @@ memmove_word:
     mov.w @r5+, r7
     dt r6
     mov.w r7, @r4
-    bf/s    .L_060275CA
+    bf.s    .L_060275CA
     add #0x2, r4
     rts
     nop
@@ -94,7 +94,7 @@ memmove_long:
     bt      .L_060275FA
     mov r6, r7
     cmp/hi r4, r5
-    bt/s    .L_060275FE
+    bt.s    .L_060275FE
     shlr2 r6
     add r7, r5
     add r7, r4
@@ -103,7 +103,7 @@ memmove_long:
     mov.l @r5, r7
     dt r6
     mov.l r7, @-r4
-    bf/s    .L_060275F0
+    bf.s    .L_060275F0
     add #-0x4, r5
 .L_060275FA:
     rts
@@ -112,7 +112,7 @@ memmove_long:
     mov.l @r5+, r7
     dt r6
     mov.l r7, @r4
-    bf/s    .L_060275FE
+    bf.s    .L_060275FE
     add #0x4, r4
     rts
     nop
@@ -125,7 +125,7 @@ memcpy_byte_idx:
     mov.b @(r0, r5), r1
     cmp/gt r0, r6
     mov.b r1, @(r0, r4)
-    bt/s    .L_06027610
+    bt.s    .L_06027610
     add #0x1, r0
     rts
     add #0x1, r6
@@ -138,7 +138,7 @@ memcpy_word_idx:
     mov.w @(r0, r5), r1
     cmp/gt r0, r6
     mov.w r1, @(r0, r4)
-    bt/s    .L_06027622
+    bt.s    .L_06027622
     add #0x2, r0
     rts
     add #0x2, r6
@@ -151,7 +151,7 @@ memcpy_long_idx:
     mov.l @(r0, r5), r1
     cmp/gt r0, r6
     mov.l r1, @(r0, r4)
-    bt/s    .L_06027634
+    bt.s    .L_06027634
     add #0x4, r0
     rts
     add #0x4, r6
@@ -175,7 +175,7 @@ memcpy_block32:
     mov.l r2, @(24, r4)
     mov.l r3, @(28, r4)
     dt r6
-    bf/s    memcpy_block32
+    bf.s    memcpy_block32
     add #0x20, r4
     rts
     nop
@@ -198,14 +198,14 @@ dma_transfer:
     rts
     mov.l r2, @(16, r1)
 .L_0602768A:
-    .2byte  0x0101
+    .short  0x0101
 .L_0602768C:
-    .4byte  0x25FE007C
+    .long  0x25FE007C
 .L_06027690:
-    .4byte  0x0000272E
+    .long  0x0000272E
 .L_06027694:
-    .4byte  0x25FE0000
-    .4byte  0x00090000
+    .long  0x25FE0000
+    .long  0x00090000
 
     .global viewport_project
 viewport_project:
@@ -228,9 +228,9 @@ viewport_project:
     rts
     mov.w r0, @(2, r5)
 .L_060276C0:
-    .2byte  0xFF00
-    .2byte  0x0009
-    .4byte  0x00010000
-    .2byte  0xFF00
+    .short  0xFF00
+    .short  0x0009
+    .long  0x00010000
+    .short  0xFF00
 .L_060276CA:
-    .2byte  0x00A0
+    .short  0x00A0

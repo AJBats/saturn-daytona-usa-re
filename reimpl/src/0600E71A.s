@@ -70,31 +70,31 @@ FUN_0600E71A:
 
     .global DAT_0600e79c
 DAT_0600e79c:
-    .2byte  0x0208
+    .short  0x0208
 
     .global DAT_0600e79e
 DAT_0600e79e:
-    .2byte  0x01E4
+    .short  0x01E4
 .L_0600E7A0:
-    .2byte  0x01F8
+    .short  0x01F8
 .L_0600E7A2:
-    .2byte  0x0400
+    .short  0x0400
 .L_0600E7A4:
-    .2byte  0x0228
-    .2byte  0xFFFF
+    .short  0x0228
+    .short  0xFFFF
 .L_0600E7A8:
-    .4byte  sym_0607E940
+    .long  sym_0607E940
 .L_0600E7AC:
-    .4byte  FUN_06008318
+    .long  FUN_06008318
 .L_0600E7B0:
-    .4byte  sym_06008640
+    .long  sym_06008640
 .L_0600E7B4:
-    .4byte  FUN_0600D26A
+    .long  FUN_0600D26A
 .L_0600E7B8:
-    .4byte  FUN_0600C4F8
+    .long  FUN_0600C4F8
 .L_0600E7BC:
-    .4byte  FUN_0600C5D6
+    .long  FUN_0600C5D6
 .L_0600E7C0:
-    .4byte  FUN_0600CEBA
+    .long  FUN_0600CEBA
 .L_0600E7C4:
-    .4byte  sym_0607EA9C
+    .long  sym_0607EA9C

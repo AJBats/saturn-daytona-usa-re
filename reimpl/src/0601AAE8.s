@@ -54,37 +54,37 @@ preview_camera_path:
     rts
     nop
 .L_0601AB4E:
-    .2byte  0x0700
+    .short  0x0700
 .L_0601AB50:
-    .4byte  sym_06063D9A
+    .long  sym_06063D9A
 .L_0601AB54:
-    .4byte  g_game_state
+    .long  g_game_state
 .L_0601AB58:
-    .4byte  sym_0605E0A2
+    .long  sym_0605E0A2
 .L_0601AB5C:
-    .4byte  sym_06085FF0
+    .long  sym_06085FF0
 .L_0601AB60:
-    .4byte  sym_0605D245
+    .long  sym_0605D245
 .L_0601AB64:
-    .4byte  sym_06085FF1
+    .long  sym_06085FF1
 .L_0601AB68:
-    .4byte  sym_06085FF2
+    .long  sym_06085FF2
 .L_0601AB6C:
-    .4byte  sym_06085FF3
+    .long  sym_06085FF3
 .L_0601AB70:
-    .4byte  sym_0602853E
+    .long  sym_0602853E
 .L_0601AB74:
-    .4byte  sym_0605B6D8
+    .long  sym_0605B6D8
 .L_0601AB78:
-    .4byte  sym_06028560
+    .long  sym_06028560
 .L_0601AB7C:
-    .4byte  course_select_draw
+    .long  course_select_draw
 .L_0601AB80:
-    .4byte  0xAE0001FF
+    .long  0xAE0001FF
 .L_0601AB84:
-    .4byte  sound_cmd_dispatch         /* sound command dispatcher */
+    .long  sound_cmd_dispatch         /* sound command dispatcher */
 .L_0601AB88:
-    .4byte  handler_init_reset
+    .long  handler_init_reset
 
     .global sym_0601AB8C
 sym_0601AB8C:

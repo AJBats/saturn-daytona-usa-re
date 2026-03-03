@@ -107,13 +107,13 @@ scene_finalize_b:
     rts
     mov.l @r15+, r14
 .L_wpool_06025210:
-    .2byte  0x00B4
-    .2byte  0xFFFF
+    .short  0x00B4
+    .short  0xFFFF
 .L_pool_06025214:
-    .4byte  sym_060610BC
+    .long  sym_060610BC
 .L_pool_06025218:
-    .4byte  sym_0606107C
+    .long  sym_0606107C
 .L_pool_0602521C:
-    .4byte  sym_060590A8
+    .long  sym_060590A8
 .L_pool_06025220:
-    .4byte  sym_06060D7C
+    .long  sym_06060D7C

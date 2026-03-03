@@ -62,12 +62,12 @@ mat_euler_rotate:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_0601E754:
-    .4byte  0x20100063
+    .long  0x20100063
 .L_0601E758:
-    .4byte  0x2010001F
+    .long  0x2010001F
 .L_0601E75C:
-    .4byte  sym_06000354
+    .long  sym_06000354
 .L_0601E760:
-    .4byte  sym_06087094
+    .long  sym_06087094

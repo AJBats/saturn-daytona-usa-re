@@ -21,9 +21,9 @@ motion_blur_effect:
 .L_060284DC:
     mov.b @r0+, r7
     tst r7, r7
-    bf/s    .L_060284DC
+    bf.s    .L_060284DC
     add #0x1, r12
-    mulu.w r12, r3
+    mulu r12, r3
     mov r12, r10
     sts macl, r12
     add #-0x40, r12
@@ -37,7 +37,7 @@ motion_blur_effect:
     mov.b @r0+, r7
     mov r3, r13
     sub r8, r7
-    mulu.w r7, r11
+    mulu r7, r11
     mov r1, r6
     sts macl, r7
     add r7, r6
@@ -47,14 +47,14 @@ motion_blur_effect:
     mov.w r7, @r5
     add #0x2, r6
     dt r13
-    bf/s    .L_06028504
+    bf.s    .L_06028504
     add #0x2, r5
     dt r9
     bf      .L_060284F6
     add r3, r1
     add r3, r1
     dt r4
-    bf/s    .L_060284F2
+    bf.s    .L_060284F2
     add r12, r5
     lds.l @r15+, pr
     mov.l @r15+, r14
@@ -65,12 +65,12 @@ motion_blur_effect:
     mov.l @r15+, r9
     rts
     mov.l @r15+, r8
-    .2byte  0x0000
+    .short  0x0000
 .L_pool_06028534:
-    .4byte  sym_06028614
+    .long  sym_06028614
 .L_pool_06028538:
-    .4byte  sym_06063690
-    .2byte  0x0009
+    .long  sym_06063690
+    .short  0x0009
 
     .global sym_0602853E
 sym_0602853E:
@@ -83,16 +83,16 @@ sym_0602853E:
 .L_0602854A:
     mov.l r2, @r0
     dt r1
-    bf/s    .L_0602854A
+    bf.s    .L_0602854A
     add #0x4, r0
     rts
     nop
 .L_wpool_06028556:
-    .2byte  0x0800
+    .short  0x0800
 .L_pool_06028558:
-    .4byte  sym_06028644
+    .long  sym_06028644
 .L_pool_0602855C:
-    .4byte  sym_0602862C
+    .long  sym_0602862C
 
     .global sym_06028560
 sym_06028560:
@@ -102,14 +102,14 @@ sym_06028560:
 .L_06028566:
     mov.l r2, @r0
     dt r1
-    bf/s    .L_06028566
+    bf.s    .L_06028566
     add #0x4, r0
     rts
     nop
 .L_wpool_06028572:
-    .2byte  0x0380
+    .short  0x0380
 .L_pool_06028574:
-    .4byte  sym_060612C4
+    .long  sym_060612C4
 .L_pool_06028578:
-    .4byte  0x00200020
-    .4byte  0x00002800
+    .long  0x00200020
+    .long  0x00002800

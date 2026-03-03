@@ -10,7 +10,7 @@ state_field_read:
     .byte   0xBE, 0xFF    /* bsr 0x06041698 (external) */
     nop
     cmp/eq #0x1, r0
-    bt/s    .L_060418A4
+    bt.s    .L_060418A4
     mov r0, r4
     bra     .L_060418B0
     nop
@@ -18,9 +18,9 @@ state_field_read:
     bra     .L_06041896
     nop
 .L_pool_060418A8:
-    .4byte  sym_060A5400
+    .long  sym_060A5400
 .L_pool_060418AC:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_060418B0:
     mov #0x0, r5
     .byte   0xD2, 0x2A    /* mov.l .L_pool_0604195C, r2 */

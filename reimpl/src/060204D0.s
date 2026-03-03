@@ -39,13 +39,13 @@ obj_list_proc:
 loc_06020510:
     rts
     nop
-    .4byte  sym_06028560
-    .4byte  gameover_channel_setup
+    .long  sym_06028560
+    .long  gameover_channel_setup
 .L_pool_0602051C:
-    .4byte  sym_06087814
+    .long  sym_06087814
 .L_pool_06020520:
-    .4byte  0x00180000
+    .long  0x00180000
 .L_pool_06020524:
-    .4byte  display_channel_b
+    .long  display_channel_b
 .L_pool_06020528:
-    .4byte  0x00980000
+    .long  0x00980000

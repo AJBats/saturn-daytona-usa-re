@@ -12,7 +12,7 @@ track_edge_validate:
     mov.l @r14, r0
     mov.l @(r0, r1), r0
     cmp/eq #0x1, r0
-    bf/s    .L_06041F60
+    bf.s    .L_06041F60
     mov r4, r13
     mov.l @r14, r5
     mov.w   DAT_06041f94, r3
@@ -92,27 +92,27 @@ track_edge_validate:
 DAT_06041f90:
     .word 0x0338
 .L_06041F92:
-    .2byte  0x0348
+    .short  0x0348
 
     .global DAT_06041f94
 DAT_06041f94:
-    .2byte  0x035C
+    .short  0x035C
 
     .global DAT_06041f96
 DAT_06041f96:
-    .2byte  0x034C
-    .4byte  0x0000FFF7
-    .4byte  smpc_cmd_helper_b
+    .short  0x034C
+    .long  0x0000FFF7
+    .long  smpc_cmd_helper_b
 .L_06041FA0:
-    .4byte  ai_checkpoint_validate
+    .long  ai_checkpoint_validate
 .L_06041FA4:
-    .4byte  sym_060A5400
+    .long  sym_060A5400
 .L_06041FA8:
-    .4byte  track_road_edge_b
+    .long  track_road_edge_b
 .L_06041FAC:
-    .4byte  track_road_width_main
+    .long  track_road_width_main
 .L_06041FB0:
-    .4byte  track_post_collision
+    .long  track_post_collision
 .L_06041FB4:
     mov r15, r4
     jsr @r12
@@ -224,16 +224,16 @@ DAT_06041f96:
     rts
     mov.l @r15+, r14
 .L_0604207A:
-    .2byte  0x0348
+    .short  0x0348
 
     .global DAT_0604207c
 DAT_0604207c:
-    .2byte  0x0100
+    .short  0x0100
 
     .global DAT_0604207e
 DAT_0604207e:
-    .2byte  0x035C
+    .short  0x035C
 .L_06042080:
-    .4byte  sym_06035C4E
+    .long  sym_06035C4E
 .L_06042084:
-    .4byte  track_road_width_main
+    .long  track_road_width_main

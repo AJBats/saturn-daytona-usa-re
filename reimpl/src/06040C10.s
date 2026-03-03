@@ -41,6 +41,6 @@ sym_06040C50:
     rts
     mov #0x0, r0
 .L_pool_06040C54:
-    .4byte  evt_field_update
+    .long  evt_field_update
 .L_pool_06040C58:
-    .4byte  state_field_read
+    .long  state_field_read

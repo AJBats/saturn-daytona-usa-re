@@ -35,5 +35,5 @@ course_data_access_f:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .4byte input_proc_analog
-    .4byte input_proc_digital
+    .long input_proc_analog
+    .long input_proc_digital

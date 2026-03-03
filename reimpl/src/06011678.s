@@ -16,7 +16,7 @@ sprite_buffer_init:
     add #0x1, r4
     extu.w r4, r3
     cmp/ge r13, r3
-    bf/s    .L_0601168A
+    bf.s    .L_0601168A
     mov.l r14, @(r0, r12)
     lds.l @r15+, pr
     mov.l @r15+, r12
@@ -24,6 +24,6 @@ sprite_buffer_init:
     rts
     mov.l @r15+, r14
 .L_wpool_060116A2:
-    .2byte  0x0100
+    .short  0x0100
 .L_060116A4:
-    .4byte  0x25E5F800
+    .long  0x25E5F800

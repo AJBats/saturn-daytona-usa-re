@@ -58,43 +58,43 @@ course_data_loader:
     rts
     mov.l @r15+, r14
 .L_0601B5F4:
-    .2byte  0x0180
-    .2byte  0xFFFF
+    .short  0x0180
+    .short  0xFFFF
 .L_0601B5F8:
-    .4byte  memcpy_word_idx
+    .long  memcpy_word_idx
 .L_0601B5FC:
-    .4byte  sym_0604866C
+    .long  sym_0604866C
 .L_0601B600:
-    .4byte  0x25F006C0
+    .long  0x25F006C0
 .L_0601B604:
-    .4byte  sym_0604862C
+    .long  sym_0604862C
 .L_0601B608:
-    .4byte  0x25F00720
+    .long  0x25F00720
 .L_0601B60C:
-    .4byte  sym_060485EC
+    .long  sym_060485EC
 .L_0601B610:
-    .4byte  0x25F00740
+    .long  0x25F00740
 .L_0601B614:
-    .4byte  sym_0604996C
+    .long  sym_0604996C
 .L_0601B618:
-    .4byte  0x25F00000
+    .long  0x25F00000
 .L_0601B61C:
-    .4byte  dma_transfer
+    .long  dma_transfer
 .L_0601B620:
-    .4byte  sym_0602853E
+    .long  sym_0602853E
 .L_0601B624:
-    .4byte  sym_06028560
+    .long  sym_06028560
 .L_0601B628:
-    .4byte  sym_060638C8
+    .long  sym_060638C8
 .L_0601B62C:
-    .4byte  0x0000C000
+    .long  0x0000C000
 .L_0601B630:
-    .4byte  sym_06028400
+    .long  sym_06028400
 .L_0601B634:
-    .4byte  sym_0605D4F5
+    .long  sym_0605D4F5
 .L_0601B638:
-    .4byte  sym_0605D4F4
+    .long  sym_0605D4F4
 .L_0601B63C:
-    .4byte  sym_0605D4FA
+    .long  sym_0605D4FA
 .L_0601B640:
-    .4byte  sym_0608600D
+    .long  sym_0608600D

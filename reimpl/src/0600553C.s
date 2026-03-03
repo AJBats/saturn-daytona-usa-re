@@ -6,7 +6,7 @@ sprite_frame_select:
     sts.l macl, @-r15
     mov.b @r4, r14
     tst r5, r5
-    bf/s    .L_0600554E
+    bf.s    .L_0600554E
     mov #0x1, r4
     bra     .L_06005558
     nop
@@ -55,17 +55,17 @@ sprite_frame_select:
     rts
     mov.l @r15+, r14
 .L_wpool_060055A0:
-    .2byte  0x0268
-    .2byte  0xFFFF
+    .short  0x0268
+    .short  0xFFFF
 .L_pool_060055A4:
-    .4byte  sym_06026E0C
+    .long  sym_06026E0C
 .L_pool_060055A8:
-    .4byte  sym_06078900
+    .long  sym_06078900
 .L_pool_060055AC:
-    .4byte  sym_06026E2E
+    .long  sym_06026E2E
 .L_pool_060055B0:
-    .4byte  mat_rot_y
+    .long  mat_rot_y
 .L_pool_060055B4:
-    .4byte  mat_rot_x
+    .long  mat_rot_x
 .L_pool_060055B8:
-    .4byte  mat_rot_z
+    .long  mat_rot_z

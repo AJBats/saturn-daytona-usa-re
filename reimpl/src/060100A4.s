@@ -29,7 +29,7 @@ sprite_anim_render:
     mov.l @r0, r0
     mov.l @r4, r10
     cmp/eq r0, r1
-    bt/s    .L_06010110
+    bt.s    .L_06010110
     mov.l @(4, r4), r11
     mov.l @r15, r5
     add #0x3, r5
@@ -51,20 +51,20 @@ DAT_060100f4:
 
     .global DAT_060100f6
 DAT_060100f6:
-    .2byte  0x0101
+    .short  0x0101
     .global DAT_060100f8
 DAT_060100f8:
-    .2byte  0x8000
-    .2byte  0xFFFF
-    .4byte  sym_0605AB19
+    .short  0x8000
+    .short  0xFFFF
+    .long  sym_0605AB19
 .L_06010100:
-    .4byte  sym_060447C8
+    .long  sym_060447C8
 .L_06010104:
-    .4byte  0x00010000
+    .long  0x00010000
 .L_06010108:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8
 .L_0601010C:
-    .4byte  sym_0605D0BC
+    .long  sym_0605D0BC
 .L_06010110:
     mov #0x20, r6
     extu.b r14, r5
@@ -92,7 +92,7 @@ DAT_060100f8:
     mov.l   .L_060101C4, r5
     mov.l @r3, r3
     cmp/eq r3, r2
-    bf/s    .L_060101A2
+    bf.s    .L_060101A2
     mov #0x1E, r4
     extu.b r14, r0
     shll r0
@@ -154,21 +154,21 @@ DAT_060100f8:
 
     .global DAT_060101b2
 DAT_060101b2:
-    .2byte  0x020C
+    .short  0x020C
 .L_060101B4:
-    .4byte  sym_0605D0BC
+    .long  sym_0605D0BC
 .L_060101B8:
-    .4byte  sym_06078888
+    .long  sym_06078888
 .L_060101BC:
-    .4byte  dma_transfer
+    .long  dma_transfer
 .L_060101C0:
-    .4byte  sym_0607887F
+    .long  sym_0607887F
 .L_060101C4:
-    .4byte  sym_06078870
+    .long  sym_06078870
 .L_060101C8:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8
 .L_060101CC:
-    .4byte  sym_060447F8
+    .long  sym_060447F8
 .L_060101D0:
     extu.b r14, r0
     shll r0
@@ -226,56 +226,56 @@ DAT_060101b2:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .4byte  0xD416E200              /* following TU code (not part of this function) */
-    .4byte  0xD016D317
-    .4byte  0x6001600D
-    .4byte  0x2422203A
-    .4byte  0x9215C9FF
-    .4byte  0x650D3527
-    .4byte  0x8B026242
-    .4byte  0x72012422
-    .4byte  0x655D930D
-    .4byte  0x35378B02
-    .4byte  0x63427301
-    .4byte  0x24326242
-    .4byte  0xD30D2320
-    .4byte  0x6142D30D
-    .4byte  0x000B2312
+    .long  0xD416E200              /* following TU code (not part of this function) */
+    .long  0xD016D317
+    .long  0x6001600D
+    .long  0x2422203A
+    .long  0x9215C9FF
+    .long  0x650D3527
+    .long  0x8B026242
+    .long  0x72012422
+    .long  0x655D930D
+    .long  0x35378B02
+    .long  0x63427301
+    .long  0x24326242
+    .long  0xD30D2320
+    .long  0x6142D30D
+    .long  0x000B2312
 .L_06010274:
-    .2byte  0x072B
-    .2byte  0x0080
-    .4byte  0x00C0FFFF
+    .short  0x072B
+    .short  0x0080
+    .long  0x00C0FFFF
 .L_0601027C:
-    .4byte  sym_0607887F
+    .long  sym_0607887F
 .L_06010280:
-    .4byte  0x00960000
+    .long  0x00960000
 .L_06010284:
-    .4byte  sym_0605AA98
+    .long  sym_0605AA98
 .L_06010288:
-    .4byte  sym_06044844
+    .long  sym_06044844
 .L_0601028C:
-    .4byte  0x00200000
+    .long  0x00200000
 .L_06010290:
-    .4byte  rigid_body_transform
-    .4byte  sym_0607EADC
-    .4byte  sym_06063D9C
-    .4byte  0x0000FFFF
-    .4byte  sym_0607887E
-    .4byte  sym_0607EAD8
-    .4byte  0xD519634D
-    .4byte  0xD2192329
-    .4byte  0x23388907
-    .4byte  0xE202D316
-    .4byte  0x63323323
-    .4byte  0x89026252
-    .4byte  0x72012522
-    .4byte  0x644D9320
-    .4byte  0x24392448
-    .4byte  0x8906D310
-    .4byte  0x63324315
-    .4byte  0x8B026352
-    .4byte  0x73FF2532
-    .4byte  0x6252D30E
-    .4byte  0x23206152
-    .4byte  0xD30D000B
-    .4byte  0x2312624D
+    .long  rigid_body_transform
+    .long  sym_0607EADC
+    .long  sym_06063D9C
+    .long  0x0000FFFF
+    .long  sym_0607887E
+    .long  sym_0607EAD8
+    .long  0xD519634D
+    .long  0xD2192329
+    .long  0x23388907
+    .long  0xE202D316
+    .long  0x63323323
+    .long  0x89026252
+    .long  0x72012522
+    .long  0x644D9320
+    .long  0x24392448
+    .long  0x8906D310
+    .long  0x63324315
+    .long  0x8B026352
+    .long  0x73FF2532
+    .long  0x6252D30E
+    .long  0x23206152
+    .long  0xD30D000B
+    .long  0x2312624D

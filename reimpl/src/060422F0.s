@@ -24,7 +24,7 @@ DAT_0604230c:
     mov.b @(r0, r13), r1
     .word 0x01E0
 .L_06042310:
-    .4byte  sym_06035C4E
+    .long  sym_06035C4E
 .L_06042314:
     mov #0x0, r0
 .L_06042316:
@@ -101,10 +101,10 @@ sym_0604231E:
 
     .global DAT_06042398
 DAT_06042398:
-    .2byte  0x0304
+    .short  0x0304
 
     .global DAT_0604239a
 DAT_0604239a:
-    .2byte  0x01DC
+    .short  0x01DC
 .L_0604239C:
-    .4byte  sym_060A5400
+    .long  sym_060A5400

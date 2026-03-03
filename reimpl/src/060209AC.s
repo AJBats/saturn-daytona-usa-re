@@ -53,28 +53,28 @@ obj_anim_driver:
     bra     .L_06020A3A
     mov r12, r3
 .L_06020A0E:
-    .2byte  0x0100
+    .short  0x0100
 .L_06020A10:
-    .2byte  0x0200
-    .2byte  0xFFFF
+    .short  0x0200
+    .short  0xFFFF
 .L_06020A14:
-    .4byte  sym_0605F586
+    .long  sym_0605F586
 .L_06020A18:
-    .4byte  sym_06087828
+    .long  sym_06087828
 .L_06020A1C:
-    .4byte  0x00200000
+    .long  0x00200000
 .L_06020A20:
-    .4byte  0xAB1129FF                  /* sound command ID */
+    .long  0xAB1129FF                  /* sound command ID */
 .L_06020A24:
-    .4byte  sound_cmd_dispatch          /* sound command dispatch function */
+    .long  sound_cmd_dispatch          /* sound command dispatch function */
 .L_06020A28:
-    .4byte  0x12F2FC00
+    .long  0x12F2FC00
 .L_06020A2C:
-    .4byte  0x25F800A4
+    .long  0x25F800A4
 .L_06020A30:
-    .4byte  0x25E5F800
+    .long  0x25E5F800
 .L_06020A34:
-    .4byte  sym_06035C2C
+    .long  sym_06035C2C
 .L_06020A38:
     mov.l   .L_06020B04, r3
 .L_06020A3A:
@@ -174,45 +174,45 @@ obj_anim_driver:
     rts
     mov.l @r15+, r14
 .L_06020AF4:
-    .2byte  0x3000
+    .short  0x3000
 .L_06020AF6:
-    .2byte  0x0568
+    .short  0x0568
 .L_06020AF8:
-    .2byte  0x0498
+    .short  0x0498
 .L_06020AFA:
-    .2byte  0x0570
+    .short  0x0570
 .L_06020AFC:
-    .2byte  0x069C
+    .short  0x069C
 .L_06020AFE:
-    .2byte  0x0578
+    .short  0x0578
 .L_06020B00:
-    .2byte  0x0B1E
-    .2byte  0xFFFF
+    .short  0x0B1E
+    .short  0xFFFF
 .L_06020B04:
-    .4byte  0xFFE00000
+    .long  0xFFE00000
 .L_06020B08:
-    .4byte  sym_0605AD04
+    .long  sym_0605AD04
 .L_06020B0C:
-    .4byte  sym_06078637
+    .long  sym_06078637
 .L_06020B10:
-    .4byte  sym_06087824
+    .long  sym_06087824
 .L_06020B14:
-    .4byte  sym_06085FF4
+    .long  sym_06085FF4
 .L_06020B18:
-    .4byte  sym_06063750
+    .long  sym_06063750
 .L_06020B1C:
-    .4byte  sym_06028400
-    .4byte  0x9611E500                  /* mov.w @(0x22,PC),r6 / mov #0x0,r5 */
-    .4byte  0xD709D30A                  /* mov.l @(0x24,PC),r7 / mov.l @(0x28,PC),r3 */
-    .4byte  0xD20A2232                  /* mov.l @(0x28,PC),r2 / mov.l r3,@r2 */
-    .4byte  0x930C72F6                  /* mov.w @(0x18,PC),r3 / add #-0xA,r2 */
-    .4byte  0x2231645D                  /* mov.w r3,@r2 / mov.b @r5,r4 (loop) */
-    .4byte  0x604D4008                  /* extu.b r4,r0 / shll2 r0 */
-    .4byte  0x7401634D                  /* add #0x1,r4 / extu.b r4,r3 */
-    .4byte  0x33638FF9                  /* cmp/ge r6,r3 / bf loop */
-    .4byte  0x0756000B                  /* div0s r5,r7 / rts */
-    .4byte  0x00090100                  /* nop / 0x0100 (loop count) */
-    .4byte  0x0200FFFF
-    .4byte  0x25E5F800
-    .4byte  0x12F2FC00
-    .4byte  0x25F800A4
+    .long  sym_06028400
+    .long  0x9611E500                  /* mov.w @(0x22,PC),r6 / mov #0x0,r5 */
+    .long  0xD709D30A                  /* mov.l @(0x24,PC),r7 / mov.l @(0x28,PC),r3 */
+    .long  0xD20A2232                  /* mov.l @(0x28,PC),r2 / mov.l r3,@r2 */
+    .long  0x930C72F6                  /* mov.w @(0x18,PC),r3 / add #-0xA,r2 */
+    .long  0x2231645D                  /* mov.w r3,@r2 / mov.b @r5,r4 (loop) */
+    .long  0x604D4008                  /* extu.b r4,r0 / shll2 r0 */
+    .long  0x7401634D                  /* add #0x1,r4 / extu.b r4,r3 */
+    .long  0x33638FF9                  /* cmp/ge r6,r3 / bf loop */
+    .long  0x0756000B                  /* div0s r5,r7 / rts */
+    .long  0x00090100                  /* nop / 0x0100 (loop count) */
+    .long  0x0200FFFF
+    .long  0x25E5F800
+    .long  0x12F2FC00
+    .long  0x25F800A4

@@ -22,18 +22,18 @@ ai_brake_handler:
     mov #0x0, r3
     mov.l @r14, r2
     tst r4, r4
-    bt/s    .L_06041298
+    bt.s    .L_06041298
     mov.l r3, @(52, r2)
     mov #-0xA, r0
     add #0xC, r15
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-    .2byte  0x0328
+    .short  0x0328
 .L_pool_06041290:
-    .4byte  sym_060A5400
+    .long  sym_060A5400
 .L_pool_06041294:
-    .4byte  ai_brake_zone_main
+    .long  ai_brake_zone_main
 .L_06041298:
     .byte   0xD3, 0x1B    /* mov.l .L_pool_06041308, r3 */
     jsr @r3

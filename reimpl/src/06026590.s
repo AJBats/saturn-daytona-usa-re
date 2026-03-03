@@ -18,7 +18,7 @@ sprite_pair_render:
     mov r8, r3
     add #0x1, r3
     cmp/eq r3, r5
-    bf/s    .L_0602661E
+    bf.s    .L_0602661E
     mov r4, r12
     mov r13, r4
     mov r13, r6
@@ -120,14 +120,14 @@ sprite_pair_render:
     bra     .L_0602668A
     nop
 .L_06026668:
-    .2byte  0x00A8
-    .2byte  0xFFFF
+    .short  0x00A8
+    .short  0xFFFF
 .L_0602666C:
-    .4byte  sym_060610BC
+    .long  sym_060610BC
 .L_06026670:
-    .4byte  sym_06061170
+    .long  sym_06061170
 .L_06026674:
-    .4byte  sym_06061184
+    .long  sym_06061184
 .L_06026678:
     mov.l @r10, r6
     add r5, r6

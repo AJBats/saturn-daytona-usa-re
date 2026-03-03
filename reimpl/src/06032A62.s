@@ -9,36 +9,36 @@ rpm_gauge_render:
     mov.l @r13, r13
     bra     .L_06032AE4
     nop
-    .2byte  0x0000
-    .4byte  sym_06026DBC
+    .short  0x0000
+    .long  sym_06026DBC
 .L_pool_06032A79:
-    .4byte  sym_06089EDC
-    .4byte  0x00000018
-    .4byte  sym_06026E2E
-    .4byte  0x00000028
-    .4byte  mat_rot_x
-    .4byte  0x0000002C
-    .4byte  mat_rot_z
-    .4byte  0x0000002A
-    .4byte  mat_rot_y
-    .4byte  0x000000B4
-    .4byte  0x00000024
-    .4byte  0x0000002E
-    .4byte  0x000000E4
-    .4byte  0x00000030
-    .4byte  0x00000114
-    .4byte  sym_06026DF8
-    .4byte  0x0000003C
-    .4byte  0x00000032
-    .4byte  0x00000036
-    .4byte  0x00000034
-    .4byte  0x00000144
-    .4byte  0x00000048
-    .4byte  0x00000038
-    .4byte  0x00000174
-    .4byte  0x00000054
-    .4byte  0x0000003A
-    .4byte  0x000001A4
+    .long  sym_06089EDC
+    .long  0x00000018
+    .long  sym_06026E2E
+    .long  0x00000028
+    .long  mat_rot_x
+    .long  0x0000002C
+    .long  mat_rot_z
+    .long  0x0000002A
+    .long  mat_rot_y
+    .long  0x000000B4
+    .long  0x00000024
+    .long  0x0000002E
+    .long  0x000000E4
+    .long  0x00000030
+    .long  0x00000114
+    .long  sym_06026DF8
+    .long  0x0000003C
+    .long  0x00000032
+    .long  0x00000036
+    .long  0x00000034
+    .long  0x00000144
+    .long  0x00000048
+    .long  0x00000038
+    .long  0x00000174
+    .long  0x00000054
+    .long  0x0000003A
+    .long  0x000001A4
 .L_06032AE4:
     .byte   0xD0, 0x8E    /* mov.l .L_pool_06032D20, r0 */
     add r12, r0

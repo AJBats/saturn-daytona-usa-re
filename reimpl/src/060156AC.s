@@ -68,15 +68,15 @@ minimap_car_dot:
     rts
     mov.l @r15+, r14
 .L_pool_06015730:
-    .4byte  sym_06084FC8
-    .4byte  sym_0605B858
+    .long  sym_06084FC8
+    .long  sym_0605B858
 .L_pool_06015738:
-    .4byte  sym_0605B8A0
+    .long  sym_0605B8A0
 .L_pool_0601573C:
-    .4byte  sym_06035228
+    .long  sym_06035228
 .L_pool_06015740:
-    .4byte  sym_0605B860
+    .long  sym_0605B860
 .L_pool_06015744:
-    .4byte  track_vtx_builder
+    .long  track_vtx_builder
 .L_pool_06015748:
-    .4byte  sym_06085490
+    .long  sym_06085490

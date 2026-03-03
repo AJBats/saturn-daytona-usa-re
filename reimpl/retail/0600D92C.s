@@ -65,10 +65,10 @@ DAT_0600d99a:
     .byte 0x02, 0x2C
     .byte 0x02, 0x40
     .byte 0xFF, 0xFF
-    .4byte sym_0607E940
-    .4byte sym_06063F28
-    .4byte sym_0607EBF4
-    .4byte sym_0607EAC0
-    .4byte sym_060786B0
-    .4byte sym_060786A4
-    .4byte sym_0607EBF8
+    .long sym_0607E940
+    .long sym_06063F28
+    .long sym_0607EBF4
+    .long sym_0607EAC0
+    .long sym_060786B0
+    .long sym_060786A4
+    .long sym_0607EBF8

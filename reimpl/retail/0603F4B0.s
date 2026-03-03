@@ -11,5 +11,5 @@ audio_frame_process:
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
     .byte 0x08, 0x00
-    .4byte cmd_multi_validate
-    .4byte sym_060360FC
+    .long cmd_multi_validate
+    .long sym_060360FC

@@ -22,11 +22,11 @@ smpc_cmd_builder:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_pool_06034E50:
-    .4byte  input_proc_analog
+    .long  input_proc_analog
 .L_pool_06034E54:
-    .4byte  input_proc_buttons
+    .long  input_proc_buttons
 
     .global sym_06034E58
 sym_06034E58:
@@ -118,20 +118,20 @@ sym_06034E58:
     nop
 
 .L_wpool_06034EE8:
-    .2byte  0x03E8
-    .2byte  0xFFFF
+    .short  0x03E8
+    .short  0xFFFF
 
 .L_pool_06034EEC:
-    .4byte  sym_06063578
+    .long  sym_06063578
 .L_pool_06034EF0:
-    .4byte  sym_0606358C
+    .long  sym_0606358C
 .L_pool_06034EF4:
-    .4byte  sym_06063584
+    .long  sym_06063584
 .L_pool_06034EF8:
-    .4byte  sym_06059CAD
+    .long  sym_06059CAD
 .L_pool_06034EFC:
-    .4byte  sym_06063580
+    .long  sym_06063580
 .L_pool_06034F00:
-    .4byte  slave_main_loop
+    .long  slave_main_loop
 .L_pool_06034F04:
-    .4byte  sym_06059CAC
+    .long  sym_06059CAC

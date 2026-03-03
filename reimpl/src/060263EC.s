@@ -32,22 +32,22 @@ transform_heading_alt:
     mov.w @(6, r0), r0
     bra     .L_0602644C
     extu.w r0, r0
-    .2byte  0xA001                          /* branch instruction embedded in stream (not executed inline) */
-    .4byte  0x627D626D
-    .4byte  0xA0262D21
-    .4byte  0xA001627D
-    .4byte  0x626DA021
-    .2byte  0x2E21
+    .short  0xA001                          /* branch instruction embedded in stream (not executed inline) */
+    .long  0x627D626D
+    .long  0xA0262D21
+    .long  0xA001627D
+    .long  0x626DA021
+    .short  0x2E21
 .L_0602643A:
     bra     .L_0602647C
     nop
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_pool_06026440:
-    .4byte  sym_0606107C
+    .long  sym_0606107C
 .L_pool_06026444:
-    .4byte  sym_06089ED6
+    .long  sym_06089ED6
 .L_pool_06026448:
-    .4byte  sym_06089ED4
+    .long  sym_06089ED4
 .L_0602644C:
     mov.w   .L_wpool_06026462, r1
     sub r1, r0
@@ -61,13 +61,13 @@ transform_heading_alt:
     braf r0
     nop
 .L_wpool_06026462:
-    .2byte  0x008A
-    .4byte  0xFFC4FFC4                      /* dispatch offsets for render_type 0x008A and 0x008C */
-    .4byte  0xFFCEFFCE                      /* dispatch offsets for render_type 0x008E and 0x0090 */
-    .4byte  0xFFC8FFC8                      /* dispatch offsets for render_type 0x0092 and 0x0094 */
-    .4byte  0xFFC8FFC8                      /* dispatch offsets for render_type 0x0096 and 0x0098 */
-    .4byte  0xFFD2FFD2                      /* dispatch offsets for render_type 0x009A and 0x009C */
-    .4byte  0xFFD2FFD2                      /* dispatch offsets for render_type 0x009E and 0x00A0 */
+    .short  0x008A
+    .long  0xFFC4FFC4                      /* dispatch offsets for render_type 0x008A and 0x008C */
+    .long  0xFFCEFFCE                      /* dispatch offsets for render_type 0x008E and 0x0090 */
+    .long  0xFFC8FFC8                      /* dispatch offsets for render_type 0x0092 and 0x0094 */
+    .long  0xFFC8FFC8                      /* dispatch offsets for render_type 0x0096 and 0x0098 */
+    .long  0xFFD2FFD2                      /* dispatch offsets for render_type 0x009A and 0x009C */
+    .long  0xFFD2FFD2                      /* dispatch offsets for render_type 0x009E and 0x00A0 */
 .L_0602647C:
     add #0x1, r5
 .L_0602647E:

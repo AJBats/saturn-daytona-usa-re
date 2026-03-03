@@ -22,12 +22,12 @@ results_full_render:
     rts
     nop
 
-    .4byte  0x00030000
-    .4byte  sym_0603390C
+    .long  0x00030000
+    .long  sym_0603390C
 .L_06033270:
-    .4byte  0x00010000
+    .long  0x00010000
 .L_pool_06033276:
-    .4byte  0xFFF80000
+    .long  0xFFF80000
 
 .L_06033278:
     mov.l r0, @-r15
@@ -114,22 +114,22 @@ results_full_render:
     rts
     nop
 
-    .2byte  0x0000
+    .short  0x0000
 .L_pool_06033312:
-    .4byte  0x00240000
+    .long  0x00240000
 .L_pool_06033316:
-    .4byte  0x001C0000
+    .long  0x001C0000
 .L_06033318:
-    .4byte  0x00040000
+    .long  0x00040000
 .L_pool_0603331E:
-    .4byte  0x00460000
+    .long  0x00460000
 .L_pool_06033322:
-    .4byte  0x00360000
+    .long  0x00360000
 .L_06033324:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_06033328:
-    .4byte  0x00010000
+    .long  0x00010000
 .L_pool_0603332E:
-    .4byte  sym_060629AC
-    .4byte  0xD505D406                   /* trailing data (after cell table ptr — not code) */
-    .4byte  0x9606D006
+    .long  sym_060629AC
+    .long  0xD505D406                   /* trailing data (after cell table ptr — not code) */
+    .long  0x9606D006

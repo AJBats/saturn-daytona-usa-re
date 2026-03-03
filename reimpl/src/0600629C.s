@@ -102,37 +102,37 @@ car_array_init:
     bra     .L_060063A0
     mov r13, r11
 .L_0600635E:
-    .2byte  0x0268
+    .short  0x0268
 
     .global DAT_06006360
 DAT_06006360:
-    .2byte  0x009C
+    .short  0x009C
 
     .global DAT_06006362
 DAT_06006362:
-    .2byte  0x00DC
+    .short  0x00DC
 .L_06006364:
-    .4byte  sym_06078900
+    .long  sym_06078900
 .L_06006368:
-    .4byte  car_type_init
+    .long  car_type_init
 .L_0600636C:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_06006370:
-    .4byte  sym_0607E940
+    .long  sym_0607E940
 .L_06006374:
-    .4byte  sym_0605DF4E
+    .long  sym_0605DF4E
 .L_06006378:
-    .4byte  sym_0605DF50
+    .long  sym_0605DF50
 .L_0600637C:
-    .4byte  sym_0605DF52
+    .long  sym_0605DF52
 .L_06006380:
-    .4byte  sym_0605DF54
+    .long  sym_0605DF54
 .L_06006384:
-    .4byte  sym_06078635
+    .long  sym_06078635
 .L_06006388:
-    .4byte  sym_0607ED90
+    .long  sym_0607ED90
 .L_0600638C:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8
 .L_06006390:
     mul.l r9, r11
     sts macl, r2
@@ -234,42 +234,42 @@ DAT_06006362:
     bra     .L_060064A0
     nop
 .L_0600644C:
-    .2byte  0x00DC
-    .2byte  0xFFFF
+    .short  0x00DC
+    .short  0xFFFF
 .L_06006450:
-    .4byte  sym_0607EA98
+    .long  sym_0607EA98
 .L_06006454:
-    .4byte  sym_0607EAB8
+    .long  sym_0607EAB8
 .L_06006458:
-    .4byte  sym_06063F42
+    .long  sym_06063F42
 .L_0600645C:
-    .4byte  sym_06078868
+    .long  sym_06078868
 .L_06006460:
-    .4byte  sym_0600D280
+    .long  sym_0600D280
 .L_06006464:
-    .4byte  sym_0602E5E4
+    .long  sym_0602E5E4
 .L_06006468:
-    .4byte  sym_0607EBC0
+    .long  sym_0607EBC0
 .L_0600646C:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8
 .L_06006470:
-    .4byte  sym_0607EAD0
+    .long  sym_0607EAD0
 .L_06006474:
-    .4byte  sym_06063EF0
+    .long  sym_06063EF0
 .L_06006478:
-    .4byte  sym_06063F10
+    .long  sym_06063F10
 .L_0600647C:
-    .4byte  sym_06063E78
+    .long  sym_06063E78
 .L_06006480:
-    .4byte  sym_06063E8C
+    .long  sym_06063E8C
 .L_06006484:
-    .4byte  sym_06063E64
+    .long  sym_06063E64
 .L_06006488:
-    .4byte  sym_06063E50
+    .long  sym_06063E50
 .L_0600648C:
-    .4byte  0xFEA00000
+    .long  0xFEA00000
 .L_06006490:
-    .4byte  sym_06063F14
+    .long  sym_06063F14
 .L_06006494:
     mov #0x3, r2
     .byte   0x90, 0x59    /* mov.w .L_wpool_0600654C, r0 */

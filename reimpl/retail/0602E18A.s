@@ -16,11 +16,11 @@ draw_priority_resolve:
     .byte 0xA0, 0xFD
     .byte 0x00, 0x09
     .byte 0x00, 0x00
-    .4byte sym_0608325C
-    .4byte sym_0602EC54
-    .4byte sym_06083258
-    .4byte sym_0607E940
-    .4byte sym_0600DB64
+    .long sym_0608325C
+    .long sym_0602EC54
+    .long sym_06083258
+    .long sym_0607E940
+    .long sym_0600DB64
     .byte 0x00, 0x00
     .byte 0x02, 0x44
     .byte 0x00, 0x00

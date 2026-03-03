@@ -55,11 +55,11 @@ course_init_pipeline:
 DAT_0601a9a4:
     .byte 0x40, 0x00
     .byte 0xFF, 0xFF
-    .4byte g_pad_state
-    .4byte sym_0605D24C
+    .long g_pad_state
+    .long sym_0605D24C
     .byte 0x00, 0x00
     .byte 0x80, 0x00
-    .4byte sym_0605D243
+    .long sym_0605D243
     .byte 0x62, 0xC1
     .byte 0x62, 0x2D
     .byte 0x22, 0x69
@@ -128,11 +128,11 @@ DAT_0601a9a4:
     .global DAT_0601aa3a
 DAT_0601aa3a:
     .byte 0x06, 0x00
-    .4byte sym_06085FF6
-    .4byte sym_06012EC4
-    .4byte sym_06012F00
-    .4byte sym_06085FF7
-    .4byte race_variant_e
+    .long sym_06085FF6
+    .long sym_06012EC4
+    .long sym_06012F00
+    .long sym_06085FF7
+    .long race_variant_e
     .byte 0x60, 0xB0
     .byte 0x88, 0x01
     .byte 0x89, 0x04
@@ -195,13 +195,13 @@ DAT_0601aac2:
     .byte 0x09, 0x9C
     .byte 0x09, 0x1C
     .byte 0xFF, 0xFF
-    .4byte race_variant_f
+    .long race_variant_f
     .byte 0xAE, 0x00
     .byte 0x01, 0xFF
-    .4byte sound_cmd_dispatch
-    .4byte sym_06049CFC
-    .4byte sym_060283E0
-    .4byte sym_06049CDC
-    .4byte sym_0605D35C
+    .long sound_cmd_dispatch
+    .long sym_06049CFC
+    .long sym_060283E0
+    .long sym_06049CDC
+    .long sym_0605D35C
     .byte 0x00, 0x00
     .byte 0xE0, 0x00

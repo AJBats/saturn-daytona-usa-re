@@ -17,28 +17,28 @@ race_utility_fn:
     nop
     bra     .L_0600C2F8
     nop
-    .2byte  0xFE11
-    .4byte  0x0080FFFF
-    .4byte  sym_0608A52C
-    .4byte  sym_06089EDC
-    .4byte  memcpy_long_idx
-    .4byte  physics_calc_dispatch
-    .4byte  race_utility_fn
-    .4byte  sym_06063574
-    .4byte  0x0000FFFF
-    .4byte  0x21000000
-    .4byte  frame_dispatch
-    .4byte  scene_post_render
-    .4byte  replay_playback_engine
-    .4byte  sym_06059FF8
+    .short  0xFE11
+    .long  0x0080FFFF
+    .long  sym_0608A52C
+    .long  sym_06089EDC
+    .long  memcpy_long_idx
+    .long  physics_calc_dispatch
+    .long  race_utility_fn
+    .long  sym_06063574
+    .long  0x0000FFFF
+    .long  0x21000000
+    .long  frame_dispatch
+    .long  scene_post_render
+    .long  replay_playback_engine
+    .long  sym_06059FF8
 .L_0600C2DC:
-    .4byte  sym_0603C000
+    .long  sym_0603C000
 .L_0600C2E0:
-    .4byte  camera_track_setup
+    .long  camera_track_setup
 .L_0600C2E4:
-    .4byte  sym_06082A26
+    .long  sym_06082A26
 .L_0600C2E8:
-    .4byte  scene_path_b
+    .long  scene_path_b
 .L_0600C2EC:
     mov.b @r4, r0
     cmp/eq #0x1, r0
@@ -96,7 +96,7 @@ sym_0600C302:
     mov.w   DAT_0600c370, r2
     mov.l @(r0, r4), r3
     cmp/ge r2, r3
-    bf/s    .L_0600C35C
+    bf.s    .L_0600C35C
     mov #0x0, r6
     mov.w   DAT_0600c36a, r0
     mov.w r7, @(r0, r4)
@@ -114,34 +114,34 @@ sym_0600C302:
 
     .global DAT_0600c36a
 DAT_0600c36a:
-    .2byte  0x0172
+    .short  0x0172
 
     .global DAT_0600c36c
 DAT_0600c36c:
-    .2byte  0x0174
+    .short  0x0174
 
     .global DAT_0600c36e
 DAT_0600c36e:
-    .2byte  0x00DC
+    .short  0x00DC
 
     .global DAT_0600c370
 DAT_0600c370:
-    .2byte  0x00E6
+    .short  0x00E6
 
     .global DAT_0600c372
 DAT_0600c372:
-    .2byte  0x0084
+    .short  0x0084
 .L_wpool_0600C37C:
-    .2byte  0x008C
-    .2byte  0xFFFF
+    .short  0x008C
+    .short  0xFFFF
 .L_0600C378:
-    .4byte  scene_path_a
+    .long  scene_path_a
 .L_0600C37C:
-    .4byte  0x0000FFFF
+    .long  0x0000FFFF
 .L_0600C380:
-    .4byte  0x21800000
+    .long  0x21800000
 .L_0600C384:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_0600C388:
     mov #0x68, r0
     mov.w   .L_wpool_0600C41E, r3
@@ -160,94 +160,94 @@ DAT_0600c372:
 .L_0600C3A4:
     rts
     nop
-    .4byte  0xD51CD61D
-    .4byte  0xD31DD21E
-    .4byte  0x6331633D
-    .4byte  0x33208F41
-    .4byte  0xE703624D
-    .4byte  0xD31B6331
-    .4byte  0x633D2239
-    .4byte  0x22288903
-    .4byte  0xE3002532
-    .4byte  0xA06C0009
-    .4byte  0x624DD317
-    .4byte  0x6331633D
-    .4byte  0x22392228
-    .4byte  0x89066060
-    .4byte  0x20088B16
-    .4byte  0xE3012532
-    .4byte  0xA0130009
-    .4byte  0x624DD311
-    .4byte  0x6331633D
-    .4byte  0x22392228
-    .4byte  0x8903E302
-    .4byte  0x2532A008
-    .4byte  0x0009644D
-    .4byte  0xD20C6221
-    .4byte  0x622D2429
-    .4byte  0x24488900
-    .4byte  0x2572A049
-    .2byte  0x0009
+    .long  0xD51CD61D
+    .long  0xD31DD21E
+    .long  0x6331633D
+    .long  0x33208F41
+    .long  0xE703624D
+    .long  0xD31B6331
+    .long  0x633D2239
+    .long  0x22288903
+    .long  0xE3002532
+    .long  0xA06C0009
+    .long  0x624DD317
+    .long  0x6331633D
+    .long  0x22392228
+    .long  0x89066060
+    .long  0x20088B16
+    .long  0xE3012532
+    .long  0xA0130009
+    .long  0x624DD311
+    .long  0x6331633D
+    .long  0x22392228
+    .long  0x8903E302
+    .long  0x2532A008
+    .long  0x0009644D
+    .long  0xD20C6221
+    .long  0x622D2429
+    .long  0x24488900
+    .long  0x2572A049
+    .short  0x0009
 .L_wpool_0600C41E:
-    .2byte  0x009B
+    .short  0x009B
 
     .global DAT_0600c418
 DAT_0600c418:
-    .2byte  0x00E6
+    .short  0x00E6
 .L_wpool_0600C422:
-    .2byte  0x0172
-    .4byte  sym_06063E20
-    .4byte  sym_06083255
-    .4byte  sym_0607865E
-    .4byte  0x00008000
-    .4byte  sym_06078656
-    .4byte  sym_06078658
-    .4byte  sym_0607865A
-    .4byte  sym_0607865C
-    .4byte  0x624DD326
-    .4byte  0x6331633D
-    .4byte  0x22392228
-    .4byte  0x8912D324
-    .4byte  0xE2006332
-    .4byte  0x33268B0D
-    .4byte  0x60602008
-    .4byte  0x8903D020
-    .4byte  0x60028802
-    .4byte  0x89026252
-    .4byte  0xA00272FF
-    .4byte  0x625272FE
-    .4byte  0xA01C2522
-    .4byte  0x644DD21B
-    .4byte  0x6221622D
-    .4byte  0x24292448
-    .4byte  0x8914D319
-    .4byte  0xD2166330
-    .4byte  0x62223232
-    .4byte  0x890E6060
-    .4byte  0x20088903
-    .4byte  0xD0126002
-    .4byte  0x20088904
-    .4byte  0x63527301
-    .4byte  0x2532A003
-    .4byte  0x00096252
-    .4byte  0x72022522
-    .4byte  0xD00F6000
-    .4byte  0x600C2008
-    .4byte  0x8B10D00E
-    .4byte  0x6001600D
-    .4byte  0x2008890B
-    .4byte  0xD40CE106
-    .4byte  0xD30C6252
-    .4byte  0x6332332C
-    .4byte  0x33168B01
-    .4byte  0xA001627F
-    .4byte  0xE2042421
-    .4byte  0x000B0009
-    .4byte  sym_0607865E
-    .4byte  sym_06063E20
-    .4byte  sym_06078660
-    .4byte  sym_06078662
-    .4byte  sym_06078635
-    .4byte  sym_0607ED8C
-    .4byte  sym_0605A016
-    .4byte  sym_06063E1C
+    .short  0x0172
+    .long  sym_06063E20
+    .long  sym_06083255
+    .long  sym_0607865E
+    .long  0x00008000
+    .long  sym_06078656
+    .long  sym_06078658
+    .long  sym_0607865A
+    .long  sym_0607865C
+    .long  0x624DD326
+    .long  0x6331633D
+    .long  0x22392228
+    .long  0x8912D324
+    .long  0xE2006332
+    .long  0x33268B0D
+    .long  0x60602008
+    .long  0x8903D020
+    .long  0x60028802
+    .long  0x89026252
+    .long  0xA00272FF
+    .long  0x625272FE
+    .long  0xA01C2522
+    .long  0x644DD21B
+    .long  0x6221622D
+    .long  0x24292448
+    .long  0x8914D319
+    .long  0xD2166330
+    .long  0x62223232
+    .long  0x890E6060
+    .long  0x20088903
+    .long  0xD0126002
+    .long  0x20088904
+    .long  0x63527301
+    .long  0x2532A003
+    .long  0x00096252
+    .long  0x72022522
+    .long  0xD00F6000
+    .long  0x600C2008
+    .long  0x8B10D00E
+    .long  0x6001600D
+    .long  0x2008890B
+    .long  0xD40CE106
+    .long  0xD30C6252
+    .long  0x6332332C
+    .long  0x33168B01
+    .long  0xA001627F
+    .long  0xE2042421
+    .long  0x000B0009
+    .long  sym_0607865E
+    .long  sym_06063E20
+    .long  sym_06078660
+    .long  sym_06078662
+    .long  sym_06078635
+    .long  sym_0607ED8C
+    .long  sym_0605A016
+    .long  sym_06063E1C

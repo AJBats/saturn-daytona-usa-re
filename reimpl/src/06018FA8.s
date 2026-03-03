@@ -31,14 +31,14 @@ save_state_snapshot:
     rts
     mov.l @r15+, r14
 .L_pool_06018FE0:
-    .4byte  sound_cmd_dispatch
+    .long  sound_cmd_dispatch
 .L_pool_06018FE4:
-    .4byte  sym_06086050
+    .long  sym_06086050
 .L_pool_06018FE8:
-    .4byte  0xAE0001FF
+    .long  0xAE0001FF
 .L_pool_06018FEC:
-    .4byte  0xAE0005FF
+    .long  0xAE0005FF
 .L_pool_06018FF0:
-    .4byte  sym_06012EDC
+    .long  sym_06012EDC
 .L_pool_06018FF4:
-    .4byte  0x25A02DBE
+    .long  0x25A02DBE

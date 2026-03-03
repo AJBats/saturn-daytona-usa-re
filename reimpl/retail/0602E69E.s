@@ -14,7 +14,7 @@ vdp2_color_offset_anim:
     .byte 0x00, 0x10
     .byte 0x00, 0x00
     .byte 0x00, 0x18
-    .4byte fpmul
-    .4byte isqrt
+    .long fpmul
+    .long isqrt
     .byte 0x64, 0x73
     .byte 0xDD, 0x07

@@ -44,8 +44,8 @@ DAT_0603bc54:
     .global DAT_0603bc56
 DAT_0603bc56:
     .byte 0x00, 0xC4
-    .4byte sym_060360FC
-    .4byte sym_060A4D14
+    .long sym_060360FC
+    .long sym_060A4D14
     .byte 0x66, 0xF3
     .byte 0x65, 0xF2
     .byte 0xD3, 0x1B

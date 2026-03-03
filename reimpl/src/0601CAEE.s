@@ -24,7 +24,7 @@ render_stage_2:
     extu.w r3, r3
     and r2, r3
     tst r3, r3
-    bt/s    .L_0601CBB6
+    bt.s    .L_0601CBB6
     mov #0x0, r11
     .byte   0xD0, 0x15    /* mov.l .L_0601CB78, r0 */
     mov.l @r0, r0
@@ -49,35 +49,35 @@ render_stage_2:
 
     .global DAT_0601cb48
 DAT_0601cb48:
-    .2byte  0x0800
-    .2byte  0xFFFF
-    .4byte  sym_06086028
-    .4byte  0x25F00FFE
-    .4byte  tilemap_dma_update
-    .4byte  sym_0605B6D8
-    .4byte  0x40000000
-    .4byte  sym_06026CE0
-    .4byte  sym_06059F44
+    .short  0x0800
+    .short  0xFFFF
+    .long  sym_06086028
+    .long  0x25F00FFE
+    .long  tilemap_dma_update
+    .long  sym_0605B6D8
+    .long  0x40000000
+    .long  sym_06026CE0
+    .long  sym_06059F44
 .L_0601CB68:
-    .4byte  sym_06086020
+    .long  sym_06086020
 .L_0601CB6C:
-    .4byte  0x25F00200
+    .long  0x25F00200
 .L_0601CB70:
-    .4byte  0x25F00400
+    .long  0x25F00400
 .L_0601CB74:
-    .4byte  dma_transfer
+    .long  dma_transfer
 .L_0601CB78:
-    .4byte  sym_06086024
+    .long  sym_06086024
 .L_0601CB7C:
-    .4byte  sym_0608601C
+    .long  sym_0608601C
 .L_0601CB80:
-    .4byte  g_pad_state
+    .long  g_pad_state
 .L_0601CB84:
-    .4byte  sym_060358EC
+    .long  sym_060358EC
 .L_0601CB88:
-    .4byte  0x40680000
+    .long  0x40680000
 .L_0601CB8C:
-    .4byte  sym_06035844
+    .long  sym_06035844
 .L_0601CB90:
     mov.l @r14, r0
     add #-0x8, r15
@@ -302,25 +302,25 @@ DAT_0601cb48:
     nop
     bra     .L_0601CDA4
     nop
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_0601CD34:
-    .4byte  sym_060358EC
+    .long  sym_060358EC
 .L_0601CD38:
-    .4byte  0x40568000
+    .long  0x40568000
 .L_0601CD3C:
-    .4byte  sym_06035844
+    .long  sym_06035844
 .L_0601CD40:
-    .4byte  0x40726000
+    .long  0x40726000
 .L_0601CD44:
-    .4byte  0x406D4000
+    .long  0x406D4000
 .L_0601CD48:
-    .4byte  sym_06035B34
+    .long  sym_06035B34
 .L_0601CD4C:
-    .4byte  0x40680000
+    .long  0x40680000
 .L_0601CD50:
-    .4byte  0x40608000
+    .long  0x40608000
 .L_0601CD54:
-    .4byte  0x403E0000
+    .long  0x403E0000
 .L_0601CD58:
     mov.l @r13, r0
     cmp/eq #0x1, r0
@@ -396,7 +396,7 @@ render_stage_3:
     add #0x14, r10
     mov.l @r12, r3
     cmp/ge r2, r3
-    bt/s    .L_0601CED0
+    bt.s    .L_0601CED0
     mov #0x64, r13
     mov.l @r12, r11
     shll r11
@@ -412,29 +412,29 @@ render_stage_3:
     bra     .L_0601CEB4
     mov #0x0, r9
 .L_0601CDFC:
-    .4byte  sym_0604880C
+    .long  sym_0604880C
 .L_0601CE00:
-    .4byte  sym_0604882C
+    .long  sym_0604882C
 .L_0601CE04:
-    .4byte  sym_0604884C
+    .long  sym_0604884C
 .L_0601CE08:
-    .4byte  sym_0604886C
+    .long  sym_0604886C
 .L_0601CE0C:
-    .4byte  sym_0605D17C
+    .long  sym_0605D17C
 .L_0601CE10:
-    .4byte  sym_0605D19C
+    .long  sym_0605D19C
 .L_0601CE14:
-    .4byte  g_game_state
+    .long  g_game_state
 .L_0601CE18:
-    .4byte  sym_06026CE0
+    .long  sym_06026CE0
 .L_0601CE1C:
-    .4byte  sym_06059F44
+    .long  sym_06059F44
 .L_0601CE20:
-    .4byte  sym_06086020
+    .long  sym_06086020
 .L_0601CE24:
-    .4byte  sym_0605DF58
+    .long  sym_0605DF58
 .L_0601CE28:
-    .4byte  0x25F00000
+    .long  0x25F00000
 .L_0601CE2C:
     mov r15, r7
     mov r15, r6
@@ -533,15 +533,15 @@ render_stage_3:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_0601CEEC:
-    .4byte  sym_06034FE0
+    .long  sym_06034FE0
 .L_0601CEF0:
-    .4byte  0x25F00200
+    .long  0x25F00200
 .L_0601CEF4:
-    .4byte  dma_transfer
+    .long  dma_transfer
 .L_0601CEF8:
-    .4byte  0x25F00400
+    .long  0x25F00400
 
     .global render_stage_4
 render_stage_4:
@@ -559,7 +559,7 @@ render_stage_4:
     add #0x18, r10
     mov.l @r13, r3
     cmp/ge r2, r3
-    bt/s    .L_0601CFEA
+    bt.s    .L_0601CFEA
     mov #0x64, r12
     mov.l @r13, r14
     shll r14
@@ -576,11 +576,11 @@ render_stage_4:
     bra     .L_0601CFCE
     mov #0x0, r11
 .L_0601CF38:
-    .4byte  sym_06086020
+    .long  sym_06086020
 .L_0601CF3C:
-    .4byte  sym_0605DF58
+    .long  sym_0605DF58
 .L_0601CF40:
-    .4byte  0x25F00000
+    .long  0x25F00000
 .L_0601CF44:
     mov r15, r7
     mov r15, r6
@@ -679,15 +679,15 @@ render_stage_4:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_0601D004:
-    .4byte  sym_06034FE0
+    .long  sym_06034FE0
 .L_0601D008:
-    .4byte  0x25F00200
+    .long  0x25F00200
 .L_0601D00C:
-    .4byte  dma_transfer
+    .long  dma_transfer
 .L_0601D010:
-    .4byte  0x25F00400
+    .long  0x25F00400
 
     .global render_stage_5
 render_stage_5:
@@ -725,21 +725,21 @@ render_stage_5:
     rts
     mov.l r2, @r3
 .L_0601D056:
-    .2byte  0x0518
+    .short  0x0518
 .L_0601D058:
-    .4byte  sym_0604884C
+    .long  sym_0604884C
 .L_0601D05C:
-    .4byte  0x25F00000
+    .long  0x25F00000
 .L_0601D060:
-    .4byte  dma_transfer
+    .long  dma_transfer
 .L_0601D064:
-    .4byte  sym_06063968
+    .long  sym_06063968
 .L_0601D068:
-    .4byte  sym_06028400
+    .long  sym_06028400
 .L_0601D06C:
-    .4byte  sym_06063970
+    .long  sym_06063970
 .L_0601D070:
-    .4byte  sym_06086020
+    .long  sym_06086020
 
     .global render_stage_6
 render_stage_6:
@@ -808,29 +808,29 @@ render_stage_6:
     rts
     mov.w r0, @r7
 .L_0601D0F2:
-    .2byte  0x0518
+    .short  0x0518
 .L_0601D0F4:
-    .4byte  sym_0602853E
+    .long  sym_0602853E
 .L_0601D0F8:
-    .4byte  sym_0605D17C
+    .long  sym_0605D17C
 .L_0601D0FC:
-    .4byte  0x25F00000
+    .long  0x25F00000
 .L_0601D100:
-    .4byte  dma_transfer
+    .long  dma_transfer
 .L_0601D104:
-    .4byte  sym_06063CF8
+    .long  sym_06063CF8
 .L_0601D108:
-    .4byte  sym_06028400
+    .long  sym_06028400
 .L_0601D10C:
-    .4byte  sym_06063D00
+    .long  sym_06063D00
 .L_0601D110:
-    .4byte  sym_06086020
-    .4byte  0x606D635D
-    .4byte  0x624D4018
-    .4byte  0x43084008
-    .4byte  0x43084300
-    .4byte  0x303C302C
-    .4byte  0x000B600D
+    .long  sym_06086020
+    .long  0x606D635D
+    .long  0x624D4018
+    .long  0x43084008
+    .long  0x43084300
+    .long  0x303C302C
+    .long  0x000B600D
 
     .global render_matrix_calc
 render_matrix_calc:
@@ -887,15 +887,15 @@ render_matrix_calc:
 
     .global DAT_0601d18c
 DAT_0601d18c:
-    .2byte  0x1000
+    .short  0x1000
 
     .global DAT_0601d18e
 DAT_0601d18e:
-    .2byte  0x2000
+    .short  0x2000
 .L_0601D190:
-    .4byte  sym_0608602C
+    .long  sym_0608602C
 .L_0601D194:
-    .4byte  sym_06063D9A
+    .long  sym_06063D9A
 .L_0601D198:
     mov.l @r14, r0
     cmp/eq #0x3, r0
@@ -995,18 +995,18 @@ DAT_0601d18e:
 
     .global DAT_0601d24c
 DAT_0601d24c:
-    .2byte  0x2000
+    .short  0x2000
 
     .global DAT_0601d24e
 DAT_0601d24e:
-    .2byte  0x4000
+    .short  0x4000
 .L_0601D250:
-    .2byte  0x0400
-    .2byte  0xFFFF
+    .short  0x0400
+    .short  0xFFFF
 .L_0601D254:
-    .4byte  sym_06063D9A
+    .long  sym_06063D9A
 .L_0601D258:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_0601D25C:
     mov.l @r14, r0
     cmp/eq #0x9, r0
@@ -1068,15 +1068,15 @@ DAT_0601d24e:
 
     .global DAT_0601d2c6
 DAT_0601d2c6:
-    .2byte  0x0100
+    .short  0x0100
 .L_0601D2C8:
-    .2byte  0x0200
-    .2byte  0xFFFF
+    .short  0x0200
+    .short  0xFFFF
 .L_0601D2CC:
-    .4byte  sym_06063D9A
+    .long  sym_06063D9A
 .L_0601D2D0:
-    .4byte  sym_06086030
+    .long  sym_06086030
 .L_0601D2D4:
-    .4byte  0xAE1146FF
+    .long  0xAE1146FF
 .L_0601D2D8:
-    .4byte  sound_cmd_dispatch              /* sound command dispatch function */
+    .long  sound_cmd_dispatch              /* sound command dispatch function */

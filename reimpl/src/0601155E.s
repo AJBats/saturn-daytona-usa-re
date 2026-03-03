@@ -35,7 +35,7 @@ sprite_batch_renderer:
     mov.w @(2, r6), r0
     extu.w r4, r3
     cmp/ge r14, r3
-    bf/s    .L_0601157E
+    bf.s    .L_0601157E
     mov.w r0, @(2, r5)
 
     .byte   0xD7, 0x0E    /* mov.l .L_060115DC, r7 */
@@ -60,18 +60,18 @@ sprite_batch_renderer:
     .global DAT_060115c6
 DAT_060115c6:
     mov.b r0, @(0, r0)
-    .4byte  sym_060447A4
-    .4byte  0x00010000
-    .4byte  sym_060447A8
-    .4byte  sym_06044764
-    .4byte  sym_06044784
+    .long  sym_060447A4
+    .long  0x00010000
+    .long  sym_060447A8
+    .long  sym_06044764
+    .long  sym_06044784
 .L_060115DC:
-    .4byte  sym_06063788
+    .long  sym_06063788
 .L_060115E0:
-    .4byte  sym_0605AAA6
+    .long  sym_0605AAA6
 .L_060115E4:
-    .4byte  0x0000F000
+    .long  0x0000F000
 .L_060115E8:
-    .4byte  sym_0605AAA2
+    .long  sym_0605AAA2
 .L_060115EC:
-    .4byte  sym_06028400
+    .long  sym_06028400

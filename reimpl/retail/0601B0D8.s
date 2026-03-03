@@ -63,6 +63,6 @@ course_state_setup:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .4byte sym_0604A490
-    .4byte sym_0604A4B8
-    .4byte sym_060284AE
+    .long sym_0604A490
+    .long sym_0604A4B8
+    .long sym_060284AE

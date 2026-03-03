@@ -33,18 +33,18 @@ restore_state_snapshot:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_pool_0601903C:
-    .4byte  sound_cmd_dispatch
+    .long  sound_cmd_dispatch
 .L_pool_06019040:
-    .4byte  sym_06086050
+    .long  sym_06086050
 .L_pool_06019044:
-    .4byte  0xAE0001FF
+    .long  0xAE0001FF
 .L_pool_06019048:
-    .4byte  0xAE0005FF
+    .long  0xAE0005FF
 .L_pool_0601904C:
-    .4byte  sym_06012EBC
+    .long  sym_06012EBC
 .L_pool_06019050:
-    .4byte  0x25A02DBE
+    .long  0x25A02DBE
 .L_pool_06019054:
-    .4byte  0xAE0600FF
+    .long  0xAE0600FF

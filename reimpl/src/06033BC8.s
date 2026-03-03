@@ -20,15 +20,15 @@ camera_attract_init:
     bt      .L_06033C00
     bra     .L_06033C02
     sett
-    .2byte  0x0000
+    .short  0x0000
 .L_06033BF0:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_06033BF4:
-    .4byte  0x000001EC
+    .long  0x000001EC
 .L_06033BF8:
-    .4byte  0x000000DC
+    .long  0x000000DC
 .L_06033BFC:
-    .4byte  0x000000EC
+    .long  0x000000EC
 .L_06033C00:
     clrt
 .L_06033C02:
@@ -63,7 +63,7 @@ disp_timeext_digit_2:
     bra     .L_06033C3A
     nop
 .L_06033C2C:
-    .4byte  sym_06033F54
+    .long  sym_06033F54
 .L_06033C30:
     mov.l   .L_06033C54, r0
 
@@ -86,17 +86,17 @@ time_extend_digits:
     bt      .L_06033C68
     bra     .L_06033C6A
     sett
-    .2byte  0x0000
+    .short  0x0000
 .L_06033C54:
-    .4byte  sym_0603446C
+    .long  sym_0603446C
 .L_06033C58:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_06033C5C:
-    .4byte  0x000001EC
+    .long  0x000001EC
 .L_06033C60:
-    .4byte  0x000000ED
+    .long  0x000000ED
 .L_06033C64:
-    .4byte  0x00000104
+    .long  0x00000104
 .L_06033C68:
     clrt
 .L_06033C6A:
@@ -275,13 +275,13 @@ selector_group_render:
     bra     .L_06033D5E
     sett
 .L_06033D4C:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_06033D50:
-    .4byte  0x000001EC
+    .long  0x000001EC
 .L_06033D54:
-    .4byte  0x000001B8
+    .long  0x000001B8
 .L_06033D58:
-    .4byte  0x000001E0
+    .long  0x000001E0
 .L_06033D5C:
     clrt
 .L_06033D5E:
@@ -296,7 +296,7 @@ selector_group_render:
     bra     .L_06033E92
     nop
 .L_06033D70:
-    .4byte  sym_0607EAE0
+    .long  sym_0607EAE0
 .L_06033D74:
     mov.l   .L_06033E64, r4
 
@@ -481,25 +481,25 @@ score_display_render:
     bra     .L_06033E92
     mov.l r0, @r1
 .L_06033E64:
-    .4byte  0x00000019
+    .long  0x00000019
 .L_06033E68:
-    .4byte  sym_06083250
+    .long  sym_06083250
 .L_06033E6C:
-    .4byte  0x0000013B
+    .long  0x0000013B
 .L_06033E70:
-    .4byte  0x0000001A
+    .long  0x0000001A
 .L_06033E74:
-    .4byte  0x0000001B
+    .long  0x0000001B
 .L_06033E78:
-    .4byte  0x0000001C
+    .long  0x0000001C
 .L_06033E7C:
-    .4byte  0x0000001D
+    .long  0x0000001D
 .L_06033E80:
-    .4byte  0x00000276
+    .long  0x00000276
 .L_06033E84:
-    .4byte  0x000003B1
+    .long  0x000003B1
 .L_06033E88:
-    .4byte  0x00000EC4
+    .long  0x00000EC4
 .L_06033E8C:
     xor r0, r0
     mov.l   .L_06033EA4, r1
@@ -515,7 +515,7 @@ score_display_render:
     rts
     nop
 .L_06033EA4:
-    .4byte  sym_06083250
+    .long  sym_06083250
 
     .global disp_score_renderer
 disp_score_renderer:
@@ -602,31 +602,31 @@ bonus_points_display:
     mov.l @r15+, r14
     rts
     nop
-    .2byte  0x0000
+    .short  0x0000
 .L_06033F30:
-    .4byte  sym_06063E08
+    .long  sym_06063E08
 .L_06033F34:
-    .4byte  sym_06083254
+    .long  sym_06083254
 .L_06033F38:
-    .4byte  0x00000000
+    .long  0x00000000
 .L_06033F3C:
-    .4byte  sym_06033F54
+    .long  sym_06033F54
 .L_06033F40:
-    .4byte  0x00000001
+    .long  0x00000001
 .L_06033F44:
-    .4byte  0x00000002
+    .long  0x00000002
 .L_06033F48:
-    .4byte  0x00000004
+    .long  0x00000004
 .L_06033F4C:
-    .4byte  0x00000006
+    .long  0x00000006
 .L_06033F50:
-    .4byte  0x00000019
+    .long  0x00000019
 
     .global sym_06033F54
 sym_06033F54:
     mov.l r13, @-r15
     mov.l   .L_06033F9C, r1
-    mulu.w r4, r1
+    mulu r4, r1
     sts macl, r0
     mov.l   .L_06033FA0, r14
     add r0, r14
@@ -670,15 +670,15 @@ display_frame_mgr:
     bra     .L_06033FFC
     nop
 .L_06033F9C:
-    .4byte  0x0000002C
+    .long  0x0000002C
 .L_06033FA0:
-    .4byte  DAT_06082A7C
+    .long  DAT_06082A7C
 .L_06033FA4:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_06033FA8:
-    .4byte  0x00000001
+    .long  0x00000001
 .L_06033FAC:
-    .4byte  0x00000026
+    .long  0x00000026
 
     .global disp_end_stub_2
 disp_end_stub_2:
@@ -761,11 +761,11 @@ display_frame_flush:
     rts
     mov.l r2, @(r0, r14)
 .L_06034018:
-    .4byte  0x00000001
+    .long  0x00000001
 .L_0603401C:
-    .4byte  0x00000012
+    .long  0x00000012
 .L_06034020:
-    .4byte  0x0000001C
+    .long  0x0000001C
 .L_06034024:
     mov.l   .L_06034088, r0
     mov.w @(r0, r14), r2
@@ -824,27 +824,27 @@ phys_velocity_integrate:
     bra     .L_060340EC
     xor r2, r2
 .L_06034088:
-    .4byte  0x00000012
+    .long  0x00000012
 .L_0603408C:
-    .4byte  0x00000002
+    .long  0x00000002
 .L_06034090:
-    .4byte  cos_lookup
+    .long  cos_lookup
 .L_06034094:
-    .4byte  0x00000020
+    .long  0x00000020
 .L_06034098:
-    .4byte  0x00000014
+    .long  0x00000014
 .L_0603409C:
-    .4byte  0x00000004
+    .long  0x00000004
 .L_060340A0:
-    .4byte  sin_lookup
+    .long  sin_lookup
 .L_060340A4:
-    .4byte  0x0000001C
+    .long  0x0000001C
 .L_060340A8:
-    .4byte  0x0000000C
+    .long  0x0000000C
 .L_060340AC:
-    .4byte  0x00000001
+    .long  0x00000001
 .L_060340B0:
-    .4byte  0x00000024
+    .long  0x00000024
 .L_060340B4:
     dmuls.l r12, r1
     sts mach, r0
@@ -891,15 +891,15 @@ phys_final_integrate:
     bra     .L_0603413E
     mov.l r2, @(r0, r14)
 .L_060340F8:
-    .4byte  sin_lookup
+    .long  sin_lookup
 .L_060340FC:
-    .4byte  cos_lookup
+    .long  cos_lookup
 .L_06034100:
-    .4byte  fpdiv_setup
+    .long  fpdiv_setup
 .L_06034104:
-    .4byte  0x00000018
+    .long  0x00000018
 .L_06034108:
-    .4byte  0x00000008
+    .long  0x00000008
 .L_0603410C:
     mov.l   .L_06034144, r0
     mov.l @(r0, r14), r4
@@ -935,25 +935,25 @@ ai_steering_response:
 .L_0603413E:
     rts
     nop
-    .2byte  0x0000
+    .short  0x0000
 .L_06034144:
-    .4byte  0x00000004
+    .long  0x00000004
 .L_06034148:
-    .4byte  sym_06083238
+    .long  sym_06083238
 .L_0603414C:
-    .4byte  0x0000000C
+    .long  0x0000000C
 .L_06034150:
-    .4byte  sym_06083240
+    .long  sym_06083240
 .L_06034154:
-    .4byte  sym_06006838
+    .long  sym_06006838
 .L_06034158:
-    .4byte  sym_06083244
+    .long  sym_06083244
 .L_0603415C:
-    .4byte  scene_render_alt
+    .long  scene_render_alt
 .L_06034160:
-    .4byte  sym_0608323C
+    .long  sym_0608323C
 .L_06034164:
-    .4byte  0x00000008
+    .long  0x00000008
 .L_06034168:
     mov.l   .L_060341C4, r0
     mov.b @(r0, r14), r0
@@ -1015,31 +1015,31 @@ xaxis_integrate_damp:
     mov.l @r13, r13
     bra     .L_06034468
     nop
-    .2byte  0x0000
+    .short  0x0000
 .L_060341C4:
-    .4byte  0x00000001
+    .long  0x00000001
 .L_060341C8:
-    .4byte  sym_06026DBC
+    .long  sym_06026DBC
 .L_060341CC:
-    .4byte  sym_06089EDC
+    .long  sym_06089EDC
 .L_060341D0:
-    .4byte  0x00000004
+    .long  0x00000004
 .L_060341D4:
-    .4byte  0x00000008
+    .long  0x00000008
 .L_060341D8:
-    .4byte  0x0000000C
+    .long  0x0000000C
 .L_060341DC:
-    .4byte  sym_06026E2E
+    .long  sym_06026E2E
 .L_060341E0:
-    .4byte  0x00000002
+    .long  0x00000002
 .L_060341E4:
-    .4byte  mat_rot_y
+    .long  mat_rot_y
 .L_060341E8:
-    .4byte  0x00000011
+    .long  0x00000011
 .L_060341EC:
-    .4byte  camera_param_load
+    .long  camera_param_load
 .L_060341F0:
-    .4byte  sym_06026DF8
+    .long  sym_06026DF8
 .L_060341F4:
     cmp/eq #0x2, r0
     bf      .L_06034280
@@ -1103,29 +1103,29 @@ yaxis_integrate:
     bra     .L_06034468
     nop
 .L_06034250:
-    .4byte  sym_06026DBC
+    .long  sym_06026DBC
 .L_06034254:
-    .4byte  sym_06089EDC
+    .long  sym_06089EDC
 .L_06034258:
-    .4byte  0x00000004
+    .long  0x00000004
 .L_0603425C:
-    .4byte  0x00000008
+    .long  0x00000008
 .L_06034260:
-    .4byte  0x0000000C
+    .long  0x0000000C
 .L_06034264:
-    .4byte  sym_06026E2E
+    .long  sym_06026E2E
 .L_06034268:
-    .4byte  0x00000002
+    .long  0x00000002
 .L_0603426C:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_06034270:
-    .4byte  mat_rot_y
+    .long  mat_rot_y
 .L_06034274:
-    .4byte  0x00000011
+    .long  0x00000011
 .L_06034278:
-    .4byte  camera_scene_setup
+    .long  camera_scene_setup
 .L_0603427C:
-    .4byte  sym_06026DF8
+    .long  sym_06026DF8
 .L_06034280:
     cmp/eq #0x3, r0
     bf      .L_06034304
@@ -1185,29 +1185,29 @@ zaxis_integrate:
     mov.l @r13, r13
     bra     .L_06034468
     nop
-    .2byte  0x0000
+    .short  0x0000
 .L_060342D8:
-    .4byte  sym_06026DBC
+    .long  sym_06026DBC
 .L_060342DC:
-    .4byte  sym_06089EDC
+    .long  sym_06089EDC
 .L_060342E0:
-    .4byte  0x00000014
+    .long  0x00000014
 .L_060342E4:
-    .4byte  0x00000018
+    .long  0x00000018
 .L_060342E8:
-    .4byte  0x0000001C
+    .long  0x0000001C
 .L_060342EC:
-    .4byte  sym_06026E2E
+    .long  sym_06026E2E
 .L_060342F0:
-    .4byte  0x00000002
+    .long  0x00000002
 .L_060342F4:
-    .4byte  mat_rot_y
+    .long  mat_rot_y
 .L_060342F8:
-    .4byte  0x00000011
+    .long  0x00000011
 .L_060342FC:
-    .4byte  camera_scene_setup
+    .long  camera_scene_setup
 .L_06034300:
-    .4byte  sym_06026DF8
+    .long  sym_06026DF8
 .L_06034304:
     cmp/eq #0x4, r0
     bt      .L_0603430C
@@ -1399,41 +1399,41 @@ ai_decision_dispatch:
     bra     .L_06034468
     nop
 .L_06034420:
-    .4byte  sym_06026DBC
+    .long  sym_06026DBC
 .L_06034424:
-    .4byte  sym_06089EDC
+    .long  sym_06089EDC
 .L_06034428:
-    .4byte  0x00000004
+    .long  0x00000004
 .L_0603442C:
-    .4byte  0x00000008
+    .long  0x00000008
 .L_06034430:
-    .4byte  0x0000000C
+    .long  0x0000000C
 .L_06034434:
-    .4byte  sym_06026E2E
+    .long  sym_06026E2E
 .L_06034438:
-    .4byte  0x00000002
+    .long  0x00000002
 .L_0603443C:
-    .4byte  mat_rot_y
+    .long  mat_rot_y
 .L_06034440:
-    .4byte  0x00000011
+    .long  0x00000011
 .L_06034444:
-    .4byte  camera_param_load
+    .long  camera_param_load
 .L_06034448:
-    .4byte  sym_06026DF8
+    .long  sym_06026DF8
 .L_0603444C:
-    .4byte  sym_06083250
+    .long  sym_06083250
 .L_06034450:
-    .4byte  0x000004EC
+    .long  0x000004EC
 .L_06034454:
-    .4byte  0x00280000
+    .long  0x00280000
 .L_06034458:
-    .4byte  0x003E0000
+    .long  0x003E0000
 .L_0603445C:
-    .4byte  0x00000627
+    .long  0x00000627
 .L_06034460:
-    .4byte  0x00190000
+    .long  0x00190000
 .L_06034464:
-    .4byte  0x001C0000
+    .long  0x001C0000
 .L_06034468:
     rts
     nop
@@ -1443,7 +1443,7 @@ sym_0603446C:
     xor r7, r7
 .L_0603446E:
     mov.l   .L_0603448C, r1
-    mulu.w r7, r1
+    mulu r7, r1
     sts macl, r0
     mov.l   .L_06034490, r14
     add r0, r14
@@ -1456,15 +1456,15 @@ sym_0603446C:
     bf      .L_0603446E
     rts
     nop
-    .2byte  0x0000
+    .short  0x0000
 .L_0603448C:
-    .4byte  0x0000002C
+    .long  0x0000002C
 .L_06034490:
-    .4byte  DAT_06082A7C
+    .long  DAT_06082A7C
 .L_06034494:
-    .4byte  0x00000026
+    .long  0x00000026
 .L_06034498:
-    .4byte  0x00000005
+    .long  0x00000005
 .L_0603449C:
     mov.l   .L_06034508, r0
     mov.b @(r0, r14), r0
@@ -1524,19 +1524,19 @@ ai_speed_limit:
     bra     .L_0603452E
     shll r0
 .L_06034508:
-    .4byte  0x00000001
+    .long  0x00000001
 .L_0603450C:
-    .4byte  0x00000004
+    .long  0x00000004
 .L_06034510:
-    .4byte  0x0000000C
+    .long  0x0000000C
 .L_06034514:
-    .4byte  0x00000010
+    .long  0x00000010
 .L_06034518:
-    .4byte  0x00000018
+    .long  0x00000018
 .L_0603451C:
-    .4byte  sym_06083238
+    .long  sym_06083238
 .L_06034520:
-    .4byte  isqrt
+    .long  isqrt
 .L_06034524:
     mov.l   .L_06034550, r0
 
@@ -1564,15 +1564,15 @@ ai_waypoint_follower:
 .L_0603454A:
     rts
     nop
-    .2byte  0x0000
+    .short  0x0000
 .L_06034550:
-    .4byte  isqrt
+    .long  isqrt
 .L_06034554:
-    .4byte  0x00080000
+    .long  0x00080000
 .L_06034558:
-    .4byte  0x00000001
+    .long  0x00000001
 .L_0603455C:
-    .4byte  0x00000026
+    .long  0x00000026
 .L_06034560:
     mov.l   .L_0603457C, r0
     mov.l @(r0, r10), r1
@@ -1589,13 +1589,13 @@ ai_waypoint_follower:
     rts
     nop
 .L_0603457C:
-    .4byte  0x00000028
+    .long  0x00000028
 .L_06034580:
-    .4byte  0x00000002
+    .long  0x00000002
 .L_06034584:
-    .4byte  0x0000000C
+    .long  0x0000000C
 .L_06034588:
-    .4byte  0x00000026
+    .long  0x00000026
 .L_0603458C:
     mov.l   .L_06034608, r0
     mov.w @(r0, r14), r9
@@ -1670,35 +1670,35 @@ ai_car_pos_init:
     mov.l r1, @(r0, r14)
     rts
     nop
-    .2byte  0x0000
+    .short  0x0000
 .L_06034608:
-    .4byte  0x00000002
+    .long  0x00000002
 .L_0603460C:
-    .4byte  0x00004000
+    .long  0x00004000
 .L_06034610:
-    .4byte  0x00000028
+    .long  0x00000028
 .L_06034614:
-    .4byte  cos_lookup
+    .long  cos_lookup
 .L_06034618:
-    .4byte  0x00000004
+    .long  0x00000004
 .L_0603461C:
-    .4byte  sin_lookup
+    .long  sin_lookup
 .L_06034620:
-    .4byte  0x0000000C
+    .long  0x0000000C
 .L_06034624:
-    .4byte  sym_06083238
+    .long  sym_06083238
 .L_06034628:
-    .4byte  sym_06083240
+    .long  sym_06083240
 .L_0603462C:
-    .4byte  sym_06006838
+    .long  sym_06006838
 .L_06034630:
-    .4byte  sym_06083244
+    .long  sym_06083244
 .L_06034634:
-    .4byte  scene_render_alt
+    .long  scene_render_alt
 .L_06034638:
-    .4byte  sym_0608323C
+    .long  sym_0608323C
 .L_0603463C:
-    .4byte  0x00000008
+    .long  0x00000008
 .L_06034640:
     mov.l   .L_06034694, r0
 
@@ -1756,29 +1756,29 @@ ai_car_full_init:
     mov.l @r13, r13
     rts
     nop
-    .2byte  0x0000
+    .short  0x0000
 .L_06034694:
-    .4byte  sym_06026DBC
+    .long  sym_06026DBC
 .L_06034698:
-    .4byte  sym_06089EDC
+    .long  sym_06089EDC
 .L_0603469C:
-    .4byte  0x00000004
+    .long  0x00000004
 .L_060346A0:
-    .4byte  0x00000008
+    .long  0x00000008
 .L_060346A4:
-    .4byte  0x0000000C
+    .long  0x0000000C
 .L_060346A8:
-    .4byte  sym_06026E2E
+    .long  sym_06026E2E
 .L_060346AC:
-    .4byte  0x00000002
+    .long  0x00000002
 .L_060346B0:
-    .4byte  mat_rot_y
+    .long  mat_rot_y
 .L_060346B4:
-    .4byte  0x00000011
+    .long  0x00000011
 .L_060346B8:
-    .4byte  camera_scene_setup
+    .long  camera_scene_setup
 .L_060346BC:
-    .4byte  sym_06026DF8
+    .long  sym_06026DF8
 .L_060346C0:
     mov.l   .L_060346F0, r0
     mov.b @(r0, r14), r0
@@ -1807,17 +1807,17 @@ ai_car_full_init:
     rts
     nop
 .L_060346F0:
-    .4byte  0x00000001
+    .long  0x00000001
 .L_060346F4:
-    .4byte  sym_060631B4
+    .long  sym_060631B4
 .L_060346F8:
-    .4byte  sym_060631B8
+    .long  sym_060631B8
 .L_060346FC:
-    .4byte  0x00000010
+    .long  0x00000010
 .L_06034700:
-    .4byte  0x00000011
+    .long  0x00000011
 .L_06034704:
-    .4byte  0x00000000
+    .long  0x00000000
 
     .global vblank_handler
 vblank_handler:
@@ -1863,11 +1863,11 @@ position_calc_current:
     mov.l @r15+, r14
     rts
     nop
-    .2byte  0x0000
+    .short  0x0000
 .L_0603474C:
-    .4byte  0x0000000C
+    .long  0x0000000C
 .L_06034750:
-    .4byte  0x00000010
+    .long  0x00000010
 .L_06034754:
     mov.l   .L_0603478C, r0
     mov.l @r0, r1
@@ -1902,19 +1902,19 @@ ranking_system_full:
     rts
     nop
 .L_0603478C:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_06034790:
-    .4byte  0x00000008
+    .long  0x00000008
 .L_06034794:
-    .4byte  0x012C0000
+    .long  0x012C0000
 .L_06034798:
-    .4byte  fpdiv_setup
+    .long  fpdiv_setup
 .L_0603479C:
-    .4byte  0x00060000
+    .long  0x00060000
 .L_060347A0:
-    .4byte  0x00000007
+    .long  0x00000007
 .L_060347A4:
-    .4byte  0x0000000C
+    .long  0x0000000C
 .L_060347A8:
     mov.l   .L_06034824, r0
     mov.l @(r0, r14), r1
@@ -1983,23 +1983,23 @@ ranking_system_full:
     rts
     nop
 .L_06034824:
-    .4byte  0x0000000C
+    .long  0x0000000C
 .L_06034828:
-    .4byte  0x00000010
+    .long  0x00000010
 .L_0603482C:
-    .4byte  0x00000001
+    .long  0x00000001
 .L_06034830:
-    .4byte  0xFFFFFFFF
+    .long  0xFFFFFFFF
 .L_06034834:
-    .4byte  0x00000002
+    .long  0x00000002
 .L_06034838:
-    .4byte  0x00000004
+    .long  0x00000004
 .L_0603483C:
-    .4byte  0x00000005
+    .long  0x00000005
 .L_06034840:
-    .4byte  0x00000000
+    .long  0x00000000
 .L_06034844:
-    .4byte  0x00000003
+    .long  0x00000003
 .L_06034848:
     mov.l   .L_06034860, r0
     mov.b @r0, r0
@@ -2012,13 +2012,13 @@ ranking_system_full:
     bf      .L_0603486C
     bra     .L_060348EE
     nop
-    .2byte  0x0000
+    .short  0x0000
 .L_06034860:
-    .4byte  sym_06083255
+    .long  sym_06083255
 .L_06034864:
-    .4byte  sym_0607EBC4
+    .long  sym_0607EBC4
 .L_06034868:
-    .4byte  0x00028000
+    .long  0x00028000
 .L_0603486C:
     mov.l   .L_060348A0, r0
     mov.l @(r0, r14), r1
@@ -2048,15 +2048,15 @@ ranking_system_full:
 
     .global DAT_0603489e
 DAT_0603489e:
-    .2byte  0x0104
+    .short  0x0104
 .L_060348A0:
-    .4byte  0x00000010
+    .long  0x00000010
 .L_060348A4:
-    .4byte  0x0000000C
+    .long  0x0000000C
 .L_060348A8:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_060348AC:
-    .4byte  0x00000008
+    .long  0x00000008
 .L_060348B0:
     mov.l   .L_060348C4, r0
     mov.l @(r0, r14), r0
@@ -2069,21 +2069,21 @@ DAT_0603489e:
     bra     .L_060348EE
     nop
 .L_060348C4:
-    .4byte  0x0000000C
+    .long  0x0000000C
 .L_060348C8:
     mov.l   .L_060348D0, r5
     bra     .L_060348E2
     nop
-    .2byte  0x0000
+    .short  0x0000
 .L_060348D0:
-    .4byte  0xAE113BFF
+    .long  0xAE113BFF
 .L_060348D4:
     mov.l   .L_060348DC, r5
     bra     .L_060348E2
     nop
-    .2byte  0x0000
+    .short  0x0000
 .L_060348DC:
-    .4byte  0xAE113CFF
+    .long  0xAE113CFF
 .L_060348E0:
     mov.l   .L_060348F4, r5
 .L_060348E2:
@@ -2099,13 +2099,13 @@ lap_complete_check:
 .L_060348EE:
     rts
     nop
-    .2byte  0x0000
+    .short  0x0000
 .L_060348F4:
-    .4byte  0xAE113DFF
+    .long  0xAE113DFF
 .L_060348F8:
-    .4byte  0x00000000
+    .long  0x00000000
 .L_060348FC:
-    .4byte  sound_cmd_dispatch
+    .long  sound_cmd_dispatch
 
     .global terrain_data_lookup
 terrain_data_lookup:
@@ -2128,13 +2128,13 @@ terrain_data_lookup:
     bt      .L_06034934
     bra     .L_06034942
     nop
-    .2byte  0x0000
+    .short  0x0000
 .L_06034928:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_0603492C:
-    .4byte  0x000000B8
+    .long  0x000000B8
 .L_06034930:
-    .4byte  0x000001BC
+    .long  0x000001BC
 .L_06034934:
     mov.l   .L_06034978, r4
     mov.l   .L_0603497C, r5
@@ -2181,13 +2181,13 @@ section_transition:
 
     .global DAT_06034976
 DAT_06034976:
-    .2byte  0x005C
+    .short  0x005C
 .L_06034978:
-    .4byte  0x00000000
+    .long  0x00000000
 .L_0603497C:
-    .4byte  0xAE1128FF
+    .long  0xAE1128FF
 .L_06034980:
-    .4byte  sound_cmd_dispatch
+    .long  sound_cmd_dispatch
 
     .global ai_checkpoint_section
 ai_checkpoint_section:
@@ -2247,11 +2247,11 @@ cd_block_read_safe:
     bra     .L_06034A06
     mov r14, r0
 .L_060349DC:
-    .4byte  input_proc_analog
+    .long  input_proc_analog
 .L_060349E0:
-    .4byte  input_proc_buttons
+    .long  input_proc_buttons
 .L_060349E4:
-    .4byte  input_proc_extended
+    .long  input_proc_extended
 .L_060349E8:
     mov r13, r5
     mov.l   .L_06034A94, r3
@@ -2353,14 +2353,14 @@ cd_block_read_atomic:
 
     .global DAT_06034a8e
 DAT_06034a8e:
-    .2byte  0x00FF
+    .short  0x00FF
 .L_06034A90:
-    .2byte  0xFF0F
-    .2byte  0xFFFF
+    .short  0xFF0F
+    .short  0xFFFF
 .L_06034A94:
-    .4byte  sym_06035F16
+    .long  sym_06035F16
 .L_06034A98:
-    .4byte  sym_06035E5E
+    .long  sym_06035E5E
 
     .global ai_nop_stub
 ai_nop_stub:
@@ -2454,15 +2454,15 @@ track_intersect_test:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_06034B44:
-    .4byte  input_proc_analog
+    .long  input_proc_analog
 .L_06034B48:
-    .4byte  input_proc_digital
+    .long  input_proc_digital
 .L_06034B4C:
-    .4byte  0x00FFFFFF
+    .long  0x00FFFFFF
 .L_06034B50:
-    .4byte  smpc_secondary_proc
+    .long  smpc_secondary_proc
 
     .global mesh_boundary_check
 mesh_boundary_check:
@@ -2556,13 +2556,13 @@ ai_drafting_calc:
     bra     .L_06034C04
     nop
 .L_06034BF4:
-    .2byte  0x0081
+    .short  0x0081
 .L_06034BF6:
-    .2byte  0x0DAC
+    .short  0x0DAC
 .L_06034BF8:
-    .4byte  input_proc_analog
+    .long  input_proc_analog
 .L_06034BFC:
-    .4byte  input_proc_digital
+    .long  input_proc_digital
 .L_06034C00:
     mov.l @r15, r2
     add #-0x1, r2
@@ -2634,15 +2634,15 @@ ai_brake_zone_adjust:
     bf      .L_06034C8C
     bra     .L_06034C8E
     mov #0x2, r4
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_06034C7C:
-    .4byte  sym_06035C92
+    .long  sym_06035C92
 .L_06034C80:
-    .4byte  input_proc_buttons
+    .long  input_proc_buttons
 .L_06034C84:
-    .4byte  smpc_cmd_helper_c
+    .long  smpc_cmd_helper_c
 .L_06034C88:
-    .4byte  input_proc_analog
+    .long  input_proc_analog
 .L_06034C8C:
     mov.w   .L_06034D02, r4
 .L_06034C8E:
@@ -2713,19 +2713,19 @@ ai_brake_zone:
     rts
     mov.l @r15+, r14
 .L_06034D02:
-    .2byte  0x0082
+    .short  0x0082
 .L_06034D04:
-    .4byte  input_proc_init
+    .long  input_proc_init
 .L_06034D08:
-    .4byte  0x0000FFFD
+    .long  0x0000FFFD
 .L_06034D0C:
-    .4byte  sym_06035C6E
+    .long  sym_06035C6E
 .L_06034D10:
-    .4byte  input_proc_analog
+    .long  input_proc_analog
 .L_06034D14:
-    .4byte  input_proc_digital
+    .long  input_proc_digital
 .L_06034D18:
-    .4byte  0x00FFFFFF
+    .long  0x00FFFFFF
 
     .global ai_throttle_modulate
 ai_throttle_modulate:
@@ -2819,17 +2819,17 @@ ai_throttle_adjust:
     mov #0x3, r0
     bra     .L_06034DE4
     nop
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_06034DBC:
-    .4byte  input_proc_analog
+    .long  input_proc_analog
 .L_06034DC0:
-    .4byte  input_proc_buttons
+    .long  input_proc_buttons
 .L_06034DC4:
-    .4byte  sym_06059CA7
+    .long  sym_06059CA7
 .L_06034DC8:
-    .4byte  sym_06035228
+    .long  sym_06035228
 .L_06034DCC:
-    .4byte  sym_06059CA4
+    .long  sym_06059CA4
 .L_06034DD0:
     cmp/eq #0x0, r0
     bt      .L_06034DAC
@@ -2872,6 +2872,6 @@ ai_recovery_handler:
     rts
     mov.l @r15+, r14
 .L_06034E18:
-    .4byte  input_proc_analog
+    .long  input_proc_analog
 .L_06034E1C:
-    .4byte  input_proc_buttons
+    .long  input_proc_buttons

@@ -6,7 +6,7 @@ race_pos_interp:
     mov.l   .L_0600CC2C, r14
     mov.l   .L_0600CC30, r7
     tst #0x1, r0
-    bt/s    .L_0600CBEE
+    bt.s    .L_0600CBEE
     mov.l @r7, r7
     extu.w r5, r6
     mov.l   .L_0600CC34, r3
@@ -82,10 +82,10 @@ race_pos_interp:
     rts
     mov.l @r15+, r14
 .L_0600CC2A:
-    .2byte  0x01F8
+    .short  0x01F8
 .L_0600CC2C:
-    .4byte  sym_0607EB88
+    .long  sym_0607EB88
 .L_0600CC30:
-    .4byte  sym_0607E940
+    .long  sym_0607E940
 .L_0600CC34:
-    .4byte  sym_0607EA9C
+    .long  sym_0607EA9C

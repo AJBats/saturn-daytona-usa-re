@@ -55,9 +55,9 @@ vdp1_init:
     .byte 0x00, 0x00
     .byte 0x00, 0x01
     .byte 0x00, 0x00
-    .4byte sym_0605A00C
-    .4byte sym_06026CE0
-    .4byte sym_06059F44
+    .long sym_0605A00C
+    .long sym_06026CE0
+    .long sym_06059F44
     .byte 0xD0, 0x1B
     .byte 0x60, 0x00
     .byte 0x60, 0x0C
@@ -118,16 +118,16 @@ sym_0600A1F6:
 DAT_0600a224:
     .byte 0x00, 0xC4
     .byte 0x00, 0xA8
-    .4byte sym_06078635
-    .4byte sym_0607ED8C
-    .4byte sym_0605AD00
-    .4byte sym_0607ED90
-    .4byte sym_06063F44
-    .4byte sym_06078868
-    .4byte sym_0607EAB8
-    .4byte sym_0607EBCC
-    .4byte sym_0605A016
-    .4byte sym_0607EAD8
+    .long sym_06078635
+    .long sym_0607ED8C
+    .long sym_0605AD00
+    .long sym_0607ED90
+    .long sym_06063F44
+    .long sym_06078868
+    .long sym_0607EAB8
+    .long sym_0607EBCC
+    .long sym_0605A016
+    .long sym_0607EAD8
     .byte 0xD0, 0x25
     .byte 0x60, 0x02
     .byte 0x88, 0x01
@@ -208,9 +208,9 @@ DAT_0600a2dc:
     .byte 0x03, 0x52
     .byte 0x03, 0xAB
     .byte 0xFF, 0xFF
-    .4byte sym_0607EAD8
-    .4byte sym_0607EBCC
-    .4byte sym_0605A016
+    .long sym_0607EAD8
+    .long sym_0607EBCC
+    .long sym_0605A016
     .byte 0x62, 0x52
     .byte 0x93, 0x38
     .byte 0x32, 0x30
@@ -285,8 +285,8 @@ DAT_0600a370:
     .global DAT_0600a372
 DAT_0600a372:
     .byte 0x01, 0xB4
-    .4byte sym_0605A016
-    .4byte sym_06063E1C
+    .long sym_0605A016
+    .long sym_06063E1C
     .byte 0x60, 0x42
     .byte 0x88, 0x03
     .byte 0x8B, 0x01

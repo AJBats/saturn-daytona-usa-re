@@ -19,11 +19,11 @@ input_proc_init:
     mov r14, r1
     bra     .L_06035E32
     mov.w r6, @r5
-    .2byte  0x00FF
+    .short  0x00FF
 .L_06035E24:
-    .4byte  0x25890008
+    .long  0x25890008
 .L_06035E28:
-    .4byte  0x00240000
+    .long  0x00240000
 .L_06035E2C:
     add #0x1, r7
     cmp/ge r13, r7
@@ -34,15 +34,15 @@ input_proc_init:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .4byte  0x6543D210
-    .4byte  0x63512231
-    .4byte  0x8551D20F
-    .4byte  0x63032231
-    .4byte  0x8552D20E
-    .4byte  0x63032231
-    .4byte  0x8553D20D
-    .4byte  0x6303000B
-    .2byte  0x2231
+    .long  0x6543D210
+    .long  0x63512231
+    .long  0x8551D20F
+    .long  0x63032231
+    .long  0x8552D20E
+    .long  0x63032231
+    .long  0x8553D20D
+    .long  0x6303000B
+    .short  0x2231
 
     .global sym_06035E5E
 sym_06035E5E:
@@ -62,12 +62,12 @@ sym_06035E5E:
     mov r3, r0
     rts
     mov.w r0, @(6, r4)
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_06035E80:
-    .4byte  0x25890018                  /* CD CR1 — command register 1 */
+    .long  0x25890018                  /* CD CR1 — command register 1 */
 .L_06035E84:
-    .4byte  0x2589001C                  /* CD CR2 — command register 2 */
+    .long  0x2589001C                  /* CD CR2 — command register 2 */
 .L_06035E88:
-    .4byte  0x25890020                  /* CD CR3 — command register 3 */
+    .long  0x25890020                  /* CD CR3 — command register 3 */
 .L_06035E8C:
-    .4byte  0x25890024                  /* CD CR4 — command register 4 */
+    .long  0x25890024                  /* CD CR4 — command register 4 */

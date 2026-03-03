@@ -33,22 +33,22 @@ transition_multi_step:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_06019224:
-    .4byte  sound_cmd_dispatch
+    .long  sound_cmd_dispatch
 .L_06019228:
-    .4byte  sym_06086050
+    .long  sym_06086050
 .L_0601922C:
-    .4byte  0xAE0001FF
+    .long  0xAE0001FF
 .L_06019230:
-    .4byte  0xAE0005FF
+    .long  0xAE0005FF
 .L_06019234:
-    .4byte  0x0006D000
+    .long  0x0006D000
 .L_06019238:
-    .4byte  0x00200000
+    .long  0x00200000
 .L_0601923C:
-    .4byte  0x25A03000
+    .long  0x25A03000
 .L_06019240:
-    .4byte  memcpy_byte_idx
+    .long  memcpy_byte_idx
 .L_06019244:
-    .4byte  0x25A02DBE
+    .long  0x25A02DBE

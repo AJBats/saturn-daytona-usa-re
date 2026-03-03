@@ -55,5 +55,5 @@ menu_sound_trigger:
     .byte 0x00, 0x98
     .byte 0x00, 0xA4
     .byte 0xFF, 0xFF
-    .4byte sym_060A4D14
-    .4byte sym_0603F1F0
+    .long sym_060A4D14
+    .long sym_0603F1F0

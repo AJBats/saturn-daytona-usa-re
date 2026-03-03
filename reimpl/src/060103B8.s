@@ -75,29 +75,29 @@ brake_state_toggle:
 
     .global DAT_0601043e
 DAT_0601043e:
-    .2byte  0x4000
+    .short  0x4000
 .L_wpool_06010440:
-    .2byte  0x00C0
-    .2byte  0xFFFF
+    .short  0x00C0
+    .short  0xFFFF
 .L_pool_06010444:
-    .4byte  sym_0607EADC
+    .long  sym_0607EADC
 .L_06010448:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_pool_0601044C:
-    .4byte  sym_0607EAB8
+    .long  sym_0607EAB8
 .L_pool_06010450:
-    .4byte  sym_06078868
+    .long  sym_06078868
 .L_pool_06010454:
-    .4byte  dma_transfer
+    .long  dma_transfer
 .L_pool_06010458:
-    .4byte  sym_0605D084
+    .long  sym_0605D084
 .L_pool_0601045C:
-    .4byte  sym_06078884
+    .long  sym_06078884
 .L_pool_06010460:
-    .4byte  sym_0605D060
+    .long  sym_0605D060
 .L_pool_06010464:
-    .4byte  sym_0605D05C
+    .long  sym_0605D05C
 .L_pool_06010468:
-    .4byte  sym_0605D088
+    .long  sym_0605D088
 .L_pool_0601046C:
-    .4byte  sym_06078880
+    .long  sym_06078880

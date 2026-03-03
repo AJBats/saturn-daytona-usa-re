@@ -110,18 +110,18 @@ DAT_0602dbc2:
     .byte 0x00, 0x02
     .byte 0x00, 0x00
     .byte 0x00, 0x00
-    .4byte sound_cmd_dispatch
+    .long sound_cmd_dispatch
     .byte 0x00, 0x00
     .byte 0x00, 0x03
-    .4byte sym_06082A30
-    .4byte sym_06082A26
-    .4byte sym_060788FC
-    .4byte sym_06082A38
-    .4byte sym_0607E940
+    .long sym_06082A30
+    .long sym_06082A26
+    .long sym_060788FC
+    .long sym_06082A38
+    .long sym_0607E940
     .byte 0x00, 0x00
     .byte 0x00, 0xC8
-    .4byte sym_0607EAC8
-    .4byte sym_06082A2C
+    .long sym_0607EAC8
+    .long sym_06082A2C
     .byte 0x00, 0xFA
     .byte 0x00, 0x00
     .byte 0x00, 0x00
@@ -132,10 +132,10 @@ DAT_0602dbc2:
     .byte 0x00, 0x0C
     .byte 0x00, 0x00
     .byte 0x01, 0x94
-    .4byte sym_0605A1C4
-    .4byte sym_06063E1C
-    .4byte sym_06082A34
-    .4byte sym_06063E20
+    .long sym_0605A1C4
+    .long sym_06063E1C
+    .long sym_06082A34
+    .long sym_06063E20
     .global sym_0602DC18
 sym_0602DC18:
     .byte 0x2F, 0x86

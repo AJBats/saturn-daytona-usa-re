@@ -29,6 +29,6 @@ vdp2_data_lookup:
 .L_060173A0:
     rts
     extu.b r5, r0
-    .4byte  sym_06085490
+    .long  sym_06085490
 .L_pool_060173A9:
-    .4byte  sym_06084FC8
+    .long  sym_06084FC8

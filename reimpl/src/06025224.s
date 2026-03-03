@@ -21,7 +21,7 @@ scene_process_a:
     mov.b @r4, r0
     extu.b r0, r0
     cmp/eq #0x4, r0
-    bf/s    .L_06025272
+    bf.s    .L_06025272
     add #0xB, r11
     mov.l   .L_060252A0, r7
     mov r13, r5
@@ -56,29 +56,29 @@ scene_process_a:
 
     .global DAT_0602528a
 DAT_0602528a:
-    .2byte  0x00A9
+    .short  0x00A9
 .L_0602528C:
-    .2byte  0x0C08
+    .short  0x0C08
 .L_0602528E:
-    .2byte  0x0590
+    .short  0x0590
 .L_06025290:
-    .2byte  0x0090
+    .short  0x0090
 
     .global DAT_06025292
 DAT_06025292:
-    .2byte  0x0C3E
+    .short  0x0C3E
 .L_06025294:
-    .4byte  sym_06063750
+    .long  sym_06063750
 .L_06025298:
-    .4byte  sym_06028400
+    .long  sym_06028400
 .L_0602529C:
-    .4byte  sym_06061198
+    .long  sym_06061198
 .L_060252A0:
-    .4byte  sym_060590B8
+    .long  sym_060590B8
 .L_060252A4:
-    .4byte  sym_060284AE
+    .long  sym_060284AE
 .L_060252A8:
-    .4byte  sym_060590E0
+    .long  sym_060590E0
 .L_060252AC:
     mov.l   .L_06025390, r7
     mov r13, r5
@@ -187,56 +187,56 @@ DAT_06025292:
     bra     .L_060253AA
     mov #0x8, r2
 .L_06025378:
-    .2byte  0x0090
+    .short  0x0090
 
     .global DAT_0602537a
 DAT_0602537a:
-    .2byte  0x0C34
+    .short  0x0C34
 
     .global DAT_0602537c
 DAT_0602537c:
-    .2byte  0x0C4E
+    .short  0x0C4E
 
     .global DAT_0602537e
 DAT_0602537e:
-    .2byte  0x02A4
+    .short  0x02A4
 
     .global DAT_06025380
 DAT_06025380:
-    .2byte  0x0428
+    .short  0x0428
 
     .global DAT_06025382
 DAT_06025382:
-    .2byte  0x6000
+    .short  0x6000
 
     .global DAT_06025384
 DAT_06025384:
-    .2byte  0x0430
+    .short  0x0430
 
     .global DAT_06025386
 DAT_06025386:
-    .2byte  0x7000
+    .short  0x7000
 .L_06025388:
-    .2byte  0x02A0
+    .short  0x02A0
 
     .global DAT_0602538a
 DAT_0602538a:
-    .2byte  0x0438
+    .short  0x0438
 .L_0602538C:
-    .2byte  0x02B4
-    .2byte  0xFFFF
+    .short  0x02B4
+    .short  0xFFFF
 .L_06025390:
-    .4byte  sym_06059104
+    .long  sym_06059104
 .L_06025394:
-    .4byte  sym_060284AE
+    .long  sym_060284AE
 .L_06025398:
-    .4byte  sym_06058F94
+    .long  sym_06058F94
 .L_0602539C:
-    .4byte  sym_06061170
+    .long  sym_06061170
 .L_060253A0:
-    .4byte  car_physics_final
+    .long  car_physics_final
 .L_060253A4:
-    .4byte  sym_06061198
+    .long  sym_06061198
 .L_060253A8:
     mov #0x9, r2
 .L_060253AA:
@@ -336,12 +336,12 @@ DAT_0602538a:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_06025468:
-    .4byte  sym_06058FBC
+    .long  sym_06058FBC
 .L_0602546C:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_06025470:
-    .4byte  sym_0605904C
+    .long  sym_0605904C
 .L_06025474:
-    .4byte  sym_06059060
+    .long  sym_06059060

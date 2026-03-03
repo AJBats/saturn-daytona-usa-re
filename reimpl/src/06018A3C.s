@@ -16,7 +16,7 @@ vdp2_config_extended:
     mov.l   .L_06018A98, r4
     mov.l @r5, r3
     cmp/ge r2, r3
-    bf/s    .L_06018A78
+    bf.s    .L_06018A78
     mov #0x0, r14
     mov #0xC, r3
     mov.l @r5, r2
@@ -46,17 +46,17 @@ vdp2_config_extended:
     bt      .L_06018AA4
     bra     .L_06018AE4
     nop
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_06018A90:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8
 .L_06018A94:
-    .4byte  sym_06078868
+    .long  sym_06078868
 .L_06018A98:
-    .4byte  sym_0607867C
+    .long  sym_0607867C
 .L_06018A9C:
-    .4byte  sym_06083255
+    .long  sym_06083255
 .L_06018AA0:
-    .4byte  sym_0605AD08
+    .long  sym_0605AD08
 
 .L_06018AA4:
     mov.l   .L_06018B90, r3
@@ -187,39 +187,39 @@ vdp2_config_extended:
 
     .global DAT_06018b8e
 DAT_06018b8e:
-    .2byte  0x4000
+    .short  0x4000
 .L_06018B90:
-    .4byte  render_obj_stub
+    .long  render_obj_stub
 .L_06018B94:
-    .4byte  cd_texture_loader
+    .long  cd_texture_loader
 .L_06018B98:
-    .4byte  sym_0605D1BC
+    .long  sym_0605D1BC
 .L_06018B9C:
-    .4byte  cd_course_loader
+    .long  cd_course_loader
 .L_06018BA0:
-    .4byte  sym_06078635
+    .long  sym_06078635
 .L_06018BA4:
-    .4byte  sym_06012E7C
+    .long  sym_06012E7C
 .L_06018BA8:
-    .4byte  sym_0607ED8C
+    .long  sym_0607ED8C
 .L_06018BAC:
-    .4byte  race_state_pair_1
+    .long  race_state_pair_1
 .L_06018BB0:
-    .4byte  handler_dispatch
+    .long  handler_dispatch
 .L_06018BB4:
-    .4byte  sym_0607EBC4
+    .long  sym_0607EBC4
 .L_06018BB8:
-    .4byte  sym_06078648
+    .long  sym_06078648
 .L_06018BBC:
-    .4byte  sym_0605AB18
+    .long  sym_0605AB18
 .L_06018BC0:
-    .4byte  sym_0605D23C
+    .long  sym_0605D23C
 .L_06018BC4:
-    .4byte  sym_0605AD00
+    .long  sym_0605AD00
 .L_06018BC8:
-    .4byte  sym_06018E1E
+    .long  sym_06018E1E
 .L_06018BCC:
-    .4byte  ai_throttle_modulate
+    .long  ai_throttle_modulate
 
 .L_06018BD0:
     mov #0x0, r6
@@ -356,79 +356,79 @@ DAT_06018b8e:
     bra     .L_06018D58
     nop
 .L_06018CC6:
-    .2byte  0x00A0
+    .short  0x00A0
 .L_06018CC8:
-    .4byte  sym_0607EBE4
+    .long  sym_0607EBE4
 .L_06018CCC:
-    .4byte  sym_0604806C
+    .long  sym_0604806C
 .L_06018CD0:
-    .4byte  sym_0607EA9C
+    .long  sym_0607EA9C
 .L_06018CD4:
-    .4byte  sym_060D5840
+    .long  sym_060D5840
 .L_06018CD8:
-    .4byte  sym_0607EB84
+    .long  sym_0607EB84
 .L_06018CDC:
-    .4byte  sym_060C6000
+    .long  sym_060C6000
 .L_06018CE0:
-    .4byte  sym_0607EB88
+    .long  sym_0607EB88
 .L_06018CE4:
-    .4byte  sym_06063F3C
+    .long  sym_06063F3C
 .L_06018CE8:
-    .4byte  sym_0604800C
+    .long  sym_0604800C
 .L_06018CEC:
-    .4byte  sym_06035280
+    .long  sym_06035280
 .L_06018CF0:
-    .4byte  sym_06063F18
+    .long  sym_06063F18
 .L_06018CF4:
-    .4byte  sym_060786AC
+    .long  sym_060786AC
 .L_06018CF8:
-    .4byte  sym_06063F1C
+    .long  sym_06063F1C
 .L_06018CFC:
-    .4byte  sym_06063F20
+    .long  sym_06063F20
 .L_06018D00:
-    .4byte  sym_06063F24
+    .long  sym_06063F24
 .L_06018D04:
-    .4byte  sym_06086034
+    .long  sym_06086034
 .L_06018D08:
-    .4byte  sym_06063F28
+    .long  sym_06063F28
 .L_06018D0C:
-    .4byte  sym_0605AD00
+    .long  sym_0605AD00
 .L_06018D10:
-    .4byte  sym_0604805A
+    .long  sym_0604805A
 .L_06018D14:
-    .4byte  sym_06048072
+    .long  sym_06048072
 .L_06018D18:
-    .4byte  sym_0607EA98
+    .long  sym_0607EA98
 .L_06018D1C:
-    .4byte  sym_06048024
+    .long  sym_06048024
 .L_06018D20:
-    .4byte  sym_0607EAA0
+    .long  sym_0607EAA0
 .L_06018D24:
-    .4byte  sym_0607EAAC
+    .long  sym_0607EAAC
 .L_06018D28:
-    .4byte  sym_0604802A
+    .long  sym_0604802A
 .L_06018D2C:
-    .4byte  sym_0605AD0C
+    .long  sym_0605AD0C
 .L_06018D30:
-    .4byte  sym_0604803C
+    .long  sym_0604803C
 .L_06018D34:
-    .4byte  sym_0605CDDC
+    .long  sym_0605CDDC
 .L_06018D38:
-    .4byte  sym_06059FFC
+    .long  sym_06059FFC
 .L_06018D3C:
-    .4byte  0x25C00220
+    .long  0x25C00220
 .L_06018D40:
-    .4byte  memcpy_word_idx
+    .long  memcpy_word_idx
 .L_06018D44:
-    .4byte  sym_060149E0
+    .long  sym_060149E0
 .L_06018D48:
-    .4byte  display_channels_clear
+    .long  display_channels_clear
 .L_06018D4C:
-    .4byte  sym_06026CE0
+    .long  sym_06026CE0
 .L_06018D50:
-    .4byte  sym_06059F44
+    .long  sym_06059F44
 .L_06018D54:
-    .4byte  audio_display_init
+    .long  audio_display_init
 
 .L_06018D58:
     mov.l   .L_06018DB0, r3
@@ -474,26 +474,26 @@ DAT_06018b8e:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_06018DB0:
-    .4byte  sym_0605AD08
+    .long  sym_0605AD08
 .L_06018DB4:
-    .4byte  sym_06078900
+    .long  sym_06078900
 .L_06018DB8:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_06018DBC:
-    .4byte  hud_coord_calc
+    .long  hud_coord_calc
 .L_06018DC0:
-    .4byte  dma_vram_init
+    .long  dma_vram_init
 .L_06018DC4:
-    .4byte  dma_config_dispatch
+    .long  dma_config_dispatch
 .L_06018DC8:
-    .4byte  sym_0605D1CC
+    .long  sym_0605D1CC
 .L_06018DCC:
-    .4byte  gameover_channel_setup
+    .long  gameover_channel_setup
 .L_06018DD0:
-    .4byte  sym_06003430
+    .long  sym_06003430
 .L_06018DD4:
-    .4byte  channel_config_b
+    .long  channel_config_b
 .L_06018DD8:
-    .4byte  obj_render_cleanup
+    .long  obj_render_cleanup

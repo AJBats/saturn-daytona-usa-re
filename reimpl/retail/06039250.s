@@ -81,7 +81,7 @@ DAT_060392e6:
     .byte 0xFF, 0x0F
     .byte 0x00, 0x80
     .byte 0xFF, 0xFF
-    .4byte sym_060A4C92
+    .long sym_060A4C92
     .byte 0x25, 0xD0
     .byte 0x00, 0x02
     .byte 0x25, 0xD0
@@ -96,11 +96,11 @@ DAT_060392e6:
     .byte 0xFF, 0xFF
     .byte 0x25, 0xD0
     .byte 0x00, 0x0A
-    .4byte sym_060A4C8C
-    .4byte sym_060A4C88
+    .long sym_060A4C8C
+    .long sym_060A4C88
     .byte 0x25, 0xC0
     .byte 0x00, 0x00
-    .4byte sym_060635CC
+    .long sym_060635CC
 	.text
     .global polygon_param_setup
 polygon_param_setup:
@@ -166,15 +166,15 @@ polygon_param_setup:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .byte 0xFF, 0xFF
-    .4byte sym_060A4C8C
-    .4byte sym_060A4C90
+    .long sym_060A4C8C
+    .long sym_060A4C90
     .byte 0x25, 0xD0
     .byte 0x00, 0x00
-    .4byte sym_060635E0
-    .4byte sym_060A4C88
-    .4byte sym_060635DE
-    .4byte sym_060A4C94
-    .4byte sym_060A4C96
+    .long sym_060635E0
+    .long sym_060A4C88
+    .long sym_060635DE
+    .long sym_060A4C94
+    .long sym_060A4C96
     .byte 0xD3, 0x1C
     .byte 0x63, 0x31
     .byte 0x24, 0x31
@@ -235,17 +235,17 @@ sym_060393FC:
     .byte 0xA0, 0x18
     .byte 0x45, 0x09
     .byte 0xFF, 0xFF
-    .4byte sym_060635B4
-    .4byte sym_060635B8
-    .4byte sym_060635BC
-    .4byte sym_060635D4
-    .4byte sym_060635D6
-    .4byte sym_060635D8
-    .4byte sym_060635DA
-    .4byte sym_060635DC
+    .long sym_060635B4
+    .long sym_060635B8
+    .long sym_060635BC
+    .long sym_060635D4
+    .long sym_060635D6
+    .long sym_060635D8
+    .long sym_060635DA
+    .long sym_060635DC
     .byte 0x25, 0xD0
     .byte 0x00, 0x06
-    .4byte sym_060635DE
+    .long sym_060635DE
     .byte 0x65, 0x5D
     .byte 0x45, 0x09
     .byte 0x45, 0x01
@@ -312,12 +312,12 @@ sym_060394C2:
     .byte 0x89, 0xFA
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
-    .4byte sym_060A4C94
-    .4byte sym_060635D0
+    .long sym_060A4C94
+    .long sym_060635D0
     .byte 0x25, 0xD0
     .byte 0x00, 0x08
-    .4byte sym_060635DE
-    .4byte sym_060635D2
+    .long sym_060635DE
+    .long sym_060635D2
     .byte 0x25, 0xD0
     .byte 0x00, 0x0A
     .byte 0x25, 0xD0
@@ -334,4 +334,4 @@ sym_060394C2:
     .byte 0x23, 0x21
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
-    .4byte sym_060A4C92
+    .long sym_060A4C92

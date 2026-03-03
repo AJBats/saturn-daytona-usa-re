@@ -7,10 +7,10 @@ display_cmd_hscroll:
     lds.l @r15+, pr
     .byte   0xAF, 0xA6    /* bra 0x0603230A (external) */
     nop
-    .2byte  0x0000
-    .4byte  0x0000000E
-    .4byte  0x00000003
-    .4byte  0x000002D0
+    .short  0x0000
+    .long  0x0000000E
+    .long  0x00000003
+    .long  0x000002D0
 
     .global loc_060323CC
 loc_060323CC:
@@ -21,8 +21,8 @@ loc_060323CC:
     mov.w r1, @(r0, r14)
     .byte   0xAF, 0x98    /* bra 0x0603230A (external) */
     nop
-    .2byte  0x0000
+    .short  0x0000
 .L_pool_060323DC:
-    .4byte  0x0000000E
+    .long  0x0000000E
 .L_pool_060323E0:
-    .4byte  0x00000001
+    .long  0x00000001

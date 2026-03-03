@@ -41,8 +41,8 @@ track_bank_angle:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .4byte input_proc_analog
-    .4byte input_proc_buttons
-    .4byte input_proc_digital
+    .long input_proc_analog
+    .long input_proc_buttons
+    .long input_proc_digital
     .byte 0x00, 0xFF
     .byte 0xFF, 0xFF

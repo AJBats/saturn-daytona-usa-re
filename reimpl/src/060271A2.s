@@ -36,7 +36,7 @@ mat_rot_xy_b:
     sts macl, r2
     xtrct r0, r2
     mov.l r2, @(8, r4)
-    bf/s    .L_060271BE
+    bf.s    .L_060271BE
     add #0xC, r4
     rts
     nop

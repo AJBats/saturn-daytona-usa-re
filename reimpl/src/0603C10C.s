@@ -27,7 +27,7 @@ high_score_mgr:
     add #0x1, r4
     extu.b r4, r3
     cmp/ge r13, r3
-    bf/s    .L_0603C134
+    bf.s    .L_0603C134
     mov.l r14, @(r0, r12)
     mov #0x0, r2
     mov.l   .L_pool_0603C194, r3
@@ -61,24 +61,24 @@ sym_0603C156:
     rts
     shar r0
 .L_wpool_0603C17A:
-    .2byte  0x3000
+    .short  0x3000
 .L_pool_0603C17C:
-    .4byte  sym_060A4D60
+    .long  sym_060A4D60
 .L_pool_0603C180:
-    .4byte  render_credits_stub
+    .long  render_credits_stub
 .L_pool_0603C184:
-    .4byte  bus_lock_table_ctrl
+    .long  bus_lock_table_ctrl
 .L_pool_0603C188:
-    .4byte  display_nop_stub_a
+    .long  display_nop_stub_a
 .L_pool_0603C18C:
-    .4byte  display_nop_stub_b
+    .long  display_nop_stub_b
 .L_pool_0603C190:
-    .4byte  display_element_draw
+    .long  display_element_draw
 .L_pool_0603C194:
-    .4byte  sym_060A4D80
+    .long  sym_060A4D80
 .L_pool_0603C198:
-    .4byte  sym_060A4DA6
+    .long  sym_060A4DA6
 .L_pool_0603C19C:
-    .4byte  sym_060A3D96
-    .4byte  0xE300D227
-    .4byte  0x000B2230
+    .long  sym_060A3D96
+    .long  0xE300D227
+    .long  0x000B2230

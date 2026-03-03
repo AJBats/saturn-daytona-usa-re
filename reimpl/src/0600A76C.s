@@ -119,45 +119,45 @@ secondary_geom_proc:
     bra     .L_0600A89C
     nop
 .L_0600A854:
-    .2byte  0xCCCD
+    .short  0xCCCD
 
     .global DAT_0600a856
 DAT_0600a856:
-    .2byte  0x8000
+    .short  0x8000
 .L_0600A858:
-    .4byte  sym_0608A52C
+    .long  sym_0608A52C
 .L_0600A85C:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_0600A860:
-    .4byte  sym_0607EB8C
+    .long  sym_0607EB8C
 .L_0600A864:
-    .4byte  sym_06027080
+    .long  sym_06027080
 .L_0600A868:
-    .4byte  sym_06044640
+    .long  sym_06044640
 .L_0600A86C:
-    .4byte  0xFFFF0F5D
+    .long  0xFFFF0F5D
 .L_0600A870:
-    .4byte  sym_060270F2
+    .long  sym_060270F2
 .L_0600A874:
-    .4byte  mat_scale_b
+    .long  mat_scale_b
 .L_0600A878:
-    .4byte  sym_060621D8
+    .long  sym_060621D8
 .L_0600A87C:
-    .4byte  sym_0606212C
+    .long  sym_0606212C
 .L_0600A880:
-    .4byte  sym_06032158
+    .long  sym_06032158
 .L_0600A884:
-    .4byte  sym_06062180
+    .long  sym_06062180
 .L_0600A888:
-    .4byte  sym_06089E9C
+    .long  sym_06089E9C
 .L_0600A88C:
-    .4byte  sym_060620D8
+    .long  sym_060620D8
 .L_0600A890:
-    .4byte  sym_06031DF4
+    .long  sym_06031DF4
 .L_0600A894:
-    .4byte  sym_06044670
+    .long  sym_06044670
 .L_0600A898:
-    .4byte  0xFFFDB334
+    .long  0xFFFDB334
 .L_0600A89C:
     mov.l @r15, r4
     mov.l   .L_0600A904, r2
@@ -219,13 +219,13 @@ sym_0600A8BC:
     rts
     nop
 .L_0600A900:
-    .2byte  0x00C8
-    .2byte  0xFFFF
+    .short  0x00C8
+    .short  0xFFFF
 .L_0600A904:
-    .4byte  sym_060620D8
+    .long  sym_060620D8
 .L_0600A908:
-    .4byte  sym_06031DF4
+    .long  sym_06031DF4
 .L_0600A90C:
-    .4byte  sym_06063F46
+    .long  sym_06063F46
 .L_0600A910:
-    .4byte  sym_0607E940
+    .long  sym_0607E940

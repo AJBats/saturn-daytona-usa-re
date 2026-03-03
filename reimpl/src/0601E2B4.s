@@ -17,7 +17,7 @@ hud_overlay_render:
     mov.b @r3, r3
     extu.b r3, r3
     tst r3, r3
-    bf/s    .L_0601E2F2
+    bf.s    .L_0601E2F2
     mov #0x1, r14
     bra     .L_0601E2E6
     mov r12, r4
@@ -86,24 +86,24 @@ hud_overlay_render:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_0601E354:
-    .4byte  sym_060877D8
+    .long  sym_060877D8
 .L_0601E358:
-    .4byte  sym_0604A5C0
+    .long  sym_0604A5C0
 .L_0601E35C:
-    .4byte  sym_0605E068
+    .long  sym_0605E068
 .L_0601E360:
-    .4byte  0x20100063
+    .long  0x20100063
 .L_0601E364:
-    .4byte  sym_06087080
+    .long  sym_06087080
 .L_0601E368:
-    .4byte  0x2010001F
+    .long  0x2010001F
 .L_0601E36C:
-    .4byte  sym_06000358
+    .long  sym_06000358
 .L_0601E370:
-    .4byte  sym_06087086
+    .long  sym_06087086
 .L_0601E374:
-    .4byte  sym_0605E064
+    .long  sym_0605E064
 .L_0601E378:
-    .4byte  sym_0605E060
+    .long  sym_0605E060

@@ -76,20 +76,20 @@ obj_pool_dealloc:
     rts
     nop
 .L_wpool_06020310:
-    .2byte  0x4000
+    .short  0x4000
 .L_wpool_06020312:
-    .2byte  0x0200
+    .short  0x0200
 .L_pool_06020314:
-    .4byte  g_pad_state
+    .long  g_pad_state
 .L_pool_06020318:
-    .4byte  sym_06087826
+    .long  sym_06087826
 .L_pool_0602031C:
-    .4byte  sym_06087825
+    .long  sym_06087825
 .L_pool_06020320:
-    .4byte  sym_0605F526
+    .long  sym_0605F526
 .L_pool_06020324:
-    .4byte  sym_06035228
+    .long  sym_06035228
 .L_06020328:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_pool_0602032C:
-    .4byte  sym_06087824
+    .long  sym_06087824

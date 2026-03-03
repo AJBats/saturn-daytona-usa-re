@@ -65,32 +65,32 @@ file_format_parse:
     jmp @r3
     mov.l @r15+, r14
 .L_060124D2:
-    .2byte  0x1000
+    .short  0x1000
 .L_060124D4:
-    .4byte  sym_06026DBC
+    .long  sym_06026DBC
 .L_060124D8:
-    .4byte  sym_06026E0C
+    .long  sym_06026E0C
 .L_060124DC:
-    .4byte  sym_06026E2E
+    .long  sym_06026E2E
 .L_060124E0:
-    .4byte  sym_06035C2C
+    .long  sym_06035C2C
 .L_060124E4:
-    .4byte  mat_rot_x
+    .long  mat_rot_x
 .L_060124E8:
-    .4byte  sym_06063570
+    .long  sym_06063570
 .L_060124EC:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8
 .L_060124F0:
-    .4byte  sym_06063564
+    .long  sym_06063564
 .L_060124F4:
-    .4byte  sym_06031D8C
+    .long  sym_06031D8C
 .L_060124F8:
-    .4byte  sym_0606356C
+    .long  sym_0606356C
 .L_060124FC:
-    .4byte  sym_06089EA0
+    .long  sym_06089EA0
 .L_06012500:
-    .4byte  sym_0606355C
+    .long  sym_0606355C
 .L_06012504:
-    .4byte  sym_06031A28
+    .long  sym_06031A28
 .L_06012508:
-    .4byte  sym_06026DF8
+    .long  sym_06026DF8

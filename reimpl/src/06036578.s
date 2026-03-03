@@ -36,6 +36,6 @@ course_data_access_f:
     rts
     mov.l @r15+, r14
 .L_060365BC:
-    .4byte  input_proc_analog
+    .long  input_proc_analog
 .L_060365C0:
-    .4byte  input_proc_digital
+    .long  input_proc_digital

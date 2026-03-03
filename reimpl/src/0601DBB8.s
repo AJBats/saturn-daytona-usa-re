@@ -45,25 +45,25 @@ replay_camera_ctrl:
     bt      .L_0601DC34
     bra     .L_0601DC5A
     nop
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_0601DC10:
-    .4byte  sym_06078900
+    .long  sym_06078900
 .L_0601DC14:
-    .4byte  0x00009000
+    .long  0x00009000
 .L_0601DC18:
-    .4byte  sym_0608706C
+    .long  sym_0608706C
 .L_0601DC1C:
-    .4byte  sym_06028400
+    .long  sym_06028400
 .L_0601DC20:
-    .4byte  sym_06087074
+    .long  sym_06087074
 .L_0601DC24:
-    .4byte  sym_06087068
+    .long  sym_06087068
 .L_0601DC28:
-    .4byte  sym_06087070
+    .long  sym_06087070
 .L_0601DC2C:
-    .4byte  sym_060786AC
+    .long  sym_060786AC
 .L_0601DC30:
-    .4byte  sym_0607EBF4
+    .long  sym_0607EBF4
 .L_0601DC34:
     mov.b @r13, r0
     extu.b r0, r0
@@ -198,45 +198,45 @@ replay_camera_ctrl:
 
     .global DAT_0601dd30
 DAT_0601dd30:
-    .2byte  0x00A0
+    .short  0x00A0
 .L_0601DD32:
-    .2byte  0x0230
+    .short  0x0230
 
     .global DAT_0601dd34
 DAT_0601dd34:
-    .2byte  0x00C0
+    .short  0x00C0
 .L_0601DD36:
-    .2byte  0x07C8
+    .short  0x07C8
 .L_0601DD38:
-    .2byte  0x0842
+    .short  0x0842
 .L_0601DD3A:
-    .2byte  0x0942
+    .short  0x0942
 .L_0601DD3C:
-    .4byte  sym_0607EABC
+    .long  sym_0607EABC
 .L_0601DD40:
-    .4byte  sym_0608706A
+    .long  sym_0608706A
 .L_0601DD44:
-    .4byte  sym_0605DFED
+    .long  sym_0605DFED
 .L_0601DD48:
-    .4byte  sym_060786A0
+    .long  sym_060786A0
 .L_0601DD4C:
-    .4byte  sym_0605DDB4
+    .long  sym_0605DDB4
 .L_0601DD50:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8
 .L_0601DD54:
-    .4byte  sym_0605DDD4
+    .long  sym_0605DDD4
 .L_0601DD58:
-    .4byte  sym_060350B0
+    .long  sym_060350B0
 .L_0601DD5C:
-    .4byte  sym_0608707C
+    .long  sym_0608707C
 .L_0601DD60:
-    .4byte  sym_060639F8
+    .long  sym_060639F8
 .L_0601DD64:
-    .4byte  sym_0605E008
+    .long  sym_0605E008
 .L_0601DD68:
-    .4byte  sym_060639E0
+    .long  sym_060639E0
 .L_0601DD6C:
-    .4byte  sym_060639D8
+    .long  sym_060639D8
 .L_0601DD70:
     mov.l @r15, r5
     mov.l @r5, r5
@@ -339,33 +339,33 @@ camera_cleanup_reset:
 
     .global DAT_0601de24
 DAT_0601de24:
-    .2byte  0x08C4
+    .short  0x08C4
 DAT_0601de26:
-    .2byte  0x09C4
+    .short  0x09C4
 .L_0601DE28:
-    .2byte  0x0090
+    .short  0x0090
 .L_0601DE2A:
-    .2byte  0x07C2
+    .short  0x07C2
 .L_0601DE2C:
-    .2byte  0x08C2
+    .short  0x08C2
 .L_0601DE2E:
-    .2byte  0x09C2
+    .short  0x09C2
 .L_0601DE30:
-    .4byte  sym_0605DFF4
+    .long  sym_0605DFF4
 .L_0601DE34:
-    .4byte  0x000927BF
+    .long  0x000927BF
 .L_0601DE38:
-    .4byte  sym_060639F8
+    .long  sym_060639F8
 .L_0601DE3C:
-    .4byte  sym_0608706A
+    .long  sym_0608706A
 .L_0601DE40:
-    .4byte  sym_0605ACE3
+    .long  sym_0605ACE3
 .L_0601DE44:
-    .4byte  sym_060284AE
+    .long  sym_060284AE
 .L_0601DE48:
-    .4byte  0x0000E000
+    .long  0x0000E000
 .L_0601DE4C:
-    .4byte  sym_060283E0
+    .long  sym_060283E0
 
     .global camera_event_handler
 camera_event_handler:
@@ -472,54 +472,54 @@ camera_event_handler:
 
     .global DAT_0601df14
 DAT_0601df14:
-    .2byte  0x02AC
+    .short  0x02AC
 
     .global DAT_0601df16
 DAT_0601df16:
-    .2byte  0x0644
+    .short  0x0644
 
     .global DAT_0601df18
 DAT_0601df18:
-    .2byte  0x0240
+    .short  0x0240
 
     .global DAT_0601df1a
 DAT_0601df1a:
-    .2byte  0x021C
+    .short  0x021C
 
     .global DAT_0601df1c
 DAT_0601df1c:
-    .2byte  0x0278
+    .short  0x0278
 .L_0601DF1E:
-    .2byte  0x03C2
+    .short  0x03C2
 .L_0601DF20:
-    .2byte  0x0444
-    .2byte  0xFFFF
+    .short  0x0444
+    .short  0xFFFF
 .L_0601DF24:
-    .4byte  sym_0607EBD0
+    .long  sym_0607EBD0
 .L_0601DF28:
-    .4byte  0x000927BF
+    .long  0x000927BF
 .L_0601DF2C:
-    .4byte  sym_06063750
+    .long  sym_06063750
 .L_0601DF30:
-    .4byte  sym_06028400
+    .long  sym_06028400
 .L_0601DF34:
-    .4byte  0x00009000
+    .long  0x00009000
 .L_0601DF38:
-    .4byte  sym_0605DFF4
+    .long  sym_0605DFF4
 .L_0601DF3C:
-    .4byte  sym_06078900
+    .long  sym_06078900
 .L_0601DF40:
-    .4byte  sym_06086008
+    .long  sym_06086008
 .L_0601DF44:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8
 .L_0601DF48:
-    .4byte  sym_0607EAE0
+    .long  sym_0607EAE0
 .L_0601DF4C:
-    .4byte  sym_0605DE24
+    .long  sym_0605DE24
 .L_0601DF50:
-    .4byte  0x0000A000
+    .long  0x0000A000
 .L_0601DF54:
-    .4byte  sym_0605DFEC
+    .long  sym_0605DFEC
 .L_0601DF58:
     mov.l   .L_0601DF7C, r7
     mov.l   .L_0601DF80, r6
@@ -540,13 +540,13 @@ DAT_0601df1c:
     rts
     mov.l @r15+, r14
 .L_0601DF7A:
-    .2byte  0x0442
+    .short  0x0442
 .L_0601DF7C:
-    .4byte  sym_0605ACE3
+    .long  sym_0605ACE3
 .L_0601DF80:
-    .4byte  0x0000E000
+    .long  0x0000E000
 .L_0601DF84:
-    .4byte  sym_060283E0
+    .long  sym_060283E0
 
     .global camera_special_mode
 camera_special_mode:
@@ -629,52 +629,52 @@ camera_special_mode:
     bra     .L_0601E060
     nop
 .L_0601E022:
-    .2byte  0x02A8
+    .short  0x02A8
 
     .global DAT_0601e024
 DAT_0601e024:
-    .2byte  0x0278
+    .short  0x0278
 .L_0601E026:
-    .2byte  0x03C2
+    .short  0x03C2
 
     .global DAT_0601e028
 DAT_0601e028:
-    .2byte  0x0240
+    .short  0x0240
 
     .global DAT_0601e02a
 DAT_0601e02a:
-    .2byte  0x0444
+    .short  0x0444
 
     .global DAT_0601e02c
 DAT_0601e02c:
-    .2byte  0x0644
+    .short  0x0644
 
     .global DAT_0601e02e
 DAT_0601e02e:
-    .2byte  0x0280
+    .short  0x0280
 .L_0601E030:
-    .2byte  0x04C2
-    .2byte  0xFFFF
+    .short  0x04C2
+    .short  0xFFFF
 .L_0601E034:
-    .4byte  0x0000A000
+    .long  0x0000A000
 .L_0601E038:
-    .4byte  0x000927BF
+    .long  0x000927BF
 .L_0601E03C:
-    .4byte  sym_06063750
+    .long  sym_06063750
 .L_0601E040:
-    .4byte  sym_0607863C
+    .long  sym_0607863C
 .L_0601E044:
-    .4byte  sym_06028400
+    .long  sym_06028400
 .L_0601E048:
-    .4byte  sym_06078900
+    .long  sym_06078900
 .L_0601E04C:
-    .4byte  sym_06086008
+    .long  sym_06086008
 .L_0601E050:
-    .4byte  sym_0605DFF4
+    .long  sym_0605DFF4
 .L_0601E054:
-    .4byte  0x00009000
+    .long  0x00009000
 .L_0601E058:
-    .4byte  sym_06086004
+    .long  sym_06086004
 .L_0601E05C:
     bsr     hud_element_pos
     mov.l @r13, r4
@@ -754,25 +754,25 @@ sym_0601E0DE:
 
     .global DAT_0601e0e2
 DAT_0601e0e2:
-    .2byte  0x0644
+    .short  0x0644
 
     .global DAT_0601e0e4
 DAT_0601e0e4:
-    .2byte  0x0544
+    .short  0x0544
 .L_0601E0E6:
-    .2byte  0x0542
+    .short  0x0542
 .L_0601E0E8:
-    .4byte  0x00009000
+    .long  0x00009000
 .L_0601E0EC:
-    .4byte  sym_0605DFF4
+    .long  sym_0605DFF4
 .L_0601E0F0:
-    .4byte  sym_0605DFEC
+    .long  sym_0605DFEC
 .L_0601E0F4:
-    .4byte  sym_0605ACE3
+    .long  sym_0605ACE3
 .L_0601E0F8:
-    .4byte  0x0000E000
+    .long  0x0000E000
 .L_0601E0FC:
-    .4byte  sym_060283E0
+    .long  sym_060283E0
 
     .global geom_matrix_setup
 geom_matrix_setup:
@@ -829,36 +829,36 @@ geom_matrix_setup:
 
     .global DAT_0601e162
 DAT_0601e162:
-    .2byte  0x0344
+    .short  0x0344
 
     .global DAT_0601e164
 DAT_0601e164:
-    .2byte  0x0270
+    .short  0x0270
 
     .global DAT_0601e166
 DAT_0601e166:
-    .2byte  0x06C6
+    .short  0x06C6
 .L_0601E168:
-    .2byte  0x00F8
-    .2byte  0xFFFF
+    .short  0x00F8
+    .short  0xFFFF
 .L_0601E16C:
-    .4byte  sym_06063750
+    .long  sym_06063750
 .L_0601E170:
-    .4byte  sym_06028400
+    .long  sym_06028400
 .L_0601E174:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_0601E178:
-    .4byte  sym_0607EAE0
+    .long  sym_0607EAE0
 .L_0601E17C:
-    .4byte  sym_0604892C
+    .long  sym_0604892C
 .L_0601E180:
-    .4byte  0x25F00100
+    .long  0x25F00100
 .L_0601E184:
-    .4byte  memcpy_word_idx
+    .long  memcpy_word_idx
 .L_0601E188:
-    .4byte  sym_0605DFCC
+    .long  sym_0605DFCC
 .L_0601E18C:
-    .4byte  sym_06078644
+    .long  sym_06078644
 .L_0601E190:
     mov.w   DAT_0601e238, r7
 .L_0601E192:
@@ -949,59 +949,59 @@ DAT_0601e166:
 
     .global DAT_0601e238
 DAT_0601e238:
-    .2byte  0x0100
+    .short  0x0100
 
     .global DAT_0601e23a
 DAT_0601e23a:
-    .2byte  0x00C4
+    .short  0x00C4
 
     .global DAT_0601e23c
 DAT_0601e23c:
-    .2byte  0x0278
+    .short  0x0278
 .L_0601E23E:
-    .2byte  0x03C2
+    .short  0x03C2
 
     .global DAT_0601e240
 DAT_0601e240:
-    .2byte  0x0280
+    .short  0x0280
 .L_0601E242:
-    .2byte  0x04C2
+    .short  0x04C2
 
     .global DAT_0601e244
 DAT_0601e244:
-    .2byte  0x0290
+    .short  0x0290
 .L_0601E246:
-    .2byte  0x05C2
+    .short  0x05C2
 
     .global DAT_0601e248
 DAT_0601e248:
-    .2byte  0x02A8
+    .short  0x02A8
 
     .global DAT_0601e24a
 DAT_0601e24a:
-    .2byte  0x0444
+    .short  0x0444
 
     .global DAT_0601e24c
 DAT_0601e24c:
-    .2byte  0x0544
+    .short  0x0544
 
     .global DAT_0601e24e
 DAT_0601e24e:
-    .2byte  0x0644
+    .short  0x0644
 .L_0601E250:
-    .4byte  0x00009000
+    .long  0x00009000
 .L_0601E254:
-    .4byte  sym_0601AB8C
+    .long  sym_0601AB8C
 .L_0601E258:
-    .4byte  sym_06086008
+    .long  sym_06086008
 .L_0601E25C:
-    .4byte  sym_0605DFF4
+    .long  sym_0605DFF4
 .L_0601E260:
-    .4byte  sym_06086004
+    .long  sym_06086004
 .L_0601E264:
-    .4byte  sym_06087068
+    .long  sym_06087068
 .L_0601E268:
-    .4byte  sym_0605DFF0
+    .long  sym_0605DFF0
 
     .global hud_element_pos
 hud_element_pos:
@@ -1035,10 +1035,10 @@ hud_element_pos:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_0601E2A8:
-    .4byte  sym_0605DFF4
+    .long  sym_0605DFF4
 .L_0601E2AC:
-    .4byte  sym_06087064
+    .long  sym_06087064
 .L_0601E2B0:
-    .4byte  anim_frame_transform
+    .long  anim_frame_transform

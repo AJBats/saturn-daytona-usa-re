@@ -18,8 +18,8 @@ DAT_0600590e:
 DAT_06005910:
     .byte 0x10, 0x00
     .byte 0xFF, 0xFF
-    .4byte sym_06028430
-    .4byte sym_0607EAE0
-    .4byte sym_0607EA98
-    .4byte sym_06078644
-    .4byte sym_06028400
+    .long sym_06028430
+    .long sym_0607EAE0
+    .long sym_0607EA98
+    .long sym_06078644
+    .long sym_06028400

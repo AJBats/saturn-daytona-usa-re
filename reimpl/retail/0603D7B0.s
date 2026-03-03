@@ -143,9 +143,9 @@ options_menu_state:
     .byte 0xFF, 0xFF
     .byte 0x00, 0x00
     .byte 0xFF, 0xFE
-    .4byte sym_060A4D58
-    .4byte sym_060A4D18
-    .4byte sym_06034F78
+    .long sym_060A4D58
+    .long sym_060A4D18
+    .long sym_06034F78
     .byte 0x00, 0x00
     .byte 0xFE, 0xFF
     .byte 0x00, 0x00
@@ -272,7 +272,7 @@ options_menu_state:
     .byte 0x6E, 0xF6
     .byte 0x00, 0x80
     .byte 0xFF, 0xFF
-    .4byte sym_06034F78
+    .long sym_06034F78
     .byte 0x00, 0x00
     .byte 0xFF, 0xFB
     .byte 0x00, 0x00

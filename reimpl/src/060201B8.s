@@ -94,16 +94,16 @@ obj_pool_alloc:
     .byte   0xA0, 0x0D    /* bra 0x06020284 (external) */
     mov.l @r15+, r14
 .L_0602026A:
-    .2byte  0x0800
+    .short  0x0800
 .L_pool_0602026C:
-    .4byte  sym_06087808
+    .long  sym_06087808
 .L_pool_06020270:
-    .4byte  sym_06087806
+    .long  sym_06087806
 .L_pool_06020274:
-    .4byte  sym_06063D9A
+    .long  sym_06063D9A
 .L_pool_06020278:
-    .4byte  sym_0608780A
+    .long  sym_0608780A
 .L_pool_0602027C:
-    .4byte  sym_0605F4A8
+    .long  sym_0605F4A8
 .L_pool_06020280:
-    .4byte  sym_0608782C
+    .long  sym_0608782C

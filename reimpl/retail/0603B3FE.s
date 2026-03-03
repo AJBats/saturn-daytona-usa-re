@@ -18,4 +18,4 @@ menu_header_render:
     .byte 0x4F, 0x26
     .byte 0x7F, 0xFF
     .byte 0xFF, 0xFF
-    .4byte attract_init_setup
+    .long attract_init_setup

@@ -83,7 +83,7 @@ DAT_06042120:
     .global DAT_06042122
 DAT_06042122:
     .byte 0x02, 0x00
-    .4byte sym_060A5400
-    .4byte track_shadow_project
-    .4byte ai_checkpoint_validate
-    .4byte sym_06035C4E
+    .long sym_060A5400
+    .long track_shadow_project
+    .long ai_checkpoint_validate
+    .long sym_06035C4E

@@ -88,13 +88,13 @@ DAT_06005abe:
 DAT_06005ac0:
     .byte 0x05, 0x9C
     .byte 0x00, 0x90
-    .4byte sym_0607EABC
-    .4byte sym_06085FF4
-    .4byte sym_0607EAC0
-    .4byte sym_06063750
-    .4byte sym_06028400
-    .4byte sym_0605ACDD
-    .4byte sym_060284AE
+    .long sym_0607EABC
+    .long sym_06085FF4
+    .long sym_0607EAC0
+    .long sym_06063750
+    .long sym_06028400
+    .long sym_0605ACDD
+    .long sym_060284AE
     .byte 0x7F, 0x04
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B

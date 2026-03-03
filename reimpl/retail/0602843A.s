@@ -54,8 +54,8 @@ screen_fade_ctrl:
     .byte 0x69, 0xF6
     .byte 0x00, 0x0B
     .byte 0x68, 0xF6
-    .4byte sym_06028614
-    .4byte sym_06063690
+    .long sym_06028614
+    .long sym_06063690
     .byte 0x00, 0x09
     .global sym_060284AE
 sym_060284AE:

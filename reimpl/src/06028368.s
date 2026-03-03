@@ -14,4 +14,4 @@ effect_init_stub:
     .byte   0xA0, 0x0C    /* bra 0x06028398 (external) */
     mov #0x0, r0
 .L_06028380:
-    .4byte  sym_06028614
+    .long  sym_06028614

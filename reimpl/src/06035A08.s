@@ -94,7 +94,7 @@ secondary_input_proc:
     rotcr r0
     .word 0x0329
     dt r8
-    bf/s    .L_06035AB2
+    bf.s    .L_06035AB2
     or r3, r0
 .L_06035ABE:
     tst #0x4, r0
@@ -148,15 +148,15 @@ secondary_input_proc:
     rts
     add #0x14, r15
 .L_pool_06035B20:
-    .4byte  0x000007FF
+    .long  0x000007FF
 .L_pool_06035B24:
-    .4byte  0x000FFFFF
+    .long  0x000FFFFF
 .L_pool_06035B28:
-    .4byte  0x00100000
+    .long  0x00100000
 .L_pool_06035B2C:
-    .4byte  0x01000000
+    .long  0x01000000
 .L_pool_06035B30:
-    .4byte  0x000003FF
+    .long  0x000003FF
 
     .global sym_06035B34
 sym_06035B34:
@@ -239,9 +239,9 @@ sym_06035B34:
     bra     .L_06035B7C
     mov #0x0, r0
 .L_06035BC0:
-    .4byte  0x7FF00000
+    .long  0x7FF00000
 .L_06035BC4:
-    .4byte  0x000FFFFF
+    .long  0x000FFFFF
 
     .global sym_06035BC8
 sym_06035BC8:
@@ -252,7 +252,7 @@ sym_06035BC8:
     mov.l   .L_06035C04, r1
 .L_06035BD2:
     shll r0
-    bf/s    .L_06035BD2
+    bf.s    .L_06035BD2
     add #-0x1, r1
     mov r0, r2
     shll16 r2
@@ -277,6 +277,6 @@ sym_06035BC8:
     mov #0x0, r2
     bra     .L_06035BEE
     mov #0x0, r0
-    .2byte  0x0009
+    .short  0x0009
 .L_06035C04:
-    .4byte  0x0000041F
+    .long  0x0000041F

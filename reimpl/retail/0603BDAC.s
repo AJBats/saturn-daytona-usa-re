@@ -53,10 +53,10 @@ save_integrity_check:
     .byte 0x00, 0xA8
     .byte 0x00, 0xB4
     .byte 0xFF, 0xFF
-    .4byte scene_buffer_update
-    .4byte sym_060A4D14
-    .4byte sym_0603EFD4
-    .4byte race_timer_sync
+    .long scene_buffer_update
+    .long sym_060A4D14
+    .long sym_0603EFD4
+    .long race_timer_sync
     .byte 0x2F, 0x86
     .byte 0x4F, 0x22
     .byte 0x4F, 0x12
@@ -113,5 +113,5 @@ save_integrity_check:
     .byte 0xE2, 0x00
     .byte 0x00, 0x0B
     .byte 0x14, 0x29
-    .4byte sym_06034FFC
-    .4byte evt_error_code_return
+    .long sym_06034FFC
+    .long evt_error_code_return

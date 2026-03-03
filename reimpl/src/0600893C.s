@@ -71,46 +71,46 @@ attract_init_body:
     rts
     mov.l @r15+, r14
 .L_060089C2:
-    .2byte  0x0398
+    .short  0x0398
 .L_060089C4:
-    .4byte  sym_06078634
+    .long  sym_06078634
 .L_060089C8:
-    .4byte  sym_06078635
+    .long  sym_06078635
 .L_060089CC:
-    .4byte  sym_0607ED8C
+    .long  sym_0607ED8C
 .L_060089D0:
-    .4byte  sym_0607864B
+    .long  sym_0607864B
 .L_060089D4:
-    .4byte  vdp2_config_extended
+    .long  vdp2_config_extended
 .L_060089D8:
-    .4byte  race_init_master
+    .long  race_init_master
 .L_060089DC:
-    .4byte  hud_subsystem_init
+    .long  hud_subsystem_init
 .L_060089E0:
-    .4byte  vdp1_init
+    .long  vdp1_init
 .L_060089E4:
-    .4byte  sym_06063DA0
+    .long  sym_06063DA0
 .L_060089E8:
-    .4byte  vdp_init_advanced
+    .long  vdp_init_advanced
 .L_060089EC:
-    .4byte  sym_06087804
+    .long  sym_06087804
 .L_060089F0:
-    .4byte  sym_0607EBCC
+    .long  sym_0607EBCC
 .L_060089F4:
-    .4byte  sym_0607EAE0
+    .long  sym_0607EAE0
 .L_060089F8:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8
 .L_060089FC:
-    .4byte  course_data_handler
+    .long  course_data_handler
 .L_06008A00:
-    .4byte  sym_0605B6D8
+    .long  sym_0605B6D8
 .L_06008A04:
-    .4byte  0x40000000
+    .long  0x40000000
 .L_06008A08:
-    .4byte  g_game_state
+    .long  g_game_state
 .L_06008A0C:
-    .4byte  sym_06026CE0
+    .long  sym_06026CE0
 .L_06008A10:
-    .4byte  sym_06059F44
+    .long  sym_06059F44
 .L_06008A14:
-    .4byte  sym_0605A016
+    .long  sym_0605A016

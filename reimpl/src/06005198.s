@@ -56,7 +56,7 @@ controller_input_update:
     mov.l   .L_pool_06005228, r0
     mov.l @r0, r0
     cmp/eq #0x1, r0
-    bf/s    .L_0600522C
+    bf.s    .L_0600522C
     extu.w r13, r13
     mov r14, r4
     mov.w r1, @r4
@@ -83,11 +83,11 @@ controller_input_update:
     bra     .L_06005260
     mov.w r0, @(6, r4)
 .L_pool_06005220:
-    .4byte  g_pad_state
+    .long  g_pad_state
 .L_pool_06005224:
-    .4byte  smpc_data_manage
+    .long  smpc_data_manage
 .L_pool_06005228:
-    .4byte  sym_06059F44
+    .long  sym_06059F44
 .L_0600522C:
     mov r14, r4
     extu.w r1, r1

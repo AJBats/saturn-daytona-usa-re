@@ -55,11 +55,11 @@ mat_vec_transform_b:
     .byte 0x15, 0x11
     .byte 0x00, 0x0B
     .byte 0x15, 0x22
-    .4byte sym_0608A52C
-    .4byte sym_0608A530
-    .4byte sym_0608A6B0
-    .4byte sym_0608A6C0
-    .4byte sym_0608A6F0
+    .long sym_0608A52C
+    .long sym_0608A530
+    .long sym_0608A6B0
+    .long sym_0608A6C0
+    .long sym_0608A6F0
     .byte 0x00, 0x01
     .byte 0x00, 0x00
     .global cos_lookup

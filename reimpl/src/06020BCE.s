@@ -27,27 +27,27 @@ obj_state_pack:
     jmp @r3
     lds.l @r15+, pr
 
-    .4byte  sym_0607EBF4
-    .4byte  sym_0602853E
+    .long  sym_0607EBF4
+    .long  sym_0602853E
 .L_06020C08:
-    .4byte  sym_0605B6D8
+    .long  sym_0605B6D8
 .L_06020C0C:
-    .4byte  0x04000000
+    .long  0x04000000
 .L_06020C10:
-    .4byte  sym_0608780C
+    .long  sym_0608780C
 .L_06020C14:
-    .4byte  sym_0605A00C
+    .long  sym_0605A00C
 .L_06020C18:
-    .4byte  sym_06026CE0
-    .4byte  sym_06059F6F
-    .4byte  sym_06085F8A
-    .4byte  sym_0607EBCC
-    .4byte  sym_06063F5C
+    .long  sym_06026CE0
+    .long  sym_06059F6F
+    .long  sym_06085F8A
+    .long  sym_0607EBCC
+    .long  sym_06063F5C
 .L_06020C2C:
-    .4byte  sym_0603850C
+    .long  sym_0603850C
 .L_06020C30:
-    .4byte  0x00010000
+    .long  0x00010000
 .L_06020C34:
-    .4byte  scene_color_intensity
+    .long  scene_color_intensity
 .L_06020C38:
-    .4byte  sym_06038520
+    .long  sym_06038520

@@ -11,7 +11,7 @@ menu_input_proc:
     mov.l r5, @r15
     .byte   0xDD, 0x0F    /* mov.l .L_pool_0603AD3A, r13 */
     tst r0, r0
-    bf/s    .L_0603AD40
+    bf.s    .L_0603AD40
     mov r4, r12
 
     mov.l @r13, r3
@@ -38,15 +38,15 @@ menu_input_proc:
     bra     .L_0603AD9E
     mov r4, r0
 .L_wpool_0603AD2E:
-    .2byte  0xFF0C
+    .short  0xFF0C
 .L_wpool_0603AD30:
-    .2byte  0x00A0
-    .4byte  hud_toggle_ctrl
-    .4byte  save_size_calc
+    .short  0x00A0
+    .long  hud_toggle_ctrl
+    .long  save_size_calc
 .L_pool_0603AD3A:
-    .4byte  sym_060A4D14
+    .long  sym_060A4D14
 .L_pool_0603AD3E:
-    .4byte  credits_scroll_entry
+    .long  credits_scroll_entry
 
 .L_0603AD40:
     mov.l @r13, r2

@@ -9,7 +9,7 @@ track_segment_interp:
     mov.w   DAT_0604155e, r7
     mov.l @r14, r1
     cmp/eq r7, r4
-    bt/s    .L_060414F4
+    bt.s    .L_060414F4
     mov.l @(r0, r1), r1
     mov r4, r0
     cmp/eq #-0x2, r0
@@ -80,13 +80,13 @@ track_segment_interp:
 
     .global DAT_0604155c
 DAT_0604155c:
-    .2byte  0x01DC
+    .short  0x01DC
 
     .global DAT_0604155e
 DAT_0604155e:
-    .2byte  0x00FF
+    .short  0x00FF
 .L_pool_06041560:
-    .4byte  sym_060A5400
+    .long  sym_060A5400
 .L_06041564:
     mov #0x18, r2
     cmp/ge r2, r1

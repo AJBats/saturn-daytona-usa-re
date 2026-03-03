@@ -39,8 +39,8 @@ lap_progress_bar:
     .byte 0x43, 0x2B
     .byte 0x6E, 0xF6
     .byte 0xFF, 0xFF
-    .4byte sym_06084FC8
-    .4byte sym_060172E4
+    .long sym_06084FC8
+    .long sym_060172E4
     .global loc_06015DE8
 loc_06015DE8:
     .byte 0x7F, 0xFC

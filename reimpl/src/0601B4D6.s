@@ -15,27 +15,27 @@ disc_error_handler:
     .byte   0xD3, 0x0F    /* mov.l .L_0601B52C, r3 */
     jmp @r3
     lds.l @r15+, pr
-    .2byte  0x0080
+    .short  0x0080
 .L_0601B4F4:
-    .2byte  0x0100
-    .2byte  0xFFFF
-    .4byte  sym_060485EC
-    .4byte  0x25F00020
-    .4byte  memcpy_word_idx
-    .4byte  sym_060485CC
-    .4byte  0x25F00180
-    .4byte  sym_06028560
-    .4byte  sym_0602853E
-    .4byte  sym_060638C8
-    .4byte  0x0000C000
-    .4byte  sym_06028400
-    .4byte  sym_0608600D
+    .short  0x0100
+    .short  0xFFFF
+    .long  sym_060485EC
+    .long  0x25F00020
+    .long  memcpy_word_idx
+    .long  sym_060485CC
+    .long  0x25F00180
+    .long  sym_06028560
+    .long  sym_0602853E
+    .long  sym_060638C8
+    .long  0x0000C000
+    .long  sym_06028400
+    .long  sym_0608600D
 .L_0601B524:
-    .4byte  sym_06063D9A
+    .long  sym_06063D9A
 .L_0601B528:
-    .4byte  sym_0608600C
+    .long  sym_0608600C
 .L_0601B52C:
-    .4byte  handler_init_reset
+    .long  handler_init_reset
 .L_0601B530:
     .byte   0xB1, 0x60    /* bsr 0x0601B7F4 */
     nop
@@ -74,14 +74,14 @@ loc_0601B566:
     rts
     mov.b r3, @r2
 .L_0601B56E:
-    .2byte  0x0E00
+    .short  0x0E00
 .L_0601B570:
-    .4byte  sym_06063D9A
+    .long  sym_06063D9A
 .L_0601B574:
-    .4byte  sym_0608600E
+    .long  sym_0608600E
 .L_0601B578:
-    .4byte  sym_0608600C
+    .long  sym_0608600C
 .L_0601B57C:
-    .4byte  handler_init_reset
+    .long  handler_init_reset
 .L_0601B580:
-    .4byte  sym_0608600D
+    .long  sym_0608600D

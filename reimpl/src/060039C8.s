@@ -53,16 +53,16 @@ sym_060039F2:
     jmp @r2
     mov.l @r5, r5
 .L_pool_06003A20:
-    .4byte  sym_06083255
+    .long  sym_06083255
 .L_pool_06003A24:
-    .4byte  sym_0607EAB8
+    .long  sym_0607EAB8
 .L_pool_06003A28:
-    .4byte  sym_0605CA4C
+    .long  sym_0605CA4C
 .L_pool_06003A2C:
-    .4byte  sym_06078868
+    .long  sym_06078868
 .L_pool_06003A30:
-    .4byte  sym_0605C97C
+    .long  sym_0605C97C
 .L_06003A34:
-    .4byte  0x25F00400
+    .long  0x25F00400
 .L_pool_06003A38:
-    .4byte  dma_transfer
+    .long  dma_transfer

@@ -9,7 +9,7 @@ save_header_parse:
     mov.l @r13, r0
     mov.l @(r0, r1), r0
     tst #0x1, r0
-    bf/s    .L_0603BB9E
+    bf.s    .L_0603BB9E
     mov r4, r14
     bra     .L_0603BC0A
     mov #0x0, r0
@@ -31,14 +31,14 @@ DAT_0603bbb0:
 
     .global DAT_0603bbb4
 DAT_0603bbb4:
-    .2byte  0x00C4
+    .short  0x00C4
 
     .global DAT_0603bbb6
 DAT_0603bbb6:
-    .2byte  0x043C
-    .4byte  evt_boundary_check
+    .short  0x043C
+    .long  evt_boundary_check
 .L_pool_0603BBBD:
-    .4byte  sym_060A4D14
+    .long  sym_060A4D14
 .L_0603BBC0:
     mov.l @r13, r3
     mov #0x4, r6

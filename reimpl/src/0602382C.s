@@ -105,55 +105,55 @@ scene_setup_master:
     bra     .L_06023940
     nop
 .L_060238FA:
-    .2byte  0x0108
+    .short  0x0108
 .L_060238FC:
-    .2byte  0x0810
+    .short  0x0810
 
     .global DAT_060238fe
 DAT_060238fe:
-    .2byte  0x0512
+    .short  0x0512
 
     .global DAT_06023900
 DAT_06023900:
-    .2byte  0x083C
+    .short  0x083C
 .L_06023902:
-    .2byte  0x0519
+    .short  0x0519
 
     .global DAT_06023904
 DAT_06023904:
-    .2byte  0x080F
+    .short  0x080F
 .L_06023906:
-    .2byte  0x0738
+    .short  0x0738
 .L_06023908:
-    .2byte  0x0208
+    .short  0x0208
 .L_0602390A:
-    .2byte  0x0A28
+    .short  0x0A28
 .L_0602390C:
-    .4byte  sym_06089E44
+    .long  sym_06089E44
 .L_06023910:
-    .4byte  0x002A299B
+    .long  0x002A299B
 .L_06023914:
-    .4byte  vdp1_sprite_render
+    .long  vdp1_sprite_render
 .L_06023918:
-    .4byte  0x002A29A3
+    .long  0x002A29A3
 .L_0602391C:
-    .4byte  0x002A2A53
+    .long  0x002A2A53
 .L_06023920:
-    .4byte  0x002A2B27
+    .long  0x002A2B27
 .L_06023924:
-    .4byte  0x002A2E73
+    .long  0x002A2E73
 .L_06023928:
-    .4byte  0x002A2F93
+    .long  0x002A2F93
 .L_0602392C:
-    .4byte  0x002A3027
+    .long  0x002A3027
 .L_06023930:
-    .4byte  0x002A325B
+    .long  0x002A325B
 .L_06023934:
-    .4byte  0x002A3433
+    .long  0x002A3433
 .L_06023938:
-    .4byte  0x002A3457
+    .long  0x002A3457
 .L_0602393C:
-    .4byte  0x002A0640
+    .long  0x002A0640
 .L_06023940:
     mov.w @(4, r15), r0
     mov.w   .L_06023A54, r5
@@ -294,48 +294,48 @@ DAT_06023904:
     bra     .L_06023A94
     nop
 .L_06023A54:
-    .2byte  0x0228
+    .short  0x0228
 .L_06023A56:
-    .2byte  0x0428
+    .short  0x0428
 .L_06023A58:
-    .2byte  0x0418
+    .short  0x0418
 .L_06023A5A:
-    .2byte  0x0820
+    .short  0x0820
 .L_06023A5C:
-    .2byte  0x0518
+    .short  0x0518
 .L_06023A5E:
-    .2byte  0x0508
+    .short  0x0508
 .L_06023A60:
-    .2byte  0x0D10
+    .short  0x0D10
 
     .global DAT_06023a62
 DAT_06023a62:
-    .2byte  0x041C
+    .short  0x041C
 .L_06023A64:
-    .2byte  0x0348
-    .2byte  0xFFFF
+    .short  0x0348
+    .short  0xFFFF
 .L_06023A68:
-    .4byte  vdp1_sprite_render
+    .long  vdp1_sprite_render
 .L_06023A6C:
-    .4byte  0x002A06AC
+    .long  0x002A06AC
 .L_06023A70:
-    .4byte  0x002A074C
+    .long  0x002A074C
 .L_06023A74:
-    .4byte  0x002A07E4
+    .long  0x002A07E4
 .L_06023A78:
-    .4byte  0x002A09B4
+    .long  0x002A09B4
 .L_06023A7C:
-    .4byte  0x002A0A34
+    .long  0x002A0A34
 .L_06023A80:
-    .4byte  0x002A0AA4
+    .long  0x002A0AA4
 .L_06023A84:
-    .4byte  0x002A0AD8
+    .long  0x002A0AD8
 .L_06023A88:
-    .4byte  0x002A0C14
+    .long  0x002A0C14
 .L_06023A8C:
-    .4byte  0x002A0D7C
+    .long  0x002A0D7C
 .L_06023A90:
-    .4byte  0x002A0F58
+    .long  0x002A0F58
 .L_06023A94:
     mov.w @(6, r15), r0
     mov.l   .L_06023BB8, r3
@@ -476,42 +476,42 @@ DAT_06023a62:
     bra     .L_06023BE4
     nop
 .L_06023BA8:
-    .2byte  0x0348
+    .short  0x0348
 .L_06023BAA:
-    .2byte  0x0630
+    .short  0x0630
 .L_06023BAC:
-    .2byte  0x0A28
+    .short  0x0A28
 .L_06023BAE:
-    .2byte  0x0C08
+    .short  0x0C08
 .L_06023BB0:
-    .2byte  0x0C10
+    .short  0x0C10
 .L_06023BB2:
-    .2byte  0x0308
+    .short  0x0308
 .L_06023BB4:
-    .2byte  0x0410
-    .2byte  0xFFFF
+    .short  0x0410
+    .short  0xFFFF
 .L_06023BB8:
-    .4byte  vdp1_sprite_render
+    .long  vdp1_sprite_render
 .L_06023BBC:
-    .4byte  0x002A1140
+    .long  0x002A1140
 .L_06023BC0:
-    .4byte  0x002A12F8
+    .long  0x002A12F8
 .L_06023BC4:
-    .4byte  0x002A1484
+    .long  0x002A1484
 .L_06023BC8:
-    .4byte  0x002A1890
+    .long  0x002A1890
 .L_06023BCC:
-    .4byte  0x002A1908
+    .long  0x002A1908
 .L_06023BD0:
-    .4byte  0x002A1AC4
+    .long  0x002A1AC4
 .L_06023BD4:
-    .4byte  0x002A1B04
+    .long  0x002A1B04
 .L_06023BD8:
-    .4byte  0x002A1B9C
+    .long  0x002A1B9C
 .L_06023BDC:
-    .4byte  0x002A1BC8
+    .long  0x002A1BC8
 .L_06023BE0:
-    .4byte  0x002A1C04
+    .long  0x002A1C04
 .L_06023BE4:
     mov.l   .L_06023D08, r7
     mov.w @(4, r15), r0
@@ -654,48 +654,48 @@ DAT_06023a62:
 
     .global DAT_06023cf8
 DAT_06023cf8:
-    .2byte  0x060C
+    .short  0x060C
 .L_06023CFA:
-    .2byte  0x0610
+    .short  0x0610
 .L_06023CFC:
-    .2byte  0x0510
+    .short  0x0510
 .L_06023CFE:
-    .2byte  0x0310
+    .short  0x0310
 
     .global DAT_06023d00
 DAT_06023d00:
-    .2byte  0x090C
+    .short  0x090C
 
     .global DAT_06023d02
 DAT_06023d02:
-    .2byte  0x080C
+    .short  0x080C
 .L_06023D04:
-    .2byte  0x0110
-    .2byte  0xFFFF
+    .short  0x0110
+    .short  0xFFFF
 .L_06023D08:
-    .4byte  0x002A1CC8
+    .long  0x002A1CC8
 .L_06023D0C:
-    .4byte  vdp1_sprite_render
+    .long  vdp1_sprite_render
 .L_06023D10:
-    .4byte  0x002A1D2C
+    .long  0x002A1D2C
 .L_06023D14:
-    .4byte  0x002A1D84
+    .long  0x002A1D84
 .L_06023D18:
-    .4byte  0x002A1E20
+    .long  0x002A1E20
 .L_06023D1C:
-    .4byte  0x002A1E8C
+    .long  0x002A1E8C
 .L_06023D20:
-    .4byte  0x002A1EFC
+    .long  0x002A1EFC
 .L_06023D24:
-    .4byte  0x002A1FC8
+    .long  0x002A1FC8
 .L_06023D28:
-    .4byte  0x002A2060
+    .long  0x002A2060
 .L_06023D2C:
-    .4byte  0x002A2080
+    .long  0x002A2080
 .L_06023D30:
-    .4byte  0x002A20A0
+    .long  0x002A20A0
 .L_06023D34:
-    .4byte  0x002A211C
+    .long  0x002A211C
 .L_06023D38:
     mov.w   .L_06023E4E, r5
     mov.w @(6, r15), r0
@@ -837,40 +837,40 @@ DAT_06023d02:
     bra     .L_06023E84
     nop
 .L_06023E4E:
-    .2byte  0x0310
+    .short  0x0310
 
     .global DAT_06023e50
 DAT_06023e50:
-    .2byte  0x090C
+    .short  0x090C
 
     .global DAT_06023e52
 DAT_06023e52:
-    .2byte  0x080C
+    .short  0x080C
 .L_06023E54:
-    .2byte  0x0108
-    .2byte  0xFFFF
+    .short  0x0108
+    .short  0xFFFF
 .L_06023E58:
-    .4byte  vdp1_sprite_render
+    .long  vdp1_sprite_render
 .L_06023E5C:
-    .4byte  0x002A2194
+    .long  0x002A2194
 .L_06023E60:
-    .4byte  0x002A225C
+    .long  0x002A225C
 .L_06023E64:
-    .4byte  0x002A22F4
+    .long  0x002A22F4
 .L_06023E68:
-    .4byte  0x002A22FC
+    .long  0x002A22FC
 .L_06023E6C:
-    .4byte  0x002A2304
+    .long  0x002A2304
 .L_06023E70:
-    .4byte  0x002A230C
+    .long  0x002A230C
 .L_06023E74:
-    .4byte  0x002A2314
+    .long  0x002A2314
 .L_06023E78:
-    .4byte  0x002A231C
+    .long  0x002A231C
 .L_06023E7C:
-    .4byte  0x002A2324
+    .long  0x002A2324
 .L_06023E80:
-    .4byte  0x002A232C
+    .long  0x002A232C
 .L_06023E84:
     mov.l   .L_06023FA0, r2
     mov #0x1, r3
@@ -1013,11 +1013,11 @@ DAT_06023e52:
     extu.w r4, r4
     bra     .L_06023FA8
     add #0x16, r4
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_06023FA0:
-    .4byte  sym_06089E46
+    .long  sym_06089E46
 .L_06023FA4:
-    .4byte  sym_06007540
+    .long  sym_06007540
 .L_06023FA8:
     mov.l   .L_060240C8, r3
     jsr @r3
@@ -1162,9 +1162,9 @@ DAT_06023e52:
     mov #0x28, r5
     bra     .L_060240CC
     nop
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_060240C8:
-    .4byte  sym_06007540
+    .long  sym_06007540
 .L_060240CC:
     mov.w @(6, r15), r0
     mov.l   .L_060241E8, r3
@@ -1307,9 +1307,9 @@ DAT_06023e52:
     extu.w r4, r4
     bra     .L_060241EC
     add #0x39, r4
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_060241E8:
-    .4byte  sym_06007540
+    .long  sym_06007540
 .L_060241EC:
     mov.l   .L_060242E8, r3
     jsr @r3
@@ -1436,41 +1436,41 @@ DAT_06023e52:
 
     .global DAT_060242e0
 DAT_060242e0:
-    .2byte  0x0E00
+    .short  0x0E00
 .L_060242E2:
-    .2byte  0x0630
+    .short  0x0630
 
     .global DAT_060242e4
 DAT_060242e4:
-    .2byte  0x0E82
+    .short  0x0E82
 .L_060242E6:
-    .2byte  0x0210
+    .short  0x0210
 .L_060242E8:
-    .4byte  sym_06007540
+    .long  sym_06007540
 .L_060242EC:
-    .4byte  sym_06089E9C
+    .long  sym_06089E9C
 .L_060242F0:
-    .4byte  0x002A3987
+    .long  0x002A3987
 .L_060242F4:
-    .4byte  vdp1_sprite_render
+    .long  vdp1_sprite_render
 .L_060242F8:
-    .4byte  0x002A3C2F
+    .long  0x002A3C2F
 .L_060242FC:
-    .4byte  0x002A3D23
+    .long  0x002A3D23
 .L_06024300:
-    .4byte  0x002A3E23
+    .long  0x002A3E23
 .L_06024304:
-    .4byte  sym_06089EA0
+    .long  sym_06089EA0
 .L_06024308:
-    .4byte  sym_0607EAB8
+    .long  sym_0607EAB8
 .L_0602430C:
-    .4byte  0x002A43A6
+    .long  0x002A43A6
 .L_06024310:
-    .4byte  0x002A43D8
+    .long  0x002A43D8
 .L_06024314:
-    .4byte  0x002A4450
+    .long  0x002A4450
 .L_06024318:
-    .4byte  0x002A44BF
+    .long  0x002A44BF
 .L_0602431C:
     mov.l   .L_060243EC, r7
     mov.w @(4, r15), r0
@@ -1576,28 +1576,28 @@ DAT_060242e4:
     bra     .L_060244D4
     nop
 .L_060243E8:
-    .2byte  0x0210
-    .2byte  0xFFFF
+    .short  0x0210
+    .short  0xFFFF
 .L_060243EC:
-    .4byte  0x002A452A
+    .long  0x002A452A
 .L_060243F0:
-    .4byte  vdp1_sprite_render
+    .long  vdp1_sprite_render
 .L_060243F4:
-    .4byte  0x002A455C
+    .long  0x002A455C
 .L_060243F8:
-    .4byte  0x002A45CD
+    .long  0x002A45CD
 .L_060243FC:
-    .4byte  0x002A463C
+    .long  0x002A463C
 .L_06024400:
-    .4byte  sym_06078635
+    .long  sym_06078635
 .L_06024404:
-    .4byte  0x002A46AC
+    .long  0x002A46AC
 .L_06024408:
-    .4byte  0x002A46DE
+    .long  0x002A46DE
 .L_0602440C:
-    .4byte  0x002A4753
+    .long  0x002A4753
 .L_06024410:
-    .4byte  0x002A47C4
+    .long  0x002A47C4
 .L_06024414:
     mov.l   .L_0602450C, r7
     mov.w @(4, r15), r0
@@ -1724,34 +1724,34 @@ DAT_060242e4:
     bra     .L_06024568
     nop
 .L_06024506:
-    .2byte  0x0210
+    .short  0x0210
 .L_06024508:
-    .2byte  0x0940
-    .2byte  0xFFFF
+    .short  0x0940
+    .short  0xFFFF
 .L_0602450C:
-    .4byte  0x002A4836
+    .long  0x002A4836
 .L_06024510:
-    .4byte  vdp1_sprite_render
+    .long  vdp1_sprite_render
 .L_06024514:
-    .4byte  0x002A4862
+    .long  0x002A4862
 .L_06024518:
-    .4byte  0x002A48CF
+    .long  0x002A48CF
 .L_0602451C:
-    .4byte  0x002A4946
+    .long  0x002A4946
 .L_06024520:
-    .4byte  0x002A49B3
+    .long  0x002A49B3
 .L_06024524:
-    .4byte  0x002A49F0
+    .long  0x002A49F0
 .L_06024528:
-    .4byte  0x002A4A61
+    .long  0x002A4A61
 .L_0602452C:
-    .4byte  0x002A4AD7
+    .long  0x002A4AD7
 .L_06024530:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8
 .L_06024534:
-    .4byte  0x002A3F1F
+    .long  0x002A3F1F
 .L_06024538:
-    .4byte  0x002A405A
+    .long  0x002A405A
 .L_0602453C:
     mov.l   .L_06024554, r7
     mov #0x38, r6
@@ -1765,11 +1765,11 @@ DAT_060242e4:
     bra     .L_06024568
     nop
 .L_06024552:
-    .2byte  0x0C40
+    .short  0x0C40
 .L_06024554:
-    .4byte  0x002A41C5
+    .long  0x002A41C5
 .L_06024558:
-    .4byte  vdp1_sprite_render
+    .long  vdp1_sprite_render
 .L_0602455C:
     cmp/eq #0x0, r0
     bt      .L_060244DA
@@ -1869,78 +1869,78 @@ DAT_060242e4:
     bra     .L_06024678
     nop
 .L_0602461C:
-    .2byte  0x0418
+    .short  0x0418
 
     .global DAT_0602461e
 DAT_0602461e:
-    .2byte  0x0E97
+    .short  0x0E97
 .L_06024620:
-    .2byte  0x0E98
+    .short  0x0E98
 .L_06024622:
-    .2byte  0x0E99
+    .short  0x0E99
 
     .global DAT_06024624
 DAT_06024624:
-    .2byte  0x0E9A
+    .short  0x0E9A
 .L_06024626:
-    .2byte  0x0E9B
+    .short  0x0E9B
 
     .global DAT_06024628
 DAT_06024628:
-    .2byte  0x0E9C
+    .short  0x0E9C
 
     .global DAT_0602462a
 DAT_0602462a:
-    .2byte  0x0E9E
+    .short  0x0E9E
 
     .global DAT_0602462c
 DAT_0602462c:
-    .2byte  0x0E9F
+    .short  0x0E9F
 .L_0602462E:
-    .2byte  0x0110
+    .short  0x0110
 .L_06024630:
-    .2byte  0x0E90
+    .short  0x0E90
 .L_06024632:
-    .2byte  0x0210
+    .short  0x0210
 .L_06024634:
-    .2byte  0x0E91
+    .short  0x0E91
 .L_06024636:
-    .2byte  0x0420
+    .short  0x0420
 
     .global DAT_06024638
 DAT_06024638:
-    .2byte  0x0E92
-    .2byte  0xFFFF
+    .short  0x0E92
+    .short  0xFFFF
 .L_0602463C:
-    .4byte  0x002A7A5E
+    .long  0x002A7A5E
 .L_06024640:
-    .4byte  vdp1_sprite_render
+    .long  vdp1_sprite_render
 .L_06024644:
-    .4byte  sym_0606A4F4
+    .long  sym_0606A4F4
 .L_06024648:
-    .4byte  sym_06085F98
+    .long  sym_06085F98
 .L_0602464C:
-    .4byte  0x002A7AC5
+    .long  0x002A7AC5
 .L_06024650:
-    .4byte  0x002A7B1F
+    .long  0x002A7B1F
 .L_06024654:
-    .4byte  0x002A7BA0
+    .long  0x002A7BA0
 .L_06024658:
-    .4byte  0x002A7BE9
+    .long  0x002A7BE9
 .L_0602465C:
-    .4byte  0x002A7C3B
+    .long  0x002A7C3B
 .L_06024660:
-    .4byte  sym_06007540
+    .long  sym_06007540
 .L_06024664:
-    .4byte  0x002A7CA5
+    .long  0x002A7CA5
 .L_06024668:
-    .4byte  0x002A7CFA
+    .long  0x002A7CFA
 .L_0602466C:
-    .4byte  0x002A8B47
+    .long  0x002A8B47
 .L_06024670:
-    .4byte  0x002A8B7E
+    .long  0x002A8B7E
 .L_06024674:
-    .4byte  0x002A8BBB
+    .long  0x002A8BBB
 .L_06024678:
     mov r5, r4
     mov.l   .L_0602478C, r3
@@ -2078,33 +2078,33 @@ DAT_06024638:
 
     .global DAT_06024782
 DAT_06024782:
-    .2byte  0x0E92
+    .short  0x0E92
 
     .global DAT_06024784
 DAT_06024784:
-    .2byte  0x1020
+    .short  0x1020
 
     .global DAT_06024786
 DAT_06024786:
-    .2byte  0x0E96
+    .short  0x0E96
 
     .global DAT_06024788
 DAT_06024788:
-    .2byte  0x0E40
+    .short  0x0E40
 .L_0602478A:
-    .2byte  0x0108
+    .short  0x0108
 .L_0602478C:
-    .4byte  sym_06007540
+    .long  sym_06007540
 .L_06024790:
-    .4byte  0x002A92CB
+    .long  0x002A92CB
 .L_06024794:
-    .4byte  vdp1_sprite_render
+    .long  vdp1_sprite_render
 .L_06024798:
-    .4byte  sym_06089E9E
+    .long  sym_06089E9E
 .L_0602479C:
-    .4byte  0x002A7D76
+    .long  0x002A7D76
 .L_060247A0:
-    .4byte  0x002A7D8E
+    .long  0x002A7D8E
 .L_060247A4:
     mov.l   .L_060248C4, r7
     mov.w @(4, r15), r0
@@ -2246,42 +2246,42 @@ DAT_06024788:
     bra     .L_060248F4
     nop
 .L_060248BA:
-    .2byte  0x0108
+    .short  0x0108
 
     .global DAT_060248bc
 DAT_060248bc:
-    .2byte  0x010C
+    .short  0x010C
 
     .global DAT_060248be
 DAT_060248be:
-    .2byte  0x040C
+    .short  0x040C
 .L_060248C0:
-    .2byte  0x0208
-    .2byte  0xFFFF
+    .short  0x0208
+    .short  0xFFFF
 .L_060248C4:
-    .4byte  0x002A7DA6
+    .long  0x002A7DA6
 .L_060248C8:
-    .4byte  vdp1_sprite_render
+    .long  vdp1_sprite_render
 .L_060248CC:
-    .4byte  0x002A7DC6
+    .long  0x002A7DC6
 .L_060248D0:
-    .4byte  0x002A7DE6
+    .long  0x002A7DE6
 .L_060248D4:
-    .4byte  0x002A7DF2
+    .long  0x002A7DF2
 .L_060248D8:
-    .4byte  0x002A7E0A
+    .long  0x002A7E0A
 .L_060248DC:
-    .4byte  0x002A7E16
+    .long  0x002A7E16
 .L_060248E0:
-    .4byte  0x002A7E9E
+    .long  0x002A7E9E
 .L_060248E4:
-    .4byte  0x002A7EB6
+    .long  0x002A7EB6
 .L_060248E8:
-    .4byte  0x002A7ECA
+    .long  0x002A7ECA
 .L_060248EC:
-    .4byte  0x002A7EFE
+    .long  0x002A7EFE
 .L_060248F0:
-    .4byte  0x002A7F0A
+    .long  0x002A7F0A
 .L_060248F4:
     mov.w @(6, r15), r0
     mov.l   .L_06024A10, r3
@@ -2311,279 +2311,279 @@ DAT_060248be:
     mov.w @(6, r15), r0
     add #0x3, r6
     mov r0, r4
-    .4byte  0x4608644D
-    .4byte  0x430B741E
-    .4byte  0xD73985F2
-    .4byte  0x9566D335
-    .4byte  0x6603666D
-    .4byte  0x85F37601
-    .4byte  0x64034608
-    .4byte  0x644D430B
-    .4byte  0x741FD734
-    .4byte  0x85F2955A
-    .4byte  0xD32E6603
-    .4byte  0x666D85F3
-    .4byte  0x76016403
-    .4byte  0x4608644D
-    .4byte  0x430B7420
-    .4byte  0xD72E85F2
-    .4byte  0x954ED328
-    .4byte  0x6603666D
-    .4byte  0x85F37603
-    .4byte  0x64034608
-    .4byte  0x644D430B
-    .4byte  0x7421D729
-    .4byte  0x85F29542
-    .4byte  0xD3216603
-    .4byte  0x666D85F3
-    .4byte  0x46086403
-    .4byte  0x644D430B
-    .4byte  0x7422D724
-    .4byte  0x85F29536
-    .4byte  0xD31B6603
-    .4byte  0x666D85F3
-    .4byte  0x46086403
-    .4byte  0x644D430B
-    .4byte  0x7423D71F
-    .4byte  0x85F2952A
-    .4byte  0xD3156603
-    .4byte  0x666D85F3
-    .4byte  0x76026403
-    .4byte  0x4608644D
-    .4byte  0x430B7424
-    .4byte  0xD71985F2
-    .4byte  0x9519D30F
-    .4byte  0x6603666D
-    .4byte  0x85F37603
-    .4byte  0x64034608
-    .4byte  0x644D430B
-    .4byte  0x7425D714
-    .4byte  0x85F2950C
-    .4byte  0xD3086603
-    .4byte  0x666D85F3
-    .4byte  0x76036403
-    .4byte  0x4608644D
-    .4byte  0x430B7426
-    .4byte  0xD70EA01D
-    .2byte  0x0009
+    .long  0x4608644D
+    .long  0x430B741E
+    .long  0xD73985F2
+    .long  0x9566D335
+    .long  0x6603666D
+    .long  0x85F37601
+    .long  0x64034608
+    .long  0x644D430B
+    .long  0x741FD734
+    .long  0x85F2955A
+    .long  0xD32E6603
+    .long  0x666D85F3
+    .long  0x76016403
+    .long  0x4608644D
+    .long  0x430B7420
+    .long  0xD72E85F2
+    .long  0x954ED328
+    .long  0x6603666D
+    .long  0x85F37603
+    .long  0x64034608
+    .long  0x644D430B
+    .long  0x7421D729
+    .long  0x85F29542
+    .long  0xD3216603
+    .long  0x666D85F3
+    .long  0x46086403
+    .long  0x644D430B
+    .long  0x7422D724
+    .long  0x85F29536
+    .long  0xD31B6603
+    .long  0x666D85F3
+    .long  0x46086403
+    .long  0x644D430B
+    .long  0x7423D71F
+    .long  0x85F2952A
+    .long  0xD3156603
+    .long  0x666D85F3
+    .long  0x76026403
+    .long  0x4608644D
+    .long  0x430B7424
+    .long  0xD71985F2
+    .long  0x9519D30F
+    .long  0x6603666D
+    .long  0x85F37603
+    .long  0x64034608
+    .long  0x644D430B
+    .long  0x7425D714
+    .long  0x85F2950C
+    .long  0xD3086603
+    .long  0x666D85F3
+    .long  0x76036403
+    .long  0x4608644D
+    .long  0x430B7426
+    .long  0xD70EA01D
+    .short  0x0009
 .L_06024A06:
-    .2byte  0x0108
+    .short  0x0108
 
     .global DAT_06024a08
 DAT_06024a08:
-    .2byte  0x011C
+    .short  0x011C
 
     .global DAT_06024a0a
 DAT_06024a0a:
-    .2byte  0x021C
-    .4byte  0x05080210
+    .short  0x021C
+    .long  0x05080210
 .L_06024A10:
-    .4byte  vdp1_sprite_render
+    .long  vdp1_sprite_render
 .L_06024A14:
-    .4byte  0x002A7F12
+    .long  0x002A7F12
 .L_06024A18:
-    .4byte  0x002A7F1A
-    .4byte  0x002A7F3A
-    .4byte  0x002A7FB6
-    .4byte  0x002A8072
-    .4byte  0x002A80FA
-    .4byte  0x002A8172
-    .4byte  0x002A81F6
-    .4byte  0x002A8276
-    .4byte  0x002A8292
-    .4byte  0x002A829A
-    .4byte  0x85F29586
-    .4byte  0xD3456603
-    .4byte  0x666D85F3
-    .4byte  0x46086403
-    .4byte  0x644D430B
-    .4byte  0x7427D742
-    .4byte  0x85F2957A
-    .4byte  0xD33F6603
-    .4byte  0x666D85F3
-    .4byte  0x46086403
-    .4byte  0x644D430B
-    .4byte  0x7428D73D
-    .4byte  0x85F2956E
-    .4byte  0xD3396603
-    .4byte  0x666D85F3
-    .4byte  0x76036403
-    .4byte  0x4608644D
-    .4byte  0x430B7429
-    .4byte  0xD73785F2
-    .4byte  0x9561D333
-    .4byte  0x6603666D
-    .4byte  0x85F37603
-    .4byte  0x64034608
-    .4byte  0x644D430B
-    .4byte  0x742AD732
-    .4byte  0x85F29555
-    .4byte  0xD32C6603
-    .4byte  0x666D85F3
-    .4byte  0x76016403
-    .4byte  0x4608644D
-    .4byte  0x430B742B
-    .4byte  0xD72C85F2
-    .4byte  0x9549D326
-    .4byte  0x6603666D
-    .4byte  0x85F37603
-    .4byte  0x64034608
-    .4byte  0x644D430B
-    .4byte  0x742CD727
-    .4byte  0x85F2953D
-    .4byte  0xD31F6603
-    .4byte  0x666D85F3
-    .4byte  0x76036403
-    .4byte  0x4608644D
-    .4byte  0x430B742D
-    .4byte  0xD72185F2
-    .4byte  0x952DD319
-    .4byte  0x6603666D
-    .4byte  0x85F37603
-    .4byte  0x64034608
-    .4byte  0x644D430B
-    .4byte  0x742ED71C
-    .4byte  0x85F29524
-    .4byte  0xD3126603
-    .4byte  0x666D85F3
-    .4byte  0x76036403
-    .4byte  0x4608644D
-    .4byte  0x430B742F
-    .4byte  0xD71685F2
-    .4byte  0x9515D30C
-    .4byte  0x6603666D
-    .4byte  0x85F34608
-    .4byte  0x6403644D
-    .4byte  0x430B7430
-    .4byte  0xD71185F2
-    .4byte  0x6603666D
-    .4byte  0x46089508
-    .4byte  0x85F36403
-    .4byte  0x644DA01B
-    .4byte  0x74310108
+    .long  0x002A7F1A
+    .long  0x002A7F3A
+    .long  0x002A7FB6
+    .long  0x002A8072
+    .long  0x002A80FA
+    .long  0x002A8172
+    .long  0x002A81F6
+    .long  0x002A8276
+    .long  0x002A8292
+    .long  0x002A829A
+    .long  0x85F29586
+    .long  0xD3456603
+    .long  0x666D85F3
+    .long  0x46086403
+    .long  0x644D430B
+    .long  0x7427D742
+    .long  0x85F2957A
+    .long  0xD33F6603
+    .long  0x666D85F3
+    .long  0x46086403
+    .long  0x644D430B
+    .long  0x7428D73D
+    .long  0x85F2956E
+    .long  0xD3396603
+    .long  0x666D85F3
+    .long  0x76036403
+    .long  0x4608644D
+    .long  0x430B7429
+    .long  0xD73785F2
+    .long  0x9561D333
+    .long  0x6603666D
+    .long  0x85F37603
+    .long  0x64034608
+    .long  0x644D430B
+    .long  0x742AD732
+    .long  0x85F29555
+    .long  0xD32C6603
+    .long  0x666D85F3
+    .long  0x76016403
+    .long  0x4608644D
+    .long  0x430B742B
+    .long  0xD72C85F2
+    .long  0x9549D326
+    .long  0x6603666D
+    .long  0x85F37603
+    .long  0x64034608
+    .long  0x644D430B
+    .long  0x742CD727
+    .long  0x85F2953D
+    .long  0xD31F6603
+    .long  0x666D85F3
+    .long  0x76036403
+    .long  0x4608644D
+    .long  0x430B742D
+    .long  0xD72185F2
+    .long  0x952DD319
+    .long  0x6603666D
+    .long  0x85F37603
+    .long  0x64034608
+    .long  0x644D430B
+    .long  0x742ED71C
+    .long  0x85F29524
+    .long  0xD3126603
+    .long  0x666D85F3
+    .long  0x76036403
+    .long  0x4608644D
+    .long  0x430B742F
+    .long  0xD71685F2
+    .long  0x9515D30C
+    .long  0x6603666D
+    .long  0x85F34608
+    .long  0x6403644D
+    .long  0x430B7430
+    .long  0xD71185F2
+    .long  0x6603666D
+    .long  0x46089508
+    .long  0x85F36403
+    .long  0x644DA01B
+    .long  0x74310108
 
     .global DAT_06024b54
 DAT_06024b54:
-    .4byte  0x021C0320
-    .4byte  0x01200308
-    .4byte  vdp1_sprite_render
-    .4byte  0x002A82A2
-    .4byte  0x002A82B2
-    .4byte  0x002A82BA
-    .4byte  0x002A82CE
-    .4byte  0x002A8372
-    .4byte  0x002A84BE
-    .4byte  0x002A854A
-    .4byte  0x002A8572
-    .4byte  0x002A85C6
-    .4byte  0x002A86EE
-    .4byte  0xD347430B
-    .4byte  0x0009D747
-    .4byte  0x85F29583
-    .4byte  0xD3446603
-    .4byte  0x666D85F3
-    .4byte  0x46086403
-    .4byte  0x644D430B
-    .4byte  0x7432D742
-    .4byte  0x85F29577
-    .4byte  0xD33E6603
-    .4byte  0x666D85F3
-    .4byte  0x46086403
-    .4byte  0x644D430B
-    .4byte  0x7433D73D
-    .4byte  0x85F2956B
-    .4byte  0xD3386603
-    .4byte  0x666D85F3
-    .4byte  0x76026403
-    .4byte  0x4608644D
-    .4byte  0x430B7434
-    .4byte  0xD73785F2
-    .4byte  0x955FD332
-    .4byte  0x6603666D
-    .4byte  0x85F37601
-    .4byte  0x64034608
-    .4byte  0x644D430B
-    .4byte  0x7439D732
-    .4byte  0x85F29552
-    .4byte  0xD32B6603
-    .4byte  0x666D85F3
-    .4byte  0x76016403
-    .4byte  0x4608644D
-    .4byte  0x430B743A
-    .4byte  0xD72C85F2
-    .4byte  0x9546D325
-    .4byte  0x6603666D
-    .4byte  0x85F37601
-    .4byte  0x64034608
-    .4byte  0x644D430B
-    .4byte  0x743BD727
-    .4byte  0x85F2953A
-    .4byte  0xD31E6603
-    .4byte  0x666D85F3
-    .4byte  0x76016403
-    .4byte  0x4608644D
-    .4byte  0x430B7435
-    .4byte  0xD72185F2
-    .4byte  0x952ED318
-    .4byte  0x6603666D
-    .4byte  0x85F37601
-    .4byte  0x64034608
-    .4byte  0x644D430B
-    .4byte  0x7436D71C
-    .4byte  0x85F29520
-    .4byte  0xD3116603
-    .4byte  0x666D85F3
-    .4byte  0x76016403
-    .4byte  0x4608644D
-    .4byte  0x430B7437
-    .4byte  0xD71685F2
-    .4byte  0x9514D30B
-    .4byte  0x6603666D
-    .4byte  0x85F37601
-    .4byte  0x64034608
-    .4byte  0x644D430B
-    .4byte  0x7438D711
-    .4byte  0x85F26603
-    .4byte  0x666D7601
-    .4byte  0xA01E0009
-    .2byte  0x0110
+    .long  0x021C0320
+    .long  0x01200308
+    .long  vdp1_sprite_render
+    .long  0x002A82A2
+    .long  0x002A82B2
+    .long  0x002A82BA
+    .long  0x002A82CE
+    .long  0x002A8372
+    .long  0x002A84BE
+    .long  0x002A854A
+    .long  0x002A8572
+    .long  0x002A85C6
+    .long  0x002A86EE
+    .long  0xD347430B
+    .long  0x0009D747
+    .long  0x85F29583
+    .long  0xD3446603
+    .long  0x666D85F3
+    .long  0x46086403
+    .long  0x644D430B
+    .long  0x7432D742
+    .long  0x85F29577
+    .long  0xD33E6603
+    .long  0x666D85F3
+    .long  0x46086403
+    .long  0x644D430B
+    .long  0x7433D73D
+    .long  0x85F2956B
+    .long  0xD3386603
+    .long  0x666D85F3
+    .long  0x76026403
+    .long  0x4608644D
+    .long  0x430B7434
+    .long  0xD73785F2
+    .long  0x955FD332
+    .long  0x6603666D
+    .long  0x85F37601
+    .long  0x64034608
+    .long  0x644D430B
+    .long  0x7439D732
+    .long  0x85F29552
+    .long  0xD32B6603
+    .long  0x666D85F3
+    .long  0x76016403
+    .long  0x4608644D
+    .long  0x430B743A
+    .long  0xD72C85F2
+    .long  0x9546D325
+    .long  0x6603666D
+    .long  0x85F37601
+    .long  0x64034608
+    .long  0x644D430B
+    .long  0x743BD727
+    .long  0x85F2953A
+    .long  0xD31E6603
+    .long  0x666D85F3
+    .long  0x76016403
+    .long  0x4608644D
+    .long  0x430B7435
+    .long  0xD72185F2
+    .long  0x952ED318
+    .long  0x6603666D
+    .long  0x85F37601
+    .long  0x64034608
+    .long  0x644D430B
+    .long  0x7436D71C
+    .long  0x85F29520
+    .long  0xD3116603
+    .long  0x666D85F3
+    .long  0x76016403
+    .long  0x4608644D
+    .long  0x430B7437
+    .long  0xD71685F2
+    .long  0x9514D30B
+    .long  0x6603666D
+    .long  0x85F37601
+    .long  0x64034608
+    .long  0x644D430B
+    .long  0x7438D711
+    .long  0x85F26603
+    .long  0x666D7601
+    .long  0xA01E0009
+    .short  0x0110
 
     .global DAT_06024c9e
 DAT_06024c9e:
-    .2byte  0x0116
+    .short  0x0116
 
     .global DAT_06024ca0
 DAT_06024ca0:
-    .2byte  0x0216
+    .short  0x0216
 
     .global DAT_06024ca2
 DAT_06024ca2:
-    .2byte  0x020A
-    .4byte  0x020CFFFF
-    .4byte  vdp1_sprite_render
-    .4byte  0x002A873E
-    .4byte  0x002A878A
-    .4byte  0x002A87C6
-    .4byte  0x002A8812
-    .4byte  0x002A8852
-    .4byte  0x002A8896
-    .4byte  0x002A8906
-    .4byte  0x002A8926
-    .4byte  0x002A897E
-    .4byte  0x002A89A6
-    .4byte  0x002A89F6
-    .4byte  0x46089516
-    .4byte  0x85F3D30B
-    .4byte  0x6403644D
-    .4byte  0x430B743C
-    .4byte  0xD70985F2
-    .4byte  0x950DD307
-    .4byte  0x6603666D
-    .4byte  0x85F37601
-    .4byte  0x64034608
-    .4byte  0x644D430B
-    .4byte  0x743D7F08
-    .4byte  0x4F26000B
-    .4byte  0x00090108
-    .4byte  vdp1_sprite_render
-    .4byte  0x002A8A06
+    .short  0x020A
+    .long  0x020CFFFF
+    .long  vdp1_sprite_render
+    .long  0x002A873E
+    .long  0x002A878A
+    .long  0x002A87C6
+    .long  0x002A8812
+    .long  0x002A8852
+    .long  0x002A8896
+    .long  0x002A8906
+    .long  0x002A8926
+    .long  0x002A897E
+    .long  0x002A89A6
+    .long  0x002A89F6
+    .long  0x46089516
+    .long  0x85F3D30B
+    .long  0x6403644D
+    .long  0x430B743C
+    .long  0xD70985F2
+    .long  0x950DD307
+    .long  0x6603666D
+    .long  0x85F37601
+    .long  0x64034608
+    .long  0x644D430B
+    .long  0x743D7F08
+    .long  0x4F26000B
+    .long  0x00090108
+    .long  vdp1_sprite_render
+    .long  0x002A8A06

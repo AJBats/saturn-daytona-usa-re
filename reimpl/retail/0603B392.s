@@ -16,9 +16,9 @@ menu_toggle_switch:
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0xE0, 0x01
-    .4byte sym_0603F9DA
-    .4byte sym_0603EF54
-    .4byte race_timer_sync
+    .long sym_0603F9DA
+    .long sym_0603EF54
+    .long race_timer_sync
     .byte 0xE0, 0x00
     .byte 0x7F, 0x04
     .byte 0x4F, 0x26

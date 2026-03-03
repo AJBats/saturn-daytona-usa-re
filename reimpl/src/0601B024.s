@@ -31,15 +31,15 @@ disc_sector_read:
     rts
     mov.l @r15+, r14
 .L_0601B05E:
-    .2byte  0x00A7
+    .short  0x00A7
 .L_0601B060:
-    .2byte  0x0160
-    .2byte  0xFFFF
+    .short  0x0160
+    .short  0xFFFF
 .L_0601B064:
-    .4byte  sym_06086014
+    .long  sym_06086014
 .L_0601B068:
-    .4byte  color_transform_calc
+    .long  color_transform_calc
 .L_0601B06C:
-    .4byte  sym_06086011
+    .long  sym_06086011
 .L_0601B070:
-    .4byte  sym_0608600F
+    .long  sym_0608600F

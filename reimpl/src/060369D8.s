@@ -28,9 +28,9 @@ obj_view_frustum:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-    .2byte  0x0100
+    .short  0x0100
 .L_06036A10:
-    .4byte  input_proc_analog
-    .4byte  input_proc_buttons    /* [HIGH] adjacent pool entry — input_proc_buttons @ 0x06035EC8 (not directly referenced in this function) */
+    .long  input_proc_analog
+    .long  input_proc_buttons    /* [HIGH] adjacent pool entry — input_proc_buttons @ 0x06035EC8 (not directly referenced in this function) */
 .L_06036A18:
-    .4byte  input_proc_digital
+    .long  input_proc_digital

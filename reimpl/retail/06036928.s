@@ -39,5 +39,5 @@ obj_lod_select:
     .byte 0x6E, 0xF6
     .byte 0x00, 0x80
     .byte 0x01, 0x00
-    .4byte input_proc_analog
-    .4byte input_proc_buttons
+    .long input_proc_analog
+    .long input_proc_buttons

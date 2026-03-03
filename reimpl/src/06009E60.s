@@ -63,30 +63,30 @@ state_attract_return:
     jmp @r3
     mov.l @r15+, r14
 .L_wpool_06009EDA:
-    .2byte  0x03E8
+    .short  0x03E8
 .L_pool_06009EDC:
-    .4byte  race_state_pair_2
+    .long  race_state_pair_2
 .L_pool_06009EE0:
-    .4byte  sym_0602853E
+    .long  sym_0602853E
 .L_pool_06009EE4:
-    .4byte  sym_06028560
+    .long  sym_06028560
 .L_pool_06009EE8:
-    .4byte  display_channel_b
+    .long  display_channel_b
 .L_pool_06009EEC:
-    .4byte  gameover_channel_setup
+    .long  gameover_channel_setup
 .L_pool_06009EF0:
-    .4byte  sym_0607EBCC
+    .long  sym_0607EBCC
 .L_pool_06009EF4:
-    .4byte  g_game_state
+    .long  g_game_state
 .L_pool_06009EF8:
-    .4byte  sym_06087804
+    .long  sym_06087804
 .L_pool_06009EFC:
-    .4byte  race_init_master
+    .long  race_init_master
 .L_pool_06009F00:
-    .4byte  hud_subsystem_init
+    .long  hud_subsystem_init
 .L_pool_06009F04:
-    .4byte  sym_0605A016
+    .long  sym_0605A016
 .L_pool_06009F08:
-    .4byte  sym_06078648
+    .long  sym_06078648
 .L_pool_06009F0C:
-    .4byte  handler_dispatch
+    .long  handler_dispatch

@@ -119,49 +119,49 @@ geom_pipeline_coord:
 
     .global DAT_0601748a
 DAT_0601748a:
-    .2byte  0x3000
+    .short  0x3000
 
     .global DAT_0601748c
 DAT_0601748c:
-    .2byte  0x02D8
+    .short  0x02D8
 
     .global DAT_0601748e
 DAT_0601748e:
-    .2byte  0x02E8
+    .short  0x02E8
 
     .global DAT_06017490
 DAT_06017490:
-    .2byte  0x02E0
+    .short  0x02E0
 
     .global DAT_06017492
 DAT_06017492:
-    .2byte  0x0240
+    .short  0x0240
 .L_pool_06017494:
-    .4byte  sym_06063750
+    .long  sym_06063750
 .L_pool_06017498:
-    .4byte  sym_0605BC6C
+    .long  sym_0605BC6C
 .L_pool_0601749C:
-    .4byte  sym_06035228
+    .long  sym_06035228
 .L_pool_060174A0:
-    .4byte  sym_0605BC90
+    .long  sym_0605BC90
 .L_pool_060174A4:
-    .4byte  sym_06044B84
+    .long  sym_06044B84
 .L_pool_060174A8:
-    .4byte  sym_0607EAE0
+    .long  sym_0607EAE0
 .L_pool_060174AC:
-    .4byte  sym_06044BB4
+    .long  sym_06044BB4
 .L_pool_060174B0:
-    .4byte  sym_06078900
+    .long  sym_06078900
 .L_pool_060174B4:
-    .4byte  sym_060786A4
+    .long  sym_060786A4
 .L_pool_060174B8:
-    .4byte  0x000927BF
+    .long  0x000927BF
 .L_pool_060174BC:
-    .4byte  sym_0607EBF4
+    .long  sym_0607EBF4
 .L_pool_060174C0:
-    .4byte  sym_0607EBD0
+    .long  sym_0607EBD0
 .L_pool_060174C4:
-    .4byte  anim_frame_transform
+    .long  anim_frame_transform
 .L_060174C8:
     extu.b r4, r3
     mov r15, r2
@@ -285,27 +285,27 @@ DAT_06017492:
 
     .global DAT_060175b4
 DAT_060175b4:
-    .2byte  0x02BC
+    .short  0x02BC
 
     .global DAT_060175b6
 DAT_060175b6:
-    .2byte  0x0224
+    .short  0x0224
 
     .global DAT_060175b8
 DAT_060175b8:
-    .2byte  0x02F0
+    .short  0x02F0
 
     .global DAT_060175ba
 DAT_060175ba:
-    .2byte  0x5000
+    .short  0x5000
 .L_pool_060175BC:
-    .4byte  anim_frame_transform
+    .long  anim_frame_transform
 .L_pool_060175C0:
-    .4byte  sym_06034FE0
+    .long  sym_06034FE0
 .L_pool_060175C4:
-    .4byte  sym_06035C2C
+    .long  sym_06035C2C
 .L_pool_060175C8:
-    .4byte  sym_0607EAE0
+    .long  sym_0607EAE0
 .L_060175CC:
     mov.w   DAT_06017692, r9
     mov #0xB, r3
@@ -414,25 +414,25 @@ DAT_060175ba:
 
     .global DAT_06017692
 DAT_06017692:
-    .2byte  0x6000
+    .short  0x6000
 .L_wpool_06017694:
-    .2byte  0x0348
+    .short  0x0348
 
     .global DAT_06017696
 DAT_06017696:
-    .2byte  0x0224
+    .short  0x0224
 
     .global DAT_06017698
 DAT_06017698:
-    .2byte  0x0350
+    .short  0x0350
 
     .global DAT_0601769a
 DAT_0601769a:
-    .2byte  0x0358
+    .short  0x0358
 
     .global DAT_0601769c
 DAT_0601769c:
-    .2byte  0x0360
+    .short  0x0360
 .L_0601769E:
     mov r13, r7
     mov r14, r5
@@ -509,12 +509,12 @@ DAT_0601769c:
 
     .global DAT_06017728
 DAT_06017728:
-    .2byte  0x0360
+    .short  0x0360
 
     .global DAT_0601772a
 DAT_0601772a:
-    .2byte  0x02FC
+    .short  0x02FC
 
     .global DAT_0601772c
 DAT_0601772c:
-    .2byte  0x5000
+    .short  0x5000

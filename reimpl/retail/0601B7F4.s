@@ -73,16 +73,16 @@ disc_texture_load_ext:
     .global DAT_0601b87e
 DAT_0601b87e:
     .byte 0x40, 0x00
-    .4byte sym_06063750
-    .4byte sym_0605DF26
-    .4byte sym_06035228
-    .4byte sym_0605DF28
-    .4byte sym_06035168
-    .4byte sym_0605DF34
-    .4byte sym_0605DF37
-    .4byte g_pad_state
-    .4byte sym_0608600E
-    .4byte sym_0605D4F4
+    .long sym_06063750
+    .long sym_0605DF26
+    .long sym_06035228
+    .long sym_0605DF28
+    .long sym_06035168
+    .long sym_0605DF34
+    .long sym_0605DF37
+    .long g_pad_state
+    .long sym_0608600E
+    .long sym_0605D4F4
     .byte 0x85, 0x61
     .byte 0xD3, 0x27
     .byte 0x62, 0x03
@@ -165,7 +165,7 @@ DAT_0601b87e:
     .byte 0x01, 0x00
     .byte 0x00, 0x00
     .byte 0x80, 0x00
-    .4byte sym_0605D4F4
+    .long sym_0605D4F4
     .byte 0x00, 0x01
     .byte 0x00, 0x00
     .byte 0x00, 0x1C
@@ -174,9 +174,9 @@ DAT_0601b87e:
     .byte 0x00, 0x00
     .byte 0xFF, 0xD4
     .byte 0x00, 0x00
-    .4byte rigid_body_transform
-    .4byte sym_0605D4F8
-    .4byte sym_0608600E
+    .long rigid_body_transform
+    .long sym_0605D4F8
+    .long sym_0608600E
     .byte 0x69, 0xEC
     .byte 0x67, 0x9C
     .byte 0x62, 0xCC
@@ -283,7 +283,7 @@ DAT_0601b87e:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .byte 0xFF, 0xFF
-    .4byte sym_06028400
-    .4byte sym_0605D4F5
-    .4byte sym_0605D4F8
-    .4byte sym_0608600E
+    .long sym_06028400
+    .long sym_0605D4F5
+    .long sym_0605D4F8
+    .long sym_0608600E

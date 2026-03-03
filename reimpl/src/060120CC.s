@@ -71,43 +71,43 @@ file_read_callback:
 
     .global DAT_0601214e
 DAT_0601214e:
-    .2byte  0x1000
+    .short  0x1000
 .L_pool_06012150:
-    .4byte  sym_06078636
+    .long  sym_06078636
 .L_pool_06012154:
-    .4byte  sym_060788F8
+    .long  sym_060788F8
 .L_pool_06012158:
-    .4byte  display_channel_b
+    .long  display_channel_b
 .L_pool_0601215C:
-    .4byte  sym_060788B4
+    .long  sym_060788B4
 .L_06012160:
-    .4byte  0x00080000
+    .long  0x00080000
 .L_pool_06012164:
-    .4byte  0x000F3333
+    .long  0x000F3333
 .L_pool_06012168:
-    .4byte  sym_060788C0
+    .long  sym_060788C0
 .L_pool_0601216C:
-    .4byte  0x00053333
+    .long  0x00053333
 .L_pool_06012170:
-    .4byte  sym_060788CC
+    .long  sym_060788CC
 .L_pool_06012174:
-    .4byte  sym_06035168
+    .long  sym_06035168
 .L_pool_06012178:
-    .4byte  sym_060788D8
+    .long  sym_060788D8
 .L_pool_0601217C:
-    .4byte  sym_060788E4
+    .long  sym_060788E4
 .L_pool_06012180:
-    .4byte  sym_060788B0
+    .long  sym_060788B0
 .L_pool_06012184:
-    .4byte  sym_060788B2
+    .long  sym_060788B2
 .L_pool_06012188:
-    .4byte  sym_060788F0
+    .long  sym_060788F0
 .L_pool_0601218C:
-    .4byte  sym_060788F4
+    .long  sym_060788F4
 .L_pool_06012190:
-    .4byte  sym_060788AC
+    .long  sym_060788AC
 .L_pool_06012194:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8
 
     .global sym_06012198
 sym_06012198:

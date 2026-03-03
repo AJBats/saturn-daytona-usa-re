@@ -15,5 +15,5 @@ mode_flag_set_c:
     .byte 0x00, 0x09
     .byte 0x00, 0xFF
     .byte 0xFF, 0xFF
-    .4byte ai_throttle_modulate
-    .4byte ai_recovery_handler
+    .long ai_throttle_modulate
+    .long ai_recovery_handler

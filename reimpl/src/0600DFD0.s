@@ -44,32 +44,32 @@ race_update_abort:
     .byte   0xA0, 0x4E    /* bra 0x0600E0C0 (external) */
     mov.l @r15+, r14
 .L_pool_0600E024:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_pool_0600E028:
-    .4byte  sym_0607EA98
+    .long  sym_0607EA98
 .L_pool_0600E02C:
-    .4byte  sym_060786CA
+    .long  sym_060786CA
 .L_pool_0600E030:
-    .4byte  sym_0607E940
+    .long  sym_0607E940
 .L_pool_0600E034:
-    .4byte  sym_06078B68
+    .long  sym_06078B68
 .L_pool_0600E038:
-    .4byte  sym_0607E948
+    .long  sym_0607E948
 .L_pool_0600E03C:
-    .4byte  sym_0602DB00
+    .long  sym_0602DB00
 .L_pool_0600E040:
-    .4byte  sym_06006838
+    .long  sym_06006838
 .L_pool_0600E044:
-    .4byte  sym_060786B8
+    .long  sym_060786B8
 .L_pool_0600E048:
-    .4byte  segment_position_track
+    .long  segment_position_track
 .L_pool_0600E04C:
-    .4byte  scene_3d_processor
+    .long  scene_3d_processor
 .L_pool_0600E050:
-    .4byte  sym_06063EB0
+    .long  sym_06063EB0
 .L_pool_0600E054:
-    .4byte  sym_06063E9C
+    .long  sym_06063E9C
 .L_pool_0600E058:
-    .4byte  sym_06063ED8
+    .long  sym_06063ED8
 .L_pool_0600E05C:
-    .4byte  sym_06063EC4
+    .long  sym_06063EC4

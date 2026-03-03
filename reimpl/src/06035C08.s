@@ -10,7 +10,7 @@ smpc_cmd_helper_a:
     rts
     nop
 .L_pool_06035C18:
-    .4byte  sym_06035FEC
+    .long  sym_06035FEC
 
     .global sym_06035C1C
 sym_06035C1C:
@@ -41,7 +41,7 @@ sym_06035C2C:
     rts
     mov.l @r15+, r2
 .L_wpool_06035C46:
-    .2byte  0xFF00
+    .short  0xFF00
 
     .global sym_06035C48
 sym_06035C48:

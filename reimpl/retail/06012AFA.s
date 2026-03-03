@@ -36,10 +36,10 @@ car_param_lookup:
     .byte 0x07, 0x1C
     .byte 0x40, 0x00
     .byte 0xFF, 0xFF
-    .4byte sym_0605ACDD
-    .4byte sym_060283E0
+    .long sym_0605ACDD
+    .long sym_060283E0
     .byte 0x00, 0x00
     .byte 0xF0, 0x00
-    .4byte sym_060788FC
-    .4byte sym_06063800
-    .4byte sym_06028400
+    .long sym_060788FC
+    .long sym_06063800
+    .long sym_06028400

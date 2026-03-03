@@ -73,13 +73,13 @@ DAT_0603881a:
     .byte 0x40, 0x00
     .byte 0x00, 0xFF
     .byte 0x00, 0x00
-    .4byte sym_0603C0A0
+    .long sym_0603C0A0
     .byte 0x00, 0x01
     .byte 0x00, 0x00
-    .4byte sym_060635A8
-    .4byte sym_060A3E38
-    .4byte sym_060A3E68
-    .4byte sym_060A3DF8
+    .long sym_060635A8
+    .long sym_060A3E38
+    .long sym_060A3E68
+    .long sym_060A3DF8
     .byte 0x64, 0x53
     .byte 0xE0, 0x4C
     .byte 0x04, 0xE6
@@ -144,6 +144,6 @@ DAT_0603881a:
     .byte 0x6E, 0xF6
     .byte 0x00, 0x80
     .byte 0xFF, 0xFF
-    .4byte scene_color_matrix
+    .long scene_color_matrix
     .byte 0x00, 0x00
     .byte 0xFF, 0x00

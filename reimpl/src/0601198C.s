@@ -187,10 +187,10 @@ split_screen_layout:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_06011AE8:
-    .4byte  swap_sign_ext
+    .long  swap_sign_ext
 .L_06011AEC:
-    .4byte  sym_060786CC
+    .long  sym_060786CC
 .L_06011AF0:
-    .4byte  sym_0605AAA0
+    .long  sym_0605AAA0

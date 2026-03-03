@@ -56,13 +56,13 @@ menu_sound_trigger:
     rts
     mov.l @r15+, r14
 .L_wpool_0603AED8:
-    .2byte  0x00A0
+    .short  0x00A0
 .L_wpool_0603AEDA:
-    .2byte  0x0098
+    .short  0x0098
 .L_wpool_0603AEDC:
-    .2byte  0x00A4
-    .2byte  0xFFFF
+    .short  0x00A4
+    .short  0xFFFF
 .L_pool_0603AEE0:
-    .4byte  sym_060A4D14
+    .long  sym_060A4D14
 .L_pool_0603AEE4:
-    .4byte  sym_0603F1F0
+    .long  sym_0603F1F0

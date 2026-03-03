@@ -32,18 +32,18 @@ track_seg_render_setup:
 
     .global DAT_0602f24c
 DAT_0602f24c:
-    .2byte  0x00E0
+    .short  0x00E0
 
     .global DAT_0602f24e
 DAT_0602f24e:
-    .2byte  0x00E4
+    .short  0x00E4
 .L_wpool_0602F250:
-    .2byte  0x00C0
-    .2byte  0x0000
-    .4byte  sym_060477CC                 /* [MEDIUM] course speed table (shared pool, not referenced in this TU) */
-    .4byte  fpdiv_setup
+    .short  0x00C0
+    .short  0x0000
+    .long  sym_060477CC                 /* [MEDIUM] course speed table (shared pool, not referenced in this TU) */
+    .long  fpdiv_setup
 .L_pool_0602F25C:
-    .4byte  sym_0602F3CC
+    .long  sym_0602F3CC
 .L_0602F260:
     cmp/ge r5, r2
     bt      .L_0602F266
@@ -54,4 +54,4 @@ DAT_0602f24e:
     rts
     mov.l r4, @(r0, r1)
 .L_wpool_0602F26E:
-    .2byte  0x00E4
+    .short  0x00E4

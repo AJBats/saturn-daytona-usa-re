@@ -77,6 +77,6 @@ evt_cmd_enqueue:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .4byte cmd_enqueue
-    .4byte state_field_read
-    .4byte sym_06040220
+    .long cmd_enqueue
+    .long state_field_read
+    .long sym_06040220

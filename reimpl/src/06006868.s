@@ -82,7 +82,7 @@ scene_post_render:
     mov #0x1, r3
     mov.l r3, @(12, r15)
     cmp/eq #0x3F, r0
-    bf/s    .L_06006914
+    bf.s    .L_06006914
     mov #-0x40, r6
     mov #0x0, r2
     bra     .L_0600691A
@@ -98,21 +98,21 @@ scene_post_render:
     mov #0x0, r2
     bra     .L_0600694C
     mov.l r2, @(12, r15)
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_pool_06006928:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8
 .L_pool_0600692C:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_pool_06006930:
-    .4byte  sym_06063F54
+    .long  sym_06063F54
 .L_pool_06006934:
-    .4byte  sym_06062248
+    .long  sym_06062248
 .L_pool_06006938:
-    .4byte  sym_06062260
+    .long  sym_06062260
 .L_pool_0600693C:
-    .4byte  sym_06063DF8
+    .long  sym_06063DF8
 .L_pool_06006940:
-    .4byte  0x04000000
+    .long  0x04000000
 .L_06006944:
     tst r4, r4
     bf      .L_0600694C
@@ -129,7 +129,7 @@ scene_post_render:
     mov.l @(12, r15), r2
     add r12, r9
     cmp/gt r2, r12
-    bt/s    .L_06006A0E
+    bt.s    .L_06006A0E
     add r3, r9
 .L_06006962:
     mov r9, r11
@@ -142,7 +142,7 @@ scene_post_render:
     mov.w @r7, r7
     exts.w r7, r2
     cmp/pl r2
-    bf/s    .L_060069AE
+    bf.s    .L_060069AE
     mov.w @r4, r13
     mov r11, r0
     mov.l @(28, r15), r2
@@ -188,7 +188,7 @@ scene_post_render:
     mov.l @(r0, r1), r2
     mov.l @r14, r0
     cmp/eq #0x2, r0
-    bt/s    .L_060069F8
+    bt.s    .L_060069F8
     add r2, r11
     mov r13, r7
     mov.w @r10, r6
@@ -198,17 +198,17 @@ scene_post_render:
     mov r11, r4
     bra     .L_06006A04
     nop
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_pool_060069E4:
-    .4byte  sym_06089E96
+    .long  sym_06089E96
 .L_pool_060069E8:
-    .4byte  sym_06062230
+    .long  sym_06062230
 .L_pool_060069EC:
-    .4byte  sym_06029BF4
+    .long  sym_06029BF4
 .L_pool_060069F0:
-    .4byte  sym_0602B328
+    .long  sym_0602B328
 .L_pool_060069F4:
-    .4byte  sym_0602A834
+    .long  sym_0602A834
 .L_060069F8:
     mov r13, r7
     mov.w @r10, r6
@@ -220,7 +220,7 @@ scene_post_render:
     add #0x1, r12
     mov.l @(12, r15), r2
     cmp/gt r2, r12
-    bf/s    .L_06006962
+    bf.s    .L_06006962
     add #0x1, r9
 .L_06006A0E:
     mov.l @r15, r2
@@ -288,16 +288,16 @@ scene_post_render:
     rts
     mov.l @r15+, r14
 .L_pool_06006A80:
-    .4byte  sym_0602AF3C
+    .long  sym_0602AF3C
 .L_pool_06006A84:
-    .4byte  sym_0607EBC4
+    .long  sym_0607EBC4
 .L_pool_06006A88:
-    .4byte  0x30000000
+    .long  0x30000000
 .L_pool_06006A8C:
-    .4byte  track_geometry_proc
+    .long  track_geometry_proc
 .L_pool_06006A90:
-    .4byte  track_state_machine
+    .long  track_state_machine
 .L_pool_06006A94:
-    .4byte  geom_math_calc
+    .long  geom_math_calc
 .L_pool_06006A98:
-    .4byte  scene_process_stage
+    .long  scene_process_stage

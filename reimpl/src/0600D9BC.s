@@ -6,7 +6,7 @@ lap_complete_flag:
     mov.l   .L_pool_0600DA58, r14
     mov.l   .L_pool_0600DA5C, r5
     tst r4, r4
-    bf/s    .L_0600DA04
+    bf.s    .L_0600DA04
     mov.l @r5, r5
     mov.l   .L_pool_0600DA60, r3
     mov.l   .L_pool_0600DA58, r2
@@ -78,27 +78,27 @@ lap_complete_flag:
     rts
     mov.l @r15+, r14
 .L_wpool_0600DA50:
-    .2byte  0x0228
+    .short  0x0228
 .L_wpool_0600DA52:
-    .2byte  0x1501
+    .short  0x1501
 .L_wpool_0600DA54:
-    .2byte  0x0230
-    .2byte  0xFFFF
+    .short  0x0230
+    .short  0xFFFF
 .L_pool_0600DA58:
-    .4byte  sym_06063F1C
+    .long  sym_06063F1C
 .L_pool_0600DA5C:
-    .4byte  sym_0607E940
+    .long  sym_0607E940
 .L_pool_0600DA60:
-    .4byte  sym_06063F18
+    .long  sym_06063F18
 .L_pool_0600DA64:
-    .4byte  sym_06063F20
+    .long  sym_06063F20
 .L_pool_0600DA68:
-    .4byte  sym_06063F24
+    .long  sym_06063F24
 .L_pool_0600DA6C:
-    .4byte  sym_06063F28
+    .long  sym_06063F28
 .L_pool_0600DA70:
-    .4byte  sym_06035280
+    .long  sym_06035280
 .L_pool_0600DA74:
-    .4byte  sym_06034F78
+    .long  sym_06034F78
 .L_pool_0600DA78:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8

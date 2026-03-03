@@ -32,9 +32,9 @@ save_field_write:
     bf      .L_0603BA70
     bra     .L_0603BAB6
     mov #0x0, r0
-    .4byte  sym_060A4D14
+    .long  sym_060A4D14
 .L_pool_0603BA6F:
-    .4byte  attract_state_change
+    .long  attract_state_change
 .L_0603BA70:
     mov #-0x1, r6
     mov #0x0, r5

@@ -101,8 +101,8 @@ high_score_render:
     .byte 0x01, 0x01
     .byte 0x00, 0x00
     .byte 0xFF, 0xF0
-    .4byte sym_060A4D58
-    .4byte sym_060A4D28
-    .4byte sym_06034F78
+    .long sym_060A4D58
+    .long sym_060A4D28
+    .long sym_06034F78
     .byte 0x00, 0x00
     .byte 0xF0, 0xFF

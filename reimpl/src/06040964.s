@@ -13,4 +13,4 @@ evt_condition_return:
     lds.l @r15+, pr
     rts
     mov r4, r0
-    .2byte  0x6263
+    .short  0x6263

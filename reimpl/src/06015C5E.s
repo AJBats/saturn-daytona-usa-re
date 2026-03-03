@@ -34,10 +34,10 @@ time_delta_format:
     jmp @r3
     mov.l @r15+, r14
 .L_wpool_06015C9E:
-    .2byte  0xE000
-    .2byte  0xFFFF
+    .short  0xE000
+    .short  0xFFFF
 .L_pool_06015CA2:
-    .4byte  sym_06084FC8
-    .4byte  sym_0605B8B0
+    .long  sym_06084FC8
+    .long  sym_0605B8B0
 .L_pool_06015CAA:
-    .4byte  sym_060172E4
+    .long  sym_060172E4

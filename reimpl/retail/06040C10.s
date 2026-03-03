@@ -37,5 +37,5 @@ evt_state_dispatch:
 sym_06040C50:
     .byte 0x00, 0x0B
     .byte 0xE0, 0x00
-    .4byte evt_field_update
-    .4byte state_field_read
+    .long evt_field_update
+    .long state_field_read

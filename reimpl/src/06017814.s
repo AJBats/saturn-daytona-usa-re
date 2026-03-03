@@ -77,54 +77,54 @@ track_geometry_proc:
     bra     .L_06017910
     nop
 .L_060178AA:
-    .2byte  0x0333
+    .short  0x0333
 
     .global DAT_060178ac
 DAT_060178ac:
-    .2byte  0x1CCB
-    .2byte  0xFFFF
+    .short  0x1CCB
+    .short  0xFFFF
 .L_060178B0:
-    .4byte  sym_0605BE18
+    .long  sym_0605BE18
 .L_060178B4:
-    .4byte  sym_0605BE24
+    .long  sym_0605BE24
 .L_060178B8:
-    .4byte  sym_0605BE1A
+    .long  sym_0605BE1A
 .L_060178BC:
-    .4byte  sym_0605BE26
+    .long  sym_0605BE26
 .L_060178C0:
-    .4byte  sym_0605BE22
+    .long  sym_0605BE22
 .L_060178C4:
-    .4byte  sym_0605BE20
+    .long  sym_0605BE20
 .L_060178C8:
-    .4byte  sym_06026DBC
+    .long  sym_06026DBC
 .L_060178CC:
-    .4byte  sym_06085FAC
+    .long  sym_06085FAC
 .L_060178D0:
-    .4byte  sym_06048130
+    .long  sym_06048130
 .L_060178D4:
-    .4byte  sym_0604812C
+    .long  sym_0604812C
 .L_060178D8:
-    .4byte  sym_06048128
+    .long  sym_06048128
 .L_060178DC:
-    .4byte  sym_06026E2E
+    .long  sym_06026E2E
 .L_060178E0:
-    .4byte  mat_rot_y
+    .long  mat_rot_y
 .L_060178E4:
-    .4byte  0x00200000
+    .long  0x00200000
 .L_060178E8:
-    .4byte  0x00037D88
+    .long  0x00037D88
 .L_060178EC:
-    .4byte  sym_06031D8C
+    .long  sym_06031D8C
 .L_060178F0:
-    .4byte  0x00037DE8
+    .long  0x00037DE8
 .L_060178F4:
-    .4byte  sym_06089E98
+    .long  sym_06089E98
 .L_060178F8:
-    .4byte  sym_06031A28
+    .long  sym_06031A28
 .L_060178FC:
-    .4byte  sym_06026DF8
+    .long  sym_06026DF8
 .L_06017900:
-    .4byte  sym_06085FBC
+    .long  sym_06085FBC
 .L_06017904:
     mov.w   .L_060179B6, r2
     mov.l   .L_060179BC, r3
@@ -218,50 +218,50 @@ DAT_060178ac:
     bra     .L_06017A10
     nop
 .L_060179B6:
-    .2byte  0x0333
+    .short  0x0333
 .L_060179B8:
-    .2byte  0x021C
-    .2byte  0xFFFF
+    .short  0x021C
+    .short  0xFFFF
 .L_060179BC:
-    .4byte  sym_06085FBC
+    .long  sym_06085FBC
 .L_060179C0:
-    .4byte  sym_0604813C
+    .long  sym_0604813C
 .L_060179C4:
-    .4byte  sym_06048138
+    .long  sym_06048138
 .L_060179C8:
-    .4byte  sym_06048134
+    .long  sym_06048134
 .L_060179CC:
-    .4byte  sym_06026E2E
+    .long  sym_06026E2E
 .L_060179D0:
-    .4byte  mat_rot_z
+    .long  mat_rot_z
 .L_060179D4:
-    .4byte  0x00200000
+    .long  0x00200000
 .L_060179D8:
-    .4byte  0x00037E78
+    .long  0x00037E78
 .L_060179DC:
-    .4byte  sym_06031D8C
+    .long  sym_06031D8C
 .L_060179E0:
-    .4byte  sym_06089E98
+    .long  sym_06089E98
 .L_060179E4:
-    .4byte  0x00037EA8
+    .long  0x00037EA8
 .L_060179E8:
-    .4byte  sym_06031A28
+    .long  sym_06031A28
 .L_060179EC:
-    .4byte  sym_06026DF8
+    .long  sym_06026DF8
 .L_060179F0:
-    .4byte  sym_06026DBC
+    .long  sym_06026DBC
 .L_060179F4:
-    .4byte  0x00037EC0
+    .long  0x00037EC0
 .L_060179F8:
-    .4byte  sym_06089E44
+    .long  sym_06089E44
 .L_060179FC:
-    .4byte  0x00037EF0
+    .long  0x00037EF0
 .L_06017A00:
-    .4byte  sym_0607E940
+    .long  sym_0607E940
 .L_06017A04:
-    .4byte  sym_06063F28
+    .long  sym_06063F28
 .L_06017A08:
-    .4byte  sym_06078636
+    .long  sym_06078636
 .L_06017A0C:
     mov #0x1, r2
     mov.w r2, @r10
@@ -364,39 +364,39 @@ DAT_060178ac:
     nop
     bra     .L_06017B4E
     nop
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_06017ACC:
-    .4byte  sym_06026DBC
+    .long  sym_06026DBC
 .L_06017AD0:
-    .4byte  sym_060622B4
+    .long  sym_060622B4
 .L_06017AD4:
-    .4byte  sym_06062290
+    .long  sym_06062290
 .L_06017AD8:
-    .4byte  sym_06031D8C
+    .long  sym_06031D8C
 .L_06017ADC:
-    .4byte  sym_060622A8
+    .long  sym_060622A8
 .L_06017AE0:
-    .4byte  sym_06089E98
+    .long  sym_06089E98
 .L_06017AE4:
-    .4byte  sym_0606229C
+    .long  sym_0606229C
 .L_06017AE8:
-    .4byte  sym_06031A28
+    .long  sym_06031A28
 .L_06017AEC:
-    .4byte  sym_06026DF8
+    .long  sym_06026DF8
 .L_06017AF0:
-    .4byte  sym_0605BE2A
+    .long  sym_0605BE2A
 .L_06017AF4:
-    .4byte  sym_0607EAD0
+    .long  sym_0607EAD0
 .L_06017AF8:
-    .4byte  sym_0607EBC4
+    .long  sym_0607EBC4
 .L_06017AFC:
-    .4byte  0x000A0000
+    .long  0x000A0000
 .L_06017B00:
-    .4byte  g_pad_state
+    .long  g_pad_state
 .L_06017B04:
-    .4byte  sym_0605BE28
+    .long  sym_0605BE28
 .L_06017B08:
-    .4byte  sym_0605BE20
+    .long  sym_0605BE20
 .L_06017B0C:
     mov.l   .L_06017BDC, r4
     bsr     track_state_handler
@@ -508,28 +508,28 @@ DAT_060178ac:
 
     .global DAT_06017bd4
 DAT_06017bd4:
-    .2byte  0x151A
+    .short  0x151A
 
     .global DAT_06017bd6
 DAT_06017bd6:
-    .2byte  0x151C
+    .short  0x151C
 
     .global DAT_06017bd8
 DAT_06017bd8:
-    .2byte  0x151E
-    .2byte  0xFFFF
+    .short  0x151E
+    .short  0xFFFF
 .L_06017BDC:
-    .4byte  sym_0605BE22
+    .long  sym_0605BE22
 .L_06017BE0:
-    .4byte  sym_06085FCC
+    .long  sym_06085FCC
 .L_06017BE4:
-    .4byte  sym_0605BE24
+    .long  sym_0605BE24
 .L_06017BE8:
-    .4byte  sym_0606A4F0
+    .long  sym_0606A4F0
 .L_06017BEC:
-    .4byte  sym_060684EC
+    .long  sym_060684EC
 .L_06017BF0:
-    .4byte  sym_06063F64
+    .long  sym_06063F64
 .L_06017BF4:
     mov.l   .L_06017C54, r3
     mov.l   .L_06017C58, r2
@@ -553,7 +553,7 @@ DAT_06017bd8:
     mov.l   .L_06017C6C, r4
     mov.w @r5, r0
     cmp/eq #0x2A, r0
-    bf/s    .L_06017C36
+    bf.s    .L_06017C36
     mov #0x1, r6
     mov.w   DAT_06017c52, r2
     mov.l @r4, r3
@@ -584,25 +584,25 @@ DAT_06017bd8:
 
     .global DAT_06017c52
 DAT_06017c52:
-    .2byte  0x008C
+    .short  0x008C
 .L_06017C54:
-    .4byte  sym_0607EBC4
+    .long  sym_0607EBC4
 .L_06017C58:
-    .4byte  0x00020000
+    .long  0x00020000
 .L_06017C5C:
-    .4byte  sym_0605BE24
+    .long  sym_0605BE24
 .L_06017C60:
-    .4byte  sym_0605BE22
+    .long  sym_0605BE22
 .L_06017C64:
-    .4byte  sym_0605BE20
+    .long  sym_0605BE20
 .L_06017C68:
-    .4byte  sym_0605BE28
+    .long  sym_0605BE28
 .L_06017C6C:
-    .4byte  sym_0607EAAC
+    .long  sym_0607EAAC
 .L_06017C70:
-    .4byte  0xAE1117FF
+    .long  0xAE1117FF
 .L_06017C74:
-    .4byte  sound_cmd_dispatch
+    .long  sound_cmd_dispatch
 .L_06017C78:
     mov.l   .L_06017CD4, r4
     mov.l   .L_06017CD8, r2
@@ -657,14 +657,14 @@ track_state_handler:
     rts
     nop
 .L_06017CD4:
-    .4byte  sym_0605BE24
+    .long  sym_0605BE24
 .L_06017CD8:
-    .4byte  sym_0605BE22
+    .long  sym_0605BE22
 .L_06017CDC:
-    .4byte  sym_06085FCC
+    .long  sym_06085FCC
 .L_06017CE0:
-    .4byte  0xAE1118FF
+    .long  0xAE1118FF
 .L_06017CE4:
-    .4byte  sound_cmd_dispatch
+    .long  sound_cmd_dispatch
 .L_06017CE8:
-    .4byte  sym_06035C2C
+    .long  sym_06035C2C

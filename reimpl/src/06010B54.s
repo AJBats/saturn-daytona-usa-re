@@ -42,23 +42,23 @@ hud_sound_trigger:
     mov.l   .L_pool_06010BA0, r5
     bra     .L_06010BA6
     nop
-    .4byte  0x06FC0200
-    .4byte  0x00E100E2
-    .4byte  0x009007A2
-    .4byte  sym_06063F42
-    .4byte  sym_06063D9E
-    .4byte  sym_0607887F
-    .4byte  sym_06078868
-    .4byte  sym_0605ACE3
-    .4byte  sym_060284AE
+    .long  0x06FC0200
+    .long  0x00E100E2
+    .long  0x009007A2
+    .long  sym_06063F42
+    .long  sym_06063D9E
+    .long  sym_0607887F
+    .long  sym_06078868
+    .long  sym_0605ACE3
+    .long  sym_060284AE
 .L_pool_06010B94:
-    .4byte  sound_cmd_dispatch
+    .long  sound_cmd_dispatch
 .L_pool_06010B98:
-    .4byte  sym_0607EAE0
+    .long  sym_0607EAE0
 .L_pool_06010B9C:
-    .4byte  sym_06078644
+    .long  sym_06078644
 .L_pool_06010BA0:
-    .4byte  0xAB110AFF
+    .long  0xAB110AFF
 .L_06010BA4:
     .byte   0xD5, 0x2B    /* mov.l .L_pool_06010C54, r5 */
 .L_06010BA6:

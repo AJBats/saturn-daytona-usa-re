@@ -152,7 +152,7 @@ DAT_0602d18e:
     .byte 0x00, 0x00
     .byte 0x00, 0x0F
     .byte 0x00, 0x00
-    .4byte cos_lookup
+    .long cos_lookup
     .byte 0x00, 0x00
     .byte 0x01, 0x00
     .byte 0x00, 0x00
@@ -239,8 +239,8 @@ DAT_0602d238:
     .byte 0x00, 0x40
     .byte 0x00, 0x5C
     .byte 0x00, 0x00
-    .4byte atan_piecewise
-    .4byte cos_lookup
+    .long atan_piecewise
+    .long cos_lookup
     .byte 0x66, 0x6B
     .byte 0x35, 0x67
     .byte 0x89, 0x01
@@ -345,7 +345,7 @@ DAT_0602d2ca:
     .global DAT_0602d30a
 DAT_0602d30a:
     .byte 0x00, 0xFA
-    .4byte atan_piecewise
+    .long atan_piecewise
     .byte 0x34, 0x77
     .byte 0x89, 0x00
     .byte 0x67, 0x43
@@ -410,7 +410,7 @@ DAT_0602d30a:
     .global DAT_0602d38a
 DAT_0602d38a:
     .byte 0x00, 0x5C
-    .4byte sym_0602ECCC
+    .long sym_0602ECCC
     .byte 0x00, 0x00
     .byte 0x0F, 0xE0
     .byte 0x66, 0x6B
@@ -461,7 +461,7 @@ DAT_0602d3e8:
     .global DAT_0602d3ea
 DAT_0602d3ea:
     .byte 0x00, 0x5C
-    .4byte sym_0602ECCC
+    .long sym_0602ECCC
     .byte 0xFF, 0xFF
     .byte 0xCD, 0x80
     .byte 0x20, 0x00

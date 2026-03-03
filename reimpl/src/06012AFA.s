@@ -34,17 +34,17 @@ car_param_lookup:
     rts
     mov.l @r15+, r14
 .L_wpool_06012B39:
-    .2byte  0x061C
-    .4byte  0x069C071C
+    .short  0x061C
+    .long  0x069C071C
 .L_wpool_06012B3F:
-    .2byte  0x4000
-    .2byte  0xFFFF
-    .4byte  sym_0605ACDD
-    .4byte  sym_060283E0
-    .4byte  0x0000F000
+    .short  0x4000
+    .short  0xFFFF
+    .long  sym_0605ACDD
+    .long  sym_060283E0
+    .long  0x0000F000
 .L_pool_06012B4F:
-    .4byte  sym_060788FC
+    .long  sym_060788FC
 .L_pool_06012B53:
-    .4byte  sym_06063800
+    .long  sym_06063800
 .L_pool_06012B57:
-    .4byte  sym_06028400
+    .long  sym_06028400

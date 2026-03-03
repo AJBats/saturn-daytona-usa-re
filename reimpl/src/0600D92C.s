@@ -60,29 +60,29 @@ lap_time_record:
 
     .global DAT_0600d996
 DAT_0600d996:
-    .2byte  0x021C
+    .short  0x021C
 
     .global DAT_0600d998
 DAT_0600d998:
-    .2byte  0x0230
+    .short  0x0230
 
     .global DAT_0600d99a
 DAT_0600d99a:
-    .2byte  0x022C
+    .short  0x022C
 .L_0600D99C:
-    .2byte  0x0240
-    .2byte  0xFFFF
+    .short  0x0240
+    .short  0xFFFF
 .L_0600D9A0:
-    .4byte  sym_0607E940
+    .long  sym_0607E940
 .L_0600D9A4:
-    .4byte  sym_06063F28
+    .long  sym_06063F28
 .L_0600D9A8:
-    .4byte  sym_0607EBF4
+    .long  sym_0607EBF4
 .L_0600D9AC:
-    .4byte  sym_0607EAC0
+    .long  sym_0607EAC0
 .L_0600D9B0:
-    .4byte  sym_060786B0
+    .long  sym_060786B0
 .L_0600D9B4:
-    .4byte  sym_060786A4
+    .long  sym_060786A4
 .L_0600D9B8:
-    .4byte  sym_0607EBF8
+    .long  sym_0607EBF8

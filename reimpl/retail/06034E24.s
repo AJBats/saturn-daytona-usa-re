@@ -23,8 +23,8 @@ smpc_cmd_builder:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .byte 0xFF, 0xFF
-    .4byte input_proc_analog
-    .4byte input_proc_buttons
+    .long input_proc_analog
+    .long input_proc_buttons
     .global sym_06034E58
 sym_06034E58:
     .byte 0x7F, 0xFC
@@ -101,10 +101,10 @@ sym_06034E58:
     .byte 0x00, 0x09
     .byte 0x03, 0xE8
     .byte 0xFF, 0xFF
-    .4byte sym_06063578
-    .4byte sym_0606358C
-    .4byte sym_06063584
-    .4byte sym_06059CAD
-    .4byte sym_06063580
-    .4byte slave_main_loop
-    .4byte sym_06059CAC
+    .long sym_06063578
+    .long sym_0606358C
+    .long sym_06063584
+    .long sym_06059CAD
+    .long sym_06063580
+    .long slave_main_loop
+    .long sym_06059CAC

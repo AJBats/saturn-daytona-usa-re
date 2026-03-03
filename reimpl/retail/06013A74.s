@@ -63,9 +63,9 @@ loc_06013ADA:
     .byte 0xA0, 0x0D
     .byte 0x00, 0x09
     .byte 0x08, 0x00
-    .4byte sym_06063D9E
-    .4byte sym_06063D9A
-    .4byte sym_06084B18
-    .4byte sym_06084AF0
-    .4byte sym_06084AF2
-    .4byte sym_06084AF6
+    .long sym_06063D9E
+    .long sym_06063D9A
+    .long sym_06084B18
+    .long sym_06084AF0
+    .long sym_06084AF2
+    .long sym_06084AF6

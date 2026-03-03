@@ -84,17 +84,17 @@ name_entry_render:
     rts
     mov.l @r15+, r14
 .L_0603D5BC:
-    .2byte  0x0401
+    .short  0x0401
 
 
     .global DAT_0603d5be
 DAT_0603d5be:
-    .2byte  0x00FF
+    .short  0x00FF
 .L_0603D5C0:
-    .4byte  0x0000FF00
+    .long  0x0000FF00
 .L_pool_0603D5C4:
-    .4byte  sym_060A4D58
+    .long  sym_060A4D58
 .L_pool_0603D5C8:
-    .4byte  sym_060A4D3E
+    .long  sym_060A4D3E
 .L_pool_0603D5CC:
-    .4byte  sym_06034F78
+    .long  sym_06034F78

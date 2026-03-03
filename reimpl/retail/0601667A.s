@@ -46,10 +46,10 @@ results_best_laps:
     .byte 0xA6, 0x09
     .byte 0x6E, 0xF6
     .byte 0xFF, 0xFF
-    .4byte sym_0605BAFA
-    .4byte sym_06035228
-    .4byte sym_06085F89
-    .4byte sym_06084FC8
+    .long sym_0605BAFA
+    .long sym_06035228
+    .long sym_06085F89
+    .long sym_06084FC8
     .global loc_060166E4
 loc_060166E4:
     .byte 0x7F, 0xFC
@@ -106,4 +106,4 @@ loc_06016724:
     .byte 0x60, 0x33
     .byte 0x00, 0x0B
     .byte 0x80, 0x52
-    .4byte sym_06084FC8
+    .long sym_06084FC8

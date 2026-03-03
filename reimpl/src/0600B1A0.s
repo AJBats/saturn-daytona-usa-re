@@ -31,39 +31,39 @@ course_obj_transform:
     mov.l   .L_0600B22C, r12
     bra     .L_0600B23C
     nop
-    .2byte  0xFFFF
-    .4byte  sym_06083258
-    .4byte  sym_060621D8
-    .4byte  sym_0606212C
-    .4byte  sym_06032158
-    .4byte  sym_06062180
-    .4byte  sym_06089E44
-    .4byte  sym_060620D8
-    .4byte  sym_06031DF4
-    .4byte  sym_0607EBC4
-    .4byte  0x20020000
-    .4byte  master_ctrl_dispatch
-    .4byte  sym_0608A52C
+    .short  0xFFFF
+    .long  sym_06083258
+    .long  sym_060621D8
+    .long  sym_0606212C
+    .long  sym_06032158
+    .long  sym_06062180
+    .long  sym_06089E44
+    .long  sym_060620D8
+    .long  sym_06031DF4
+    .long  sym_0607EBC4
+    .long  0x20020000
+    .long  master_ctrl_dispatch
+    .long  sym_0608A52C
 .L_0600B208:
-    .4byte  sym_0607EB8C
+    .long  sym_0607EB8C
 .L_0600B20C:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_0600B210:
-    .4byte  sym_0607E940
+    .long  sym_0607E940
 .L_0600B214:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8
 .L_0600B218:
-    .4byte  sym_06063488
+    .long  sym_06063488
 .L_0600B21C:
-    .4byte  sym_06063434
+    .long  sym_06063434
 .L_0600B220:
-    .4byte  sym_060634A4
+    .long  sym_060634A4
 .L_0600B224:
-    .4byte  sym_06063450
+    .long  sym_06063450
 .L_0600B228:
-    .4byte  sym_060634C0
+    .long  sym_060634C0
 .L_0600B22C:
-    .4byte  sym_0606346C
+    .long  sym_0606346C
 .L_0600B230:
     cmp/eq #0x0, r0
     bt      .L_0600B1BE
@@ -170,40 +170,40 @@ course_obj_transform:
     rts
     mov.l @r15+, r14
 .L_0600B2FC:
-    .2byte  0x01D8
+    .short  0x01D8
 .L_0600B2FE:
-    .2byte  0x01B4
+    .short  0x01B4
 .L_0600B300:
-    .2byte  0x01D0
+    .short  0x01D0
 .L_0600B302:
-    .2byte  0x01C8
+    .short  0x01C8
 .L_0600B304:
-    .4byte  sym_06026DBC
+    .long  sym_06026DBC
 .L_0600B308:
-    .4byte  sym_06026E2E
+    .long  sym_06026E2E
 .L_0600B30C:
-    .4byte  mat_rot_y
+    .long  mat_rot_y
 .L_0600B310:
-    .4byte  mat_rot_z
+    .long  mat_rot_z
 .L_0600B314:
-    .4byte  mat_rot_x
+    .long  mat_rot_x
 .L_0600B318:
-    .4byte  sym_06059F30
+    .long  sym_06059F30
 .L_0600B31C:
-    .4byte  sym_06063510
+    .long  sym_06063510
 .L_0600B320:
-    .4byte  sym_06031D8C
+    .long  sym_06031D8C
 .L_0600B324:
-    .4byte  sym_060634F4
+    .long  sym_060634F4
 .L_0600B328:
-    .4byte  sym_06089E98
+    .long  sym_06089E98
 .L_0600B32C:
-    .4byte  sym_06031A28
+    .long  sym_06031A28
 .L_0600B330:
-    .4byte  sym_06083258
+    .long  sym_06083258
 .L_0600B334:
-    .4byte  sym_060634F8
+    .long  sym_060634F8
 .L_0600B338:
-    .4byte  sym_060634DC
+    .long  sym_060634DC
 .L_0600B33C:
-    .4byte  sym_06089EDC
+    .long  sym_06089EDC

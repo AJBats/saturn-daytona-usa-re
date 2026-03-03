@@ -69,24 +69,24 @@ FUN_0600CEBA:
 
     .global DAT_0600cf3a
 DAT_0600cf3a:
-    .2byte  0x0184
+    .short  0x0184
 .L_0600CF3C:
-    .2byte  0x0162
+    .short  0x0162
 .L_0600CF3E:
-    .2byte  0x0160
+    .short  0x0160
 
     .global DAT_0600cf40
 DAT_0600cf40:
-    .2byte  0x01F0
+    .short  0x01F0
 .L_0600CF42:
-    .2byte  0x0228
+    .short  0x0228
 .L_0600CF44:
-    .4byte  sym_0607EB84
+    .long  sym_0607EB84
 .L_0600CF48:
-    .4byte  sym_0607E940
+    .long  sym_0607E940
 .L_0600CF4C:
-    .4byte  sym_06035228
+    .long  sym_06035228
 .L_0600CF50:
-    .4byte  sym_0607EA9C
+    .long  sym_0607EA9C
 .L_0600CF54:
-    .4byte  sym_0607EBD0
+    .long  sym_0607EBD0

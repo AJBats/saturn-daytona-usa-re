@@ -90,35 +90,35 @@ scene_state_process:
     bra     .L_060395FC
     nop
 .L_060395B6:
-    .2byte  0xFF7F
+    .short  0xFF7F
 .L_060395B8:
-    .4byte  sym_060A4CAE
+    .long  sym_060A4CAE
 .L_060395BC:
-    .4byte  sym_060A4CBC
+    .long  sym_060A4CBC
 .L_060395C0:
-    .4byte  sym_06063602
+    .long  sym_06063602
 .L_060395C4:
-    .4byte  sym_060A4CC0
+    .long  sym_060A4CC0
 .L_060395C8:
-    .4byte  sym_060A4CAC
+    .long  sym_060A4CAC
 .L_060395CC:
-    .4byte  sym_060A4CB0
+    .long  sym_060A4CB0
 .L_060395D0:
-    .4byte  0x20100079
+    .long  0x20100079
 .L_060395D4:
-    .4byte  sym_06000300
+    .long  sym_06000300
 .L_060395D8:
-    .4byte  master_menu_render
+    .long  master_menu_render
 .L_060395DC:
-    .4byte  sym_06000344
+    .long  sym_06000344
 .L_060395E0:
-    .4byte  sym_060A4CAA
+    .long  sym_060A4CAA
 .L_060395E4:
-    .4byte  sym_060A4CA8
+    .long  sym_060A4CA8
 .L_060395E8:
-    .4byte  smpc_intback_send
+    .long  smpc_intback_send
 .L_060395EC:
-    .4byte  sym_060A4CD8
+    .long  sym_060A4CD8
 .L_060395F0:
     cmp/eq #0x0, r0
     bt      .L_06039574
@@ -256,19 +256,19 @@ scene_state_process:
     bra     .L_060397B8
     nop
 .L_060396F0:
-    .4byte  sym_060A4CAB
+    .long  sym_060A4CAB
 .L_060396F4:
-    .4byte  sym_060A4CAF
+    .long  sym_060A4CAF
 .L_060396F8:
-    .4byte  sym_060A4CB8
+    .long  sym_060A4CB8
 .L_060396FC:
-    .4byte  sym_060A4CD9
+    .long  sym_060A4CD9
 .L_06039700:
-    .4byte  sym_060A4CE8
+    .long  sym_060A4CE8
 .L_06039704:
-    .4byte  sym_060A4C98
+    .long  sym_060A4C98
 .L_06039708:
-    .4byte  sym_060A4CC8
+    .long  sym_060A4CC8
 .L_0603970C:
     mov.w @r13, r2
     mov.l @r14, r1
@@ -395,22 +395,22 @@ scene_state_process:
 
     .global DAT_060397f4
 DAT_060397f4:
-    .2byte  0x00E1
+    .short  0x00E1
 
     .global DAT_060397f6
 DAT_060397f6:
-    .2byte  0x00E2
+    .short  0x00E2
 
     .global DAT_060397f8
 DAT_060397f8:
-    .2byte  0x00FF
-    .2byte  0xFFFF
+    .short  0x00FF
+    .short  0xFFFF
 .L_060397FC:
-    .4byte  sym_060A4CB4
+    .long  sym_060A4CB4
 .L_06039800:
-    .4byte  display_channel_iter
+    .long  display_channel_iter
 .L_06039804:
-    .4byte  sym_060A4CC4
+    .long  sym_060A4CC4
 
     .global smpc_data_manage
 smpc_data_manage:
@@ -424,7 +424,7 @@ smpc_data_manage:
     extu.b r4, r4
     mov r4, r0
     cmp/eq #0x1, r0
-    bt/s    .L_0603982E
+    bt.s    .L_0603982E
     mov #0x0, r13
     mov r4, r0
     cmp/eq #0x2, r0
@@ -497,25 +497,25 @@ smpc_data_manage:
     add #-0x1, r2
     bra     .L_060398D0
     mov.b r2, @r14
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_060398A8:
-    .4byte  sym_060A4CAA
+    .long  sym_060A4CAA
 .L_060398AC:
-    .4byte  sym_06063601
+    .long  sym_06063601
 .L_060398B0:
-    .4byte  sym_06063608
+    .long  sym_06063608
 .L_060398B4:
-    .4byte  0x20100061
+    .long  0x20100061
 .L_060398B8:
-    .4byte  sym_060A4CB8
+    .long  sym_060A4CB8
 .L_060398BC:
-    .4byte  sym_060A4CAB
+    .long  sym_060A4CAB
 .L_060398C0:
-    .4byte  sym_06063600
+    .long  sym_06063600
 .L_060398C4:
-    .4byte  sym_060A4CAC
+    .long  sym_060A4CAC
 .L_060398C8:
-    .4byte  sym_060A4CB4
+    .long  sym_060A4CB4
 .L_060398CC:
     extu.b r13, r2
     mov.b r2, @r14
@@ -586,30 +586,30 @@ master_menu_render:
     bra     .L_06039F26
     extu.b r0, r0
 .L_0603994A:
-    .2byte  0x00F0
+    .short  0x00F0
 .L_0603994C:
-    .2byte  0xFF0F
-    .2byte  0xFFFF
+    .short  0xFF0F
+    .short  0xFFFF
 .L_06039950:
-    .4byte  sym_060A4CE8
+    .long  sym_060A4CE8
 .L_06039954:
-    .4byte  sym_060A4CC4
+    .long  sym_060A4CC4
 .L_06039958:
-    .4byte  sym_060A4C98
+    .long  sym_060A4C98
 .L_0603995C:
-    .4byte  sym_060A4CC0
+    .long  sym_060A4CC0
 .L_06039960:
-    .4byte  sym_060A4CBC
+    .long  sym_060A4CBC
 .L_06039964:
-    .4byte  0x20100061
+    .long  0x20100061
 .L_06039968:
-    .4byte  sym_060A4CF4
+    .long  sym_060A4CF4
 .L_0603996C:
-    .4byte  sym_060A4D04
+    .long  sym_060A4D04
 .L_06039970:
-    .4byte  sym_060A4CEC
+    .long  sym_060A4CEC
 .L_06039974:
-    .4byte  sym_060A4CAA
+    .long  sym_060A4CAA
 .L_06039978:
     mov.l   .L_06039A5C, r2
     mov.l   .L_06039A60, r3
@@ -712,7 +712,7 @@ master_menu_render:
     extu.b r0, r0
     and #0xF, r0
     tst r0, r0
-    bf/s    .L_06039AD2
+    bf.s    .L_06039AD2
     mov.l r0, @r3
     mov.l @r14, r3
     mov.b @r3, r2
@@ -729,39 +729,39 @@ master_menu_render:
     bra     .L_06039A9E
     nop
 .L_06039A58:
-    .2byte  0xFF0F
+    .short  0xFF0F
 .L_06039A5A:
-    .2byte  0x00FF
+    .short  0x00FF
 .L_06039A5C:
-    .4byte  sym_060A4C9C
+    .long  sym_060A4C9C
 .L_06039A60:
-    .4byte  0x20100031
+    .long  0x20100031
 .L_06039A64:
-    .4byte  0x20100033
+    .long  0x20100033
 .L_06039A68:
-    .4byte  0x20100035
+    .long  0x20100035
 .L_06039A6C:
-    .4byte  0x20100037
+    .long  0x20100037
 .L_06039A70:
-    .4byte  0x20100039
+    .long  0x20100039
 .L_06039A74:
-    .4byte  0x2010003B
+    .long  0x2010003B
 .L_06039A78:
-    .4byte  0x2010003D
+    .long  0x2010003D
 .L_06039A7C:
-    .4byte  0x2010003F
+    .long  0x2010003F
 .L_06039A80:
-    .4byte  0x20100021
+    .long  0x20100021
 .L_06039A84:
-    .4byte  sym_060A4CA8
+    .long  sym_060A4CA8
 .L_06039A88:
-    .4byte  sym_060A4CD8
+    .long  sym_060A4CD8
 .L_06039A8C:
-    .4byte  sym_060A4CE8
+    .long  sym_060A4CE8
 .L_06039A90:
-    .4byte  sym_060A4CF8
+    .long  sym_060A4CF8
 .L_06039A94:
-    .4byte  sym_0603AB46
+    .long  sym_0603AB46
 .L_06039A98:
     mov.l   .L_06039B64, r3
     jsr @r3
@@ -875,20 +875,20 @@ master_menu_render:
     bra     .L_06039C1E
     nop
 .L_06039B60:
-    .2byte  0x00FF
-    .2byte  0xFFFF
+    .short  0x00FF
+    .short  0xFFFF
 .L_06039B64:
-    .4byte  sym_0603AB46
+    .long  sym_0603AB46
 .L_06039B68:
-    .4byte  sym_060A4CB4
+    .long  sym_060A4CB4
 .L_06039B6C:
-    .4byte  sym_060A4CAC
+    .long  sym_060A4CAC
 .L_06039B70:
-    .4byte  sym_060A4D0C
+    .long  sym_060A4D0C
 .L_06039B74:
-    .4byte  sym_060A4CFC
+    .long  sym_060A4CFC
 .L_06039B78:
-    .4byte  sym_060A4CF8
+    .long  sym_060A4CF8
 .L_06039B7C:
     mov.l @r14, r2
     mov.b @r2, r3
@@ -990,20 +990,20 @@ master_menu_render:
     bra     .L_06039EFE
     nop
 .L_06039C32:
-    .2byte  0x00E0
+    .short  0x00E0
 .L_06039C34:
-    .2byte  0x00E3
-    .2byte  0xFFFF
+    .short  0x00E3
+    .short  0xFFFF
 .L_06039C38:
-    .4byte  sym_060A4CFC
+    .long  sym_060A4CFC
 .L_06039C3C:
-    .4byte  sym_060A4D0D
+    .long  sym_060A4D0D
 .L_06039C40:
-    .4byte  sym_060A4CAE
+    .long  sym_060A4CAE
 .L_06039C44:
-    .4byte  sym_060A4D02
+    .long  sym_060A4D02
 .L_06039C48:
-    .4byte  sym_060A4D0E
+    .long  sym_060A4D0E
 .L_06039C4C:
     mov.l   .L_06039E30, r0
     mov.b @r0, r0
@@ -1261,35 +1261,35 @@ master_menu_render:
     bf      .L_06039E68
     bra     .L_06039EFE
     nop
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_06039E30:
-    .4byte  sym_060A4D0D
+    .long  sym_060A4D0D
 .L_06039E34:
-    .4byte  sym_060A4D0E
+    .long  sym_060A4D0E
 .L_06039E38:
-    .4byte  sym_060A4CAE
+    .long  sym_060A4CAE
 .L_06039E3C:
-    .4byte  sym_060A4D11
+    .long  sym_060A4D11
 .L_06039E40:
-    .4byte  sym_060A4D0F
+    .long  sym_060A4D0F
 .L_06039E44:
-    .4byte  sym_060A4D08
+    .long  sym_060A4D08
 .L_06039E48:
-    .4byte  sym_060A4D10
+    .long  sym_060A4D10
 .L_06039E4C:
-    .4byte  sym_060A4CFC
+    .long  sym_060A4CFC
 .L_06039E50:
-    .4byte  sym_060A4CCC
+    .long  sym_060A4CCC
 .L_06039E54:
-    .4byte  sym_060A4CD0
+    .long  sym_060A4CD0
 .L_06039E58:
-    .4byte  0x20100021
+    .long  0x20100021
 .L_06039E5C:
-    .4byte  sym_060A4CD4
+    .long  sym_060A4CD4
 .L_06039E60:
-    .4byte  sym_060A4CB4
+    .long  sym_060A4CB4
 .L_06039E64:
-    .4byte  sym_060A4CAC
+    .long  sym_060A4CAC
 .L_06039E68:
     mov.l   .L_06039FB0, r2
     mov.b @r2, r2
@@ -1474,29 +1474,29 @@ master_menu_render:
     rts
     mov.l @r15+, r14
 .L_06039FAE:
-    .2byte  0xFF0F
+    .short  0xFF0F
 .L_06039FB0:
-    .4byte  sym_060A4D11
+    .long  sym_060A4D11
 .L_06039FB4:
-    .4byte  sym_060A4CF8
+    .long  sym_060A4CF8
 .L_06039FB8:
-    .4byte  sym_060A4D0C
+    .long  sym_060A4D0C
 .L_06039FBC:
-    .4byte  sym_060A4D08
+    .long  sym_060A4D08
 .L_06039FC0:
-    .4byte  sym_060A4D0F
+    .long  sym_060A4D0F
 .L_06039FC4:
-    .4byte  sym_060A4CF0
+    .long  sym_060A4CF0
 .L_06039FC8:
-    .4byte  sym_060A4CA9
+    .long  sym_060A4CA9
 .L_06039FCC:
-    .4byte  0x20100001
-    .4byte  0xD30DD20E
-    .4byte  0x63316222
-    .4byte  0x633D3233
-    .4byte  0x8B02E201
-    .4byte  0xD30B2320
-    .4byte  0x000B0009
+    .long  0x20100001
+    .long  0xD30DD20E
+    .long  0x63316222
+    .long  0x633D3233
+    .long  0x8B02E201
+    .long  0xD30B2320
+    .long  0x000B0009
 .L_06039FE8:
     mov.l   .L_0603A014, r5
     mov.l   .L_0603A018, r3
@@ -1515,14 +1515,14 @@ master_menu_render:
 .L_0603A004:
     rts
     nop
-    .4byte  sym_060A4CAC
-    .4byte  sym_060A4CB4
+    .long  sym_060A4CAC
+    .long  sym_060A4CB4
 .L_0603A010:
-    .4byte  sym_060A4CF4
+    .long  sym_060A4CF4
 .L_0603A014:
-    .4byte  0x20100061
+    .long  0x20100061
 .L_0603A018:
-    .4byte  sym_060A4CEC
+    .long  sym_060A4CEC
 
     .global data_table_copy
 data_table_copy:
@@ -1589,21 +1589,21 @@ data_table_copy:
     rts
     mov.l @r15+, r14
 .L_0603A090:
-    .4byte  sym_060A4CEC
+    .long  sym_060A4CEC
 .L_0603A094:
-    .4byte  sym_060A4CD4
+    .long  sym_060A4CD4
 .L_0603A098:
-    .4byte  sym_060A4CC8
+    .long  sym_060A4CC8
 .L_0603A09C:
-    .4byte  sym_060A4CD0
+    .long  sym_060A4CD0
 .L_0603A0A0:
-    .4byte  sym_060A4CCC
+    .long  sym_060A4CCC
 .L_0603A0A4:
-    .4byte  sym_060A4CFC
+    .long  sym_060A4CFC
 .L_0603A0A8:
-    .4byte  sym_060A4D02
+    .long  sym_060A4D02
 .L_0603A0AC:
-    .4byte  sym_060A4CFD
+    .long  sym_060A4CFD
 
     .global game_logic_main
 game_logic_main:
@@ -1623,7 +1623,7 @@ game_logic_main:
     mov.b @r0, r0
     extu.b r0, r0
     cmp/eq #0x20, r0
-    bt/s    .L_0603A0D8
+    bt.s    .L_0603A0D8
     mov #0x20, r12
     bra     .L_0603A288
     nop
@@ -1736,22 +1736,22 @@ game_logic_main:
 
     .global DAT_0603a1a2
 DAT_0603a1a2:
-    .2byte  0x00FF
+    .short  0x00FF
 .L_0603A1A4:
-    .2byte  0x0080
-    .2byte  0xFFFF
+    .short  0x0080
+    .short  0xFFFF
 .L_0603A1A8:
-    .4byte  sym_060A4CAE
+    .long  sym_060A4CAE
 .L_0603A1AC:
-    .4byte  sym_060A4CB4
+    .long  sym_060A4CB4
 .L_0603A1B0:
-    .4byte  sym_060A4CC0
+    .long  sym_060A4CC0
 .L_0603A1B4:
-    .4byte  sym_060A4CCC
+    .long  sym_060A4CCC
 .L_0603A1B8:
-    .4byte  sym_060A4CD0
+    .long  sym_060A4CD0
 .L_0603A1BC:
-    .4byte  sym_060A4CFC
+    .long  sym_060A4CFC
 .L_0603A1C0:
     mov.l @r4, r3
     mov.w   DAT_0603a2ca, r2
@@ -1900,13 +1900,13 @@ DAT_0603a1a2:
 
     .global DAT_0603a2ca
 DAT_0603a2ca:
-    .2byte  0xFF7F
+    .short  0xFF7F
 .L_0603A2CC:
-    .4byte  sym_060A4D02
+    .long  sym_060A4D02
 .L_0603A2D0:
-    .4byte  sym_060A4CBC
+    .long  sym_060A4CBC
 .L_0603A2D4:
-    .4byte  sym_060A4CAF
+    .long  sym_060A4CAF
 .L_0603A2D8:
     mov.l @r7, r2
     mov.l @r6, r1
@@ -2161,7 +2161,7 @@ DAT_0603a2ca:
     extu.w r1, r1
     and r11, r1
     cmp/eq r11, r1
-    bf/s    .L_0603A4D6
+    bf.s    .L_0603A4D6
     extu.b r2, r2
     bra     .L_0603A4D8
     mov #0x1, r1
@@ -2192,7 +2192,7 @@ DAT_0603a2ca:
     extu.w r2, r2
     and r12, r2
     cmp/eq r12, r2
-    bf/s    .L_0603A510
+    bf.s    .L_0603A510
     extu.b r1, r1
     bra     .L_0603A512
     mov #0x1, r2
@@ -2454,35 +2454,35 @@ DAT_0603a2ca:
     rts
     mov.b r4, @r3
 .L_0603A6FA:
-    .2byte  0x00E1
+    .short  0x00E1
 .L_0603A6FC:
-    .2byte  0x00E2
+    .short  0x00E2
 
     .global DAT_0603a6fe
 DAT_0603a6fe:
-    .2byte  0x00FF
+    .short  0x00FF
 .L_0603A700:
-    .4byte  sym_060A4D0C
+    .long  sym_060A4D0C
 .L_0603A704:
-    .4byte  sym_060A4D0D
+    .long  sym_060A4D0D
 .L_0603A708:
-    .4byte  sym_060A4D0E
+    .long  sym_060A4D0E
 .L_0603A70C:
-    .4byte  sym_060A4D0F
+    .long  sym_060A4D0F
 .L_0603A710:
-    .4byte  sym_060A4D10
+    .long  sym_060A4D10
 .L_0603A714:
-    .4byte  sym_060A4D11
+    .long  sym_060A4D11
 .L_0603A718:
-    .4byte  sym_060A4CD8
+    .long  sym_060A4CD8
 .L_0603A71C:
-    .4byte  sym_060A4CB4
+    .long  sym_060A4CB4
 .L_0603A720:
-    .4byte  sym_060A4CF0
+    .long  sym_060A4CF0
 .L_0603A724:
-    .4byte  sym_060A4CF8
+    .long  sym_060A4CF8
 .L_0603A728:
-    .4byte  sym_060A4CA9
+    .long  sym_060A4CA9
 
     .global smpc_intback_send
 smpc_intback_send:
@@ -2548,17 +2548,17 @@ display_channel_iter:
     rts
     mov.l @r15+, r14
 .L_0603A79A:
-    .2byte  0x00FF
+    .short  0x00FF
 .L_0603A79C:
-    .4byte  0x20100063
+    .long  0x20100063
 .L_0603A7A0:
-    .4byte  sym_06063602
+    .long  sym_06063602
 .L_0603A7A4:
-    .4byte  0x20100001
+    .long  0x20100001
 .L_0603A7A8:
-    .4byte  sym_060A4CAC
+    .long  sym_060A4CAC
 .L_0603A7AC:
-    .4byte  sym_060A4CB4
+    .long  sym_060A4CB4
 
     .global vdp1_sprite_draw_main
 vdp1_sprite_draw_main:
@@ -2704,18 +2704,18 @@ vdp1_sprite_draw_main:
 
     .global DAT_0603a8bc
 DAT_0603a8bc:
-    .2byte  0x00FF
-    .2byte  0xFFFF
+    .short  0x00FF
+    .short  0xFFFF
 .L_0603A8C0:
-    .4byte  sym_060A4CAE
+    .long  sym_060A4CAE
 .L_0603A8C4:
-    .4byte  sym_060A4CB4
+    .long  sym_060A4CB4
 .L_0603A8C8:
-    .4byte  sym_060A4CC0
+    .long  sym_060A4CC0
 .L_0603A8CC:
-    .4byte  0x0000FFFF
+    .long  0x0000FFFF
 .L_0603A8D0:
-    .4byte  sym_060A4CAF
+    .long  sym_060A4CAF
 .L_0603A8D4:
     mov.l @r5, r2
     extu.w r6, r0
@@ -2939,11 +2939,11 @@ DAT_0603a8bc:
     rts
     mov.l @r15+, r14
 .L_0603AA7C:
-    .2byte  0x00E1
+    .short  0x00E1
 .L_0603AA7E:
-    .2byte  0x00E2
+    .short  0x00E2
 .L_0603AA80:
-    .2byte  0x00FF
+    .short  0x00FF
 
     .global menu_anim_system
 menu_anim_system:
@@ -3031,13 +3031,13 @@ menu_anim_system:
     bra     .L_0603AB42
     mov.b r5, @r2
 .L_0603AB12:
-    .2byte  0x00FF
+    .short  0x00FF
 .L_0603AB14:
-    .4byte  sym_060A4CAE
+    .long  sym_060A4CAE
 .L_0603AB18:
-    .4byte  sym_060A4CC8
+    .long  sym_060A4CC8
 .L_0603AB1C:
-    .4byte  sym_060A4CAF
+    .long  sym_060A4CAF
 .L_0603AB20:
     cmp/eq #0x0, r0
     bt      .L_0603AAAE
@@ -3134,19 +3134,19 @@ sym_0603AB46:
     bra     .L_0603AC12
     mov.b r0, @(2, r2)
 .L_0603ABC6:
-    .2byte  0x00E1
+    .short  0x00E1
 .L_0603ABC8:
-    .2byte  0x00E2
+    .short  0x00E2
 .L_0603ABCA:
-    .2byte  0x00FF
+    .short  0x00FF
 .L_0603ABCC:
-    .4byte  sym_060A4CB4
+    .long  sym_060A4CB4
 .L_0603ABD0:
-    .4byte  sym_060A4CC0
+    .long  sym_060A4CC0
 .L_0603ABD4:
-    .4byte  sym_060A4CAF
+    .long  sym_060A4CAF
 .L_0603ABD8:
-    .4byte  sym_060A4CAE
+    .long  sym_060A4CAE
 .L_0603ABDC:
     mov.l @r6, r2
     mov r2, r3
@@ -3183,12 +3183,12 @@ sym_0603AB46:
 
     .global DAT_0603ac16
 DAT_0603ac16:
-    .2byte  0x00E1
+    .short  0x00E1
 
     .global DAT_0603ac18
 DAT_0603ac18:
-    .2byte  0x00E2
+    .short  0x00E2
 
     .global DAT_0603ac1a
 DAT_0603ac1a:
-    .2byte  0x00FF
+    .short  0x00FF

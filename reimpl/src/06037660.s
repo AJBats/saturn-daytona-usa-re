@@ -38,26 +38,26 @@ vdp1_polygon_build:
 
     .global DAT_060376a4
 DAT_060376a4:
-    .2byte  0x7FFF
+    .short  0x7FFF
 
     .global DAT_060376a6
 DAT_060376a6:
-    .2byte  0x3F00
+    .short  0x3F00
 
     .global DAT_060376a8
 DAT_060376a8:
-    .2byte  0x4000
-    .2byte  0xFFFF
+    .short  0x4000
+    .short  0xFFFF
 .L_060376AC:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_060376B0:
-    .4byte  0x0000BFFF
+    .long  0x0000BFFF
 .L_060376B4:
-    .4byte  0xDA200000
+    .long  0xDA200000
 .L_060376B8:
-    .4byte  sym_060A3DB0
+    .long  sym_060A3DB0
 .L_060376BC:
-    .4byte  sym_060A3D88            /* VDP1 command list write pointer */
+    .long  sym_060A3D88            /* VDP1 command list write pointer */
 .L_060376C0:
     mov.b @r5, r4
     extu.b r4, r4
@@ -119,50 +119,50 @@ DAT_060376a8:
     or r11, r3
     mov r3, r0
     mov.w r0, @(8, r6)
-    .4byte  0x84536403
-    .4byte  0x644CE303
-    .4byte  0x2439D223
-    .4byte  0x85696303
-    .4byte  0x23296033
-    .4byte  0x8169644D
-    .4byte  0x85696303
-    .4byte  0x234B6033
-    .4byte  0x81698454
-    .4byte  0x6403644C
-    .4byte  0x604D4008
-    .4byte  0xC90C640D
-    .4byte  0xD31A6261
-    .4byte  0x22392621
-    .4byte  0x6361234B
-    .4byte  0x26318455
-    .4byte  0x6403644C
-    .4byte  0x604D4008
-    .4byte  0xD3156261
-    .4byte  0x40082239
-    .4byte  0xC9702621
-    .4byte  0x640D6361
-    .4byte  0x234B2631
-    .4byte  0x84566403
-    .4byte  0x644C604D
-    .4byte  0x4000C902
-    .4byte  0x640DD30E
-    .4byte  0x62612239
-    .4byte  0x26216361
-    .4byte  0x234B2631
-    .4byte  0xD20B856A
-    .4byte  0x63032329
-    .4byte  0x6033816A
-    .4byte  0x64637414
-    .4byte  0xE3002F31
-    .4byte  0x6B63A1A1
-    .4byte  0x7B18FFFF
+    .long  0x84536403
+    .long  0x644CE303
+    .long  0x2439D223
+    .long  0x85696303
+    .long  0x23296033
+    .long  0x8169644D
+    .long  0x85696303
+    .long  0x234B6033
+    .long  0x81698454
+    .long  0x6403644C
+    .long  0x604D4008
+    .long  0xC90C640D
+    .long  0xD31A6261
+    .long  0x22392621
+    .long  0x6361234B
+    .long  0x26318455
+    .long  0x6403644C
+    .long  0x604D4008
+    .long  0xD3156261
+    .long  0x40082239
+    .long  0xC9702621
+    .long  0x640D6361
+    .long  0x234B2631
+    .long  0x84566403
+    .long  0x644C604D
+    .long  0x4000C902
+    .long  0x640DD30E
+    .long  0x62612239
+    .long  0x26216361
+    .long  0x234B2631
+    .long  0xD20B856A
+    .long  0x63032329
+    .long  0x6033816A
+    .long  0x64637414
+    .long  0xE3002F31
+    .long  0x6B63A1A1
+    .long  0x7B18FFFF
 .L_060377CC:
-    .4byte  0x0000FFFE
-    .4byte  0x0000FFFC
-    .4byte  0x0000FFF3
-    .4byte  0x0000FF8F
-    .4byte  0x0000FFFD
-    .4byte  0x0000FFF0
+    .long  0x0000FFFE
+    .long  0x0000FFFC
+    .long  0x0000FFF3
+    .long  0x0000FF8F
+    .long  0x0000FFFD
+    .long  0x0000FFF0
 .L_060377E4:
     mov.l   .L_06037904, r2
     mov #0x20, r0
@@ -305,36 +305,36 @@ DAT_060376a8:
 
     .global DAT_060378f8
 DAT_060378f8:
-    .2byte  0x0202
+    .short  0x0202
 
     .global DAT_060378fa
 DAT_060378fa:
-    .2byte  0x0100
+    .short  0x0100
 
     .global DAT_060378fc
 DAT_060378fc:
-    .2byte  0x0C00
+    .short  0x0C00
 
     .global DAT_060378fe
 DAT_060378fe:
-    .2byte  0x3000
+    .short  0x3000
 .L_06037900:
-    .2byte  0x0200
-    .2byte  0xFFFF
+    .short  0x0200
+    .short  0xFFFF
 .L_06037904:
-    .4byte  0x0000FDFD
+    .long  0x0000FDFD
 .L_06037908:
-    .4byte  0x0000FEFF
+    .long  0x0000FEFF
 .L_0603790C:
-    .4byte  0x0000FFF3
+    .long  0x0000FFF3
 .L_06037910:
-    .4byte  0x0000F3FF
+    .long  0x0000F3FF
 .L_06037914:
-    .4byte  0x0000CFFF
+    .long  0x0000CFFF
 .L_06037918:
-    .4byte  0x0000FDFF
+    .long  0x0000FDFF
 .L_0603791C:
-    .4byte  0x0000FF0F
+    .long  0x0000FF0F
 .L_06037920:
     mov.b @r5, r4
     extu.b r4, r4
@@ -451,17 +451,17 @@ DAT_060378fe:
     mov r6, r11
     bra     .L_06037B0C
     add #0x20, r11
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_06037A08:
-    .4byte  0x0000FFFB
+    .long  0x0000FFFB
 .L_06037A0C:
-    .4byte  0x0000FFFE
+    .long  0x0000FFFE
 .L_06037A10:
-    .4byte  0x0000FFCF
+    .long  0x0000FFCF
 .L_06037A14:
-    .4byte  0x0000FFFD
+    .long  0x0000FFFD
 .L_06037A18:
-    .4byte  0x0000F0FF
+    .long  0x0000F0FF
 .L_06037A1C:
     mov.b @r5, r4
     extu.b r4, r4
@@ -589,16 +589,16 @@ DAT_060378fe:
 
     .global DAT_06037b10
 DAT_06037b10:
-    .2byte  0x0FFF
-    .2byte  0xFFFF
+    .short  0x0FFF
+    .short  0xFFFF
 .L_06037B14:
-    .4byte  0x0000FFF7
+    .long  0x0000FFF7
 .L_06037B18:
-    .4byte  0x0000FFEF
+    .long  0x0000FFEF
 .L_06037B1C:
-    .4byte  0x0000FF3F
+    .long  0x0000FF3F
 .L_06037B20:
-    .4byte  0x0000FFDF
+    .long  0x0000FFDF
 .L_06037B24:
     mov.b @r5, r4
     extu.b r4, r4
@@ -772,7 +772,7 @@ DAT_06037b10:
     mov.b @r0, r0
     extu.b r0, r0
     cmp/eq #0x1, r0
-    bf/s    .L_06037CE2
+    bf.s    .L_06037CE2
     mov #0x8, r13
     mov.l   .L_06037CBC, r0
     mov.b @r0, r0
@@ -784,44 +784,44 @@ DAT_06037b10:
 
     .global DAT_06037c8e
 DAT_06037c8e:
-    .2byte  0x0100
+    .short  0x0100
 
     .global DAT_06037c90
 DAT_06037c90:
-    .2byte  0x0300
+    .short  0x0300
 
     .global DAT_06037c92
 DAT_06037c92:
-    .2byte  0x0C00
+    .short  0x0C00
 
     .global DAT_06037c94
 DAT_06037c94:
-    .2byte  0x0400
+    .short  0x0400
 
     .global DAT_06037c96
 DAT_06037c96:
-    .2byte  0x7000
+    .short  0x7000
 .L_06037C98:
-    .2byte  0x0200
-    .2byte  0xFFFF
+    .short  0x0200
+    .short  0xFFFF
 .L_06037C9C:
-    .4byte  0x0000FFEF
+    .long  0x0000FFEF
 .L_06037CA0:
-    .4byte  0x0000FEFF
+    .long  0x0000FEFF
 .L_06037CA4:
-    .4byte  0x0000FCFF
+    .long  0x0000FCFF
 .L_06037CA8:
-    .4byte  0x0000F3FF
+    .long  0x0000F3FF
 .L_06037CAC:
-    .4byte  0x0000FBFF
+    .long  0x0000FBFF
 .L_06037CB0:
-    .4byte  0x00008FFF
+    .long  0x00008FFF
 .L_06037CB4:
-    .4byte  0x0000FDFF
+    .long  0x0000FDFF
 .L_06037CB8:
-    .4byte  sym_060A4C58
+    .long  sym_060A4C58
 .L_06037CBC:
-    .4byte  sym_060A4C59
+    .long  sym_060A4C59
 .L_06037CC0:
     mov.l   .L_06037D2C, r2
     mov.w @(22, r6), r0
@@ -881,13 +881,13 @@ DAT_06037c96:
     bra     .L_06037E88
     nop
 .L_06037D2C:
-    .4byte  0x0000FFF0
+    .long  0x0000FFF0
 .L_06037D30:
-    .4byte  sym_060A4C58
+    .long  sym_060A4C58
 .L_06037D34:
-    .4byte  sym_060A4C59
+    .long  sym_060A4C59
 .L_06037D38:
-    .4byte  0x0000FF0F
+    .long  0x0000FF0F
 .L_06037D3C:
     mov.l   .L_06037E38, r0
     mov.b @r0, r0
@@ -1019,21 +1019,21 @@ DAT_06037c96:
     bra     .L_06037E88
     add #0x38, r11
 .L_06037E38:
-    .4byte  sym_060A4C58
+    .long  sym_060A4C58
 .L_06037E3C:
-    .4byte  sym_060A4C59
+    .long  sym_060A4C59
 .L_06037E40:
-    .4byte  0x0000FFDF
+    .long  0x0000FFDF
 .L_06037E44:
-    .4byte  0x0000FFFE
+    .long  0x0000FFFE
 .L_06037E48:
-    .4byte  0x0000FFFC
+    .long  0x0000FFFC
 .L_06037E4C:
-    .4byte  0x0000FF8F
+    .long  0x0000FF8F
 .L_06037E50:
-    .4byte  0x0000FFFD
+    .long  0x0000FFFD
 .L_06037E54:
-    .4byte  0x0000FF0F
+    .long  0x0000FF0F
 .L_06037E58:
     cmp/eq #0x1, r0
     bf      .L_06037E60
@@ -1116,13 +1116,13 @@ DAT_06037c96:
     bra     .L_06037EF6
     nop
 .L_06037EE6:
-    .2byte  0x2000
+    .short  0x2000
 .L_06037EE8:
-    .2byte  0x0800
+    .short  0x0800
 .L_06037EEA:
-    .2byte  0x4000
+    .short  0x4000
 .L_06037EEC:
-    .4byte  sym_06035280
+    .long  sym_06035280
 .L_06037EF0:
     mov.w   .L_06037FF4, r2
     mov r2, r0
@@ -1224,7 +1224,7 @@ DAT_06037c96:
     mov.w r2, @r4
     extu.w r13, r3
     cmp/pl r3
-    bf/s    .L_0603801E
+    bf.s    .L_0603801E
     mov #0x0, r4
 .L_06037FB4:
     extu.w r4, r11
@@ -1260,13 +1260,13 @@ DAT_06037c96:
     bra     .L_06038000
     nop
 .L_06037FF4:
-    .2byte  0x1000
+    .short  0x1000
 .L_06037FF6:
-    .2byte  0x01C0
+    .short  0x01C0
 .L_06037FF8:
-    .4byte  input_proc_complete
+    .long  input_proc_complete
 .L_06037FFC:
-    .4byte  sym_06035280
+    .long  sym_06035280
 .L_06038000:
     and r14, r0
     add #0x1, r4
@@ -1281,7 +1281,7 @@ DAT_06037c96:
     or r2, r1
     extu.w r13, r2
     cmp/ge r2, r3
-    bf/s    .L_06037FB4
+    bf.s    .L_06037FB4
     mov.w r1, @r11
 .L_0603801E:
     mov.l   .L_06038040, r4
@@ -1303,7 +1303,7 @@ DAT_06037c96:
     rts
     mov.l @r15+, r14
 .L_06038040:
-    .4byte  sym_060635AC            /* VDP1 command list dirty flag */
+    .long  sym_060635AC            /* VDP1 command list dirty flag */
 
     .global sym_06038044
 sym_06038044:
@@ -1327,4 +1327,4 @@ sym_06038044:
     rts
     nop
 .L_06038068:
-    .4byte  sym_060A3D88            /* VDP1 command list base pointer */
+    .long  sym_060A3D88            /* VDP1 command list base pointer */

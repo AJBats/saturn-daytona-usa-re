@@ -26,7 +26,7 @@ FUN_06006F3C:
     mov.w @r0, r0
     extu.w r0, r0
     tst r0, r0
-    bt/s    .L_06006F76
+    bt.s    .L_06006F76
     mov #0x0, r12
     bra     .L_060071F0
     nop
@@ -84,38 +84,38 @@ FUN_06006F3C:
     nop
     bra     .L_06007058
     mov.l r12, @r11
-    .2byte  0xFFFF
+    .short  0xFFFF
 
 .L_06006FDC:
-    .4byte  display_channel_b
+    .long  display_channel_b
 .L_06006FE0:
-    .4byte  display_channel_a
+    .long  display_channel_a
 .L_06006FE4:
-    .4byte  scene_data_dispatch
+    .long  scene_data_dispatch
 .L_06006FE8:
-    .4byte  sym_060635C4
+    .long  sym_060635C4
 .L_06006FEC:
-    .4byte  sym_060635C0
+    .long  sym_060635C0
 .L_06006FF0:
-    .4byte  sym_0605B6D8
+    .long  sym_0605B6D8
 .L_06006FF4:
-    .4byte  sym_0607864C
+    .long  sym_0607864C
 .L_06006FF8:
-    .4byte  sym_06059F54
+    .long  sym_06059F54
 .L_06006FFC:
-    .4byte  sym_0605A00C
+    .long  sym_0605A00C
 .L_06007000:
-    .4byte  sym_06063F58
+    .long  sym_06063F58
 .L_06007004:
-    .4byte  sym_060635B4
+    .long  sym_060635B4
 .L_06007008:
-    .4byte  0x25D00002
+    .long  0x25D00002
 .L_0600700C:
-    .4byte  sym_060A4C92
+    .long  sym_060A4C92
 .L_06007010:
-    .4byte  sym_060A4C90
+    .long  sym_060A4C90
 .L_06007014:
-    .4byte  0x25D00000
+    .long  0x25D00000
 
 .L_06007018:
     mov.l @r13, r2
@@ -240,49 +240,49 @@ FUN_06006F3C:
     nop
 
 .L_060070EA:
-    .2byte  0x0640
+    .short  0x0640
 .L_060070EC:
-    .2byte  0x0E00
-    .2byte  0xFFFF
+    .short  0x0E00
+    .short  0xFFFF
 
 .L_060070F0:
-    .4byte  sym_060635B8
+    .long  sym_060635B8
 .L_060070F4:
-    .4byte  sym_060635BC
+    .long  sym_060635BC
 .L_060070F8:
-    .4byte  sym_06063F58
+    .long  sym_06063F58
 .L_060070FC:
-    .4byte  sym_06059F3C
+    .long  sym_06059F3C
 .L_06007100:
-    .4byte  sym_06059F38
+    .long  sym_06059F38
 .L_06007104:
-    .4byte  sym_0606B178
+    .long  sym_0606B178
 .L_06007108:
-    .4byte  sym_06059F34
+    .long  sym_06059F34
 .L_0600710C:
-    .4byte  0x20000000
+    .long  0x20000000
 .L_06007110:
-    .4byte  sym_06063F60
+    .long  sym_06063F60
 .L_06007114:
-    .4byte  dma_transfer
+    .long  dma_transfer
 .L_06007118:
-    .4byte  sym_0606129C
+    .long  sym_0606129C
 .L_0600711C:
-    .4byte  sym_060612B4
+    .long  sym_060612B4
 .L_06007120:
-    .4byte  sym_0605B700
+    .long  sym_0605B700
 .L_06007124:
-    .4byte  sym_0605B6FC
+    .long  sym_0605B6FC
 .L_06007128:
-    .4byte  sym_0605B708
+    .long  sym_0605B708
 .L_0600712C:
-    .4byte  sym_0605B704
+    .long  sym_0605B704
 .L_06007130:
-    .4byte  sym_0605B710
+    .long  sym_0605B710
 .L_06007134:
-    .4byte  sym_0605B70C
+    .long  sym_0605B70C
 .L_06007138:
-    .4byte  sym_0605B718
+    .long  sym_0605B718
 
 .L_0600713C:
     mov.l @r6, r6
@@ -412,50 +412,50 @@ FUN_06006F3C:
     mov.l @r15+, r14
 
 .L_06007208:
-    .4byte  sym_0605B714
+    .long  sym_0605B714
 .L_0600720C:
-    .4byte  0x00010000
+    .long  0x00010000
 .L_06007210:
-    .4byte  sym_0605B6E0
+    .long  sym_0605B6E0
 .L_06007214:
-    .4byte  sym_0605B6DC
+    .long  sym_0605B6DC
 .L_06007218:
-    .4byte  0x00020000
+    .long  0x00020000
 .L_0600721C:
-    .4byte  sym_0605B6E8
+    .long  sym_0605B6E8
 .L_06007220:
-    .4byte  sym_0605B6E4
+    .long  sym_0605B6E4
 .L_06007224:
-    .4byte  0x00040000
+    .long  0x00040000
 .L_06007228:
-    .4byte  sym_0605B6F0
+    .long  sym_0605B6F0
 .L_0600722C:
-    .4byte  sym_0605B6EC
+    .long  sym_0605B6EC
 .L_06007230:
-    .4byte  0x00080000
+    .long  0x00080000
 .L_06007234:
-    .4byte  sym_0605B6F8
+    .long  sym_0605B6F8
 .L_06007238:
-    .4byte  sym_0605B6F4
+    .long  sym_0605B6F4
 .L_0600723C:
-    .4byte  0x80000000
+    .long  0x80000000
 .L_06007240:
-    .4byte  sym_060149E0
+    .long  sym_060149E0
 .L_06007244:
-    .4byte  0x40000000
+    .long  0x40000000
 .L_06007248:
-    .4byte  sym_060149CC
+    .long  sym_060149CC
 .L_0600724C:
-    .4byte  0x00100000
+    .long  0x00100000
 .L_06007250:
-    .4byte  display_channels_load
+    .long  display_channels_load
 .L_06007254:
-    .4byte  0x04000000
+    .long  0x04000000
 .L_06007258:
-    .4byte  obj_collision_update
+    .long  obj_collision_update
 .L_0600725C:
-    .4byte  0x08000000
+    .long  0x08000000
 .L_06007260:
-    .4byte  sym_06033354
+    .long  sym_06033354
 .L_06007264:
-    .4byte  sym_06059F54
+    .long  sym_06059F54

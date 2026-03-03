@@ -10,21 +10,21 @@ sound_init_sequence:
     mov.l   .L_pool_06012E48, r4
     .byte   0xAF, 0x11    /* bra 0x06012C3C (external) */
     mov.l @r15+, r14
-    .2byte  0xFFFF
-    .4byte  0x00200000
-    .4byte  0x00240000
-    .4byte  sym_0604490C
-    .4byte  sym_0604491C
-    .4byte  sym_06044928
-    .4byte  sym_06044938
-    .4byte  sym_06044944
-    .4byte  sym_06044954
-    .4byte  0x002A0000
-    .4byte  sym_06044960
+    .short  0xFFFF
+    .long  0x00200000
+    .long  0x00240000
+    .long  sym_0604490C
+    .long  sym_0604491C
+    .long  sym_06044928
+    .long  sym_06044938
+    .long  sym_06044944
+    .long  sym_06044954
+    .long  0x002A0000
+    .long  sym_06044960
 .L_pool_06012E44:
-    .4byte  0x002A8000
+    .long  0x002A8000
 .L_pool_06012E48:
-    .4byte  sym_0604496C
+    .long  sym_0604496C
 .L_06012E4C:
     mov r4, r0
     cmp/eq #0x2, r0

@@ -15,7 +15,7 @@ vblank_dma_chain:
     add #-0x54, r15
     mov.l @r14, r0
     tst r0, r0
-    bf/s    .L_0603F5A6
+    bf.s    .L_0603F5A6
     mov r10, r8
     bra     .L_0603F838
     mov.b r10, @r13
@@ -29,8 +29,8 @@ vblank_dma_chain:
     bf      .L_0603F5C0
     bra     .L_0603F838
     nop
-    .4byte  0x0800FFFF
-    .4byte  cmd_multi_validate
+    .long  0x0800FFFF
+    .long  cmd_multi_validate
 .L_0603F5C0:
     mov r14, r4
     mov #0x1, r6
@@ -111,7 +111,7 @@ vblank_dma_chain:
     mov.b @r15, r0
     extu.b r0, r0
     cmp/eq #0x3B, r0
-    bf/s    .L_0603F660
+    bf.s    .L_0603F660
     add #0x1, r12
     bra     .L_0603F68A
     nop
@@ -122,7 +122,7 @@ vblank_dma_chain:
     mov.b @r15, r0
     extu.b r0, r0
     cmp/eq #0x2E, r0
-    bf/s    .L_0603F676
+    bf.s    .L_0603F676
     add #0x1, r11
     mov #0x50, r0
     bra     .L_0603F68A
@@ -137,7 +137,7 @@ vblank_dma_chain:
 
     .global DAT_0603f682
 DAT_0603f682:
-    .2byte  0x0096
+    .short  0x0096
 .L_0603F684:
     mov r5, r2
 .L_0603F686:
@@ -182,7 +182,7 @@ DAT_0603f682:
     mov.b @r15, r0
     extu.b r0, r0
     cmp/eq #0x2E, r0
-    bf/s    .L_0603F6E0
+    bf.s    .L_0603F6E0
     add #0x1, r12
     mov r11, r2
     add #0x1, r11
@@ -212,7 +212,7 @@ DAT_0603f682:
     mov.b @r15, r0
     extu.b r0, r0
     cmp/eq #0x3B, r0
-    bf/s    .L_0603F720
+    bf.s    .L_0603F720
     add #0x1, r12
     bra     .L_0603F716
     nop
@@ -354,11 +354,11 @@ DAT_0603f682:
     bra     .L_0603F82E
     nop
 .L_pool_0603F804:
-    .4byte  sym_06059CB8
+    .long  sym_06059CB8
 .L_pool_0603F808:
-    .4byte  sym_06035FEC
+    .long  sym_06035FEC
 .L_pool_0603F80C:
-    .4byte  sym_06059CBC
+    .long  sym_06059CBC
 .L_0603F810:
     mov #0x2C, r0
     mov.b @(r0, r15), r0
@@ -394,38 +394,38 @@ DAT_0603f682:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .4byte  0x5351E01D
-    .4byte  0x24325252
-    .4byte  0x1421005C
-    .4byte  0x804A8556
-    .4byte  0xD3156603
-    .4byte  0x666D2369
-    .4byte  0x23388901
-    .4byte  0xA001E310
-    .4byte  0xE300921D
-    .4byte  0x22692228
-    .4byte  0x8901A001
-    .4byte  0xE108E100
-    .4byte  0x92172269
-    .4byte  0x22288D02
-    .4byte  0x331CA001
-    .4byte  0xE104E100
-    .4byte  0x92102269
-    .4byte  0x22288D02
-    .4byte  0x331CA001
-    .4byte  0xE102E100
-    .4byte  0x331C603C
-    .4byte  0x804B845E
-    .4byte  0x8048845F
-    .4byte  0x000B8049
-    .2byte  0x0800
+    .long  0x5351E01D
+    .long  0x24325252
+    .long  0x1421005C
+    .long  0x804A8556
+    .long  0xD3156603
+    .long  0x666D2369
+    .long  0x23388901
+    .long  0xA001E310
+    .long  0xE300921D
+    .long  0x22692228
+    .long  0x8901A001
+    .long  0xE108E100
+    .long  0x92172269
+    .long  0x22288D02
+    .long  0x331CA001
+    .long  0xE104E100
+    .long  0x92102269
+    .long  0x22288D02
+    .long  0x331CA001
+    .long  0xE102E100
+    .long  0x331C603C
+    .long  0x804B845E
+    .long  0x8048845F
+    .long  0x000B8049
+    .short  0x0800
 
     .global DAT_0603f8ae
 DAT_0603f8ae:
-    .2byte  0x1000
-    .4byte  0x2000FFFF
+    .short  0x1000
+    .long  0x2000FFFF
 .L_0603F8B4:
-    .4byte  0x00008000
+    .long  0x00008000
 
     .global sym_0603F8B8
 sym_0603F8B8:
@@ -440,15 +440,15 @@ sym_0603F8B8:
     mov.l r3, @(20, r4)
     rts
     mov r4, r0
-    .2byte  0x7FFC
-    .4byte  0x2F426043
-    .4byte  0x50016442
-    .4byte  0x402B7F04
-    .4byte  0x7FFC2F42
-    .4byte  0x60435001
-    .4byte  0xE600D505
-    .4byte  0x6442402B
-    .2byte  0x7F04
+    .short  0x7FFC
+    .long  0x2F426043
+    .long  0x50016442
+    .long  0x402B7F04
+    .long  0x7FFC2F42
+    .long  0x60435001
+    .long  0xE600D505
+    .long  0x6442402B
+    .short  0x7F04
 
     .global sym_0603F8EE
 sym_0603F8EE:
@@ -459,7 +459,7 @@ sym_0603F8EE:
     mov.l @r4, r4
     jmp @r0
     add #0x4, r15
-    .4byte  0x0000FFFF
+    .long  0x0000FFFF
 
     .global sym_0603F900
 sym_0603F900:
@@ -490,8 +490,8 @@ sym_0603F91C:
     mov.l @r4, r4
     jmp @r3
     add #0x4, r15
-    .2byte  0x0000
-    .4byte  0x14586362
-    .4byte  0x14395261
-    .4byte  0x142A5362
-    .4byte  0x000B143B
+    .short  0x0000
+    .long  0x14586362
+    .long  0x14395261
+    .long  0x142A5362
+    .long  0x000B143B

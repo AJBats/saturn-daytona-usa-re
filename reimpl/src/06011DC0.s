@@ -86,16 +86,16 @@ post_sprite_cleanup:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_pool_06011E64:
-    .4byte  sym_0605AAA0
+    .long  sym_0605AAA0
 .L_pool_06011E68:
-    .4byte  sym_0605A008
+    .long  sym_0605A008
 .L_pool_06011E6C:
-    .4byte  sym_060786CC
+    .long  sym_060786CC
 .L_pool_06011E70:
-    .4byte  sym_060785FC
+    .long  sym_060785FC
 .L_pool_06011E74:
-    .4byte  sym_060280F8
+    .long  sym_060280F8
 .L_pool_06011E78:
-    .4byte  sym_060280C4
+    .long  sym_060280C4

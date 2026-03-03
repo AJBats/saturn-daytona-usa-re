@@ -132,68 +132,68 @@ vdp1_color_setup:
     .global DAT_0602c9cc
 .L_0602C9CC:
 DAT_0602c9cc:
-    .2byte  0x0040
+    .short  0x0040
 
     .global DAT_0602c9ce
 .L_0602C9CE:
 DAT_0602c9ce:
-    .2byte  0x005C
+    .short  0x005C
 
     .global DAT_0602c9d0
 .L_0602C9D0:
 DAT_0602c9d0:
-    .2byte  0x0060
+    .short  0x0060
 
     .global DAT_0602c9d2
 .L_0602C9D2:
 DAT_0602c9d2:
-    .2byte  0x0064
+    .short  0x0064
 
     .global DAT_0602c9d4
 .L_0602C9D4:
 DAT_0602c9d4:
-    .2byte  0x00D0
+    .short  0x00D0
 
     .global DAT_0602c9d6
 .L_0602C9D6:
 DAT_0602c9d6:
-    .2byte  0x1000
+    .short  0x1000
 
     .global DAT_0602c9d8
 .L_0602C9D8:
 DAT_0602c9d8:
-    .2byte  0x016C
+    .short  0x016C
 .L_0602C9DA:
-    .2byte  0x0E00
+    .short  0x0E00
 
     .global DAT_0602c9dc
 .L_0602C9DC:
 DAT_0602c9dc:
-    .2byte  0x00D4
+    .short  0x00D4
 
     .global DAT_0602c9de
 .L_0602C9DE:
 DAT_0602c9de:
-    .2byte  0x0170
+    .short  0x0170
 .L_0602C9E0:
-    .2byte  0x0500
+    .short  0x0500
 
     .global DAT_0602c9e2
 .L_0602C9E2:
 DAT_0602c9e2:
-    .2byte  0x0128
+    .short  0x0128
 .L_0602C9E4:
-    .2byte  0x016A
+    .short  0x016A
 
     .global DAT_0602c9e6
 .L_0602C9E6:
 DAT_0602c9e6:
-    .2byte  0x0144
+    .short  0x0144
 .L_0602C9E8:
-    .2byte  0x011C
-    .2byte  0x0000
+    .short  0x011C
+    .short  0x0000
 .L_0602C9EC:
-    .4byte  sym_0602ECCC
+    .long  sym_0602ECCC
 .L_0602C9F0:
     cmp/ge r5, r3
     bt      .L_0602C9F6
@@ -271,21 +271,21 @@ DAT_0602c9e6:
     .global DAT_0602ca72
 .L_0602CA72:
 DAT_0602ca72:
-    .2byte  0x0168
+    .short  0x0168
 
     .global DAT_0602ca74
 .L_0602CA74:
 DAT_0602ca74:
-    .2byte  0x0144
+    .short  0x0144
 
     .global DAT_0602ca76
 .L_0602CA76:
 DAT_0602ca76:
-    .2byte  0x00F4
+    .short  0x00F4
 .L_0602CA78:
-    .2byte  0x011C
-    .2byte  0x0000
+    .short  0x011C
+    .short  0x0000
 .L_0602CA7C:
-    .4byte  0x00011999
+    .long  0x00011999
 .L_0602CA80:
-    .4byte  0x09D80000
+    .long  0x09D80000

@@ -16,7 +16,7 @@ speed_tacho_display:
     add #-0x18, r8
     mov.w @(16, r8), r0
     mov #0xC, r3
-    mulu.w r0, r3
+    mulu r0, r3
     mov.w   DAT_06031e30, r12
     mov.l   .L_pool_06031E3C, r3
     sts macl, r7
@@ -29,14 +29,14 @@ speed_tacho_display:
 
     .global DAT_06031e30
 DAT_06031e30:
-    .2byte  0xFF00
-    .2byte  0x0000
+    .short  0xFF00
+    .short  0x0000
 .L_pool_06031E34:
-    .4byte  sym_06032128
+    .long  sym_06032128
 .L_pool_06031E38:
-    .4byte  sym_06032108
+    .long  sym_06032108
 .L_pool_06031E3C:
-    .4byte  sym_060961A8
+    .long  sym_060961A8
 .L_06031E40:
     mov.w   .L_wpool_06031EA8, r0
     mov.l r0, @(16, r12)
@@ -91,12 +91,12 @@ DAT_06031e30:
     bra     .L_060320BE
     nop
 .L_wpool_06031EA8:
-    .2byte  0x00A0
-    .2byte  0x0000
+    .short  0x00A0
+    .short  0x0000
 .L_pool_06031EAC:
-    .4byte  sym_06032138
+    .long  sym_06032138
 .L_pool_06031EB0:
-    .4byte  sym_0608A52C
+    .long  sym_0608A52C
 .L_06031EB4:
     mov r11, r5
     mov.l @(4, r7), r2
@@ -104,7 +104,7 @@ DAT_06031e30:
     mov.l @(28, r12), r4
     mov.w @(18, r8), r0
     mov #0xC, r3
-    mulu.w r0, r3
+    mulu r0, r3
     mov.l   .L_pool_06031EF0, r3
     sts macl, r7
     add r3, r7
@@ -130,9 +130,9 @@ DAT_06031e30:
 
     .global DAT_06031eee
 DAT_06031eee:
-    .2byte  0x00A0
+    .short  0x00A0
 .L_pool_06031EF0:
-    .4byte  sym_060961A8
+    .long  sym_060961A8
 .L_06031EF4:
     mov.l r3, @(4, r13)
     add #0x8, r5
@@ -141,7 +141,7 @@ DAT_06031eee:
     mov.l @(28, r12), r4
     mov.w @(20, r8), r0
     mov #0xC, r3
-    mulu.w r0, r3
+    mulu r0, r3
     mov.l   .L_pool_06031F34, r3
     sts macl, r7
     add r3, r7
@@ -165,10 +165,10 @@ DAT_06031eee:
     bra     .L_060320BE
     nop
 .L_wpool_06031F30:
-    .2byte  0x00A0
-    .2byte  0x0000
+    .short  0x00A0
+    .short  0x0000
 .L_pool_06031F34:
-    .4byte  sym_060961A8
+    .long  sym_060961A8
 .L_06031F38:
     mov.l r3, @(8, r13)
     add #0x8, r5
@@ -177,7 +177,7 @@ DAT_06031eee:
     mov.l @(28, r12), r4
     mov.w @(22, r8), r0
     mov #0xC, r3
-    mulu.w r0, r3
+    mulu r0, r3
     mov.l   .L_pool_06031F78, r3
     sts macl, r7
     add r3, r7
@@ -201,10 +201,10 @@ DAT_06031eee:
     bra     .L_060320BE
     nop
 .L_wpool_06031F74:
-    .2byte  0x00A0
-    .2byte  0x0000
+    .short  0x00A0
+    .short  0x0000
 .L_pool_06031F78:
-    .4byte  sym_060961A8
+    .long  sym_060961A8
 .L_06031F7C:
     mov.l r3, @(12, r13)
     add #0x8, r5
@@ -243,12 +243,12 @@ DAT_06031eee:
     bra     .L_060320BE
     nop
 .L_wpool_06031FC4:
-    .2byte  0xFF50
-    .2byte  0x0000
+    .short  0xFF50
+    .short  0x0000
 .L_pool_06031FC8:
-    .4byte  sym_060620D4
+    .long  sym_060620D4
 .L_pool_06031FCC:
-    .4byte  sym_0608AC20
+    .long  sym_0608AC20
 .L_06031FD0:
     mov.w   .L_wpool_06032048, r12
     cmp/gt r0, r12
@@ -314,14 +314,14 @@ DAT_06031eee:
     jmp @r0
     mov.l @(12, r13), r6
 .L_wpool_06032048:
-    .2byte  0x00B0
+    .short  0x00B0
 .L_wpool_0603204A:
-    .2byte  0xFF81
+    .short  0xFF81
 .L_wpool_0603204C:
-    .2byte  0x0051
-    .2byte  0x0000
+    .short  0x0051
+    .short  0x0000
 .L_pool_06032050:
-    .4byte  sym_06032144
+    .long  sym_06032144
 
     .global loc_06032054
 loc_06032054:
@@ -406,13 +406,13 @@ loc_06032090:
     bt      .L_060320D4
     bra     .L_06031E16
     nop
-    .2byte  0x0000
+    .short  0x0000
 .L_pool_060320C8:
-    .4byte  0x00400000
+    .long  0x00400000
 .L_pool_060320CC:
-    .4byte  sym_060620D4
+    .long  sym_060620D4
 .L_pool_060320D0:
-    .4byte  sym_0606A4F8
+    .long  sym_0606A4F8
 .L_060320D4:
     lds.l @r15+, pr
     mov.l @r15+, r14
@@ -441,15 +441,15 @@ loc_06032090:
 
     .global DAT_06032102
 DAT_06032102:
-    .2byte  0x0190
+    .short  0x0190
 
     .global DAT_06032104
 DAT_06032104:
-    .2byte  0xFE70
+    .short  0xFE70
 
     .global DAT_06032106
 DAT_06032106:
-    .2byte  0x00C8
+    .short  0x00C8
 
     .global sym_06032108
 sym_06032108:
@@ -492,11 +492,11 @@ sym_06032138:
 
     .global sym_06032144
 sym_06032144:
-    .4byte  loc_06032054
-    .4byte  loc_0603205E
-    .4byte  loc_06032074
-    .4byte  loc_0603208A
-    .4byte  loc_06032090
+    .long  loc_06032054
+    .long  loc_0603205E
+    .long  loc_06032074
+    .long  loc_0603208A
+    .long  loc_06032090
 
     .global sym_06032158
 sym_06032158:
@@ -545,11 +545,11 @@ sym_06032158:
     mov.l r0, @r3
     mov.l r1, @(4, r3)
     add #-0x24, r6
-    bf/s    .L_06032164
+    bf.s    .L_06032164
     add #0xC, r3
     rts
     add #0x8, r15
 .L_pool_060321B8:
-    .4byte  sym_0608A52C
+    .long  sym_0608A52C
 .L_pool_060321BC:
-    .4byte  sym_060961A8
+    .long  sym_060961A8

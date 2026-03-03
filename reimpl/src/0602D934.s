@@ -14,11 +14,11 @@ vtx_transform_full:
     add r1, r5
     bra     .L_0602D95E
     nop
-    .2byte  0x024C
-    .4byte  0x0000000F
-    .4byte  sym_0602ECCC
+    .short  0x024C
+    .long  0x0000000F
+    .long  sym_0602ECCC
 .L_0602D958:
-    .4byte  0x00000300
+    .long  0x00000300
 .L_0602D95C:
     sub r1, r5
 .L_0602D95E:
@@ -81,22 +81,22 @@ vtx_transform_full:
     rts
     nop
 .L_0602D9D0:
-    .2byte  0x0248
+    .short  0x0248
 .L_0602D9D2:
-    .2byte  0x0250
+    .short  0x0250
 .L_0602D9D4:
-    .4byte  sym_0602E8B8
+    .long  sym_0602E8B8
 .L_0602D9D8:
-    .4byte  0x00006AAA
+    .long  0x00006AAA
 .L_0602D9DC:
-    .4byte  cos_lookup
+    .long  cos_lookup
 .L_0602D9E0:
-    .4byte  sin_lookup
+    .long  sin_lookup
 .L_0602D9E4:
-    .4byte  0x0000018C
+    .long  0x0000018C
 .L_0602D9E8:
-    .4byte  0x00000190
-    .4byte  0x000B0009
+    .long  0x00000190
+    .long  0x000B0009
 
     .global sym_0602D9F0
 sym_0602D9F0:
@@ -187,69 +187,69 @@ sym_0602D9F0:
     rts
     nop
 .L_0602DA98:
-    .2byte  0x0150
+    .short  0x0150
 .L_0602DA9A:
-    .2byte  0x0250
+    .short  0x0250
 .L_0602DA9C:
-    .2byte  0x00B8
+    .short  0x00B8
 .L_0602DA9E:
-    .2byte  0x0120
+    .short  0x0120
 .L_0602DAA0:
-    .2byte  0x0041
+    .short  0x0041
 .L_0602DAA2:
-    .2byte  0x025C
+    .short  0x025C
 .L_0602DAA4:
-    .2byte  0x3FFF
+    .short  0x3FFF
 .L_0602DAA6:
-    .2byte  0x2800
+    .short  0x2800
 .L_0602DAA8:
-    .2byte  0x47FF
+    .short  0x47FF
 .L_0602DAAA:
-    .2byte  0x003C
+    .short  0x003C
 .L_0602DAAC:
-    .2byte  0x0001
-    .2byte  0x0000
+    .short  0x0001
+    .short  0x0000
 .L_0602DAB0:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_0602DAB4:
-    .4byte  sym_06063F28
+    .long  sym_06063F28
 .L_0602DAB8:
-    .4byte  0x00000228
+    .long  0x00000228
 .L_0602DABC:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8
 .L_0602DAC0:
-    .4byte  0x00000001
+    .long  0x00000001
 .L_0602DAC4:
-    .4byte  0x00000018
+    .long  0x00000018
 .L_0602DAC8:
-    .4byte  0xFF000000
+    .long  0xFF000000
 .L_0602DACC:
-    .4byte  0x000001BC
+    .long  0x000001BC
 .L_0602DAD0:
-    .4byte  0x00000000
+    .long  0x00000000
 .L_0602DAD4:
-    .4byte  sym_0607E940
+    .long  sym_0607E940
 .L_0602DAD8:
-    .4byte  0x00000008
+    .long  0x00000008
 .L_0602DADC:
-    .4byte  sym_06083260
+    .long  sym_06083260
 .L_0602DAE0:
-    .4byte  0x00020000
+    .long  0x00020000
 .L_0602DAE4:
-    .4byte  sym_0607EAC8
+    .long  sym_0607EAC8
 .L_0602DAE8:
-    .4byte  sym_0605A1C4
+    .long  sym_0605A1C4
 .L_0602DAEC:
     mov.l   .L_0602DAF8, r1
     mov.l   .L_0602DAFC, r2
     mov.b r2, @r1
     rts
     nop
-    .2byte  0x0000
+    .short  0x0000
 .L_0602DAF8:
-    .4byte  sym_06083260
+    .long  sym_06083260
 .L_0602DAFC:
-    .4byte  0xFFFFFFFF
+    .long  0xFFFFFFFF
 
     .global sym_0602DB00
 sym_0602DB00:

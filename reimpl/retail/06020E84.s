@@ -91,15 +91,15 @@ DAT_06020f2e:
     .byte 0x02, 0x14
     .byte 0x09, 0x00
     .byte 0xFF, 0xFF
-    .4byte sym_06089594
-    .4byte sym_06078663
-    .4byte sym_06087C84
-    .4byte sym_06089595
-    .4byte sym_0607E944
-    .4byte sym_06089598
-    .4byte sym_06083255
-    .4byte sym_06063750
-    .4byte sym_06028400
+    .long sym_06089594
+    .long sym_06078663
+    .long sym_06087C84
+    .long sym_06089595
+    .long sym_0607E944
+    .long sym_06089598
+    .long sym_06083255
+    .long sym_06063750
+    .long sym_06028400
     .byte 0xE7, 0x0B
     .byte 0x47, 0x08
     .byte 0x60, 0xB0
@@ -162,10 +162,10 @@ DAT_06020fc8:
     .global DAT_06020fca
 DAT_06020fca:
     .byte 0x02, 0x14
-    .4byte sym_06028400
-    .4byte sym_0607E944
-    .4byte sym_06089598
-    .4byte sym_06063E20
+    .long sym_06028400
+    .long sym_0607E944
+    .long sym_06089598
+    .long sym_06063E20
     .byte 0x6C, 0xD3
     .byte 0x66, 0xD3
     .byte 0x67, 0xA0
@@ -272,9 +272,9 @@ DAT_0602109c:
     .global DAT_0602109e
 DAT_0602109e:
     .byte 0x18, 0x10
-    .4byte sym_0604D3E0
-    .4byte sym_0607E944
-    .4byte sym_0603850C
-    .4byte sym_06087C84
-    .4byte scene_buffer_init
-    .4byte sym_06038520
+    .long sym_0604D3E0
+    .long sym_0607E944
+    .long sym_0603850C
+    .long sym_06087C84
+    .long scene_buffer_init
+    .long sym_06038520

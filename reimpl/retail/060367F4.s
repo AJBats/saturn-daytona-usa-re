@@ -33,5 +33,5 @@ collision_response_vel:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .byte 0x00, 0x80
-    .4byte input_proc_analog
-    .4byte input_proc_buttons
+    .long input_proc_analog
+    .long input_proc_buttons

@@ -37,27 +37,27 @@ car_iteration_loop:
 
     .global DAT_0600deb2
 DAT_0600deb2:
-    .2byte  0x0268
+    .short  0x0268
 .L_pool_0600DEB4:
-    .4byte  sym_0607EA98
+    .long  sym_0607EA98
 .L_pool_0600DEB8:
-    .4byte  sym_060786CA
+    .long  sym_060786CA
 .L_pool_0600DEBC:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_pool_0600DEC0:
-    .4byte  sym_0607E940
+    .long  sym_0607E940
 .L_pool_0600DEC4:
-    .4byte  sym_0607ED8C
+    .long  sym_0607ED8C
 .L_pool_0600DEC8:
-    .4byte  sym_0607EAE4
+    .long  sym_0607EAE4
 .L_pool_0600DECC:
-    .4byte  sym_0607ED88
+    .long  sym_0607ED88
 .L_pool_0600DED0:
-    .4byte  sym_06035340
+    .long  sym_06035340
 .L_pool_0600DED4:
-    .4byte  sym_06063EF0
+    .long  sym_06063EF0
 .L_pool_0600DED8:
-    .4byte  sym_06078900
+    .long  sym_06078900
 .L_0600DEDC:
     .byte   0xD0, 0x2D    /* mov.l .L_pool_0600DF94, r0 */
     mov.b @r0, r0

@@ -69,27 +69,27 @@ file_read_callback:
     .global DAT_0601214e
 DAT_0601214e:
     .byte 0x10, 0x00
-    .4byte sym_06078636
-    .4byte sym_060788F8
-    .4byte display_channel_b
-    .4byte sym_060788B4
+    .long sym_06078636
+    .long sym_060788F8
+    .long display_channel_b
+    .long sym_060788B4
     .byte 0x00, 0x08
     .byte 0x00, 0x00
     .byte 0x00, 0x0F
     .byte 0x33, 0x33
-    .4byte sym_060788C0
+    .long sym_060788C0
     .byte 0x00, 0x05
     .byte 0x33, 0x33
-    .4byte sym_060788CC
-    .4byte sym_06035168
-    .4byte sym_060788D8
-    .4byte sym_060788E4
-    .4byte sym_060788B0
-    .4byte sym_060788B2
-    .4byte sym_060788F0
-    .4byte sym_060788F4
-    .4byte sym_060788AC
-    .4byte sym_0607EAD8
+    .long sym_060788CC
+    .long sym_06035168
+    .long sym_060788D8
+    .long sym_060788E4
+    .long sym_060788B0
+    .long sym_060788B2
+    .long sym_060788F0
+    .long sym_060788F4
+    .long sym_060788AC
+    .long sym_0607EAD8
     .global sym_06012198
 sym_06012198:
     .byte 0xD0, 0x21

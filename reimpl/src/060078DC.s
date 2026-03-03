@@ -127,54 +127,54 @@ frame_end_commit:
 
     .global DAT_060079ce
 DAT_060079ce:
-    .2byte  0x0258
+    .short  0x0258
 .L_060079D0:
-    .2byte  0x04B0
-    .2byte  0xFFFF
+    .short  0x04B0
+    .short  0xFFFF
 .L_060079D4:
-    .4byte  sym_0606A4F8
+    .long  sym_0606A4F8
 .L_060079D8:
-    .4byte  sym_0605A008
+    .long  sym_0605A008
 .L_060079DC:
-    .4byte  sym_060620D4
+    .long  sym_060620D4
 .L_060079E0:
-    .4byte  sym_060620D0
+    .long  sym_060620D0
 .L_060079E4:
-    .4byte  sym_0608E460
+    .long  sym_0608E460
 .L_060079E8:
-    .4byte  sym_0608AC20
+    .long  sym_0608AC20
 .L_060079EC:
-    .4byte  memcpy_long_idx
+    .long  memcpy_long_idx
 .L_060079F0:
-    .4byte  memcpy_word_idx
+    .long  memcpy_word_idx
 .L_060079F4:
-    .4byte  sym_0602C494
+    .long  sym_0602C494
 .L_060079F8:
-    .4byte  sym_06063F5C
+    .long  sym_06063F5C
 .L_060079FC:
-    .4byte  sym_0605A016
+    .long  sym_0605A016
 .L_06007A00:
-    .4byte  sym_0605A018
+    .long  sym_0605A018
 .L_06007A04:
-    .4byte  dma_transfer
+    .long  dma_transfer
 .L_06007A08:
-    .4byte  sym_0606BDFC
+    .long  sym_0606BDFC
 .L_06007A0C:
-    .4byte  sym_060785FC
+    .long  sym_060785FC
 .L_06007A10:
-    .4byte  sym_0605A00C
+    .long  sym_0605A00C
 .L_06007A14:
-    .4byte  sym_060394C2
+    .long  sym_060394C2
 .L_06007A18:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_06007A1C:
-    .4byte  sym_0605B6D8
+    .long  sym_0605B6D8
 .L_06007A20:
-    .4byte  0x20000000
+    .long  0x20000000
 .L_06007A24:
-    .4byte  sym_0607EAE0
+    .long  sym_0607EAE0
 .L_06007A28:
-    .4byte  0x08000000
+    .long  0x08000000
 .L_06007A2C:
     mov.l   .L_06007A98, r3
     jsr @r3
@@ -235,29 +235,29 @@ render_pass_extra:
 
     .global DAT_06007a92
 DAT_06007a92:
-    .2byte  0x2134
+    .short  0x2134
 
     .global DAT_06007a94
 DAT_06007a94:
-    .2byte  0x00E4
+    .short  0x00E4
 
     .global DAT_06007a96
 DAT_06007a96:
-    .2byte  0x7000
+    .short  0x7000
 .L_06007A98:
-    .4byte  sym_06026CE0
+    .long  sym_06026CE0
 .L_06007A9C:
-    .4byte  sym_06059F44
+    .long  sym_06059F44
 .L_06007AA0:
-    .4byte  sym_0606BDF8
+    .long  sym_0606BDF8
 .L_06007AA4:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_06007AA8:
-    .4byte  fpmul
+    .long  fpmul
 .L_06007AAC:
-    .4byte  0x0000D1B7
+    .long  0x0000D1B7
 .L_06007AB0:
-    .4byte  sym_06085FF4
+    .long  sym_06085FF4
 .L_06007AB4:
     mov #0x34, r11
 .L_06007AB6:
@@ -375,31 +375,31 @@ DAT_06007a96:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_06007B9C:
-    .4byte  sincos_pair
+    .long  sincos_pair
 .L_06007BA0:
-    .4byte  swap_sign_ext
+    .long  swap_sign_ext
 .L_06007BA4:
-    .4byte  sym_06078604
+    .long  sym_06078604
 .L_06007BA8:
-    .4byte  0x00970000
+    .long  0x00970000
 .L_06007BAC:
-    .4byte  0x00900000
+    .long  0x00900000
 .L_06007BB0:
-    .4byte  0x00020000
+    .long  0x00020000
 .L_06007BB4:
-    .4byte  0x00890000
+    .long  0x00890000
 .L_06007BB8:
-    .4byte  0xFFFE0000
+    .long  0xFFFE0000
 .L_06007BBC:
-    .4byte  0x0000A3FF
+    .long  0x0000A3FF
 .L_06007BC0:
-    .4byte  sym_060785FC
+    .long  sym_060785FC
 .L_06007BC4:
-    .4byte  sym_060280C4
+    .long  sym_060280C4
 .L_06007BC8:
-    .4byte  sym_0605A008
+    .long  sym_0605A008
 
     .global vdp1_sprite_builder
 vdp1_sprite_builder:
@@ -521,36 +521,36 @@ vdp1_sprite_builder:
     mov.l   .L_06007CE8, r3
     jmp @r3
     mov.l @r15+, r14
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_06007CAC:
-    .4byte  sym_060280F8
+    .long  sym_060280F8
 .L_06007CB0:
-    .4byte  sym_060620D0
+    .long  sym_060620D0
 .L_06007CB4:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_06007CB8:
-    .4byte  sym_0608AC20
+    .long  sym_0608AC20
 .L_06007CBC:
-    .4byte  sym_060785FC
+    .long  sym_060785FC
 .L_06007CC0:
-    .4byte  sym_06078620
+    .long  sym_06078620
 .L_06007CC4:
-    .4byte  sym_0607861C
+    .long  sym_0607861C
 .L_06007CC8:
-    .4byte  sym_06063DA0
+    .long  sym_06063DA0
 .L_06007CCC:
-    .4byte  sym_0606A4F8
+    .long  sym_0606A4F8
 .L_06007CD0:
-    .4byte  sym_060281B8
+    .long  sym_060281B8
 .L_06007CD4:
-    .4byte  sym_0605A008
+    .long  sym_0605A008
 .L_06007CD8:
-    .4byte  sym_0607EBC4
+    .long  sym_0607EBC4
 .L_06007CDC:
-    .4byte  0x20228000
+    .long  0x20228000
 .L_06007CE0:
-    .4byte  sym_060333D8
+    .long  sym_060333D8
 .L_06007CE4:
-    .4byte  post_sprite_cleanup
+    .long  post_sprite_cleanup
 .L_06007CE8:
-    .4byte  vdp2_frame_update
+    .long  vdp2_frame_update

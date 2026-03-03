@@ -81,24 +81,24 @@ file_data_parse:
 
     .global DAT_060123de
 DAT_060123de:
-    .2byte  0x07AE
+    .short  0x07AE
     .global DAT_060123e0
 DAT_060123e0:
-    .2byte  0x170A
+    .short  0x170A
     .global DAT_060123e2
 DAT_060123e2:
-    .2byte  0x2666
+    .short  0x2666
 .L_pool_060123E4:
-    .4byte  sym_060788AC
+    .long  sym_060788AC
 .L_pool_060123E8:
-    .4byte  fpmul
+    .long  fpmul
 .L_pool_060123EC:
-    .4byte  sym_060788C0
+    .long  sym_060788C0
 .L_pool_060123F0:
-    .4byte  sym_060788CC
+    .long  sym_060788CC
 .L_pool_060123F4:
-    .4byte  sym_060788D8
+    .long  sym_060788D8
 .L_pool_060123F8:
-    .4byte  sym_06034FE0
+    .long  sym_06034FE0
 .L_pool_060123FC:
-    .4byte  sym_060788E4
+    .long  sym_060788E4

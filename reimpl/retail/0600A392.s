@@ -38,13 +38,13 @@ FUN_0600A392:
     .byte 0xA0, 0x1A
     .byte 0x00, 0x09
     .byte 0xFF, 0xFF
-    .4byte sym_06078644
-    .4byte g_game_state
-    .4byte cdb_read_status
-    .4byte sym_0600026C
-    .4byte sym_0607864A
-    .4byte cd_block_read_safe
-    .4byte sym_06078649
+    .long sym_06078644
+    .long g_game_state
+    .long cdb_read_status
+    .long sym_0600026C
+    .long sym_0607864A
+    .long cd_block_read_safe
+    .long sym_06078649
     .byte 0x60, 0xC0
     .byte 0x88, 0x01
     .byte 0x8B, 0x07
@@ -101,7 +101,7 @@ FUN_0600A392:
 DAT_0600a460:
     .byte 0x08, 0x00
     .byte 0x07, 0x00
-    .4byte cd_status_reader
-    .4byte g_pad_state
-    .4byte obj_state_pack
-    .4byte sym_0600026C
+    .long cd_status_reader
+    .long g_pad_state
+    .long obj_state_pack
+    .long sym_0600026C

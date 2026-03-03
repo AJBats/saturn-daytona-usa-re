@@ -9,19 +9,19 @@ display_mode_switch:
     mov.l @r13, r13
     rts
     nop
-    .4byte  sym_06026DBC
+    .long  sym_06026DBC
 .L_pool_06032FE8:
-    .4byte  sym_06089EDC
-    .4byte  0x00000000
-    .4byte  0x00000004
-    .4byte  0x00000008
-    .4byte  sym_06026E2E
-    .4byte  0x0000000C
-    .4byte  mat_rot_y
-    .4byte  0x0000000E
-    .4byte  sym_060624C8
-    .4byte  mat_rot_z
-    .4byte  camera_pos_calc
-    .4byte  sym_06026DF8
-    .4byte  0x00000010
-    .4byte  camera_push_save
+    .long  sym_06089EDC
+    .long  0x00000000
+    .long  0x00000004
+    .long  0x00000008
+    .long  sym_06026E2E
+    .long  0x0000000C
+    .long  mat_rot_y
+    .long  0x0000000E
+    .long  sym_060624C8
+    .long  mat_rot_z
+    .long  camera_pos_calc
+    .long  sym_06026DF8
+    .long  0x00000010
+    .long  camera_push_save

@@ -6,7 +6,7 @@ sound_cmd_dispatch:
     mov.l   .L_0601D670, r0
     mov.l @r0, r0
     tst r0, r0
-    bf/s    .L_0601D6AC
+    bf.s    .L_0601D6AC
     mov r5, r14
     mov.l   .L_0601D674, r5
     bra     .L_0601D690
@@ -71,21 +71,21 @@ sound_cmd_dispatch:
     bra     .L_0601D6AC
     nop
 .L_0601D670:
-    .4byte  sym_06086050
+    .long  sym_06086050
 .L_0601D674:
-    .4byte  0xA0000000
+    .long  0xA0000000
 .L_0601D678:
-    .4byte  0x25A02C20
+    .long  0x25A02C20
 .L_0601D67C:
-    .4byte  sym_0608604C                    /* last-command mirror */
+    .long  sym_0608604C                    /* last-command mirror */
 .L_0601D680:
-    .4byte  0xA07000FF
+    .long  0xA07000FF
 .L_0601D684:
-    .4byte  0xA17000FF
+    .long  0xA17000FF
 .L_0601D688:
-    .4byte  0xA27000FF
+    .long  0xA27000FF
 .L_0601D68C:
-    .4byte  0xA37000FF
+    .long  0xA37000FF
 .L_0601D690:
     cmp/eq #0x0, r0
     bt      .L_0601D608
@@ -122,9 +122,9 @@ sound_write_direct:
     rts
     mov.l r2, @r3
 .L_0601D6CC:
-    .4byte  0x25A02C20
+    .long  0x25A02C20
 .L_0601D6D0:
-    .4byte  sym_0608604C
+    .long  sym_0608604C
 
     .global sound_channel_a
 sound_channel_a:
@@ -176,13 +176,13 @@ snd_channel_b_body:
     rts
     mov.l @r15+, r14
 .L_0601D71C:
-    .4byte  sym_0605DF94                    /* chan A last-command cache */
+    .long  sym_0605DF94                    /* chan A last-command cache */
 .L_0601D720:
-    .4byte  sym_0608604C
+    .long  sym_0608604C
 .L_0601D724:
-    .4byte  0x25A02C20
+    .long  0x25A02C20
 .L_0601D728:
-    .4byte  sym_0605DF98                    /* chan B last-command cache */
+    .long  sym_0605DF98                    /* chan B last-command cache */
 
     .global sound_channel_c
 sound_channel_c:
@@ -224,13 +224,13 @@ sound_channel_c2:
     lds.l @r15+, pr
     rts
     mov.l r2, @r3
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_0601D76C:
-    .4byte  sym_0605DF9C                    /* chan C last-command cache */
+    .long  sym_0605DF9C                    /* chan C last-command cache */
 .L_0601D770:
-    .4byte  sym_0608604C
+    .long  sym_0608604C
 .L_0601D774:
-    .4byte  0x25A02C20
+    .long  0x25A02C20
 
     .global sound_pass_direct
 sound_pass_direct:
@@ -282,13 +282,13 @@ snd_channel_d_handler:
     rts
     mov.l @r15+, r14
 .L_0601D7C0:
-    .4byte  sym_0605DFA4                    /* direct pass last-command cache */
+    .long  sym_0605DFA4                    /* direct pass last-command cache */
 .L_0601D7C4:
-    .4byte  sym_0608604C
+    .long  sym_0608604C
 .L_0601D7C8:
-    .4byte  0x25A02C20
+    .long  0x25A02C20
 .L_0601D7CC:
-    .4byte  sym_0605DFA8                    /* chan D last-command cache */
+    .long  sym_0605DFA8                    /* chan D last-command cache */
 
     .global sound_notify_handler
 sound_notify_handler:
@@ -324,7 +324,7 @@ sound_notify_handler:
     mov.l   .L_0601D8A4, r0
     mov.b @r0, r0
     tst r0, r0
-    bt/s    .L_0601D852
+    bt.s    .L_0601D852
     mov.l @r4, r4
     mov.l   .L_0601D8A8, r3
     mov.w   .L_0601D884, r0
@@ -385,32 +385,32 @@ sound_notify_handler:
     bra     .L_0601D8BE
     nop
 .L_0601D884:
-    .2byte  0x021C
-    .2byte  0xFFFF
+    .short  0x021C
+    .short  0xFFFF
 .L_0601D888:
-    .4byte  sym_06086054
+    .long  sym_06086054
 .L_0601D88C:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8
 .L_0601D890:
-    .4byte  sym_06087060
+    .long  sym_06087060
 .L_0601D894:
-    .4byte  sym_06086058
+    .long  sym_06086058
 .L_0601D898:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_0601D89C:
-    .4byte  sym_0604A50C
+    .long  sym_0604A50C
 .L_0601D8A0:
-    .4byte  sym_0605AD00
+    .long  sym_0605AD00
 .L_0601D8A4:
-    .4byte  sym_06085FF4
+    .long  sym_06085FF4
 .L_0601D8A8:
-    .4byte  sym_06063F28
+    .long  sym_06063F28
 .L_0601D8AC:
-    .4byte  sym_06086034
+    .long  sym_06086034
 .L_0601D8B0:
-    .4byte  0xAE1121FF
+    .long  0xAE1121FF
 .L_0601D8B4:
-    .4byte  0xAE1146FF
+    .long  0xAE1146FF
 .L_0601D8B8:
     mov.w @r14, r2
     add #0x1, r2
@@ -515,23 +515,23 @@ sound_notify_handler:
 
     .global DAT_0601d974
 DAT_0601d974:
-    .2byte  0x021C
+    .short  0x021C
 
     .global DAT_0601d976
 DAT_0601d976:
-    .2byte  0x04B0
+    .short  0x04B0
 .L_0601D978:
-    .4byte  sym_0605AD00
+    .long  sym_0605AD00
 .L_0601D97C:
-    .4byte  sym_06086056
+    .long  sym_06086056
 .L_0601D980:
-    .4byte  0xAE1126FF
+    .long  0xAE1126FF
 .L_0601D984:
-    .4byte  sym_06063F28
+    .long  sym_06063F28
 .L_0601D988:
-    .4byte  sym_06086034
+    .long  sym_06086034
 .L_0601D98C:
-    .4byte  0xAE1121FF
+    .long  0xAE1121FF
 .L_0601D990:
     mov.l   .L_0601DA40, r5
     bsr     sound_cmd_dispatch
@@ -563,7 +563,7 @@ snd_race_update:
     mov.l   .L_0601DA48, r0
     mov.b @r0, r0
     tst r0, r0
-    bt/s    .L_0601D9CC
+    bt.s    .L_0601D9CC
     mov #0x0, r13
     bra     .L_0601DB56
     nop
@@ -601,7 +601,7 @@ snd_race_update:
     mov.l   .L_0601DA5C, r11
     mov.l @r5, r0
     tst r0, r0
-    bf/s    .L_0601DAB6
+    bf.s    .L_0601DAB6
     mov #0x64, r6
     mov.w @r4, r0
     bra     .L_0601DA9A
@@ -632,28 +632,28 @@ snd_race_update:
     bra     .L_0601DA90
     mov #0x14, r2
 .L_0601DA3C:
-    .2byte  0x04B0
-    .2byte  0xFFFF
+    .short  0x04B0
+    .short  0xFFFF
 .L_0601DA40:
-    .4byte  0xAE1127FF
+    .long  0xAE1127FF
 .L_0601DA44:
-    .4byte  sym_06086054
+    .long  sym_06086054
 .L_0601DA48:
-    .4byte  sym_06085FF4
+    .long  sym_06085FF4
 .L_0601DA4C:
-    .4byte  sym_06086056
+    .long  sym_06086056
 .L_0601DA50:
-    .4byte  sym_0608605A
+    .long  sym_0608605A
 .L_0601DA54:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8
 .L_0601DA58:
-    .4byte  sym_06086058
+    .long  sym_06086058
 .L_0601DA5C:
-    .4byte  0xAE112BFF
+    .long  0xAE112BFF
 .L_0601DA60:
-    .4byte  0xAE1129FF
+    .long  0xAE1129FF
 .L_0601DA64:
-    .4byte  0xAE112AFF
+    .long  0xAE112AFF
 .L_0601DA68:
     mov.l   .L_0601DB64, r3
     mov r11, r5
@@ -796,21 +796,21 @@ snd_race_update:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_0601DB64:
-    .4byte  sym_06086056
+    .long  sym_06086056
 .L_0601DB68:
-    .4byte  0xAE112CFF
+    .long  0xAE112CFF
 .L_0601DB6C:
-    .4byte  0xAE112DFF
+    .long  0xAE112DFF
 .L_0601DB70:
-    .4byte  0xAE112FFF
+    .long  0xAE112FFF
 .L_0601DB74:
-    .4byte  sym_0608605A
+    .long  sym_0608605A
 .L_0601DB78:
-    .4byte  0xAE1120FF
-    .4byte  0x000B0009
-    .4byte  0x000B0009
+    .long  0xAE1120FF
+    .long  0x000B0009
+    .long  0x000B0009
 .L_0601DB84:
     mov.l   .L_0601DBA0, r7
     mov.l   .L_0601DBA4, r6
@@ -828,13 +828,13 @@ snd_race_update:
 .L_0601DB9A:
     rts
     nop
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_0601DBA0:
-    .4byte  sym_06086050
+    .long  sym_06086050
 .L_0601DBA4:
-    .4byte  0x25A02C20
+    .long  0x25A02C20
 .L_0601DBA8:
-    .4byte  0x000186A0
-    .4byte  0xE300D201
-    .4byte  0x000B2230
-    .4byte  0x25A02D97
+    .long  0x000186A0
+    .long  0xE300D201
+    .long  0x000B2230
+    .long  0x25A02D97

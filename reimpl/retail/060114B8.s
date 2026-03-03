@@ -35,11 +35,11 @@ hud_layer_composite:
     .byte 0xA0, 0x2C
     .byte 0x00, 0x09
     .byte 0xFF, 0xFF
-    .4byte sym_060447A8
-    .4byte sym_0607EADC
-    .4byte sym_06078860
-    .4byte sym_0607887F
-    .4byte sym_0607EBC8
+    .long sym_060447A8
+    .long sym_0607EADC
+    .long sym_06078860
+    .long sym_0607887F
+    .long sym_0607EBC8
     .byte 0x6C, 0xDD
     .byte 0x6B, 0xDD
     .byte 0xD3, 0x2C

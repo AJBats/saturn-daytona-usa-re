@@ -42,25 +42,25 @@ vdp1_sprite_cmd:
 
     .global DAT_0602d0d4
 DAT_0602d0d4:
-    .2byte  0x0154
+    .short  0x0154
 .L_0602D0D6:
-    .2byte  0x0168
+    .short  0x0168
 
     .global DAT_0602d0d8
 DAT_0602d0d8:
-    .2byte  0x0166
+    .short  0x0166
 .L_0602D0DA:
-    .2byte  0x02E0
+    .short  0x02E0
 
     .global DAT_0602d0dc
 DAT_0602d0dc:
-    .2byte  0x0104
+    .short  0x0104
 
     .global DAT_0602d0de
 DAT_0602d0de:
-    .2byte  0x005C
+    .short  0x005C
 .L_0602D0E0:
-    .4byte  0x00000300
+    .long  0x00000300
 .L_0602D0E4:
     cmp/gt r8, r2
     bt      .L_0602D0EA
@@ -152,32 +152,32 @@ DAT_0602d0de:
 
     .global DAT_0602d186
 DAT_0602d186:
-    .2byte  0x011C
+    .short  0x011C
 
     .global DAT_0602d188
 DAT_0602d188:
-    .2byte  0x010C
+    .short  0x010C
 .L_0602D18A:
-    .2byte  0xFF00
+    .short  0xFF00
 
     .global DAT_0602d18c
 DAT_0602d18c:
-    .2byte  0x005C
+    .short  0x005C
 
     .global DAT_0602d18e
 DAT_0602d18e:
-    .2byte  0x0144
+    .short  0x0144
 .L_0602D190:
-    .2byte  0x00CE
-    .2byte  0x0000
+    .short  0x00CE
+    .short  0x0000
 .L_0602D194:
-    .4byte  0x000F0000
+    .long  0x000F0000
 .L_0602D198:
-    .4byte  cos_lookup
+    .long  cos_lookup
 .L_0602D19C:
-    .4byte  0x00000100
+    .long  0x00000100
 .L_0602D1A0:
-    .4byte  0x00004000
+    .long  0x00004000
 .L_0602D1A4:
     mov r2, r3
     dmuls.l r2, r3
@@ -225,7 +225,7 @@ DAT_0602d18e:
     mov #0x1, r8
     shar r2
     mov #0x9, r5
-    muls.w r2, r5
+    muls r2, r5
     shll16 r6
     sts macl, r4
     .byte   0xD0, 0x10    /* mov.l .L_0602D244, r0 */
@@ -245,7 +245,7 @@ DAT_0602d18e:
     mov r14, r0
     mov.l @(r0, r3), r5
     mov #0x3, r4
-    muls.w r4, r6
+    muls r4, r6
     neg r5, r5
     sts macl, r6
     cmp/pz r5
@@ -255,24 +255,24 @@ DAT_0602d18e:
     bra     .L_0602D254
     nop
 .L_0602D234:
-    .2byte  0xFF00
+    .short  0xFF00
 
     .global DAT_0602d236
 DAT_0602d236:
-    .2byte  0x007F
+    .short  0x007F
 
     .global DAT_0602d238
 DAT_0602d238:
-    .2byte  0x0166
+    .short  0x0166
 .L_0602D23A:
-    .2byte  0x0040
+    .short  0x0040
 .L_0602D23C:
-    .2byte  0x005C
-    .2byte  0x0000
+    .short  0x005C
+    .short  0x0000
 .L_0602D240:
-    .4byte  atan_piecewise
+    .long  atan_piecewise
 .L_0602D244:
-    .4byte  cos_lookup
+    .long  cos_lookup
 .L_0602D248:
     neg r6, r6
     cmp/gt r6, r5
@@ -297,10 +297,10 @@ DAT_0602d238:
     bra     .L_0602D27E
     nop
 .L_0602D270:
-    .2byte  0x0178
-    .2byte  0x0000
+    .short  0x0178
+    .short  0x0000
 .L_0602D274:
-    .4byte  0x00000300
+    .long  0x00000300
 .L_0602D278:
     cmp/gt r5, r3
     bt      .L_0602D27E
@@ -344,17 +344,17 @@ DAT_0602d238:
 
     .global DAT_0602d2c4
 DAT_0602d2c4:
-    .2byte  0x005C
+    .short  0x005C
 .L_0602D2C6:
-    .2byte  0x0140
+    .short  0x0140
 .L_0602D2C8:
-    .2byte  0x0108
+    .short  0x0108
 
     .global DAT_0602d2ca
 DAT_0602d2ca:
-    .2byte  0x00CC
+    .short  0x00CC
 .L_0602D2CC:
-    .4byte  0x00004000
+    .long  0x00004000
 .L_0602D2D0:
     mov.w   .L_0602D306, r2
     mov r4, r1
@@ -386,15 +386,15 @@ DAT_0602d2ca:
     bra     .L_0602D316
     nop
 .L_0602D306:
-    .2byte  0xFF00
+    .short  0xFF00
 .L_0602D308:
-    .2byte  0x007E
+    .short  0x007E
 
     .global DAT_0602d30a
 DAT_0602d30a:
-    .2byte  0x00FA
+    .short  0x00FA
 .L_0602D30C:
-    .4byte  atan_piecewise
+    .long  atan_piecewise
 .L_0602D310:
     cmp/gt r7, r4
     bt      .L_0602D316
@@ -410,7 +410,7 @@ DAT_0602d30a:
     mov r14, r0
     mov #0x2, r3
     mov #0x4, r4
-    muls.w r4, r1
+    muls r4, r1
     shll8 r3
     sts macl, r7
     add r3, r7
@@ -421,7 +421,7 @@ DAT_0602d30a:
     mov.l @(r0, r2), r4
     mov r3, r5
     sub r4, r5
-    muls.w r6, r7
+    muls r6, r7
     sts macl, r6
     shar r6
     neg r4, r4
@@ -460,15 +460,15 @@ DAT_0602d30a:
     bra     .L_0602D3A0
     nop
 .L_0602D388:
-    .2byte  0x0040
+    .short  0x0040
 
     .global DAT_0602d38a
 DAT_0602d38a:
-    .2byte  0x005C
+    .short  0x005C
 .L_0602D38C:
-    .4byte  sym_0602ECCC
+    .long  sym_0602ECCC
 .L_0602D390:
-    .4byte  0x00000FE0
+    .long  0x00000FE0
 .L_0602D394:
     neg r6, r6
     cmp/gt r6, r5
@@ -517,19 +517,19 @@ DAT_0602d38a:
 
     .global DAT_0602d3e8
 DAT_0602d3e8:
-    .2byte  0x0058
+    .short  0x0058
 
     .global DAT_0602d3ea
 DAT_0602d3ea:
-    .2byte  0x005C
+    .short  0x005C
 .L_0602D3EC:
-    .4byte  sym_0602ECCC
+    .long  sym_0602ECCC
 .L_0602D3F0:
-    .4byte  0xFFFFCD80
+    .long  0xFFFFCD80
 .L_0602D3F4:
-    .4byte  0x20000000
+    .long  0x20000000
 .L_0602D3F8:
-    .4byte  0x40000000
+    .long  0x40000000
 .L_0602D3FC:
     mov.l @(0, r0), r2
     .byte   0xD3, 0x03    /* mov.l .L_0602D40C, r3 */
@@ -538,11 +538,11 @@ DAT_0602d3ea:
     or r3, r2
     bra     .L_0602D414
     mov.l r2, @(0, r0)
-    .2byte  0x0000
+    .short  0x0000
 .L_0602D40C:
-    .4byte  0x10000000
+    .long  0x10000000
 .L_0602D410:
-    .4byte  0x40000000
+    .long  0x40000000
 .L_0602D414:
     mov.w   DAT_0602d432, r7
     mov.l @(r0, r7), r6
@@ -564,9 +564,9 @@ DAT_0602d3ea:
 
     .global DAT_0602d432
 DAT_0602d432:
-    .2byte  0x005C
+    .short  0x005C
 .L_0602D434:
-    .2byte  0x00D4
-    .2byte  0x0000
+    .short  0x00D4
+    .short  0x0000
 .L_0602D438:
-    .4byte  0xFFFFCC00
+    .long  0xFFFFCC00

@@ -3,7 +3,7 @@
 particle_sys_mgr:
     sts.l pr, @-r15
     mov r6, r14
-    mulu.w r6, r4
+    mulu r6, r4
     mov r5, r13
     mov.w   .L_06028610, r6
     add #0xA, r5
@@ -26,7 +26,7 @@ particle_sys_mgr:
     lds.l @r15+, pr
     add r13, r2
     mov.w r0, @(14, r2)
-    bf/s    .L_060285D4
+    bf.s    .L_060285D4
     mov.l @r15+, r12
     mov #0x2D, r1
     or r6, r1
@@ -35,42 +35,42 @@ particle_sys_mgr:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0x2710
+    .short  0x2710
 .L_060285DC:
-    .4byte  sym_06028614
-    .4byte  0x45186763
-    .4byte  0x96144509
-    .4byte  0x354C4500
-    .4byte  0xAEE4E408
-    .4byte  0x45186763
-    .4byte  0x960C4509
-    .4byte  0x354C4500
-    .4byte  0xAEC2E408
-    .4byte  0x45186763
-    .4byte  0x96044509
-    .4byte  0x354C4500
-    .4byte  0xAEE8E408
+    .long  sym_06028614
+    .long  0x45186763
+    .long  0x96144509
+    .long  0x354C4500
+    .long  0xAEE4E408
+    .long  0x45186763
+    .long  0x960C4509
+    .long  0x354C4500
+    .long  0xAEC2E408
+    .long  0x45186763
+    .long  0x96044509
+    .long  0x354C4500
+    .long  0xAEE8E408
 .L_06028610:
-    .2byte  0xF000
-    .2byte  0x0009
+    .short  0xF000
+    .short  0x0009
 
     .global sym_06028614
 sym_06028614:
-    .4byte  sym_06061294
-    .4byte  sym_06061298
-    .4byte  sym_0606129C
-    .4byte  sym_060612A0
-    .4byte  loc_060612A4
-    .4byte  loc_060612A8
+    .long  sym_06061294
+    .long  sym_06061298
+    .long  sym_0606129C
+    .long  sym_060612A0
+    .long  loc_060612A4
+    .long  loc_060612A8
 
     .global sym_0602862C
 sym_0602862C:
-    .4byte  sym_060612AC
-    .4byte  sym_060612B0
-    .4byte  sym_060612B4
-    .4byte  sym_060612B8
-    .4byte  loc_060612BC
-    .4byte  loc_060612C0
+    .long  sym_060612AC
+    .long  sym_060612B0
+    .long  sym_060612B4
+    .long  sym_060612B8
+    .long  loc_060612BC
+    .long  loc_060612C0
 
     .global sym_06028644
 sym_06028644:

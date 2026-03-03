@@ -41,7 +41,7 @@ dma_param_chain_init:
     shlr2 r3
     mov.l r3, @(8, r15)
     cmp/pl r11
-    bf/s    .L_0603FD98
+    bf.s    .L_0603FD98
     mov.l r3, @(20, r15)
     bra     .L_0603FDA6
     mov.l r12, @(24, r15)
@@ -66,13 +66,13 @@ dma_param_chain_init:
     mov.l r3, @(28, r15)
     bra     .L_0603FDCA
     nop
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_pool_0603FDBC:
-    .4byte  palette_render_main
+    .long  palette_render_main
 .L_pool_0603FDC0:
-    .4byte  sym_06042BBE
+    .long  sym_06042BBE
 .L_pool_0603FDC4:
-    .4byte  sym_06042A8C
+    .long  sym_06042A8C
 .L_0603FDC8:
     mov.l r13, @(28, r15)
 .L_0603FDCA:
@@ -125,19 +125,19 @@ dma_param_chain_init:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0x000B              /* trailing data (rts encoding) */
-    .2byte  0xE000
+    .short  0x000B              /* trailing data (rts encoding) */
+    .short  0xE000
 .L_wpool_0603FE2E:
-    .2byte  0x0800
+    .short  0x0800
 .L_wpool_0603FE30:
-    .2byte  0x017F
-    .2byte  0xFFFF
+    .short  0x017F
+    .short  0xFFFF
 .L_pool_0603FE34:
-    .4byte  palette_engine_core
+    .long  palette_engine_core
 .L_pool_0603FE38:
-    .4byte  sym_06042BAC
+    .long  sym_06042BAC
 .L_pool_0603FE3C:
-    .4byte  sym_0603C05C
+    .long  sym_0603C05C
 
     .global loc_0603FE40
 loc_0603FE40:

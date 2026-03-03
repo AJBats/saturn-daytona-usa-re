@@ -57,10 +57,10 @@ sym_0603FA00:
     or #0x80, r0
     rts
     mov.b r0, @r1
-    .2byte  0xE034
-    .4byte  0x9325024C
-    .4byte  0x2239000B
-    .2byte  0x0424
+    .short  0xE034
+    .long  0x9325024C
+    .long  0x2239000B
+    .short  0x0424
 
     .global race_timer_sync
 race_timer_sync:
@@ -100,14 +100,14 @@ race_timer_sync:
     bra     .L_0603FA7E
     nop
 .L_wpool_0603FA5E:
-    .2byte  0xFF7F
+    .short  0xFF7F
 .L_wpool_0603FA60:
-    .2byte  0x00CC
-    .2byte  0xFFFF
+    .short  0x00CC
+    .short  0xFFFF
 .L_pool_0603FA64:
-    .4byte  sym_060A4D14
+    .long  sym_060A4D14
 .L_pool_0603FA68:
-    .4byte  0x01000000
+    .long  0x01000000
 .L_0603FA6C:
     mov #0x34, r0
     mov.b @(r0, r14), r4

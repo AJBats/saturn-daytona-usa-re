@@ -15,6 +15,6 @@ menu_border_render:
     lds.l @r15+, pr
     rts
     nop
-    .4byte  attract_timer_tick
+    .long  attract_timer_tick
 .L_0603B62C:
-    .4byte  sym_0603F9FA
+    .long  sym_0603F9FA

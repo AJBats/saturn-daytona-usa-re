@@ -10,20 +10,20 @@ dma_queue_commit:
     bra     .L_06007DCE
     mov #0x0, r4
 .L_wpool_06007D9E:
-    .2byte  0xFE11
+    .short  0xFE11
 .L_wpool_06007DA0:
-    .2byte  0x0080
-    .2byte  0xFFFF
-    .4byte  sym_060281B8
-    .4byte  sym_0606A4F8
-    .4byte  0x00008000
-    .4byte  sym_0608AC20
-    .4byte  sym_06078624
-    .4byte  sym_0603C000
-    .4byte  sym_060280F8
-    .4byte  sym_06078620
-    .4byte  0x0000FFFF
-    .4byte  0x21800000
+    .short  0x0080
+    .short  0xFFFF
+    .long  sym_060281B8
+    .long  sym_0606A4F8
+    .long  0x00008000
+    .long  sym_0608AC20
+    .long  sym_06078624
+    .long  sym_0603C000
+    .long  sym_060280F8
+    .long  sym_06078620
+    .long  0x0000FFFF
+    .long  0x21800000
 .L_06007DCC:
     mov r12, r4
 .L_06007DCE:
@@ -53,8 +53,8 @@ dma_queue_commit:
     .byte   0xD3, 0x02    /* mov.l .L_pool_06007E06, r3 */
     jmp @r3
     mov.l @r15+, r14
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_pool_06007E02:
-    .4byte  sym_0605A1C0
+    .long  sym_0605A1C0
 .L_pool_06007E06:
-    .4byte  sym_0603C000
+    .long  sym_0603C000

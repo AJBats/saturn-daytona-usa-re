@@ -26,7 +26,7 @@ audio_dist_calc:
     mov r7, r2
     sub r6, r2
     cmp/pz r2
-    bt/s    .L_0600DDC4
+    bt.s    .L_0600DDC4
     mov.l r2, @(12, r15)
     mov r6, r3
     bra     .L_0600DDC6
@@ -42,7 +42,7 @@ audio_dist_calc:
     mov.l @(8, r15), r1
     sub r1, r2
     cmp/pz r2
-    bt/s    .L_0600DDE4
+    bt.s    .L_0600DDE4
     mov.l r2, @r15
     mov.l @(8, r15), r1
     mov.l @(4, r15), r2
@@ -83,20 +83,20 @@ audio_dist_calc:
 
     .global DAT_0600de1e
 DAT_0600de1e:
-    .2byte  0x01E0
+    .short  0x01E0
 .L_0600DE20:
-    .4byte  sym_0607E940
+    .long  sym_0607E940
 .L_0600DE24:
-    .4byte  sym_06063F3C
+    .long  sym_06063F3C
 .L_0600DE28:
-    .4byte  sym_0607869C
+    .long  sym_0607869C
 .L_0600DE2C:
-    .4byte  sym_06034FE0
+    .long  sym_06034FE0
 .L_0600DE30:
-    .4byte  sym_060786B0
+    .long  sym_060786B0
 .L_0600DE34:
-    .4byte  sym_0607EBD0
+    .long  sym_0607EBD0
 .L_0600DE38:
-    .4byte  sym_0605A21C
+    .long  sym_0605A21C
 .L_0600DE3C:
-    .4byte  sym_060786A0
+    .long  sym_060786A0

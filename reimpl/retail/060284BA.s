@@ -62,8 +62,8 @@ motion_blur_effect:
     .byte 0x00, 0x0B
     .byte 0x68, 0xF6
     .byte 0x00, 0x00
-    .4byte sym_06028614
-    .4byte sym_06063690
+    .long sym_06028614
+    .long sym_06063690
     .byte 0x00, 0x09
     .global sym_0602853E
 sym_0602853E:
@@ -80,8 +80,8 @@ sym_0602853E:
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
     .byte 0x08, 0x00
-    .4byte sym_06028644
-    .4byte sym_0602862C
+    .long sym_06028644
+    .long sym_0602862C
     .global sym_06028560
 sym_06028560:
     .byte 0xD0, 0x04
@@ -94,7 +94,7 @@ sym_06028560:
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
     .byte 0x03, 0x80
-    .4byte sym_060612C4
+    .long sym_060612C4
     .byte 0x00, 0x20
     .byte 0x00, 0x20
     .byte 0x00, 0x00

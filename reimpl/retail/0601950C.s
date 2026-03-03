@@ -89,13 +89,13 @@ DAT_060195ae:
     .byte 0x10, 0x00
     .byte 0x20, 0x00
     .byte 0xFF, 0xFF
-    .4byte sym_06049AF4
-    .4byte sym_06028400
-    .4byte sym_06063750
-    .4byte sym_0605D244
-    .4byte sym_06049AEC
-    .4byte sym_06085FF1
-    .4byte sym_06085FF5
+    .long sym_06049AF4
+    .long sym_06028400
+    .long sym_06063750
+    .long sym_0605D244
+    .long sym_06049AEC
+    .long sym_06085FF1
+    .long sym_06085FF5
     .byte 0xDE, 0x31
     .byte 0xE2, 0x0F
     .byte 0x63, 0xE0
@@ -198,6 +198,6 @@ DAT_060195ae:
 DAT_06019694:
     .byte 0x40, 0x00
     .byte 0x00, 0x90
-    .4byte sym_0605D242
-    .4byte sym_0605D4EC
-    .4byte sym_060284AE
+    .long sym_0605D242
+    .long sym_0605D4EC
+    .long sym_060284AE

@@ -108,90 +108,90 @@ game_init_master:
 
     .global DAT_06013050
 DAT_06013050:
-    .2byte  0x00DF
+    .short  0x00DF
 
     .global DAT_06013052
 DAT_06013052:
-    .2byte  0x015F
+    .short  0x015F
 .L_06013054:
-    .2byte  0x0083
+    .short  0x0083
 .L_06013056:
-    .2byte  0xFF7C
+    .short  0xFF7C
 
     .global DAT_06013058
 DAT_06013058:
-    .2byte  0x20D8
+    .short  0x20D8
 .L_0601305A:
-    .2byte  0x0108
+    .short  0x0108
 
     .global DAT_0601305c
 DAT_0601305c:
-    .2byte  0x299B
+    .short  0x299B
 
     .global DAT_0601305e
 DAT_0601305e:
-    .2byte  0x29A3
+    .short  0x29A3
 .L_06013060:
-    .2byte  0x0810
+    .short  0x0810
 
     .global DAT_06013062
 DAT_06013062:
-    .2byte  0x2A53
+    .short  0x2A53
 
     .global DAT_06013064
 DAT_06013064:
-    .2byte  0x0512
+    .short  0x0512
 
     .global DAT_06013066
 DAT_06013066:
-    .2byte  0x2B27
+    .short  0x2B27
 
     .global DAT_06013068
 DAT_06013068:
-    .2byte  0x083C
-    .2byte  0xFFFF
+    .short  0x083C
+    .short  0xFFFF
 .L_0601306C:
-    .4byte  sym_06084B28
+    .long  sym_06084B28
 .L_06013070:
-    .4byte  sym_06084FA8
+    .long  sym_06084FA8
 .L_06013074:
-    .4byte  sym_06084CA8
+    .long  sym_06084CA8
 .L_06013078:
-    .4byte  sym_06084FAC
+    .long  sym_06084FAC
 .L_0601307C:
-    .4byte  sym_06084E28
+    .long  sym_06084E28
 .L_06013080:
-    .4byte  sym_06084FB0
+    .long  sym_06084FB0
 .L_06013084:
-    .4byte  sym_060149E0
+    .long  sym_060149E0
 .L_06013088:
-    .4byte  sym_06026CE0
+    .long  sym_06026CE0
 .L_0601308C:
-    .4byte  sym_06063F5C
+    .long  sym_06063F5C
 .L_06013090:
-    .4byte  vdp2_scroll_update
+    .long  vdp2_scroll_update
 .L_06013094:
-    .4byte  sym_060393FC
+    .long  sym_060393FC
 .L_06013098:
-    .4byte  sym_0605A008
+    .long  sym_0605A008
 .L_0601309C:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_060130A0:
-    .4byte  sym_0602853E
+    .long  sym_0602853E
 .L_060130A4:
-    .4byte  sym_06000344
+    .long  sym_06000344
 .L_060130A8:
-    .4byte  sym_06012E00
+    .long  sym_06012E00
 .L_060130AC:
-    .4byte  sym_0606A4F4
+    .long  sym_0606A4F4
 .L_060130B0:
-    .4byte  sym_0606A4EC
+    .long  sym_0606A4EC
 .L_060130B4:
-    .4byte  sym_06089E44
+    .long  sym_06089E44
 .L_060130B8:
-    .4byte  vdp1_sprite_render
+    .long  vdp1_sprite_render
 .L_060130BC:
-    .4byte  0x002A0000
+    .long  0x002A0000
 .L_060130C0:
     mov.w   DAT_060131b4, r7
     mov #0x0, r6
@@ -318,117 +318,117 @@ DAT_06013068:
 
     .global DAT_060131b4
 DAT_060131b4:
-    .2byte  0x2E73
+    .short  0x2E73
 .L_060131B6:
-    .2byte  0x0519
+    .short  0x0519
 
     .global DAT_060131b8
 DAT_060131b8:
-    .2byte  0x2F93
+    .short  0x2F93
 
     .global DAT_060131ba
 DAT_060131ba:
-    .2byte  0x080F
+    .short  0x080F
 
     .global DAT_060131bc
 DAT_060131bc:
-    .2byte  0x3027
+    .short  0x3027
 .L_060131BE:
-    .2byte  0x0738
+    .short  0x0738
 
     .global DAT_060131c0
 DAT_060131c0:
-    .2byte  0x325B
+    .short  0x325B
 
     .global DAT_060131c2
 DAT_060131c2:
-    .2byte  0x3433
+    .short  0x3433
 .L_060131C4:
-    .2byte  0x0208
+    .short  0x0208
 
     .global DAT_060131c6
 DAT_060131c6:
-    .2byte  0x3457
+    .short  0x3457
 .L_060131C8:
-    .2byte  0x0A28
+    .short  0x0A28
 
     .global DAT_060131ca
 DAT_060131ca:
-    .2byte  0x0640
+    .short  0x0640
 .L_060131CC:
-    .2byte  0x0228
+    .short  0x0228
 
     .global DAT_060131ce
 DAT_060131ce:
-    .2byte  0x06AC
+    .short  0x06AC
 .L_060131D0:
-    .2byte  0x0428
+    .short  0x0428
 
     .global DAT_060131d2
 DAT_060131d2:
-    .2byte  0x074C
+    .short  0x074C
 .L_060131D4:
-    .2byte  0x0418
+    .short  0x0418
 
     .global DAT_060131d6
 DAT_060131d6:
-    .2byte  0x07E4
+    .short  0x07E4
 .L_060131D8:
-    .2byte  0x0820
+    .short  0x0820
 
     .global DAT_060131da
 DAT_060131da:
-    .2byte  0x09B4
+    .short  0x09B4
 .L_060131DC:
-    .2byte  0x0518
+    .short  0x0518
 
     .global DAT_060131de
 DAT_060131de:
-    .2byte  0x0A34
+    .short  0x0A34
 
     .global DAT_060131e0
 DAT_060131e0:
-    .2byte  0x0AA4
+    .short  0x0AA4
 .L_060131E2:
-    .2byte  0x0508
+    .short  0x0508
 
     .global DAT_060131e4
 DAT_060131e4:
-    .2byte  0x0AD8
+    .short  0x0AD8
 .L_060131E6:
-    .2byte  0x0D10
+    .short  0x0D10
 
     .global DAT_060131e8
 DAT_060131e8:
-    .2byte  0x0C14
+    .short  0x0C14
 
     .global DAT_060131ea
 DAT_060131ea:
-    .2byte  0x041C
+    .short  0x041C
 .L_060131EC:
-    .2byte  0x0348
+    .short  0x0348
 
     .global DAT_060131ee
 DAT_060131ee:
-    .2byte  0x0D7C
+    .short  0x0D7C
 
     .global DAT_060131f0
 DAT_060131f0:
-    .2byte  0x0F58
+    .short  0x0F58
 
     .global DAT_060131f2
 DAT_060131f2:
-    .2byte  0x1140
+    .short  0x1140
 .L_060131F4:
-    .2byte  0x0630
+    .short  0x0630
 
     .global DAT_060131f6
 DAT_060131f6:
-    .2byte  0x12F8
+    .short  0x12F8
 
     .global DAT_060131f8
 DAT_060131f8:
-    .2byte  0x1484
+    .short  0x1484
 .L_060131FA:
     jsr @r13
     mov #0x1D, r4
@@ -557,111 +557,111 @@ DAT_060131f8:
 
     .global DAT_060132f2
 DAT_060132f2:
-    .2byte  0x1890
+    .short  0x1890
 .L_060132F4:
-    .2byte  0x0C08
+    .short  0x0C08
 
     .global DAT_060132f6
 DAT_060132f6:
-    .2byte  0x1908
+    .short  0x1908
 .L_060132F8:
-    .2byte  0x0C10
+    .short  0x0C10
 .L_060132FA:
-    .2byte  0x0308
+    .short  0x0308
 
     .global DAT_060132fc
 DAT_060132fc:
-    .2byte  0x1AC4
+    .short  0x1AC4
 
     .global DAT_060132fe
 DAT_060132fe:
-    .2byte  0x1B04
+    .short  0x1B04
 .L_06013300:
-    .2byte  0x0410
+    .short  0x0410
 
     .global DAT_06013302
 DAT_06013302:
-    .2byte  0x1B9C
+    .short  0x1B9C
 
     .global DAT_06013304
 DAT_06013304:
-    .2byte  0x1BC8
+    .short  0x1BC8
 
     .global DAT_06013306
 DAT_06013306:
-    .2byte  0x1C04
+    .short  0x1C04
 
     .global DAT_06013308
 DAT_06013308:
-    .2byte  0x1CC8
+    .short  0x1CC8
 
     .global DAT_0601330a
 DAT_0601330a:
-    .2byte  0x060C
+    .short  0x060C
 
     .global DAT_0601330c
 DAT_0601330c:
-    .2byte  0x1D2C
+    .short  0x1D2C
 
     .global DAT_0601330e
 DAT_0601330e:
-    .2byte  0x1D84
+    .short  0x1D84
 .L_06013310:
-    .2byte  0x0610
+    .short  0x0610
 
     .global DAT_06013312
 DAT_06013312:
-    .2byte  0x1E20
+    .short  0x1E20
 .L_06013314:
-    .2byte  0x0510
+    .short  0x0510
 .L_06013316:
-    .2byte  0x0310
+    .short  0x0310
 
     .global DAT_06013318
 DAT_06013318:
-    .2byte  0x1E8C
+    .short  0x1E8C
 
     .global DAT_0601331a
 DAT_0601331a:
-    .2byte  0x1EFC
+    .short  0x1EFC
 
     .global DAT_0601331c
 DAT_0601331c:
-    .2byte  0x090C
+    .short  0x090C
 
     .global DAT_0601331e
 DAT_0601331e:
-    .2byte  0x1FC8
+    .short  0x1FC8
 
     .global DAT_06013320
 DAT_06013320:
-    .2byte  0x080C
+    .short  0x080C
 
     .global DAT_06013322
 DAT_06013322:
-    .2byte  0x2060
+    .short  0x2060
 .L_06013324:
-    .2byte  0x0110
+    .short  0x0110
 
     .global DAT_06013326
 DAT_06013326:
-    .2byte  0x2080
+    .short  0x2080
 
     .global DAT_06013328
 DAT_06013328:
-    .2byte  0x20A0
+    .short  0x20A0
 
     .global DAT_0601332a
 DAT_0601332a:
-    .2byte  0x211C
+    .short  0x211C
 
     .global DAT_0601332c
 DAT_0601332c:
-    .2byte  0x2194
+    .short  0x2194
 
     .global DAT_0601332e
 DAT_0601332e:
-    .2byte  0x225C
+    .short  0x225C
 .L_06013330:
     jsr @r13
     nop
@@ -802,37 +802,37 @@ DAT_0601332e:
 
     .global DAT_06013440
 DAT_06013440:
-    .2byte  0x22F4
+    .short  0x22F4
 
     .global DAT_06013442
 DAT_06013442:
-    .2byte  0x22FC
+    .short  0x22FC
 
     .global DAT_06013444
 DAT_06013444:
-    .2byte  0x2304
+    .short  0x2304
 
     .global DAT_06013446
 DAT_06013446:
-    .2byte  0x230C
+    .short  0x230C
 
     .global DAT_06013448
 DAT_06013448:
-    .2byte  0x2314
+    .short  0x2314
 
     .global DAT_0601344a
 DAT_0601344a:
-    .2byte  0x231C
+    .short  0x231C
 
     .global DAT_0601344c
 DAT_0601344c:
-    .2byte  0x2324
+    .short  0x2324
 
     .global DAT_0601344e
 DAT_0601344e:
-    .2byte  0x232C
+    .short  0x232C
 .L_06013450:
-    .4byte  sym_06007540
+    .long  sym_06007540
 .L_06013454:
     mov #0x1A, r5
     jsr @r12
@@ -969,11 +969,11 @@ DAT_0601344e:
     bra     .L_06013564
     nop
 .L_06013560:
-    .2byte  0x0730
+    .short  0x0730
 
     .global DAT_06013562
 DAT_06013562:
-    .2byte  0x63F6
+    .short  0x63F6
 .L_06013564:
     mov r6, r4
     jsr @r13
@@ -1121,117 +1121,117 @@ DAT_06013562:
 
     .global DAT_06013682
 DAT_06013682:
-    .2byte  0x64CB
+    .short  0x64CB
 
     .global DAT_06013684
 DAT_06013684:
-    .2byte  0x6587
+    .short  0x6587
 
     .global DAT_06013686
 DAT_06013686:
-    .2byte  0x663F
+    .short  0x663F
 
     .global DAT_06013688
 DAT_06013688:
-    .2byte  0x6709
+    .short  0x6709
 
     .global DAT_0601368a
 DAT_0601368a:
-    .2byte  0x67BD
+    .short  0x67BD
 
     .global DAT_0601368c
 DAT_0601368c:
-    .2byte  0x686D
+    .short  0x686D
 
     .global DAT_0601368e
 DAT_0601368e:
-    .2byte  0x6928
+    .short  0x6928
 .L_06013690:
-    .2byte  0x0830
+    .short  0x0830
 .L_06013692:
-    .2byte  0x0091
+    .short  0x0091
 
     .global DAT_06013694
 DAT_06013694:
-    .2byte  0x69FB
+    .short  0x69FB
 .L_06013696:
-    .2byte  0x0430
+    .short  0x0430
 .L_06013698:
-    .2byte  0x0092
+    .short  0x0092
 
     .global DAT_0601369a
 DAT_0601369a:
-    .2byte  0x6A6A
+    .short  0x6A6A
 .L_0601369C:
-    .2byte  0x0540
+    .short  0x0540
 .L_0601369E:
-    .2byte  0x0093
+    .short  0x0093
 
     .global DAT_060136a0
 DAT_060136a0:
-    .2byte  0x6B18
+    .short  0x6B18
 
     .global DAT_060136a2
 DAT_060136a2:
-    .2byte  0x6BE9
+    .short  0x6BE9
 .L_060136A4:
-    .2byte  0x0530
+    .short  0x0530
 
     .global DAT_060136a6
 DAT_060136a6:
-    .2byte  0x0095
+    .short  0x0095
 
     .global DAT_060136a8
 DAT_060136a8:
-    .2byte  0x6C7E
+    .short  0x6C7E
 
     .global DAT_060136aa
 DAT_060136aa:
-    .2byte  0x0096
+    .short  0x0096
 
     .global DAT_060136ac
 DAT_060136ac:
-    .2byte  0x6DA1
+    .short  0x6DA1
 
     .global DAT_060136ae
 DAT_060136ae:
-    .2byte  0x6E7F
+    .short  0x6E7F
 
     .global DAT_060136b0
 DAT_060136b0:
-    .2byte  0x6F4B
+    .short  0x6F4B
 
     .global DAT_060136b2
 DAT_060136b2:
-    .2byte  0x6FFE
+    .short  0x6FFE
 .L_060136B4:
-    .2byte  0x0840
+    .short  0x0840
 .L_060136B6:
-    .2byte  0x009A
+    .short  0x009A
 
     .global DAT_060136b8
 DAT_060136b8:
-    .2byte  0x711E
+    .short  0x711E
 
     .global DAT_060136ba
 DAT_060136ba:
-    .2byte  0x71DF
+    .short  0x71DF
 
     .global DAT_060136bc
 DAT_060136bc:
-    .2byte  0x009C
+    .short  0x009C
 
     .global DAT_060136be
 DAT_060136be:
-    .2byte  0x7293
+    .short  0x7293
 
     .global DAT_060136c0
 DAT_060136c0:
-    .2byte  0x734A
+    .short  0x734A
 
     .global DAT_060136c2
 DAT_060136c2:
-    .2byte  0x7408
+    .short  0x7408
 .L_060136C4:
     jsr @r13
     nop
@@ -1354,84 +1354,84 @@ DAT_060136c2:
 
     .global DAT_060137b0
 DAT_060137b0:
-    .2byte  0x74D0
+    .short  0x74D0
 .L_060137B2:
-    .2byte  0x0930
+    .short  0x0930
 .L_060137B4:
-    .2byte  0x00A0
+    .short  0x00A0
 
     .global DAT_060137b6
 DAT_060137b6:
-    .2byte  0x75F5
+    .short  0x75F5
 
     .global DAT_060137b8
 DAT_060137b8:
-    .2byte  0x76D2
+    .short  0x76D2
 
     .global DAT_060137ba
 DAT_060137ba:
-    .2byte  0x778E
+    .short  0x778E
 
     .global DAT_060137bc
 DAT_060137bc:
-    .2byte  0x784A
+    .short  0x784A
 
     .global DAT_060137be
 DAT_060137be:
-    .2byte  0x78E3
+    .short  0x78E3
 
     .global DAT_060137c0
 DAT_060137c0:
-    .2byte  0x7987
+    .short  0x7987
 
     .global DAT_060137c2
 DAT_060137c2:
-    .2byte  0x7D47
+    .short  0x7D47
 .L_060137C4:
-    .2byte  0x0100
-    .2byte  0xFFFF
+    .short  0x0100
+    .short  0xFFFF
 .L_060137C8:
-    .4byte  memcpy_word_idx
+    .long  memcpy_word_idx
 .L_060137CC:
-    .4byte  sym_0604878C
+    .long  sym_0604878C
 .L_060137D0:
-    .4byte  0x25F00000
+    .long  0x25F00000
 .L_060137D4:
-    .4byte  sym_0604814C
+    .long  sym_0604814C
 .L_060137D8:
-    .4byte  0x25F00600
+    .long  0x25F00600
 .L_060137DC:
-    .4byte  sym_0604848C
+    .long  sym_0604848C
 .L_060137E0:
-    .4byte  0x25F00660
+    .long  0x25F00660
 .L_060137E4:
-    .4byte  sym_060484CC
+    .long  sym_060484CC
 .L_060137E8:
-    .4byte  0x25F006A0
+    .long  0x25F006A0
 .L_060137EC:
-    .4byte  sym_060485AC
+    .long  sym_060485AC
 .L_060137F0:
-    .4byte  0x25F006E0
+    .long  0x25F006E0
 .L_060137F4:
-    .4byte  0x25F004E0
+    .long  0x25F004E0
 .L_060137F8:
-    .4byte  sym_0605CD9C
+    .long  sym_0605CD9C
 .L_060137FC:
-    .4byte  0x25F00720
+    .long  0x25F00720
 .L_06013800:
-    .4byte  channel_nibble_config
+    .long  channel_nibble_config
 .L_06013804:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8
 .L_06013808:
-    .4byte  sym_0605AD14
+    .long  sym_0605AD14
 .L_0601380C:
-    .4byte  sym_06084B00
+    .long  sym_06084B00
 .L_06013810:
-    .4byte  sym_0605AD20
+    .long  sym_0605AD20
 .L_06013814:
-    .4byte  sym_06084B1C
+    .long  sym_06084B1C
 .L_06013818:
-    .4byte  sym_06084B08
+    .long  sym_06084B08
 .L_0601381C:
     .byte   0xD3, 0x2F    /* mov.l .L_game_timer_addr, r3 */
     mov.l r4, @r3

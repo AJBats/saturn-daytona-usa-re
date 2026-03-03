@@ -77,11 +77,11 @@ transform_pipeline:
     add r8, r9
 
 .L_pool_06027A2C:
-    .4byte  0x0000E666
+    .long  0x0000E666
 .L_pool_06027A30:
-    .4byte  0x00001999
+    .long  0x00001999
 .L_pool_06027A34:
-    .4byte  sym_06063F08
+    .long  sym_06063F08
 
 .L_06027A38:
     mov.l @r4, r7
@@ -428,4 +428,4 @@ transform_pipeline:
     mov.l @r15+, r12
     rts
     mov.l @r15+, r14
-    .2byte  0x0000
+    .short  0x0000

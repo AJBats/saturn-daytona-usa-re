@@ -8,7 +8,7 @@ mem_pool_reset:
     jmp @r3
     lds.l @r15+, pr
 .L_0601F5DC:
-    .4byte  geom_vertex_process
+    .long  geom_vertex_process
 
     .global geom_render_util
 geom_render_util:
@@ -99,7 +99,7 @@ geom_render_util:
     mov r4, r0
     add #0x1, r4
     cmp/hs r13, r4
-    bf/s    .L_0601F67A
+    bf.s    .L_0601F67A
     mov.b r3, @(r0, r14)
 .L_0601F68C:
     mov.l   .L_0601F6DC, r4
@@ -110,7 +110,7 @@ geom_render_util:
     mov.l   .L_0601F6E8, r5
     mov.l @r5, r0
     tst r0, r0
-    bt/s    .L_0601F6A2
+    bt.s    .L_0601F6A2
     mov #0x0, r4
     mov.l @r5, r4
 .L_0601F6A2:
@@ -130,54 +130,54 @@ geom_render_util:
 
     .global DAT_0601f6ba
 DAT_0601f6ba:
-    .2byte  0x2710
+    .short  0x2710
 .L_0601F6BC:
-    .4byte  sym_0607ED90
+    .long  sym_0607ED90
 .L_0601F6C0:
-    .4byte  hud_overlay_render
+    .long  hud_overlay_render
 .L_0601F6C4:
-    .4byte  geom_normal_compute
+    .long  geom_normal_compute
 .L_0601F6C8:
-    .4byte  geom_output_handler
+    .long  geom_output_handler
 .L_0601F6CC:
-    .4byte  sym_06078635
+    .long  sym_06078635
 .L_0601F6D0:
-    .4byte  sym_060877F0
+    .long  sym_060877F0
 .L_0601F6D4:
-    .4byte  sym_060786A4
+    .long  sym_060786A4
 .L_0601F6D8:
-    .4byte  sym_0605E0A1
+    .long  sym_0605E0A1
 .L_0601F6DC:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8
 .L_0601F6E0:
-    .4byte  sym_0605E0A0
+    .long  sym_0605E0A0
 .L_0601F6E4:
-    .4byte  sym_0607ED88
+    .long  sym_0607ED88
 .L_0601F6E8:
-    .4byte  sym_06085FFC
+    .long  sym_06085FFC
 .L_0601F6EC:
-    .4byte  sym_06086000
+    .long  sym_06086000
 .L_0601F6F0:
-    .4byte  sym_0605E06C
+    .long  sym_0605E06C
 .L_0601F6F4:
-    .4byte  sym_060877D8
+    .long  sym_060877D8
 .L_0601F6F8:
     mov #0xB, r2
-    muls.w r2, r3
+    muls r2, r3
     sts macl, r3
     exts.b r3, r3
     add r6, r3
     mov.b @r4, r0
     mov.b r0, @(7, r3)
     mov.b @r5, r3
-    muls.w r2, r3
+    muls r2, r3
     sts macl, r3
     exts.b r3, r3
     add r6, r3
     mov.b @(1, r4), r0
     mov.b r0, @(8, r3)
     mov.b @r5, r3
-    muls.w r2, r3
+    muls r2, r3
     sts macl, r3
     exts.b r3, r3
     add r6, r3
@@ -188,7 +188,7 @@ DAT_0601f6ba:
 .L_0601F726:
     mov.b @r5, r2
     mov #0xB, r3
-    muls.w r3, r2
+    muls r3, r2
     sts macl, r2
     exts.b r2, r2
     add r6, r2
@@ -196,14 +196,14 @@ DAT_0601f6ba:
     mov.b r0, @(7, r2)
     mov.b @r5, r3
     mov #0xB, r2
-    muls.w r2, r3
+    muls r2, r3
     sts macl, r3
     exts.b r3, r3
     add r6, r3
     mov #0x41, r0
     mov.b r0, @(8, r3)
     mov.b @r5, r3
-    muls.w r2, r3
+    muls r2, r3
     sts macl, r3
     exts.b r3, r3
     add r6, r3
@@ -230,11 +230,11 @@ DAT_0601f6ba:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_0601F77C:
-    .4byte  hud_overlay_render
+    .long  hud_overlay_render
 .L_0601F780:
-    .4byte  geom_rotation_apply
+    .long  geom_rotation_apply
 
     .global geom_output_finalize
 geom_output_finalize:
@@ -254,7 +254,7 @@ geom_output_finalize:
     mov.b @r0, r0
     extu.b r0, r0
     tst r0, r0
-    bt/s    .L_0601F868
+    bt.s    .L_0601F868
     add #0x40, r12
     mov.l   .L_0601F814, r10
     mov.l @r10, r4
@@ -307,32 +307,32 @@ geom_output_finalize:
 
     .global DAT_0601f804
 DAT_0601f804:
-    .2byte  0x2710
+    .short  0x2710
 
     .global DAT_0601f806
 DAT_0601f806:
-    .2byte  0x1900
+    .short  0x1900
 .L_0601F808:
-    .2byte  0x2328
-    .2byte  0xFFFF
+    .short  0x2328
+    .short  0xFFFF
 .L_0601F80C:
-    .4byte  sym_0607ED90
+    .long  sym_0607ED90
 .L_0601F810:
-    .4byte  sym_06078635
+    .long  sym_06078635
 .L_0601F814:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8
 .L_0601F818:
-    .4byte  hud_overlay_render
+    .long  hud_overlay_render
 .L_0601F81C:
-    .4byte  geom_coord_calc
+    .long  geom_coord_calc
 .L_0601F820:
-    .4byte  sym_0605E0A1
+    .long  sym_0605E0A1
 .L_0601F824:
-    .4byte  sym_0605E0A0
+    .long  sym_0605E0A0
 .L_0601F828:
-    .4byte  0x002F8000
+    .long  0x002F8000
 .L_0601F82C:
-    .4byte  memcpy_long_idx
+    .long  memcpy_long_idx
 .L_0601F830:
     mov.l @r10, r0
     cmp/eq #0x2, r0
@@ -359,7 +359,7 @@ DAT_0601f806:
     mov r4, r0
     add #0x1, r4
     cmp/hs r13, r4
-    bf/s    .L_0601F850
+    bf.s    .L_0601F850
     mov.b r3, @(r0, r14)
 .L_0601F862:
     mov #0x0, r3
@@ -396,21 +396,21 @@ DAT_0601f806:
 .L_0601F89A:
     rts
     nop
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_0601F8A0:
-    .4byte  sym_060877D8
+    .long  sym_060877D8
 .L_0601F8A4:
-    .4byte  sym_0604A5C0
+    .long  sym_0604A5C0
 .L_0601F8A8:
-    .4byte  sym_0605E0A1
+    .long  sym_0605E0A1
 .L_0601F8AC:
-    .4byte  sym_06087080
+    .long  sym_06087080
 .L_0601F8B0:
-    .4byte  sym_0605E098
+    .long  sym_0605E098
 .L_0601F8B4:
-    .4byte  sym_060A0FA8
+    .long  sym_060A0FA8
 .L_0601F8B8:
-    .4byte  sym_0607ED90
+    .long  sym_0607ED90
 
     .global sym_0601F8BC
 sym_0601F8BC:
@@ -447,11 +447,11 @@ geom_output_ctrl:
     rts
     nop
 .L_0601F8F4:
-    .4byte  sym_0605E05C
+    .long  sym_0605E05C
 .L_0601F8F8:
-    .4byte  sym_060149E0
+    .long  sym_060149E0
 .L_0601F8FC:
-    .4byte  sym_060149CC
+    .long  sym_060149CC
 
     .global geom_output_dispatch
 geom_output_dispatch:
@@ -514,24 +514,24 @@ resource_validator:
 
     .global DAT_0601f962
 DAT_0601f962:
-    .2byte  0x0800
+    .short  0x0800
 
     .global DAT_0601f964
 DAT_0601f964:
-    .2byte  0x4210
-    .2byte  0xFFFF
+    .short  0x4210
+    .short  0xFFFF
 .L_0601F968:
-    .4byte  sym_06063D9A
+    .long  sym_06063D9A
 .L_0601F96C:
-    .4byte  0x25E7FFFE
+    .long  0x25E7FFFE
 .L_0601F970:
-    .4byte  tilemap_dma_update
+    .long  tilemap_dma_update
 .L_0601F974:
-    .4byte  sym_0605B6D8
+    .long  sym_0605B6D8
 .L_0601F978:
-    .4byte  sym_0605E05C
+    .long  sym_0605E05C
 .L_0601F97C:
-    .4byte  geom_vertex_process
+    .long  geom_vertex_process
 .L_0601F980:
     mov.l   .L_0601FA2C, r3
     mov.l @r14, r2
@@ -627,42 +627,42 @@ geom_output_main:
 
     .global DAT_0601fa26
 DAT_0601fa26:
-    .2byte  0x7C00
+    .short  0x7C00
 .L_0601FA28:
-    .2byte  0x02C0
-    .2byte  0xFFFF
+    .short  0x02C0
+    .short  0xFFFF
 .L_0601FA2C:
-    .4byte  0x80000000
+    .long  0x80000000
 .L_0601FA30:
-    .4byte  sym_06026CE0
+    .long  sym_06026CE0
 .L_0601FA34:
-    .4byte  0x40000000
+    .long  0x40000000
 .L_0601FA38:
-    .4byte  sym_06063D9A
+    .long  sym_06063D9A
 .L_0601FA3C:
-    .4byte  sym_0602853E
+    .long  sym_0602853E
 .L_0601FA40:
-    .4byte  sym_06028560
+    .long  sym_06028560
 .L_0601FA44:
-    .4byte  sym_06063750
+    .long  sym_06063750
 .L_0601FA48:
-    .4byte  sym_06028400
+    .long  sym_06028400
 .L_0601FA4C:
-    .4byte  sym_06078644
+    .long  sym_06078644
 .L_0601FA50:
-    .4byte  0x00017700
+    .long  0x00017700
 .L_0601FA54:
-    .4byte  0x25E72194
+    .long  0x25E72194
 .L_0601FA58:
-    .4byte  sym_0600511E
+    .long  sym_0600511E
 .L_0601FA5C:
-    .4byte  sym_0604894C
+    .long  sym_0604894C
 .L_0601FA60:
-    .4byte  0x25F00600
+    .long  0x25F00600
 .L_0601FA64:
-    .4byte  memcpy_word_idx
+    .long  memcpy_word_idx
 .L_0601FA68:
-    .4byte  sym_0605E05C
+    .long  sym_0605E05C
 .L_0601FA6C:
     mov.w   DAT_0601fac4, r7
     add r11, r7
@@ -715,29 +715,29 @@ DAT_0601fa26:
 
     .global DAT_0601fac4
 DAT_0601fac4:
-    .2byte  0x02C8
+    .short  0x02C8
 .L_0601FAC6:
-    .2byte  0x0380
+    .short  0x0380
 
     .global DAT_0601fac8
 DAT_0601fac8:
-    .2byte  0x02D0
+    .short  0x02D0
 .L_0601FACA:
-    .2byte  0x0400
+    .short  0x0400
 .L_0601FACC:
-    .2byte  0x0590
+    .short  0x0590
 .L_0601FACE:
-    .2byte  0x0090
+    .short  0x0090
 .L_0601FAD0:
-    .4byte  sym_0605CD9C
+    .long  sym_0605CD9C
 .L_0601FAD4:
-    .4byte  0x25F00600
+    .long  0x25F00600
 .L_0601FAD8:
-    .4byte  memcpy_word_idx
+    .long  memcpy_word_idx
 .L_0601FADC:
-    .4byte  sym_060284AE
+    .long  sym_060284AE
 .L_0601FAE0:
-    .4byte  sym_0605E05C
+    .long  sym_0605E05C
 .L_0601FAE4:
     mov.l   .L_0601FBCC, r10
     mov r14, r6
@@ -837,54 +837,54 @@ DAT_0601fac8:
     bra     .L_0601FC34
     mov.l @r9, r5
 .L_0601FBA6:
-    .2byte  0x0080
+    .short  0x0080
 .L_0601FBA8:
-    .2byte  0x0098
+    .short  0x0098
 .L_0601FBAA:
-    .2byte  0x0180
+    .short  0x0180
 .L_0601FBAC:
-    .2byte  0x0280
+    .short  0x0280
 
     .global DAT_0601fbae
 DAT_0601fbae:
-    .2byte  0x0296
+    .short  0x0296
 .L_0601FBB0:
-    .2byte  0x0400
+    .short  0x0400
 .L_0601FBB2:
-    .2byte  0x0500
+    .short  0x0500
 
     .global DAT_0601fbb4
 DAT_0601fbb4:
-    .2byte  0x0536
+    .short  0x0536
 .L_0601FBB6:
-    .2byte  0x0600
+    .short  0x0600
 .L_0601FBB8:
-    .2byte  0x0700
+    .short  0x0700
 .L_0601FBBA:
-    .2byte  0x0730
+    .short  0x0730
 .L_0601FBBC:
-    .2byte  0x0800
+    .short  0x0800
 .L_0601FBBE:
-    .2byte  0x0900
+    .short  0x0900
 .L_0601FBC0:
-    .2byte  0x0A00
+    .short  0x0A00
 .L_0601FBC2:
-    .2byte  0x0B00
+    .short  0x0B00
 
     .global DAT_0601fbc4
 DAT_0601fbc4:
-    .2byte  0x0B0E
+    .short  0x0B0E
 .L_0601FBC6:
-    .2byte  0x0C80
+    .short  0x0C80
 
     .global DAT_0601fbc8
 DAT_0601fbc8:
-    .2byte  0x0CD2
-    .2byte  0xFFFF
+    .short  0x0CD2
+    .short  0xFFFF
 .L_0601FBCC:
-    .4byte  sym_0605E0A4
+    .long  sym_0605E0A4
 .L_0601FBD0:
-    .4byte  sym_0605E0E4
+    .long  sym_0605E0E4
 .L_0601FBD4:
     mov.l   .L_0601FCAC, r7
     mov r14, r6
@@ -982,50 +982,50 @@ DAT_0601fbc8:
     bra     .L_0601FCD4
     nop
 .L_0601FC8E:
-    .2byte  0x0380
+    .short  0x0380
 .L_0601FC90:
-    .2byte  0x0398
+    .short  0x0398
 .L_0601FC92:
-    .2byte  0x0500
+    .short  0x0500
 
     .global DAT_0601fc94
 DAT_0601fc94:
-    .2byte  0x051E
+    .short  0x051E
 .L_0601FC96:
-    .2byte  0x0680
+    .short  0x0680
 .L_0601FC98:
-    .2byte  0x06B2
+    .short  0x06B2
 .L_0601FC9A:
-    .2byte  0x0880
+    .short  0x0880
 
     .global DAT_0601fc9c
 DAT_0601fc9c:
-    .2byte  0x08D2
+    .short  0x08D2
 .L_0601FC9E:
-    .2byte  0x0480
+    .short  0x0480
 .L_0601FCA0:
-    .2byte  0x0498
+    .short  0x0498
 .L_0601FCA2:
-    .2byte  0x0600
+    .short  0x0600
 .L_0601FCA4:
-    .2byte  0x0620
+    .short  0x0620
 .L_0601FCA6:
-    .2byte  0x0800
+    .short  0x0800
 .L_0601FCA8:
-    .2byte  0x0852
-    .2byte  0xFFFF
+    .short  0x0852
+    .short  0xFFFF
 .L_0601FCAC:
-    .4byte  sym_0605E0D0
+    .long  sym_0605E0D0
 .L_0601FCB0:
-    .4byte  sym_0605E0D4
+    .long  sym_0605E0D4
 .L_0601FCB4:
-    .4byte  sym_0605E0D8
+    .long  sym_0605E0D8
 .L_0601FCB8:
-    .4byte  sym_0605E0E4
+    .long  sym_0605E0E4
 .L_0601FCBC:
-    .4byte  sym_0605E0DC
+    .long  sym_0605E0DC
 .L_0601FCC0:
-    .4byte  sym_0605E0E0
+    .long  sym_0605E0E0
 .L_0601FCC4:
     cmp/eq #0x4, r0
     bf      .L_0601FCCC
@@ -1099,25 +1099,25 @@ geom_display_ctrl_a:
     rts
     mov.l r4, @r3
 .L_0601FD48:
-    .2byte  0x0100
-    .2byte  0xFFFF
+    .short  0x0100
+    .short  0xFFFF
 .L_0601FD4C:
-    .4byte  channel_nibble_config
+    .long  channel_nibble_config
 .L_0601FD50:
-    .4byte  0x25E7FFFE
+    .long  0x25E7FFFE
 .L_0601FD54:
-    .4byte  tilemap_dma_update
+    .long  tilemap_dma_update
 .L_0601FD58:
-    .4byte  sym_0605B6D8
+    .long  sym_0605B6D8
 .L_0601FD5C:
-    .4byte  sym_06026CE0
+    .long  sym_06026CE0
 .L_0601FD60:
-    .4byte  sym_060620D0
+    .long  sym_060620D0
 .L_0601FD64:
-    .4byte  sym_0605A000
+    .long  sym_0605A000
 .L_0601FD68:
-    .4byte  sym_0605A004
+    .long  sym_0605A004
 .L_0601FD6C:
-    .4byte  sym_0605A008
+    .long  sym_0605A008
 .L_0601FD70:
-    .4byte  sym_06059F44
+    .long  sym_06059F44

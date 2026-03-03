@@ -81,12 +81,12 @@ checkpoint_time_calc:
     .global DAT_0600dd62
 DAT_0600dd62:
     .byte 0x01, 0xE0
-    .4byte sym_0607E940
-    .4byte sym_0607EA9C
-    .4byte sym_0607869C
-    .4byte sym_06034FE0
-    .4byte sym_060786B0
-    .4byte sym_0607EBD0
-    .4byte sym_0607EAD8
-    .4byte sym_0605A21C
-    .4byte sym_060786A0
+    .long sym_0607E940
+    .long sym_0607EA9C
+    .long sym_0607869C
+    .long sym_06034FE0
+    .long sym_060786B0
+    .long sym_0607EBD0
+    .long sym_0607EAD8
+    .long sym_0605A21C
+    .long sym_060786A0

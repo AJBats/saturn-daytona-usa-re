@@ -11,7 +11,7 @@ race_init_master:
     mov.l r14, @r4
     add #0x1, r5
     cmp/hs r6, r5
-    bf/s    .L_0600EB20
+    bf.s    .L_0600EB20
     add #0x4, r4
     mov.l   .L_0600EBE0, r3
     jsr @r3
@@ -103,71 +103,71 @@ race_init_master:
 
     .global DAT_0600ebd8
 DAT_0600ebd8:
-    .2byte  0x1810
+    .short  0x1810
 .L_0600EBDA:
-    .2byte  0x0120
+    .short  0x0120
 .L_0600EBDC:
-    .4byte  sym_06078900
+    .long  sym_06078900
 .L_0600EBE0:
-    .4byte  sym_06026E02
+    .long  sym_06026E02
 .L_0600EBE4:
-    .4byte  sym_060270C6
+    .long  sym_060270C6
 .L_0600EBE8:
-    .4byte  car_array_init
+    .long  car_array_init
 .L_0600EBEC:
-    .4byte  sym_06063F46
+    .long  sym_06063F46
 .L_0600EBF0:
-    .4byte  sym_0607EAE4
+    .long  sym_0607EAE4
 .L_0600EBF4:
-    .4byte  sym_0607EAE8
+    .long  sym_0607EAE8
 .L_0600EBF8:
-    .4byte  sym_0607EAEC
+    .long  sym_0607EAEC
 .L_0600EBFC:
-    .4byte  sym_0607EBD0
+    .long  sym_0607EBD0
 .L_0600EC00:
-    .4byte  sym_0607EBF4
+    .long  sym_0607EBF4
 .L_0600EC04:
-    .4byte  sym_06078654
+    .long  sym_06078654
 .L_0600EC08:
-    .4byte  sym_0605A1C4
+    .long  sym_0605A1C4
 .L_0600EC0C:
-    .4byte  sym_06082A30
+    .long  sym_06082A30
 .L_0600EC10:
-    .4byte  sym_0607EABC
+    .long  sym_0607EABC
 .L_0600EC14:
-    .4byte  sym_0607EAC0
+    .long  sym_0607EAC0
 .L_0600EC18:
-    .4byte  sym_06083260
+    .long  sym_06083260
 .L_0600EC1C:
-    .4byte  sym_06082A26
+    .long  sym_06082A26
 .L_0600EC20:
-    .4byte  sym_060788FC
+    .long  sym_060788FC
 .L_0600EC24:
-    .4byte  sym_06082A38
+    .long  sym_06082A38
 .L_0600EC28:
-    .4byte  sym_06083261
+    .long  sym_06083261
 .L_0600EC2C:
-    .4byte  sym_0608325C
+    .long  sym_0608325C
 .L_0600EC30:
-    .4byte  sym_06083258
+    .long  sym_06083258
 .L_0600EC34:
-    .4byte  sym_0605A21C
+    .long  sym_0605A21C
 .L_0600EC38:
-    .4byte  sym_06086058
+    .long  sym_06086058
 .L_0600EC3C:
-    .4byte  sym_0608605A
+    .long  sym_0608605A
 .L_0600EC40:
-    .4byte  sym_0605DE3C
+    .long  sym_0605DE3C
 .L_0600EC44:
-    .4byte  sym_060786A8
+    .long  sym_060786A8
 .L_0600EC48:
-    .4byte  sym_060786BC
+    .long  sym_060786BC
 .L_0600EC4C:
-    .4byte  sym_06085FCC
+    .long  sym_06085FCC
 .L_0600EC50:
-    .4byte  sym_06087060
+    .long  sym_06087060
 .L_0600EC54:
-    .4byte  sym_0602FD98
+    .long  sym_0602FD98
 .L_0600EC58:
     extu.w r14, r0
     mov.w r0, @(4, r4)
@@ -182,6 +182,6 @@ DAT_0600ebd8:
     jmp @r3
     mov.l @r15+, r14
 .L_0600EC70:
-    .4byte  track_obj_placement
+    .long  track_obj_placement
 .L_0600EC74:
-    .4byte  sym_06018634
+    .long  sym_06018634

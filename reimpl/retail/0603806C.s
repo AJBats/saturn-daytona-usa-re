@@ -85,8 +85,8 @@ DAT_06038108:
     .byte 0xFF, 0xFF
     .byte 0x00, 0x01
     .byte 0x00, 0x00
-    .4byte sym_06035BC8
+    .long sym_06035BC8
     .byte 0x40, 0xF0
     .byte 0x00, 0x00
-    .4byte sym_060359E4
-    .4byte sym_060357B8
+    .long sym_060359E4
+    .long sym_060357B8

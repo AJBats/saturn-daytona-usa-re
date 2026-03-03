@@ -8,38 +8,38 @@ secondary_render_pass:
     nop
     .byte   0xA0, 0x89    /* bra 0x0602EEC2 (external) */
     nop
-    .4byte  0x005C0108
-    .4byte  0x010C0120
-    .4byte  0x0080007C
-    .4byte  0x007E00C8
-    .4byte  0x009E00CC
-    .4byte  sym_0602FDA1
-    .4byte  sym_0607E944
-    .4byte  sym_0607EAE4
-    .4byte  0xFFFF0000
-    .4byte  sym_0602EE90
-    .4byte  sym_0602EDE8
-    .4byte  sym_0602EE20
-    .4byte  sym_0602EE58
+    .long  0x005C0108
+    .long  0x010C0120
+    .long  0x0080007C
+    .long  0x007E00C8
+    .long  0x009E00CC
+    .long  sym_0602FDA1
+    .long  sym_0607E944
+    .long  sym_0607EAE4
+    .long  0xFFFF0000
+    .long  sym_0602EE90
+    .long  sym_0602EDE8
+    .long  sym_0602EE20
+    .long  sym_0602EE58
 .L_pool_0602EDE5:
-    .4byte  sym_060302C6
+    .long  sym_060302C6
 
     .global sym_0602EDE8
 sym_0602EDE8:
-    .4byte  loc_0604605C
-    .4byte  loc_06045EEC
-    .4byte  loc_0604633C
-    .4byte  loc_060461CC
-    .4byte  loc_0604661C
-    .4byte  loc_060464AC
-    .4byte  loc_0604605C
-    .4byte  loc_06045EEC
-    .4byte  loc_0604661C
-    .4byte  loc_060464AC
-    .4byte  loc_0604633C
-    .4byte  loc_060461CC
-    .4byte  loc_0604661C
-    .4byte  loc_060464AC
+    .long  loc_0604605C
+    .long  loc_06045EEC
+    .long  loc_0604633C
+    .long  loc_060461CC
+    .long  loc_0604661C
+    .long  loc_060464AC
+    .long  loc_0604605C
+    .long  loc_06045EEC
+    .long  loc_0604661C
+    .long  loc_060464AC
+    .long  loc_0604633C
+    .long  loc_060461CC
+    .long  loc_0604661C
+    .long  loc_060464AC
 
     .global sym_0602EE20
 sym_0602EE20:

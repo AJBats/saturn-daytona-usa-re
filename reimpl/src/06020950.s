@@ -43,8 +43,8 @@ obj_lod_selector:
     rts
     mov.l @r15+, r14
 .L_pool_060209A0:
-    .4byte  sym_06028400
+    .long  sym_06028400
 .L_pool_060209A4:
-    .4byte  sym_0605F52A
+    .long  sym_0605F52A
 .L_pool_060209A8:
-    .4byte  sym_06035228
+    .long  sym_06035228

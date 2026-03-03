@@ -27,8 +27,8 @@ DAT_0602c8a0:
     .byte 0x00, 0xFA
     .byte 0x00, 0x96
     .byte 0x00, 0x00
-    .4byte sym_06045AEC
-    .4byte sym_0602ECCC
+    .long sym_06045AEC
+    .long sym_0602ECCC
     .byte 0x48, 0x08
     .byte 0x32, 0x8C
     .byte 0x6A, 0xF6

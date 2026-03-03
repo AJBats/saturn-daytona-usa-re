@@ -11,7 +11,7 @@ results_screen_render:
     mov.l @(48, r4), r2
     mov.l @(56, r4), r3
     cmp/eq r3, r2
-    bt/s    .L_0601605E
+    bt.s    .L_0601605E
     mov #0x0, r12
     extu.b r14, r4
     mov r4, r3
@@ -128,15 +128,15 @@ results_screen_render:
     bra     .L_060160E4
     mov.l r1, @(16, r2)
 .L_wpool_060160BE:
-    .2byte  0xF800
+    .short  0xF800
 .L_pool_060160C0:
-    .4byte  sym_06084FC8
+    .long  sym_06084FC8
 .L_pool_060160C4:
-    .4byte  sym_06035438
+    .long  sym_06035438
 .L_pool_060160C8:
-    .4byte  0x000F0000                  /* nibble 4 mask */ ! 15.0 in 16.16 FP — distance threshold for damping
+    .long  0x000F0000                  /* nibble 4 mask */ ! 15.0 in 16.16 FP — distance threshold for damping
 .L_pool_060160CC:
-    .4byte  0xFFFC0000
+    .long  0xFFFC0000
 .L_060160CC:
     extu.b r14, r2
     mov r2, r3
@@ -211,7 +211,7 @@ results_screen_render:
     neg r1, r1
     and r1, r0
     tst r0, r0
-    bt/s    .L_06016176
+    bt.s    .L_06016176
     mov #0x1, r4
     extu.b r14, r5
     mov r5, r3
@@ -294,10 +294,10 @@ results_screen_render:
     bra     .L_0601621A
     mov #0x2, r0
 .L_wpool_060161FD:
-    .2byte  0x0800
-    .2byte  0xFFFF
+    .short  0x0800
+    .short  0xFFFF
 .L_pool_06016201:
-    .4byte  0x00040000                  /* 4.0 (16.16 fixed-point) */ ! +4.0 base positive X velocity
+    .long  0x00040000                  /* 4.0 (16.16 fixed-point) */ ! +4.0 base positive X velocity
 .L_06016200:
     extu.b r14, r14
     mov r14, r2

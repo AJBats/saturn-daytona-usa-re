@@ -51,7 +51,7 @@ DAT_0603b270:
     mov.b r1, @(r0, r9)
     .word 0xFFFF
 .L_0603B274:
-    .4byte  0x7FFFFFFF
+    .long  0x7FFFFFFF
 .L_0603B278:
     .byte   0xD3, 0x24    /* mov.l .L_pool_0603B30C, r3 */
     jsr @r3

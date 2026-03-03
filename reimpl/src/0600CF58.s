@@ -14,7 +14,7 @@ collision_dispatch:
     mov.l @r4, r14
     mov.l @(4, r14), r0
     tst r0, r0
-    bf/s    .L_0600CF7A
+    bf.s    .L_0600CF7A
     mov.l @r13, r13
     bra     .L_0600D092
     nop
@@ -77,26 +77,26 @@ collision_dispatch:
     bra     .L_0600D09C
     nop
 .L_wpool_0600CFE2:
-    .2byte  0x0080
+    .short  0x0080
 
     .global DAT_0600cfe4
 DAT_0600cfe4:
-    .2byte  0x0096
+    .short  0x0096
 
     .global DAT_0600cfe6
 DAT_0600cfe6:
-    .2byte  0x0210
+    .short  0x0210
 .L_wpool_0600CFE8:
-    .2byte  0x01FC
-    .2byte  0xFFFF
+    .short  0x01FC
+    .short  0xFFFF
 .L_pool_0600CFEC:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_pool_0600CFF0:
-    .4byte  sym_0607E940
+    .long  sym_0607E940
 .L_pool_0600CFF4:
-    .4byte  0x00C00000
+    .long  0x00C00000
 .L_pool_0600CFF8:
-    .4byte  sym_06035168
+    .long  sym_06035168
 .L_0600CFFC:
     mov r11, r0
     mov.b @r0, r0
@@ -193,19 +193,19 @@ DAT_0600cfe6:
     rts
     mov.l @r15+, r14
 .L_wpool_0600D0AA:
-    .2byte  0x0210
+    .short  0x0210
 .L_wpool_0600D0AC:
-    .2byte  0x0AF0
+    .short  0x0AF0
 .L_wpool_0600D0AE:
-    .2byte  0x0224
+    .short  0x0224
 .L_wpool_0600D0B0:
-    .2byte  0x01FC
+    .short  0x01FC
 .L_wpool_0600D0B2:
-    .2byte  0x0300
+    .short  0x0300
 .L_wpool_0600D0B4:
-    .2byte  0x01F8
+    .short  0x01F8
 .L_wpool_0600D0B6:
-    .2byte  0x0400
+    .short  0x0400
 .L_0600D0B8:
     mov.w   .L_wpool_0600D112, r7
     mov.l   .L_pool_0600D120, r5
@@ -216,7 +216,7 @@ DAT_0600cfe6:
     mov.l   .L_pool_0600D128, r3
     and r3, r2
     tst r2, r2
-    bt/s    .L_0600D10E
+    bt.s    .L_0600D10E
     mov.l @r5, r5
     mov.w   DAT_0600d114, r0
     mov.l @(r0, r5), r3
@@ -259,25 +259,25 @@ DAT_0600cfe6:
     rts
     nop
 .L_wpool_0600D112:
-    .2byte  0x0200
+    .short  0x0200
 
     .global DAT_0600d114
 DAT_0600d114:
-    .2byte  0x01FC
+    .short  0x01FC
 .L_wpool_0600D116:
-    .2byte  0xFE00
+    .short  0xFE00
 .L_wpool_0600D118:
-    .2byte  0x01F8
+    .short  0x01F8
 
     .global DAT_0600d11a
 DAT_0600d11a:
-    .2byte  0x0800
+    .short  0x0800
 .L_wpool_0600D11C:
-    .2byte  0x0204
-    .2byte  0xFFFF
+    .short  0x0204
+    .short  0xFFFF
 .L_pool_0600D120:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_pool_0600D124:
-    .4byte  sym_0607E940
+    .long  sym_0607E940
 .L_pool_0600D128:
-    .4byte  0x00C00000
+    .long  0x00C00000

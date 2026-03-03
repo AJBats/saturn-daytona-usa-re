@@ -10,12 +10,12 @@ ai_section_check:
     lds.l @r15+, pr
     rts
     mov #-0x9, r0
-    .4byte  0x0338033C
+    .long  0x0338033C
 .L_pool_06041365:
-    .4byte  sym_060A5400
-    .4byte  cd_block_read_safe
-    .4byte  ai_checkpoint_section
-    .4byte  sym_06035C4E
+    .long  sym_060A5400
+    .long  cd_block_read_safe
+    .long  ai_checkpoint_section
+    .long  sym_06035C4E
 .L_06041374:
     .byte   0xD3, 0x1E    /* mov.l @cross-TU pool (ai_checkpoint_validate), r3 */
     jsr @r3

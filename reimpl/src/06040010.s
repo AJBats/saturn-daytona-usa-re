@@ -29,7 +29,7 @@ validation_dispatch:
 .L_06040042:
     mov.l @r15, r0
     tst r0, r0
-    bt/s    .L_0604004E
+    bt.s    .L_0604004E
     mov.l @r14, r3
     bra     .L_06040050
     mov #0x17, r2
@@ -84,17 +84,17 @@ validation_dispatch:
 
     .global DAT_0604009e
 DAT_0604009e:
-    .2byte  0x00C4
+    .short  0x00C4
 .L_060400A0:
-    .2byte  0x00D0
+    .short  0x00D0
 .L_060400A2:
-    .2byte  0x00C8
+    .short  0x00C8
 .L_060400A4:
-    .4byte  sym_060A4D14
+    .long  sym_060A4D14
 .L_060400A8:
-    .4byte  road_segment_check
-    .4byte  0x7F044F26
-    .4byte  0x000B6EF6
+    .long  road_segment_check
+    .long  0x7F044F26
+    .long  0x000B6EF6
 
 .L_060400B4:
     mov #0x4, r3
@@ -130,7 +130,7 @@ obj_init_validate:
     add #-0xC, r15
     mov.w   .L_06040106, r12
     tst r13, r13
-    bf/s    .L_06040174
+    bf.s    .L_06040174
     mov r4, r14
     mov r15, r5
     mov.l   .L_06040108, r3
@@ -144,13 +144,13 @@ obj_init_validate:
     bra     .L_060401D6
     mov #0x0, r0
 .L_06040104:
-    .2byte  0x0914
+    .short  0x0914
 .L_06040106:
-    .2byte  0x0800
+    .short  0x0800
 .L_06040108:
-    .4byte  0x40000000
+    .long  0x40000000
 .L_0604010C:
-    .4byte  track_shadow_test
+    .long  track_shadow_test
 .L_06040110:
     mov r15, r3
     mov r15, r4
@@ -269,11 +269,11 @@ sym_060401E4:
 
     .global DAT_060401e8
 DAT_060401e8:
-    .2byte  0x07FF
-    .2byte  0xFFFF
+    .short  0x07FF
+    .short  0xFFFF
 .L_060401EC:
-    .4byte  input_proc_complete
+    .long  input_proc_complete
 .L_060401F0:
-    .4byte  sym_06036BE4
+    .long  sym_06036BE4
 .L_060401F4:
-    .4byte  0x7FFFFFFF
+    .long  0x7FFFFFFF

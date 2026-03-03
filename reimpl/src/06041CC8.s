@@ -77,16 +77,16 @@ state_transition_handler:
     rts
     mov.l @r15+, r14
 .L_wpool_06041D58:
-    .2byte  0x0328
+    .short  0x0328
 
     .global DAT_06041d5a
 DAT_06041d5a:
-    .2byte  0x0334
+    .short  0x0334
 .L_pool_06041D5C:
-    .4byte  sym_060A5400
+    .long  sym_060A5400
 .L_pool_06041D60:
-    .4byte  track_impact_force
+    .long  track_impact_force
 .L_pool_06041D64:
-    .4byte  ai_checkpoint_validate
+    .long  ai_checkpoint_validate
 .L_pool_06041D68:
-    .4byte  ai_brake_zone_adjust
+    .long  ai_brake_zone_adjust

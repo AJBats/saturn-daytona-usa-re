@@ -91,13 +91,13 @@ perspective_proj_3d:
 DAT_06014818:
     .byte 0x00, 0xFF
     .byte 0xFF, 0xFF
-    .4byte sym_06084B14
-    .4byte sym_0605B3C4
-    .4byte sym_06084FB8
-    .4byte sym_0607EBCC
-    .4byte sym_0605B164
-    .4byte sym_0607EBC8
-    .4byte sym_0605B4A8
+    .long sym_06084B14
+    .long sym_0605B3C4
+    .long sym_06084FB8
+    .long sym_0607EBCC
+    .long sym_0605B164
+    .long sym_0607EBC8
+    .long sym_0605B4A8
     .byte 0x6D, 0x7C
     .byte 0x62, 0x8D
     .byte 0xD3, 0x09
@@ -120,4 +120,4 @@ DAT_06014818:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .4byte sym_06084FB8
+    .long sym_06084FB8

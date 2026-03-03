@@ -10,7 +10,7 @@ scene_frame_render:
     .byte   0xDC, 0x1E    /* mov.l .L_pool_0603F184, r12 */
     mov.l r6, @r15
     tst r14, r14
-    bt/s    .L_0603F122
+    bt.s    .L_0603F122
     mov r5, r13
     mov.l @r15, r5
     .byte   0xD3, 0x1C    /* mov.l .L_pool_0603F188, r3 */

@@ -59,7 +59,7 @@ system_watchdog:
     mov r0, r13
     mov.w @(8, r15), r0
     mov r0, r3
-    mulu.w r3, r13
+    mulu r3, r13
     mov #0x0, r3
     sts macl, r13
     cmp/gt r13, r3
@@ -87,19 +87,19 @@ system_watchdog:
     rts
     mov.l @r15+, r14
 .L_wpool_06007526:
-    .2byte  0x00FF
+    .short  0x00FF
 .L_pool_06007528:
-    .4byte  sym_0606A4F4
+    .long  sym_0606A4F4
 .L_pool_0600752C:
-    .4byte  sym_060684EC
+    .long  sym_060684EC
 .L_pool_06007530:
-    .4byte  sym_06063F64
+    .long  sym_06063F64
 .L_pool_06007534:
-    .4byte  sym_0606A4EC
+    .long  sym_0606A4EC
 .L_pool_06007538:
-    .4byte  sym_06063F5C
+    .long  sym_06063F5C
 .L_pool_0600753C:
-    .4byte  memcpy_word_idx
+    .long  memcpy_word_idx
 
     .global sym_06007540
 sym_06007540:
@@ -197,13 +197,13 @@ sym_06007590:
     add r2, r1
     bra     .L_06007608
     extu.w r1, r1
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_pool_060075F8:
-    .4byte  sym_060684EC
+    .long  sym_060684EC
 .L_pool_060075FC:
-    .4byte  sym_0606A4F4
+    .long  sym_0606A4F4
 .L_pool_06007600:
-    .4byte  sym_06063F64
+    .long  sym_06063F64
 .L_06007604:
     mov.w @(4, r4), r0
     mov r0, r1
@@ -219,18 +219,18 @@ sym_06007590:
     mov.l r3, @r6
     rts
     add #0x8, r15
-    .2byte  0x6643
-    .4byte  0xD30A655D
-    .4byte  0xD20A4600
-    .4byte  0x363C6661
-    .4byte  0xD309646D
-    .4byte  0x44084400
-    .4byte  0x342C8542
-    .4byte  0x62032239
-    .4byte  0x60238142
-    .4byte  0x85426303
-    .4byte  0x235B6033
-    .4byte  0x000B8142
-    .4byte  sym_060684EC
-    .4byte  sym_06063F64
-    .4byte  0x0000FF00
+    .short  0x6643
+    .long  0xD30A655D
+    .long  0xD20A4600
+    .long  0x363C6661
+    .long  0xD309646D
+    .long  0x44084400
+    .long  0x342C8542
+    .long  0x62032239
+    .long  0x60238142
+    .long  0x85426303
+    .long  0x235B6033
+    .long  0x000B8142
+    .long  sym_060684EC
+    .long  sym_06063F64
+    .long  0x0000FF00

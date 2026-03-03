@@ -35,17 +35,17 @@ hud_layer_composite:
     bt      .L_06011510
     bra     .L_06011552
     nop
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_060114FC:
-    .4byte  sym_060447A8
+    .long  sym_060447A8
 .L_06011500:
-    .4byte  sym_0607EADC
+    .long  sym_0607EADC
 .L_06011504:
-    .4byte  sym_06078860
+    .long  sym_06078860
 .L_06011508:
-    .4byte  sym_0607887F
+    .long  sym_0607887F
 .L_0601150C:
-    .4byte  sym_0607EBC8
+    .long  sym_0607EBC8
 
 .L_06011510:
     extu.w r13, r12

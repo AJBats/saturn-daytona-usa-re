@@ -31,19 +31,19 @@ hud_layout_mgr:
     bra     race_data_dispatch
     mov.l @r15+, r14
 .L_06015074:
-    .4byte  sym_06085FF4
+    .long  sym_06085FF4
 .L_06015078:
-    .4byte  sym_0607EBF4
+    .long  sym_0607EBF4
 .L_0601507C:
-    .4byte  sym_06078635
+    .long  sym_06078635
 .L_06015080:
-    .4byte  sym_0607EAE0
+    .long  sym_0607EAE0
 .L_06015084:
     .byte   0xD2, 0x23    /* mov.l .L_06015114, r2 */
     mov.w   .L_06015108, r3
     mov.l @r2, r2
     cmp/hs r3, r2
-    bt/s    .L_060150F0
+    bt.s    .L_060150F0
     mov #0x0, r13
     .byte   0xD3, 0x21    /* mov.l .L_06015118, r3 */
     jsr @r3
@@ -108,47 +108,47 @@ hud_layout_mgr:
     rts
     mov.l @r15+, r14
 .L_06015108:
-    .2byte  0x2A94
+    .short  0x2A94
 .L_0601510A:
-    .2byte  0x0320
+    .short  0x0320
 .L_0601510C:
-    .2byte  0x051E
+    .short  0x051E
 .L_0601510E:
-    .2byte  0x0532
+    .short  0x0532
 .L_06015110:
-    .2byte  0x0090
+    .short  0x0090
 .L_06015112:
-    .2byte  0x051C
+    .short  0x051C
 .L_06015114:
-    .4byte  sym_0607ED88
+    .long  sym_0607ED88
 .L_06015118:
-    .4byte  sym_0602853E
+    .long  sym_0602853E
 .L_0601511C:
-    .4byte  sym_06028560
+    .long  sym_06028560
 .L_06015120:
-    .4byte  gameover_channel_setup
+    .long  gameover_channel_setup
 .L_06015124:
-    .4byte  sym_060284AE
+    .long  sym_060284AE
 .L_06015128:
-    .4byte  sym_06044C78
+    .long  sym_06044C78
 .L_0601512C:
-    .4byte  sym_06044C80
+    .long  sym_06044C80
 .L_06015130:
-    .4byte  sym_06044C84
+    .long  sym_06044C84
 .L_06015134:
-    .4byte  sym_06044C88
+    .long  sym_06044C88
 .L_06015138:
-    .4byte  sym_060172E4
+    .long  sym_060172E4
 .L_0601513C:
-    .4byte  sym_06085F8C
+    .long  sym_06085F8C
 .L_06015140:
-    .4byte  sym_06085F8D
+    .long  sym_06085F8D
 .L_06015144:
-    .4byte  sym_06085F8E
+    .long  sym_06085F8E
 .L_06015148:
-    .4byte  sym_06085F8B
+    .long  sym_06085F8B
 .L_0601514C:
-    .4byte  sym_0607ED8C
+    .long  sym_0607ED8C
 
     .global hud_elem_render
 hud_elem_render:
@@ -170,7 +170,7 @@ hud_elem_render:
     extu.w r3, r3
     and r2, r3
     tst r3, r3
-    bt/s    .L_060151A4
+    bt.s    .L_060151A4
     mov #0x0, r13
     .byte   0xD7, 0x28    /* mov.l .L_0601521C, r7 */
     mov.w   .L_06015202, r6
@@ -245,27 +245,27 @@ hud_elem_render:
     bra     .L_0601527C
     nop
 .L_06015202:
-    .2byte  0x0090
+    .short  0x0090
 .L_06015204:
-    .2byte  0x4000
+    .short  0x4000
 .L_06015206:
-    .2byte  0x0200
+    .short  0x0200
 .L_06015208:
-    .4byte  sym_06085F8E
+    .long  sym_06085F8E
 .L_0601520C:
-    .4byte  g_pad_state
+    .long  g_pad_state
 .L_06015210:
-    .4byte  sym_06085F8B
+    .long  sym_06085F8B
 .L_06015214:
-    .4byte  sym_06085F8D
+    .long  sym_06085F8D
 .L_06015218:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_0601521C:
-    .4byte  sym_06044C8C
+    .long  sym_06044C8C
 .L_06015220:
-    .4byte  sym_060284AE
+    .long  sym_060284AE
 .L_06015224:
-    .4byte  sym_06085F8C
+    .long  sym_06085F8C
 .L_06015228:
     mov.b @r14, r2
     tst r2, r2
@@ -358,34 +358,34 @@ hud_elem_render:
     jmp @r3
     mov #0xC, r4
 .L_060152CE:
-    .2byte  0x0100
+    .short  0x0100
 .L_060152D0:
-    .2byte  0x0090
-    .2byte  0xFFFF
+    .short  0x0090
+    .short  0xFFFF
 .L_060152D4:
-    .4byte  sym_0607ED8C
+    .long  sym_0607ED8C
 .L_060152D8:
-    .4byte  sym_0605AD08
+    .long  sym_0605AD08
 .L_060152DC:
-    .4byte  sym_06085F92
+    .long  sym_06085F92
 .L_060152E0:
-    .4byte  sym_0607ED88
+    .long  sym_0607ED88
 .L_060152E4:
-    .4byte  g_game_state
+    .long  g_game_state
 .L_060152E8:
-    .4byte  geom_render_util
+    .long  geom_render_util
 .L_060152EC:
-    .4byte  geom_output_finalize
+    .long  geom_output_finalize
 .L_060152F0:
-    .4byte  sym_06085F8C
+    .long  sym_06085F8C
 .L_060152F4:
-    .4byte  sym_06044C8C
+    .long  sym_06044C8C
 .L_060152F8:
-    .4byte  sym_06085F8E
+    .long  sym_06085F8E
 .L_060152FC:
-    .4byte  sym_06085F8D
+    .long  sym_06085F8D
 .L_06015300:
-    .4byte  sym_060284AE
+    .long  sym_060284AE
 .L_06015304:
     .byte   0xD7, 0x08    /* mov.l .L_06015328, r7 */
     mov.w   .L_06015324, r6
@@ -404,16 +404,16 @@ hud_elem_render:
     jmp @r3
     mov #0xC, r4
 .L_06015324:
-    .2byte  0x0090
-    .2byte  0xFFFF
+    .short  0x0090
+    .short  0xFFFF
 .L_06015328:
-    .4byte  sym_06044C88
+    .long  sym_06044C88
 .L_0601532C:
-    .4byte  sym_06085F8E
+    .long  sym_06085F8E
 .L_06015330:
-    .4byte  sym_06085F8D
+    .long  sym_06085F8D
 .L_06015334:
-    .4byte  sym_060284AE
+    .long  sym_060284AE
 
     .global race_data_dispatch
 race_data_dispatch:
@@ -533,51 +533,51 @@ race_data_dispatch:
     jmp @r2
     mov.l @r15+, r14
 .L_0601541A:
-    .2byte  0x0100
+    .short  0x0100
 .L_0601541C:
-    .4byte  channel_nibble_config
+    .long  channel_nibble_config
 .L_06015420:
-    .4byte  handler_init_reset
+    .long  handler_init_reset
 .L_06015424:
-    .4byte  sym_06085F8A
+    .long  sym_06085F8A
 .L_06015428:
-    .4byte  g_game_state
+    .long  g_game_state
 .L_0601542C:
-    .4byte  sym_0601ABC6
+    .long  sym_0601ABC6
 .L_06015430:
-    .4byte  sym_06085FF8
+    .long  sym_06085FF8
 .L_06015434:
-    .4byte  sym_06085FF9
+    .long  sym_06085FF9
 .L_06015438:
-    .4byte  sym_06085F92
+    .long  sym_06085F92
 .L_0601543C:
-    .4byte  course_config_render
+    .long  course_config_render
 .L_06015440:
-    .4byte  vdp2_loop_ctrl
+    .long  vdp2_loop_ctrl
 .L_06015444:
-    .4byte  sym_060149E0
+    .long  sym_060149E0
 .L_06015448:
-    .4byte  sym_0605A00C
+    .long  sym_0605A00C
 .L_0601544C:
-    .4byte  sym_06026CE0
+    .long  sym_06026CE0
 .L_06015450:
-    .4byte  sym_0605A016
+    .long  sym_0605A016
 .L_06015454:
-    .4byte  obj_data_compact
+    .long  obj_data_compact
 .L_06015458:
-    .4byte  frame_end_commit
+    .long  frame_end_commit
 .L_0601545C:
-    .4byte  sym_0602853E
+    .long  sym_0602853E
 .L_06015460:
-    .4byte  sym_06028560
+    .long  sym_06028560
 .L_06015464:
-    .4byte  gameover_channel_setup
+    .long  gameover_channel_setup
 .L_06015468:
-    .4byte  sym_0605B6D8
+    .long  sym_0605B6D8
 .L_0601546C:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8
 .L_06015470:
-    .4byte  sym_0605B724
+    .long  sym_0605B724
 
     .global loc_06015474
 loc_06015474:

@@ -77,7 +77,7 @@ DAT_0604155c:
     .global DAT_0604155e
 DAT_0604155e:
     .byte 0x00, 0xFF
-    .4byte sym_060A5400
+    .long sym_060A5400
     .byte 0xE2, 0x18
     .byte 0x31, 0x23
     .byte 0x8B, 0x04

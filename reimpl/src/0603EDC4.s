@@ -103,7 +103,7 @@ vblank_color_apply:
     bra     .L_0603EE82
     mov r2, r0
 .L_wpool_0603EE76:
-    .2byte  0x0080
+    .short  0x0080
 .L_0603EE78:
     extu.b r1, r2
     mov.b @(2, r6), r0
@@ -209,11 +209,11 @@ vblank_color_apply:
     rts
     nop
 .L_wpool_0603EF2A:
-    .2byte  0x0100
+    .short  0x0100
 .L_pool_0603EF2C:
-    .4byte  0x00010000
+    .long  0x00010000
 .L_pool_0603EF30:
-    .4byte  0x00020000
+    .long  0x00020000
 
     .global sym_0603EF34
 sym_0603EF34:

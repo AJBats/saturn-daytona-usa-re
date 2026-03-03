@@ -35,24 +35,24 @@ FUN_0602EEB8:
     bra     .L_0602EF22
     nop
 .L_0602EEFA:
-    .2byte  0x0250
+    .short  0x0250
 .L_0602EEFC:
-    .2byte  0x009C
-    .2byte  0x0000
+    .short  0x009C
+    .short  0x0000
 .L_0602EF00:
-    .4byte  sym_0602FDA4
+    .long  sym_0602FDA4
 .L_0602EF04:
-    .4byte  render_camera_compute
+    .long  render_camera_compute
 .L_0602EF08:
-    .4byte  sym_0607EAC8
+    .long  sym_0607EAC8
 .L_0602EF0C:
-    .4byte  sym_0602F3EC
+    .long  sym_0602F3EC
 .L_0602EF10:
-    .4byte  sym_0602F7BC
+    .long  sym_0602F7BC
 .L_0602EF14:
-    .4byte  sym_0602F0E8
+    .long  sym_0602F0E8
 .L_0602EF18:
-    .4byte  collision_response_b
+    .long  collision_response_b
 .L_0602EF1C:
     mov.l   .L_0602EF64, r13
     jsr @r13
@@ -90,28 +90,28 @@ FUN_0602EEB8:
     bra     .L_0602EF90
     nop
 .L_0602EF60:
-    .2byte  0x009E
-    .2byte  0x0000
+    .short  0x009E
+    .short  0x0000
 .L_0602EF64:
-    .4byte  sym_0602F17C
+    .long  sym_0602F17C
 .L_0602EF68:
-    .4byte  sym_0602F474
+    .long  sym_0602F474
 .L_0602EF6C:
-    .4byte  sym_0602F4B4
+    .long  sym_0602F4B4
 .L_0602EF70:
-    .4byte  color_material_blend
+    .long  color_material_blend
 .L_0602EF74:
-    .4byte  sym_0602EFCC
+    .long  sym_0602EFCC
 .L_0602EF78:
-    .4byte  vdp1_display_list_setup
+    .long  vdp1_display_list_setup
 .L_0602EF7C:
-    .4byte  vdp1_color_setup
+    .long  vdp1_color_setup
 .L_0602EF80:
-    .4byte  vdp1_coord_setup
+    .long  vdp1_coord_setup
 .L_0602EF84:
-    .4byte  vdp1_sprite_cmd
+    .long  vdp1_sprite_cmd
 .L_0602EF88:
-    .4byte  FUN_0602D43C
+    .long  FUN_0602D43C
 .L_0602EF8C:
     jsr @r13
     nop
@@ -139,13 +139,13 @@ FUN_0602EEB8:
     rts
     mov.l @r15+, r8
 .L_0602EFBC:
-    .4byte  vdp1_cmd_list_mgr
+    .long  vdp1_cmd_list_mgr
 .L_0602EFC0:
-    .4byte  sym_0602D814
+    .long  sym_0602D814
 .L_0602EFC4:
-    .4byte  sym_0602D8BC
+    .long  sym_0602D8BC
 .L_0602EFC8:
-    .4byte  0xFFFFFC3F
+    .long  0xFFFFFC3F
 
     .global sym_0602EFCC
 sym_0602EFCC:

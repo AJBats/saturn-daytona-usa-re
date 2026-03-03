@@ -62,26 +62,26 @@ texture_bank_setup:
 
     .global DAT_06037154
 DAT_06037154:
-    .2byte  0x7FFF
+    .short  0x7FFF
 
     .global DAT_06037156
 DAT_06037156:
-    .2byte  0x0100
+    .short  0x0100
 .L_06037158:
-    .2byte  0x0200
-    .2byte  0xFFFF
+    .short  0x0200
+    .short  0xFFFF
 .L_0603715C:
-    .4byte  0x0000FF00
+    .long  0x0000FF00
 .L_06037160:
-    .4byte  sym_060A4C44
+    .long  sym_060A4C44
 .L_06037164:
-    .4byte  sym_060A3D88
+    .long  sym_060A3D88
 .L_06037168:
-    .4byte  sym_060A3E38
+    .long  sym_060A3E38
 .L_0603716C:
-    .4byte  sym_060A4C4C
+    .long  sym_060A4C4C
 .L_06037170:
-    .4byte  0x0000FEFF
+    .long  0x0000FEFF
 .L_06037174:
     mov.l   .L_06037290, r2
     mov.w @(14, r12), r0
@@ -97,7 +97,7 @@ DAT_06037156:
     mov r0, r3
     extu.b r3, r3
     cmp/ge r2, r3
-    bt/s    .L_060371DE
+    bt.s    .L_060371DE
     extu.b r5, r8
     mov.w @(14, r12), r0
     mov.l   .L_06037294, r3
@@ -237,17 +237,17 @@ DAT_06037156:
 
     .global DAT_0603728e
 DAT_0603728e:
-    .2byte  0x0100
+    .short  0x0100
 .L_06037290:
-    .4byte  0x0000FDFF
+    .long  0x0000FDFF
 .L_06037294:
-    .4byte  0x0000FFFC
+    .long  0x0000FFFC
 .L_06037298:
-    .4byte  0x25E00000
+    .long  0x25E00000
 .L_0603729C:
-    .4byte  0x0000FFF3
+    .long  0x0000FFF3
 .L_060372A0:
-    .4byte  0x25E20000
+    .long  0x25E20000
 .L_060372A4:
     mov.b @(11, r11), r0
     extu.b r0, r0
@@ -353,16 +353,16 @@ DAT_0603728e:
 
     .global DAT_06037362
 DAT_06037362:
-    .2byte  0x0100
+    .short  0x0100
 .L_06037364:
-    .2byte  0x0200
-    .2byte  0xFFFF
+    .short  0x0200
+    .short  0xFFFF
 .L_06037368:
-    .4byte  0x25E20000
+    .long  0x25E20000
 .L_0603736C:
-    .4byte  0x0000FFCF
+    .long  0x0000FFCF
 .L_06037370:
-    .4byte  0x25E40000
+    .long  0x25E40000
 .L_06037374:
     mov.b @(12, r11), r0
     extu.b r0, r0
@@ -472,18 +472,18 @@ DAT_06037362:
 
     .global DAT_0603743a
 DAT_0603743a:
-    .2byte  0x0200
+    .short  0x0200
 .L_0603743C:
-    .2byte  0x0300
-    .2byte  0xFFFF
+    .short  0x0300
+    .short  0xFFFF
 .L_06037440:
-    .4byte  sym_060A4C50
+    .long  sym_060A4C50
 .L_06037444:
-    .4byte  0x25E40000
+    .long  0x25E40000
 .L_06037448:
-    .4byte  0x0000FF3F
+    .long  0x0000FF3F
 .L_0603744C:
-    .4byte  0x25E60000
+    .long  0x25E60000
 .L_06037450:
     mov.b @(13, r11), r0
     extu.b r0, r0
@@ -611,35 +611,35 @@ DAT_0603743a:
 
     .global DAT_06037532
 DAT_06037532:
-    .2byte  0x0300
+    .short  0x0300
 .L_06037534:
-    .2byte  0x0400
+    .short  0x0400
 
     .global DAT_06037536
 DAT_06037536:
-    .2byte  0x00FF
+    .short  0x00FF
 .L_06037538:
-    .4byte  sym_060A4C50
+    .long  sym_060A4C50
 .L_0603753C:
-    .4byte  0x25E60000
+    .long  0x25E60000
 .L_06037540:
-    .4byte  sym_060A4C44
+    .long  sym_060A4C44
 .L_06037544:
-    .4byte  sym_0603C156
+    .long  sym_0603C156
 .L_06037548:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_0603754C:
-    .4byte  0x25F00800
+    .long  0x25F00800
 .L_06037550:
-    .4byte  sym_060A4C59
+    .long  sym_060A4C59
 .L_06037554:
-    .4byte  0x0000FFFC
+    .long  0x0000FFFC
 .L_06037558:
-    .4byte  0x0000FFF3
+    .long  0x0000FFF3
 .L_0603755C:
-    .4byte  0x0000FFCF
+    .long  0x0000FFCF
 .L_06037560:
-    .4byte  0x0000FF3F
+    .long  0x0000FF3F
 .L_06037564:
     cmp/eq #0x1, r0
     bt      .L_060374FA
@@ -725,15 +725,15 @@ DAT_06037536:
     rts
     mov.l @r15+, r14
 .L_06037604:
-    .4byte  sym_060A4C58
+    .long  sym_060A4C58
 .L_06037608:
-    .4byte  0x00020000
+    .long  0x00020000
 .L_0603760C:
-    .4byte  sym_06034FFC
+    .long  sym_06034FFC
 .L_06037610:
-    .4byte  0x25E00000
+    .long  0x25E00000
 .L_06037614:
-    .4byte  sym_060A4C59
+    .long  sym_060A4C59
 
     .global sym_06037618
 sym_06037618:

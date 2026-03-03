@@ -103,36 +103,36 @@ obj_update_dispatch:
     rts
     mov.l @r15+, r14
 .L_060207D0:
-    .4byte  sym_06087818
+    .long  sym_06087818
 .L_060207D4:
-    .4byte  sym_0603850C
+    .long  sym_0603850C
 .L_060207D8:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_060207DC:
-    .4byte  sym_0608781C
+    .long  sym_0608781C
 .L_060207E0:
-    .4byte  scene_color_intensity
+    .long  scene_color_intensity
 .L_060207E4:
-    .4byte  sym_06087820
+    .long  sym_06087820
 .L_060207E8:
-    .4byte  sym_06087810
+    .long  sym_06087810
 .L_060207EC:
-    .4byte  0x00010000
+    .long  0x00010000
 .L_060207F0:
-    .4byte  0xFFFF0000
+    .long  0xFFFF0000
 .L_060207F4:
-    .4byte  0x00B00000
+    .long  0x00B00000
 .L_060207F8:
-    .4byte  fpmul
+    .long  fpmul
 .L_060207FC:
-    .4byte  fpdiv_setup
+    .long  fpdiv_setup
 .L_06020800:
-    .4byte  0x00700000
+    .long  0x00700000
 .L_06020804:
-    .4byte  sym_06087814
+    .long  sym_06087814
 .L_06020808:
-    .4byte  scene_data_write_add
+    .long  scene_data_write_add
 .L_0602080C:
-    .4byte  display_channel_b
+    .long  display_channel_b
 .L_06020810:
-    .4byte  sym_06038520
+    .long  sym_06038520

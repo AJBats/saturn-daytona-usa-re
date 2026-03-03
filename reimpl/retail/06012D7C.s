@@ -23,6 +23,6 @@ cd_course_loader:
     .byte 0x6E, 0xF6
     .byte 0x00, 0x20
     .byte 0x00, 0x00
-    .4byte sym_060448E8
-    .4byte sym_060448F4
-    .4byte sym_06044900
+    .long sym_060448E8
+    .long sym_060448F4
+    .long sym_06044900

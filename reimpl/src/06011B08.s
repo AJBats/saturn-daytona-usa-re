@@ -141,17 +141,17 @@ hud_damage_warning:
     mov.l r0, @-r15
     bra     .L_06011C2C
     nop
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_06011C18:
-    .4byte  sincos_pair
+    .long  sincos_pair
 .L_06011C1C:
-    .4byte  sym_060786CC
+    .long  sym_060786CC
 .L_06011C20:
-    .4byte  sym_0605AAA0
+    .long  sym_0605AAA0
 .L_06011C24:
-    .4byte  swap_sign_ext
+    .long  swap_sign_ext
 .L_06011C28:
-    .4byte  fpmul
+    .long  fpmul
 
 .L_06011C2C:
     mov.l @(12, r15), r5

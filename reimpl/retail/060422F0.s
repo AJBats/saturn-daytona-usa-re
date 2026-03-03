@@ -21,7 +21,7 @@ DAT_0604230a:
 DAT_0604230c:
     .byte 0x01, 0xDC
     .byte 0x01, 0xE0
-    .4byte sym_06035C4E
+    .long sym_06035C4E
     .byte 0xE0, 0x00
     .byte 0x7F, 0x04
     .byte 0x4F, 0x26
@@ -96,4 +96,4 @@ DAT_06042398:
     .global DAT_0604239a
 DAT_0604239a:
     .byte 0x01, 0xDC
-    .4byte sym_060A5400
+    .long sym_060A5400

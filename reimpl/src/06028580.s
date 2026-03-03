@@ -10,6 +10,6 @@ effect_cleanup_stub:
     .byte   0x94, 0x25    /* mov.w .L_wpool_060285DA, r4 */
     cmp/pz r6
     mov.l r12, @-r15
-    .byte   0x8D, 0x01    /* bt/s 0x06028598 (external) */
+    .byte   0x8D, 0x01    /* bt.s 0x06028598 (external) */
     .word 0x0C29
     neg r6, r6

@@ -94,39 +94,39 @@ geom_math_calc:
 
     .global DAT_06018212
 DAT_06018212:
-    .2byte  0x1618
+    .short  0x1618
 
     .global DAT_06018214
 DAT_06018214:
-    .2byte  0x021C
+    .short  0x021C
 
     .global DAT_06018216
 DAT_06018216:
-    .2byte  0x1630
+    .short  0x1630
 .L_wpool_06018220:
-    .2byte  0x0090
+    .short  0x0090
 
     .global DAT_0601821a
 DAT_0601821a:
-    .2byte  0x056C
-    .4byte  sym_06026DF8
-    .4byte  obj_overlay_render
+    .short  0x056C
+    .long  sym_06026DF8
+    .long  obj_overlay_render
 .L_pool_0601822C:
-    .4byte  sym_0605BE2C
+    .long  sym_0605BE2C
 .L_pool_06018230:
-    .4byte  sym_06063F64
+    .long  sym_06063F64
 .L_pool_06018234:
-    .4byte  sym_060684EC
+    .long  sym_060684EC
 .L_pool_06018238:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_pool_0601823C:
-    .4byte  sym_06063F28
+    .long  sym_06063F28
 .L_pool_06018240:
-    .4byte  sym_06089E2C
+    .long  sym_06089E2C
 .L_pool_06018244:
-    .4byte  sym_06089E28
+    .long  sym_06089E28
 .L_pool_06018248:
-    .4byte  sym_06089E30
+    .long  sym_06089E30
 .L_06018244:
     mov r14, r2
     add r11, r2

@@ -23,7 +23,7 @@ buffer_slot_alloc:
     bra     .L_060410C0
     mov #-0x8, r0
 .L_pool_0604105C:
-    .4byte  sym_060A5400
+    .long  sym_060A5400
 .L_06041060:
     mov.l @r14, r2
     mov #0x58, r0

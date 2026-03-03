@@ -69,11 +69,11 @@ DAT_06041df0:
     .global DAT_06041df2
 DAT_06041df2:
     .byte 0x03, 0x3C
-    .4byte sym_060A5400
+    .long sym_060A5400
     .byte 0x00, 0x00
     .byte 0xFF, 0xFF
-    .4byte track_surface_type_a
-    .4byte ai_checkpoint_validate
+    .long track_surface_type_a
+    .long ai_checkpoint_validate
     .byte 0x62, 0xE2
     .byte 0xE3, 0x02
     .byte 0x90, 0x54
@@ -168,9 +168,9 @@ DAT_06041eb6:
     .byte 0x03, 0x44
     .byte 0x00, 0x80
     .byte 0xFF, 0xFF
-    .4byte track_impact_response
-    .4byte ai_checkpoint_validate
-    .4byte sym_06035C4E
+    .long track_impact_response
+    .long ai_checkpoint_validate
+    .long sym_06035C4E
     .byte 0xD4, 0x33
     .byte 0xD3, 0x34
     .byte 0x43, 0x0B

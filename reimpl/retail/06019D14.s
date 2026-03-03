@@ -75,8 +75,8 @@ trans_select_at_mt:
     .byte 0xAF, 0x11
     .byte 0x6E, 0xF6
     .byte 0x40, 0x00
-    .4byte sym_0605AD00
+    .long sym_0605AD00
     .byte 0x00, 0x00
     .byte 0x80, 0x00
-    .4byte g_pad_state
-    .4byte sym_0605D243
+    .long g_pad_state
+    .long sym_0605D243

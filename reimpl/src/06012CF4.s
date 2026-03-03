@@ -35,7 +35,7 @@ cd_progress_notify:
     add #0x1, r10
     mov #0x5, r2
     cmp/ge r2, r10
-    bf/s    .L_06012D40
+    bf.s    .L_06012D40
     mov r0, r12
     mov.l @r13, r2
     jsr @r2
@@ -52,19 +52,19 @@ cd_progress_notify:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0x000B
-    .4byte  0x0009FFFF
+    .short  0x000B
+    .long  0x0009FFFF
 .L_pool_06012D5C:
-    .4byte  cmd_validate_exec
+    .long  cmd_validate_exec
 .L_pool_06012D60:
-    .4byte  sym_0600026C
+    .long  sym_0600026C
 .L_pool_06012D64:
-    .4byte  sym_06084AEC
+    .long  sym_06084AEC
 .L_pool_06012D68:
-    .4byte  sym_06084360
+    .long  sym_06084360
 .L_pool_06012D6C:
-    .4byte  sym_0608436C
+    .long  sym_0608436C
 .L_pool_06012D70:
-    .4byte  sym_06083274
-    .4byte  0x000B0009
-    .4byte  0x000B0009
+    .long  sym_06083274
+    .long  0x000B0009
+    .long  0x000B0009

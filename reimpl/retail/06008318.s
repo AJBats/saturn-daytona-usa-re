@@ -43,10 +43,10 @@ DAT_0600835a:
     .byte 0xFF, 0xFF
     .byte 0xAE, 0x11
     .byte 0x1B, 0xFF
-    .4byte sound_cmd_dispatch
-    .4byte sym_06034F78
-    .4byte sym_0607E940
-    .4byte sym_060453CC
+    .long sound_cmd_dispatch
+    .long sym_06034F78
+    .long sym_0607E940
+    .long sym_060453CC
     .byte 0xD2, 0x23
     .byte 0x93, 0x3E
     .byte 0x62, 0x22
@@ -125,7 +125,7 @@ DAT_06008402:
     .byte 0x00, 0xD4
     .byte 0x03, 0x01
     .byte 0x02, 0x01
-    .4byte sym_0607EBD0
-    .4byte sym_0607E940
-    .4byte sym_0607EBE0
-    .4byte sym_06034F78
+    .long sym_0607EBD0
+    .long sym_0607E940
+    .long sym_0607EBE0
+    .long sym_06034F78

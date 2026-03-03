@@ -9,9 +9,9 @@ results_time_render:
     .byte 0x00, 0x09
     .byte 0x07, 0xE0
     .byte 0x00, 0x00
-    .4byte sym_060430CE
-    .4byte sym_060629AC
-    .4byte memcpy_word_idx
+    .long sym_060430CE
+    .long sym_060629AC
+    .long memcpy_word_idx
     .global sym_06033354
 sym_06033354:
     .byte 0xD5, 0x17

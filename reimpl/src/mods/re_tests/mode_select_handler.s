@@ -92,7 +92,7 @@ mode_select_handler:
     extu.w r2, r2
     and r3, r2
     tst r2, r2
-    bt/s    .L_06019798
+    bt.s    .L_06019798
     mov #0x5, r5
     mov.b r13, @r10
     extu.b r5, r5
@@ -111,35 +111,35 @@ mode_select_handler:
     .global DAT_06019762
 .L_wpool_06019762:
 DAT_06019762:
-    .2byte  0x0100
+    .short  0x0100
 .L_wpool_06019764:
-    .2byte  0x2000
+    .short  0x2000
 .L_wpool_btn_up:
-    .2byte  0x1000                         /* UP mask — used by DOWN handler (swapped) */
+    .short  0x1000                         /* UP mask — used by DOWN handler (swapped) */
 .L_pool_06019768:
-    .4byte  sym_06085FF1
+    .long  sym_06085FF1
 .L_pool_0601976C:
-    .4byte  sym_0605D242
+    .long  sym_0605D242
 .L_pool_06019770:
-    .4byte  sym_0605D244
+    .long  sym_0605D244
 .L_pool_06019774:
-    .4byte  scene_dual_finalize
+    .long  scene_dual_finalize
 .L_pool_06019778:
-    .4byte  g_pad_state
+    .long  g_pad_state
 .L_pool_0601977C:
-    .4byte  sym_06049AF4
+    .long  sym_06049AF4
 .L_pool_06019780:
-    .4byte  sym_06063750
+    .long  sym_06063750
 .L_pool_06019784:
-    .4byte  sym_06049AEC
+    .long  sym_06049AEC
 .L_pool_06019788:
-    .4byte  sym_06028400
+    .long  sym_06028400
 .L_pool_0601978C:
-    .4byte  sym_06059F44
+    .long  sym_06059F44
 .L_pool_06019790:
-    .4byte  g_game_state
+    .long  g_game_state
 .L_pool_06019794:
-    .4byte  sym_06085FF5
+    .long  sym_06085FF5
 .L_06019798:
     /* --- UP handler — SWAPPED: checks BTN_DOWN (0x2000) --- */
     mov.w @(2, r4), r0
@@ -195,9 +195,9 @@ DAT_06019762:
 
     /* --- New pool entries (forward-reachable from UP handler + common exit) --- */
 .L_wpool_btn_down:
-    .2byte  0x2000                         /* DOWN mask — used by UP handler (swapped) */
+    .short  0x2000                         /* DOWN mask — used by UP handler (swapped) */
     .balign 4
 .L_pool_sym_0605D243:
-    .4byte  sym_0605D243
+    .long  sym_0605D243
 .L_pool_sym_0605D250:
-    .4byte  sym_0605D250
+    .long  sym_0605D250

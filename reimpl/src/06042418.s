@@ -4,7 +4,7 @@ fixpt_div_helper:
     mov.l r14, @-r15
     sts.l pr, @-r15
     cmp/pz r4
-    bt/s    .L_06042426
+    bt.s    .L_06042426
     mov #0x0, r14
     mov #0x1, r14
     neg r4, r4
@@ -32,8 +32,8 @@ fixpt_div_helper:
     rts
     mov.l @r15+, r14
 .L_0604244C:
-    .4byte  0x00B40000
+    .long  0x00B40000
 .L_06042450:
-    .4byte  0x005A0000
+    .long  0x005A0000
 .L_06042454:
-    .4byte  sym_060424A2
+    .long  sym_060424A2

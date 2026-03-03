@@ -35,15 +35,15 @@ display_extra_config:
 
     .global DAT_06038a9a
 DAT_06038a9a:
-    .2byte  0x0FFF
+    .short  0x0FFF
 .L_wpool_06038A9C:
-    .2byte  0x1000
+    .short  0x1000
 
     .global DAT_06038a9e
 DAT_06038a9e:
-    .2byte  0x2000
+    .short  0x2000
 .L_pool_06038AA0:
-    .4byte  sym_060A3D88
+    .long  sym_060A3D88
 .L_06038AA4:
     cmp/eq #0x0, r0
     bt      .L_06038A6C
@@ -62,6 +62,6 @@ DAT_06038a9e:
 .L_06038ABE:
     rts
     nop
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_pool_06038AC4:
-    .4byte  sym_060635AC
+    .long  sym_060635AC

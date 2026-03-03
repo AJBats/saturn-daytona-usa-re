@@ -90,31 +90,31 @@ race_sound_handler:
 
     .global DAT_06018f74
 DAT_06018f74:
-    .2byte  0x4F4B
+    .short  0x4F4B
 
     .global DAT_06018f76
 DAT_06018f76:
-    .2byte  0x0200
+    .short  0x0200
 
 .L_06018F78:
-    .4byte  0x25A02DBC
+    .long  0x25A02DBC
 .L_06018F7C:
-    .4byte  0x20100063
+    .long  0x20100063
 .L_06018F80:
-    .4byte  0x2010001F
+    .long  0x2010001F
 .L_06018F84:
-    .4byte  0x25B00400
+    .long  0x25B00400
 .L_pool_06018F88:
-    .4byte  sym_06012E84
+    .long  sym_06012E84
 .L_pool_06018F8C:
-    .4byte  sym_06012EBC
+    .long  sym_06012EBC
 .L_pool_06018F90:
-    .4byte  0xAE0600FF
+    .long  0xAE0600FF
 .L_pool_06018F94:
-    .4byte  sound_cmd_dispatch          /* -> sound_cmd_dispatch (sound command API) */
+    .long  sound_cmd_dispatch          /* -> sound_cmd_dispatch (sound command API) */
 .L_pool_06018F98:
-    .4byte  0xAE0007FF
+    .long  0xAE0007FF
 .L_pool_06018F9C:
-    .4byte  sym_06086038
+    .long  sym_06086038
 .L_pool_06018FA0:
-    .4byte  scsp_set_master_volume
+    .long  scsp_set_master_volume

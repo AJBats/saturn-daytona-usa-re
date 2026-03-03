@@ -35,7 +35,7 @@ mat_rot_xz_b:
     sts macl, r2
     xtrct r0, r2
     mov.l r2, @(4, r4)
-    bf/s    .L_06027176
+    bf.s    .L_06027176
     add #0xC, r4
     rts
     nop

@@ -29,16 +29,16 @@ file_block_read:
     .byte   0xA0, 0x0E    /* bra 0x06012450 (external) */
     lds.l @r15+, pr
 .L_pool_06012434:
-    .4byte  sym_060788F0
+    .long  sym_060788F0
 .L_pool_06012438:
-    .4byte  0xAE110FFF
+    .long  0xAE110FFF
 .L_pool_0601243C:
-    .4byte  sound_cmd_dispatch              /* sound command dispatch function */
+    .long  sound_cmd_dispatch              /* sound command dispatch function */
 .L_pool_06012440:
-    .4byte  sym_060788C0
+    .long  sym_060788C0
 .L_pool_06012444:
-    .4byte  sym_060788CC
+    .long  sym_060788CC
 .L_pool_06012448:
-    .4byte  sym_060788D8
+    .long  sym_060788D8
 .L_pool_0601244C:
-    .4byte  sym_060788E4
+    .long  sym_060788E4

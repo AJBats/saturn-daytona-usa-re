@@ -6,7 +6,7 @@ state_postrace_countdown:
     mov.l @r4, r3
     add #-0x1, r3
     tst r3, r3
-    bf/s    .L_06009E16
+    bf.s    .L_06009E16
     mov.l r3, @r4
     mov #0x1E, r3
     .byte   0xD2, 0x0A    /* mov.l .L_pool_06009E42, r2 */
@@ -28,19 +28,19 @@ state_postrace_countdown:
     lds.l @r15+, pr
     rts
     mov.b r2, @r3
-    .4byte  0x0258FFFF
-    .4byte  race_variant_a
+    .long  0x0258FFFF
+    .long  race_variant_a
 .L_pool_06009E42:
-    .4byte  g_game_state
+    .long  g_game_state
 .L_pool_06009E46:
-    .4byte  sym_0607EBCC
-    .4byte  sym_06028560
-    .4byte  game_init_master
-    .4byte  sym_0605A016
-    .4byte  handler_dispatch
+    .long  sym_0607EBCC
+    .long  sym_06028560
+    .long  game_init_master
+    .long  sym_0605A016
+    .long  handler_dispatch
 .L_pool_06009E5A:
-    .4byte  gfx_frame_dispatch
+    .long  gfx_frame_dispatch
 .L_pool_06009E5E:
-    .4byte  handler_init_reset
+    .long  handler_init_reset
 .L_pool_06009E62:
-    .4byte  sym_0607864B
+    .long  sym_0607864B

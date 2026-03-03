@@ -51,24 +51,24 @@ scu_dma_transfer:
     bra     .L_0603FEFE
     mov #0x0, r5
 .L_0603FEDC:
-    .2byte  0x0800
+    .short  0x0800
 .L_0603FEDE:
-    .2byte  0xF7FF
+    .short  0xF7FF
 .L_0603FEE0:
-    .2byte  0x0100
-    .2byte  0xFFFF
+    .short  0x0100
+    .short  0xFFFF
 .L_0603FEE4:
-    .4byte  0x25FE00A4
+    .long  0x25FE00A4
 .L_0603FEE8:
-    .4byte  sym_06000348
+    .long  sym_06000348
 .L_0603FEEC:
-    .4byte  0x10041004
+    .long  0x10041004
 .L_0603FEF0:
-    .4byte  0x25FE00B4
+    .long  0x25FE00B4
 .L_0603FEF4:
-    .4byte  sym_06000340
+    .long  sym_06000340
 .L_0603FEF8:
-    .4byte  0x25FE0000
+    .long  0x25FE0000
 .L_0603FEFC:
     mov #0x2, r5
 .L_0603FEFE:

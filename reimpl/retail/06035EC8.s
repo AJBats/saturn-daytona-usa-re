@@ -15,10 +15,10 @@ input_proc_buttons:
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .4byte sym_06059CB0
-    .4byte sym_06035168
-    .4byte smpc_response_handler
-    .4byte sym_06063594
+    .long sym_06059CB0
+    .long sym_06035168
+    .long smpc_response_handler
+    .long sym_06063594
     .byte 0xD5, 0x10
     .byte 0xB0, 0x0E
     .byte 0x64, 0xF3

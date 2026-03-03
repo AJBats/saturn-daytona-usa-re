@@ -22,31 +22,31 @@ DAT_060138d8:
     .global DAT_060138da
 DAT_060138da:
     .byte 0x02, 0x0C
-    .4byte sym_06084B0C
-    .4byte sym_06084B18
-    .4byte sym_06084B20
-    .4byte sym_06084AF0
-    .4byte sym_0607EBCC
-    .4byte sym_06084AF2
-    .4byte sym_06084B14
-    .4byte sym_0605AD5C
-    .4byte sym_06084AF8
-    .4byte sym_06084AFC
-    .4byte sym_0605AAA0
+    .long sym_06084B0C
+    .long sym_06084B18
+    .long sym_06084B20
+    .long sym_06084AF0
+    .long sym_0607EBCC
+    .long sym_06084AF2
+    .long sym_06084B14
+    .long sym_0605AD5C
+    .long sym_06084AF8
+    .long sym_06084AFC
+    .long sym_0605AAA0
     .byte 0xAB, 0x11
     .byte 0x00, 0xFF
-    .4byte sound_cmd_dispatch
-    .4byte sym_060149CC
-    .4byte sym_06026CE0
-    .4byte sym_0605B6B8
+    .long sound_cmd_dispatch
+    .long sym_060149CC
+    .long sym_06026CE0
+    .long sym_0605B6B8
     .byte 0x00, 0x01
     .byte 0x00, 0x00
     .byte 0x00, 0x00
     .byte 0x80, 0x00
     .byte 0x00, 0x96
     .byte 0x00, 0x00
-    .4byte rigid_body_transform
-    .4byte frame_end_commit
+    .long rigid_body_transform
+    .long frame_end_commit
     .global loc_06013930
 loc_06013930:
     .byte 0xE3, 0x01
@@ -57,5 +57,5 @@ loc_06013930:
     .byte 0x22, 0x31
     .byte 0xA0, 0x04
     .byte 0x00, 0x09
-    .4byte sym_06084AF2
-    .4byte sym_06084AF4
+    .long sym_06084AF2
+    .long sym_06084AF4

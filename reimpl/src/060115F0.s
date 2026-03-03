@@ -61,20 +61,20 @@ hud_transparency:
 
 
 .L_06011658:
-    .2byte  0x0100
+    .short  0x0100
 .L_0601165A:
-    .2byte  0x0200
+    .short  0x0200
 .L_pool_0601165C:
-    .4byte  sym_0607886E
+    .long  sym_0607886E
 .L_06011660:
-    .4byte  0x00080000
+    .long  0x00080000
 .L_06011664:
-    .4byte  0x25E5F800
+    .long  0x25E5F800
 .L_pool_06011668:
-    .4byte  sym_06035C2C
+    .long  sym_06035C2C
 .L_pool_0601166C:
-    .4byte  0xFFF80000
+    .long  0xFFF80000
 .L_pool_06011670:
-    .4byte  0x12F2FC00
+    .long  0x12F2FC00
 .L_06011674:
-    .4byte  0x25F800A4
+    .long  0x25F800A4

@@ -63,5 +63,5 @@ mat_euler_rotate:
     .byte 0x00, 0x63
     .byte 0x20, 0x10
     .byte 0x00, 0x1F
-    .4byte sym_06000354
-    .4byte sym_06087094
+    .long sym_06000354
+    .long sym_06087094

@@ -12,7 +12,7 @@ trans_select_at_mt:
     extu.w r3, r3
     and r6, r3
     tst r3, r3
-    bt/s    .L_06019D3A
+    bt.s    .L_06019D3A
     mov #0x0, r13
     mov.l @r14, r3
     add #0x1, r3
@@ -81,12 +81,12 @@ trans_select_at_mt:
     .byte   0xAF, 0x11    /* bra 0x06019BC8 (external) */
     mov.l @r15+, r14
 .L_wpool_06019DA6:
-    .2byte  0x4000
+    .short  0x4000
 .L_pool_06019DA8:
-    .4byte  sym_0605AD00
+    .long  sym_0605AD00
 .L_pool_06019DAC:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_pool_06019DB0:
-    .4byte  g_pad_state
+    .long  g_pad_state
 .L_pool_06019DB4:
-    .4byte  sym_0605D243
+    .long  sym_0605D243

@@ -31,10 +31,10 @@ scene_buffer_init:
     .byte 0xA0, 0xC4
     .byte 0x00, 0x09
     .byte 0x02, 0x00
-    .4byte sym_060A3DF8
-    .4byte sym_060A3C70
-    .4byte sym_060A2470
-    .4byte sym_060635A8
+    .long sym_060A3DF8
+    .long sym_060A3C70
+    .long sym_060A2470
+    .long sym_060635A8
     .byte 0x84, 0x43
     .byte 0x60, 0x0C
     .byte 0xC9, 0x01
@@ -191,11 +191,11 @@ scene_buffer_init:
     .byte 0x00, 0x09
     .byte 0x00, 0x00
     .byte 0xFF, 0x00
-    .4byte sym_060A3D70
-    .4byte sym_060A3D78
+    .long sym_060A3D70
+    .long sym_060A3D78
     .byte 0x00, 0x07
     .byte 0xFF, 0xFF
-    .4byte sym_060635A0
+    .long sym_060635A0
     .byte 0x84, 0x43
     .byte 0x60, 0x0C
     .byte 0x20, 0x08
@@ -230,5 +230,5 @@ scene_buffer_init:
     .byte 0x6E, 0xF6
     .byte 0x18, 0x10
     .byte 0xFF, 0xFF
-    .4byte sym_060635A2
-    .4byte sym_060635AC
+    .long sym_060635A2
+    .long sym_060635AC

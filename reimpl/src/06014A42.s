@@ -7,14 +7,14 @@ util_wrapper:
     .byte   0xD3, 0x09    /* mov.l .L_pool_06014A71, r3 */
     jmp @r3
     lds.l @r15+, pr
-    .2byte  0x0260
-    .4byte  0x25C00000
-    .4byte  sym_06044B64
-    .4byte  sym_06059FFC
-    .4byte  memcpy_word_idx
-    .4byte  vdp2_loop_ctrl
-    .4byte  sym_0607EBF4
-    .4byte  sym_06085F90
-    .4byte  sym_06085F94
+    .short  0x0260
+    .long  0x25C00000
+    .long  sym_06044B64
+    .long  sym_06059FFC
+    .long  memcpy_word_idx
+    .long  vdp2_loop_ctrl
+    .long  sym_0607EBF4
+    .long  sym_06085F90
+    .long  sym_06085F94
 .L_pool_06014A71:
-    .4byte  vdp2_util_loop
+    .long  vdp2_util_loop

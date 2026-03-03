@@ -17,9 +17,9 @@ menu_page_transition:
     .byte 0x2C, 0xB2
     .byte 0xA0, 0x15
     .byte 0x6E, 0xB3
-    .4byte sym_0603F9F2
-    .4byte sym_0603F9F6
-    .4byte sym_060A4D14
+    .long sym_0603F9F2
+    .long sym_0603F9F6
+    .long sym_060A4D14
     .byte 0x62, 0xD2
     .byte 0x2C, 0x22
     .byte 0xBF, 0x5A

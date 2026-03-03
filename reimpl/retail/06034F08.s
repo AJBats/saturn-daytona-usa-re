@@ -53,8 +53,8 @@ slave_main_loop:
     .byte 0xFE, 0x11
     .byte 0x00, 0x80
     .byte 0xFF, 0xFF
-    .4byte sym_06063574
-    .4byte sym_06063574 + 0x20000000
+    .long sym_06063574
+    .long sym_06063574 + 0x20000000
     .global sym_06034F78
 sym_06034F78:
     .byte 0x2F, 0x16
@@ -213,7 +213,7 @@ sym_06034FFC:
     .byte 0x00, 0x0B
     .byte 0x62, 0xF6
     .byte 0x00, 0x09
-    .4byte sym_060A246C
+    .long sym_060A246C
     .byte 0x00, 0x00
     .byte 0x04, 0x4E
     .global sym_060350B0
@@ -306,7 +306,7 @@ sym_060350B0:
     .byte 0x00, 0x0B
     .byte 0x62, 0xF6
     .byte 0x00, 0x09
-    .4byte sym_060A246C
+    .long sym_060A246C
     .byte 0x00, 0x00
     .byte 0x04, 0x4E
     .global sym_06035168
@@ -319,7 +319,7 @@ sym_06035168:
     .byte 0x03, 0x3E
     .byte 0x43, 0x2B
     .byte 0x00, 0x09
-    .4byte sym_060351C4
+    .long sym_060351C4
     .byte 0x00, 0x09
     .global loc_0603517E
 loc_0603517E:
@@ -392,23 +392,23 @@ loc_060351BE:
     .byte 0x00, 0x09
     .global sym_060351C4
 sym_060351C4:
-    .4byte loc_060351BE
-    .4byte loc_060351BA
-    .4byte loc_060351B6
-    .4byte loc_060351B2
-    .4byte loc_060351AE
-    .4byte loc_060351AA
-    .4byte loc_060351A6
-    .4byte loc_060351A2
-    .4byte loc_0603519E
-    .4byte loc_0603519A
-    .4byte loc_06035196
-    .4byte loc_06035192
-    .4byte loc_0603518E
-    .4byte loc_0603518A
-    .4byte loc_06035186
-    .4byte loc_06035182
-    .4byte loc_0603517E
+    .long loc_060351BE
+    .long loc_060351BA
+    .long loc_060351B6
+    .long loc_060351B2
+    .long loc_060351AE
+    .long loc_060351AA
+    .long loc_060351A6
+    .long loc_060351A2
+    .long loc_0603519E
+    .long loc_0603519A
+    .long loc_06035196
+    .long loc_06035192
+    .long loc_0603518E
+    .long loc_0603518A
+    .long loc_06035186
+    .long loc_06035182
+    .long loc_0603517E
     .byte 0x2F, 0x26
     .byte 0x63, 0x23
     .byte 0x33, 0x0C
@@ -459,7 +459,7 @@ sym_06035228:
 sym_06035260:
     .byte 0x0E, 0x0C
     .byte 0x0A, 0x08
-    .4byte loc_06040200
+    .long loc_06040200
     .byte 0x20, 0x1E
     .byte 0x1C, 0x1A
     .byte 0x18, 0x16
@@ -488,8 +488,8 @@ sym_06035280:
     .byte 0x41, 0x2B
     .byte 0x00, 0x09
     .byte 0x00, 0x09
-    .4byte sym_060352AA
-    .4byte sym_06035260
+    .long sym_060352AA
+    .long sym_06035260
     .byte 0xE0, 0x00
     .byte 0x00, 0x0B
     .byte 0x62, 0xF6
@@ -598,9 +598,9 @@ sym_06035340:
     .byte 0x42, 0x2B
     .byte 0x00, 0x09
     .byte 0x00, 0x09
-    .4byte sym_06035338
-    .4byte sym_060353BE
-    .4byte sym_06036068
+    .long sym_06035338
+    .long sym_060353BE
+    .long sym_06036068
     .byte 0x40, 0x00
     .byte 0x89, 0x02
     .byte 0xE0, 0x00

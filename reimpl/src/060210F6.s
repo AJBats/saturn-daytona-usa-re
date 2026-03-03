@@ -15,14 +15,14 @@ obj_render_update:
     .byte   0xD3, 0x04    /* mov.l .L_pool_06021120, r3 */
     jmp @r3
     lds.l @r15+, pr
-    .2byte  0x1810
+    .short  0x1810
 .L_pool_06021119:
-    .4byte  sym_06087C84
+    .long  sym_06087C84
 .L_pool_0602111D:
-    .4byte  sym_0603850C
+    .long  sym_0603850C
 .L_pool_06021121:
-    .4byte  scene_buffer_init
+    .long  scene_buffer_init
 .L_pool_06021125:
-    .4byte  sym_06038520
+    .long  sym_06038520
 .L_pool_06021129:
-    .4byte  sym_06087C87
+    .long  sym_06087C87

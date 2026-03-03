@@ -63,30 +63,30 @@ green_light_anim:
     rts
     mov.l @r15+, r14
 .L_0601A3BE:
-    .2byte  0x1000
+    .short  0x1000
 .L_0601A3C0:
-    .4byte  memcpy_word_idx
+    .long  memcpy_word_idx
 .L_0601A3C4:
-    .4byte  sym_0605CF9C
+    .long  sym_0605CF9C
 .L_0601A3C8:
-    .4byte  0x25F00020
+    .long  0x25F00020
 .L_0601A3CC:
-    .4byte  0x25F00620
+    .long  0x25F00620
 .L_0601A3D0:
-    .4byte  sym_0605D01C
+    .long  sym_0605D01C
 .L_0601A3D4:
-    .4byte  0x25F00400
+    .long  0x25F00400
 .L_0601A3D8:
-    .4byte  race_data_handler
+    .long  race_data_handler
 .L_0601A3DC:
-    .4byte  sym_06063D9E
+    .long  sym_06063D9E
 .L_0601A3E0:
-    .4byte  sym_06063C90
+    .long  sym_06063C90
 .L_0601A3E4:
-    .4byte  sym_06028400
+    .long  sym_06028400
 .L_0601A3E8:
-    .4byte  sym_06063C98
+    .long  sym_06063C98
 .L_0601A3EC:
-    .4byte  sym_06026CE0
+    .long  sym_06026CE0
 .L_0601A3F0:
-    .4byte  sym_06085FF2
+    .long  sym_06085FF2

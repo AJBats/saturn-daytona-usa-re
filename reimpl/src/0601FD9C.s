@@ -47,23 +47,23 @@ vram_alloc_mgr:
     lds.l @r15+, pr
     rts
     nop
-    .2byte  0xFFFF
-    .4byte  sym_0605F498
-    .4byte  sym_06035168                  /* secondary SH-2 command handler entry */
-    .4byte  sym_06087804
+    .short  0xFFFF
+    .long  sym_0605F498
+    .long  sym_06035168                  /* secondary SH-2 command handler entry */
+    .long  sym_06087804
 .L_0601FE00:
-    .4byte  sym_060877F8
+    .long  sym_060877F8
 .L_0601FE04:
-    .4byte  sym_0607EBC4
+    .long  sym_0607EBC4
 .L_0601FE08:
-    .4byte  0x00800000
+    .long  0x00800000
 .L_0601FE0C:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8
 .L_0601FE10:
-    .4byte  sym_0605F62C
+    .long  sym_0605F62C
 .L_0601FE14:
-    .4byte  sym_0605F5EC
+    .long  sym_0605F5EC
 .L_0601FE18:
-    .4byte  sym_060877F4
+    .long  sym_060877F4
 .L_0601FE1C:
-    .4byte  g_game_state
+    .long  g_game_state

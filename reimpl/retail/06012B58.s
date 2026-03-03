@@ -53,10 +53,10 @@ cd_status_reader:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .byte 0xFF, 0xFF
-    .4byte cmd_validate_exec
-    .4byte sym_06084360
-    .4byte sym_0608436C
-    .4byte sym_06083274
-    .4byte sym_06084AEC
-    .4byte sym_060448C8
-    .4byte cmd_status_check
+    .long cmd_validate_exec
+    .long sym_06084360
+    .long sym_0608436C
+    .long sym_06083274
+    .long sym_06084AEC
+    .long sym_060448C8
+    .long cmd_status_check

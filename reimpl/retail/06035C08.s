@@ -9,7 +9,7 @@ smpc_cmd_helper_a:
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
-    .4byte sym_06035FEC
+    .long sym_06035FEC
     .global sym_06035C1C
 sym_06035C1C:
     .byte 0xA0, 0x01

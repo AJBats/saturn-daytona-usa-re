@@ -26,20 +26,20 @@ scene_buffer_init:
     xor #0x1, r0
     and r1, r0
     tst r0, r0
-    bt/s    .L_0603816C
+    bt.s    .L_0603816C
     extu.w r13, r14
     bra     .L_060382E2
     nop
 .L_wpool_0603815A:
-    .2byte  0x0200
+    .short  0x0200
 .L_pool_0603815C:
-    .4byte  sym_060A3DF8
+    .long  sym_060A3DF8
 .L_pool_06038160:
-    .4byte  sym_060A3C70
+    .long  sym_060A3C70
 .L_pool_06038164:
-    .4byte  sym_060A2470
+    .long  sym_060A2470
 .L_pool_06038168:
-    .4byte  sym_060635A8                /* scene mode / command slot selector */
+    .long  sym_060635A8                /* scene mode / command slot selector */
 .L_0603816C:
     mov.b @(3, r4), r0
     extu.b r0, r0
@@ -73,7 +73,7 @@ scene_buffer_init:
     mov.l r3, @r15
     mov.l @r8, r0
     cmp/eq #0x8, r0
-    bf/s    .L_060381BE
+    bf.s    .L_060381BE
     add #0x30, r7
     extu.w r5, r3
     shll8 r3
@@ -206,15 +206,15 @@ scene_buffer_init:
     bra     .L_060382B4
     nop
 .L_060382A0:
-    .4byte  0x0000FF00
+    .long  0x0000FF00
 .L_pool_060382A4:
-    .4byte  sym_060A3D70
+    .long  sym_060A3D70
 .L_pool_060382A8:
-    .4byte  sym_060A3D78
+    .long  sym_060A3D78
 .L_pool_060382AC:
-    .4byte  0x0007FFFF
+    .long  0x0007FFFF
 .L_pool_060382B0:
-    .4byte  sym_060635A0
+    .long  sym_060635A0
 .L_060382B4:
     mov.b @(3, r4), r0
     extu.b r0, r0
@@ -251,9 +251,9 @@ scene_buffer_init:
     rts
     mov.l @r15+, r14
 .L_wpool_060382F4:
-    .2byte  0x1810
-    .2byte  0xFFFF
+    .short  0x1810
+    .short  0xFFFF
 .L_pool_060382F8:
-    .4byte  sym_060635A2
+    .long  sym_060635A2
 .L_pool_060382FC:
-    .4byte  sym_060635AC
+    .long  sym_060635AC

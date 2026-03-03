@@ -21,45 +21,45 @@ car_frame_update:
     .byte   0xD3, 0x1A    /* mov.l .L_0600E580, r3 */
     add r4, r2
     cmp/eq r4, r14
-    bf/s    .L_0600E584
+    bf.s    .L_0600E584
     mov.l r2, @r3
     bra     .L_0600E586
     mov #0x0, r12
 
     .global DAT_0600e522
 DAT_0600e522:
-    .2byte  0x0268
+    .short  0x0268
 .L_0600E524:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_0600E528:
-    .4byte  sym_0607E940
-    .4byte  sym_0600A8BC
-    .4byte  gas_force_apply
-    .4byte  brake_force_apply
-    .4byte  sym_06030A06
-    .4byte  sym_06030EE0
-    .4byte  sym_06006838
-    .4byte  sym_060786B8
-    .4byte  segment_position_track
-    .4byte  scene_3d_processor
-    .4byte  sym_06063EB0
-    .4byte  sym_06063E9C
-    .4byte  sym_06063ED8
-    .4byte  sym_06063EC4
-    .4byte  finish_proximity
-    .4byte  collision_detect_main
-    .4byte  sym_0603053C
-    .4byte  checkpoint_detect
+    .long  sym_0607E940
+    .long  sym_0600A8BC
+    .long  gas_force_apply
+    .long  brake_force_apply
+    .long  sym_06030A06
+    .long  sym_06030EE0
+    .long  sym_06006838
+    .long  sym_060786B8
+    .long  segment_position_track
+    .long  scene_3d_processor
+    .long  sym_06063EB0
+    .long  sym_06063E9C
+    .long  sym_06063ED8
+    .long  sym_06063EC4
+    .long  finish_proximity
+    .long  collision_detect_main
+    .long  sym_0603053C
+    .long  checkpoint_detect
 .L_0600E570:
-    .4byte  sym_060786BC
+    .long  sym_060786BC
 .L_0600E574:
-    .4byte  sym_06063D9E
+    .long  sym_06063D9E
 .L_0600E578:
-    .4byte  sym_06063F44
+    .long  sym_06063F44
 .L_0600E57C:
-    .4byte  sym_06078900
+    .long  sym_06078900
 .L_0600E580:
-    .4byte  sym_0607E948
+    .long  sym_0607E948
 .L_0600E584:
     mov #0x1, r12
 .L_0600E586:
@@ -209,63 +209,63 @@ DAT_0600e522:
 
     .global DAT_0600e69c
 DAT_0600e69c:
-    .2byte  0x01B0
+    .short  0x01B0
 .L_0600E69E:
-    .2byte  0x0228
+    .short  0x0228
 .L_0600E6A0:
-    .4byte  gas_force_apply
+    .long  gas_force_apply
 .L_0600E6A4:
-    .4byte  brake_force_apply
+    .long  brake_force_apply
 .L_0600E6A8:
-    .4byte  sym_06030A06
+    .long  sym_06030A06
 .L_0600E6AC:
-    .4byte  sym_06030EE0
+    .long  sym_06030EE0
 .L_0600E6B0:
-    .4byte  sym_06078635
+    .long  sym_06078635
 .L_0600E6B4:
-    .4byte  sym_060786C0
+    .long  sym_060786C0
 .L_0600E6B8:
-    .4byte  sym_060786C4
+    .long  sym_060786C4
 .L_0600E6BC:
-    .4byte  sym_060786C8
+    .long  sym_060786C8
 .L_0600E6C0:
-    .4byte  sym_06063EF0
+    .long  sym_06063EF0
 .L_0600E6C4:
-    .4byte  sym_06006838
+    .long  sym_06006838
 .L_0600E6C8:
-    .4byte  sym_060786B8
+    .long  sym_060786B8
 .L_0600E6CC:
-    .4byte  segment_position_track
+    .long  segment_position_track
 .L_0600E6D0:
-    .4byte  sym_0602ECF2
+    .long  sym_0602ECF2
 .L_0600E6D4:
-    .4byte  scene_3d_processor
+    .long  scene_3d_processor
 .L_0600E6D8:
-    .4byte  sym_06063EB0
+    .long  sym_06063EB0
 .L_0600E6DC:
-    .4byte  sym_06063E9C
+    .long  sym_06063E9C
 .L_0600E6E0:
-    .4byte  sym_06063ED8
+    .long  sym_06063ED8
 .L_0600E6E4:
-    .4byte  sym_06063EC4
+    .long  sym_06063EC4
 .L_0600E6E8:
-    .4byte  sym_0600DB64
+    .long  sym_0600DB64
 .L_0600E6EC:
-    .4byte  finish_proximity
+    .long  finish_proximity
 .L_0600E6F0:
-    .4byte  collision_detect_main
+    .long  collision_detect_main
 .L_0600E6F4:
-    .4byte  sym_0603053C
+    .long  sym_0603053C
 .L_0600E6F8:
-    .4byte  checkpoint_detect
+    .long  checkpoint_detect
 .L_0600E6FC:
-    .4byte  sym_0607EA9C
+    .long  sym_0607EA9C
 .L_0600E700:
-    .4byte  FUN_0600C994
+    .long  FUN_0600C994
 .L_0600E704:
-    .4byte  sym_06083255
+    .long  sym_06083255
 .L_0600E708:
-    .4byte  sym_0602D9F0
+    .long  sym_0602D9F0
 .L_0600E70C:
     lds.l @r15+, macl
     lds.l @r15+, pr

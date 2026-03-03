@@ -41,23 +41,23 @@ sym_0601AEB6:
     .byte 0x00, 0x09
     .byte 0x01, 0x80
     .byte 0xFF, 0xFF
-    .4byte sym_06078868
-    .4byte sym_06078663
-    .4byte sym_06086010
-    .4byte sym_0608600F
-    .4byte sym_06086011
-    .4byte sym_0604866C
+    .long sym_06078868
+    .long sym_06078663
+    .long sym_06086010
+    .long sym_0608600F
+    .long sym_06086011
+    .long sym_0604866C
     .byte 0x25, 0xF0
     .byte 0x06, 0xC0
-    .4byte memcpy_word_idx
-    .4byte sym_060485CC
+    .long memcpy_word_idx
+    .long sym_060485CC
     .byte 0x25, 0xF0
     .byte 0x01, 0x80
-    .4byte sym_0604996C
+    .long sym_0604996C
     .byte 0x25, 0xF0
     .byte 0x00, 0x00
-    .4byte dma_transfer
-    .4byte sym_0605DEC8
+    .long dma_transfer
+    .long sym_0605DEC8
     .global loc_0601AF04
 loc_0601AF04:
     .byte 0xD4, 0x19

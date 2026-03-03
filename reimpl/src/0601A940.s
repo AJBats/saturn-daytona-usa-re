@@ -15,7 +15,7 @@ course_init_pipeline:
     extu.w r3, r3
     and r5, r3
     tst r3, r3
-    bt/s    .L_0601A96C
+    bt.s    .L_0601A96C
     mov #0x0, r13
     mov.b @r14, r3
     add #0x1, r3
@@ -56,16 +56,16 @@ course_init_pipeline:
 
     .global DAT_0601a9a4
 DAT_0601a9a4:
-    .2byte  0x4000
-    .2byte  0xFFFF
+    .short  0x4000
+    .short  0xFFFF
 .L_0601A9A8:
-    .4byte  g_pad_state
+    .long  g_pad_state
 .L_0601A9AC:
-    .4byte  sym_0605D24C
+    .long  sym_0605D24C
 .L_0601A9B0:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_0601A9B4:
-    .4byte  sym_0605D243
+    .long  sym_0605D243
 .L_0601A9B8:
     mov.w @r12, r2
     extu.w r2, r2
@@ -140,17 +140,17 @@ DAT_0601a9a4:
 
     .global DAT_0601aa3a
 DAT_0601aa3a:
-    .2byte  0x0600
+    .short  0x0600
 .L_0601AA3C:
-    .4byte  sym_06085FF6
+    .long  sym_06085FF6
 .L_0601AA40:
-    .4byte  sym_06012EC4
+    .long  sym_06012EC4
 .L_0601AA44:
-    .4byte  sym_06012F00
+    .long  sym_06012F00
 .L_0601AA48:
-    .4byte  sym_06085FF7
+    .long  sym_06085FF7
 .L_0601AA4C:
-    .4byte  race_variant_e
+    .long  race_variant_e
 .L_0601AA50:
     mov.b @r11, r0
     cmp/eq #0x1, r0
@@ -214,23 +214,23 @@ DAT_0601aa3a:
 
     .global DAT_0601aac2
 DAT_0601aac2:
-    .2byte  0x099C
+    .short  0x099C
 .L_0601AAC4:
-    .2byte  0x091C
-    .2byte  0xFFFF
+    .short  0x091C
+    .short  0xFFFF
 .L_0601AAC8:
-    .4byte  race_variant_f
+    .long  race_variant_f
 .L_0601AACC:
-    .4byte  0xAE0001FF
+    .long  0xAE0001FF
 .L_0601AAD0:
-    .4byte  sound_cmd_dispatch
+    .long  sound_cmd_dispatch
 .L_0601AAD4:
-    .4byte  sym_06049CFC
+    .long  sym_06049CFC
 .L_0601AAD8:
-    .4byte  sym_060283E0
+    .long  sym_060283E0
 .L_0601AADC:
-    .4byte  sym_06049CDC
+    .long  sym_06049CDC
 .L_0601AAE0:
-    .4byte  sym_0605D35C
+    .long  sym_0605D35C
 .L_0601AAE4:
-    .4byte  0x0000E000
+    .long  0x0000E000

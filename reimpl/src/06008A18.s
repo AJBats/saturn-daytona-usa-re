@@ -88,41 +88,41 @@ state_attract_active:
     mov.l   .L_06008B00, r3
     jmp @r3
     mov.l @r15+, r14
-    .2byte  0x4F26                              /* dead code: unreachable lds.l @r15+, pr */
-    .4byte  0x000B6EF6                          /* dead code: unreachable rts + mov.l @r15+, r14 */
+    .short  0x4F26                              /* dead code: unreachable lds.l @r15+, pr */
+    .long  0x000B6EF6                          /* dead code: unreachable rts + mov.l @r15+, r14 */
 .L_06008AC0:
-    .2byte  0x0800
+    .short  0x0800
 .L_06008AC2:
-    .2byte  0x0244
+    .short  0x0244
 .L_06008AC4:
-    .4byte  sym_0607EBCC
+    .long  sym_0607EBCC
 .L_06008AC8:
-    .4byte  sym_0600A1F6
+    .long  sym_0600A1F6
 .L_06008ACC:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8
 .L_06008AD0:
-    .4byte  sym_06063D9A
+    .long  sym_06063D9A
 .L_06008AD4:
-    .4byte  handler_init_reset
+    .long  handler_init_reset
 .L_06008AD8:
-    .4byte  g_game_state
+    .long  g_game_state
 .L_06008ADC:
-    .4byte  sym_06087804
+    .long  sym_06087804
 .L_06008AE0:
-    .4byte  camera_attract_init
+    .long  camera_attract_init
 .L_06008AE4:
-    .4byte  geom_display_ctrl_b
+    .long  geom_display_ctrl_b
 .L_06008AE8:
-    .4byte  race_countdown_update
+    .long  race_countdown_update
 .L_06008AEC:
-    .4byte  car_proximity_check
+    .long  car_proximity_check
 .L_06008AF0:
-    .4byte  perspective_project
+    .long  perspective_project
 .L_06008AF4:
-    .4byte  sym_0600338C
+    .long  sym_0600338C
 .L_06008AF8:
-    .4byte  scene_master
+    .long  scene_master
 .L_06008AFC:
-    .4byte  sym_0601AEB6
+    .long  sym_0601AEB6
 .L_06008B00:
-    .4byte  frame_end_commit                    /* frame_end_commit — finalize and commit frame */
+    .long  frame_end_commit                    /* frame_end_commit — finalize and commit frame */

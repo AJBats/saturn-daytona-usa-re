@@ -85,18 +85,18 @@ road_segment_check:
 
     .global DAT_06040d2c
 DAT_06040d2c:
-    .2byte  0x00FF
-    .2byte  0xFFFF
+    .short  0x00FF
+    .short  0xFFFF
 .L_06040D30:
-    .4byte  ai_checkpoint_section
+    .long  ai_checkpoint_section
 .L_06040D34:
-    .4byte  sym_060A5400
+    .long  sym_060A5400
 .L_06040D38:
-    .4byte  sym_0604231E
+    .long  sym_0604231E
 .L_06040D3C:
-    .4byte  0x0000FFFF
+    .long  0x0000FFFF
 .L_06040D40:
-    .4byte  road_segment_query
+    .long  road_segment_query
 .L_06040D44:
     mov.w   DAT_06040dc0, r2
     mov.l   .L_06040DC8, r3
@@ -171,24 +171,24 @@ DAT_06040d2c:
 
     .global DAT_06040dc0
 DAT_06040dc0:
-    .2byte  0x0400
+    .short  0x0400
 
     .global DAT_06040dc2
 DAT_06040dc2:
-    .2byte  0x0258
+    .short  0x0258
 .L_06040DC4:
-    .2byte  0x043C
-    .2byte  0xFFFF
+    .short  0x043C
+    .short  0xFFFF
 .L_06040DC8:
-    .4byte  sym_06035C4E
+    .long  sym_06035C4E
 .L_06040DCC:
-    .4byte  0x0000FBFF
+    .long  0x0000FBFF
 .L_06040DD0:
-    .4byte  smpc_cmd_helper_b
+    .long  smpc_cmd_helper_b
 .L_06040DD4:
-    .4byte  sym_060A4D14
+    .long  sym_060A4D14
 .L_06040DD8:
-    .4byte  track_intersect_test
+    .long  track_intersect_test
 .L_06040DDC:
     mov r15, r5
     mov.l   .L_06040E74, r3
@@ -231,7 +231,7 @@ DAT_06040dc2:
     mov.l @(60, r2), r3
     add #-0x1, r3
     tst r3, r3
-    bf/s    .L_06040E32
+    bf.s    .L_06040E32
     mov.l r3, @(60, r2)
     bra     .L_06040E5E
     mov #-0x2, r0
@@ -274,17 +274,17 @@ DAT_06040dc2:
 
     .global DAT_06040e72
 DAT_06040e72:
-    .2byte  0x00FC
+    .short  0x00FC
 .L_06040E74:
-    .4byte  mesh_boundary_check
+    .long  mesh_boundary_check
 .L_06040E78:
-    .4byte  0x40000000
+    .long  0x40000000
 .L_06040E7C:
-    .4byte  track_surface_type_a
+    .long  track_surface_type_a
 .L_06040E80:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_06040E84:
-    .4byte  sym_06035C4E
+    .long  sym_06035C4E
 
     .global sym_06040E88
 sym_06040E88:
@@ -345,7 +345,7 @@ sym_06040EBA:
     rts
     nop
 .L_06040EE8:
-    .4byte  sym_060A5400
+    .long  sym_060A5400
 
     .global sym_06040EEC
 sym_06040EEC:

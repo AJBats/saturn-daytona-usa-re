@@ -17,7 +17,7 @@ ai_steering_update:
 
     mov.w   .L_wpool_0600C8B8, r3
     cmp/gt r3, r2
-    bf/s    .L_0600C7FE
+    bf.s    .L_0600C7FE
     exts.w r4, r4
     shar r4
     shar r4
@@ -135,28 +135,28 @@ ai_steering_update:
 
     .global DAT_0600c8b6
 DAT_0600c8b6:
-    .2byte  0x01B0
+    .short  0x01B0
 .L_wpool_0600C8B8:
-    .2byte  0x0118
+    .short  0x0118
 .L_wpool_0600C8BA:
-    .2byte  0x00FA
+    .short  0x00FA
 
     .global DAT_0600c8bc
 DAT_0600c8bc:
-    .2byte  0x00DC
+    .short  0x00DC
 
     .global DAT_0600c8be
 DAT_0600c8be:
-    .2byte  0x01D8
+    .short  0x01D8
 
     .global DAT_0600c8c0
 DAT_0600c8c0:
-    .2byte  0x0190
+    .short  0x0190
 
     .global DAT_0600c8c2
 DAT_0600c8c2:
-    .2byte  0x018C
+    .short  0x018C
 .L_0600C8C4:
-    .4byte  sincos_pair
+    .long  sincos_pair
 .L_0600C8C8:
-    .4byte  fpmul
+    .long  fpmul

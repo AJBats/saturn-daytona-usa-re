@@ -46,12 +46,12 @@ results_best_laps:
     mov.l @r15+, r13
     .byte   0xA6, 0x09    /* bra 0x060172E4 (external) */
     mov.l @r15+, r14
-    .2byte  0xFFFF
-    .4byte  sym_0605BAFA
-    .4byte  sym_06035228
-    .4byte  sym_06085F89
+    .short  0xFFFF
+    .long  sym_0605BAFA
+    .long  sym_06035228
+    .long  sym_06085F89
 .L_pool_060166E1:
-    .4byte  sym_06084FC8
+    .long  sym_06084FC8
 
     .global loc_060166E4
 loc_060166E4:
@@ -111,4 +111,4 @@ loc_06016724:
     rts
     mov.b r0, @(2, r5)
 .L_pool_0601674F:
-    .4byte  sym_06084FC8
+    .long  sym_06084FC8

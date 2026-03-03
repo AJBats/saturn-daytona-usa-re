@@ -49,42 +49,42 @@ ai_speed_target:
     rts
     mov.l @r15+, r14
 
-    .4byte  0x5543971C
-    .4byte  0x45194501
-    .4byte  0x655D6353
-    .4byte  0x45283538
-    .4byte  0x45214521
-    .4byte  0x45214521
-    .4byte  0x45214521
-    .4byte  0x45214521
-    .4byte  0x665D3673
-    .4byte  0x8901A001
-    .4byte  0x62636273
-    .4byte  0xE048034E
-    .4byte  0x33280436
-    .4byte  0xE050000B
-    .2byte  0x0436
+    .long  0x5543971C
+    .long  0x45194501
+    .long  0x655D6353
+    .long  0x45283538
+    .long  0x45214521
+    .long  0x45214521
+    .long  0x45214521
+    .long  0x45214521
+    .long  0x665D3673
+    .long  0x8901A001
+    .long  0x62636273
+    .long  0xE048034E
+    .long  0x33280436
+    .long  0xE050000B
+    .short  0x0436
 
     .global DAT_0600c962
 DAT_0600c962:
-    .2byte  0x0600
+    .short  0x0600
 
     .global DAT_0600c964
 DAT_0600c964:
-    .2byte  0xFA00
+    .short  0xFA00
 
-    .2byte  0x2000
+    .short  0x2000
 .L_pool_0600C968:
-    .4byte  atan2
+    .long  atan2
 .L_pool_0600C96C:
-    .4byte  0x0000FA00
+    .long  0x0000FA00
 
-    .4byte  0x9038E345
-    .4byte  0x054E3533
-    .4byte  0x8B0AE362
-    .4byte  0x35378907
-    .4byte  0x75BB4500
-    .4byte  0xD318353C
-    .4byte  0x62515143
-    .4byte  0x312C1413
-    .4byte  0x000B0009
+    .long  0x9038E345
+    .long  0x054E3533
+    .long  0x8B0AE362
+    .long  0x35378907
+    .long  0x75BB4500
+    .long  0xD318353C
+    .long  0x62515143
+    .long  0x312C1413
+    .long  0x000B0009

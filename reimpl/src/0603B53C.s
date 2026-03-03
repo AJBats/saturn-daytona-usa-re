@@ -12,15 +12,15 @@ menu_page_transition:
     add #0x34, r13
     mov.l @(r0, r13), r0
     tst r0, r0
-    bf/s    .L_0603B568
+    bf.s    .L_0603B568
     mov #0x0, r11
     mov.l r11, @r12
     bra     .L_0603B586
     mov r11, r14
-    .4byte  sym_0603F9F2
-    .4byte  sym_0603F9F6
+    .long  sym_0603F9F2
+    .long  sym_0603F9F6
 .L_pool_0603B564:
-    .4byte  sym_060A4D14
+    .long  sym_060A4D14
 .L_0603B568:
     mov.l @r13, r2
     mov.l r2, @r12

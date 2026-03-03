@@ -29,8 +29,8 @@ ai_brake_handler:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .byte 0x03, 0x28
-    .4byte sym_060A5400
-    .4byte ai_brake_zone_main
+    .long sym_060A5400
+    .long ai_brake_zone_main
     .byte 0xD3, 0x1B
     .byte 0x43, 0x0B
     .byte 0x64, 0xF3

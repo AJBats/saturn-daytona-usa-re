@@ -61,7 +61,7 @@ car_iterate_update:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .byte 0x01, 0xEC
-    .4byte sym_0607E944
-    .4byte sym_0607E940
-    .4byte sym_060786AC
-    .4byte sym_06063F3C
+    .long sym_0607E944
+    .long sym_0607E940
+    .long sym_060786AC
+    .long sym_06063F3C

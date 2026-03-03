@@ -13,11 +13,11 @@ menu_credits_elem:
     lds.l @r15+, pr
     rts
     nop
-    .2byte  0x00A8
+    .short  0x00A8
 .L_0603B69A:
-    .2byte  0x00B8
-    .4byte  timer_stub
+    .short  0x00B8
+    .long  timer_stub
 .L_0603B6A0:
-    .4byte  sym_060A4D14               /* [HIGH] global UI/command state pointer — dereferenced to get struct base */
+    .long  sym_060A4D14               /* [HIGH] global UI/command state pointer — dereferenced to get struct base */
 .L_0603B6A4:
-    .4byte  sym_06035168
+    .long  sym_06035168

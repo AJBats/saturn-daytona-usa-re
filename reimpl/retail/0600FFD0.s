@@ -65,11 +65,11 @@ DAT_06010044:
     .global DAT_06010046
 DAT_06010046:
     .byte 0x0B, 0x22
-    .4byte sym_060284AE
-    .4byte sym_0607887F
-    .4byte sym_0605AA98
-    .4byte sym_06078663
-    .4byte sym_0605ACE4
+    .long sym_060284AE
+    .long sym_0607887F
+    .long sym_0605AA98
+    .long sym_06078663
+    .long sym_0605ACE4
     .byte 0x60, 0x42
     .byte 0x88, 0x0C
     .byte 0x89, 0x02

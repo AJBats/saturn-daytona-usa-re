@@ -11,7 +11,7 @@ credits_scroll:
     jsr @r12
     mov.l @(r0, r5), r5
     cmp/eq #-0x5, r0
-    bf/s    .L_0603F260
+    bf.s    .L_0603F260
     mov r0, r14
     bra     .L_0603F2B2
     mov #-0x1, r0
@@ -72,18 +72,18 @@ credits_scroll:
     rts
     mov.l @r15+, r14
 .L_0603F2C2:
-    .2byte  0x00C8
+    .short  0x00C8
 .L_0603F2C4:
-    .4byte  large_prologue_save
+    .long  large_prologue_save
 .L_0603F2C8:
-    .4byte  checkpoint_state_check
+    .long  checkpoint_state_check
 .L_0603F2CC:
-    .4byte  sym_060A4D14
+    .long  sym_060A4D14
 .L_0603F2D0:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_0603F2D4:
-    .4byte  sym_06041884
+    .long  sym_06041884
 .L_0603F2D8:
-    .4byte  state_field_read
+    .long  state_field_read
 .L_0603F2DC:
-    .4byte  track_shadow_ground
+    .long  track_shadow_ground

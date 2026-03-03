@@ -26,8 +26,8 @@ smpc_peripheral_query:
     .byte 0xE0, 0xFF
     .byte 0xFF, 0x0F
     .byte 0xFF, 0xFF
-    .4byte ai_brake_zone_main
-    .4byte sym_06063590
+    .long ai_brake_zone_main
+    .long sym_06063590
     .byte 0x25, 0x89
     .byte 0x00, 0x08
     .byte 0x60, 0xE1

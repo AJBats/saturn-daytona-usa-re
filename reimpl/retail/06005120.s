@@ -31,14 +31,14 @@ hw_render_dispatch:
     .byte 0x43, 0x2B
     .byte 0x6E, 0xF6
     .byte 0xFF, 0xFF
-    .4byte sym_06063750
-    .4byte sym_06059F10
+    .long sym_06063750
+    .long sym_06059F10
     .byte 0x25, 0xE0
     .byte 0x00, 0x00
     .byte 0x25, 0xE2
     .byte 0x00, 0x00
-    .4byte dma_memory_transfer
-    .4byte memcpy_long_idx
+    .long dma_memory_transfer
+    .long memcpy_long_idx
     .global sym_06005174
 sym_06005174:
     .byte 0xD5, 0x2A

@@ -33,7 +33,7 @@ perspective_proj_3d:
     extu.b r1, r1
     extu.b r2, r2
     cmp/eq r1, r2
-    bf/s    .L_060147A8
+    bf.s    .L_060147A8
     mov r7, r14
     add #0x1, r14
 
@@ -72,7 +72,7 @@ perspective_proj_3d:
     bt      .L_06014838
 
     cmp/hs r10, r6
-    bt/s    .L_060147E8
+    bt.s    .L_060147E8
     mov r9, r14
     bra     .L_060147EA
     nop
@@ -106,22 +106,22 @@ perspective_proj_3d:
 
     .global DAT_06014818
 DAT_06014818:
-    .2byte  0x00FF                      /* sentinel value (0xFF) loaded as mov.w */
-    .2byte  0xFFFF
+    .short  0x00FF                      /* sentinel value (0xFF) loaded as mov.w */
+    .short  0xFFFF
 .L_pool_0601481C:
-    .4byte  sym_06084B14
+    .long  sym_06084B14
 .L_pool_06014820:
-    .4byte  sym_0605B3C4
+    .long  sym_0605B3C4
 .L_pool_06014824:
-    .4byte  sym_06084FB8
+    .long  sym_06084FB8
 .L_pool_06014828:
-    .4byte  sym_0607EBCC
+    .long  sym_0607EBCC
 .L_pool_0601482C:
-    .4byte  sym_0605B164
+    .long  sym_0605B164
 .L_pool_06014830:
-    .4byte  sym_0607EBC8
+    .long  sym_0607EBC8
 .L_pool_06014834:
-    .4byte  sym_0605B4A8
+    .long  sym_0605B4A8
 
 .L_06014838:
     extu.b r7, r13
@@ -133,7 +133,7 @@ DAT_06014818:
     mov.b @r5, r2
     extu.b r2, r2
     cmp/eq r11, r2
-    bf/s    .L_0601484C
+    bf.s    .L_0601484C
     add #0x1, r6
     extu.b r7, r13
 
@@ -153,4 +153,4 @@ DAT_06014818:
     mov.l @r15+, r14
 
 .L_pool_06014864:
-    .4byte  sym_06084FB8
+    .long  sym_06084FB8

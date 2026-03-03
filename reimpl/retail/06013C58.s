@@ -73,12 +73,12 @@ DAT_06013cd0:
     .byte 0x0C, 0xB0
     .byte 0x02, 0x38
     .byte 0xFF, 0xFF
-    .4byte sym_06028400
-    .4byte sym_06063750
-    .4byte sym_06078900
-    .4byte sym_0602853E
-    .4byte sym_06028560
-    .4byte sym_06085FF4
+    .long sym_06028400
+    .long sym_06063750
+    .long sym_06078900
+    .long sym_0602853E
+    .long sym_06028560
+    .long sym_06085FF4
     .byte 0x97, 0x69
     .byte 0x37, 0xEC
     .byte 0x2F, 0x72
@@ -211,19 +211,19 @@ DAT_06013dd4:
     .global DAT_06013dd6
 DAT_06013dd6:
     .byte 0x01, 0x02
-    .4byte display_channel_b
-    .4byte anim_frame_transform
-    .4byte sym_060284AE
-    .4byte sym_060786A4
+    .long display_channel_b
+    .long anim_frame_transform
+    .long sym_060284AE
+    .long sym_060786A4
     .byte 0x00, 0x09
     .byte 0x27, 0xBF
-    .4byte sym_06085FF8
-    .4byte sym_06086012
-    .4byte sym_06028430
-    .4byte sym_06044A58
+    .long sym_06085FF8
+    .long sym_06086012
+    .long sym_06028430
+    .long sym_06044A58
     .byte 0x00, 0x00
     .byte 0xF0, 0x00
-    .4byte sym_060283E0
+    .long sym_060283E0
     .byte 0x7F, 0x08
     .byte 0x4F, 0x26
     .byte 0x6B, 0xF6

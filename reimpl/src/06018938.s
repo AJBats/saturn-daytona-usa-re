@@ -70,7 +70,7 @@ course2_bg_load:
     add r14, r1
     mov.l r1, @r3
     cmp/ge r10, r5
-    bf/s    .L_0601899C
+    bf.s    .L_0601899C
     add #0x4, r4
     mov.l   .L_06018A30, r4
     mov.l   .L_06018A34, r3
@@ -86,52 +86,52 @@ course2_bg_load:
     jmp @r3
     mov.l @r15+, r14
 .L_060189DE:
-    .2byte  0x10A0
+    .short  0x10A0
 .L_060189E0:
-    .2byte  0x3000
+    .short  0x3000
 .L_060189E2:
-    .2byte  0x4000
+    .short  0x4000
 .L_060189E4:
-    .4byte  sym_0605D21C
+    .long  sym_0605D21C
 .L_060189E8:
-    .4byte  sym_06085FD0
+    .long  sym_06085FD0
 .L_060189EC:
-    .4byte  sym_060D6900
+    .long  sym_060D6900
 .L_060189F0:
-    .4byte  memcpy_long_idx
+    .long  memcpy_long_idx
 .L_060189F4:
-    .4byte  0x00200000
+    .long  0x00200000
 .L_060189F8:
-    .4byte  sym_060D5840
+    .long  sym_060D5840
 .L_060189FC:
-    .4byte  0x0000F800
+    .long  0x0000F800
 .L_06018A00:
-    .4byte  sym_060C6000
+    .long  sym_060C6000
 .L_06018A04:
-    .4byte  0x00017A00
+    .long  0x00017A00
 .L_06018A08:
-    .4byte  0x000108A0
+    .long  0x000108A0
 .L_06018A0C:
-    .4byte  0x00019000
+    .long  0x00019000
 .L_06018A10:
-    .4byte  0x00240000
+    .long  0x00240000
 .L_06018A14:
-    .4byte  sym_060A6000
+    .long  sym_060A6000
 .L_06018A18:
-    .4byte  0x0001C598
+    .long  0x0001C598
 .L_06018A1C:
-    .4byte  sym_060BF000
+    .long  sym_060BF000
 .L_06018A20:
-    .4byte  0x00018598
+    .long  0x00018598
 .L_06018A24:
-    .4byte  sym_060C2000
+    .long  sym_060C2000
 .L_06018A28:
-    .4byte  0x0001EEA0
+    .long  0x0001EEA0
 .L_06018A2C:
-    .4byte  0x002F8000
+    .long  0x002F8000
 .L_06018A30:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8
 .L_06018A34:
-    .4byte  sound_init_sequence
+    .long  sound_init_sequence
 .L_06018A38:
-    .4byte  render_stage_c
+    .long  render_stage_c

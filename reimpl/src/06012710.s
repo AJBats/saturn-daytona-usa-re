@@ -84,32 +84,32 @@ race_progress_check:
     rts
     mov.l @r15+, r14
 .L_pool_060127A4:
-    .4byte  sym_0607EBCC
+    .long  sym_0607EBCC
 .L_pool_060127A8:
-    .4byte  sound_cmd_dispatch              /* sound command dispatcher function */
+    .long  sound_cmd_dispatch              /* sound command dispatcher function */
 .L_pool_060127AC:
-    .4byte  0xAE1115FF
+    .long  0xAE1115FF
 .L_pool_060127B0:
-    .4byte  sym_06078654
+    .long  sym_06078654
 .L_pool_060127B4:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_pool_060127B8:
-    .4byte  sym_06063EF0
+    .long  sym_06063EF0
 .L_pool_060127BC:
-    .4byte  0xAE1122FF
+    .long  0xAE1122FF
 .L_pool_060127C0:
-    .4byte  0xAE1123FF
+    .long  0xAE1123FF
 .L_pool_060127C4:
-    .4byte  0xAE1124FF
+    .long  0xAE1124FF
 .L_pool_060127C8:
-    .4byte  0xAE1125FF
+    .long  0xAE1125FF
 .L_pool_060127CC:
-    .4byte  0xAE1116FF
+    .long  0xAE1116FF
 .L_pool_060127D0:
-    .4byte  sym_06086056
+    .long  sym_06086056
 .L_pool_060127D4:
-    .4byte  sym_0608605A
+    .long  sym_0608605A
 .L_pool_060127D8:
-    .4byte  sym_06035C2C
+    .long  sym_06035C2C
 .L_pool_060127DC:
-    .4byte  0xAE110CFF
+    .long  0xAE110CFF

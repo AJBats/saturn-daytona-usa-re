@@ -73,10 +73,10 @@ car_proximity_check:
     .byte 0xFF, 0xFF
     .byte 0x00, 0x04
     .byte 0xB3, 0x33
-    .4byte sym_0607EA98
-    .4byte sym_06078900
-    .4byte sym_0607EAE0
-    .4byte sym_0607E940
+    .long sym_0607EA98
+    .long sym_06078900
+    .long sym_0607EAE0
+    .long sym_0607E940
     .byte 0x00, 0xE0
     .byte 0x00, 0x00
     .byte 0x62, 0x63
@@ -185,8 +185,8 @@ DAT_0600aa7e:
     .byte 0xFF, 0xFF
     .byte 0x00, 0x01
     .byte 0x00, 0x00
-    .4byte sym_060316C4
-    .4byte sym_0607E940
+    .long sym_060316C4
+    .long sym_0607E940
     .byte 0x00, 0xE0
     .byte 0x00, 0x00
-    .4byte sym_06030FC0
+    .long sym_06030FC0

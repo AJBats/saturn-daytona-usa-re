@@ -32,9 +32,9 @@ state_memory_route:
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
     .byte 0xFF, 0xFF
-    .4byte sym_0605E0A2
-    .4byte sym_0605A016
-    .4byte geom_output_dispatch
-    .4byte g_game_state
-    .4byte sym_060149E0
-    .4byte sym_06026CE0
+    .long sym_0605E0A2
+    .long sym_0605A016
+    .long geom_output_dispatch
+    .long g_game_state
+    .long sym_060149E0
+    .long sym_06026CE0

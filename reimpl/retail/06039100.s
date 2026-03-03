@@ -79,9 +79,9 @@ DAT_0603918e:
     .byte 0x00, 0xF7
     .byte 0x01, 0x60
     .byte 0xFF, 0xFF
-    .4byte vblank_color_apply
-    .4byte sym_060A3E48
-    .4byte sym_060635AE
+    .long vblank_color_apply
+    .long sym_060A3E48
+    .long sym_060635AE
     .byte 0xE0, 0x2E
     .byte 0x02, 0xFD
     .byte 0xE0, 0x36
@@ -162,8 +162,8 @@ DAT_0603918e:
     .byte 0x6E, 0xF6
     .byte 0x00, 0x80
     .byte 0xFF, 0xFF
-    .4byte sym_060A3E38
+    .long sym_060A3E38
     .byte 0x00, 0x01
     .byte 0x00, 0x00
-    .4byte sym_060A4C80
-    .4byte sym_060635AC
+    .long sym_060A4C80
+    .long sym_060635AC

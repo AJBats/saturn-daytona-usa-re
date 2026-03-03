@@ -17,7 +17,7 @@ lap_timer_ctrl:
     mov.l   .L_pool_060122DC, r6
     mov.l @r4, r2
     cmp/ge r3, r2
-    bf/s    .L_060122B8
+    bf.s    .L_060122B8
     mov #0x0, r5
     exts.w r5, r5
     .byte   0xB1, 0x2C    /* bsr 0x0601250C (external) */
@@ -34,14 +34,14 @@ lap_timer_ctrl:
     mov.w r5, @r6
     .byte   0xA2, 0x23    /* bra 0x06012710 (external) */
     lds.l @r15+, pr
-    .2byte  0xFFFF
-    .4byte  sym_06078636
-    .4byte  0xAE110FFF
-    .4byte  sound_cmd_dispatch
+    .short  0xFFFF
+    .long  sym_06078636
+    .long  0xAE110FFF
+    .long  sound_cmd_dispatch
 .L_pool_060122D8:
-    .4byte  sym_0607EBCC
+    .long  sym_0607EBCC
 .L_pool_060122DC:
-    .4byte  sym_060788B2
+    .long  sym_060788B2
 .L_060122E0:
     mov #0x1, r5
     mov #0x10, r2

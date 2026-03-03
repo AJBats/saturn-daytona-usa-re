@@ -89,25 +89,25 @@ scene_process_stage:
     bra     .L_06022212
     nop
 .L_060221E0:
-    .4byte  0x03E80000
+    .long  0x03E80000
 .L_060221E4:
-    .4byte  fpmul
+    .long  fpmul
 .L_060221E8:
-    .4byte  sym_060896B8
+    .long  sym_060896B8
 .L_060221EC:
-    .4byte  sym_060897D0
+    .long  sym_060897D0
 .L_060221F0:
-    .4byte  sym_060895A0
+    .long  sym_060895A0
 .L_060221F4:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_060221F8:
-    .4byte  sym_06089C58
+    .long  sym_06089C58
 .L_060221FC:
-    .4byte  sym_06089E98
+    .long  sym_06089E98
 .L_06022200:
-    .4byte  0x006A0000
+    .long  0x006A0000
 .L_06022204:
-    .4byte  sym_0608962C
+    .long  sym_0608962C
 .L_06022208:
     mov r4, r2
     shar r2
@@ -165,7 +165,7 @@ scene_process_stage:
     mov.l @(28, r15), r3
     sts macl, r4
     cmp/eq r8, r3
-    bt/s    .L_06022280
+    bt.s    .L_06022280
     add r2, r4
     mov.l @r4, r0
     tst #0x80, r0
@@ -227,21 +227,21 @@ scene_process_stage:
     bra     .L_0602274C
     mov.l r1, @(28, r15)
 .L_060222E6:
-    .2byte  0x0100
+    .short  0x0100
 .L_060222E8:
-    .4byte  sym_06050788
+    .long  sym_06050788
 .L_060222EC:
-    .4byte  sym_06006838
+    .long  sym_06006838
 .L_060222F0:
-    .4byte  scene_render_alt
+    .long  scene_render_alt
 .L_060222F4:
-    .4byte  sym_060A6000
+    .long  sym_060A6000
 .L_060222F8:
-    .4byte  0x4E200000
+    .long  0x4E200000
 .L_060222FC:
-    .4byte  0x00013333
+    .long  0x00013333
 .L_06022300:
-    .4byte  0x0000CCCC
+    .long  0x0000CCCC
 .L_06022304:
     mov r14, r2
     mov #0x1, r1
@@ -290,7 +290,7 @@ scene_process_stage:
     mov.l r0, @r3
     mov.l @r5, r5
     tst r5, r5
-    bt/s    .L_06022372
+    bt.s    .L_06022372
     add r10, r2
     mov r5, r0
     cmp/eq #0x3, r0
@@ -335,7 +335,7 @@ scene_process_stage:
     mov.l @r4, r4
     mov r4, r0
     cmp/eq #0x3, r0
-    bt/s    .L_060223BE
+    bt.s    .L_060223BE
     add r10, r2
     mov r4, r0
     cmp/eq #0x4, r0
@@ -349,17 +349,17 @@ scene_process_stage:
     mov.l r3, @r2
     bra     .L_06022416
     nop
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_060223CC:
-    .4byte  sym_0608962C
+    .long  sym_0608962C
 .L_060223D0:
-    .4byte  sym_06089E08
+    .long  sym_06089E08
 .L_060223D4:
-    .4byte  0x00014CCC
+    .long  0x00014CCC
 .L_060223D8:
-    .4byte  sym_06089744
+    .long  sym_06089744
 .L_060223DC:
-    .4byte  0x00030000
+    .long  0x00030000
 .L_060223E0:
     mov.l   .L_060224BC, r5
     jsr @r9
@@ -379,7 +379,7 @@ scene_process_stage:
     mov.l @r5, r5
     mov r5, r0
     cmp/eq #0x3, r0
-    bt/s    .L_0602240E
+    bt.s    .L_0602240E
     add r10, r3
     mov r5, r0
     cmp/eq #0x4, r0
@@ -477,25 +477,25 @@ scene_process_stage:
 
     .global DAT_060224b6
 DAT_060224b6:
-    .2byte  0x2000
+    .short  0x2000
 .L_060224B8:
-    .2byte  0x0380
+    .short  0x0380
 .L_060224BA:
-    .2byte  0xFE40
+    .short  0xFE40
 .L_060224BC:
-    .4byte  0x00013333
+    .long  0x00013333
 .L_060224C0:
-    .4byte  sym_06089744
+    .long  sym_06089744
 .L_060224C4:
-    .4byte  0x00020000
+    .long  0x00020000
 .L_060224C8:
-    .4byte  0x00018000
+    .long  0x00018000
 .L_060224CC:
-    .4byte  sincos_pair
+    .long  sincos_pair
 .L_060224D0:
-    .4byte  0xAE110BFF
+    .long  0xAE110BFF
 .L_060224D4:
-    .4byte  sound_cmd_dispatch
+    .long  sound_cmd_dispatch
 .L_060224D8:
     mov.l   .L_06022598, r5
     mov.l   .L_0602259C, r3
@@ -575,7 +575,7 @@ DAT_060224b6:
     mov.l @(28, r15), r3
     sts macl, r4
     cmp/eq r8, r3
-    bt/s    .L_06022574
+    bt.s    .L_06022574
     add r2, r4
     mov.l @r4, r0
     tst #0x80, r0
@@ -600,19 +600,19 @@ DAT_060224b6:
     bra     .L_060226D6
     nop
 .L_06022598:
-    .4byte  0xAE110DFF
+    .long  0xAE110DFF
 .L_0602259C:
-    .4byte  sound_cmd_dispatch
+    .long  sound_cmd_dispatch
 .L_060225A0:
-    .4byte  sym_06089B18
+    .long  sym_06089B18
 .L_060225A4:
-    .4byte  sym_06006838
+    .long  sym_06006838
 .L_060225A8:
-    .4byte  scene_render_alt
+    .long  scene_render_alt
 .L_060225AC:
-    .4byte  sym_060A6000
+    .long  sym_060A6000
 .L_060225B0:
-    .4byte  0x4E200000
+    .long  0x4E200000
 .L_060225B4:
     mov r14, r0
     shll2 r0
@@ -696,13 +696,13 @@ DAT_060224b6:
     bra     .L_0602271A
     nop
 .L_06022652:
-    .2byte  0x0100
+    .short  0x0100
 .L_06022654:
-    .4byte  sym_06089744
+    .long  sym_06089744
 .L_06022658:
-    .4byte  0x00013333
+    .long  0x00013333
 .L_0602265C:
-    .4byte  0x0000CCCC
+    .long  0x0000CCCC
 .L_06022660:
     exts.w r14, r4
     mov r15, r6
@@ -742,7 +742,7 @@ DAT_060224b6:
     mov.l @(28, r15), r3
     sts macl, r4
     cmp/eq r8, r3
-    bt/s    .L_060226B6
+    bt.s    .L_060226B6
     add r2, r4
     mov.l @r4, r0
     tst #0x80, r0
@@ -806,21 +806,21 @@ DAT_060224b6:
     bra     .L_0602274C
     nop
 .L_0602271E:
-    .2byte  0x0100
+    .short  0x0100
 .L_06022720:
-    .4byte  sym_06006838
+    .long  sym_06006838
 .L_06022724:
-    .4byte  scene_render_alt
+    .long  scene_render_alt
 .L_06022728:
-    .4byte  sym_060A6000
+    .long  sym_060A6000
 .L_0602272C:
-    .4byte  0x4E200000
+    .long  0x4E200000
 .L_06022730:
-    .4byte  sym_0608962C
+    .long  sym_0608962C
 .L_06022734:
-    .4byte  0x00013333
+    .long  0x00013333
 .L_06022738:
-    .4byte  0x0000CCCC
+    .long  0x0000CCCC
 .L_0602273C:
     cmp/eq #0x0, r0
     bf      .L_06022744
@@ -916,28 +916,28 @@ DAT_060224b6:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_060227F0:
-    .4byte  sym_06026DBC
+    .long  sym_06026DBC
 .L_060227F4:
-    .4byte  sym_06026E2E
+    .long  sym_06026E2E
 .L_060227F8:
-    .4byte  mat_rot_y
+    .long  mat_rot_y
 .L_060227FC:
-    .4byte  mat_rot_x
+    .long  mat_rot_x
 .L_06022800:
-    .4byte  sym_06089DB4
+    .long  sym_06089DB4
 .L_06022804:
-    .4byte  sym_06089D98
+    .long  sym_06089D98
 .L_06022808:
-    .4byte  sym_06031D8C
+    .long  sym_06031D8C
 .L_0602280C:
-    .4byte  sym_06089DD0
+    .long  sym_06089DD0
 .L_06022810:
-    .4byte  sym_06089DEC
+    .long  sym_06089DEC
 .L_06022814:
-    .4byte  sym_06031A28
+    .long  sym_06031A28
 .L_06022818:
-    .4byte  sym_06026DF8
+    .long  sym_06026DF8
 .L_0602281C:
-    .4byte  sym_06089E24
+    .long  sym_06089E24

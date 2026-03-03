@@ -51,17 +51,17 @@ dma_memory_transfer:
     and r14, r6
 
 .L_wpool_060286AC:
-    .2byte  0x0100
-    .2byte  0x0000
+    .short  0x0100
+    .short  0x0000
 
 .L_pool_060286B0:
-    .4byte  sym_0602872C
+    .long  sym_0602872C
 
 .L_060286B4:
-    .4byte  0x0000FF00
+    .long  0x0000FF00
 
 .L_pool_060286B8:
-    .4byte  0x00000FFF
+    .long  0x00000FFF
 
 .L_060286BC:
     mov.b @r4+, r1
@@ -107,7 +107,7 @@ dma_memory_transfer:
 
     .global DAT_06028708
 DAT_06028708:
-    .2byte  0x00F0
+    .short  0x00F0
 
 .L_0602870A:
     mov.l @r15+, r0

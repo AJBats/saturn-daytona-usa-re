@@ -82,8 +82,8 @@ hud_number_render:
 DAT_060310b8:
     .byte 0x80, 0x00
     .byte 0x00, 0x00
-    .4byte atan2
-    .4byte sin_lookup
+    .long atan2
+    .long sin_lookup
     .byte 0xE8, 0x01
     .byte 0x27, 0x78
     .byte 0x89, 0x01
@@ -100,7 +100,7 @@ DAT_060310b8:
     .byte 0x89, 0x03
     .byte 0xA1, 0x1F
     .byte 0x00, 0x09
-    .4byte sym_0605BCC8
+    .long sym_0605BCC8
     .byte 0x51, 0xEA
     .byte 0x52, 0xDA
     .byte 0x31, 0x28
@@ -149,7 +149,7 @@ DAT_06031132:
     .byte 0x2A, 0xAA
     .byte 0x08, 0x00
     .byte 0x00, 0x00
-    .4byte force_steer_impact
+    .long force_steer_impact
     .byte 0x51, 0xE3
     .byte 0x53, 0xD3
     .byte 0xD2, 0x11
@@ -196,7 +196,7 @@ DAT_0603118a:
     .byte 0x2A, 0xAA
     .byte 0x08, 0x00
     .byte 0x00, 0x00
-    .4byte force_steer_impact
+    .long force_steer_impact
     .byte 0x20, 0x00
     .byte 0x00, 0x00
     .byte 0x53, 0xEA
@@ -259,8 +259,8 @@ DAT_060311b6:
     .global DAT_0603120a
 DAT_0603120a:
     .byte 0x01, 0x94
-    .4byte cos_lookup
-    .4byte sym_0602FD9A
+    .long cos_lookup
+    .long sym_0602FD9A
     .byte 0x2F, 0x06
     .byte 0x2F, 0x46
     .byte 0xD5, 0x07
@@ -279,8 +279,8 @@ DAT_0603120a:
     .byte 0x00, 0x09
     .byte 0x02, 0x00
     .byte 0x00, 0x00
-    .4byte sym_0602FD98
-    .4byte sym_06031A24
+    .long sym_0602FD98
+    .long sym_06031A24
     .byte 0x6A, 0xA1
     .byte 0xE3, 0x40
     .byte 0x2A, 0xA8
@@ -403,8 +403,8 @@ DAT_0603120a:
     .byte 0x69, 0xF6
     .byte 0x00, 0x0B
     .byte 0x68, 0xF6
-    .4byte cos_lookup
-    .4byte sin_lookup
+    .long cos_lookup
+    .long sin_lookup
     .byte 0x00, 0x00
     .byte 0x80, 0x00
     .byte 0x2F, 0x46
@@ -425,7 +425,7 @@ DAT_0603120a:
 DAT_0603135c:
     .byte 0x40, 0x00
     .byte 0x00, 0x00
-    .4byte sym_06031A24
+    .long sym_06031A24
     .byte 0xE4, 0x00
     .byte 0x25, 0x41
     .byte 0x65, 0xF6

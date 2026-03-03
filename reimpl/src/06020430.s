@@ -13,7 +13,7 @@ obj_init_defaults:
     mov.l r6, @(8, r15)
     mov.b @r15, r3
     cmp/pl r3
-    bf/s    .L_06020494
+    bf.s    .L_06020494
     add #0x6, r9
 .L_0602044C:
     extu.b r13, r0
@@ -52,7 +52,7 @@ obj_init_defaults:
     mov.b @r15, r2
     extu.b r13, r3
     cmp/ge r2, r3
-    bf/s    .L_0602044C
+    bf.s    .L_0602044C
     add #0x1, r8
 .L_06020494:
     add #0xC, r15
@@ -66,9 +66,9 @@ obj_init_defaults:
     rts
     mov.l @r15+, r14
 .L_060204A8:
-    .2byte  0x3C79
-    .2byte  0xFFFF
+    .short  0x3C79
+    .short  0xFFFF
 .L_pool_060204AC:
-    .4byte  sym_0605F44E
+    .long  sym_0605F44E
 .L_pool_060204B0:
-    .4byte  sym_06028400
+    .long  sym_06028400

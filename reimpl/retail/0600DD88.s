@@ -79,11 +79,11 @@ audio_dist_calc:
     .global DAT_0600de1e
 DAT_0600de1e:
     .byte 0x01, 0xE0
-    .4byte sym_0607E940
-    .4byte sym_06063F3C
-    .4byte sym_0607869C
-    .4byte sym_06034FE0
-    .4byte sym_060786B0
-    .4byte sym_0607EBD0
-    .4byte sym_0605A21C
-    .4byte sym_060786A0
+    .long sym_0607E940
+    .long sym_06063F3C
+    .long sym_0607869C
+    .long sym_06034FE0
+    .long sym_060786B0
+    .long sym_0607EBD0
+    .long sym_0605A21C
+    .long sym_060786A0

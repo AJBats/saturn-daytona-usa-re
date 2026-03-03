@@ -73,11 +73,11 @@ color_palette_effect:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .byte 0xFF, 0xFF
-    .4byte sym_0603C156
-    .4byte sym_06042BFC
+    .long sym_0603C156
+    .long sym_06042BFC
     .byte 0x25, 0xF0
     .byte 0x00, 0x00
-    .4byte sym_06038A48
+    .long sym_06038A48
     .global sym_06042A8C
 sym_06042A8C:
     .byte 0xE6, 0xB0

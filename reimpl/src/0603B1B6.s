@@ -30,7 +30,7 @@ cmd_validate_chain:
     mov.l @r15, r3
     mov.l @(16, r5), r5
     cmp/eq #-0x1, r0
-    bf/s    .L_0603B1F8
+    bf.s    .L_0603B1F8
     sub r3, r5
     .byte   0x9D, 0x3D    /* mov.w .L_wpool_0603B270, r13 */
     mul.l r13, r5

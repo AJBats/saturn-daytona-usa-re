@@ -7,9 +7,9 @@ billboard_uv_map:
     lds.l @r15+, pr
     .byte   0xAF, 0x88    /* bra 0x0602E78C (external) */
     nop
-    .4byte  0x00000050
-    .4byte  0x00000000
-    .4byte  0xAE1105FF
-    .4byte  sound_cmd_dispatch
-    .4byte  0xD404D505
-    .2byte  0xDD05
+    .long  0x00000050
+    .long  0x00000000
+    .long  0xAE1105FF
+    .long  sound_cmd_dispatch
+    .long  0xD404D505
+    .short  0xDD05

@@ -9,7 +9,7 @@ grid_position_camera:
     mov.w @r13, r0
     extu.w r0, r0
     tst #0x1, r0
-    bt/s    .L_0601A108
+    bt.s    .L_0601A108
     mov #0x0, r12
     bra     .L_0601A10A
     mov #0x6, r5
@@ -93,15 +93,15 @@ grid_position_camera:
     .byte   0xAF, 0x0E    /* bra 0x06019FB2 (external) */
     mov.l @r15+, r14
 .L_0601A196:
-    .2byte  0x4000
+    .short  0x4000
 .L_pool_0601A198:
-    .4byte  g_pad_state
+    .long  g_pad_state
 .L_pool_0601A19C:
-    .4byte  sym_0605AD04
+    .long  sym_0605AD04
 .L_0601A1A0:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_pool_0601A1A4:
-    .4byte  sym_0605D243
+    .long  sym_0605D243
 
     .global loc_0601A1A8
 loc_0601A1A8:

@@ -54,31 +54,31 @@ race_resource_init:
 DAT_0600a10c:
     mov.b @(r0, r11), r0
 .L_0600A10E:
-    .2byte  0x0100
+    .short  0x0100
 
     .global DAT_0600a110
 DAT_0600a110:
-    .2byte  0x00DF
+    .short  0x00DF
 
     .global DAT_0600a112
 DAT_0600a112:
-    .2byte  0x015F
-    .4byte  sym_0607E944
-    .4byte  display_channel_b
-    .4byte  sym_0607EBC8
+    .short  0x015F
+    .long  sym_0607E944
+    .long  display_channel_b
+    .long  sym_0607EBC8
 .L_0600A120:
-    .4byte  channel_nibble_config
+    .long  channel_nibble_config
 .L_0600A124:
-    .4byte  sym_06026CE0
+    .long  sym_06026CE0
 .L_0600A128:
-    .4byte  sym_06059F44
+    .long  sym_06059F44
 .L_0600A12C:
-    .4byte  sym_06063F5C               /* [HIGH] VDP1 command buffer base pointer */
+    .long  sym_06063F5C               /* [HIGH] VDP1 command buffer base pointer */
 .L_0600A130:
-    .4byte  vdp2_scroll_update
+    .long  vdp2_scroll_update
 .L_0600A134:
-    .4byte  sym_060393FC
+    .long  sym_060393FC
 .L_0600A138:
-    .4byte  sym_0605A008
+    .long  sym_0605A008
 .L_0600A13C:
-    .4byte  0x00008000
+    .long  0x00008000

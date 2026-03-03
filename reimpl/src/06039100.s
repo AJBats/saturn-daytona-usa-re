@@ -66,7 +66,7 @@ color_transform_calc:
     mov.w @r2, r2
     extu.w r2, r2
     cmp/gt r3, r2
-    bf/s    .L_060391A0
+    bf.s    .L_060391A0
     add #0x10, r12
     mov #0x2E, r0
     mov.w @(r0, r15), r3
@@ -79,20 +79,20 @@ color_transform_calc:
 
     .global DAT_0603918c
 DAT_0603918c:
-    .2byte  0x00FD
+    .short  0x00FD
 
     .global DAT_0603918e
 DAT_0603918e:
-    .2byte  0x00F7
+    .short  0x00F7
 .L_06039190:
-    .2byte  0x0160
-    .2byte  0xFFFF
+    .short  0x0160
+    .short  0xFFFF
 .L_06039194:
-    .4byte  vblank_color_apply
+    .long  vblank_color_apply
 .L_06039198:
-    .4byte  sym_060A3E48
+    .long  sym_060A3E48
 .L_0603919C:
-    .4byte  sym_060635AE
+    .long  sym_060635AE
 .L_060391A0:
     mov #0x2E, r0
     mov.w @(r0, r15), r2
@@ -149,7 +149,7 @@ DAT_0603918e:
     mov.l   .L_06039244, r3
     and r3, r13
     tst r13, r13
-    bt/s    .L_06039214
+    bt.s    .L_06039214
     add #0x4, r15
     mov #0x3, r3
     mov.w r3, @r4
@@ -179,13 +179,13 @@ DAT_0603918e:
     rts
     mov.l @r15+, r14
 .L_0603923C:
-    .2byte  0x0080
-    .2byte  0xFFFF
+    .short  0x0080
+    .short  0xFFFF
 .L_06039240:
-    .4byte  sym_060A3E38
+    .long  sym_060A3E38
 .L_06039244:
-    .4byte  0x00010000
+    .long  0x00010000
 .L_06039248:
-    .4byte  sym_060A4C80
+    .long  sym_060A4C80
 .L_0603924C:
-    .4byte  sym_060635AC
+    .long  sym_060635AC

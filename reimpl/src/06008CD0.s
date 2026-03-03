@@ -55,33 +55,33 @@ state_mode_select_setup:
     rts
     mov.l @r15+, r14
 .L_wpool_06008D38:
-    .2byte  0x0258
-    .2byte  0xFFFF
+    .short  0x0258
+    .short  0xFFFF
 .L_pool_06008D3C:
-    .4byte  sym_06078644
+    .long  sym_06078644
 .L_pool_06008D40:
-    .4byte  sym_060149E0
+    .long  sym_060149E0
 .L_pool_06008D44:
-    .4byte  sym_06026CE0
+    .long  sym_06026CE0
 .L_pool_06008D48:
-    .4byte  sym_06059F44
+    .long  sym_06059F44
 .L_pool_06008D4C:
-    .4byte  render_coord_transform
+    .long  render_coord_transform
 .L_pool_06008D50:
-    .4byte  course_setup_handler
+    .long  course_setup_handler
 .L_pool_06008D54:
-    .4byte  sym_0607EBCC
+    .long  sym_0607EBCC
 .L_pool_06008D58:
-    .4byte  sym_06086024
+    .long  sym_06086024
 .L_pool_06008D5C:
-    .4byte  g_game_state
+    .long  g_game_state
 .L_pool_06008D60:
-    .4byte  sym_0605B6D8
+    .long  sym_0605B6D8
 .L_pool_06008D64:
-    .4byte  0x40000000
+    .long  0x40000000
 .L_pool_06008D68:
-    .4byte  sym_0605A016
+    .long  sym_0605A016
 .L_pool_06008D6C:
-    .4byte  sym_0607864B
+    .long  sym_0607864B
 .L_pool_06008D70:
-    .4byte  race_state_pair_1
+    .long  race_state_pair_1

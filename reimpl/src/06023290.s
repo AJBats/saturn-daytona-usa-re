@@ -157,13 +157,13 @@ projection_mgr:
     bra     .L_060233D4
     nop
 .L_060233C6:
-    .2byte  0x4240
+    .short  0x4240
 .L_060233C8:
-    .4byte  sym_06056940
+    .long  sym_06056940
 .L_060233CC:
-    .4byte  sym_0606A4EC
+    .long  sym_0606A4EC
 .L_060233D0:
-    .4byte  sym_06089E44
+    .long  sym_06089E44
 .L_060233D4:
     mov.l   .L_0602348C, r5
     mov.l   .L_06023490, r4
@@ -194,13 +194,13 @@ projection_mgr:
     mov.l @r4, r10
     mov.w @(8, r4), r0
     cmp/gt r2, r3
-    bf/s    .L_06023412
+    bf.s    .L_06023412
     mov r0, r8
     add #0x36, r11
 .L_06023412:
     extu.w r8, r2
     cmp/pl r2
-    bf/s    .L_060234D8
+    bf.s    .L_060234D8
     mov #0x0, r14
 .L_0602341A:
     extu.w r12, r0
@@ -262,32 +262,32 @@ projection_mgr:
     bra     .L_060234C2
     nop
 .L_06023484:
-    .2byte  0x03C0
+    .short  0x03C0
 .L_06023486:
-    .2byte  0x0082
+    .short  0x0082
 .L_06023488:
-    .2byte  0x0088
-    .2byte  0xFFFF
+    .short  0x0088
+    .short  0xFFFF
 .L_0602348C:
-    .4byte  0x002A8000
+    .long  0x002A8000
 .L_06023490:
-    .4byte  sym_06059FFC
+    .long  sym_06059FFC
 .L_06023494:
-    .4byte  sym_06063F5C
+    .long  sym_06063F5C
 .L_06023498:
-    .4byte  memcpy_word_idx
+    .long  memcpy_word_idx
 .L_0602349C:
-    .4byte  sym_06089E30
+    .long  sym_06089E30
 .L_060234A0:
-    .4byte  sym_06089E2C
+    .long  sym_06089E2C
 .L_060234A4:
-    .4byte  sym_06089E34
+    .long  sym_06089E34
 .L_060234A8:
-    .4byte  sym_06089E38
+    .long  sym_06089E38
 .L_060234AC:
-    .4byte  sym_06089E28
+    .long  sym_06089E28
 .L_060234B0:
-    .4byte  sym_06089E3C
+    .long  sym_06089E3C
 .L_060234B4:
     extu.w r14, r2
     mov.w   .L_0602355E, r3
@@ -306,7 +306,7 @@ projection_mgr:
     extu.w r8, r3
     extu.w r14, r2
     cmp/ge r3, r2
-    bf/s    .L_0602341A
+    bf.s    .L_0602341A
     add #0xC, r10
 .L_060234D8:
     extu.b r12, r14
@@ -340,7 +340,7 @@ projection_mgr:
 .L_0602350E:
     extu.w r8, r2
     cmp/pl r2
-    bf/s    .L_0602352A
+    bf.s    .L_0602352A
     mov #0x0, r10
 .L_06023516:
     extu.w r11, r5
@@ -351,7 +351,7 @@ projection_mgr:
     extu.w r8, r3
     extu.w r10, r2
     cmp/ge r3, r2
-    bf/s    .L_06023516
+    bf.s    .L_06023516
     add #0x6, r14
 .L_0602352A:
     extu.w r12, r0
@@ -385,14 +385,14 @@ projection_mgr:
     rts
     mov.l @r15+, r14
 .L_0602355E:
-    .2byte  0x00A9
+    .short  0x00A9
 .L_06023560:
-    .4byte  sym_06089E40
+    .long  sym_06089E40
 .L_06023564:
-    .4byte  0x002A8000
+    .long  0x002A8000
 .L_06023568:
-    .4byte  vdp1_sprite_render_alt
+    .long  vdp1_sprite_render_alt
 .L_0602356C:
-    .4byte  sym_06007590
+    .long  sym_06007590
 .L_06023570:
-    .4byte  sym_0607886C
+    .long  sym_0607886C

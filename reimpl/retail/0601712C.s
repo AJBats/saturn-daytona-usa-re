@@ -55,8 +55,8 @@ vdp2_util_loop:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .4byte handler_dispatch
-    .4byte sym_06018E1E
-    .4byte sym_06084FC8
-    .4byte sym_0605BC14
-    .4byte sym_06035168
+    .long handler_dispatch
+    .long sym_06018E1E
+    .long sym_06084FC8
+    .long sym_0605BC14
+    .long sym_06035168

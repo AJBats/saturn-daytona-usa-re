@@ -158,14 +158,14 @@ render_batch_proc:
     bra     .L_06023194
     mov r11, r5
 .L_wpool_06023184:
-    .2byte  0x3AC0
-    .2byte  0xFFFF
+    .short  0x3AC0
+    .short  0xFFFF
 .L_pool_06023188:
-    .4byte  sym_06089E44
+    .long  sym_06089E44
 .L_pool_0602318C:
-    .4byte  0x002A8000
+    .long  0x002A8000
 .L_pool_06023190:
-    .4byte  sym_06059FFC
+    .long  sym_06059FFC
 .L_06023194:
     mov.l @r4, r4
     mov.l   .L_pool_06023274, r3
@@ -195,7 +195,7 @@ render_batch_proc:
     mov r0, r8
     extu.w r8, r3
     cmp/pl r3
-    bf/s    .L_060231E4
+    bf.s    .L_060231E4
     extu.w r12, r9
 .L_060231CE:
     mov r11, r6
@@ -207,7 +207,7 @@ render_batch_proc:
     extu.w r8, r3
     extu.w r9, r2
     cmp/ge r3, r2
-    bf/s    .L_060231CE
+    bf.s    .L_060231CE
     add #0xC, r10
 .L_060231E4:
     mov r13, r4
@@ -223,13 +223,13 @@ render_batch_proc:
     mov r0, r8
     extu.w r13, r0
     cmp/eq #0x27, r0
-    bf/s    .L_06023204
+    bf.s    .L_06023204
     mov.l @(4, r4), r10
     add #0x2F, r14
 .L_06023204:
     extu.w r8, r2
     cmp/pl r2
-    bf/s    .L_06023220
+    bf.s    .L_06023220
     extu.w r12, r9
 .L_0602320C:
     extu.w r14, r5
@@ -240,7 +240,7 @@ render_batch_proc:
     extu.w r8, r3
     extu.w r9, r2
     cmp/ge r3, r2
-    bf/s    .L_0602320C
+    bf.s    .L_0602320C
     add #0x6, r10
 .L_06023220:
     extu.w r13, r3
@@ -264,7 +264,7 @@ render_batch_proc:
     mov r0, r9
     extu.w r9, r2
     cmp/pl r2
-    bf/s    .L_06023260
+    bf.s    .L_06023260
     extu.w r12, r10
 .L_0602324A:
     mov r11, r6
@@ -276,7 +276,7 @@ render_batch_proc:
     extu.w r9, r3
     extu.w r10, r2
     cmp/ge r3, r2
-    bf/s    .L_0602324A
+    bf.s    .L_0602324A
     add #0xC, r13
 .L_06023260:
     lds.l @r15+, pr
@@ -289,18 +289,18 @@ render_batch_proc:
     rts
     mov.l @r15+, r14
 .L_wpool_06023272:
-    .2byte  0x03C0
+    .short  0x03C0
 .L_pool_06023274:
-    .4byte  sym_06063F5C
+    .long  sym_06063F5C
 .L_pool_06023278:
-    .4byte  memcpy_word_idx
+    .long  memcpy_word_idx
 .L_pool_0602327C:
-    .4byte  sym_06054380
+    .long  sym_06054380
 .L_pool_06023280:
-    .4byte  vdp1_sprite_render_alt
+    .long  vdp1_sprite_render_alt
 .L_pool_06023284:
-    .4byte  sym_06007590
+    .long  sym_06007590
 .L_pool_06023288:
-    .4byte  sym_06054560
+    .long  sym_06054560
 .L_pool_0602328C:
-    .4byte  sym_0607886C
+    .long  sym_0607886C

@@ -77,46 +77,46 @@ sym_0601A5F8:
     rts
     nop
 .L_wpool_0601A608:
-    .2byte  0x00A8
-    .2byte  0xFFFF
+    .short  0x00A8
+    .short  0xFFFF
 .L_pool_0601A60C:
-    .4byte  sym_06059F44
+    .long  sym_06059F44
 .L_pool_0601A610:
-    .4byte  sym_0605B6D8
+    .long  sym_0605B6D8
 .L_pool_0601A614:
-    .4byte  0x80000000
+    .long  0x80000000
 .L_pool_0601A618:
-    .4byte  sym_06026CE0
+    .long  sym_06026CE0
 .L_pool_0601A61C:
-    .4byte  0x00014000
+    .long  0x00014000
 .L_pool_0601A620:
-    .4byte  0x25E76174
+    .long  0x25E76174
 .L_pool_0601A624:
-    .4byte  sym_0600511E
+    .long  sym_0600511E
 .L_pool_0601A628:
-    .4byte  0x00017700
+    .long  0x00017700
 .L_pool_0601A62C:
-    .4byte  0x25E761FC
+    .long  0x25E761FC
 .L_pool_0601A630:
-    .4byte  sym_06063AF8
+    .long  sym_06063AF8
 .L_pool_0601A634:
-    .4byte  0x0000A000
+    .long  0x0000A000
 .L_pool_0601A638:
-    .4byte  sym_06028400
+    .long  sym_06028400
 .L_pool_0601A63C:
-    .4byte  sym_06085FF1
+    .long  sym_06085FF1
 .L_pool_0601A640:
-    .4byte  sym_06085FF2
+    .long  sym_06085FF2
 .L_pool_0601A644:
-    .4byte  sym_06085FF3
+    .long  sym_06085FF3
 .L_pool_0601A648:
-    .4byte  sym_0605D245
+    .long  sym_0605D245
 .L_pool_0601A64C:
-    .4byte  race_data_handler
+    .long  race_data_handler
 .L_pool_0601A650:
-    .4byte  palette_frame_effects
+    .long  palette_frame_effects
 .L_pool_0601A654:
-    .4byte  sym_06063D9E
+    .long  sym_06063D9E
 .L_0601A658:
     .byte   0x90, 0x40    /* mov.w .L_wpool_0601A6DC, r0 (cross-TU word pool) */
     rts

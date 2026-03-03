@@ -13,7 +13,7 @@ save_integrity_check:
     mov.l @(8, r14), r4
     mov.l   .L_pool_0603BE18, r12
     cmp/eq #0x5, r0
-    bt/s    .L_0603BDD2
+    bt.s    .L_0603BDD2
     mov r0, r13
     mov.l   .L_pool_0603BE1C, r3
     jsr @r3
@@ -54,45 +54,45 @@ save_integrity_check:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0x00A8
+    .short  0x00A8
 .L_wpool_0603BE10:
-    .2byte  0x00B4
-    .2byte  0xFFFF
+    .short  0x00B4
+    .short  0xFFFF
 .L_pool_0603BE14:
-    .4byte  scene_buffer_update
+    .long  scene_buffer_update
 .L_pool_0603BE18:
-    .4byte  sym_060A4D14
+    .long  sym_060A4D14
 .L_pool_0603BE1C:
-    .4byte  sym_0603EFD4
+    .long  sym_0603EFD4
 .L_pool_0603BE20:
-    .4byte  race_timer_sync
-    .4byte  0x2F864F22
-    .4byte  0x4F127FF0
-    .4byte  0x2F5265F3
-    .4byte  0xBC3A7504
-    .4byte  0x64F37404
-    .4byte  0x84486403
-    .4byte  0x644C2448
-    .4byte  0x8B0560F3
-    .4byte  0x70046002
-    .4byte  0x63F2A012
-    .4byte  0x303C60F3
-    .4byte  0x61F2D310
-    .4byte  0x70046802
-    .4byte  0x430B6043
-    .4byte  0x63F37304
-    .4byte  0xE209323C
-    .4byte  0x6220622C
-    .4byte  0x6343332C
-    .4byte  0x0037001A
-    .4byte  0x308C7F10
-    .4byte  0x4F164F26
-    .4byte  0x000B68F6
-    .4byte  0xE01D004C
-    .4byte  0x600CC860
-    .4byte  0x8B02D304
-    .4byte  0x432B0009
-    .4byte  0x1458E200
-    .4byte  0x000B1429
-    .4byte  sym_06034FFC
-    .4byte  evt_error_code_return
+    .long  race_timer_sync
+    .long  0x2F864F22
+    .long  0x4F127FF0
+    .long  0x2F5265F3
+    .long  0xBC3A7504
+    .long  0x64F37404
+    .long  0x84486403
+    .long  0x644C2448
+    .long  0x8B0560F3
+    .long  0x70046002
+    .long  0x63F2A012
+    .long  0x303C60F3
+    .long  0x61F2D310
+    .long  0x70046802
+    .long  0x430B6043
+    .long  0x63F37304
+    .long  0xE209323C
+    .long  0x6220622C
+    .long  0x6343332C
+    .long  0x0037001A
+    .long  0x308C7F10
+    .long  0x4F164F26
+    .long  0x000B68F6
+    .long  0xE01D004C
+    .long  0x600CC860
+    .long  0x8B02D304
+    .long  0x432B0009
+    .long  0x1458E200
+    .long  0x000B1429
+    .long  sym_06034FFC
+    .long  evt_error_code_return

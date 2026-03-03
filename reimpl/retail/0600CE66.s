@@ -32,9 +32,9 @@ DAT_0600ce8c:
     .global DAT_0600ce8e
 DAT_0600ce8e:
     .byte 0x01, 0xEC
-    .4byte sym_0607E940
-    .4byte sym_0607EA9C
-    .4byte atan2
+    .long sym_0607E940
+    .long sym_0607EA9C
+    .long atan2
     .byte 0xBF, 0x98
     .byte 0x00, 0x09
     .byte 0x90, 0x4B

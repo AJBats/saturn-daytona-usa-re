@@ -60,14 +60,14 @@ text_string_render:
     mov.l @(52, r4), r2
     bra     .L_06016B1C
     mov.l r2, @(4, r4)
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_pool_06016AD8:
-    .4byte  sym_06084FC8
-    .4byte  0x000B0000
-    .4byte  0x00040000
-    .4byte  0x0000C000
+    .long  sym_06084FC8
+    .long  0x000B0000
+    .long  0x00040000
+    .long  0x0000C000
 .L_06016AE8:
-    .4byte  0x00010000
+    .long  0x00010000
 .L_06016AEC:
     extu.b r14, r4
     mov r4, r3
@@ -159,9 +159,9 @@ loc_06016B8E:
     rts
     nop
 .L_wpool_06016B92:
-    .2byte  0x0600
+    .short  0x0600
 .L_06016B94:
-    .4byte  0x00020000
+    .long  0x00020000
 
     .global loc_06016B98
 loc_06016B98:
@@ -251,11 +251,11 @@ loc_06016C06:
     jmp @r3
     add #0x4, r15
 .L_pool_06016C34:
-    .4byte  sym_06084FC8
+    .long  sym_06084FC8
 .L_pool_06016C38:
-    .4byte  sym_0605BB1C
+    .long  sym_0605BB1C
 .L_pool_06016C3C:
-    .4byte  sym_0605BB48
+    .long  sym_0605BB48
 
     .global loc_06016C40
 loc_06016C40:

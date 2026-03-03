@@ -14,22 +14,22 @@ disp_digit_pair_render:
     .byte   0xD0, 0x0C    /* mov.l .L_pool_060325F8, r0 */
     bra     .L_060325FA
     add r0, r1
-    .4byte  sym_06026DBC
-    .4byte  sym_06089EDC
-    .4byte  0x00000000
-    .4byte  0x00000004
-    .4byte  0x00000008
-    .4byte  sym_06026E2E
-    .4byte  0x0000000C
-    .4byte  mat_rot_y
+    .long  sym_06026DBC
+    .long  sym_06089EDC
+    .long  0x00000000
+    .long  0x00000004
+    .long  0x00000008
+    .long  sym_06026E2E
+    .long  0x0000000C
+    .long  mat_rot_y
 .L_pool_060325EC:
-    .4byte  0x00000054
+    .long  0x00000054
 .L_pool_060325F0:
-    .4byte  0x000002DC
+    .long  0x000002DC
 .L_pool_060325F4:
-    .4byte  0xFFFFFFFC
+    .long  0xFFFFFFFC
 .L_pool_060325F8:
-    .4byte  sym_06081898
+    .long  sym_06081898
 .L_060325F8:
     add r14, r1
 .L_060325FA:

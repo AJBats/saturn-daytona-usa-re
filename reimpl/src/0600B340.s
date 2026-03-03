@@ -31,27 +31,27 @@ scene_render_coord:
     mov.l   .L_0600B39C, r12
     bra     .L_0600B3AC
     nop
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_0600B378:
-    .4byte  sym_0607EB8C
+    .long  sym_0607EB8C
 .L_0600B37C:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_0600B380:
-    .4byte  sym_0607E940
+    .long  sym_0607E940
 .L_0600B384:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8
 .L_0600B388:
-    .4byte  sym_06063488
+    .long  sym_06063488
 .L_0600B38C:
-    .4byte  sym_06063434
+    .long  sym_06063434
 .L_0600B390:
-    .4byte  sym_060634A4
+    .long  sym_060634A4
 .L_0600B394:
-    .4byte  sym_06063450
+    .long  sym_06063450
 .L_0600B398:
-    .4byte  sym_060634C0
+    .long  sym_060634C0
 .L_0600B39C:
-    .4byte  sym_0606346C
+    .long  sym_0606346C
 .L_0600B3A0:
     cmp/eq #0x0, r0
     bt      .L_0600B35E
@@ -167,50 +167,50 @@ scene_render_coord:
 
     .global DAT_0600b47a
 DAT_0600b47a:
-    .2byte  0x01D8
+    .short  0x01D8
 
     .global DAT_0600b47c
 DAT_0600b47c:
-    .2byte  0x01B4
+    .short  0x01B4
 
     .global DAT_0600b47e
 DAT_0600b47e:
-    .2byte  0x01D0
+    .short  0x01D0
 .L_0600B480:
-    .2byte  0x01C8
-    .2byte  0xFFFF
+    .short  0x01C8
+    .short  0xFFFF
 .L_0600B484:
-    .4byte  sym_06027080
+    .long  sym_06027080
 .L_0600B488:
-    .4byte  sym_060270F2
+    .long  sym_060270F2
 .L_0600B48C:
-    .4byte  mat_rot_xy_b
+    .long  mat_rot_xy_b
 .L_0600B490:
-    .4byte  mat_rot_yz_b
+    .long  mat_rot_yz_b
 .L_0600B494:
-    .4byte  mat_rot_xz_b
+    .long  mat_rot_xz_b
 .L_0600B498:
-    .4byte  sym_06059F30
+    .long  sym_06059F30
 .L_0600B49C:
-    .4byte  sym_06063510
+    .long  sym_06063510
 .L_0600B4A0:
-    .4byte  sym_06032158
+    .long  sym_06032158
 .L_0600B4A4:
-    .4byte  sym_060634F4
+    .long  sym_060634F4
 .L_0600B4A8:
-    .4byte  sym_06089E98
+    .long  sym_06089E98
 .L_0600B4AC:
-    .4byte  sym_06031DF4
+    .long  sym_06031DF4
 .L_0600B4B0:
-    .4byte  sym_06083258
+    .long  sym_06083258
 .L_0600B4B4:
-    .4byte  sym_060634F8
+    .long  sym_060634F8
 .L_0600B4B8:
-    .4byte  sym_060634DC
+    .long  sym_060634DC
 .L_0600B4BC:
-    .4byte  sym_0608A52C
+    .long  sym_0608A52C
 .L_0600B4C0:
-    .4byte  sym_0607867C
+    .long  sym_0607867C
 .L_0600B4C4:
     add #0x8, r15
     lds.l @r15+, pr

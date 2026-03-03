@@ -74,28 +74,28 @@ sym_06011EB4:
 
     .global DAT_06011efe
 DAT_06011efe:
-    .2byte  0x4000
+    .short  0x4000
 
     .global DAT_06011f00
 DAT_06011f00:
-    .2byte  0x04BE
+    .short  0x04BE
 
     .global DAT_06011f02
 DAT_06011f02:
-    .2byte  0x0486
+    .short  0x0486
 .L_wpool_06011F04:
-    .2byte  0x0420
-    .2byte  0xFFFF
+    .short  0x0420
+    .short  0xFFFF
 .L_pool_06011F08:
-    .4byte  sym_060638B0
+    .long  sym_060638B0
 .L_pool_06011F0C:
-    .4byte  sym_06028400
+    .long  sym_06028400
 .L_pool_06011F10:
-    .4byte  sym_060638A0
+    .long  sym_060638A0
 .L_pool_06011F14:
-    .4byte  sym_06085FF4
+    .long  sym_06085FF4
 .L_pool_06011F18:
-    .4byte  sym_0607EADC
+    .long  sym_0607EADC
 
     .global sym_06011F1C
 sym_06011F1C:
@@ -157,7 +157,7 @@ sym_06011F1C:
     mov.w r3, @r4
     exts.w r5, r2
     cmp/ge r11, r2
-    bf/s    .L_06011F34
+    bf.s    .L_06011F34
     add #0x2, r4
     mov.l @r15+, r9
     mov.l @r15+, r10

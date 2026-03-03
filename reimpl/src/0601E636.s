@@ -53,10 +53,10 @@ mat_multiply_helper:
     rts
     mov.l @r15+, r14
 .L_0601E694:
-    .4byte  0x20100063
+    .long  0x20100063
 .L_0601E698:
-    .4byte  0x2010001F
+    .long  0x2010001F
 .L_0601E69C:
-    .4byte  sym_06000354
+    .long  sym_06000354
 .L_0601E6A0:
-    .4byte  sym_060870F4
+    .long  sym_060870F4

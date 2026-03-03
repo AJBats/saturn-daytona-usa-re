@@ -9,7 +9,7 @@ hud_palette_select:
     sts.l pr, @-r15
     mov.l @(48, r14), r3
     cmp/gt r2, r3
-    bf/s    .L_0603FCFE
+    bf.s    .L_0603FCFE
     mov r6, r12
     mov.l @(4, r14), r5
     bra     .L_0603FD1C
@@ -41,10 +41,10 @@ hud_palette_select:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0x000B
-    .4byte  0xE001FFFF
-    .4byte  sym_0603F900
+    .short  0x000B
+    .long  0xE001FFFF
+    .long  sym_0603F900
 .L_pool_0603FD38:
-    .4byte  sym_0603F8EE
+    .long  sym_0603F8EE
 .L_pool_0603FD3C:
-    .4byte  sym_0603F90E
+    .long  sym_0603F90E

@@ -7,7 +7,7 @@ state_mode_select_active:
     mov.w @r0, r0
     extu.w r0, r0
     cmp/eq #0x70, r0
-    bf/s    .L_06008D8A
+    bf.s    .L_06008D8A
     mov #0x0, r14
     mov #0x2, r2
     mov.l   .L_pool_06008DDC, r3
@@ -54,24 +54,24 @@ state_mode_select_active:
     rts
     mov.l @r15+, r14
 .L_wpool_06008DD6:
-    .2byte  0x0100
+    .short  0x0100
 .L_pool_06008DD8:
-    .4byte  sym_06063DA0
+    .long  sym_06063DA0
 .L_pool_06008DDC:
-    .4byte  sym_06078644
+    .long  sym_06078644
 .L_pool_06008DE0:
-    .4byte  sym_0607EBCC
+    .long  sym_0607EBCC
 .L_pool_06008DE4:
-    .4byte  g_game_state
+    .long  g_game_state
 .L_pool_06008DE8:
-    .4byte  sym_060149E0
+    .long  sym_060149E0
 .L_pool_06008DEC:
-    .4byte  sym_06063D9A
+    .long  sym_06063D9A
 .L_pool_06008DF0:
-    .4byte  render_setup_dispatch
+    .long  render_setup_dispatch
 .L_pool_06008DF4:
-    .4byte  sym_0605B6D8
+    .long  sym_0605B6D8
 .L_pool_06008DF8:
-    .4byte  sym_06026CE0
+    .long  sym_06026CE0
 .L_pool_06008DFC:
-    .4byte  sym_06059F44
+    .long  sym_06059F44

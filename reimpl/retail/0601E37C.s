@@ -105,10 +105,10 @@ hud_large_element:
 DAT_0601e444:
     .byte 0x00, 0xFF
     .byte 0xFF, 0xFF
-    .4byte sym_06087094
-    .4byte sym_06087086
-    .4byte sym_060877D8
-    .4byte sym_0604A5C0
+    .long sym_06087094
+    .long sym_06087086
+    .long sym_060877D8
+    .long sym_0604A5C0
     .byte 0x62, 0xDD
     .byte 0x42, 0x08
     .byte 0x42, 0x08

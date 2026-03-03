@@ -15,11 +15,11 @@ input_proc_buttons:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-    .4byte  sym_06059CB0
-    .4byte  sym_06035168
+    .long  sym_06059CB0
+    .long  sym_06035168
 .L_06035EEC:
-    .4byte  smpc_response_handler
-    .4byte  sym_06063594
+    .long  smpc_response_handler
+    .long  sym_06063594
 .L_06035EF4:
     .byte   0xD5, 0x10    /* mov.l .L_input_config_table, r5 */
     .byte   0xB0, 0x0E    /* bsr 0x06035F16 (external) */

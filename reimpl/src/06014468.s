@@ -61,25 +61,25 @@ track_normal_calc:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-    .4byte  0x01C8FFFF
-    .4byte  sym_06084AF0
-    .4byte  sym_06034FE0
-    .4byte  sym_06028430
+    .long  0x01C8FFFF
+    .long  sym_06084AF0
+    .long  sym_06034FE0
+    .long  sym_06028430
 .L_060144E8:
-    .4byte  sym_06084B08
+    .long  sym_06084B08
 .L_060144EC:
-    .4byte  g_pad_state
+    .long  g_pad_state
 .L_060144F0:
-    .4byte  0x0000FFFF
+    .long  0x0000FFFF
 .L_060144F4:
-    .4byte  sym_06084B0C
+    .long  sym_06084B0C
 .L_060144F8:
-    .4byte  sym_06084B18
+    .long  sym_06084B18
 .L_060144FC:
-    .4byte  0xAB111DFF
+    .long  0xAB111DFF
 .L_06014500:
-    .4byte  sound_cmd_dispatch          /* sound command dispatch function */
+    .long  sound_cmd_dispatch          /* sound command dispatch function */
 .L_06014504:
-    .4byte  sym_0605AD2C
+    .long  sym_0605AD2C
 .L_06014508:
-    .4byte  sym_06084B20
+    .long  sym_06084B20

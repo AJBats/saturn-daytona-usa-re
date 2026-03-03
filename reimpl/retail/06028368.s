@@ -13,4 +13,4 @@ effect_init_stub:
     .byte 0x71, 0x05
     .byte 0xA0, 0x0C
     .byte 0xE0, 0x00
-    .4byte sym_06028614
+    .long sym_06028614

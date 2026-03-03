@@ -47,17 +47,17 @@ adv_anim_state:
     bt      .L_0601078A
     bra     .L_0601078E
     nop
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_060107B4:
-    .4byte  memcpy_word_idx
+    .long  memcpy_word_idx
 .L_060107B8:
-    .4byte  sym_060788A8
+    .long  sym_060788A8
 .L_060107BC:
-    .4byte  sym_06078868
+    .long  sym_06078868
 .L_060107C0:
-    .4byte  sym_0607EADC
+    .long  sym_0607EADC
 .L_060107C4:
-    .4byte  sym_0605AB16
+    .long  sym_0605AB16
 .L_060107C8:
     mov.l   .L_06010874, r0
     mov.b @r0, r0
@@ -150,34 +150,34 @@ adv_anim_state:
     bra     .L_060108B4
     nop
 .L_06010870:
-    .2byte  0x0090
-    .2byte  0xFFFF
+    .short  0x0090
+    .short  0xFFFF
 .L_06010874:
-    .4byte  sym_0605AB17
+    .long  sym_0605AB17
 .L_06010878:
-    .4byte  sym_06063D9C
+    .long  sym_06063D9C
 .L_0601087C:
-    .4byte  0x0000FFFF
+    .long  0x0000FFFF
 .L_06010880:
-    .4byte  0xFFFF0000
+    .long  0xFFFF0000
 .L_06010884:
-    .4byte  sym_0607889C
+    .long  sym_0607889C
 .L_06010888:
-    .4byte  sym_0605AA9C
+    .long  sym_0605AA9C
 .L_0601088C:
-    .4byte  0x000C0000
+    .long  0x000C0000
 .L_06010890:
-    .4byte  sym_06078894
+    .long  sym_06078894
 .L_06010894:
-    .4byte  sym_060788A0
+    .long  sym_060788A0
 .L_06010898:
-    .4byte  sym_06078898
+    .long  sym_06078898
 .L_0601089C:
-    .4byte  sym_060788A4
+    .long  sym_060788A4
 .L_060108A0:
-    .4byte  0x00010000
+    .long  0x00010000
 .L_060108A4:
-    .4byte  0xFFF40000
+    .long  0xFFF40000
 .L_060108A8:
     mov.b r8, @r12
     mov.l   .L_06010974, r3
@@ -289,23 +289,23 @@ adv_anim_state:
 
     .global DAT_0601096e
 DAT_0601096e:
-    .2byte  0x00C0
+    .short  0x00C0
 .L_06010970:
-    .2byte  0x0090
-    .2byte  0xFFFF
+    .short  0x0090
+    .short  0xFFFF
 .L_06010974:
-    .4byte  sym_06078898
+    .long  sym_06078898
 .L_06010978:
-    .4byte  sym_060788A4
+    .long  sym_060788A4
 .L_0601097C:
-    .4byte  sym_0607EAB8
+    .long  sym_0607EAB8
 .L_06010980:
-    .4byte  sym_0605D05C
+    .long  sym_0605D05C
 .L_06010984:
-    .4byte  sym_06059FFC
+    .long  sym_06059FFC
 .L_06010988:
-    .4byte  sym_06063F5C
+    .long  sym_06063F5C
 .L_0601098C:
-    .4byte  sym_0605CA9C
+    .long  sym_0605CA9C
 .L_06010990:
-    .4byte  0x25F00000
+    .long  0x25F00000

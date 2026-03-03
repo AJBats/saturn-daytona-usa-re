@@ -17,23 +17,23 @@ smpc_secondary_proc:
     bt      .L_06035CEC
     bra     .L_06035D16
     mov r4, r0
-    .4byte  0x2589000C
-    .4byte  0x25818028
+    .long  0x2589000C
+    .long  0x25818028
 .L_pool_06035CE4:
-    .4byte  0x25898000
+    .long  0x25898000
 .L_pool_06035CE8:
-    .4byte  ai_brake_zone_adjust
+    .long  ai_brake_zone_adjust
 .L_06035CEC:
     mov r12, r4
     cmp/pl r14
-    bf/s    .L_06035D00
+    bf.s    .L_06035D00
     mov #0x0, r5
 .L_06035CF4:
     mov.w @r13, r2
     add #0x1, r5
     mov.w r2, @r4
     cmp/ge r14, r5
-    bf/s    .L_06035CF4
+    bf.s    .L_06035CF4
     add #0x2, r4
 .L_06035D00:
     .byte   0xD3, 0x22    /* mov.l .L_pool_06035D8C, r3 */

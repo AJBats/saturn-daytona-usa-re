@@ -33,8 +33,8 @@ shadow_color_alpha:
     .byte 0xA0, 0x12
     .byte 0x60, 0x43
     .byte 0xFF, 0xFF
-    .4byte input_proc_analog
-    .4byte input_proc_digital
+    .long input_proc_analog
+    .long input_proc_digital
     .byte 0x00, 0xFF
     .byte 0xFF, 0xFF
     .byte 0x63, 0xF3

@@ -7,7 +7,7 @@ cmd_dispatch_helper:
     mov.w   .L_0603ADDA, r3
     mov.l @r5, r14
     tst r4, r4
-    bf/s    .L_0603ADF0
+    bf.s    .L_0603ADF0
     add r3, r14
     mov.l @r5, r3
     mov.w   .L_0603ADDC, r0
@@ -26,15 +26,15 @@ cmd_dispatch_helper:
     bra     .L_0603AE00
     mov.l r4, @(4, r14)
 .L_0603ADDA:
-    .2byte  0x0098
+    .short  0x0098
 .L_0603ADDC:
-    .2byte  0x00A0
-    .2byte  0x00F4
-    .4byte  sym_0603F1E0
-    .4byte  sym_0603F1F0
-    .4byte  scene_frame_render
+    .short  0x00A0
+    .short  0x00F4
+    .long  sym_0603F1E0
+    .long  sym_0603F1F0
+    .long  scene_frame_render
 .L_pool_0603ADEC:
-    .4byte  sym_060A4D14
+    .long  sym_060A4D14
 .L_0603ADF0:
     mov r14, r1
     mov r4, r2

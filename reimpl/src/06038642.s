@@ -55,14 +55,14 @@ scene_data_write_add:
     mov.w r3, @(r0, r7)
     bra     .L_0603876C
     nop
-    .2byte  0xFFFF
-    .4byte  scene_color_matrix
+    .short  0xFFFF
+    .long  scene_color_matrix
 .L_pool_060386AF:
-    .4byte  sym_060A4C78
+    .long  sym_060A4C78
 .L_pool_060386B3:
-    .4byte  sym_060A3DF8
+    .long  sym_060A3DF8
 .L_pool_060386B7:
-    .4byte  sym_060635A8
+    .long  sym_060635A8
 .L_060386B8:
     .byte   0xD7, 0x2D    /* mov.l .L_pool_0603877D, r7 */
     mov #0x44, r0
@@ -168,20 +168,20 @@ scene_data_write_add:
     rts
     mov.l @r15+, r14
 .L_pool_0603877D:
-    .4byte  sym_060A3E68
+    .long  sym_060A3E68
 .L_pool_06038781:
-    .4byte  sym_060A4C44
+    .long  sym_060A4C44
 .L_pool_06038785:
-    .4byte  sym_060A4C4C
+    .long  sym_060A4C4C
 .L_pool_06038789:
-    .4byte  sym_060A4C70
+    .long  sym_060A4C70
 .L_pool_0603878D:
-    .4byte  scene_color_matrix
+    .long  scene_color_matrix
 .L_pool_06038791:
-    .4byte  sym_060A3EE8
+    .long  sym_060A3EE8
 .L_pool_06038795:
-    .4byte  sym_060A4C48
+    .long  sym_060A4C48
 .L_pool_06038799:
-    .4byte  sym_060A4C50
+    .long  sym_060A4C50
 .L_pool_0603879D:
-    .4byte  sym_060A4C74
+    .long  sym_060A4C74

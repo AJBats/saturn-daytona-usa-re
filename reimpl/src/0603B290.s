@@ -66,10 +66,10 @@ menu_list_scroll:
     mov.l @r15+, r13
     .byte   0xA3, 0x18    /* bra 0x0603B93C (external) */
     mov.l @r15+, r14
-    .4byte  cdb_wait_scdq
+    .long  cdb_wait_scdq
 .L_pool_0603B311:
-    .4byte  sym_0603F9DA
+    .long  sym_0603F9DA
 .L_pool_0603B315:
-    .4byte  sym_0603EF54
+    .long  sym_0603EF54
 .L_pool_0603B319:
-    .4byte  sym_0603FA00
+    .long  sym_0603FA00

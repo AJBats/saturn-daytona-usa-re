@@ -107,61 +107,61 @@ obj_culling_pass:
     bra     .L_0602093C
     nop
 .L_060208E6:
-    .2byte  0x0560
+    .short  0x0560
 .L_060208E8:
-    .2byte  0x0294
+    .short  0x0294
 .L_060208EA:
-    .2byte  0x0550
+    .short  0x0550
 .L_060208EC:
-    .2byte  0x6000
+    .short  0x6000
 .L_060208EE:
-    .2byte  0x0082
+    .short  0x0082
 .L_060208F0:
-    .2byte  0x7C5A
+    .short  0x7C5A
 .L_060208F2:
-    .2byte  0x061A
+    .short  0x061A
 .L_060208F4:
-    .2byte  0x0368
+    .short  0x0368
 .L_060208F6:
-    .2byte  0x3000
+    .short  0x3000
 .L_060208F8:
-    .2byte  0x0898
+    .short  0x0898
 .L_060208FA:
-    .2byte  0x0378
+    .short  0x0378
 .L_060208FC:
-    .2byte  0x4000
+    .short  0x4000
 .L_060208FE:
-    .2byte  0x08B0
+    .short  0x08B0
 .L_06020900:
-    .4byte  sym_06028560
+    .long  sym_06028560
 .L_06020904:
-    .4byte  gameover_channel_setup
+    .long  gameover_channel_setup
 .L_06020908:
-    .4byte  sym_060489CC
+    .long  sym_060489CC
 .L_0602090C:
-    .4byte  0x25F00200
+    .long  0x25F00200
 .L_06020910:
-    .4byte  memcpy_word_idx
+    .long  memcpy_word_idx
 .L_06020914:
-    .4byte  sym_06063750
+    .long  sym_06063750
 .L_06020918:
-    .4byte  sym_06028400
+    .long  sym_06028400
 .L_0602091C:
-    .4byte  sym_0605B6D8
+    .long  sym_0605B6D8
 .L_06020920:
-    .4byte  0x04000000
+    .long  0x04000000
 .L_06020924:
-    .4byte  sym_0608780C
+    .long  sym_0608780C
 .L_06020928:
-    .4byte  sym_0605A00C                    /* frame-ready flag (0 = not ready) */
+    .long  sym_0605A00C                    /* frame-ready flag (0 = not ready) */
 .L_0602092C:
-    .4byte  sym_06026CE0
+    .long  sym_06026CE0
 .L_06020930:
-    .4byte  sym_0604BBCC
+    .long  sym_0604BBCC
 .L_06020934:
-    .4byte  sym_0602853E
+    .long  sym_0602853E
 .L_06020938:
-    .4byte  sym_06087828
+    .long  sym_06087828
 .L_0602093C:
     mov.l @r15+, r11
     mov.l @r15+, r12

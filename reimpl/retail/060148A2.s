@@ -34,9 +34,9 @@ display_channels_load:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .byte 0x01, 0x00
-    .4byte sym_0603850C
-    .4byte scene_color_intensity
-    .4byte sym_06038520
-    .4byte scene_data_write_abs
-    .4byte sym_0605B71C
-    .4byte channel_nibble_config
+    .long sym_0603850C
+    .long scene_color_intensity
+    .long sym_06038520
+    .long scene_data_write_abs
+    .long sym_0605B71C
+    .long channel_nibble_config

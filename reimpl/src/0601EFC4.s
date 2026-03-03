@@ -13,14 +13,14 @@ geom_batch_transform:
     bra     .L_0601F3E4
     nop
 .L_0601EFDA:
-    .2byte  0x00F0
-    .4byte  sym_06060D68
-    .4byte  sym_06060D6A
-    .4byte  sym_06060D70
-    .4byte  sym_06060D74
-    .4byte  sym_06060D6C
+    .short  0x00F0
+    .long  sym_06060D68
+    .long  sym_06060D6A
+    .long  sym_06060D70
+    .long  sym_06060D74
+    .long  sym_06060D6C
 .L_0601EFF0:
-    .4byte  sym_06087080
+    .long  sym_06087080
 .L_0601EFF4:
     mov.l   .L_0601F2E4, r4
     mov.l @r4, r4
@@ -78,7 +78,7 @@ geom_batch_transform:
     mov.b @r14, r2
     mov.b r2, @r4
     cmp/hs r12, r6
-    bf/s    .L_0601F00A
+    bf.s    .L_0601F00A
     add #0x1, r4
     add #0x8, r7
     cmp/hs r11, r7
@@ -116,7 +116,7 @@ geom_batch_transform:
     mov.b @r14, r2
     mov.b r2, @r4
     cmp/hs r7, r6
-    bf/s    .L_0601F070
+    bf.s    .L_0601F070
     add #0x1, r4
     mov.l   .L_0601F2F0, r6
     mov r6, r7
@@ -150,7 +150,7 @@ geom_batch_transform:
     mov.b @r14, r2
     mov.b r2, @r4
     cmp/hs r7, r6
-    bf/s    .L_0601F0B4
+    bf.s    .L_0601F0B4
     add #0x1, r4
     mov.l   .L_0601F2F4, r6
     mov r6, r7
@@ -184,7 +184,7 @@ geom_batch_transform:
     mov.b @r14, r2
     mov.b r2, @r4
     cmp/hs r7, r6
-    bf/s    .L_0601F0F6
+    bf.s    .L_0601F0F6
     add #0x1, r4
     mov.l   .L_0601F2F8, r6
     mov r6, r7
@@ -229,7 +229,7 @@ geom_batch_transform:
     mov.b @r6, r2
     mov.b r2, @r4
     cmp/hs r14, r7
-    bf/s    .L_0601F13A
+    bf.s    .L_0601F13A
     add #0x1, r4
     mov.l   .L_0601F2FC, r6
     mov.b @r6+, r1
@@ -405,59 +405,59 @@ geom_batch_transform:
     bra     .L_0601F350
     nop
 .L_0601F2E4:
-    .4byte  sym_0605E098
+    .long  sym_0605E098
 .L_0601F2E8:
-    .4byte  sym_0605DD6C
+    .long  sym_0605DD6C
 .L_0601F2EC:
-    .4byte  sym_0605DE24
+    .long  sym_0605DE24
 .L_0601F2F0:
-    .4byte  sym_0605DDB4
+    .long  sym_0605DDB4
 .L_0601F2F4:
-    .4byte  sym_0605DDD4
+    .long  sym_0605DDD4
 .L_0601F2F8:
-    .4byte  sym_0605DE40
+    .long  sym_0605DE40
 .L_0601F2FC:
-    .4byte  sym_0605AD00
+    .long  sym_0605AD00
 .L_0601F300:
-    .4byte  sym_0605AD04
+    .long  sym_0605AD04
 .L_0601F304:
-    .4byte  sym_0605AD0C
+    .long  sym_0605AD0C
 .L_0601F308:
-    .4byte  sym_0605AB16
+    .long  sym_0605AB16
 .L_0601F30C:
-    .4byte  sym_0605AB17
+    .long  sym_0605AB17
 .L_0601F310:
-    .4byte  sym_0605D240
+    .long  sym_0605D240
 .L_0601F314:
-    .4byte  sym_0605D241
+    .long  sym_0605D241
 .L_0601F318:
-    .4byte  sym_06060D44
+    .long  sym_06060D44
 .L_0601F31C:
-    .4byte  sym_06060D46
+    .long  sym_06060D46
 .L_0601F320:
-    .4byte  sym_06060D40
+    .long  sym_06060D40
 .L_0601F324:
-    .4byte  sym_06060D42
+    .long  sym_06060D42
 .L_0601F328:
-    .4byte  sym_06060D48
+    .long  sym_06060D48
 .L_0601F32C:
-    .4byte  sym_06060D4A
+    .long  sym_06060D4A
 .L_0601F330:
-    .4byte  sym_06060D4C
+    .long  sym_06060D4C
 .L_0601F334:
-    .4byte  sym_06060D4E
+    .long  sym_06060D4E
 .L_0601F338:
-    .4byte  sym_06060D54
+    .long  sym_06060D54
 .L_0601F33C:
-    .4byte  sym_06060D58
+    .long  sym_06060D58
 .L_0601F340:
-    .4byte  sym_06060D50
+    .long  sym_06060D50
 .L_0601F344:
-    .4byte  sym_06060D60
+    .long  sym_06060D60
 .L_0601F348:
-    .4byte  sym_06060D62
+    .long  sym_06060D62
 .L_0601F34C:
-    .4byte  sym_06060D5C
+    .long  sym_06060D5C
 .L_0601F350:
     add #0x1, r4
     mov.l   .L_0601F3EC, r6
@@ -539,18 +539,18 @@ geom_batch_transform:
     rts
     mov.l @r15+, r14
 .L_0601F3EC:
-    .4byte  sym_06060D5E
+    .long  sym_06060D5E
 .L_0601F3F0:
-    .4byte  sym_06060D64
+    .long  sym_06060D64
 .L_0601F3F4:
-    .4byte  sym_06060D66
+    .long  sym_06060D66
 .L_0601F3F8:
-    .4byte  sym_06060D68
+    .long  sym_06060D68
 .L_0601F3FC:
-    .4byte  sym_06060D6A
+    .long  sym_06060D6A
 .L_0601F400:
-    .4byte  sym_06060D70
+    .long  sym_06060D70
 .L_0601F404:
-    .4byte  sym_06060D74
+    .long  sym_06060D74
 .L_0601F408:
-    .4byte  sym_06060D6C
+    .long  sym_06060D6C

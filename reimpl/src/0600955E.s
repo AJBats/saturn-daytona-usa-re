@@ -31,25 +31,25 @@ state_results_screen:
     bra     .L_060095E0
     nop
 .L_06009596:
-    .2byte  0x0800
+    .short  0x0800
 .L_06009598:
-    .4byte  sym_0607EBF4
+    .long  sym_0607EBF4
 .L_0600959C:
-    .4byte  g_game_state
-    .4byte  sym_0607EAD0
-    .4byte  sym_0607EBD0
-    .4byte  race_update_abort
-    .4byte  camera_system
-    .4byte  sym_06063E24
-    .4byte  sym_06063EEC
-    .4byte  sym_06063EF8
-    .4byte  camera_orient_calc
-    .4byte  scene_update
-    .4byte  frame_end_commit
+    .long  g_game_state
+    .long  sym_0607EAD0
+    .long  sym_0607EBD0
+    .long  race_update_abort
+    .long  camera_system
+    .long  sym_06063E24
+    .long  sym_06063EEC
+    .long  sym_06063EF8
+    .long  camera_orient_calc
+    .long  scene_update
+    .long  frame_end_commit
 .L_060095C8:
-    .4byte  sym_06063D9A
+    .long  sym_06063D9A
 .L_060095CC:
-    .4byte  sym_0607EACC
+    .long  sym_0607EACC
 .L_060095D0:
     .byte   0xD0, 0x2C    /* mov.l .L_06009684, r0 */
     mov.l @r0, r0
@@ -145,54 +145,54 @@ state_results_screen:
     rts
     mov.l @r15+, r14
 .L_0600967C:
-    .2byte  0x0082
+    .short  0x0082
 .L_0600967E:
-    .2byte  0x00BC
+    .short  0x00BC
 .L_06009680:
-    .2byte  0x0214
+    .short  0x0214
 .L_06009682:
-    .2byte  0x0900
+    .short  0x0900
 .L_06009684:
-    .4byte  sym_0607EAD0
+    .long  sym_0607EAD0
 .L_06009688:
-    .4byte  sym_0607EBD0
+    .long  sym_0607EBD0
 .L_0600968C:
-    .4byte  sym_0605AB18
+    .long  sym_0605AB18
 .L_06009690:
-    .4byte  menu_overlay_render
+    .long  menu_overlay_render
 .L_06009694:
-    .4byte  race_update_ending
+    .long  race_update_ending
 .L_06009698:
-    .4byte  camera_system
+    .long  camera_system
 .L_0600969C:
-    .4byte  sym_06063E24
+    .long  sym_06063E24
 .L_060096A0:
-    .4byte  sym_06063EEC
+    .long  sym_06063EEC
 .L_060096A4:
-    .4byte  sym_06063EF8
+    .long  sym_06063EF8
 .L_060096A8:
-    .4byte  camera_orient_calc
+    .long  camera_orient_calc
 .L_060096AC:
-    .4byte  scene_update
+    .long  scene_update
 .L_060096B0:
-    .4byte  sym_0607ED8C
+    .long  sym_0607ED8C
 .L_060096B4:
-    .4byte  sym_060033E6
+    .long  sym_060033E6
 .L_060096B8:
-    .4byte  sym_06086030
+    .long  sym_06086030
 .L_060096BC:
-    .4byte  sym_0605A1C8
+    .long  sym_0605A1C8
 .L_060096C0:
-    .4byte  0x0000F000
+    .long  0x0000F000
 .L_060096C4:
-    .4byte  sym_060283E0
+    .long  sym_060283E0
 .L_060096C8:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_060096CC:
-    .4byte  frame_end_commit
+    .long  frame_end_commit
 .L_060096D0:
-    .4byte  sym_06063798
+    .long  sym_06063798
 .L_060096D4:
-    .4byte  sym_06028400
+    .long  sym_06028400
 .L_060096D8:
-    .4byte  sym_0605A1C4
+    .long  sym_0605A1C4

@@ -76,15 +76,15 @@ color_palette_effect:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_pool_06042A7C:
-    .4byte  sym_0603C156
+    .long  sym_0603C156
 .L_pool_06042A80:
-    .4byte  sym_06042BFC
+    .long  sym_06042BFC
 .L_06042A84:
-    .4byte  0x25F00000
+    .long  0x25F00000
 .L_pool_06042A88:
-    .4byte  sym_06038A48
+    .long  sym_06038A48
 
     .global sym_06042A8C
 sym_06042A8C:

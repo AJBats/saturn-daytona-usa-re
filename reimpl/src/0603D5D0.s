@@ -136,28 +136,28 @@ display_element_draw:
     bra     .L_0603D708
     nop
 .L_0603D6DC:
-    .2byte  0x0501
-    .2byte  0xFFFF
+    .short  0x0501
+    .short  0xFFFF
 .L_0603D6E0:
-    .4byte  0x0000FFFE
+    .long  0x0000FFFE
 .L_0603D6E4:
-    .4byte  sym_060A4D58
+    .long  sym_060A4D58
 .L_0603D6E8:
-    .4byte  sym_060A4D46
+    .long  sym_060A4D46
 .L_0603D6EC:
-    .4byte  sym_06034F78
+    .long  sym_06034F78
 .L_0603D6F0:
-    .4byte  0x0000FFFD
+    .long  0x0000FFFD
 .L_0603D6F4:
-    .4byte  0x0000FFFB
+    .long  0x0000FFFB
 .L_0603D6F8:
-    .4byte  0x0000FFF7
+    .long  0x0000FFF7
 .L_0603D6FC:
-    .4byte  0x0000FFEF
+    .long  0x0000FFEF
 .L_0603D700:
-    .4byte  0x0000FFDF
+    .long  0x0000FFDF
 .L_0603D704:
-    .4byte  0x0000FFBF
+    .long  0x0000FFBF
 .L_0603D708:
     mov.w r0, @(2, r4)
     mov r6, r0
@@ -236,11 +236,11 @@ display_element_draw:
     rts
     nop
 .L_0603D7A0:
-    .2byte  0x0501
-    .2byte  0xFFFF
+    .short  0x0501
+    .short  0xFFFF
 .L_0603D7A4:
-    .4byte  sym_06034F78
+    .long  sym_06034F78
 .L_0603D7A8:
-    .4byte  0x0000FFDF
+    .long  0x0000FFDF
 .L_0603D7AC:
-    .4byte  0x0000FFBF
+    .long  0x0000FFBF

@@ -9,7 +9,7 @@ scene_render_body:
     mov.l   .L_pool_0600C0A0, r0
     mov.b @r0, r0
     tst r0, r0
-    bt/s    .L_0600C02C
+    bt.s    .L_0600C02C
     mov #0x0, r9
     mov.l   .L_pool_0600C0A4, r4
     mov.l   .L_pool_0600C0A8, r3
@@ -70,44 +70,44 @@ scene_render_body:
     bra     .L_0600C0E2
     nop
 .L_wpool_0600C090:
-    .2byte  0xFE11
-    .2byte  0xFFFF
+    .short  0xFE11
+    .short  0xFFFF
 .L_pool_0600C094:
-    .4byte  sym_0607EBC4
+    .long  sym_0607EBC4
 .L_pool_0600C098:
-    .4byte  sym_0608A52C
+    .long  sym_0608A52C
 .L_pool_0600C09C:
-    .4byte  sym_0605A1DD
+    .long  sym_0605A1DD
 .L_pool_0600C0A0:
-    .4byte  sym_06083255
+    .long  sym_06083255
 .L_pool_0600C0A4:
-    .4byte  sym_0607EB8C
+    .long  sym_0607EB8C
 .L_pool_0600C0A8:
-    .4byte  vblank_handler
+    .long  vblank_handler
 .L_pool_0600C0AC:
-    .4byte  0x02000000
+    .long  0x02000000
 .L_pool_0600C0B0:
-    .4byte  sym_06078635
+    .long  sym_06078635
 .L_pool_0600C0B4:
-    .4byte  sym_0600D336
+    .long  sym_0600D336
 .L_pool_0600C0B8:
-    .4byte  physics_calc_dispatch
+    .long  physics_calc_dispatch
 .L_pool_0600C0BC:
-    .4byte  0x00020000
+    .long  0x00020000
 .L_pool_0600C0C0:
-    .4byte  sym_0607EAE0
+    .long  sym_0607EAE0
 .L_pool_0600C0C4:
-    .4byte  sym_0602E610
+    .long  sym_0602E610
 .L_pool_0600C0C8:
-    .4byte  sym_06089EDC
+    .long  sym_06089EDC
 .L_pool_0600C0CC:
-    .4byte  memcpy_long_idx
+    .long  memcpy_long_idx
 .L_pool_0600C0D0:
-    .4byte  sym_06078664
+    .long  sym_06078664
 .L_pool_0600C0D4:
-    .4byte  sym_06059F30
+    .long  sym_06059F30
 .L_pool_0600C0D8:
-    .4byte  sym_0607EA98
+    .long  sym_0607EA98
 .L_0600C0DC:
     mov.b @r13, r2
     extu.b r2, r2

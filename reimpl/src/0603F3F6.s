@@ -13,7 +13,7 @@ menu_element_render:
     mov.w   .L_0603F42C, r11
     mov.l @r14, r0
     tst r0, r0
-    bf/s    .L_0603F43C
+    bf.s    .L_0603F43C
     mov r6, r13
     mov r13, r6
     mov #0x0, r5
@@ -27,14 +27,14 @@ menu_element_render:
     .byte   0xD3, 0x04    /* mov.l .L_pool_0603F439, r3 */
     jmp @r3
     mov.l @r15+, r14
-    .2byte  0x043C
+    .short  0x043C
 .L_0603F42C:
-    .2byte  0x0800
-    .2byte  0xFFFF
-    .4byte  sym_06036D94
-    .4byte  sym_060A4D14
+    .short  0x0800
+    .short  0xFFFF
+    .long  sym_06036D94
+    .long  sym_060A4D14
 .L_pool_0603F439:
-    .4byte  sym_06036D78
+    .long  sym_06036D78
 .L_0603F43C:
     mov.l @(8, r14), r4
     mov r4, r0
@@ -73,7 +73,7 @@ menu_element_render:
     mov.l @(8, r14), r2
     add r12, r2
     cmp/hs r13, r12
-    bt/s    .L_0603F49E
+    bt.s    .L_0603F49E
     mov.l r2, @(8, r14)
     sub r12, r13
     mov r11, r7
@@ -98,4 +98,4 @@ menu_element_render:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .2byte  0xE601
+    .short  0xE601

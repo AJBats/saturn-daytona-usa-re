@@ -36,27 +36,27 @@ DAT_0602e28a:
 DAT_0602e28e:
     .word 0x0208
 .L_0602E290:
-    .2byte  0x00E4
+    .short  0x00E4
 .L_0602E292:
-    .2byte  0x0708
+    .short  0x0708
 .L_0602E294:
-    .2byte  0x2134
-    .2byte  0x0000
-    .4byte  sym_0607EAC8
-    .4byte  0x00000001
-    .4byte  0x00000028
-    .4byte  0x00000000
-    .4byte  0x000000C0
-    .4byte  sym_0602F3EC
-    .4byte  sym_0602F7BC
-    .4byte  sym_06030A06
-    .4byte  sym_06030EE0
-    .4byte  brake_force_apply
-    .4byte  FUN_0600C4F8
+    .short  0x2134
+    .short  0x0000
+    .long  sym_0607EAC8
+    .long  0x00000001
+    .long  0x00000028
+    .long  0x00000000
+    .long  0x000000C0
+    .long  sym_0602F3EC
+    .long  sym_0602F7BC
+    .long  sym_06030A06
+    .long  sym_06030EE0
+    .long  brake_force_apply
+    .long  FUN_0600C4F8
 .L_0602E2C4:
-    .4byte  sym_0607E940
-    .4byte  sym_0602D82A
-    .4byte  sym_0602F17C
+    .long  sym_0607E940
+    .long  sym_0602D82A
+    .long  sym_0602F17C
 .L_0602E2D0:
     cmp/gt r1, r4
     bt      .L_0602E2D6

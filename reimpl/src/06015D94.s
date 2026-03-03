@@ -28,7 +28,7 @@ lap_progress_bar:
     mov.b r0, @(2, r5)
     mov #0x41, r0
     cmp/ge r12, r3
-    bf/s    .L_06015DAA
+    bf.s    .L_06015DAA
     mov.b r13, @(r0, r5)
     mov.b @r15, r4
     extu.b r4, r4
@@ -39,11 +39,11 @@ lap_progress_bar:
     mov.l   .L_pool_06015DE4, r3
     jmp @r3
     mov.l @r15+, r14
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_pool_06015DE0:
-    .4byte  sym_06084FC8
+    .long  sym_06084FC8
 .L_pool_06015DE4:
-    .4byte  sym_060172E4
+    .long  sym_060172E4
 
     .global loc_06015DE8
 loc_06015DE8:

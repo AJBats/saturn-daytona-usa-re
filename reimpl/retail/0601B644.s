@@ -69,7 +69,7 @@ texture_file_loader:
     .byte 0x20, 0x00
     .byte 0x10, 0x00
     .byte 0xFF, 0xFF
-    .4byte sym_0605D4F4
-    .4byte sym_0605D4FA
-    .4byte g_pad_state
-    .4byte sym_0608600D
+    .long sym_0605D4F4
+    .long sym_0605D4FA
+    .long g_pad_state
+    .long sym_0608600D

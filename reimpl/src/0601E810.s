@@ -129,27 +129,27 @@ hud_handler_main:
     bra     .L_0601E930
     nop
 .L_pool_0601E904:
-    .4byte  sym_0605E06C
+    .long  sym_0605E06C
 .L_pool_0601E908:
-    .4byte  sym_060877D8
+    .long  sym_060877D8
 .L_0601E90C:
-    .4byte  0x20100063
+    .long  0x20100063
 .L_pool_0601E910:
-    .4byte  sym_06035C1C
+    .long  sym_06035C1C
 .L_pool_0601E914:
-    .4byte  sym_060877E8
+    .long  sym_060877E8
 .L_pool_0601E918:
-    .4byte  sym_060877B4
+    .long  sym_060877B4
 .L_pool_0601E91C:
-    .4byte  smpc_cmd_helper_a
+    .long  smpc_cmd_helper_a
 .L_pool_0601E920:
-    .4byte  sym_06000354
+    .long  sym_06000354
 .L_pool_0601E924:
-    .4byte  sym_0604A5C0
+    .long  sym_0604A5C0
 .L_0601E928:
-    .4byte  0x2010001F
+    .long  0x2010001F
 .L_pool_0601E92C:
-    .4byte  sym_06087094
+    .long  sym_06087094
 .L_0601E930:
     mov #0x19, r3
     .byte   0xD2, 0x2F    /* mov.l .L_pool_0601E9F0, r2 (out-of-TU: SMPC COMREG 0x2010001F) */

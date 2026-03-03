@@ -110,10 +110,10 @@ text_scroll_marquee:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .4byte sym_06084FC8
-    .4byte sym_06085F89
-    .4byte sym_0607EBF4
+    .long sym_06084FC8
+    .long sym_06085F89
+    .long sym_0607EBF4
     .byte 0x00, 0x00
     .byte 0x80, 0x00
-    .4byte sym_0605BB74
-    .4byte sym_06085490
+    .long sym_0605BB74
+    .long sym_06085490

@@ -44,23 +44,23 @@ vdp1_cmd_list_mgr:
 
     .global DAT_0602ce44
 DAT_0602ce44:
-    .2byte  0x4000
+    .short  0x4000
 
     .global DAT_0602ce46
 DAT_0602ce46:
-    .2byte  0x0040
+    .short  0x0040
 
     .global DAT_0602ce48
 DAT_0602ce48:
-    .2byte  0x0058
+    .short  0x0058
 
     .global DAT_0602ce4a
 DAT_0602ce4a:
-    .2byte  0x005C
+    .short  0x005C
 .L_0602CE4C:
-    .4byte  sin_lookup
+    .long  sin_lookup
 .L_0602CE50:
-    .4byte  0x0002C000
+    .long  0x0002C000
 .L_0602CE54:
     .byte   0xD0, 0x12    /* mov.l .L_0602CEA0, r0 */
     jsr @r0
@@ -100,13 +100,13 @@ DAT_0602ce4a:
     bf      .L_0602CEAC
     bra     .L_0602CF04
     mov.l @r15+, r5
-    .2byte  0x0000
+    .short  0x0000
 .L_0602CEA0:
-    .4byte  fpdiv_setup
+    .long  fpdiv_setup
 .L_0602CEA4:
-    .4byte  cos_lookup
+    .long  cos_lookup
 .L_0602CEA8:
-    .4byte  atan2
+    .long  atan2
 .L_0602CEAC:
     .byte   0xD0, 0x08    /* mov.l .L_0602CED0, r0 */
     jsr @r0
@@ -127,9 +127,9 @@ DAT_0602ce4a:
     bf      .L_0602CED4
     bra     .L_0602CF04
     nop
-    .2byte  0x0000
+    .short  0x0000
 .L_0602CED0:
-    .4byte  fpdiv_setup
+    .long  fpdiv_setup
 .L_0602CED4:
     .byte   0xD0, 0x09    /* mov.l .L_0602CEFC, r0 */
     jsr @r0
@@ -147,16 +147,16 @@ DAT_0602ce4a:
     sts macl, r5
     xtrct r0, r5
     tst r2, r2
-    bt/s    .L_0602CEF8
+    bt.s    .L_0602CEF8
     shlr16 r5
     neg r5, r5
 .L_0602CEF8:
     bra     .L_0602CF08
     nop
 .L_0602CEFC:
-    .4byte  fpdiv_setup
+    .long  fpdiv_setup
 .L_0602CF00:
-    .4byte  0x28BE60DB
+    .long  0x28BE60DB
 .L_0602CF04:
     mov #0x0, r5
     mov r8, r7
@@ -171,7 +171,7 @@ DAT_0602ce4a:
     mov.l @r15+, r8
     mov.l @r15+, r9
     cmp/eq r8, r9
-    bf/s    .L_0602CF22
+    bf.s    .L_0602CF22
     mov.l @r15+, r6
     mov r8, r7
 .L_0602CF22:
@@ -185,12 +185,12 @@ DAT_0602ce4a:
     bra     .L_0602CF44
     mov.l r7, @(r0, r3)
 .L_0602CF34:
-    .2byte  0x0252
-    .2byte  0x0000
+    .short  0x0252
+    .short  0x0000
 .L_0602CF38:
-    .4byte  0x00000154
+    .long  0x00000154
 .L_0602CF3C:
-    .4byte  0x0000002C
+    .long  0x0000002C
 .L_0602CF40:
     .byte   0xD3, 0x28    /* mov.l .L_0602CFE4, r3 */
     mov.l @(r0, r3), r7
@@ -274,30 +274,30 @@ DAT_0602ce4a:
 
     .global DAT_0602cfda
 DAT_0602cfda:
-    .2byte  0x0060
+    .short  0x0060
 
     .global DAT_0602cfdc
 DAT_0602cfdc:
-    .2byte  0x0064
+    .short  0x0064
 
     .global DAT_0602cfde
 DAT_0602cfde:
-    .2byte  0x00D0
+    .short  0x00D0
 
     .global DAT_0602cfe0
 DAT_0602cfe0:
-    .2byte  0x4000
-    .2byte  0x0000
+    .short  0x4000
+    .short  0x0000
 .L_0602CFE4:
-    .4byte  0x0000002C
+    .long  0x0000002C
 .L_0602CFE8:
-    .4byte  sin_lookup
+    .long  sin_lookup
 .L_0602CFEC:
-    .4byte  0x0028D0FA
+    .long  0x0028D0FA
 .L_0602CFF0:
-    .4byte  0x03200000
+    .long  0x03200000
 .L_0602CFF4:
-    .4byte  sym_06063EEC
+    .long  sym_06063EEC
 .L_0602CFF8:
     .byte   0xD4, 0x0B    /* mov.l .L_0602D028, r4 */
     or r4, r6
@@ -323,14 +323,14 @@ DAT_0602cfe0:
 
     .global DAT_0602d020
 DAT_0602d020:
-    .2byte  0x025C
+    .short  0x025C
 .L_0602D022:
-    .2byte  0x0258
+    .short  0x0258
 .L_0602D024:
-    .2byte  0x0444
-    .2byte  0x0000
+    .short  0x0444
+    .short  0x0000
 .L_0602D028:
-    .4byte  0xFFFF0000
+    .long  0xFFFF0000
 .L_0602D02C:
     mov.w   DAT_0602d04e, r7
     cmp/pz r5
@@ -353,11 +353,11 @@ DAT_0602d020:
 
     .global DAT_0602d04e
 DAT_0602d04e:
-    .2byte  0x8000
+    .short  0x8000
 
     .global DAT_0602d050
 DAT_0602d050:
-    .2byte  0x0444
+    .short  0x0444
 .L_0602D052:
     mov #0x0, r3
     bra     .L_0602D084
@@ -380,15 +380,15 @@ DAT_0602d050:
 
     .global DAT_0602d074
 DAT_0602d074:
-    .2byte  0x0002
+    .short  0x0002
 
     .global DAT_0602d076
 DAT_0602d076:
-    .2byte  0x0028
+    .short  0x0028
 
     .global DAT_0602d078
 DAT_0602d078:
-    .2byte  0x003C
+    .short  0x003C
 .L_0602D07A:
     cmp/ge r5, r6
     bt      .L_0602D080

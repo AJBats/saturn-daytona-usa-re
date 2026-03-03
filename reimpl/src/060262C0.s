@@ -32,22 +32,22 @@ transform_heading_apply:
     mov.w @(6, r0), r0
     bra     .L_06026320
     extu.w r0, r0
-    .2byte  0xA001                          /* bra .L_case_23_store_id_b: store then bra loop */
-    .4byte  0x627D626D                      /* extu.w r7,r2 / extu.w r6,r2 */
-    .4byte  0xA0262D21                      /* bra .L_06026350 / mov.w r2,@r13 [delay] */
-    .4byte  0xA001627D                      /* bra .L_case_811_store_id_b: bra / extu.w r7,r2 [delay] */
-    .4byte  0x626DA021                      /* extu.w r6,r2 / bra .L_06026350 */
-    .2byte  0x2E21                          /* mov.w r2,@r14 [delay: store r2 to course_id_b] */
+    .short  0xA001                          /* bra .L_case_23_store_id_b: store then bra loop */
+    .long  0x627D626D                      /* extu.w r7,r2 / extu.w r6,r2 */
+    .long  0xA0262D21                      /* bra .L_06026350 / mov.w r2,@r13 [delay] */
+    .long  0xA001627D                      /* bra .L_case_811_store_id_b: bra / extu.w r7,r2 [delay] */
+    .long  0x626DA021                      /* extu.w r6,r2 / bra .L_06026350 */
+    .short  0x2E21                          /* mov.w r2,@r14 [delay: store r2 to course_id_b] */
 .L_0602630E:
     bra     .L_06026350
     nop
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_pool_06026314:
-    .4byte  sym_06060F2C
+    .long  sym_06060F2C
 .L_pool_06026318:
-    .4byte  sym_06089ED6
+    .long  sym_06089ED6
 .L_pool_0602631C:
-    .4byte  sym_06089ED4
+    .long  sym_06089ED4
 .L_06026320:
     mov.w   .L_wpool_06026336, r1
     sub r1, r0
@@ -61,13 +61,13 @@ transform_heading_apply:
     braf r0
     nop
 .L_wpool_06026336:
-    .2byte  0x008A
-    .4byte  0xFFC4FFC4
-    .4byte  0xFFCEFFCE
-    .4byte  0xFFC8FFC8
-    .4byte  0xFFC8FFC8
-    .4byte  0xFFD2FFD2
-    .4byte  0xFFD2FFD2
+    .short  0x008A
+    .long  0xFFC4FFC4
+    .long  0xFFCEFFCE
+    .long  0xFFC8FFC8
+    .long  0xFFC8FFC8
+    .long  0xFFD2FFD2
+    .long  0xFFD2FFD2
 .L_06026350:
     add #0x1, r5
 .L_06026352:

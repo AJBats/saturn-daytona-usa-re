@@ -7,8 +7,8 @@ display_cmd_position:
     lds.l @r15+, pr
     .byte   0xAF, 0x6A    /* bra 0x0603230A (external) */
     nop
-    .2byte  0x0000
-    .4byte  sound_cmd_dispatch
+    .short  0x0000
+    .long  sound_cmd_dispatch
 
     .global loc_0603243C
 loc_0603243C:
@@ -21,13 +21,13 @@ loc_0603243C:
     .byte   0xD0, 0x03    /* mov.l .L_pool_06032458, r0 */
     .byte   0xAF, 0x5E    /* bra 0x0603230A (external) */
     mov.l r1, @r0
-    .2byte  0x0000
+    .short  0x0000
 .L_pool_06032450:
-    .4byte  0x00000001
+    .long  0x00000001
 .L_pool_06032454:
-    .4byte  sym_06082A25
+    .long  sym_06082A25
 .L_pool_06032458:
-    .4byte  sym_06082A28
+    .long  sym_06082A28
 
     .global loc_0603245C
 loc_0603245C:
@@ -38,11 +38,11 @@ loc_0603245C:
     and r2, r1
     .byte   0xAF, 0x50    /* bra 0x0603230A (external) */
     mov.b r1, @r0
-    .2byte  0x0000
+    .short  0x0000
 .L_pool_0603246C:
-    .4byte  0x00000001
+    .long  0x00000001
 .L_pool_06032470:
-    .4byte  sym_06082A25
+    .long  sym_06082A25
 
     .global loc_06032474
 loc_06032474:
@@ -53,11 +53,11 @@ loc_06032474:
     and r2, r1
     .byte   0xAF, 0x44    /* bra 0x0603230A (external) */
     mov.b r1, @r0
-    .2byte  0x0000
+    .short  0x0000
 .L_pool_06032484:
-    .4byte  0x00000002
+    .long  0x00000002
 .L_pool_06032488:
-    .4byte  sym_06082A25
+    .long  sym_06082A25
 
     .global loc_0603248C
 loc_0603248C:
@@ -68,9 +68,9 @@ loc_0603248C:
     .byte   0xAF, 0x39    /* bra 0x0603230A (external) */
     mov.b r1, @r0
 .L_pool_06032498:
-    .4byte  0x00000002
+    .long  0x00000002
 .L_pool_0603249C:
-    .4byte  sym_06082A25
+    .long  sym_06082A25
 
     .global loc_060324A0
 loc_060324A0:
@@ -89,20 +89,20 @@ loc_060324A0:
     or r2, r1
     .byte   0xAF, 0x26    /* bra 0x0603230A (external) */
     mov.b r1, @r0
-    .2byte  0x0000
+    .short  0x0000
 .L_pool_060324C0:
-    .4byte  sym_0607E944
+    .long  sym_0607E944
 .L_pool_060324C4:
-    .4byte  0xFFFEFFFF
+    .long  0xFFFEFFFF
 .L_pool_060324C8:
-    .4byte  sym_06082A24
+    .long  sym_06082A24
 .L_pool_060324CC:
-    .4byte  sym_06082A25
+    .long  sym_06082A25
 .L_pool_060324D0:
-    .4byte  0x00000004
-    .4byte  0xD00401EC
-    .4byte  0x21188919
-    .4byte  0xE0042108
-    .4byte  0x8B04A021
-    .4byte  0x00090000
-    .4byte  0x000002DC
+    .long  0x00000004
+    .long  0xD00401EC
+    .long  0x21188919
+    .long  0xE0042108
+    .long  0x8B04A021
+    .long  0x00090000
+    .long  0x000002DC

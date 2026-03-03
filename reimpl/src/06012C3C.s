@@ -26,23 +26,23 @@ cd_dma_setup:
     .global DAT_06012c66
 DAT_06012c66:
     sts macl, r10
-    .4byte  cdb_read_status
-    .4byte  sym_060448D4
-    .4byte  0x0000E000
-    .4byte  sym_060283E0
-    .4byte  sym_060612C4
-    .4byte  sym_060612B4
-    .4byte  memcpy_word_idx
-    .4byte  ai_brake_zone_calc
-    .4byte  sym_0605ACCA
+    .long  cdb_read_status
+    .long  sym_060448D4
+    .long  0x0000E000
+    .long  sym_060283E0
+    .long  sym_060612C4
+    .long  sym_060612B4
+    .long  memcpy_word_idx
+    .long  ai_brake_zone_calc
+    .long  sym_0605ACCA
 .L_pool_06012C8C:
-    .4byte  cmd_validate_chain
+    .long  cmd_validate_chain
 .L_pool_06012C90:
-    .4byte  sym_06084AEC
+    .long  sym_06084AEC
 .L_pool_06012C94:
-    .4byte  cmd_status_check
+    .long  cmd_status_check
 .L_pool_06012C98:
-    .4byte  sym_0600026C
+    .long  sym_0600026C
 .L_06012C9C:
     .byte   0xBF, 0x9E    /* bsr 0x06012BDC (external) */
     nop
@@ -55,7 +55,7 @@ DAT_06012c66:
     mov.l @r15, r4
     add #0x1, r9
     cmp/ge r13, r9
-    bf/s    .L_06012CB8
+    bf.s    .L_06012CB8
     mov r0, r12
     mov.l @r14, r2
     jsr @r2
@@ -75,7 +75,7 @@ DAT_06012c66:
     mov.l @r15, r3
     add #0x1, r3
     cmp/ge r13, r3
-    bf/s    .L_06012CDC
+    bf.s    .L_06012CDC
     mov.l r3, @r15
     mov.l @r14, r3
     jsr @r3

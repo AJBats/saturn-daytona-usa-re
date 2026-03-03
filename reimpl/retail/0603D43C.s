@@ -105,6 +105,6 @@ DAT_0603d500:
     .byte 0xFF, 0xFF
     .byte 0x00, 0x00
     .byte 0xFF, 0x00
-    .4byte sym_060A4D58
-    .4byte sym_060A4D36
-    .4byte sym_06034F78
+    .long sym_060A4D58
+    .long sym_060A4D36
+    .long sym_06034F78

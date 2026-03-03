@@ -38,9 +38,9 @@ timer_overflow_handler:
     lds.l @r15+, pr
     rts
     nop
-    .4byte  ai_section_check
-    .4byte  sym_06040FEA
+    .long  ai_section_check
+    .long  sym_06040FEA
 .L_06040774:
-    .4byte  sym_06034FFC
+    .long  sym_06034FFC
 .L_06040778:
-    .4byte  sym_06036BE4
+    .long  sym_06036BE4

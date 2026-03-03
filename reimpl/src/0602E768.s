@@ -15,10 +15,10 @@ per_vtx_lighting:
     bt      .L_0602E78C
     bra     .L_0602E7C0
     nop
-    .2byte  0x0000
-    .4byte  isqrt
+    .short  0x0000
+    .long  isqrt
 .L_0602E788:
-    .4byte  0x000F0000
+    .long  0x000F0000
 
 .L_0602E78C:
     mov.l   .L_0602E7B0, r0
@@ -38,15 +38,15 @@ per_vtx_lighting:
     mov.l @r15+, r8
     rts
     nop
-    .2byte  0x0000
+    .short  0x0000
 .L_0602E7B0:
-    .4byte  0x00000238
+    .long  0x00000238
 .L_0602E7B4:
-    .4byte  DAT_06083264
+    .long  DAT_06083264
 .L_0602E7B8:
-    .4byte  0x0000023C
+    .long  0x0000023C
 .L_0602E7BC:
-    .4byte  DAT_06083268
+    .long  DAT_06083268
 
 .L_0602E7C0:
     mov.l @(16, r9), r6

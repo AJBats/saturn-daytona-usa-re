@@ -22,11 +22,11 @@ hud_post_update:
     .byte   0xD1, 0x16    /* mov.l .L_pool_06010ADC, r1 */
     jmp @r1
     add #0x4, r15
-    .2byte  0x644D
-    .4byte  0x931F2439
-    .4byte  0x24488904
-    .4byte  0xE301D213
-    .4byte  0x2232A003
-    .4byte  0x0009E300
-    .4byte  0xD2102232
-    .4byte  0x000B0009
+    .short  0x644D
+    .long  0x931F2439
+    .long  0x24488904
+    .long  0xE301D213
+    .long  0x2232A003
+    .long  0x0009E300
+    .long  0xD2102232
+    .long  0x000B0009

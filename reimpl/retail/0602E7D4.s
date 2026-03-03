@@ -31,8 +31,8 @@ shadow_intensity:
     .global DAT_0602e80a
 DAT_0602e80a:
     .byte 0x80, 0x00
-    .4byte atan2
-    .4byte sym_06078663
+    .long atan2
+    .long sym_06078663
     .byte 0x61, 0x1D
     .byte 0x34, 0x17
     .byte 0x8B, 0x24

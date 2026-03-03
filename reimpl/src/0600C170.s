@@ -13,20 +13,20 @@ race_utility_calc:
     nop
     bra     .L_0600C1BE
     nop
-    .4byte  race_utility_calc
-    .4byte  sym_06063574
-    .4byte  0x0000FFFF
-    .4byte  0x21000000
-    .4byte  0x02800008
-    .4byte  frame_dispatch
-    .4byte  scene_post_render
-    .4byte  0x02000000
-    .4byte  replay_playback_engine
-    .4byte  sym_0607EA98
+    .long  race_utility_calc
+    .long  sym_06063574
+    .long  0x0000FFFF
+    .long  0x21000000
+    .long  0x02800008
+    .long  frame_dispatch
+    .long  scene_post_render
+    .long  0x02000000
+    .long  replay_playback_engine
+    .long  sym_0607EA98
 .L_0600C1B0:
-    .4byte  sym_0603C000
+    .long  sym_0603C000
 .L_0600C1B4:
-    .4byte  sym_06083255
+    .long  sym_06083255
 .L_0600C1B8:
     mov.l   .L_0600C1F4, r3
     jsr @r3
@@ -60,22 +60,22 @@ race_utility_calc:
     lds.l @r15+, pr
     rts
     mov.w r2, @r3
-    .2byte  0xFFFF
+    .short  0xFFFF
 .L_0600C1F4:
-    .4byte  camera_track_setup
+    .long  camera_track_setup
 .L_0600C1F8:
-    .4byte  sym_06063E1C
+    .long  sym_06063E1C
 .L_0600C1FC:
-    .4byte  sym_06063E20
+    .long  sym_06063E20
 .L_0600C200:
-    .4byte  scene_path_a
+    .long  scene_path_a
 .L_0600C204:
-    .4byte  scene_path_b
+    .long  scene_path_b
 .L_0600C208:
-    .4byte  sym_06059F40
+    .long  sym_06059F40
 .L_0600C20C:
-    .4byte  sym_06059F4C
+    .long  sym_06059F4C
 .L_0600C210:
-    .4byte  0x0000FFFF
+    .long  0x0000FFFF
 .L_0600C214:
-    .4byte  0x21800000
+    .long  0x21800000

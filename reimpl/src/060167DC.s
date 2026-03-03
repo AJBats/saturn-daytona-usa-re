@@ -15,7 +15,7 @@ results_input_handler:
     mov r3, r2
     mov.l @(60, r4), r3
     cmp/ge r3, r2
-    bf/s    .L_06016814
+    bf.s    .L_06016814
     extu.b r12, r11
     extu.b r14, r4
     mov r4, r3
@@ -75,11 +75,11 @@ results_input_handler:
     bra     .L_060168A6
     nop
 .L_0601686C:
-    .2byte  0x0F00
+    .short  0x0F00
 .L_0601686E:
-    .2byte  0x1800
+    .short  0x1800
 .L_pool_06016870:
-    .4byte  sym_06084FC8
+    .long  sym_06084FC8
 .L_06016874:
     extu.b r14, r5
     mov r5, r3
@@ -187,8 +187,8 @@ loc_060168DA:
     rts
     mov.b r0, @(2, r4)
 .L_06016938:
-    .2byte  0xC000
+    .short  0xC000
 .L_0601693A:
-    .2byte  0x4000
+    .short  0x4000
 .L_pool_0601693C:
-    .4byte  sym_06084FC8
+    .long  sym_06084FC8

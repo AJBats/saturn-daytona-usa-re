@@ -39,7 +39,7 @@ checkpoint_time_calc:
     mov.l @(12, r15), r1
     sub r1, r2
     cmp/pz r2
-    bt/s    .L_0600DD1E
+    bt.s    .L_0600DD1E
     mov.l r2, @(4, r15)
     mov.l @(12, r15), r1
     mov.l @(8, r15), r2
@@ -87,22 +87,22 @@ checkpoint_time_calc:
     .global DAT_0600dd62
 .L_0600DD62:
 DAT_0600dd62:
-    .2byte  0x01E0
+    .short  0x01E0
 .L_0600DD64:
-    .4byte  sym_0607E940
+    .long  sym_0607E940
 .L_0600DD68:
-    .4byte  sym_0607EA9C
+    .long  sym_0607EA9C
 .L_0600DD6C:
-    .4byte  sym_0607869C
+    .long  sym_0607869C
 .L_0600DD70:
-    .4byte  sym_06034FE0
+    .long  sym_06034FE0
 .L_0600DD74:
-    .4byte  sym_060786B0
+    .long  sym_060786B0
 .L_0600DD78:
-    .4byte  sym_0607EBD0
+    .long  sym_0607EBD0
 .L_0600DD7C:
-    .4byte  sym_0607EAD8
+    .long  sym_0607EAD8
 .L_0600DD80:
-    .4byte  sym_0605A21C
+    .long  sym_0605A21C
 .L_0600DD84:
-    .4byte  sym_060786A0
+    .long  sym_060786A0

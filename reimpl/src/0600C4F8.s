@@ -86,42 +86,42 @@ FUN_0600C4F8:
 
     .global DAT_0600c590
 DAT_0600c590:
-    .2byte  0x00D4
+    .short  0x00D4
 .L_0600C592:
-    .2byte  0xF052
+    .short  0xF052
 
     .global DAT_0600c594
 DAT_0600c594:
-    .2byte  0x00BC
+    .short  0x00BC
 
     .global DAT_0600c596
 DAT_0600c596:
-    .2byte  0x00B8
+    .short  0x00B8
 
     .global DAT_0600c598
 DAT_0600c598:
-    .2byte  0x00FC
+    .short  0x00FC
 
     .global DAT_0600c59a
 DAT_0600c59a:
-    .2byte  0x0198
+    .short  0x0198
 .L_0600C59C:
-    .2byte  0x0194
-    .2byte  0xFFFF
+    .short  0x0194
+    .short  0xFFFF
 .L_0600C5A0:
-    .4byte  fpmul
+    .long  fpmul
 .L_0600C5A4:
-    .4byte  sym_0607E940
+    .long  sym_0607E940
 .L_0600C5A8:
-    .4byte  sym_0607EBC4
+    .long  sym_0607EBC4
 .L_0600C5AC:
-    .4byte  0x00008000
+    .long  0x00008000
 .L_0600C5B0:
-    .4byte  sym_060477EC
+    .long  sym_060477EC
 .L_0600C5B4:
-    .4byte  sym_060454CC
+    .long  sym_060454CC
 .L_0600C5B8:
-    .4byte  0xFEC00000
+    .long  0xFEC00000
 .L_0600C5BC:
     mov #0x0, r2
     mov.l r2, @(12, r14)

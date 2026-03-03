@@ -28,11 +28,11 @@ course2_physics_init:
     .byte 0xA0, 0x0C
     .byte 0x6A, 0xBC
     .byte 0xFF, 0xFF
-    .4byte sym_06049B2C
-    .4byte sym_06028400
-    .4byte sym_0605D242
-    .4byte sym_06085FF0
-    .4byte sym_0605AD04
+    .long sym_06049B2C
+    .long sym_06028400
+    .long sym_0605D242
+    .long sym_06085FF0
+    .long sym_0605AD04
     .byte 0x6A, 0xEC
     .byte 0x67, 0xAC
     .byte 0x60, 0xDC
@@ -149,6 +149,6 @@ course2_physics_init:
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
     .byte 0xFF, 0xFF
-    .4byte sym_06063750
-    .4byte sym_06049B22
-    .4byte sym_0605AD04
+    .long sym_06063750
+    .long sym_06049B22
+    .long sym_0605AD04

@@ -69,12 +69,12 @@ DAT_0601b76c:
     .global DAT_0601b76e
 DAT_0601b76e:
     .byte 0x20, 0x00
-    .4byte sym_0608600E
-    .4byte sym_0605DF20
-    .4byte sym_06035228
-    .4byte sym_0605DF23
-    .4byte g_pad_state
-    .4byte sym_0605D4F8
+    .long sym_0608600E
+    .long sym_0605DF20
+    .long sym_06035228
+    .long sym_0605DF23
+    .long g_pad_state
+    .long sym_0605D4F8
     .byte 0x6B, 0xDC
     .byte 0x67, 0xBC
     .byte 0x62, 0xEC
@@ -125,5 +125,5 @@ DAT_0601b76e:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
-    .4byte sym_06063750
-    .4byte sym_06028400
+    .long sym_06063750
+    .long sym_06028400

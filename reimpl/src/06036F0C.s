@@ -117,42 +117,42 @@ vdp_init_master:
 
     .global DAT_06036fba
 DAT_06036fba:
-    .2byte  0x01E0
+    .short  0x01E0
 
     .global DAT_06036fbc
 DAT_06036fbc:
-    .2byte  0x00E0
+    .short  0x00E0
 
     .global DAT_06036fbe
 DAT_06036fbe:
-    .2byte  0x00F0
+    .short  0x00F0
 
     .global DAT_06036fc0
 DAT_06036fc0:
-    .2byte  0x0100
+    .short  0x0100
 
     .global DAT_06036fc2
 DAT_06036fc2:
-    .2byte  0x0140
+    .short  0x0140
 .L_wpool_06036FC4:
-    .2byte  0x0160
-    .2byte  0xFFFF
+    .short  0x0160
+    .short  0xFFFF
 .L_pool_06036FC8:
-    .4byte  sym_060635AE
+    .long  sym_060635AE
 .L_pool_06036FCC:
-    .4byte  sym_060635B0
+    .long  sym_060635B0
 .L_pool_06036FD0:
-    .4byte  sym_060A3D88
+    .long  sym_060A3D88
 .L_pool_06036FD4:
-    .4byte  sym_06000324
+    .long  sym_06000324
 .L_pool_06036FD8:
-    .4byte  0x0000FFCF
+    .long  0x0000FFCF
 .L_pool_06036FDC:
-    .4byte  0x0000FF3F
+    .long  0x0000FF3F
 .L_pool_06036FE0:
-    .4byte  0x0000FFF0
+    .long  0x0000FFF0
 .L_pool_06036FE4:
-    .4byte  sym_06000320
+    .long  sym_06000320
 
 .L_06036FE8:
     tst r7, r7
@@ -247,19 +247,19 @@ DAT_06036fc2:
 
     .global DAT_06037078
 DAT_06037078:
-    .2byte  0x0280
+    .short  0x0280
 
     .global DAT_0603707a
 DAT_0603707a:
-    .2byte  0x02C0
+    .short  0x02C0
 
     .global DAT_0603707c
 DAT_0603707c:
-    .2byte  0x0140
+    .short  0x0140
 
     .global DAT_0603707e
 DAT_0603707e:
-    .2byte  0x0160
+    .short  0x0160
 
 .L_06037080:
     cmp/eq #0x0, r0
@@ -296,7 +296,7 @@ DAT_0603707e:
     rts
     mov.l @r15+, r14
 .L_pool_060370BC:
-    .4byte  sym_060635AC
+    .long  sym_060635AC
 
     .global sym_060370C0
 sym_060370C0:

@@ -82,15 +82,15 @@ DAT_060084a4:
     .global DAT_060084a6
 DAT_060084a6:
     .byte 0x02, 0x14
-    .4byte sym_0607E944
-    .4byte sym_0607EBC4
+    .long sym_0607E944
+    .long sym_0607EBC4
     .byte 0x00, 0x02
     .byte 0x00, 0x00
     .byte 0xAE, 0x11
     .byte 0x02, 0xFF
-    .4byte sound_cmd_dispatch
-    .4byte sym_060453B4
-    .4byte sym_060453BC
+    .long sound_cmd_dispatch
+    .long sym_060453B4
+    .long sym_060453BC
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
@@ -176,32 +176,32 @@ DAT_0600855e:
     .byte 0x01, 0xD4
     .byte 0x01, 0xBC
     .byte 0xFF, 0xFF
-    .4byte sym_0607E944
-    .4byte sym_06078900
-    .4byte sym_0607EBC4
+    .long sym_0607E944
+    .long sym_06078900
+    .long sym_0607EBC4
     .byte 0x00, 0x02
     .byte 0x00, 0x00
-    .4byte sym_06078635
-    .4byte sym_0607ED8C
-    .4byte sym_0605A016
-    .4byte sym_06078654
-    .4byte sym_06063E1C
-    .4byte sym_06059F30
-    .4byte channel_nibble_config
+    .long sym_06078635
+    .long sym_0607ED8C
+    .long sym_0605A016
+    .long sym_06078654
+    .long sym_06063E1C
+    .long sym_06059F30
+    .long channel_nibble_config
     .byte 0x00, 0x05
     .byte 0x80, 0x00
-    .4byte sym_06063E24
+    .long sym_06063E24
     .byte 0x00, 0x00
     .byte 0xF3, 0x00
-    .4byte sym_06063E34
+    .long sym_06063E34
     .byte 0x00, 0x6E
     .byte 0x00, 0x00
-    .4byte sym_06063E28
+    .long sym_06063E28
     .byte 0x00, 0x10
     .byte 0x00, 0x00
-    .4byte sym_06063E2C
-    .4byte sym_06063E30
-    .4byte sym_0607866C
+    .long sym_06063E2C
+    .long sym_06063E30
+    .long sym_0607866C
 	.text
     .global brake_force_apply
 brake_force_apply:
@@ -269,10 +269,10 @@ DAT_06008626:
     .global DAT_0600862a
 DAT_0600862a:
     .byte 0x01, 0xEC
-    .4byte sym_0607E940
-    .4byte sym_0607EBD4
-    .4byte sym_06078654
-    .4byte sym_0607EBC4
+    .long sym_0607E940
+    .long sym_0607EBD4
+    .long sym_06078654
+    .long sym_0607EBC4
     .byte 0x00, 0x20
     .byte 0x00, 0x00
     .global sym_06008640
@@ -329,13 +329,13 @@ sym_06008640:
     .byte 0x00, 0x09
     .byte 0x01, 0xBC
     .byte 0x00, 0xD4
-    .4byte sym_0607E940
-    .4byte sym_0607EBC4
+    .long sym_0607E940
+    .long sym_0607EBC4
     .byte 0x00, 0x80
     .byte 0x00, 0x00
-    .4byte sym_060453C4
-    .4byte sym_0607EBD0
-    .4byte sym_060453B4
+    .long sym_060453C4
+    .long sym_0607EBD0
+    .long sym_060453B4
 	.text
     .global force_table_apply
 force_table_apply:
@@ -391,10 +391,10 @@ DAT_0600871a:
 DAT_0600871c:
     .byte 0x00, 0xBC
     .byte 0x02, 0x08
-    .4byte sym_0607EBD0
-    .4byte sym_0607E940
-    .4byte sym_06034F78
-    .4byte sym_0607EBEC
+    .long sym_0607EBD0
+    .long sym_0607E940
+    .long sym_06034F78
+    .long sym_0607EBEC
     .byte 0xD4, 0x31
     .byte 0x90, 0x59
     .byte 0x63, 0x42
@@ -503,7 +503,7 @@ DAT_060087ec:
 DAT_060087f4:
     .byte 0x01, 0xCC
     .byte 0x01, 0xD0
-    .4byte sym_0607E940
+    .long sym_0607E940
     .byte 0x62, 0x42
     .byte 0x85, 0x53
     .byte 0x63, 0x03
@@ -608,8 +608,8 @@ DAT_060088b4:
     .global DAT_060088b6
 DAT_060088b6:
     .byte 0x01, 0xB4
-    .4byte sym_0607EBBC
-    .4byte sym_0607866C
-    .4byte sym_06078635
-    .4byte sym_0607ED8C
-    .4byte sym_0605A016
+    .long sym_0607EBBC
+    .long sym_0607866C
+    .long sym_06078635
+    .long sym_0607ED8C
+    .long sym_0605A016

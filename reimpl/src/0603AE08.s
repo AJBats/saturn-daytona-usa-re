@@ -49,14 +49,14 @@ cmd_status_check:
     rts
     mov.l @r15+, r14
 .L_0603AE60:
-    .2byte  0x00A0
+    .short  0x00A0
 .L_0603AE62:
-    .2byte  0x0098
+    .short  0x0098
 .L_0603AE64:
-    .2byte  0x009C
-    .2byte  0xFFFF
-    .4byte  sym_06035168
+    .short  0x009C
+    .short  0xFFFF
+    .long  sym_06035168
 .L_pool_0603AE6C:
-    .4byte  sym_060A4D14                    /* [HIGH] global command state struct pointer */
+    .long  sym_060A4D14                    /* [HIGH] global command state struct pointer */
 .L_pool_0603AE70:
-    .4byte  slave_sh2_setup
+    .long  slave_sh2_setup

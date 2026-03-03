@@ -105,8 +105,8 @@ DAT_0600ccf8:
     .global DAT_0600ccfa
 DAT_0600ccfa:
     .byte 0x01, 0xEC
-    .4byte sym_0607E940
-    .4byte sym_0607EB88
+    .long sym_0607E940
+    .long sym_0607EB88
     .byte 0x90, 0x5A
     .byte 0x02, 0x6E
     .byte 0x42, 0x08

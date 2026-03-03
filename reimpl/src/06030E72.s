@@ -34,13 +34,13 @@ sound_channel_mgr:
 
     .global DAT_06030eae
 DAT_06030eae:
-    .2byte  0x007C
-    .4byte  cos_lookup
-    .4byte  sin_lookup
+    .short  0x007C
+    .long  cos_lookup
+    .long  sin_lookup
 .L_pool_06030EBB:
-    .4byte  0x0000DEB8
+    .long  0x0000DEB8
 .L_pool_06030EBF:
-    .4byte  0x0000FAE1
+    .long  0x0000FAE1
 .L_06030EC0:
     .byte   0xD4, 0x06    /* mov.l .L_pool_06030EE0, r4 */
 .L_06030EC2:
@@ -58,7 +58,7 @@ DAT_06030eae:
     rts
     mov.l @r15+, r12
 .L_pool_06030EE0:
-    .4byte  0x0000C000
+    .long  0x0000C000
 
     .global sym_06030EE0
 sym_06030EE0:
@@ -74,43 +74,43 @@ sym_06030EE0:
     rts
     nop
 .L_wpool_06030EF9:
-    .2byte  0x0150
-    .2byte  0x0000
+    .short  0x0150
+    .short  0x0000
 .L_pool_06030EFD:
-    .4byte  sym_0607E940
-    .4byte  0x2FC62F06                  /* mov.l r12, @-r15 / mov.l r0, @-r15 */
-    .4byte  0x4F22DC04                  /* sts.l pr, @-r15 / mov.l @(PC+16), r12 = sound_cmd_dispatch */
-    .4byte  0xD5044C0B                  /* mov.l @(PC+16), r5 = 0xAE1102FF / jsr @r12 */
-    .4byte  0xE4004F26                  /* mov #0, r4 / lds.l @r15+, pr */
-    .4byte  0x60F6000B                  /* mov.l @r15+, r0 / rts */
-    .4byte  0x6CF60000                  /* mov.l @r15+, r12 / padding */
-    .4byte  sound_cmd_dispatch
-    .4byte  0xAE1102FF                  /* pool: sound command ID (sound effect trigger) */
+    .long  sym_0607E940
+    .long  0x2FC62F06                  /* mov.l r12, @-r15 / mov.l r0, @-r15 */
+    .long  0x4F22DC04                  /* sts.l pr, @-r15 / mov.l @(PC+16), r12 = sound_cmd_dispatch */
+    .long  0xD5044C0B                  /* mov.l @(PC+16), r5 = 0xAE1102FF / jsr @r12 */
+    .long  0xE4004F26                  /* mov #0, r4 / lds.l @r15+, pr */
+    .long  0x60F6000B                  /* mov.l @r15+, r0 / rts */
+    .long  0x6CF60000                  /* mov.l @r15+, r12 / padding */
+    .long  sound_cmd_dispatch
+    .long  0xAE1102FF                  /* pool: sound command ID (sound effect trigger) */
 
     .global sym_06030F1C
 sym_06030F1C:
-    .4byte  loc_060307E8
-    .4byte  loc_060307B8
-    .4byte  loc_06030788
-    .4byte  loc_06030758
-    .4byte  0x01220122
-    .4byte  0x012C0140
-    .4byte  0x01400140
-    .4byte  0x01400140
-    .4byte  0x01400140
-    .4byte  0x01400140
-    .4byte  0x01400140
-    .4byte  0x01400140
-    .4byte  0x01400140
-    .4byte  0x01180118
-    .4byte  0x012C0136
-    .4byte  0x01360136
-    .4byte  0x01360136
-    .4byte  0x01360136
-    .4byte  0x01360136
-    .4byte  0x01360136
-    .4byte  0x01360136
-    .4byte  0x01360136
+    .long  loc_060307E8
+    .long  loc_060307B8
+    .long  loc_06030788
+    .long  loc_06030758
+    .long  0x01220122
+    .long  0x012C0140
+    .long  0x01400140
+    .long  0x01400140
+    .long  0x01400140
+    .long  0x01400140
+    .long  0x01400140
+    .long  0x01400140
+    .long  0x01400140
+    .long  0x01180118
+    .long  0x012C0136
+    .long  0x01360136
+    .long  0x01360136
+    .long  0x01360136
+    .long  0x01360136
+    .long  0x01360136
+    .long  0x01360136
+    .long  0x01360136
 
     .global sym_06030F74
 sym_06030F74:

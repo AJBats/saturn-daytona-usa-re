@@ -32,4 +32,4 @@ speed_value_format:
     rts
     mov.b r0, @(2, r2)
 .L_pool_06015EB4:
-    .4byte  sym_06084FC8
+    .long  sym_06084FC8
