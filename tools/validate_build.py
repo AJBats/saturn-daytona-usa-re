@@ -49,8 +49,8 @@ def test_retail():
 
     projdir_wsl = wsl_path(PROJECT)
     rc, out, err = run_wsl(
-        f'make -C "{projdir_wsl}/reimpl" retail-validate 2>&1',
-        timeout=120,
+        f'make -j8 -C "{projdir_wsl}/reimpl" retail-validate 2>&1',
+        timeout=300,
     )
     # Show last few lines (the PASS/FAIL result)
     for line in out.strip().split("\n")[-3:]:
@@ -69,8 +69,8 @@ def test_free():
 
     projdir_wsl = wsl_path(PROJECT)
     rc, out, err = run_wsl(
-        f'make -C "{projdir_wsl}/reimpl" validate 2>&1',
-        timeout=120,
+        f'make -j8 -C "{projdir_wsl}/reimpl" validate 2>&1',
+        timeout=300,
     )
     for line in out.strip().split("\n")[-3:]:
         print(f"  {line}")
@@ -90,8 +90,8 @@ def test_free_shifted(shift=4):
     projdir_wsl = wsl_path(PROJECT)
     print(f"  Building free+{shift}shift with MODS=1...")
     rc, out, err = run_wsl(
-        f'make -C "{projdir_wsl}/reimpl" SHIFT={shift} MODS=1 2>&1',
-        timeout=120,
+        f'make -j8 -C "{projdir_wsl}/reimpl" SHIFT={shift} MODS=1 2>&1',
+        timeout=300,
     )
     if rc != 0:
         print(f"  Build FAILED (rc={rc})")
@@ -139,8 +139,8 @@ def test_free_shifted(shift=4):
     # Step 3: Inject into disc and run boot test
     print(f"  Injecting into disc image...")
     rc, out, err = run_wsl(
-        f'make -C "{projdir_wsl}/reimpl" SHIFT={shift} MODS=1 disc 2>&1',
-        timeout=120,
+        f'make -j8 -C "{projdir_wsl}/reimpl" SHIFT={shift} MODS=1 disc 2>&1',
+        timeout=300,
     )
     if rc != 0 or "Injecting" not in out:
         print(f"  Disc injection FAILED")

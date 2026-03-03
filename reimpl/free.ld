@@ -1,14 +1,15 @@
-/* free.ld -- Free-layout reimplementation linker script (default)
+/* free.ld -- Free-layout linker script for COFF hybrid pipeline
+ *
+ * Assembly: Cygnus 2.7 AS (DOSBox-X) → COFF .O files
+ * Linking:  sh-elf-ld -b coff-sh → ELF → flat binary
  *
  * Functions can change size without breaking the binary.
- * Optional padding (--defsym __pad_size=N) shifts all FUN_ addresses,
- * validating that every pointer is properly relocated via symbols.
- * Default: no padding. Use `make disc-4shift` to test with +4 shift.
+ * Link order is controlled by sorted .O filenames on the LD command line
+ * (hex address filenames = correct order). SUBALIGN(2) prevents 4-byte
+ * padding between COFF input sections.
  *
- * No FUN_ PROVIDEs — functions define their own .global labels and are
- * placed by SORT_BY_NAME, so recompiled functions slot in naturally.
- * DAT_/sym_ PROVIDEs: within-binary ones are FUN_-relative (shift correctly).
- * Runtime WRAM ones (>= 0x06063690) are absolute — they're not in the binary.
+ * Optional padding (--defsym __pad_size=N) shifts all addresses,
+ * validating that every pointer is properly relocated via symbols.
  *
  * SIZE LIMIT: The binary loads at 0x06003000. Runtime data (sym_06063690+)
  * starts at 0x06063690, initialized to zero by CD sector padding. If code
@@ -26,10 +27,10 @@ PROVIDE(__pad_size = 0);
 SECTIONS
 {
     . = 0x06003000;
-    .text : {
-        *(.text.startup)
+    .text : SUBALIGN(2) {
+        *_start*(.text)
         . = . + __pad_size;
-        *(SORT_BY_NAME(.text.FUN_*))
+        *(EXCLUDE_FILE(*_start*) .text)
     }
 
     /DISCARD/ : {
