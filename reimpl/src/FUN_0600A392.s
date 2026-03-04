@@ -83,13 +83,15 @@ FUN_0600A392:
     and r4, r3
     cmp/eq r4, r3
     bf      .L_0600A454
-    .byte   0xBD, 0xE7    /* bsr 0x06009FFC (external) */
+    .reloc ., R_SH_IND12W, state_timeext_setup - 4
+    .2byte 0xB000    /* bsr state_timeext_setup (linker-resolved) */
     nop
     mov #0x6, r3
     mov.l @r13, r2
     cmp/hs r3, r2
     bf      .L_0600A44C
-    .byte   0xBE, 0xBF    /* bsr 0x0600A1B8 (external) */
+    .reloc ., R_SH_IND12W, FUN_0600A1B8 - 4
+    .2byte 0xB000    /* bsr FUN_0600A1B8 (linker-resolved) */
     nop
     mov.l @r13, r0
     cmp/eq #0x17, r0

@@ -10,12 +10,14 @@ vec3_normalize:
     mov r4, r14
     bsr     .L_060274DA
     mov r4, r5
-    .byte   0xBF, 0xE8    /* bsr 0x06027476 (external: isqrt) */
+    .reloc ., R_SH_IND12W, FUN_06027476 - 4
+    .2byte 0xB000    /* bsr FUN_06027476 (linker-resolved) */
     mov r0, r4
     cmp/pl r0
     bf      .L_060274D4
     mov.l   .L_060274F8, r4
-    .byte   0xB0, 0x56    /* bsr 0x0602755C (external: fpdiv_setup) */
+    .reloc ., R_SH_IND12W, FUN_0602755C - 4
+    .2byte 0xB000    /* bsr FUN_0602755C (linker-resolved) */
     mov r0, r5
     mov.l @(0, r14), r1
     mov.l @(4, r14), r2

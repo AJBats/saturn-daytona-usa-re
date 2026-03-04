@@ -16,5 +16,6 @@ poly_table_read:
     mov.b @r15, r4
     extu.b r4, r4
     add #0x4, r15
-    .byte   0xA0, 0xE7    /* bra 0x060172E4 (external) */
+    .reloc ., R_SH_IND12W, FUN_060172E4 - 4
+    .2byte 0xA000    /* bra FUN_060172E4 (linker-resolved) */
     lds.l @r15+, pr

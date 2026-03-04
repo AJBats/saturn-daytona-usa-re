@@ -17,7 +17,8 @@ draw_priority_resolve:
     .byte   0xD1, 0x08    /* mov.l .L_pool_0602E1C0, r1 */
     cmp/ge r1, r3
     bf      .L_0602E1C4
-    .byte   0xA0, 0xFD    /* bra 0x0602E3A0 (external) */
+    .reloc ., R_SH_IND12W, FUN_0602E3A0 - 4
+    .2byte 0xA000    /* bra FUN_0602E3A0 (linker-resolved) */
     nop
     .2byte  0x0000
     .4byte  sym_0608325C

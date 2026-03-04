@@ -22,7 +22,8 @@ small_number_render:
     add r2, r14
     mov.b @(r0, r14), r5
     extu.b r5, r5
-    .byte   0xB1, 0x4D    /* bsr 0x06016CDC (external) */
+    .reloc ., R_SH_IND12W, track_seg_init - 4
+    .2byte 0xB000    /* bsr track_seg_init (linker-resolved) */
     extu.b r4, r4
     .byte   0xD2, 0x26    /* mov.l .L_pool_06016ADC, r2 */
     mov.l r2, @(12, r14)

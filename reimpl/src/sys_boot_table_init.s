@@ -11,7 +11,8 @@ sys_boot_table_init:
     mov.l   .L_pool_0603B7AC, r14
     mov.l @r14, r3
     mov.l r4, @r3
-    .byte   0xBF, 0xEC    /* bsr 0x0603B734 (external) */
+    .reloc ., R_SH_IND12W, FUN_0603B734 - 4
+    .2byte 0xB000    /* bsr FUN_0603B734 (linker-resolved) */
     mov #0x0, r13
     mov.l @r14, r2
     mov.w   DAT_0603b7a4, r0

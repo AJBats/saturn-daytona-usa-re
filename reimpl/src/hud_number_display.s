@@ -10,12 +10,14 @@ hud_number_display:
     mov.l @(r0, r4), r2
     mov.l @r2, r2
     add r2, r5
-    .byte   0xBF, 0xB4    /* bsr 0x060282C0 (external) */
+    .reloc ., R_SH_IND12W, FUN_060282C0 - 4
+    .2byte 0xB000    /* bsr FUN_060282C0 (linker-resolved) */
     mov r7, r4
     mov r0, r1
     mov #0x6, r7
     add #0x8, r1
-    .byte   0xA0, 0x1B    /* bra 0x06028398 (external) */
+    .reloc ., R_SH_IND12W, FUN_06028398 - 4
+    .2byte 0xA000    /* bra FUN_06028398 (linker-resolved) */
     mov #0x0, r0
     .2byte  0x0000
 .L_06028364:

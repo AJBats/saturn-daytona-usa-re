@@ -7,7 +7,8 @@
 sys_timer_tick:
     sts.l pr, @-r15
     add #-0xC, r15
-    .byte   0xBF, 0xD1    /* bsr 0x06040666 (external) */
+    .reloc ., R_SH_IND12W, FUN_06040666 - 4
+    .2byte 0xB000    /* bsr FUN_06040666 (linker-resolved) */
     mov.l r5, @r15
     tst r0, r0
     bf      .L_060406CC
@@ -57,5 +58,7 @@ sys_timer_tick:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
+    .global FUN_06040722
+FUN_06040722:
 .L_06040722:
     mov #0x1E, r0

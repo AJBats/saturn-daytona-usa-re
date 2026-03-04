@@ -45,7 +45,8 @@ race_update_abort:
     jsr @r14
     mov #0x3, r5
     lds.l @r15+, pr
-    .byte   0xA0, 0x4E    /* bra 0x0600E0C0 (external) */
+    .reloc ., R_SH_IND12W, car_update_racing - 4
+    .2byte 0xA000    /* bra car_update_racing (linker-resolved) */
     mov.l @r15+, r14
 .L_pool_0600E024:
     .4byte  sym_0607E944

@@ -31,14 +31,16 @@ scene_frame_render:
     bf      .L_0603F134
     mov.l @(4, r13), r6
     mov.l @(8, r13), r5
-    .byte   0xB0, 0xD8    /* bsr 0x0603F2E0 (external) */
+    .reloc ., R_SH_IND12W, attract_demo_chooser - 4
+    .2byte 0xB000    /* bsr attract_demo_chooser (linker-resolved) */
     mov r14, r4
     bra     .L_0603F13C
     nop
 .L_0603F134:
     mov.l @(4, r13), r6
     mov.l @(8, r13), r5
-    .byte   0xB1, 0x03    /* bsr 0x0603F342 (external) */
+    .reloc ., R_SH_IND12W, menu_text_position - 4
+    .2byte 0xB000    /* bsr menu_text_position (linker-resolved) */
     mov r14, r4
 .L_0603F13C:
     add #0x4, r15

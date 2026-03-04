@@ -19,7 +19,8 @@ track_distance_calc:
     mov r15, r4
     add #0x8, r2
     mov.b r3, @r2
-    .byte   0xB0, 0x11    /* bsr 0x06036650 (external) */
+    .reloc ., R_SH_IND12W, track_dist_3d - 4
+    .2byte 0xB000    /* bsr track_dist_3d (linker-resolved) */
     add #0x8, r4
     mov r0, r4
     mov r15, r2

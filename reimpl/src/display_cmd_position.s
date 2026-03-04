@@ -9,7 +9,8 @@ display_cmd_position:
     jsr @r0
     nop
     lds.l @r15+, pr
-    .byte   0xAF, 0x6A    /* bra 0x0603230A (external) */
+    .reloc ., R_SH_IND12W, FUN_0603230A - 4
+    .2byte 0xA000    /* bra FUN_0603230A (linker-resolved) */
     nop
     .2byte  0x0000
     .4byte  sound_cmd_dispatch
@@ -23,7 +24,8 @@ loc_0603243C:
     mov.b r1, @r0
     xor r1, r1
     .byte   0xD0, 0x03    /* mov.l .L_pool_06032458, r0 */
-    .byte   0xAF, 0x5E    /* bra 0x0603230A (external) */
+    .reloc ., R_SH_IND12W, FUN_0603230A - 4
+    .2byte 0xA000    /* bra FUN_0603230A (linker-resolved) */
     mov.l r1, @r0
     .2byte  0x0000
 .L_pool_06032450:
@@ -40,7 +42,8 @@ loc_0603245C:
     not r2, r2
     mov.b @r0, r1
     and r2, r1
-    .byte   0xAF, 0x50    /* bra 0x0603230A (external) */
+    .reloc ., R_SH_IND12W, FUN_0603230A - 4
+    .2byte 0xA000    /* bra FUN_0603230A (linker-resolved) */
     mov.b r1, @r0
     .2byte  0x0000
 .L_pool_0603246C:
@@ -55,7 +58,8 @@ loc_06032474:
     not r2, r2
     mov.b @r0, r1
     and r2, r1
-    .byte   0xAF, 0x44    /* bra 0x0603230A (external) */
+    .reloc ., R_SH_IND12W, FUN_0603230A - 4
+    .2byte 0xA000    /* bra FUN_0603230A (linker-resolved) */
     mov.b r1, @r0
     .2byte  0x0000
 .L_pool_06032484:
@@ -69,7 +73,8 @@ loc_0603248C:
     .byte   0xD0, 0x03    /* mov.l .L_pool_0603249C, r0 */
     mov.b @r0, r1
     or r2, r1
-    .byte   0xAF, 0x39    /* bra 0x0603230A (external) */
+    .reloc ., R_SH_IND12W, FUN_0603230A - 4
+    .2byte 0xA000    /* bra FUN_0603230A (linker-resolved) */
     mov.b r1, @r0
 .L_pool_06032498:
     .4byte  0x00000002
@@ -91,7 +96,8 @@ loc_060324A0:
     mov.b @r0, r1
     .byte   0xD2, 0x06    /* mov.l .L_pool_060324D0, r2 */
     or r2, r1
-    .byte   0xAF, 0x26    /* bra 0x0603230A (external) */
+    .reloc ., R_SH_IND12W, FUN_0603230A - 4
+    .2byte 0xA000    /* bra FUN_0603230A (linker-resolved) */
     mov.b r1, @r0
     .2byte  0x0000
 .L_pool_060324C0:

@@ -7,7 +7,8 @@
 save_data_validate:
     sts.l pr, @-r15
     add #-0x4, r15
-    .byte   0xBF, 0xDF    /* bsr 0x0603B96A (external) */
+    .reloc ., R_SH_IND12W, FUN_0603B96A - 4
+    .2byte 0xB000    /* bsr FUN_0603B96A (linker-resolved) */
     mov.l r4, @r15
     cmp/eq #-0x1, r0
     bf/s    .L_0603B9CE

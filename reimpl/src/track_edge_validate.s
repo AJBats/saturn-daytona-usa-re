@@ -8,6 +8,8 @@ track_edge_validate:
     mov.l r14, @-r15
     mov.l r13, @-r15
     mov.l r12, @-r15
+    .global FUN_06041EEE
+FUN_06041EEE:
     sts.l pr, @-r15
     add #-0x10, r15
     mov.l   .L_06041FA0, r12
@@ -138,6 +140,8 @@ DAT_06041f96:
     mov.l @r14, r0
     mov.w   .L_0604207A, r1
     mov.l @(r0, r1), r0
+    .global FUN_06041FDA
+FUN_06041FDA:
     cmp/eq #0x3, r0
     bf      .L_06042004
     mov.w   DAT_0604207c, r2

@@ -44,7 +44,8 @@ car_iterate_update:
     tst r0, r0
     bt      .L_0600D900
     mov r14, r4
-    .byte   0xB0, 0x64    /* bsr 0x0600D9BC (external) */
+    .reloc ., R_SH_IND12W, lap_complete_flag - 4
+    .2byte 0xB000    /* bsr lap_complete_flag (linker-resolved) */
     add #0x1, r4
     mov.l @r8, r2
     mov r2, r0

@@ -43,6 +43,8 @@ hud_master_compositor:
     .4byte  0x00000090
     .4byte  0x00000050
     .4byte  0x00000294
+    .global FUN_06032D90
+FUN_06032D90:
     .4byte  0xD0166002
     .4byte  0xD116210E
     .4byte  0x001AD316
@@ -77,6 +79,8 @@ hud_master_compositor:
     .4byte  0x000002DD
     .4byte  sym_06062624
     .4byte  0x000002D8
+    .global FUN_06032E18
+FUN_06032E18:
     .4byte  0xD00A0E46
     .4byte  0x44084400
     .4byte  0xD009340C
@@ -98,6 +102,8 @@ hud_master_compositor:
     .4byte  0x000B0E16
     .4byte  0x00000001
     .4byte  0x000002C4
+    .global FUN_06032E6C
+FUN_06032E6C:
     .4byte  0xD00800EE
     .4byte  0xD108210F
     .4byte  0x011AD008
@@ -112,6 +118,8 @@ hud_master_compositor:
     .4byte  0x000002CC
     .4byte  0x00000010
     .4byte  0x00000011
+    .global FUN_06032EA4
+FUN_06032EA4:
     .4byte  0xD00301ED
     .4byte  0xD0032108
     .4byte  0x8B06000B

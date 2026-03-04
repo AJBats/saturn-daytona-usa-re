@@ -49,7 +49,8 @@ course_data_loader:
     mov.l   .L_0601B634, r5
     mov.l   .L_0601B638, r4
     mov.b @r5, r5
-    .byte   0xB2, 0x38    /* bsr 0x0601BA50 (external) */
+    .reloc ., R_SH_IND12W, replay_record_frame - 4
+    .2byte 0xB000    /* bsr replay_record_frame (linker-resolved) */
     mov.b @r4, r4
     mov #0x0, r2
     mov.l   .L_0601B63C, r3

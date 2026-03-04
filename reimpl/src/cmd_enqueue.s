@@ -42,7 +42,8 @@ cmd_enqueue:
     mov.l @(8, r15), r2
     mov.w   .L_wpool_060411F8, r0
     mov.l r2, @(r0, r3)
-    .byte   0xB4, 0xA8    /* bsr 0x06041B3C (external) */
+    .reloc ., R_SH_IND12W, track_surface_validate - 4
+    .2byte 0xB000    /* bsr track_surface_validate (linker-resolved) */
     mov r15, r4
     mov #0x0, r0
     add #0x4, r15

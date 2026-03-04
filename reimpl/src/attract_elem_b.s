@@ -10,7 +10,8 @@ attract_elem_b:
     mov.l r3, @-r15
     mov.l @(8, r15), r3
     mov.l r3, @-r15
-    .byte   0xBF, 0x68    /* bsr 0x0603FD40 (external) */
+    .reloc ., R_SH_IND12W, dma_param_chain_init - 4
+    .2byte 0xB000    /* bsr dma_param_chain_init (linker-resolved) */
     mov #0x1, r4
     add #0x8, r15
     lds.l @r15+, pr

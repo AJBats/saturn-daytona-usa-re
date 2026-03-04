@@ -183,7 +183,8 @@ sym_06042714:
     .word 0x0000
     or r8, r8
     mul.l r3, r0
-    .byte   0xBB, 0xC4    /* bsr 0x06041EEE (external) */
+    .reloc ., R_SH_IND12W, FUN_06041EEE - 4
+    .2byte 0xB000    /* bsr FUN_06041EEE (linker-resolved) */
     .word 0x0000
     .word 0x2D23
     mul.l r3, r0
@@ -203,7 +204,8 @@ sym_06042714:
     .word 0x0000
     cmp/ge r13, r15
     mov.w r3, @(r0, r0)
-    .byte   0xB3, 0xC7    /* bsr 0x06042F1C (external) */
+    .reloc ., R_SH_IND12W, FUN_06042F1C - 4
+    .2byte 0xB000    /* bsr FUN_06042F1C (linker-resolved) */
     .word 0x0000
     .word 0x4498
     mov.w r3, @(r0, r0)
@@ -211,7 +213,8 @@ sym_06042714:
     .word 0x0000
     .word 0x4968
     mov.b r3, @(r0, r0)
-    .byte   0xAC, 0x1E    /* bra 0x06041FDA (external) */
+    .reloc ., R_SH_IND12W, FUN_06041FDA - 4
+    .2byte 0xA000    /* bra FUN_06041FDA (linker-resolved) */
     .word 0x0000
     .2byte  0x4E44
     .4byte  0x00341CF7
@@ -247,7 +250,8 @@ sym_06042714:
     .word 0x0000
     mov.w   .L_wpool_060429BD, r9
     .word 0x0029
-    .byte   0xA6, 0xC9    /* bra 0x060435A8 (external) */
+    .reloc ., R_SH_IND12W, FUN_060435A8 - 4
+    .2byte 0xA000    /* bra FUN_060435A8 (linker-resolved) */
     .word 0x0000
     .2byte  0x9FF7
     .4byte  0x0028C0B2

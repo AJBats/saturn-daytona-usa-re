@@ -6,7 +6,8 @@
     .type disp_result_sub_c, @function
 disp_result_sub_c:
     sts.l pr, @-r15
-    .byte   0xB0, 0xAB    /* bsr 0x06033550 (external) */
+    .reloc ., R_SH_IND12W, FUN_06033550 - 4
+    .2byte 0xB000    /* bsr FUN_06033550 (linker-resolved) */
     nop
     lds.l @r15+, pr
     .byte   0xD1, 0x17    /* mov.l .L_pool_0603345C, r1 */

@@ -45,7 +45,8 @@ obj_create:
     extu.b r5, r5
     mov.w @(8, r15), r0
     mov r0, r4
-    .byte   0xB0, 0x2D    /* bsr 0x06020414 (external) */
+    .reloc ., R_SH_IND12W, obj_destroy - 4
+    .2byte 0xB000    /* bsr obj_destroy (linker-resolved) */
     extu.w r4, r4
     bra     .L_060203F8
     nop
@@ -78,7 +79,8 @@ DAT_060203be:
     mov r13, r7
     mov.w @r13, r4
     add #0x4, r7
-    .byte   0xB0, 0x0E    /* bsr 0x06020414 (external) */
+    .reloc ., R_SH_IND12W, obj_destroy - 4
+    .2byte 0xB000    /* bsr obj_destroy (linker-resolved) */
     extu.w r4, r4
 .L_060203F8:
     add #0x3, r14

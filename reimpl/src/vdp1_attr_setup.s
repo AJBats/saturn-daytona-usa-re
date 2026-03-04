@@ -76,7 +76,8 @@ vdp1_attr_setup:
     mov.l @r15+, r4
     cmp/gt r5, r4
     bt      .L_0602CD9A
-    .byte   0xB5, 0x35    /* bsr 0x0602D7E4 (external) */
+    .reloc ., R_SH_IND12W, FUN_0602D7E4 - 4
+    .2byte 0xB000    /* bsr FUN_0602D7E4 (linker-resolved) */
     mov r14, r0
     mov.w   .L_0602CDC6, r1
     add r14, r1

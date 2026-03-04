@@ -61,7 +61,8 @@ world_camera_update:
     bf      .L_06005CFC
     mov r14, r12
 .L_06005CFC:
-    .byte   0xB0, 0x6A    /* bsr 0x06005DD4 (anim_frame_transform) */
+    .reloc ., R_SH_IND12W, anim_frame_transform - 4
+    .2byte 0xB000    /* bsr anim_frame_transform (linker-resolved) */
     mov r12, r4
     mov r0, r7
     mov.l @r15, r2
@@ -143,7 +144,8 @@ DAT_06005d3e:
     bf      .L_06005D8C
     mov r14, r13
 .L_06005D8C:
-    .byte   0xB0, 0x22    /* bsr 0x06005DD4 (anim_frame_transform) */
+    .reloc ., R_SH_IND12W, anim_frame_transform - 4
+    .2byte 0xB000    /* bsr anim_frame_transform (linker-resolved) */
     mov r13, r4
     mov r0, r7
     mov #0x48, r6

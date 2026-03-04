@@ -11,7 +11,8 @@ menu_bg_pattern:
     mov.l @(40, r4), r3
     mov.l r3, @r15
     mov.l r5, @(40, r4)
-    .byte   0xB1, 0x9D    /* bsr 0x0603B93C (external) */
+    .reloc ., R_SH_IND12W, save_checksum_calc - 4
+    .2byte 0xB000    /* bsr save_checksum_calc (linker-resolved) */
     mov #0x0, r4
     mov.l @r15, r0
     add #0x4, r15

@@ -155,7 +155,8 @@ text_string_render:
 .L_06016B86:
     extu.b r14, r4
     mov.l @r15+, r13
-    .byte   0xA1, 0x25    /* bra 0x06016DD8 (external) */
+    .reloc ., R_SH_IND12W, track_vtx_builder - 4
+    .2byte 0xA000    /* bra track_vtx_builder (linker-resolved) */
     mov.l @r15+, r14
 
     .global loc_06016B8E

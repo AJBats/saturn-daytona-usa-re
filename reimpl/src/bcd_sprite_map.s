@@ -65,7 +65,8 @@ bcd_sprite_map:
     mov.l @(48, r12), r3
     add r0, r3
     mov.l r3, @(48, r12)
-    .byte   0xB2, 0x0C    /* bsr 0x06016DD8 (external: hud_sprite_vertex_project) */
+    .reloc ., R_SH_IND12W, track_vtx_builder - 4
+    .2byte 0xB000    /* bsr track_vtx_builder (linker-resolved) */
     extu.b r14, r4
     mov.l @(48, r12), r2
     mov.l @(56, r12), r3
@@ -87,7 +88,8 @@ bcd_sprite_map:
 
 .L_060169E0:
 
-    .byte   0xB1, 0xFA    /* bsr 0x06016DD8 (external: hud_sprite_vertex_project) */
+    .reloc ., R_SH_IND12W, track_vtx_builder - 4
+    .2byte 0xB000    /* bsr track_vtx_builder (linker-resolved) */
     extu.b r14, r4
     extu.b r11, r11
     tst r11, r11

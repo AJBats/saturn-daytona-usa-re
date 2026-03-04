@@ -159,7 +159,8 @@ DAT_06013f4c:
     cmp/hs r1, r10
     bt/s    .L_06013FA8
     add #0x4, r8
-    .byte   0xAF, 0x65    /* bra 0x06013E72 (external) */
+    .reloc ., R_SH_IND12W, FUN_06013E72 - 4
+    .2byte 0xA000    /* bra FUN_06013E72 (linker-resolved) */
     nop
 .L_06013FA8:
     add #0x10, r15

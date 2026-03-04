@@ -44,7 +44,8 @@ texture_file_loader:
     mov r0, r5
     mov.b @r13, r4
     mov.l @r15+, r13
-    .byte   0xA1, 0xDF    /* bra 0x0601BA50 (external) */
+    .reloc ., R_SH_IND12W, replay_record_frame - 4
+    .2byte 0xA000    /* bra replay_record_frame (linker-resolved) */
     mov.l @r15+, r14
 .L_0601B692:
     mov.w @(2, r4), r0
@@ -68,7 +69,8 @@ texture_file_loader:
     mov r0, r5
     mov.b @r13, r4
     mov.l @r15+, r13
-    .byte   0xA1, 0xC9    /* bra 0x0601BA50 (external) */
+    .reloc ., R_SH_IND12W, replay_record_frame - 4
+    .2byte 0xA000    /* bra replay_record_frame (linker-resolved) */
     mov.l @r15+, r14
 .L_0601B6BE:
     mov.l @r15+, r13

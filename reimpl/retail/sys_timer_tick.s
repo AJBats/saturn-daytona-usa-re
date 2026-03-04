@@ -50,4 +50,6 @@ sys_timer_tick:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
+    .global FUN_06040722
+FUN_06040722:
     .byte 0xE0, 0x1E

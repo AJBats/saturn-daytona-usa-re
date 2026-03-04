@@ -47,7 +47,8 @@ geom_pipeline_coord:
     extu.w r7, r7
     mov.l @(4, r10), r5
     add r8, r5
-    .byte   0xB1, 0xC1    /* bsr 0x06017784 (geom_computation) */
+    .reloc ., R_SH_IND12W, geom_computation - 4
+    .2byte 0xB000    /* bsr geom_computation (linker-resolved) */
     mov.l @r10, r4
     mov r13, r7
     add #0x6, r7
@@ -61,7 +62,8 @@ geom_pipeline_coord:
     extu.w r7, r7
     mov.w   DAT_0601748e, r0
     extu.w r6, r6
-    .byte   0xB1, 0xB3    /* bsr 0x06017784 (geom_computation) */
+    .reloc ., R_SH_IND12W, geom_computation - 4
+    .2byte 0xB000    /* bsr geom_computation (linker-resolved) */
     mov.l @(r0, r14), r4
     mov r13, r7
     add #0x12, r7
@@ -75,7 +77,8 @@ geom_pipeline_coord:
     extu.w r7, r7
     mov.w   DAT_06017490, r0
     extu.w r6, r6
-    .byte   0xB1, 0xA5    /* bsr 0x06017784 (geom_computation) */
+    .reloc ., R_SH_IND12W, geom_computation - 4
+    .2byte 0xB000    /* bsr geom_computation (linker-resolved) */
     mov.l @(r0, r14), r4
     mov.l   .L_pool_060174B0, r2
     mov.l r2, @r15
@@ -196,7 +199,8 @@ DAT_06017492:
     extu.w r6, r6
     mov.l @(r0, r14), r5
     add r8, r5
-    .byte   0xB1, 0x3F    /* bsr 0x06017784 (geom_computation) */
+    .reloc ., R_SH_IND12W, geom_computation - 4
+    .2byte 0xB000    /* bsr geom_computation (linker-resolved) */
     add #0x48, r4
     mov.l   .L_pool_060175BC, r3
     jsr @r3
@@ -245,7 +249,8 @@ DAT_06017492:
     extu.w r6, r6
     mov.l @(r0, r14), r5
     add r8, r5
-    .byte   0xB1, 0x0F    /* bsr 0x06017784 (geom_computation) */
+    .reloc ., R_SH_IND12W, geom_computation - 4
+    .2byte 0xB000    /* bsr geom_computation (linker-resolved) */
     add #0x48, r4
     mov #0xA, r5
     mov.l @r15, r4
@@ -282,7 +287,8 @@ DAT_06017492:
     mov.w   DAT_060175ba, r3
     mov.l @r15, r4
     add r3, r5
-    .byte   0xB0, 0xEA    /* bsr 0x06017784 (geom_computation) */
+    .reloc ., R_SH_IND12W, geom_computation - 4
+    .2byte 0xB000    /* bsr geom_computation (linker-resolved) */
     mov.l @r4, r4
     bra     .L_06017714
     nop
@@ -345,7 +351,8 @@ DAT_060175ba:
     mov.l @(4, r5), r5
     mov.l @r15, r4
     add r9, r5
-    .byte   0xB0, 0xB9    /* bsr 0x06017784 (geom_computation) */
+    .reloc ., R_SH_IND12W, geom_computation - 4
+    .2byte 0xB000    /* bsr geom_computation (linker-resolved) */
     mov.l @r4, r4
     bra     .L_060176BE
     nop
@@ -364,7 +371,8 @@ DAT_060175ba:
     extu.w r7, r7
     mov.w   DAT_06017698, r0
     extu.w r6, r6
-    .byte   0xB0, 0xA7    /* bsr 0x06017784 (geom_computation) */
+    .reloc ., R_SH_IND12W, geom_computation - 4
+    .2byte 0xB000    /* bsr geom_computation (linker-resolved) */
     mov.l @(r0, r14), r4
     bra     .L_060176BE
     nop
@@ -383,7 +391,8 @@ DAT_060175ba:
     extu.w r7, r7
     mov.w   DAT_0601769a, r0
     extu.w r6, r6
-    .byte   0xB0, 0x95    /* bsr 0x06017784 (geom_computation) */
+    .reloc ., R_SH_IND12W, geom_computation - 4
+    .2byte 0xB000    /* bsr geom_computation (linker-resolved) */
     mov.l @(r0, r14), r4
     bra     .L_060176BE
     nop
@@ -402,7 +411,8 @@ DAT_060175ba:
     extu.w r7, r7
     mov.w   DAT_0601769c, r0
     extu.w r6, r6
-    .byte   0xB0, 0x83    /* bsr 0x06017784 (geom_computation) */
+    .reloc ., R_SH_IND12W, geom_computation - 4
+    .2byte 0xB000    /* bsr geom_computation (linker-resolved) */
     mov.l @(r0, r14), r4
     bra     .L_060176BE
     nop
@@ -452,7 +462,8 @@ DAT_0601769c:
     extu.w r7, r7
     mov.w   DAT_06017728, r0
     extu.w r6, r6
-    .byte   0xB0, 0x63    /* bsr 0x06017784 (geom_computation) */
+    .reloc ., R_SH_IND12W, geom_computation - 4
+    .2byte 0xB000    /* bsr geom_computation (linker-resolved) */
     mov.l @(r0, r14), r4
 .L_060176BE:
     mov.l @(4, r15), r0
@@ -476,7 +487,8 @@ DAT_0601769c:
     shll r4
     add r3, r5
     add r14, r4
-    .byte   0xB0, 0x4C    /* bsr 0x06017784 (geom_computation) */
+    .reloc ., R_SH_IND12W, geom_computation - 4
+    .2byte 0xB000    /* bsr geom_computation (linker-resolved) */
     mov.l @r4, r4
 .L_060176EC:
     mov r13, r7
@@ -497,7 +509,8 @@ DAT_0601769c:
     shll r4
     add r3, r5
     add r14, r4
-    .byte   0xB0, 0x38    /* bsr 0x06017784 (geom_computation) */
+    .reloc ., R_SH_IND12W, geom_computation - 4
+    .2byte 0xB000    /* bsr geom_computation (linker-resolved) */
     mov.l @r4, r4
 .L_06017714:
     add #0x6C, r15

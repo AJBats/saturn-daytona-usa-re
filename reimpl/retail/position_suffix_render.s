@@ -24,6 +24,8 @@ position_suffix_render:
     .byte 0x00, 0x00
     .byte 0x00, 0x30
     .4byte sym_06026DF8
+    .global FUN_0603268C
+FUN_0603268C:
     .byte 0xDD, 0x47
     .byte 0x6D, 0xD2
     .byte 0xDC, 0x47

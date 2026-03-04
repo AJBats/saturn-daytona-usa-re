@@ -23,7 +23,8 @@ menu_select_hl:
     add #0xC, r2
     mov.l r2, @-r15
     mov.l @(28, r15), r4
-    .byte   0xB6, 0x86    /* bsr 0x0603BE9C (external) */
+    .reloc ., R_SH_IND12W, save_data_size - 4
+    .2byte 0xB000    /* bsr save_data_size (linker-resolved) */
     mov.l @r4, r4
     mov.l @(40, r15), r3
     mov.l @r3, r0
@@ -38,7 +39,8 @@ menu_select_hl:
     shll r2
     add r1, r2
     mov.l r2, @r3
-    .byte   0xB3, 0xC7    /* bsr 0x0603B93C (external) */
+    .reloc ., R_SH_IND12W, save_checksum_calc - 4
+    .2byte 0xB000    /* bsr save_checksum_calc (linker-resolved) */
     mov #0x0, r4
     add #0x24, r15
     lds.l @r15+, pr

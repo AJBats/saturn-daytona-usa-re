@@ -28,7 +28,8 @@ FUN_0600FD8A:
     bra     .L_0600FDF8
     nop
 .L_0600FDB8:
-    .byte   0xB7, 0x04    /* bsr 0x06010BC4 (external) */
+    .reloc ., R_SH_IND12W, graphics_mode_setup - 4
+    .2byte 0xB000    /* bsr graphics_mode_setup (linker-resolved) */
     nop
     .byte   0xD3, 0x09    /* mov.l .L_pool_0600FDE4, r3 */
     jsr @r3

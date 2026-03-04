@@ -118,7 +118,8 @@ DAT_06010c4e:
     cmp/eq #0x1, r0
     bt      .L_06010C7C
 .L_06010C90:
-    .byte   0xB2, 0xA7    /* bsr 0x060111E2 */
+    .reloc ., R_SH_IND12W, lap_progress_indicator - 4
+    .2byte 0xB000    /* bsr lap_progress_indicator (linker-resolved) */
     nop
     mov.l @r12, r2
     mov.l   .L_06010D50, r3
@@ -145,7 +146,8 @@ DAT_06010c4e:
     mov.l   .L_06010D64, r7
     mov.l   .L_06010D5C, r6
     mov.l @r10, r5
-    .byte   0xB0, 0x65    /* bsr 0x06010D94 */
+    .reloc ., R_SH_IND12W, vdp_mode_select - 4
+    .2byte 0xB000    /* bsr vdp_mode_select (linker-resolved) */
     mov #0x0, r4
 .L_06010CCA:
     mov.b @r13, r2
@@ -165,7 +167,8 @@ DAT_06010c4e:
     mov.l r9, @r7
     mov.w @r5, r2
     add r6, r2
-    .byte   0xB3, 0x11    /* bsr 0x06011310 */
+    .reloc ., R_SH_IND12W, position_ranking_display - 4
+    .2byte 0xB000    /* bsr position_ranking_display (linker-resolved) */
     mov.w r2, @r5
     mov.l @r12, r2
     mov.l   .L_06010D50, r3
@@ -192,7 +195,8 @@ DAT_06010c4e:
     mov.l   .L_06010D8C, r7
     mov.l   .L_06010D88, r6
     mov.l   .L_06010D90, r5
-    .byte   0xB0, 0x38    /* bsr 0x06010D94 */
+    .reloc ., R_SH_IND12W, vdp_mode_select - 4
+    .2byte 0xB000    /* bsr vdp_mode_select (linker-resolved) */
     mov #0x0, r4
 .L_06010D24:
     mov.b @r13, r2

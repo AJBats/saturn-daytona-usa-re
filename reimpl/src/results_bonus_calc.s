@@ -41,7 +41,8 @@ results_bonus_calc:
     mov.l r1, @(48, r2)
 .L_06016454:
     extu.b r14, r4
-    .byte   0xA4, 0xBF    /* bra 0x06016DD8 (external: hud_sprite_vertex_project) */
+    .reloc ., R_SH_IND12W, track_vtx_builder - 4
+    .2byte 0xA000    /* bra track_vtx_builder (linker-resolved) */
     mov.l @r15+, r14
 .L_0601645A:
     .2byte  0x0800

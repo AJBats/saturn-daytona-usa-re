@@ -16,7 +16,8 @@ geom_output_handler:
     extu.b r0, r0
     tst r0, r0
     bt      .L_0601F45E
-    .byte   0xBD, 0xCF    /* bsr 0x0601EFC4 (external) */
+    .reloc ., R_SH_IND12W, geom_batch_transform - 4
+    .2byte 0xB000    /* bsr geom_batch_transform (linker-resolved) */
     nop
     .byte   0xD6, 0x1D    /* mov.l .L_pool_0601F49C, r6 */
     mov.b @r14, r5
@@ -34,7 +35,8 @@ geom_output_handler:
     .byte   0xD3, 0x18    /* mov.l .L_pool_0601F4A4, r3 */
     add r3, r4
     mov.b @r4, r4
-    .byte   0xB9, 0xE3    /* bsr 0x0601E810 (external) */
+    .reloc ., R_SH_IND12W, hud_handler_main - 4
+    .2byte 0xB000    /* bsr hud_handler_main (linker-resolved) */
     extu.b r4, r4
     mov r0, r4
     tst r4, r4

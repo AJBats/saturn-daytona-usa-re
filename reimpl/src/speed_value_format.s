@@ -24,7 +24,8 @@ speed_value_format:
     mov.l r3, @(4, r15)
     mov.b r2, @(r0, r3)
     mov.b @r15, r4
-    .byte   0xB0, 0x0B    /* bsr 0x06015EB8 (external) */
+    .reloc ., R_SH_IND12W, vdp2_layer_init - 4
+    .2byte 0xB000    /* bsr vdp2_layer_init (linker-resolved) */
     extu.b r4, r4
     mov.l @(4, r15), r2
     mov.b @(2, r2), r0

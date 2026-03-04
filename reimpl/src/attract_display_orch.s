@@ -51,7 +51,8 @@ DAT_0603fb24:
 .L_0603FB2C:
     mov r9, r6
     mov r10, r5
-    .byte   0xB0, 0x96    /* bsr 0x0603FC60 (external) */
+    .reloc ., R_SH_IND12W, vblank_palette_apply - 4
+    .2byte 0xB000    /* bsr vblank_palette_apply (linker-resolved) */
     mov r14, r4
     mov.l @(4, r14), r0
     tst r0, r0
@@ -71,7 +72,8 @@ DAT_0603fb24:
 .L_0603FB50:
     mov r9, r6
     mov r10, r5
-    .byte   0xB0, 0xC6    /* bsr 0x0603FCE4 (external) */
+    .reloc ., R_SH_IND12W, hud_palette_select - 4
+    .2byte 0xB000    /* bsr hud_palette_select (linker-resolved) */
     mov r14, r4
     mov.l @(12, r14), r0
     tst r0, r0
@@ -101,7 +103,8 @@ DAT_0603fb24:
     bra     .L_0603FC40
     nop
 .L_0603FB8A:
-    .byte   0xB2, 0x07    /* bsr 0x0603FF9C (external) */
+    .reloc ., R_SH_IND12W, attract_display_main - 4
+    .2byte 0xB000    /* bsr attract_display_main (linker-resolved) */
     mov r14, r4
     mov #0x34, r0
     mov.b @(r0, r14), r0

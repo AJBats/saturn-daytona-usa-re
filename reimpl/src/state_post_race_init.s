@@ -19,7 +19,8 @@ state_post_race_init:
     jsr @r3
     nop
 
-    .byte   0xB2, 0x52    /* bsr 0x0600A1B8 (external) */
+    .reloc ., R_SH_IND12W, FUN_0600A1B8 - 4
+    .2byte 0xB000    /* bsr FUN_0600A1B8 (linker-resolved) */
     nop
 
     mov #0x19, r2

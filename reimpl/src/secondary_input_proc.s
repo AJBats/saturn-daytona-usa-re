@@ -82,7 +82,8 @@ secondary_input_proc:
     mov.l   .L_pool_06035B20, r4
     cmp/eq r4, r8
     bf      .L_06035AA4
-    .byte   0xAF, 0x97    /* bra 0x060359D2 (external) */
+    .reloc ., R_SH_IND12W, FUN_060359D2 - 4
+    .2byte 0xA000    /* bra FUN_060359D2 (linker-resolved) */
     nop
 .L_06035AA4:
     tst r3, r3

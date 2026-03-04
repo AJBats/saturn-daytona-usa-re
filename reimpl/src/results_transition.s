@@ -34,7 +34,8 @@ results_transition:
     mov.w @(r0, r5), r3
     shll16 r3
     mov.l r3, @(4, r4)
-    .byte   0xB3, 0xB3    /* bsr 0x06016DD8 (external) */
+    .reloc ., R_SH_IND12W, track_vtx_builder - 4
+    .2byte 0xB000    /* bsr track_vtx_builder (linker-resolved) */
     extu.b r14, r4
 .L_06016672:
     add #0x10, r15

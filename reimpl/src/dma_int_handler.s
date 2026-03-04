@@ -21,7 +21,8 @@ dma_int_handler:
     mov.l r2, @(60, r3)
     cmp/pl r2
     bt      .L_060416D0
-    .byte   0xB6, 0x29    /* bsr 0x0604231E (external) */
+    .reloc ., R_SH_IND12W, FUN_0604231E - 4
+    .2byte 0xB000    /* bsr FUN_0604231E (linker-resolved) */
     nop
     bra     .L_06041796
     mov #0x3, r0
@@ -115,7 +116,8 @@ dma_int_handler:
     nop
 .L_06041774:
     mov r15, r5
-    .byte   0xB0, 0x56    /* bsr 0x06041826 (external) */
+    .reloc ., R_SH_IND12W, evt_callback_handler - 4
+    .2byte 0xB000    /* bsr evt_callback_handler (linker-resolved) */
     mov r14, r4
     add r0, r12
     mov.l @r15, r2

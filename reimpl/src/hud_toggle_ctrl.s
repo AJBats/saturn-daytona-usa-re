@@ -6,7 +6,8 @@
     .type hud_toggle_ctrl, @function
 hud_toggle_ctrl:
     mov.l   .L_0603F234, r4
-    .byte   0xA0, 0x03    /* bra 0x0603F238 (external) */
+    .reloc ., R_SH_IND12W, credits_scroll_entry - 4
+    .2byte 0xA000    /* bra credits_scroll_entry (linker-resolved) */
     nop
     .2byte  0xFFFF
 .L_0603F234:

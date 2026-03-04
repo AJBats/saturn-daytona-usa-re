@@ -30,7 +30,8 @@ render_iter_loop:
     mov.l   .L_pool_0601414C, r3
     jsr @r3
     mov r14, r4
-    .byte   0xBE, 0x8A    /* bsr 0x06013E12 (external) */
+    .reloc ., R_SH_IND12W, camera_fov_dispatch - 4
+    .2byte 0xB000    /* bsr camera_fov_dispatch (linker-resolved) */
     nop
     mov #0x4, r5
     mov.l   .L_pool_06014150, r4

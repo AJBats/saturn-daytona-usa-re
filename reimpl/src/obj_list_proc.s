@@ -23,7 +23,8 @@ obj_list_proc:
     cmp/gt r3, r2
     bf      .L_06020508
     mov.b @r15, r4
-    .byte   0xB4, 0x7B    /* bsr 0x06020DEE (external) */
+    .reloc ., R_SH_IND12W, FUN_06020DEE - 4
+    .2byte 0xB000    /* bsr FUN_06020DEE (linker-resolved) */
     extu.b r4, r4
     mov.l   .L_pool_06020528, r6
     mov #0x0, r5

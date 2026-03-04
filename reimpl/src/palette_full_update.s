@@ -9,6 +9,8 @@ palette_full_update:
     jsr @r13
     nop
     lds.l @r15+, pr
+    .global FUN_0602E6CC
+FUN_0602E6CC:
     mov r0, r7
     cmp/pz r7
     bt      .L_0602E6D4
@@ -17,12 +19,15 @@ palette_full_update:
     mov.l   .L_0602E6E4, r11
     cmp/ge r11, r7
     .byte   0x89, 0x58    /* bt 0x0602E78C (external) */
-    .byte   0xA0, 0x71    /* bra 0x0602E7C0 (external) */
+    .reloc ., R_SH_IND12W, FUN_0602E7C0 - 4
+    .2byte 0xA000    /* bra FUN_0602E7C0 (linker-resolved) */
     nop
     .2byte  0x0000
     .4byte  isqrt
 .L_0602E6E4:
     .4byte  0x000F0000
+    .global FUN_0602E6E8
+FUN_0602E6E8:
     .4byte  0xD3176332
     .4byte  0xD0170A9E
     .4byte  0x3A308B4B

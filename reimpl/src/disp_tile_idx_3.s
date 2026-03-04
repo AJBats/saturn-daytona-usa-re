@@ -6,8 +6,10 @@
     .type disp_tile_idx_3, @function
 disp_tile_idx_3:
     sts.l pr, @-r15
-    .byte   0xB0, 0x3D    /* bsr 0x06032584 (external) */
+    .reloc ., R_SH_IND12W, FUN_06032584 - 4
+    .2byte 0xB000    /* bsr FUN_06032584 (linker-resolved) */
     nop
     lds.l @r15+, pr
-    .byte   0xA0, 0x14    /* bra 0x06032538 (external) */
+    .reloc ., R_SH_IND12W, FUN_06032538 - 4
+    .2byte 0xA000    /* bra FUN_06032538 (linker-resolved) */
     nop

@@ -20,17 +20,21 @@ file_block_read:
     mov.b r2, @r3
 .L_0601241A:
     mov.l   .L_pool_06012440, r4
-    .byte   0xB0, 0x18    /* bsr 0x06012450 (external) */
+    .reloc ., R_SH_IND12W, file_format_detect - 4
+    .2byte 0xB000    /* bsr file_format_detect (linker-resolved) */
     mov #0x0, r5
     mov.l   .L_pool_06012444, r4
-    .byte   0xB0, 0x15    /* bsr 0x06012450 (external) */
+    .reloc ., R_SH_IND12W, file_format_detect - 4
+    .2byte 0xB000    /* bsr file_format_detect (linker-resolved) */
     mov #0x1, r5
     mov.l   .L_pool_06012448, r4
-    .byte   0xB0, 0x12    /* bsr 0x06012450 (external) */
+    .reloc ., R_SH_IND12W, file_format_detect - 4
+    .2byte 0xB000    /* bsr file_format_detect (linker-resolved) */
     mov #0x2, r5
     mov #0x3, r5
     mov.l   .L_pool_0601244C, r4
-    .byte   0xA0, 0x0E    /* bra 0x06012450 (external) */
+    .reloc ., R_SH_IND12W, file_format_detect - 4
+    .2byte 0xA000    /* bra file_format_detect (linker-resolved) */
     lds.l @r15+, pr
 .L_pool_06012434:
     .4byte  sym_060788F0

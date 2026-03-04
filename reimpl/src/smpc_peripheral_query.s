@@ -57,7 +57,8 @@ smpc_peripheral_query:
     and r2, r3
     mov.w r3, @r14
 
-    .byte   0xB0, 0x41    /* bsr 0x06035E3C (CD command issue helper) */
+    .reloc ., R_SH_IND12W, FUN_06035E3C - 4
+    .2byte 0xB000    /* bsr FUN_06035E3C (linker-resolved) */
     mov r13, r4
 
     mov r15, r5

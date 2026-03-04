@@ -15,7 +15,8 @@ transition_anim_drive:
     mov.l   .L_pool_0601913C, r5
     jsr @r14
     mov #0xF, r4
-    .byte   0xB0, 0xEC    /* bsr 0x060192E8 (external) */
+    .reloc ., R_SH_IND12W, FUN_060192E8 - 4
+    .2byte 0xB000    /* bsr FUN_060192E8 (linker-resolved) */
     nop
     mov.l   .L_pool_06019134, r0
     mov.l @r0, r0

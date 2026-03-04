@@ -108,7 +108,8 @@ DAT_0602d0de:
     mov.l @(28, r2), r5
 .L_0602D12E:
     mov.w   DAT_0602d188, r1
-    .byte   0xB3, 0x58    /* bsr 0x0602D7E4 (external) */
+    .reloc ., R_SH_IND12W, FUN_0602D7E4 - 4
+    .2byte 0xB000    /* bsr FUN_0602D7E4 (linker-resolved) */
     mov.l r5, @(r0, r1)
 .L_0602D134:
     mov.w   DAT_0602d18c, r1

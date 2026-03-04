@@ -6,7 +6,8 @@
     .type util_wrapper, @function
 util_wrapper:
     sts.l pr, @-r15
-    .byte   0xB2, 0x76    /* bsr 0x06014F34 (external) */
+    .reloc ., R_SH_IND12W, ai_position_ranking - 4
+    .2byte 0xB000    /* bsr ai_position_ranking (linker-resolved) */
     nop
     .byte   0xD3, 0x09    /* mov.l .L_pool_06014A71, r3 */
     jmp @r3

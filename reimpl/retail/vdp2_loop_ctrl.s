@@ -22,6 +22,8 @@ vdp2_loop_ctrl:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
+    .global FUN_060172E4
+FUN_060172E4:
     .global sym_060172E4
 sym_060172E4:
     .byte 0x64, 0x4C

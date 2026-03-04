@@ -51,5 +51,6 @@ race_update_ending:
     add #0x14, r4
     lds.l @r15+, pr
     mov.l @r15+, r13
-    .byte   0xA0, 0x00    /* bra 0x0600E0C0 (external) */
+    .reloc ., R_SH_IND12W, car_update_racing - 4
+    .2byte 0xA000    /* bra car_update_racing (linker-resolved) */
     mov.l @r15+, r14

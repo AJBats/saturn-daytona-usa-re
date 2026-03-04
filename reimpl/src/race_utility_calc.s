@@ -13,7 +13,8 @@ race_utility_calc:
     mov.b @r0, r0
     tst r0, r0
     bt      .L_0600C1B8
-    .byte   0xB8, 0xDE    /* bsr 0x0600B340 (external) */
+    .reloc ., R_SH_IND12W, scene_render_coord - 4
+    .2byte 0xB000    /* bsr scene_render_coord (linker-resolved) */
     nop
     bra     .L_0600C1BE
     nop
@@ -36,7 +37,8 @@ race_utility_calc:
     jsr @r3
     nop
 .L_0600C1BE:
-    .byte   0xBB, 0xA9    /* bsr 0x0600B914 (external) */
+    .reloc ., R_SH_IND12W, render_scene_loop - 4
+    .2byte 0xB000    /* bsr render_scene_loop (linker-resolved) */
     nop
     mov.l   .L_0600C1F8, r0
     mov.l   .L_0600C1FC, r3

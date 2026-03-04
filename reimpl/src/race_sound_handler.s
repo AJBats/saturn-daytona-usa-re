@@ -34,7 +34,8 @@ race_sound_handler:
     tst r2, r2
     bf      .L_06018F0A
 
-    .byte   0xB1, 0xCE    /* bsr 0x060192B4 (external) */
+    .reloc ., R_SH_IND12W, FUN_060192B4 - 4
+    .2byte 0xB000    /* bsr FUN_060192B4 (linker-resolved) */
     nop
     mov.w   DAT_06018f76, r2
     mov.l   .L_06018F84, r3

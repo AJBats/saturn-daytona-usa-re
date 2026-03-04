@@ -16,7 +16,8 @@ palette_fade_calc:
     mov.l @r3, r3
     cmp/eq r10, r3
     bf      .L_0602E648
-    .byte   0xA0, 0xAB    /* bra 0x0602E78C (external) */
+    .reloc ., R_SH_IND12W, FUN_0602E78C - 4
+    .2byte 0xA000    /* bra FUN_0602E78C (linker-resolved) */
     nop
     .2byte  0x0000
 .L_pool_0602E639:
@@ -32,7 +33,8 @@ palette_fade_calc:
     mov.l @r3, r3
     cmp/eq r10, r3
     bt      .L_0602E658
-    .byte   0xA0, 0x4A    /* bra 0x0602E6E8 (external) */
+    .reloc ., R_SH_IND12W, FUN_0602E6E8 - 4
+    .2byte 0xA000    /* bra FUN_0602E6E8 (linker-resolved) */
     nop
 .L_pool_0602E655:
     .4byte  DAT_06083268

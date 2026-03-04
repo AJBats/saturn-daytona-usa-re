@@ -40,7 +40,8 @@ mem_test_verify:
     jsr @r3
     mov.l @(40, r13), r4
     mov #0x0, r5
-    .byte   0xB0, 0x1B    /* bsr 0x060405B8 (external) */
+    .reloc ., R_SH_IND12W, evt_validate_multi - 4
+    .2byte 0xB000    /* bsr evt_validate_multi (linker-resolved) */
     mov r15, r4
     mov.l @r14, r2
     mov.w   .L_060405A4, r0

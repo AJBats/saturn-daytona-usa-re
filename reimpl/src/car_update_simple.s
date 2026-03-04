@@ -23,7 +23,8 @@ car_update_simple:
     mov.l   .L_pool_0600E470, r3
     jsr @r3
     nop
-    .byte   0xB1, 0x71    /* bsr 0x0600E71A (external physics step) */
+    .reloc ., R_SH_IND12W, FUN_0600E71A - 4
+    .2byte 0xB000    /* bsr FUN_0600E71A (linker-resolved) */
     nop
     mov.l   .L_pool_0600E474, r5
     mov.l   .L_pool_0600E478, r3

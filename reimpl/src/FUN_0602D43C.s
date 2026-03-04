@@ -565,6 +565,8 @@ DAT_0602d790:
     .2byte  0x0000
 .L_0602D7E0:
     .4byte  0xFFFFCC00
+    .global FUN_0602D7E4
+FUN_0602D7E4:
 .L_0602D7E4:
     mov.l r3, @-r15
     mov.l @(8, r0), r3

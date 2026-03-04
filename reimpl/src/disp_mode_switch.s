@@ -52,6 +52,8 @@ disp_mode_switch:
 .L_pool_06033074:
     .4byte  sym_06082A28
     .4byte  0x000B0009
+    .global FUN_0603307C
+FUN_0603307C:
     .4byte  0xD0076002
     .4byte  0x60024015
     .2byte  0x8907

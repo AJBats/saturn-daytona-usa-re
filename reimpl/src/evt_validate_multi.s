@@ -87,4 +87,6 @@ evt_validate_multi:
     lds.l @r15+, pr
     rts
     nop
+    .global FUN_06040666
+FUN_06040666:
     .2byte  0xE500

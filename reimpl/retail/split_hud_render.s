@@ -22,6 +22,8 @@ split_hud_render:
     .4byte sym_06033864
     .4byte sym_0606298C
     .4byte sym_0606299C
+    .global FUN_06033470
+FUN_06033470:
     .byte 0xD3, 0x1D
     .byte 0xE1, 0x00
     .byte 0xD0, 0x1D

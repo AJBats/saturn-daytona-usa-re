@@ -446,6 +446,8 @@ DAT_0603120a:
     xtrct r8, r9
     add r9, r6
     mov.l r6, @(24, r14)
+    .global FUN_06031322
+FUN_06031322:
 .L_06031322:
     lds.l @r15+, pr
     mov.l @r15+, r14
@@ -462,6 +464,8 @@ DAT_0603120a:
     .4byte  sin_lookup
 .L_0603133C:
     .4byte  0x00008000
+    .global FUN_06031340
+FUN_06031340:
 .L_06031340:
     mov.l r4, @-r15
     mov.l r5, @-r15
@@ -491,6 +495,8 @@ DAT_0603135c:
     mov.l @r15+, r5
     rts
     mov.l @r15+, r4
+    .global FUN_0603136E
+FUN_0603136E:
     .2byte  0x2F06
     .4byte  0x64833468
     .4byte  0x65933578

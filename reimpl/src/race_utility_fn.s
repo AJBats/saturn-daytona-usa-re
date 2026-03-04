@@ -164,6 +164,8 @@ DAT_0600c372:
 .L_0600C3A4:
     rts
     nop
+    .global FUN_0600C3A8
+FUN_0600C3A8:
     .4byte  0xD51CD61D
     .4byte  0xD31DD21E
     .4byte  0x6331633D

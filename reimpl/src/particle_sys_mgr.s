@@ -14,12 +14,14 @@ particle_sys_mgr:
     sts macl, r7
     shlr16 r7
     add r4, r7
-    .byte   0xBE, 0xDD    /* bsr 0x06028368 (external) */
+    .reloc ., R_SH_IND12W, effect_init_stub - 4
+    .2byte 0xB000    /* bsr effect_init_stub (linker-resolved) */
     mov #0x8, r4
     shlr16 r14
     exts.w r14, r7
     mov r13, r5
-    .byte   0xBE, 0xD8    /* bsr 0x06028368 (external) */
+    .reloc ., R_SH_IND12W, effect_init_stub - 4
+    .2byte 0xB000    /* bsr effect_init_stub (linker-resolved) */
     mov #0x8, r4
     mov.l   .L_060285DC, r5
     mov #0x2E, r0
@@ -42,6 +44,8 @@ particle_sys_mgr:
     .2byte  0x2710
 .L_060285DC:
     .4byte  sym_06028614
+    .global FUN_060285E0
+FUN_060285E0:
     .4byte  0x45186763
     .4byte  0x96144509
     .4byte  0x354C4500
@@ -50,6 +54,8 @@ particle_sys_mgr:
     .4byte  0x960C4509
     .4byte  0x354C4500
     .4byte  0xAEC2E408
+    .global FUN_06028600
+FUN_06028600:
     .4byte  0x45186763
     .4byte  0x96044509
     .4byte  0x354C4500

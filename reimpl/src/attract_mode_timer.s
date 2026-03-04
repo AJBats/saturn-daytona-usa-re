@@ -13,7 +13,8 @@ attract_mode_timer:
     mov.l r3, @(16, r14)
     mov.l r13, @(20, r14)
     mov.l r13, @(24, r14)
-    .byte   0xB0, 0x0A    /* bsr 0x0603F970 (external) */
+    .reloc ., R_SH_IND12W, attract_timer_tick - 4
+    .2byte 0xB000    /* bsr attract_timer_tick (linker-resolved) */
     mov r14, r4
     mov #0x1, r5
     mov r14, r4

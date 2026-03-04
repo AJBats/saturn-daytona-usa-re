@@ -17,19 +17,22 @@ update_mode_dispatch:
     mov.b @r0, r0
 
 .L_0600DF7A:
-    .byte   0xB2, 0x49    /* bsr 0x0600E410 (external) */
+    .reloc ., R_SH_IND12W, car_update_simple - 4
+    .2byte 0xB000    /* bsr car_update_simple (linker-resolved) */
     nop
     bra     .L_0600DFCC
     nop
 
 .L_0600DF82:
-    .byte   0xB2, 0x7B    /* bsr 0x0600E47C (external) */
+    .reloc ., R_SH_IND12W, race_update_full - 4
+    .2byte 0xB000    /* bsr race_update_full (linker-resolved) */
     nop
     bra     .L_0600DFCC
     nop
 
 .L_0600DF8A:
-    .byte   0xB2, 0x77    /* bsr 0x0600E47C (external) */
+    .reloc ., R_SH_IND12W, race_update_full - 4
+    .2byte 0xB000    /* bsr race_update_full (linker-resolved) */
     nop
     bra     .L_0600DFCC
     nop
@@ -60,5 +63,6 @@ update_mode_dispatch:
     bt      .L_0600DF8A
 
 .L_0600DFCC:
-    .byte   0xA0, 0x78    /* bra 0x0600E0C0 (external) */
+    .reloc ., R_SH_IND12W, car_update_racing - 4
+    .2byte 0xA000    /* bra car_update_racing (linker-resolved) */
     lds.l @r15+, pr

@@ -47,7 +47,8 @@ position_lap_display:
     neg r1, r1
 .L_060313E8:
     extu.w r1, r1
-    .byte   0xBF, 0xA9    /* bsr 0x06031340 */
+    .reloc ., R_SH_IND12W, FUN_06031340 - 4
+    .2byte 0xB000    /* bsr FUN_06031340 (linker-resolved) */
     nop
     cmp/gt r1, r4
     bt      .L_060313F6
@@ -115,7 +116,8 @@ DAT_0603143a:
     add r12, r4
     cmp/pl r4
     bt      .L_06031468
-    .byte   0xAF, 0x5F    /* bra 0x06031322 */
+    .reloc ., R_SH_IND12W, FUN_06031322 - 4
+    .2byte 0xA000    /* bra FUN_06031322 (linker-resolved) */
     nop
 .L_pool_06031465:
     .4byte  sym_0605BCC8
@@ -450,7 +452,8 @@ DAT_0603162e:
     sts macl, r9
     xtrct r8, r9
     add r9, r6
-    .byte   0xAE, 0x36    /* bra 0x06031322 */
+    .reloc ., R_SH_IND12W, FUN_06031322 - 4
+    .2byte 0xA000    /* bra FUN_06031322 (linker-resolved) */
     mov.l r6, @(24, r13)
     .2byte  0x0000
 .L_pool_060316BA:

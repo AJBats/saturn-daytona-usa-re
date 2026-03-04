@@ -77,6 +77,8 @@ sin_lookup:
     .byte 0x00, 0x0B
     .byte 0x00, 0x4E
     .byte 0x00, 0x09
+    .global FUN_06027358
+FUN_06027358:
     .global sincos_pair
 sincos_pair:
     .byte 0x93, 0xD0
@@ -95,6 +97,8 @@ sincos_pair:
     .byte 0x00, 0x0B
     .byte 0x26, 0x12
     .byte 0x00, 0x09
+    .global FUN_06027378
+FUN_06027378:
     .global atan_piecewise
 atan_piecewise:
     .byte 0x44, 0x11

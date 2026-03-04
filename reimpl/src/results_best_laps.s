@@ -48,7 +48,8 @@ results_best_laps:
     add #0x4, r15
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xA6, 0x09    /* bra 0x060172E4 (external) */
+    .reloc ., R_SH_IND12W, FUN_060172E4 - 4
+    .2byte 0xA000    /* bra FUN_060172E4 (linker-resolved) */
     mov.l @r15+, r14
     .2byte  0xFFFF
     .4byte  sym_0605BAFA
@@ -89,7 +90,8 @@ loc_060166E4:
     mov.b r0, @(1, r4)
     mov.b @r15, r4
     extu.b r4, r4
-    .byte   0xA5, 0xE0    /* bra 0x060172E4 (external) */
+    .reloc ., R_SH_IND12W, FUN_060172E4 - 4
+    .2byte 0xA000    /* bra FUN_060172E4 (linker-resolved) */
     add #0x4, r15
 
     .global loc_06016724

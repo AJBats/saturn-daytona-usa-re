@@ -6,11 +6,16 @@
     .type digit_render_2, @function
 digit_render_2:
     sts.l pr, @-r15
-    .byte   0xB4, 0xB7    /* bsr 0x06032EA4 (external) */
+    .reloc ., R_SH_IND12W, FUN_06032EA4 - 4
+    .2byte 0xB000    /* bsr FUN_06032EA4 (linker-resolved) */
     nop
     lds.l @r15+, pr
+    .global FUN_06032538
+FUN_06032538:
     rts
     nop
+    .global FUN_0603253C
+FUN_0603253C:
     .4byte  0xD0026100
     .4byte  0x21188B03
     .4byte  0x000B0009
@@ -29,4 +34,6 @@ digit_render_2:
     .4byte  0xFFFFFFFF
     .4byte  0x00000000
     .4byte  0x000002C4
+    .global FUN_06032584
+FUN_06032584:
     .2byte  0xD010

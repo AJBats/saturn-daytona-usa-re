@@ -88,4 +88,6 @@ evt_validate_multi:
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
+    .global FUN_06040666
+FUN_06040666:
     .byte 0xE5, 0x00

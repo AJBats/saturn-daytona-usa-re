@@ -6,7 +6,8 @@
     .type split_hud_render, @function
 split_hud_render:
     sts.l pr, @-r15
-    .byte   0xBE, 0x1E    /* bsr 0x0603307C (external) */
+    .reloc ., R_SH_IND12W, FUN_0603307C - 4
+    .2byte 0xB000    /* bsr FUN_0603307C (linker-resolved) */
     nop
     lds.l @r15+, pr
     mov.l @r15+, r14
@@ -25,6 +26,8 @@ split_hud_render:
     .4byte  sym_06033864
     .4byte  sym_0606298C
     .4byte  sym_0606299C
+    .global FUN_06033470
+FUN_06033470:
     .4byte  0xD31DE100
     .4byte  0xD01D6002
     .4byte  0x61024108

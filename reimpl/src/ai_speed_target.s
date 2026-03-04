@@ -52,6 +52,8 @@ ai_speed_target:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
+    .global FUN_0600C928
+FUN_0600C928:
 
     .4byte  0x5543971C
     .4byte  0x45194501
@@ -82,6 +84,8 @@ DAT_0600c964:
     .4byte  atan2
 .L_pool_0600C96C:
     .4byte  0x0000FA00
+    .global FUN_0600C970
+FUN_0600C970:
 
     .4byte  0x9038E345
     .4byte  0x054E3533

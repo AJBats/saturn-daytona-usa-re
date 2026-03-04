@@ -11,7 +11,8 @@ state_field_read:
     mov.l @r3, r3
     mov.l r4, @(60, r3)
 .L_06041896:
-    .byte   0xBE, 0xFF    /* bsr 0x06041698 (external) */
+    .reloc ., R_SH_IND12W, large_prologue_save - 4
+    .2byte 0xB000    /* bsr large_prologue_save (linker-resolved) */
     nop
     cmp/eq #0x1, r0
     bt/s    .L_060418A4

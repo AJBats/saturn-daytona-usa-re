@@ -22,10 +22,12 @@ menu_list_scroll:
     lds.l @r15+, pr
     mov.l @r15+, r8
     mov.l @r15+, r13
-    .byte   0xA3, 0x42    /* bra 0x0603B93C (external) */
+    .reloc ., R_SH_IND12W, save_checksum_calc - 4
+    .2byte 0xA000    /* bra save_checksum_calc (linker-resolved) */
     mov.l @r15+, r14
 .L_0603B2B8:
-    .byte   0xB3, 0x74    /* bsr 0x0603B9A4 (external) */
+    .reloc ., R_SH_IND12W, save_data_validate - 4
+    .2byte 0xB000    /* bsr save_data_validate (linker-resolved) */
     mov r14, r4
     mov #0x1, r4
     mov #0x11, r0
@@ -34,7 +36,8 @@ menu_list_scroll:
     mov.b r4, @(r0, r14)
     mov.l @r14, r3
     mov.l @(16, r3), r8
-    .byte   0xBE, 0xC5    /* bsr 0x0603B058 (external) */
+    .reloc ., R_SH_IND12W, menu_element_dispatch - 4
+    .2byte 0xB000    /* bsr menu_element_dispatch (linker-resolved) */
     mov r14, r4
     mov r8, r4
     mov.l @r15, r3
@@ -47,7 +50,8 @@ menu_list_scroll:
     mov r4, r13
 .L_0603B2DE:
     mov r13, r5
-    .byte   0xB5, 0xCC    /* bsr 0x0603BE7C (external) */
+    .reloc ., R_SH_IND12W, FUN_0603BE7C - 4
+    .2byte 0xB000    /* bsr FUN_0603BE7C (linker-resolved) */
     mov.l @r14, r4
     mov r13, r5
     mov.l   .L_pool_0603B311, r3
@@ -67,7 +71,8 @@ menu_list_scroll:
     lds.l @r15+, pr
     mov.l @r15+, r8
     mov.l @r15+, r13
-    .byte   0xA3, 0x18    /* bra 0x0603B93C (external) */
+    .reloc ., R_SH_IND12W, save_checksum_calc - 4
+    .2byte 0xA000    /* bra save_checksum_calc (linker-resolved) */
     mov.l @r15+, r14
     .4byte  cdb_wait_scdq
 .L_pool_0603B311:

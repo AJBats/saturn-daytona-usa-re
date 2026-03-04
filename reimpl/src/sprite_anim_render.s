@@ -230,7 +230,10 @@ DAT_060101b2:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .4byte  0xD416E200              /* following TU code (not part of this function) */
+    .global FUN_06010238
+FUN_06010238:
+    .2byte 0xD416
+    .2byte 0xE200
     .4byte  0xD016D317
     .4byte  0x6001600D
     .4byte  0x2422203A
@@ -266,7 +269,10 @@ DAT_060101b2:
     .4byte  0x0000FFFF
     .4byte  sym_0607887E
     .4byte  sym_0607EAD8
-    .4byte  0xD519634D
+    .global FUN_060102A8
+FUN_060102A8:
+    .2byte 0xD519
+    .2byte 0x634D
     .4byte  0xD2192329
     .4byte  0x23388907
     .4byte  0xE202D316
@@ -282,4 +288,7 @@ DAT_060101b2:
     .4byte  0x6252D30E
     .4byte  0x23206152
     .4byte  0xD30D000B
-    .4byte  0x2312624D
+    .2byte 0x2312
+    .global FUN_060102EA
+FUN_060102EA:
+    .2byte 0x624D

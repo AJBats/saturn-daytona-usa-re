@@ -28,13 +28,15 @@ event_queue_overflow:
 .L_06040F40:
     .byte   0xD6, 0x19    /* mov.l .L_pool_06040FA8, r6 */
     mov #0x0, r5
-    .byte   0xB1, 0xB5    /* bsr 0x060412B2 (external) */
+    .reloc ., R_SH_IND12W, evt_checkpoint_validate - 4
+    .2byte 0xB000    /* bsr evt_checkpoint_validate (linker-resolved) */
     mov r14, r4
     .byte   0xD4, 0x18    /* mov.l .L_pool_06040FAC, r4 */
     mov.l @r13, r2
     mov.l r4, @(60, r2)
 .L_06040F4E:
-    .byte   0xB3, 0xA3    /* bsr 0x06041698 (external) */
+    .reloc ., R_SH_IND12W, large_prologue_save - 4
+    .2byte 0xB000    /* bsr large_prologue_save (linker-resolved) */
     nop
     cmp/eq #0x3, r0
     bf/s    .L_06040F5C
@@ -42,7 +44,8 @@ event_queue_overflow:
     bra     .L_06040F7A
     mov #-0xC, r0
 .L_06040F5C:
-    .byte   0xB1, 0xD8    /* bsr 0x06041310 (external) */
+    .reloc ., R_SH_IND12W, FUN_06041310 - 4
+    .2byte 0xB000    /* bsr FUN_06041310 (linker-resolved) */
     mov r14, r4
     cmp/eq #0x1, r0
     bf      .L_06040F68

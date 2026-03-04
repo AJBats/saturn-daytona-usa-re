@@ -68,12 +68,14 @@ car_update_racing:
     and r11, r2
     tst r2, r2
     bt      .L_0600E15E
-    .byte   0xB3, 0xD6    /* bsr 0x0600E906 (external) */
+    .reloc ., R_SH_IND12W, ai_physics_main - 4
+    .2byte 0xB000    /* bsr ai_physics_main (linker-resolved) */
     nop
     bra     .L_0600E190
     nop
 .L_0600E15E:
-    .byte   0xB2, 0xDC    /* bsr 0x0600E71A (external) */
+    .reloc ., R_SH_IND12W, FUN_0600E71A - 4
+    .2byte 0xB000    /* bsr FUN_0600E71A (linker-resolved) */
     nop
     mov.l @r12, r2
     mov r2, r0

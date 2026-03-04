@@ -246,7 +246,8 @@ state_post_lap:
     mov.l @(r0, r2), r3
     cmp/pl r3
     bf      .L_06009496
-    .byte   0xB5, 0xF7    /* bsr 0x0600A084 (replay_record */
+    .reloc ., R_SH_IND12W, FUN_0600A084 - 4
+    .2byte 0xB000    /* bsr FUN_0600A084 (linker-resolved) */
     nop
 .L_06009496:
     lds.l @r15+, pr

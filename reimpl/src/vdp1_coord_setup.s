@@ -277,7 +277,8 @@ DAT_0602cb7a:
     mov.w   DAT_0602ccb2, r1
     mov.l r2, @(r0, r1)
 .L_0602CC40:
-    .byte   0xB0, 0x54    /* bsr 0x0602CCEC (external) */
+    .reloc ., R_SH_IND12W, vdp1_attr_setup - 4
+    .2byte 0xB000    /* bsr vdp1_attr_setup (linker-resolved) */
     nop
     mov.l @r15+, r9
     mov.l @r15+, r5

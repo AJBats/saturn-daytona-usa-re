@@ -17,7 +17,8 @@ mat_rot_x:
     sts.l pr, @-r15
     .byte   0xD6, 0x76    /* mov.l .L_pool_06027070, r6 */
     mov #0x8, r5
-    .byte   0xB2, 0x5D    /* bsr 0x06027358 (external) */
+    .reloc ., R_SH_IND12W, FUN_06027358 - 4
+    .2byte 0xB000    /* bsr FUN_06027358 (linker-resolved) */
     add r6, r5
     lds.l @r15+, pr
     mov.l @r5, r1

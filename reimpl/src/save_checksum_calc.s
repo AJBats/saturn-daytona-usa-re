@@ -29,6 +29,8 @@ save_checksum_calc:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
+    .global FUN_0603B96A
+FUN_0603B96A:
     .2byte  0xD607
     .4byte  0x66627634
     .4byte  0xA00DE500

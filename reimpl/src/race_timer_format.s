@@ -63,7 +63,8 @@ loc_06013930:
     mov #0x20, r3
     .byte   0xD2, 0x02    /* mov.l .L_pool_0601394A, r2 */
     mov.w r3, @r2
-    .byte   0xA0, 0x04    /* bra 0x06013948 (external) */
+    .reloc ., R_SH_IND12W, score_calculator - 4
+    .2byte 0xA000    /* bra score_calculator (linker-resolved) */
     nop
 .L_pool_06013946:
     .4byte  sym_06084AF2

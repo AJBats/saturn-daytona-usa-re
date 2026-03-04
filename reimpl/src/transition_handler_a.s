@@ -27,7 +27,8 @@ transition_handler_a:
     extu.w r0, r0
     cmp/eq #0x10, r0
     bf      .L_0600F7F0
-    .byte   0xB5, 0x3D    /* bsr 0x06010238 (external) */
+    .reloc ., R_SH_IND12W, FUN_06010238 - 4
+    .2byte 0xB000    /* bsr FUN_06010238 (linker-resolved) */
     nop
     bra     .L_0600F7F4
     nop
@@ -49,11 +50,13 @@ transition_handler_a:
     .4byte  hud_course_render
 
 .L_0600F7F0:
-    .byte   0xB5, 0x5A    /* bsr 0x060102A8 (external) */
+    .reloc ., R_SH_IND12W, FUN_060102A8 - 4
+    .2byte 0xB000    /* bsr FUN_060102A8 (linker-resolved) */
     mov r14, r4
 
 .L_0600F7F4:
-    .byte   0xB5, 0x79    /* bsr 0x060102EA (external) */
+    .reloc ., R_SH_IND12W, FUN_060102EA - 4
+    .2byte 0xB000    /* bsr FUN_060102EA (linker-resolved) */
     mov r14, r4
 
     .byte   0xD0, 0x14    /* mov.l .L_pool_0600F84C, r0 */

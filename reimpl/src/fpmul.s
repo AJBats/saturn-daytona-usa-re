@@ -10,6 +10,8 @@ fpmul:
     sts macl, r0
     rts
     xtrct r4, r0
+    .global FUN_0602755C
+FUN_0602755C:
 
     .global fpdiv_setup
 fpdiv_setup:

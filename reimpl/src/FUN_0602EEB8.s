@@ -10,6 +10,8 @@ FUN_0602EEB8:
     mov.l   .L_0602EF00, r13
     jsr @r13
     nop
+    .global FUN_0602EEC2
+FUN_0602EEC2:
     mov.l   .L_0602EF04, r13
     jsr @r13
     nop
@@ -81,6 +83,8 @@ FUN_0602EEB8:
     jsr @r13
     nop
     mov.l   .L_0602EF80, r13
+    .global FUN_0602EF48
+FUN_0602EF48:
     jsr @r13
     nop
     mov.w   .L_0602EF60, r1

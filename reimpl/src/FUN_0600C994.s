@@ -147,6 +147,8 @@ DAT_0600c9e6:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
+    .global FUN_0600CA96
+FUN_0600CA96:
 
     .global FUN_0600CA9A
 FUN_0600CA9A:

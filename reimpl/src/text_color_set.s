@@ -10,7 +10,8 @@ text_color_set:
     add #-0x4, r15
     mov.b r4, @r15
     .byte   0xDE, 0x0B    /* mov.l .L_pool_06016CA1, r14 */
-    .byte   0xB5, 0x5B    /* bsr 0x0601772E (external) */
+    .reloc ., R_SH_IND12W, track_seg_util - 4
+    .2byte 0xB000    /* bsr track_seg_util (linker-resolved) */
     mov.b @r14, r4
     mov.b @r14, r2
     add #-0x6, r2
@@ -18,13 +19,15 @@ text_color_set:
     mov.b @r14, r3
     cmp/pl r3
     bt      .L_06016C94
-    .byte   0xB5, 0x53    /* bsr 0x0601772E (external) */
+    .reloc ., R_SH_IND12W, track_seg_util - 4
+    .2byte 0xB000    /* bsr track_seg_util (linker-resolved) */
     mov #0x0, r4
     mov.b @r15, r4
     extu.b r4, r4
     add #0x4, r15
     lds.l @r15+, pr
-    .byte   0xA3, 0x28    /* bra 0x060172E4 (external) */
+    .reloc ., R_SH_IND12W, FUN_060172E4 - 4
+    .2byte 0xA000    /* bra FUN_060172E4 (linker-resolved) */
     mov.l @r15+, r14
 .L_06016C94:
     add #0x4, r15

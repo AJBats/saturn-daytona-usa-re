@@ -51,6 +51,8 @@ transition_full_exec:
     .4byte memcpy_byte_idx
     .byte 0x25, 0xA0
     .byte 0x2D, 0xBE
+    .global FUN_060192B4
+FUN_060192B4:
     .byte 0xE5, 0x00
     .byte 0xD6, 0x11
     .byte 0xD4, 0x11

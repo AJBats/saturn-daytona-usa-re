@@ -41,8 +41,13 @@ display_dispatch_pop:
     .4byte  sym_06082A24
 .L_pool_06032300:
     .4byte  sym_06082A20
+    .global FUN_06032304
+FUN_06032304:
     .4byte  0xD0074408
-    .4byte  0x0E4ED007
+    .2byte 0x0E4E
+    .global FUN_0603230A
+FUN_0603230A:
+    .2byte 0xD007
     .4byte  0x01EE6516
     .4byte  0x66166716
     .4byte  0xD0056202

@@ -32,7 +32,8 @@ geom_rotation_apply:
     mov.l   .L_pool_0601EB5C, r3
     add r3, r4
     mov.b @r4, r4
-    .byte   0xBE, 0x5D    /* bsr 0x0601E810 (hud_handler_main) */
+    .reloc ., R_SH_IND12W, hud_handler_main - 4
+    .2byte 0xB000    /* bsr hud_handler_main (linker-resolved) */
     extu.b r4, r4
 .L_0601EB56:
     lds.l @r15+, pr

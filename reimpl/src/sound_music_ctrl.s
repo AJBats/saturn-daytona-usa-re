@@ -1342,7 +1342,8 @@ DAT_06030da2:
     sub r5, r2
     cmp/pl r2
     bt      .L_06030E52
-    .byte   0xA0, 0x3D    /* bra 0x06030ECC (external) */
+    .reloc ., R_SH_IND12W, FUN_06030ECC - 4
+    .2byte 0xA000    /* bra FUN_06030ECC (linker-resolved) */
     nop
 .L_06030E52:
     neg r4, r4

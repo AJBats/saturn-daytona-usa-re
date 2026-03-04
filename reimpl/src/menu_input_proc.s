@@ -23,7 +23,8 @@ menu_input_proc:
     mov.l @(r0, r3), r0
     tst r0, r0
     bt      .L_0603AD14
-    .byte   0xB6, 0x16    /* bsr 0x0603B93C (external) */
+    .reloc ., R_SH_IND12W, save_checksum_calc - 4
+    .2byte 0xB000    /* bsr save_checksum_calc (linker-resolved) */
     mov #-0x7, r4
     bra     .L_0603AD9E
     nop
@@ -34,7 +35,8 @@ menu_input_proc:
     mov r0, r4
     cmp/pz r4
     bt      .L_0603AD28
-    .byte   0xB6, 0x0C    /* bsr 0x0603B93C (external) */
+    .reloc ., R_SH_IND12W, save_checksum_calc - 4
+    .2byte 0xB000    /* bsr save_checksum_calc (linker-resolved) */
     mov #-0x1, r4
     bra     .L_0603AD9E
     nop
@@ -82,7 +84,8 @@ menu_input_proc:
     bra     .L_0603AD7C
     nop
 .L_0603AD74:
-    .byte   0xB5, 0xE2    /* bsr 0x0603B93C (external) */
+    .reloc ., R_SH_IND12W, save_checksum_calc - 4
+    .2byte 0xB000    /* bsr save_checksum_calc (linker-resolved) */
     mov #-0x6, r4
     bra     .L_0603AD9E
     nop
@@ -90,7 +93,8 @@ menu_input_proc:
     mov r12, r6
     mov r14, r5
     mov r15, r4
-    .byte   0xB6, 0x53    /* bsr 0x0603BA2C (external) */
+    .reloc ., R_SH_IND12W, save_field_write - 4
+    .2byte 0xB000    /* bsr save_field_write (linker-resolved) */
     add #0x4, r4
     mov r0, r13
     mov.l @(4, r14), r6
@@ -99,9 +103,11 @@ menu_input_proc:
     jsr @r3
     mov r13, r4
     mov.l r0, @r15
-    .byte   0xB6, 0x1F    /* bsr 0x0603B9D6 (external) */
+    .reloc ., R_SH_IND12W, save_field_read - 4
+    .2byte 0xB000    /* bsr save_field_read (linker-resolved) */
     mov r13, r4
-    .byte   0xB5, 0xD0    /* bsr 0x0603B93C (external) */
+    .reloc ., R_SH_IND12W, save_checksum_calc - 4
+    .2byte 0xB000    /* bsr save_checksum_calc (linker-resolved) */
     mov #0x0, r4
     mov.l @r15, r0
 

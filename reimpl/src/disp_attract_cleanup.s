@@ -6,6 +6,7 @@
     .type disp_attract_cleanup, @function
 disp_attract_cleanup:
     sts.l pr, @-r15
-    .byte   0xB1, 0x64    /* bsr 0x06033700 (external) */
+    .reloc ., R_SH_IND12W, FUN_06033700 - 4
+    .2byte 0xB000    /* bsr FUN_06033700 (linker-resolved) */
     nop
     lds.l @r15+, pr

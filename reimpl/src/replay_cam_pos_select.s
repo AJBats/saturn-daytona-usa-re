@@ -15,7 +15,8 @@ replay_cam_pos_select:
     mov.l r4, @r2
     mov.l   .L_0601AC3C, r2
     mov.l r4, @r2
-    .byte   0xB0, 0xE8    /* bsr 0x0601ADB0 (external) */
+    .reloc ., R_SH_IND12W, FUN_0601ADB0 - 4
+    .2byte 0xB000    /* bsr FUN_0601ADB0 (linker-resolved) */
     nop
     mov.l   .L_0601AC14, r4
     mov.l   .L_0601AC28, r3

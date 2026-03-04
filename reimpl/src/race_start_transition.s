@@ -47,13 +47,17 @@ race_start_transition:
     mov #0x1, r2
     mov.l   .L_pool_0601A63C, r3
     mov.b r2, @r3
-    .byte   0xB9, 0xAC    /* bsr 0x06019928 (FUN_06019928) */
+    .reloc ., R_SH_IND12W, FUN_06019928 - 4
+    .2byte 0xB000    /* bsr FUN_06019928 (linker-resolved) */
     nop
-    .byte   0xB0, 0x45    /* bsr 0x0601A65E (car_init_handler) */
+    .reloc ., R_SH_IND12W, car_init_handler - 4
+    .2byte 0xB000    /* bsr car_init_handler (linker-resolved) */
     nop
-    .byte   0xB1, 0x1A    /* bsr 0x0601A80C (course_data_rom_load) */
+    .reloc ., R_SH_IND12W, course_data_rom_load - 4
+    .2byte 0xB000    /* bsr course_data_rom_load (linker-resolved) */
     nop
-    .byte   0xB1, 0xB2    /* bsr 0x0601A940 (course_init_pipeline) */
+    .reloc ., R_SH_IND12W, course_init_pipeline - 4
+    .2byte 0xB000    /* bsr course_init_pipeline (linker-resolved) */
     nop
     mov.l   .L_pool_0601A640, r3
     mov.b r14, @r3

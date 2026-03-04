@@ -12,7 +12,8 @@ cmd_validate_chain:
     add #-0x8, r15
     mov.l r5, @r15
     mov.l r6, @(4, r15)
-    .byte   0xBE, 0x90    /* bsr 0x0603AEE8 (external) */
+    .reloc ., R_SH_IND12W, cmd_queue_process - 4
+    .2byte 0xB000    /* bsr cmd_queue_process (linker-resolved) */
     mov r7, r13
     mov r0, r14
     tst r14, r14
@@ -22,12 +23,14 @@ cmd_validate_chain:
     lds.l @r15+, macl
     lds.l @r15+, pr
     mov.l @r15+, r13
-    .byte   0xA3, 0xB0    /* bra 0x0603B93C (external) */
+    .reloc ., R_SH_IND12W, save_checksum_calc - 4
+    .2byte 0xA000    /* bra save_checksum_calc (linker-resolved) */
     mov.l @r15+, r14
 .L_0603B1DC:
     mov #0x0, r6
     mov.l @r15, r5
-    .byte   0xBE, 0xF6    /* bsr 0x0603AFD0 (external) */
+    .reloc ., R_SH_IND12W, cmd_error_return - 4
+    .2byte 0xB000    /* bsr cmd_error_return (linker-resolved) */
     mov r14, r4
     mov.l @r14, r5
     mov r13, r0
@@ -42,14 +45,17 @@ cmd_validate_chain:
 .L_0603B1F8:
     mov r13, r7
     mov.l @(4, r15), r6
-    .byte   0xB0, 0x0E    /* bsr 0x0603B21C (external) */
+    .reloc ., R_SH_IND12W, cmd_multi_validate - 4
+    .2byte 0xB000    /* bsr cmd_multi_validate (linker-resolved) */
     mov r14, r4
     mov r0, r13
-    .byte   0xBE, 0xC7    /* bsr 0x0603AF94 (external) */
+    .reloc ., R_SH_IND12W, cmd_result_store - 4
+    .2byte 0xB000    /* bsr cmd_result_store (linker-resolved) */
     mov r14, r4
     cmp/pz r13
     bf      .L_0603B20E
-    .byte   0xB3, 0x97    /* bsr 0x0603B93C (external) */
+    .reloc ., R_SH_IND12W, save_checksum_calc - 4
+    .2byte 0xB000    /* bsr save_checksum_calc (linker-resolved) */
     mov #0x0, r4
 .L_0603B20E:
     mov r13, r0

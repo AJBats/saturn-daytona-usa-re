@@ -154,6 +154,8 @@ DAT_0600d204:
     .2byte  0xFFFF
 .L_pool_0600D20C:
     .4byte  sym_0607E940
+    .global FUN_0600D210
+FUN_0600D210:
     .4byte  0xD519D41A
     .4byte  0x90296552
     .4byte  0x6442035E

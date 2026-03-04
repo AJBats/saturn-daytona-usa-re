@@ -523,15 +523,18 @@ sym_06028248:
 .L_0602825E:
     mov.w   .L_060282AC, r0
     mov #0x1, r5
-    .byte   0xB1, 0xCD    /* bsr 0x06028600 (external) */
+    .reloc ., R_SH_IND12W, FUN_06028600 - 4
+    .2byte 0xB000    /* bsr FUN_06028600 (linker-resolved) */
     ldc r0, sr
     .byte   0xD6, 0x13    /* mov.l .L_060282B4, r6 */
     mov #0xD, r4
-    .byte   0xB1, 0xC9    /* bsr 0x06028600 (external) */
+    .reloc ., R_SH_IND12W, FUN_06028600 - 4
+    .2byte 0xB000    /* bsr FUN_06028600 (linker-resolved) */
     mov #0x2, r5
     mov #0x13, r4
     mov #0x2, r5
-    .byte   0xB1, 0xB5    /* bsr 0x060285E0 (external) */
+    .reloc ., R_SH_IND12W, FUN_060285E0 - 4
+    .2byte 0xB000    /* bsr FUN_060285E0 (linker-resolved) */
     mov.l @(36, r15), r6
     .byte   0xD4, 0x0A    /* mov.l .L_060282A0, r4 */
     .byte   0xD5, 0x0A    /* mov.l .L_060282A4, r5 */
@@ -573,10 +576,13 @@ sym_06028248:
     .4byte  sym_06059C7B
 .L_060282BC:
     .4byte  sym_06059C8C
+    .global FUN_060282C0
+FUN_060282C0:
     .4byte  0xD20ED00F
     .4byte  0x12001201
     .4byte  0x1202E000
-    .4byte  0x802B4411
+    .2byte 0x802B
+    .2byte 0x4411
     .4byte  0x8D02E720
     .4byte  0x644BE72D
     .4byte  0x72029113
@@ -590,7 +596,10 @@ sym_06028248:
     .4byte  0x60230009
     .4byte  sym_060620C4
     .4byte  0x20202020
-    .4byte  0xFF00D20E
+    .2byte  0xFF00
+    .global FUN_06028306
+FUN_06028306:
+    .2byte  0xD20E
     .4byte  0xD00E1200
     .4byte  0x12011202
     .4byte  0xE000802B

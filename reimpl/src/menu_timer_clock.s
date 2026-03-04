@@ -15,7 +15,8 @@ menu_timer_clock:
     bra     .L_0603B646
     nop
 .L_0603B646:
-    .byte   0xBD, 0x07    /* bsr 0x0603B058 (external) */
+    .reloc ., R_SH_IND12W, menu_element_dispatch - 4
+    .2byte 0xB000    /* bsr menu_element_dispatch (linker-resolved) */
     mov r14, r4
     mov r0, r5
     .byte   0xD3, 0x13    /* mov.l .L_pool_0603B69C, r3 */
@@ -25,7 +26,8 @@ menu_timer_clock:
     bf      .L_0603B65E
     mov #-0x14, r4
     lds.l @r15+, pr
-    .byte   0xA1, 0x6F    /* bra 0x0603B93C (external) */
+    .reloc ., R_SH_IND12W, save_checksum_calc - 4
+    .2byte 0xA000    /* bra save_checksum_calc (linker-resolved) */
     mov.l @r15+, r14
 .L_0603B65E:
     .byte   0xD2, 0x10    /* mov.l .L_pool_0603B6A0, r2 */
@@ -35,7 +37,8 @@ menu_timer_clock:
 .L_0603B666:
     mov #0x0, r4
     lds.l @r15+, pr
-    .byte   0xA1, 0x67    /* bra 0x0603B93C (external) */
+    .reloc ., R_SH_IND12W, save_checksum_calc - 4
+    .2byte 0xA000    /* bra save_checksum_calc (linker-resolved) */
     mov.l @r15+, r14
     .2byte  0xD60C
     .4byte  0x63629012

@@ -55,6 +55,8 @@ event_callback_dispatch:
     mov #0x10, r0
     mov.b r2, @(r0, r3)
     mov r3, r0
+    .global FUN_06040BF2
+FUN_06040BF2:
     add #0x18, r15
     lds.l @r15+, pr
     mov.l @r15+, r13

@@ -16,7 +16,8 @@ obj_list_iterate:
     mov.b @r15, r4
     extu.b r4, r4
     add #0x4, r15
-    .byte   0xA4, 0x90    /* bra 0x06020DEE (external) */
+    .reloc ., R_SH_IND12W, FUN_06020DEE - 4
+    .2byte 0xA000    /* bra FUN_06020DEE (linker-resolved) */
     lds.l @r15+, pr
 
     .global sym_060204CE

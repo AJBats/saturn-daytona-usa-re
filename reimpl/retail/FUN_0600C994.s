@@ -131,6 +131,8 @@ DAT_0600c9e6:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
+    .global FUN_0600CA96
+FUN_0600CA96:
     .global FUN_0600CA9A
 FUN_0600CA9A:
     .byte 0x2F, 0xD6

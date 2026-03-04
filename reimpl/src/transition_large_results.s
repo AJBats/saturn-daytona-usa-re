@@ -163,7 +163,8 @@ transition_large_results:
     mov.l @r4, r0
     tst r0, r0
     bf      .L_0600FC9E
-    .byte   0xB5, 0x63    /* bsr 0x06010760 (external) */
+    .reloc ., R_SH_IND12W, adv_anim_state - 4
+    .2byte 0xB000    /* bsr adv_anim_state (linker-resolved) */
     nop
     bra     .L_0600FCF2
     nop
@@ -174,7 +175,8 @@ transition_large_results:
     mov.l r2, @r4
 .L_0600FCA6:
     mov.w @(2, r11), r0
-    .byte   0xB4, 0x1A    /* bsr 0x060104E0 (external) */
+    .reloc ., R_SH_IND12W, multi_state_anim - 4
+    .2byte 0xB000    /* bsr multi_state_anim (linker-resolved) */
     mov r0, r4
     bra     .L_0600FCF2
     nop
@@ -206,13 +208,15 @@ transition_large_results:
     extu.w r0, r0
     cmp/eq #0x10, r0
     bf      .L_0600FCEC
-    .byte   0xB3, 0xC4    /* bsr 0x06010470 (external) */
+    .reloc ., R_SH_IND12W, throttle_state_toggle - 4
+    .2byte 0xB000    /* bsr throttle_state_toggle (linker-resolved) */
     nop
     bra     .L_0600FCF2
     nop
 .L_0600FCEC:
     mov.w @(2, r11), r0
-    .byte   0xB3, 0x63    /* bsr 0x060103B8 (external) */
+    .reloc ., R_SH_IND12W, brake_state_toggle - 4
+    .2byte 0xB000    /* bsr brake_state_toggle (linker-resolved) */
     mov r0, r4
 .L_0600FCF2:
     mov r11, r2
@@ -249,7 +253,8 @@ transition_large_results:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xA6, 0xB7    /* bra 0x06010AA4 (external) */
+    .reloc ., R_SH_IND12W, tachometer_ctrl - 4
+    .2byte 0xA000    /* bra tachometer_ctrl (linker-resolved) */
     mov.l @r15+, r14
 .L_0600FD36:
     .2byte  0x0686

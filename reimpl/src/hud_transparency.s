@@ -53,6 +53,8 @@ hud_transparency:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
+    .global FUN_0601164A
+FUN_0601164A:
 
 .L_0601164A:
     mov.l   .L_pool_06011670, r3

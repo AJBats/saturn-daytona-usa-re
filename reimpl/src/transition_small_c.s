@@ -16,7 +16,8 @@ transition_small_c:
     mov #0xB, r2
     .byte   0xD3, 0x1E    /* mov.l .L_pool_0600FDE0, r3 */
     mov.b r2, @r3
-    .byte   0xB7, 0x2B    /* bsr 0x06010BC4 (external) */
+    .reloc ., R_SH_IND12W, graphics_mode_setup - 4
+    .2byte 0xB000    /* bsr graphics_mode_setup (linker-resolved) */
     nop
     .byte   0xD3, 0x1D    /* mov.l .L_pool_0600FDE4, r3 */
     jsr @r3

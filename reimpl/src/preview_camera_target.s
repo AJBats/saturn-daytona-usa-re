@@ -30,9 +30,11 @@ preview_camera_target:
     mov #0x1, r3
     mov.b r3, @r5
 .L_0601A7DA:
-    .byte   0xBF, 0x40    /* bsr 0x0601A65E (external) */
+    .reloc ., R_SH_IND12W, car_init_handler - 4
+    .2byte 0xB000    /* bsr car_init_handler (linker-resolved) */
     nop
-    .byte   0xAF, 0xAE    /* bra 0x0601A73E (external) */
+    .reloc ., R_SH_IND12W, FUN_0601A73E - 4
+    .2byte 0xA000    /* bra FUN_0601A73E (linker-resolved) */
     lds.l @r15+, pr
 .L_0601A7E2:
     .2byte  0x4000

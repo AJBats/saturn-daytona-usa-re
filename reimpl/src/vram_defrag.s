@@ -80,7 +80,8 @@ vram_defrag:
     mov.l @r0, r0
     cmp/eq #0x17, r0
     bf      .L_0602004A
-    .byte   0xB0, 0xB7    /* bsr 0x060201B8 (obj_pool_alloc */
+    .reloc ., R_SH_IND12W, obj_pool_alloc - 4
+    .2byte 0xB000    /* bsr obj_pool_alloc (linker-resolved) */
     nop
 .L_0602004A:
     mov.w @r11, r2
@@ -129,7 +130,8 @@ loc_06020090:
     mov.l @r0, r0
     cmp/eq #0x17, r0
     bf      .L_0602009C
-    .byte   0xA0, 0x8E    /* bra 0x060201B8 (obj_pool_alloc */
+    .reloc ., R_SH_IND12W, obj_pool_alloc - 4
+    .2byte 0xA000    /* bra obj_pool_alloc (linker-resolved) */
     nop
 .L_0602009C:
     rts

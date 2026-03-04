@@ -22,11 +22,14 @@ mem_pool_alloc:
     mov.l   .L_pool_0601F4A5, r3
     add r3, r4
     mov.b @r4, r4
-    .byte   0xB9, 0x2B    /* bsr 0x0601E6E0 (mat_euler_rotate) */
+    .reloc ., R_SH_IND12W, mat_euler_rotate - 4
+    .2byte 0xB000    /* bsr mat_euler_rotate (linker-resolved) */
     extu.b r4, r4
-    .byte   0xBB, 0x71    /* bsr 0x0601EB70 (geom_normal_compute) */
+    .reloc ., R_SH_IND12W, geom_normal_compute - 4
+    .2byte 0xB000    /* bsr geom_normal_compute (linker-resolved) */
     nop
-    .byte   0xAF, 0xBD    /* bra 0x0601F40C (geom_output_handler, tail call) */
+    .reloc ., R_SH_IND12W, geom_output_handler - 4
+    .2byte 0xA000    /* bra geom_output_handler (linker-resolved) */
     lds.l @r15+, pr
     .2byte  0xFFFF
 .L_pool_0601F495:

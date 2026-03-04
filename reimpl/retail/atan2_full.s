@@ -15,6 +15,8 @@ atan2_full:
     .byte 0x30, 0x2C
     .byte 0x00, 0x0B
     .byte 0x60, 0x0F
+    .global FUN_06027476
+FUN_06027476:
     .global isqrt
 isqrt:
     .byte 0x44, 0x15

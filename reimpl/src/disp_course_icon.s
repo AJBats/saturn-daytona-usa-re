@@ -6,7 +6,8 @@
     .type disp_course_icon, @function
 disp_course_icon:
     sts.l pr, @-r15
-    .byte   0xBE, 0xB6    /* bsr 0x06033520 (external) */
+    .reloc ., R_SH_IND12W, FUN_06033520 - 4
+    .2byte 0xB000    /* bsr FUN_06033520 (linker-resolved) */
     nop
     lds.l @r15+, pr
     .byte   0xD4, 0x0E    /* mov.l .L_pool_060337F0, r4 */

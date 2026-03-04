@@ -11,35 +11,43 @@ evt_callback_handler:
     mov r4, r0
 .L_0604182E:
     mov r14, r4
-    .byte   0xA0, 0x45    /* bra 0x060418BE (external) */
+    .reloc ., R_SH_IND12W, track_road_validate - 4
+    .2byte 0xA000    /* bra track_road_validate (linker-resolved) */
     mov.l @r15+, r14
 .L_06041834:
     mov r14, r4
-    .byte   0xA1, 0x33    /* bra 0x06041AA0 (external) */
+    .reloc ., R_SH_IND12W, track_boundary_check - 4
+    .2byte 0xA000    /* bra track_boundary_check (linker-resolved) */
     mov.l @r15+, r14
 .L_0604183A:
     mov r14, r4
-    .byte   0xA1, 0x7E    /* bra 0x06041B3C (external) */
+    .reloc ., R_SH_IND12W, track_surface_validate - 4
+    .2byte 0xA000    /* bra track_surface_validate (linker-resolved) */
     mov.l @r15+, r14
 .L_06041840:
     mov r14, r4
-    .byte   0xA2, 0x41    /* bra 0x06041CC8 (external) */
+    .reloc ., R_SH_IND12W, state_transition_handler - 4
+    .2byte 0xA000    /* bra state_transition_handler (linker-resolved) */
     mov.l @r15+, r14
 .L_06041846:
     mov r14, r4
-    .byte   0xA2, 0x90    /* bra 0x06041D6C (external) */
+    .reloc ., R_SH_IND12W, large_func_prologue - 4
+    .2byte 0xA000    /* bra large_func_prologue (linker-resolved) */
     mov.l @r15+, r14
 .L_0604184C:
     mov r14, r4
-    .byte   0xA3, 0x4B    /* bra 0x06041EE8 (external) */
+    .reloc ., R_SH_IND12W, track_edge_validate - 4
+    .2byte 0xA000    /* bra track_edge_validate (linker-resolved) */
     mov.l @r15+, r14
 .L_06041852:
     mov r14, r4
-    .byte   0xA4, 0x6E    /* bra 0x06042134 (external) */
+    .reloc ., R_SH_IND12W, player_vehicle_interp - 4
+    .2byte 0xA000    /* bra player_vehicle_interp (linker-resolved) */
     mov.l @r15+, r14
 .L_06041858:
     mov r14, r4
-    .byte   0xA4, 0x15    /* bra 0x06042088 (external) */
+    .reloc ., R_SH_IND12W, track_shadow_validate - 4
+    .2byte 0xA000    /* bra track_shadow_validate (linker-resolved) */
     mov.l @r15+, r14
     .2byte  0x0360
 .L_06041860:

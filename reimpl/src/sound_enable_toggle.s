@@ -17,7 +17,8 @@ sound_enable_toggle:
     mov.l @(16, r14), r8
     mov.l @(24, r14), r9
     mov.l @(16, r13), r6
-    .byte   0xA1, 0xC3    /* bra 0x0603136E (external) */
+    .reloc ., R_SH_IND12W, FUN_0603136E - 4
+    .2byte 0xA000    /* bra FUN_0603136E (linker-resolved) */
     mov.l @(24, r13), r7
 .L_06030FE8:
     mov.l @(16, r14), r6

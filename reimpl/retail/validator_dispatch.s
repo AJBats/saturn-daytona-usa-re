@@ -28,6 +28,8 @@ DAT_0604230c:
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
+    .global FUN_0604231E
+FUN_0604231E:
     .global sym_0604231E
 sym_0604231E:
     .byte 0xE7, 0x17

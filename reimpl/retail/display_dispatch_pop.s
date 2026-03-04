@@ -39,9 +39,13 @@ display_dispatch_pop:
     .byte 0x00, 0x09
     .4byte sym_06082A24
     .4byte sym_06082A20
+    .global FUN_06032304
+FUN_06032304:
     .byte 0xD0, 0x07
     .byte 0x44, 0x08
     .byte 0x0E, 0x4E
+    .global FUN_0603230A
+FUN_0603230A:
     .byte 0xD0, 0x07
     .byte 0x01, 0xEE
     .byte 0x65, 0x16

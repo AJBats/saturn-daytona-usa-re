@@ -61,7 +61,8 @@ menu_ranking_display:
     mov #0x0, r4
     add #0x4, r15
     lds.l @r15+, pr
-    .byte   0xA1, 0x14    /* bra 0x0603B93C (external) */
+    .reloc ., R_SH_IND12W, save_checksum_calc - 4
+    .2byte 0xA000    /* bra save_checksum_calc (linker-resolved) */
     mov.l @r15+, r14
     .4byte  0x7F044F26
     .4byte  0x000B6EF6
@@ -80,6 +81,8 @@ menu_ranking_display:
     .4byte  sym_060360FC
 .L_pool_0603B730:
     .4byte  sym_0603F1E0
+    .global FUN_0603B734
+FUN_0603B734:
     .4byte  0xD41DD31E
     .4byte  0x64427404
     .4byte  0x2432D21D

@@ -59,6 +59,8 @@ vdp1_init:
     .4byte sym_0605A00C
     .4byte sym_06026CE0
     .4byte sym_06059F44
+    .global FUN_0600A1B8
+FUN_0600A1B8:
     .byte 0xD0, 0x1B
     .byte 0x60, 0x00
     .byte 0x60, 0x0C
@@ -163,6 +165,8 @@ DAT_0600a224:
     .byte 0x24, 0x61
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
+    .global FUN_0600A294
+FUN_0600A294:
     .byte 0xE7, 0x03
     .byte 0xD5, 0x15
     .byte 0xD4, 0x15

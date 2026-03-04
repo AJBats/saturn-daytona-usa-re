@@ -132,6 +132,8 @@ DAT_0601a6e2:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
+    .global FUN_0601A73E
+FUN_0601A73E:
 
     .global sym_0601A73E
 sym_0601A73E:

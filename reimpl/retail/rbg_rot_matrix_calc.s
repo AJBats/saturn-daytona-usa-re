@@ -39,6 +39,8 @@ DAT_0602e376:
     .4byte checkpoint_detect
     .byte 0x00, 0x00
     .byte 0x00, 0x96
+    .global FUN_0602E3A0
+FUN_0602E3A0:
     .byte 0xD1, 0x0B
     .byte 0xD3, 0x0C
     .byte 0x21, 0x32

@@ -133,6 +133,8 @@ loc_0602E108:
     .4byte  sym_0607EAC8
 .L_0602E168:
     .4byte  sym_0607E940
+    .global FUN_0602E16C
+FUN_0602E16C:
     .4byte  0xD10E6312
     .4byte  0x23388907
     .4byte  0x6033D20D

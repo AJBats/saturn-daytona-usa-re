@@ -22,7 +22,8 @@ scene_data_block_copy:
     mov.l   .L_pool_0603893C, r4
     mov.l @r6, r6
     shll r6
-    .byte   0xB0, 0xB1    /* bsr 0x06038A48 (word-copy helper) */
+    .reloc ., R_SH_IND12W, FUN_06038A48 - 4
+    .2byte 0xB000    /* bsr FUN_06038A48 (linker-resolved) */
     mov.l @r4, r4
     mov #0x0, r2
     mov.w r2, @r13
@@ -40,7 +41,8 @@ scene_data_block_copy:
     mov.l   .L_pool_06038948, r4
     mov.l @r6, r6
     shll r6
-    .byte   0xB0, 0xA0    /* bsr 0x06038A48 (word-copy helper) */
+    .reloc ., R_SH_IND12W, FUN_06038A48 - 4
+    .2byte 0xB000    /* bsr FUN_06038A48 (linker-resolved) */
     mov.l @r4, r4
     mov #0x0, r2
     mov r2, r0
@@ -54,7 +56,8 @@ scene_data_block_copy:
     mov.w   .L_wpool_06038932, r6
     mov.l   .L_pool_06038958, r5
     mov.l   .L_pool_0603895C, r4
-    .byte   0xB0, 0x94    /* bsr 0x06038A48 (word-copy helper) */
+    .reloc ., R_SH_IND12W, FUN_06038A48 - 4
+    .2byte 0xB000    /* bsr FUN_06038A48 (linker-resolved) */
     mov.l @r4, r4
     bra     .L_06038968
     nop
@@ -62,7 +65,8 @@ scene_data_block_copy:
     mov.w   .L_wpool_06038934, r6
     mov.l   .L_pool_06038958, r5
     mov.l   .L_pool_0603895C, r4
-    .byte   0xB0, 0x8D    /* bsr 0x06038A48 (word-copy helper) */
+    .reloc ., R_SH_IND12W, FUN_06038A48 - 4
+    .2byte 0xB000    /* bsr FUN_06038A48 (linker-resolved) */
     mov.l @r4, r4
     bra     .L_06038968
     nop
@@ -100,29 +104,34 @@ scene_data_block_copy:
     .byte   0xDE, 0x22    /* mov.l .L_pool_060389F4, r14 */
     mov #0x28, r6
     .byte   0xD5, 0x22    /* mov.l .L_pool_060389F8, r5 */
-    .byte   0xB0, 0x6B    /* bsr 0x06038A48 (word-copy helper) */
+    .reloc ., R_SH_IND12W, FUN_06038A48 - 4
+    .2byte 0xB000    /* bsr FUN_06038A48 (linker-resolved) */
     mov.l @r14, r4
     mov #0x48, r6
     .byte   0xD5, 0x21    /* mov.l .L_pool_060389FC, r5 */
     mov.l @r14, r4
-    .byte   0xB0, 0x66    /* bsr 0x06038A48 (word-copy helper) */
+    .reloc ., R_SH_IND12W, FUN_06038A48 - 4
+    .2byte 0xB000    /* bsr FUN_06038A48 (linker-resolved) */
     add #0x28, r4
     mov #0x40, r6
     .byte   0xD5, 0x20    /* mov.l .L_pool_06038A00, r5 */
     mov.l @r14, r4
-    .byte   0xB0, 0x61    /* bsr 0x06038A48 (word-copy helper) */
+    .reloc ., R_SH_IND12W, FUN_06038A48 - 4
+    .2byte 0xB000    /* bsr FUN_06038A48 (linker-resolved) */
     add #0x70, r4
     mov #0x10, r6
     .byte   0xD5, 0x1E    /* mov.l .L_pool_06038A04, r5 */
     mov.l @r14, r4
     .byte   0x92, 0x30    /* mov.w _wpool_offset_0xB0, r2 */
-    .byte   0xB0, 0x5B    /* bsr 0x06038A48 (word-copy helper) */
+    .reloc ., R_SH_IND12W, FUN_06038A48 - 4
+    .2byte 0xB000    /* bsr FUN_06038A48 (linker-resolved) */
     add r2, r4
     mov #0x20, r6
     .byte   0xD5, 0x1C    /* mov.l .L_pool_06038A08, r5 */
     mov.l @r14, r4
     .byte   0x92, 0x2B    /* mov.w _wpool_offset_0xC0, r2 */
-    .byte   0xB0, 0x55    /* bsr 0x06038A48 (word-copy helper) */
+    .reloc ., R_SH_IND12W, FUN_06038A48 - 4
+    .2byte 0xB000    /* bsr FUN_06038A48 (linker-resolved) */
     add r2, r4
     lds.l @r15+, pr
     mov.l @r15+, r13

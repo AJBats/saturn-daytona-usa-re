@@ -14,6 +14,8 @@ input_proc_extended:
     lds.l @r15+, pr
     rts
     nop
+    .global FUN_06035F16
+FUN_06035F16:
 
     .global sym_06035F16
 sym_06035F16:

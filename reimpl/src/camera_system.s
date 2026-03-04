@@ -48,7 +48,8 @@ camera_system:
     mov.l r3, @(4, r12)
 .L_0600BBE2:
     mov.l   .L_0600BC5C, r4
-    .byte   0xB3, 0xE0    /* bsr 0x0600C3A8 (external) */
+    .reloc ., R_SH_IND12W, FUN_0600C3A8 - 4
+    .2byte 0xB000    /* bsr FUN_0600C3A8 (linker-resolved) */
     mov.w @r4, r4
     bra     .L_0600BD96
     nop
@@ -153,7 +154,8 @@ DAT_0600bc2e:
     mov.l r2, @r10
 .L_0600BC98:
     mov.l   .L_0600BD14, r4
-    .byte   0xB3, 0x85    /* bsr 0x0600C3A8 (external) */
+    .reloc ., R_SH_IND12W, FUN_0600C3A8 - 4
+    .2byte 0xB000    /* bsr FUN_0600C3A8 (linker-resolved) */
     mov.w @r4, r4
     bra     .L_0600BD96
     nop

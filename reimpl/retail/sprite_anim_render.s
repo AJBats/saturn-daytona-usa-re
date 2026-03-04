@@ -203,6 +203,8 @@ DAT_060101b2:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
+    .global FUN_06010238
+FUN_06010238:
     .byte 0xD4, 0x16
     .byte 0xE2, 0x00
     .byte 0xD0, 0x16
@@ -251,6 +253,8 @@ DAT_060101b2:
     .byte 0xFF, 0xFF
     .4byte sym_0607887E
     .4byte sym_0607EAD8
+    .global FUN_060102A8
+FUN_060102A8:
     .byte 0xD5, 0x19
     .byte 0x63, 0x4D
     .byte 0xD2, 0x19
@@ -284,4 +288,6 @@ DAT_060101b2:
     .byte 0xD3, 0x0D
     .byte 0x00, 0x0B
     .byte 0x23, 0x12
+    .global FUN_060102EA
+FUN_060102EA:
     .byte 0x62, 0x4D

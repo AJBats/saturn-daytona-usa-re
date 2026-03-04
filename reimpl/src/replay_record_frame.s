@@ -96,7 +96,8 @@ replay_record_frame:
     shll2 r4
     add r3, r4
     mov.l @r4, r4
-    .byte   0xB0, 0x61    /* bsr 0x0601BBCC (external) */
+    .reloc ., R_SH_IND12W, replay_record_main - 4
+    .2byte 0xB000    /* bsr replay_record_main (linker-resolved) */
     mov r0, r5
     mov.w   DAT_0601bb46, r7
     add r14, r7

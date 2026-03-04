@@ -21,6 +21,8 @@ obj_anim_advance:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
+    .global FUN_06020DEE
+FUN_06020DEE:
 .L_06020DEE:
     extu.b r4, r4
     mov r4, r3

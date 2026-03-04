@@ -176,7 +176,8 @@ results_ranking_table:
     extu.b r14, r4
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xA3, 0xDA    /* bra 0x06016DD8 (external) */
+    .reloc ., R_SH_IND12W, track_vtx_builder - 4
+    .2byte 0xA000    /* bra track_vtx_builder (linker-resolved) */
     mov.l @r15+, r14
 .L_06016624:
     .2byte  0x0600

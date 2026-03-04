@@ -647,5 +647,6 @@ DAT_06018104:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xA0, 0x89    /* bra 0x06018278 (external tail call) */
+    .reloc ., R_SH_IND12W, track_calc_helper - 4
+    .2byte 0xA000    /* bra track_calc_helper (linker-resolved) */
     mov.l @r15+, r14

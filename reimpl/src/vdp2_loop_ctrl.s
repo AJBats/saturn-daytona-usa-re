@@ -26,6 +26,8 @@ vdp2_loop_ctrl:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
+    .global FUN_060172E4
+FUN_060172E4:
 
     .global sym_060172E4
 sym_060172E4:

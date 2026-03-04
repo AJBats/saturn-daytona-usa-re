@@ -45,6 +45,8 @@ audio_display_init:
     .4byte sym_0602853E
     .4byte sym_06028560
     .4byte display_channel_b
+    .global FUN_0600A084
+FUN_0600A084:
     .byte 0xD5, 0x23
     .byte 0xE4, 0x01
     .byte 0x90, 0x40

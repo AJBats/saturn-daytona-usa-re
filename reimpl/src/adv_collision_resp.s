@@ -68,7 +68,8 @@ adv_collision_resp:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xA0, 0x4C    /* bra 0x060146D2 (external) */
+    .reloc ., R_SH_IND12W, track_wall_collision - 4
+    .2byte 0xA000    /* bra track_wall_collision (linker-resolved) */
     mov.l @r15+, r14
 .L_0601463A:
     mov.l @r14, r0

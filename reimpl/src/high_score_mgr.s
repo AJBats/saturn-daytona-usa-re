@@ -7,7 +7,8 @@
 high_score_mgr:
     sts.l pr, @-r15
     mov.l   .L_pool_0603C17C, r12
-    .byte   0xB6, 0x24    /* bsr 0x0603CD5C */
+    .reloc ., R_SH_IND12W, hud_display_large - 4
+    .2byte 0xB000    /* bsr hud_display_large (linker-resolved) */
     mov #0x0, r14
     mov.l   .L_pool_0603C180, r3
     jsr @r3

@@ -1412,7 +1412,10 @@ sym_060358EC:
     .4byte  0xA03B0009
     .4byte  0x4A000129
     .4byte  0xE000A091
-    .4byte  0x4105D853
+    .2byte 0x4105
+    .global FUN_060359D2
+FUN_060359D2:
+    .2byte 0xD853
     .4byte  0xE100A07E
     .4byte  0xE000EA00
     .4byte  0xD850E100

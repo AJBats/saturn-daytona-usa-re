@@ -6,10 +6,12 @@
     .type display_cmd_vscroll, @function
 display_cmd_vscroll:
     sts.l pr, @-r15
-    .byte   0xBE, 0xEB    /* bsr 0x060321C0 (external) */
+    .reloc ., R_SH_IND12W, disp_init_setup - 4
+    .2byte 0xB000    /* bsr disp_init_setup (linker-resolved) */
     nop
     lds.l @r15+, pr
-    .byte   0xAF, 0x8D    /* bra 0x0603230A (external) */
+    .reloc ., R_SH_IND12W, FUN_0603230A - 4
+    .2byte 0xA000    /* bra FUN_0603230A (linker-resolved) */
     nop
 
     .global loc_060323F0
@@ -19,7 +21,8 @@ loc_060323F0:
     extu.b r2, r2
     mov.l   .L_pool_06032400, r0
     add r14, r0
-    .byte   0xAF, 0x86    /* bra 0x0603230A (external) */
+    .reloc ., R_SH_IND12W, FUN_0603230A - 4
+    .2byte 0xA000    /* bra FUN_0603230A (linker-resolved) */
     mov.b r1, @(r0, r2)
     .2byte  0x0000
 .L_pool_06032400:
@@ -30,7 +33,8 @@ loc_06032404:
     mov.l   .L_pool_06032410, r0
     mov.w @(r0, r14), r1
     or r7, r1
-    .byte   0xAF, 0x7E    /* bra 0x0603230A (external) */
+    .reloc ., R_SH_IND12W, FUN_0603230A - 4
+    .2byte 0xA000    /* bra FUN_0603230A (linker-resolved) */
     mov.w r1, @(r0, r14)
     .2byte  0x0000
 .L_pool_06032410:
@@ -42,7 +46,8 @@ loc_06032414:
     mov.w @(r0, r14), r1
     not r7, r2
     and r2, r1
-    .byte   0xAF, 0x75    /* bra 0x0603230A (external) */
+    .reloc ., R_SH_IND12W, FUN_0603230A - 4
+    .2byte 0xA000    /* bra FUN_0603230A (linker-resolved) */
     mov.w r1, @(r0, r14)
 .L_pool_06032420:
     .4byte  0x0000000E

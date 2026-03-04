@@ -20,7 +20,8 @@ event_priority_set:
     mov.l @r15+, r14
 .L_06040B12:
     mov.l @r15, r5
-    .byte   0xB0, 0x7C    /* bsr 0x06040C10 (external: evt_state_dispatch) */
+    .reloc ., R_SH_IND12W, evt_state_dispatch - 4
+    .2byte 0xB000    /* bsr evt_state_dispatch (linker-resolved) */
     mov r14, r4
     mov r0, r4
     tst r4, r4

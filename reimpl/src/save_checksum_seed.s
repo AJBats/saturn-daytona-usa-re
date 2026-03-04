@@ -7,9 +7,11 @@
 save_checksum_seed:
     sts.l pr, @-r15
     add #-0x4, r15
-    .byte   0xBF, 0xC0    /* bsr 0x0603B8B4 (external) */
+    .reloc ., R_SH_IND12W, sys_dma_channel_init - 4
+    .2byte 0xB000    /* bsr sys_dma_channel_init (linker-resolved) */
     mov.l r4, @r15
     mov.l @r15, r4
     add #0x4, r15
-    .byte   0xAF, 0xDC    /* bra 0x0603B8F4 (external) */
+    .reloc ., R_SH_IND12W, FUN_0603B8F4 - 4
+    .2byte 0xA000    /* bra FUN_0603B8F4 (linker-resolved) */
     lds.l @r15+, pr

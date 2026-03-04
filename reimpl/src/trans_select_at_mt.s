@@ -82,7 +82,8 @@ trans_select_at_mt:
     mov.l r3, @r14
 .L_06019DA0:
     mov.l @r15+, r13
-    .byte   0xAF, 0x11    /* bra 0x06019BC8 (external) */
+    .reloc ., R_SH_IND12W, course0_physics_init - 4
+    .2byte 0xA000    /* bra course0_physics_init (linker-resolved) */
     mov.l @r15+, r14
 .L_wpool_06019DA6:
     .2byte  0x4000

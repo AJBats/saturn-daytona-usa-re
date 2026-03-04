@@ -38,6 +38,8 @@ DAT_0604230c:
     nop
 
 
+    .global FUN_0604231E
+FUN_0604231E:
     .global sym_0604231E
 sym_0604231E:
     mov #0x17, r7

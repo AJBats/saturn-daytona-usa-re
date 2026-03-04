@@ -57,7 +57,8 @@ state_post_race_cleanup:
     mov.l @(r0, r2), r3
     cmp/pl r3
     bf      .L_06009CB0
-    .byte   0xB1, 0xEA    /* bsr 0x0600A084 (replay_record */
+    .reloc ., R_SH_IND12W, FUN_0600A084 - 4
+    .2byte 0xB000    /* bsr FUN_0600A084 (linker-resolved) */
     nop
 .L_06009CB0:
     mov.l   .L_06009CF8, r3

@@ -6,6 +6,7 @@
     .type disp_util_stub_a, @function
 disp_util_stub_a:
     sts.l pr, @-r15
-    .byte   0xB1, 0x52    /* bsr 0x06033330 (external) */
+    .reloc ., R_SH_IND12W, FUN_06033330 - 4
+    .2byte 0xB000    /* bsr FUN_06033330 (linker-resolved) */
     nop
     lds.l @r15+, pr

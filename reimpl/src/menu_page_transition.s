@@ -28,7 +28,8 @@ menu_page_transition:
 .L_0603B568:
     mov.l @r13, r2
     mov.l r2, @r12
-    .byte   0xBF, 0x5A    /* bsr 0x0603B424 (external) */
+    .reloc ., R_SH_IND12W, cmd_dispatch_main - 4
+    .2byte 0xB000    /* bsr cmd_dispatch_main (linker-resolved) */
     mov r2, r4
     mov r0, r14
     tst r14, r14
@@ -43,7 +44,8 @@ menu_page_transition:
 .L_0603B584:
     mov #0x1, r14
 .L_0603B586:
-    .byte   0xB1, 0xD9    /* bsr 0x0603B93C (external) */
+    .reloc ., R_SH_IND12W, save_checksum_calc - 4
+    .2byte 0xB000    /* bsr save_checksum_calc (linker-resolved) */
     mov #0x0, r4
     mov r14, r0
     lds.l @r15+, pr

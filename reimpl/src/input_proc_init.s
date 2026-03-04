@@ -38,6 +38,8 @@ input_proc_init:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
+    .global FUN_06035E3C
+FUN_06035E3C:
     .4byte  0x6543D210
     .4byte  0x63512231
     .4byte  0x8551D20F

@@ -8,7 +8,8 @@ menu_toggle_switch:
     sts.l pr, @-r15
     add #-0x4, r15
     mov.l r4, @r15
-    .byte   0xB2, 0xD0    /* bsr 0x0603B93C (external) */
+    .reloc ., R_SH_IND12W, save_checksum_calc - 4
+    .2byte 0xB000    /* bsr save_checksum_calc (linker-resolved) */
     mov #0x0, r4
     mov.l @r15, r2
     mov #0x12, r0

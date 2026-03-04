@@ -32,6 +32,8 @@ results_full_render:
     .4byte  0x00010000
 .L_pool_06033276:
     .4byte  0xFFF80000
+    .global FUN_06033278
+FUN_06033278:
 
 .L_06033278:
     mov.l r0, @-r15
@@ -135,5 +137,7 @@ results_full_render:
     .4byte  0x00010000
 .L_pool_0603332E:
     .4byte  sym_060629AC
+    .global FUN_06033330
+FUN_06033330:
     .4byte  0xD505D406                   /* trailing data (after cell table ptr — not code) */
     .4byte  0x9606D006

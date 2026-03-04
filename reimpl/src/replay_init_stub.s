@@ -6,7 +6,8 @@
     .type replay_init_stub, @function
 replay_init_stub:
     sts.l pr, @-r15
-    .byte   0xB0, 0xA3    /* bsr 0x0601B0D8 (external) */
+    .reloc ., R_SH_IND12W, course_state_setup - 4
+    .2byte 0xB000    /* bsr course_state_setup (linker-resolved) */
     nop
     mov #0x14, r2
     .byte   0xD3, 0x0C    /* mov.l .L_pool_0601AFC8, r3 */

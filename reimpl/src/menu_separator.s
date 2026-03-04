@@ -8,17 +8,22 @@ menu_separator:
     sts.l pr, @-r15
     add #-0x4, r15
     mov.b r3, @(r0, r14)
-    .byte   0xB2, 0xFE    /* bsr 0x0603B9D6 (external) */
+    .reloc ., R_SH_IND12W, save_field_read - 4
+    .2byte 0xB000    /* bsr save_field_read (linker-resolved) */
     mov r14, r4
     mov r14, r13
-    .byte   0xB2, 0x6A    /* bsr 0x0603B8B4 (external) */
+    .reloc ., R_SH_IND12W, sys_dma_channel_init - 4
+    .2byte 0xB000    /* bsr sys_dma_channel_init (linker-resolved) */
     mov r14, r4
-    .byte   0xB2, 0x88    /* bsr 0x0603B8F4 (external) */
+    .reloc ., R_SH_IND12W, FUN_0603B8F4 - 4
+    .2byte 0xB000    /* bsr FUN_0603B8F4 (linker-resolved) */
     mov r13, r4
-    .byte   0xBE, 0x38    /* bsr 0x0603B058 (external) */
+    .reloc ., R_SH_IND12W, menu_element_dispatch - 4
+    .2byte 0xB000    /* bsr menu_element_dispatch (linker-resolved) */
     mov r13, r4
     mov.l r0, @r15
-    .byte   0xB2, 0xA7    /* bsr 0x0603B93C (external) */
+    .reloc ., R_SH_IND12W, save_checksum_calc - 4
+    .2byte 0xB000    /* bsr save_checksum_calc (linker-resolved) */
     mov #0x0, r4
     mov.l @r15, r0
     add #0x4, r15
@@ -26,5 +31,7 @@ menu_separator:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
+    .global FUN_0603B3FA
+FUN_0603B3FA:
     .2byte  0x6343
     .2byte  0xE011

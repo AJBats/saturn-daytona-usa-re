@@ -23,7 +23,8 @@ sys_boot_sequence:
     mov.l @(36, r14), r3
     add #0x4, r5
     sub r3, r11
-    .byte   0xB1, 0x6A    /* bsr 0x060405B8 (external) */
+    .reloc ., R_SH_IND12W, evt_validate_multi - 4
+    .2byte 0xB000    /* bsr evt_validate_multi (linker-resolved) */
     mov r15, r4
     bra     .L_06040312
     mov r0, r9
@@ -119,7 +120,8 @@ sys_boot_sequence:
     jsr @r3
     mov r12, r4
     mov r0, r5
-    .byte   0xB1, 0xD6    /* bsr 0x06040722 (external) */
+    .reloc ., R_SH_IND12W, FUN_06040722 - 4
+    .2byte 0xB000    /* bsr FUN_06040722 (linker-resolved) */
     mov r14, r4
     mov.l @(4, r14), r8
     cmp/pl r9
@@ -202,7 +204,8 @@ sys_boot_sequence:
     mov r12, r4
     mov r11, r5
     add r0, r5
-    .byte   0xB1, 0x91    /* bsr 0x06040722 (external) */
+    .reloc ., R_SH_IND12W, FUN_06040722 - 4
+    .2byte 0xB000    /* bsr FUN_06040722 (linker-resolved) */
     mov r14, r4
     mov.l @(4, r14), r2
     mov #0x1, r4
@@ -231,7 +234,8 @@ sys_boot_sequence:
     mov r15, r2
     add #0x8, r2
     mov.b r3, @(r0, r2)
-    .byte   0xB0, 0xBF    /* bsr 0x060405B8 (external) */
+    .reloc ., R_SH_IND12W, evt_validate_multi - 4
+    .2byte 0xB000    /* bsr evt_validate_multi (linker-resolved) */
     mov r15, r4
 
     mov r15, r3

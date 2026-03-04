@@ -54,7 +54,8 @@ obj_collision_update:
     bra     .L_06020CBA
     nop
 .L_06020C98:
-    .byte   0xBE, 0x55    /* bsr 0x06020946 (external) */
+    .reloc ., R_SH_IND12W, obj_lod_level - 4
+    .2byte 0xB000    /* bsr obj_lod_level (linker-resolved) */
     nop
     bra     .L_06020CBA
     nop

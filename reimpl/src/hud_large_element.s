@@ -43,7 +43,8 @@ hud_large_element:
     shll r2
     add r14, r2
     mov.w r0, @(28, r2)
-    .byte   0xB0, 0x63    /* bsr 0x0601E488 (hud_text_handler */
+    .reloc ., R_SH_IND12W, hud_text_handler - 4
+    .2byte 0xB000    /* bsr hud_text_handler (linker-resolved) */
     mov r13, r4
     bra     .L_0601E404
     nop
@@ -56,7 +57,8 @@ hud_large_element:
     add r14, r4
     mov.w @(28, r4), r0
     mov r0, r4
-    .byte   0xB1, 0x66    /* bsr 0x0601E6A4 (hud_utility */
+    .reloc ., R_SH_IND12W, hud_utility - 4
+    .2byte 0xB000    /* bsr hud_utility (linker-resolved) */
     extu.w r4, r4
     tst r0, r0
     bt      .L_0601E3F0

@@ -3,6 +3,8 @@
     .type vdp1_cmd_init, @function
 vdp1_cmd_init:
     .byte 0x2F, 0xE6
+    .global FUN_0602DC26
+FUN_0602DC26:
     .byte 0xD0, 0x05
     .byte 0x60, 0x02
     .byte 0x40, 0x08

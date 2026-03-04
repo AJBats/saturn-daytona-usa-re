@@ -107,5 +107,6 @@ pre_race_camera:
 .L_06019FAA:
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xAF, 0x03    /* bra 0x06019DB8 (external) */
+    .reloc ., R_SH_IND12W, course1_physics_init - 4
+    .2byte 0xA000    /* bra course1_physics_init (linker-resolved) */
     mov.l @r15+, r14

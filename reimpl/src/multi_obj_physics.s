@@ -53,7 +53,8 @@ multi_obj_physics:
     mov.l @r3, r3
     cmp/eq r13, r3
     bf      .L_060143C2
-    .byte   0xBD, 0x28    /* bsr 0x06013E12 (external) */
+    .reloc ., R_SH_IND12W, camera_fov_dispatch - 4
+    .2byte 0xB000    /* bsr camera_fov_dispatch (linker-resolved) */
     nop
 .L_060143C2:
     mov r14, r6

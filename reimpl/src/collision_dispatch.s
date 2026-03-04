@@ -61,7 +61,8 @@ collision_dispatch:
     mov.l @(8, r14), r2
     cmp/ge r2, r3
     bt      .L_0600CFC8
-    .byte   0xB0, 0xB4    /* bsr 0x0600D12C (external) */
+    .reloc ., R_SH_IND12W, FUN_0600D12C - 4
+    .2byte 0xB000    /* bsr FUN_0600D12C (linker-resolved) */
     nop
     bra     .L_0600CFD6
     nop
@@ -119,12 +120,14 @@ DAT_0600cfe6:
     mov.l @(r0, r14), r3
     cmp/ge r2, r3
     bt      .L_0600D026
-    .byte   0xB0, 0xF7    /* bsr 0x0600D210 (external) */
+    .reloc ., R_SH_IND12W, FUN_0600D210 - 4
+    .2byte 0xB000    /* bsr FUN_0600D210 (linker-resolved) */
     nop
     bra     .L_0600D08A
     nop
 .L_0600D026:
-    .byte   0xB0, 0x81    /* bsr 0x0600D12C (external) */
+    .reloc ., R_SH_IND12W, FUN_0600D12C - 4
+    .2byte 0xB000    /* bsr FUN_0600D12C (linker-resolved) */
     nop
     bra     .L_0600D08A
     nop
@@ -180,13 +183,15 @@ DAT_0600cfe6:
     bra     .L_0600D09C
     nop
 .L_0600D08E:
-    .byte   0xB0, 0x4D    /* bsr 0x0600D12C (external) */
+    .reloc ., R_SH_IND12W, FUN_0600D12C - 4
+    .2byte 0xB000    /* bsr FUN_0600D12C (linker-resolved) */
     nop
 .L_0600D092:
     mov.l @(4, r14), r0
     tst r0, r0
     bf      .L_0600D09C
-    .byte   0xB0, 0x48    /* bsr 0x0600D12C (external) */
+    .reloc ., R_SH_IND12W, FUN_0600D12C - 4
+    .2byte 0xB000    /* bsr FUN_0600D12C (linker-resolved) */
     nop
 .L_0600D09C:
     add #0x4, r15

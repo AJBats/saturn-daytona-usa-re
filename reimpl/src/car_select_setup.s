@@ -21,9 +21,11 @@ car_select_setup:
     mov.b r4, @r3
     mov.l   .L_06019920, r3
     mov.b r1, @r3
-    .byte   0xB0, 0x12    /* bsr 0x06019928 (FUN_06019928) */
+    .reloc ., R_SH_IND12W, FUN_06019928 - 4
+    .2byte 0xB000    /* bsr FUN_06019928 (linker-resolved) */
     nop
-    .byte   0xB7, 0x82    /* bsr 0x0601A80C (course_data_rom_load) */
+    .reloc ., R_SH_IND12W, course_data_rom_load - 4
+    .2byte 0xB000    /* bsr course_data_rom_load (linker-resolved) */
     nop
     mov.l   .L_06019924, r3
     jmp @r3

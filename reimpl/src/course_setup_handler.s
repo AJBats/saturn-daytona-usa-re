@@ -27,6 +27,8 @@ course_setup_handler:
 loc_0601B096:
     rts
     nop
+    .global FUN_0601B09A
+FUN_0601B09A:
     .2byte  0x644E
     .4byte  0x655E7FFC
     .4byte  0x63432F60

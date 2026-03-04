@@ -17,7 +17,8 @@ collision_detect_main:
     mov.b @(3, r0), r0
     tst #0x8, r0
     bf      .L_0600CE9C
-    .byte   0xBF, 0x5F    /* bsr 0x0600CD40 (external) */
+    .reloc ., R_SH_IND12W, FUN_0600CD40 - 4
+    .2byte 0xB000    /* bsr FUN_0600CD40 (linker-resolved) */
     nop
     bra     .L_0600CEA0
     nop
@@ -46,7 +47,8 @@ DAT_0600ce8e:
     .4byte  sym_0607EA9C
     .4byte  atan2
 .L_0600CE9C:
-    .byte   0xBF, 0x98    /* bsr 0x0600CDD0 (external) */
+    .reloc ., R_SH_IND12W, race_heading_calc - 4
+    .2byte 0xB000    /* bsr race_heading_calc (linker-resolved) */
     nop
 .L_0600CEA0:
     .byte   0x90, 0x4B    /* mov.w .L_wpool_0600CF3A, r0 */

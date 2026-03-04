@@ -6,7 +6,8 @@
     .type results_separator, @function
 results_separator:
     sts.l pr, @-r15
-    .byte   0xB0, 0x21    /* bsr 0x06033278 (external) */
+    .reloc ., R_SH_IND12W, FUN_06033278 - 4
+    .2byte 0xB000    /* bsr FUN_06033278 (linker-resolved) */
     nop
     lds.l @r15+, pr
     .byte   0xD4, 0x0D    /* mov.l .L_pool_06033270, r4 */

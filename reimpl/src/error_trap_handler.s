@@ -55,7 +55,8 @@ error_trap_handler:
     add #0x4, r0
     mov.l @r14, r3
     mov.l r7, @(r0, r3)
-    .byte   0xB5, 0x82    /* bsr 0x06041EE8 (external) */
+    .reloc ., R_SH_IND12W, track_edge_validate - 4
+    .2byte 0xB000    /* bsr track_edge_validate (linker-resolved) */
     mov r15, r4
     mov #0x0, r0
     add #0x8, r15

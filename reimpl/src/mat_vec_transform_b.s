@@ -73,6 +73,8 @@ sin_lookup:
     rts
     mov.l @(r0, r4), r0
     .2byte  0x0009
+    .global FUN_06027358
+FUN_06027358:
 
     .global sincos_pair
 sincos_pair:
@@ -92,6 +94,8 @@ sincos_pair:
     rts
     mov.l r1, @r6
     .2byte  0x0009
+    .global FUN_06027378
+FUN_06027378:
 
     .global atan_piecewise
 atan_piecewise:

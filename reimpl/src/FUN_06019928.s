@@ -119,13 +119,17 @@ FUN_06019928:
     mov #0xC, r4
 
 .L_060199FA:
-    .byte   0xB0, 0xE5    /* bsr 0x06019BC8 (external) */
+    .reloc ., R_SH_IND12W, course0_physics_init - 4
+    .2byte 0xB000    /* bsr course0_physics_init (linker-resolved) */
     nop
-    .byte   0xB1, 0xDB    /* bsr 0x06019DB8 (external) */
+    .reloc ., R_SH_IND12W, course1_physics_init - 4
+    .2byte 0xB000    /* bsr course1_physics_init (linker-resolved) */
     nop
-    .byte   0xB2, 0xD6    /* bsr 0x06019FB2 (external) */
+    .reloc ., R_SH_IND12W, course2_physics_init - 4
+    .2byte 0xB000    /* bsr course2_physics_init (linker-resolved) */
     nop
-    .byte   0xB6, 0x2A    /* bsr 0x0601A65E (external) */
+    .reloc ., R_SH_IND12W, car_init_handler - 4
+    .2byte 0xB000    /* bsr car_init_handler (linker-resolved) */
     nop
 
     mov #0x0, r2

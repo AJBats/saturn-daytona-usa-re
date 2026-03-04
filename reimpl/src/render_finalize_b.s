@@ -67,15 +67,18 @@ render_finalize_b:
     mov.w r12, @r3
     mov.l   .L_06024E08, r1
     mov.b @r1, r1
-    .byte   0xB1, 0x66    /* bsr 0x06025070 (scene_finalize_a */
+    .reloc ., R_SH_IND12W, scene_finalize_a - 4
+    .2byte 0xB000    /* bsr scene_finalize_a (linker-resolved) */
     mov.l r1, @r14
-    .byte   0xB1, 0xD0    /* bsr 0x06025148 (scene_finalize_b */
+    .reloc ., R_SH_IND12W, scene_finalize_b - 4
+    .2byte 0xB000    /* bsr scene_finalize_b (linker-resolved) */
     nop
     mov.w @r10, r2
     extu.w r2, r2
     cmp/eq r11, r2
     bf      .L_06024E0C
-    .byte   0xB2, 0x38    /* bsr 0x06025224 (scene_process_a */
+    .reloc ., R_SH_IND12W, scene_process_a - 4
+    .2byte 0xB000    /* bsr scene_process_a (linker-resolved) */
     mov.l @r14, r4
     bra     .L_06024E10
     nop
@@ -124,7 +127,8 @@ render_finalize_b:
 .L_06024E08:
     .4byte  sym_0605D240
 .L_06024E0C:
-    .byte   0xB3, 0x34    /* bsr 0x06025478 (scene_process_b */
+    .reloc ., R_SH_IND12W, scene_process_b - 4
+    .2byte 0xB000    /* bsr scene_process_b (linker-resolved) */
     mov.l @r14, r4
 .L_06024E10:
     mov.b @r13, r0
@@ -174,12 +178,14 @@ render_finalize_b:
     extu.w r2, r2
     cmp/eq r11, r2
     bf      .L_06024E70
-    .byte   0xB1, 0xDC    /* bsr 0x06025224 (scene_process_a */
+    .reloc ., R_SH_IND12W, scene_process_a - 4
+    .2byte 0xB000    /* bsr scene_process_a (linker-resolved) */
     mov.l @r14, r4
     bra     .L_06024F16
     nop
 .L_06024E70:
-    .byte   0xB3, 0x02    /* bsr 0x06025478 (scene_process_b */
+    .reloc ., R_SH_IND12W, scene_process_b - 4
+    .2byte 0xB000    /* bsr scene_process_b (linker-resolved) */
     mov.l @r14, r4
     bra     .L_06024F16
     nop
@@ -258,12 +264,14 @@ render_finalize_b:
     extu.w r2, r2
     cmp/eq r11, r2
     bf      .L_06024F06
-    .byte   0xB1, 0x91    /* bsr 0x06025224 (scene_process_a */
+    .reloc ., R_SH_IND12W, scene_process_a - 4
+    .2byte 0xB000    /* bsr scene_process_a (linker-resolved) */
     mov.l @r14, r4
     bra     .L_06024F0A
     nop
 .L_06024F06:
-    .byte   0xB2, 0xB7    /* bsr 0x06025478 (scene_process_b */
+    .reloc ., R_SH_IND12W, scene_process_b - 4
+    .2byte 0xB000    /* bsr scene_process_b (linker-resolved) */
     mov.l @r14, r4
 .L_06024F0A:
     mov #0x1, r3
@@ -284,12 +292,14 @@ render_finalize_b:
     extu.w r2, r2
     cmp/eq r11, r2
     bf      .L_06024F32
-    .byte   0xB3, 0xCF    /* bsr 0x060256CC (scene_physics_integrate */
+    .reloc ., R_SH_IND12W, scene_physics_integrate - 4
+    .2byte 0xB000    /* bsr scene_physics_integrate (linker-resolved) */
     nop
     bra     .L_06024F48
     nop
 .L_06024F32:
-    .byte   0xB6, 0x5F    /* bsr 0x06025BF4 (scene_physics_variant */
+    .reloc ., R_SH_IND12W, scene_physics_variant - 4
+    .2byte 0xB000    /* bsr scene_physics_variant (linker-resolved) */
     nop
     bra     .L_06024F48
     nop
@@ -315,12 +325,14 @@ render_finalize_b:
     extu.w r3, r3
     cmp/eq r11, r3
     bf      .L_06024F6A
-    .byte   0xB0, 0x85    /* bsr 0x06025070 (scene_finalize_a */
+    .reloc ., R_SH_IND12W, scene_finalize_a - 4
+    .2byte 0xB000    /* bsr scene_finalize_a (linker-resolved) */
     nop
     bra     .L_06024FCA
     nop
 .L_06024F6A:
-    .byte   0xB0, 0xED    /* bsr 0x06025148 (scene_finalize_b */
+    .reloc ., R_SH_IND12W, scene_finalize_b - 4
+    .2byte 0xB000    /* bsr scene_finalize_b (linker-resolved) */
     nop
     bra     .L_06024FCA
     nop
@@ -378,12 +390,14 @@ render_finalize_b:
     extu.w r3, r3
     cmp/eq r11, r3
     bf      .L_06024FDA
-    .byte   0xB1, 0x27    /* bsr 0x06025224 (scene_process_a */
+    .reloc ., R_SH_IND12W, scene_process_a - 4
+    .2byte 0xB000    /* bsr scene_process_a (linker-resolved) */
     mov.l @r14, r4
     bra     .L_06024FDE
     nop
 .L_06024FDA:
-    .byte   0xB2, 0x4D    /* bsr 0x06025478 (scene_process_b */
+    .reloc ., R_SH_IND12W, scene_process_b - 4
+    .2byte 0xB000    /* bsr scene_process_b (linker-resolved) */
     mov.l @r14, r4
 .L_06024FDE:
     mov #0x1, r2

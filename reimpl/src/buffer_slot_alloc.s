@@ -75,7 +75,8 @@ buffer_slot_alloc:
     mov.l @(r0, r3), r2
     add #0x1, r2
     mov.l r2, @(r0, r3)
-    .byte   0xB4, 0x00    /* bsr 0x060418BE (external) */
+    .reloc ., R_SH_IND12W, track_road_validate - 4
+    .2byte 0xB000    /* bsr track_road_validate (linker-resolved) */
     mov r15, r4
     mov #0x0, r0
 .L_060410C0:

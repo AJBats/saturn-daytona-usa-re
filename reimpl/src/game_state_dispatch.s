@@ -239,7 +239,8 @@ game_state_dispatch:
     mov.l @r2, r2
     jsr @r2
     nop
-    .byte   0xB4, 0xEA                   /* bsr 0x0600FFD0 (external post-state helper) */
+    .reloc ., R_SH_IND12W, hud_race_display - 4
+    .2byte 0xB000    /* bsr hud_race_display (linker-resolved) */
     nop
     mov.l   .L_0600F648, r4
     mov.l @r4, r2

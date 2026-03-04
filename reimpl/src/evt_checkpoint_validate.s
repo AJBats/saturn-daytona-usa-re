@@ -42,7 +42,8 @@ evt_checkpoint_validate:
     add #0x4, r0
     mov.l @r7, r3
     mov.l r6, @(r0, r3)
-    .byte   0xB5, 0x38    /* bsr 0x06041D6C (external) */
+    .reloc ., R_SH_IND12W, large_func_prologue - 4
+    .2byte 0xB000    /* bsr large_func_prologue (linker-resolved) */
     mov r15, r4
     mov #0x0, r0
     add #0x4, r15
@@ -54,6 +55,8 @@ evt_checkpoint_validate:
     .4byte  ai_checkpoint_validate
 .L_pool_0604130D:
     .4byte  sym_060A5400
+    .global FUN_06041310
+FUN_06041310:
     .4byte  0xD5149025
     .4byte  0x6352003E
     .4byte  0x20088906

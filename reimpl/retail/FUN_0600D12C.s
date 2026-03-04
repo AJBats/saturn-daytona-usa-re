@@ -128,6 +128,8 @@ DAT_0600d204:
     .byte 0x02, 0x04
     .byte 0xFF, 0xFF
     .4byte sym_0607E940
+    .global FUN_0600D210
+FUN_0600D210:
     .byte 0xD5, 0x19
     .byte 0xD4, 0x1A
     .byte 0x90, 0x29

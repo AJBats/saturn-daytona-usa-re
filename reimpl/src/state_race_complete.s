@@ -26,7 +26,8 @@ state_race_complete:
     mov.l   .L_06009B24, r3
     jsr @r3
     nop
-    .byte   0xB2, 0xB7    /* bsr 0x06009FFC (external) */
+    .reloc ., R_SH_IND12W, state_timeext_setup - 4
+    .2byte 0xB000    /* bsr state_timeext_setup (linker-resolved) */
     nop
     mov r13, r6
     mov.l   .L_06009B28, r5
@@ -184,7 +185,8 @@ state_race_complete:
     cmp/eq #0x2, r0
     bt      .L_06009B94
 .L_06009BAA:
-    .byte   0xB3, 0x05    /* bsr 0x0600A1B8 (external) */
+    .reloc ., R_SH_IND12W, FUN_0600A1B8 - 4
+    .2byte 0xB000    /* bsr FUN_0600A1B8 (linker-resolved) */
     nop
     mov r8, r0
     mov.l   .L_06009C2C, r4

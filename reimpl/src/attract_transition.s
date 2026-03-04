@@ -27,7 +27,8 @@ attract_transition:
     add r3, r6
     exts.b r6, r6
     add r2, r6
-    .byte   0xBF, 0xC4    /* bsr 0x0603F92C (external) */
+    .reloc ., R_SH_IND12W, FUN_0603F92C - 4
+    .2byte 0xB000    /* bsr FUN_0603F92C (linker-resolved) */
     mov #0x0, r5
 .L_0603F9A4:
     mov.l @r15, r0

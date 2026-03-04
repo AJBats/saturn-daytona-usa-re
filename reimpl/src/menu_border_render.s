@@ -12,7 +12,8 @@ menu_border_render:
     jsr @r3
     mov.l @(8, r4), r4
     mov.l r0, @r15
-    .byte   0xB1, 0x8F    /* bsr 0x0603B93C (external) */
+    .reloc ., R_SH_IND12W, save_checksum_calc - 4
+    .2byte 0xB000    /* bsr save_checksum_calc (linker-resolved) */
     mov #0x0, r4
     mov.l @r15, r0
     add #0x4, r15

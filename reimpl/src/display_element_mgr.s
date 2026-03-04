@@ -6,7 +6,8 @@
     .type display_element_mgr, @function
 display_element_mgr:
     sts.l pr, @-r15
-    .byte   0xBE, 0x9C    /* bsr 0x06033504 (external) */
+    .reloc ., R_SH_IND12W, FUN_06033504 - 4
+    .2byte 0xB000    /* bsr FUN_06033504 (linker-resolved) */
     nop
     lds.l @r15+, pr
     mov.l @r15+, r6

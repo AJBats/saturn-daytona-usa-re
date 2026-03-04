@@ -61,7 +61,8 @@ race_start_obj_init:
     mov r6, r5
     jsr @r3
     mov #0x8, r4
-    .byte   0xB6, 0x5C    /* bsr 0x06020DD0 (external) */
+    .reloc ., R_SH_IND12W, obj_anim_advance - 4
+    .2byte 0xB000    /* bsr obj_anim_advance (linker-resolved) */
     nop
     mov #0x0, r2
     mov.l   .L_06020194, r3

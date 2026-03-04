@@ -114,7 +114,8 @@ state_results_screen:
     mov.l @(r0, r2), r3
     cmp/pl r3
     bf      .L_06009642
-    .byte   0xB5, 0x21    /* bsr 0x0600A084 (external sub-function) */
+    .reloc ., R_SH_IND12W, FUN_0600A084 - 4
+    .2byte 0xB000    /* bsr FUN_0600A084 (linker-resolved) */
     nop
 .L_06009642:
     .byte   0xD3, 0x22    /* mov.l .L_060096CC, r3 */

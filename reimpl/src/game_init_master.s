@@ -1348,7 +1348,8 @@ DAT_060136c2:
     add r3, r4
     mov.l @r4, r2
     mov.l r2, @r1
-    .byte   0xB2, 0x59    /* bsr 0x06013C58 (external) */
+    .reloc ., R_SH_IND12W, lap_time_display - 4
+    .2byte 0xB000    /* bsr lap_time_display (linker-resolved) */
     nop
     mov.l   .L_06013818, r6
     mov #0xF, r4

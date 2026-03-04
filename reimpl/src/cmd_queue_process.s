@@ -24,17 +24,20 @@ cmd_queue_process:
     cmp/ge r3, r13
     bf      .L_0603AF14
 .L_0603AF0C:
-    .byte   0xB5, 0x16    /* bsr 0x0603B93C (external) */
+    .reloc ., R_SH_IND12W, save_checksum_calc - 4
+    .2byte 0xB000    /* bsr save_checksum_calc (linker-resolved) */
     mov #-0xA, r4
     bra     .L_0603AF8A
     mov #0x0, r0
 .L_0603AF14:
-    .byte   0xB4, 0x83    /* bsr 0x0603B81E (external) */
+    .reloc ., R_SH_IND12W, FUN_0603B81E - 4
+    .2byte 0xB000    /* bsr FUN_0603B81E (linker-resolved) */
     nop
     mov r0, r12
     tst r12, r12
     bf      .L_0603AF26
-    .byte   0xB5, 0x0D    /* bsr 0x0603B93C (external) */
+    .reloc ., R_SH_IND12W, save_checksum_calc - 4
+    .2byte 0xB000    /* bsr save_checksum_calc (linker-resolved) */
     mov #-0x13, r4
     bra     .L_0603AF8A
     mov #0x0, r0
@@ -71,12 +74,14 @@ cmd_queue_process:
     mov r0, r5
 .L_0603AF5C:
     mov r13, r6
-    .byte   0xB5, 0x65    /* bsr 0x0603BA2C (external) */
+    .reloc ., R_SH_IND12W, save_field_write - 4
+    .2byte 0xB000    /* bsr save_field_write (linker-resolved) */
     mov r12, r4
     mov r0, r14
     tst r14, r14
     bf      .L_0603AF84
-    .byte   0xB4, 0xE8    /* bsr 0x0603B93C (external) */
+    .reloc ., R_SH_IND12W, save_checksum_calc - 4
+    .2byte 0xB000    /* bsr save_checksum_calc (linker-resolved) */
     mov #-0xA, r4
     bra     .L_0603AF88
     nop
@@ -96,7 +101,8 @@ DAT_0603af72:
 .L_pool_0603AF82:
     .4byte  sym_0603F1F0
 .L_0603AF84:
-    .byte   0xB4, 0xDA    /* bsr 0x0603B93C (external) */
+    .reloc ., R_SH_IND12W, save_checksum_calc - 4
+    .2byte 0xB000    /* bsr save_checksum_calc (linker-resolved) */
     mov #0x0, r4
 .L_0603AF88:
     mov r14, r0

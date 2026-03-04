@@ -47,6 +47,8 @@ evt_checkpoint_validate:
     .byte 0x03, 0x38
     .4byte ai_checkpoint_validate
     .4byte sym_060A5400
+    .global FUN_06041310
+FUN_06041310:
     .byte 0xD5, 0x14
     .byte 0x90, 0x25
     .byte 0x63, 0x52

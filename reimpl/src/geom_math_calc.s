@@ -152,11 +152,13 @@ DAT_0601821a:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xA1, 0xB5    /* bra 0x060185D8 (external) */
+    .reloc ., R_SH_IND12W, track_utility_misc - 4
+    .2byte 0xA000    /* bra track_utility_misc (linker-resolved) */
     mov.l @r15+, r14
 .L_0601826E:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xA0, 0x54    /* bra 0x06018320 (external) */
+    .reloc ., R_SH_IND12W, vdp2_scroll_config - 4
+    .2byte 0xA000    /* bra vdp2_scroll_config (linker-resolved) */
     mov.l @r15+, r14

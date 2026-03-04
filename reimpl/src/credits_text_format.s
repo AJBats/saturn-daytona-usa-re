@@ -9,7 +9,8 @@ credits_text_format:
     add #-0x38, r15
     mov.l r4, @r15
     mov r15, r4
-    .byte   0xB0, 0x71    /* bsr 0x0603F3DA (external) */
+    .reloc ., R_SH_IND12W, FUN_0603F3DA - 4
+    .2byte 0xB000    /* bsr FUN_0603F3DA (linker-resolved) */
     add #0x24, r4
     mov #0x0, r4
     cmp/gt r4, r13
@@ -19,7 +20,8 @@ credits_text_format:
     mov r15, r5
     mov r15, r4
     add #0x4, r5
-    .byte   0xB1, 0x3C    /* bsr 0x0603F582 (external) */
+    .reloc ., R_SH_IND12W, vblank_dma_chain - 4
+    .2byte 0xB000    /* bsr vblank_dma_chain (linker-resolved) */
     add #0x24, r4
     mov r15, r2
     add #0x4, r2
@@ -32,7 +34,8 @@ credits_text_format:
 .L_0603F31A:
     mov r15, r5
     add #0x4, r5
-    .byte   0xB2, 0x95    /* bsr 0x0603F84C (external) */
+    .reloc ., R_SH_IND12W, FUN_0603F84C - 4
+    .2byte 0xB000    /* bsr FUN_0603F84C (linker-resolved) */
     mov r14, r4
     add #0xC, r14
     add #-0x1, r13

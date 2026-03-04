@@ -74,6 +74,8 @@ vdp1_init:
     .4byte  sym_06026CE0
 .L_pool_0600A1B4:
     .4byte  sym_06059F44
+    .global FUN_0600A1B8
+FUN_0600A1B8:
     .4byte  0xD01B6000
     .4byte  0x600C2008
     .4byte  0x8B08D01A
@@ -180,6 +182,8 @@ DAT_0600a224:
 .L_0600A290:
     rts
     nop
+    .global FUN_0600A294
+FUN_0600A294:
     .4byte  0xE703D515
     .4byte  0xD415D013
     .4byte  0x60028801

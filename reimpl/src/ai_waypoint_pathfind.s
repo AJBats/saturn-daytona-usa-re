@@ -189,7 +189,8 @@ DAT_06014de4:
     jsr @r3
     nop
 .L_06014E7E:
-    .byte   0xB0, 0x59    /* bsr 0x06014F34 (external) */
+    .reloc ., R_SH_IND12W, ai_position_ranking - 4
+    .2byte 0xB000    /* bsr ai_position_ranking (linker-resolved) */
     nop
     mov.l   .L_pool_06014F20, r3
     jsr @r3

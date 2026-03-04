@@ -54,7 +54,8 @@ perspective_project:
     mov r0, r12
     mov #0x0, r5
     mov r13, r4
-    .byte   0xBF, 0x8F    /* bsr 0x0600553C (external) */
+    .reloc ., R_SH_IND12W, sprite_frame_select - 4
+    .2byte 0xB000    /* bsr sprite_frame_select (linker-resolved) */
     add #0x2, r4
     mov r15, r5
     mov r13, r4
@@ -65,7 +66,8 @@ perspective_project:
     mov r13, r5
     mov r14, r4
     add #0x2, r5
-    .byte   0xBF, 0x84    /* bsr 0x0600553C (external) */
+    .reloc ., R_SH_IND12W, sprite_frame_select - 4
+    .2byte 0xB000    /* bsr sprite_frame_select (linker-resolved) */
     add #0x2, r4
     mov r15, r5
     mov r14, r4
@@ -104,7 +106,8 @@ perspective_project:
     add #0x2, r5
     add r3, r0
     mov.l r0, @(24, r15)
-    .byte   0xBF, 0x5D    /* bsr 0x0600553C (external) */
+    .reloc ., R_SH_IND12W, sprite_frame_select - 4
+    .2byte 0xB000    /* bsr sprite_frame_select (linker-resolved) */
     add #0x3, r4
     mov r15, r5
     mov r13, r4
@@ -130,7 +133,8 @@ perspective_project:
 .L_pool_060056AC:
     .4byte  fpmul
 .L_060056B0:
-    .byte   0xBF, 0x44    /* bsr 0x0600553C (external) */
+    .reloc ., R_SH_IND12W, sprite_frame_select - 4
+    .2byte 0xB000    /* bsr sprite_frame_select (linker-resolved) */
     nop
     mov r15, r5
     mov r14, r4
@@ -175,7 +179,8 @@ perspective_project:
     mov r15, r4
     mov.l   .L_pool_06005768, r6
     add #0x4, r5
-    .byte   0xBD, 0xC3    /* bsr 0x06005294 (external) */
+    .reloc ., R_SH_IND12W, vec3_angle_calc - 4
+    .2byte 0xB000    /* bsr vec3_angle_calc (linker-resolved) */
     add #0x10, r4
     mov.l   .L_pool_0600576C, r0
     mov.b @r0, r0

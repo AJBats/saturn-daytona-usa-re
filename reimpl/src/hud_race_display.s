@@ -22,7 +22,8 @@ hud_race_display:
     mov.b @r14, r3
     extu.b r3, r3
     cmp/ge r12, r3
-    .byte   0xB0, 0x58    /* bsr 0x060100A4 (sprite_anim_render) */
+    .reloc ., R_SH_IND12W, sprite_anim_render - 4
+    .2byte 0xB000    /* bsr sprite_anim_render (linker-resolved) */
     mov r13, r4
     add #0x1, r13
     extu.b r13, r2

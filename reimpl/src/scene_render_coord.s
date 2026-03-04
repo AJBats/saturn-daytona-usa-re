@@ -149,7 +149,8 @@ scene_render_coord:
     extu.w r5, r5
     jsr @r2
     mov.l @r4, r4
-    .byte   0xB9, 0x89    /* bsr 0x0600A76C (secondary_geom_proc) */
+    .reloc ., R_SH_IND12W, secondary_geom_proc - 4
+    .2byte 0xB000    /* bsr secondary_geom_proc (linker-resolved) */
     nop
 .L_0600B45A:
     mov.l   .L_0600B4BC, r4
@@ -166,7 +167,8 @@ scene_render_coord:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xA0, 0x2C    /* bra 0x0600B4D2 (camera_lerp, external) */
+    .reloc ., R_SH_IND12W, camera_lerp - 4
+    .2byte 0xA000    /* bra camera_lerp (linker-resolved) */
     mov.l @r15+, r14
 
     .global DAT_0600b47a

@@ -300,7 +300,8 @@ DAT_0600b840:
     mov.l @r4, r4
 .L_0600B8C4:
     mov #0x1, r5
-    .byte   0xB8, 0xE7    /* bsr 0x0600AA98 (external) */
+    .reloc ., R_SH_IND12W, render_obj_additive - 4
+    .2byte 0xB000    /* bsr render_obj_additive (linker-resolved) */
     mov r14, r4
     mov.l @(20, r15), r5
     mov.l @(24, r15), r4

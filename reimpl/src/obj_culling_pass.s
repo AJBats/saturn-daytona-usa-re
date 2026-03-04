@@ -170,5 +170,6 @@ obj_culling_pass:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xA2, 0x54    /* bra 0x06020DEE (external) */
+    .reloc ., R_SH_IND12W, FUN_06020DEE - 4
+    .2byte 0xA000    /* bra FUN_06020DEE (linker-resolved) */
     mov.l @r15+, r14

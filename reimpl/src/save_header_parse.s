@@ -21,7 +21,8 @@ save_header_parse:
     mov.l @r13, r4
     mov.w   DAT_0603bbb6, r3
     add r3, r4
-    .byte   0xBF, 0x8F    /* bsr 0x0603BAC6 (external) */
+    .reloc ., R_SH_IND12W, save_block_copy - 4
+    .2byte 0xB000    /* bsr save_block_copy (linker-resolved) */
     nop
     tst r0, r0
     bf      .L_0603BBC0

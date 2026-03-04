@@ -502,6 +502,8 @@ sym_06028248:
     .4byte sym_06059C74
     .4byte sym_06059C7B
     .4byte sym_06059C8C
+    .global FUN_060282C0
+FUN_060282C0:
     .byte 0xD2, 0x0E
     .byte 0xD0, 0x0F
     .byte 0x12, 0x00
@@ -536,6 +538,8 @@ sym_06028248:
     .byte 0x20, 0x20
     .byte 0x20, 0x20
     .byte 0xFF, 0x00
+    .global FUN_06028306
+FUN_06028306:
     .byte 0xD2, 0x0E
     .byte 0xD0, 0x0E
     .byte 0x12, 0x00

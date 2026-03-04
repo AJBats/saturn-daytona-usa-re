@@ -6,7 +6,8 @@
     .type state_demo_setup, @function
 state_demo_setup:
     sts.l pr, @-r15
-    .byte   0xB1, 0xBF    /* bsr 0x0600A294 (external update sub) */
+    .reloc ., R_SH_IND12W, FUN_0600A294 - 4
+    .2byte 0xB000    /* bsr FUN_0600A294 (linker-resolved) */
     nop
     mov.l   .L_06009FB0, r4
     mov.l @r4, r2

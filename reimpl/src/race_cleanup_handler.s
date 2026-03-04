@@ -29,7 +29,8 @@ race_cleanup_handler:
     mov.l   .L_pool_06012230, r3
     jsr @r3
     mov #0x8, r4
-    .byte   0xB1, 0xFA    /* bsr 0x060125D0 (external) */
+    .reloc ., R_SH_IND12W, lap_display_anim - 4
+    .2byte 0xB000    /* bsr lap_display_anim (linker-resolved) */
     nop
 .L_060121DC:
     mov.l @r14, r0
@@ -112,12 +113,14 @@ race_cleanup_handler:
     mov.l @r14, r2
     cmp/gt r3, r2
     bf      .L_06012280
-    .byte   0xB0, 0x67    /* bsr 0x06012344 (external) */
+    .reloc ., R_SH_IND12W, file_data_parse - 4
+    .2byte 0xB000    /* bsr file_data_parse (linker-resolved) */
     nop
     add #0x4, r15
     lds.l @r15+, pr
     mov.l @r15+, r13
-    .byte   0xA0, 0xC0    /* bra 0x06012400 (external) */
+    .reloc ., R_SH_IND12W, file_block_read - 4
+    .2byte 0xA000    /* bra file_block_read (linker-resolved) */
     mov.l @r15+, r14
 .L_06012280:
     add #0x4, r15

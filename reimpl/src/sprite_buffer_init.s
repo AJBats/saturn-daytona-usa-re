@@ -11,7 +11,8 @@ sprite_buffer_init:
     sts.l pr, @-r15
     mov.w   .L_wpool_060116A2, r13
     mov.l   .L_060116A4, r12
-    .byte   0xBF, 0xE1    /* bsr 0x0601164A (external) */
+    .reloc ., R_SH_IND12W, FUN_0601164A - 4
+    .2byte 0xB000    /* bsr FUN_0601164A (linker-resolved) */
     mov #0x0, r14
     extu.w r14, r4
 .L_0601168A:

@@ -11,11 +11,14 @@ lap_timer_ctrl:
     mov.l @r4, r3
     cmp/ge r2, r3
     bf      .L_060122A2
-    .byte   0xB0, 0x2D    /* bsr 0x060122F4 (external) */
+    .reloc ., R_SH_IND12W, position_vel_limiter - 4
+    .2byte 0xB000    /* bsr position_vel_limiter (linker-resolved) */
     nop
-    .byte   0xB1, 0x37    /* bsr 0x0601250C (external) */
+    .reloc ., R_SH_IND12W, hud_lap_gfx_update - 4
+    .2byte 0xB000    /* bsr hud_lap_gfx_update (linker-resolved) */
     nop
-    .byte   0xA2, 0x37    /* bra 0x06012710 (external) */
+    .reloc ., R_SH_IND12W, race_progress_check - 4
+    .2byte 0xA000    /* bra race_progress_check (linker-resolved) */
     lds.l @r15+, pr
 .L_060122A2:
     mov #0x64, r3
@@ -25,9 +28,11 @@ lap_timer_ctrl:
     bf/s    .L_060122B8
     mov #0x0, r5
     exts.w r5, r5
-    .byte   0xB1, 0x2C    /* bsr 0x0601250C (external) */
+    .reloc ., R_SH_IND12W, hud_lap_gfx_update - 4
+    .2byte 0xB000    /* bsr hud_lap_gfx_update (linker-resolved) */
     mov.w r5, @r6
-    .byte   0xA2, 0x2C    /* bra 0x06012710 (external) */
+    .reloc ., R_SH_IND12W, race_progress_check - 4
+    .2byte 0xA000    /* bra race_progress_check (linker-resolved) */
     lds.l @r15+, pr
 .L_060122B8:
     mov.l @r4, r2
@@ -35,9 +40,11 @@ lap_timer_ctrl:
     cmp/ge r3, r2
     bf      .L_060122E0
     exts.w r5, r5
-    .byte   0xB1, 0x85    /* bsr 0x060125D0 (external) */
+    .reloc ., R_SH_IND12W, lap_display_anim - 4
+    .2byte 0xB000    /* bsr lap_display_anim (linker-resolved) */
     mov.w r5, @r6
-    .byte   0xA2, 0x23    /* bra 0x06012710 (external) */
+    .reloc ., R_SH_IND12W, race_progress_check - 4
+    .2byte 0xA000    /* bra race_progress_check (linker-resolved) */
     lds.l @r15+, pr
     .2byte  0xFFFF
     .4byte  sym_06078636

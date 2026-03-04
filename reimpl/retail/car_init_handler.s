@@ -115,6 +115,8 @@ DAT_0601a6e2:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
+    .global FUN_0601A73E
+FUN_0601A73E:
     .global sym_0601A73E
 sym_0601A73E:
     .byte 0xD3, 0x08

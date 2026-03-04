@@ -9,7 +9,8 @@ vdp1_normal_sprite:
     jsr @r0
     nop
     lds.l @r15+, pr
-    .byte   0xA2, 0x98    /* bra 0x0602E16C (external) */
+    .reloc ., R_SH_IND12W, FUN_0602E16C - 4
+    .2byte 0xA000    /* bra FUN_0602E16C (linker-resolved) */
     nop
     .4byte  sym_06082A30
     .4byte  sym_0602DC44

@@ -12,7 +12,8 @@ menu_cursor_pos:
     mov.l r3, @-r15
     mov.l @(20, r15), r7
     mov.l @(28, r15), r4
-    .byte   0xB6, 0xAD    /* bsr 0x0603BE9C (external) */
+    .reloc ., R_SH_IND12W, save_data_size - 4
+    .2byte 0xB000    /* bsr save_data_size (linker-resolved) */
     mov.l @r4, r4
     add #0x10, r15
     mov.l @r15, r0
@@ -30,7 +31,8 @@ menu_cursor_pos:
     mov.l @(4, r15), r2
     mov.l r14, @r2
 .L_0603B15C:
-    .byte   0xB3, 0xEE    /* bsr 0x0603B93C (external) */
+    .reloc ., R_SH_IND12W, save_checksum_calc - 4
+    .2byte 0xB000    /* bsr save_checksum_calc (linker-resolved) */
     mov #0x0, r4
     add #0x14, r15
     lds.l @r15+, pr

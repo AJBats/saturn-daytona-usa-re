@@ -24,7 +24,8 @@ vblank_dma_chain:
     bra     .L_0603F838
     mov.b r10, @r13
 .L_0603F5A6:
-    .byte   0xBF, 0xC5    /* bsr 0x0603F534 (external) */
+    .reloc ., R_SH_IND12W, attract_timer_init - 4
+    .2byte 0xB000    /* bsr attract_timer_init (linker-resolved) */
     mov r14, r4
     mov.b r0, @r13
     mov.b @r13, r2
@@ -39,14 +40,17 @@ vblank_dma_chain:
     mov r14, r4
     mov #0x1, r6
     mov r15, r5
-    .byte   0xBF, 0x16    /* bsr 0x0603F3F6 (external) */
+    .reloc ., R_SH_IND12W, menu_element_render - 4
+    .2byte 0xB000    /* bsr menu_element_render (linker-resolved) */
     add #0x4C, r5
-    .byte   0xBF, 0x99    /* bsr 0x0603F500 (external) */
+    .reloc ., R_SH_IND12W, audio_sync_slave - 4
+    .2byte 0xB000    /* bsr audio_sync_slave (linker-resolved) */
     mov r14, r4
     mov.w   DAT_0603f682, r2
     add r2, r0
     mov.l r0, @(4, r13)
-    .byte   0xBF, 0x94    /* bsr 0x0603F500 (external) */
+    .reloc ., R_SH_IND12W, audio_sync_slave - 4
+    .2byte 0xB000    /* bsr audio_sync_slave (linker-resolved) */
     mov r14, r4
     mov.l r0, @(8, r13)
     bra     .L_0603F5EA
@@ -55,7 +59,8 @@ vblank_dma_chain:
     mov r14, r4
     mov #0x1, r6
     mov r15, r5
-    .byte   0xBF, 0x07    /* bsr 0x0603F3F6 (external) */
+    .reloc ., R_SH_IND12W, menu_element_render - 4
+    .2byte 0xB000    /* bsr menu_element_render (linker-resolved) */
     add #0x48, r5
     add #0x1, r12
 .L_0603F5EA:
@@ -65,7 +70,8 @@ vblank_dma_chain:
     mov r14, r4
     mov #0x1, r6
     mov r15, r5
-    .byte   0xBE, 0xFE    /* bsr 0x0603F3F6 (external) */
+    .reloc ., R_SH_IND12W, menu_element_render - 4
+    .2byte 0xB000    /* bsr menu_element_render (linker-resolved) */
     add #0x28, r5
     mov #0x28, r0
     mov r14, r4
@@ -74,7 +80,8 @@ vblank_dma_chain:
     mov.b @(r0, r15), r2
     mov #0x2C, r0
     mov.b r2, @(r0, r15)
-    .byte   0xBE, 0xF5    /* bsr 0x0603F3F6 (external) */
+    .reloc ., R_SH_IND12W, menu_element_render - 4
+    .2byte 0xB000    /* bsr menu_element_render (linker-resolved) */
     add #0x24, r5
     mov #0x24, r0
     mov r14, r4
@@ -82,17 +89,20 @@ vblank_dma_chain:
     mov r15, r5
     mov.b @(r0, r15), r0
     mov.b r0, @(14, r13)
-    .byte   0xBE, 0xED    /* bsr 0x0603F3F6 (external) */
+    .reloc ., R_SH_IND12W, menu_element_render - 4
+    .2byte 0xB000    /* bsr menu_element_render (linker-resolved) */
     add #0x20, r5
     mov #0x20, r0
     mov.b @(r0, r15), r0
     mov.b r0, @(15, r13)
-    .byte   0xBF, 0x5D    /* bsr 0x0603F4E0 (external) */
+    .reloc ., R_SH_IND12W, audio_sync_master - 4
+    .2byte 0xB000    /* bsr audio_sync_master (linker-resolved) */
     mov r14, r4
     mov r14, r4
     mov #0x1, r6
     mov r15, r5
-    .byte   0xBE, 0xE3    /* bsr 0x0603F3F6 (external) */
+    .reloc ., R_SH_IND12W, menu_element_render - 4
+    .2byte 0xB000    /* bsr menu_element_render (linker-resolved) */
     add #0x1C, r5
     mov #0x1C, r0
     mov.b @(r0, r15), r9
@@ -107,7 +117,8 @@ vblank_dma_chain:
     mov r14, r4
     mov #0x1, r6
     mov r15, r5
-    .byte   0xBE, 0xD5    /* bsr 0x0603F3F6 (external) */
+    .reloc ., R_SH_IND12W, menu_element_render - 4
+    .2byte 0xB000    /* bsr menu_element_render (linker-resolved) */
     add #0x18, r5
     mov #0x18, r0
     mov.b @(r0, r15), r2
@@ -158,7 +169,8 @@ DAT_0603f682:
     mov r14, r4
     mov #0x1, r6
     mov r15, r5
-    .byte   0xBE, 0xAB    /* bsr 0x0603F3F6 (external) */
+    .reloc ., R_SH_IND12W, menu_element_render - 4
+    .2byte 0xB000    /* bsr menu_element_render (linker-resolved) */
     add #0x44, r5
     add #0x1, r12
 .L_0603F6A2:
@@ -178,7 +190,8 @@ DAT_0603f682:
     mov r14, r4
     mov #0x1, r6
     mov r15, r5
-    .byte   0xBE, 0x9A    /* bsr 0x0603F3F6 (external) */
+    .reloc ., R_SH_IND12W, menu_element_render - 4
+    .2byte 0xB000    /* bsr menu_element_render (linker-resolved) */
     add #0x14, r5
     mov #0x14, r0
     mov.b @(r0, r15), r2
@@ -208,7 +221,8 @@ DAT_0603f682:
     mov r14, r4
     mov #0x1, r6
     mov r15, r5
-    .byte   0xBE, 0x80    /* bsr 0x0603F3F6 (external) */
+    .reloc ., R_SH_IND12W, menu_element_render - 4
+    .2byte 0xB000    /* bsr menu_element_render (linker-resolved) */
     add #0x10, r5
     mov #0x10, r0
     mov.b @(r0, r15), r2
@@ -224,7 +238,8 @@ DAT_0603f682:
     mov r14, r4
     mov #0x1, r6
     mov r15, r5
-    .byte   0xBE, 0x71    /* bsr 0x0603F3F6 (external) */
+    .reloc ., R_SH_IND12W, menu_element_render - 4
+    .2byte 0xB000    /* bsr menu_element_render (linker-resolved) */
     add #0x40, r5
     add #0x1, r12
 .L_0603F716:
@@ -277,7 +292,8 @@ DAT_0603f682:
     mov r14, r4
     mov #0x1, r6
     mov r15, r5
-    .byte   0xBE, 0x42    /* bsr 0x0603F3F6 (external) */
+    .reloc ., R_SH_IND12W, menu_element_render - 4
+    .2byte 0xB000    /* bsr menu_element_render (linker-resolved) */
     add #0x3C, r5
     mov.l @(4, r15), r2
     add #0x1, r2
@@ -317,24 +333,28 @@ DAT_0603f682:
     mov r14, r4
     mov #0x4, r6
     mov r15, r5
-    .byte   0xBE, 0x1D    /* bsr 0x0603F3F6 (external) */
+    .reloc ., R_SH_IND12W, menu_element_render - 4
+    .2byte 0xB000    /* bsr menu_element_render (linker-resolved) */
     add #0x38, r5
     mov r14, r4
     mov #0x2, r6
     mov r15, r5
-    .byte   0xBE, 0x18    /* bsr 0x0603F3F6 (external) */
+    .reloc ., R_SH_IND12W, menu_element_render - 4
+    .2byte 0xB000    /* bsr menu_element_render (linker-resolved) */
     add #0xC, r5
     mov.w @(12, r15), r0
     mov r14, r4
     mov #0x2, r6
     mov r15, r5
     mov.w r0, @(12, r13)
-    .byte   0xBE, 0x11    /* bsr 0x0603F3F6 (external) */
+    .reloc ., R_SH_IND12W, menu_element_render - 4
+    .2byte 0xB000    /* bsr menu_element_render (linker-resolved) */
     add #0x34, r5
     mov r14, r4
     mov #0x1, r6
     mov r15, r5
-    .byte   0xBE, 0x0C    /* bsr 0x0603F3F6 (external) */
+    .reloc ., R_SH_IND12W, menu_element_render - 4
+    .2byte 0xB000    /* bsr menu_element_render (linker-resolved) */
     add #0x8, r5
     mov.b @(8, r15), r0
     mov r0, r4
@@ -347,7 +367,8 @@ DAT_0603f682:
     mov r14, r4
     mov #0x1, r6
     mov r15, r5
-    .byte   0xBE, 0x00    /* bsr 0x0603F3F6 (external) */
+    .reloc ., R_SH_IND12W, menu_element_render - 4
+    .2byte 0xB000    /* bsr menu_element_render (linker-resolved) */
     add #0x30, r5
     add #0x1, r12
 .L_0603F7F8:
@@ -398,6 +419,8 @@ DAT_0603f682:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
+    .global FUN_0603F84C
+FUN_0603F84C:
     .4byte  0x5351E01D
     .4byte  0x24325252
     .4byte  0x1421005C
@@ -495,6 +518,8 @@ sym_0603F91C:
     jmp @r3
     add #0x4, r15
     .2byte  0x0000
+    .global FUN_0603F92C
+FUN_0603F92C:
     .4byte  0x14586362
     .4byte  0x14395261
     .4byte  0x142A5362

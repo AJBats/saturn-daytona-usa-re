@@ -528,7 +528,8 @@ DAT_0602fd1a:
 
     .global sym_0602FD30
 sym_0602FD30:
-    .byte   0xAE, 0x11    /* bra 0x0602F956 (external) */
+    .reloc ., R_SH_IND12W, FUN_0602F956 - 4
+    .2byte 0xA000    /* bra FUN_0602F956 (linker-resolved) */
     addv r15, r1
     .4byte  0xAE112FFF
     .4byte  0xAE1136FF

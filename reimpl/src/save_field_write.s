@@ -29,7 +29,8 @@ save_field_write:
     mov.l @r15, r7
     mov r13, r5
     mov.l @(4, r15), r6
-    .byte   0xB1, 0x14    /* bsr 0x0603BC86 (external) */
+    .reloc ., R_SH_IND12W, save_serialize - 4
+    .2byte 0xB000    /* bsr save_serialize (linker-resolved) */
     mov r13, r4
     mov r0, r10
     tst r10, r10

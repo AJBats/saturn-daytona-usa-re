@@ -10,7 +10,8 @@ secondary_render_pass:
     .byte   0xDD, 0x0F    /* mov.l .L_pool_0602EDE5, r13 */
     jsr @r13
     nop
-    .byte   0xA0, 0x89    /* bra 0x0602EEC2 (external) */
+    .reloc ., R_SH_IND12W, FUN_0602EEC2 - 4
+    .2byte 0xA000    /* bra FUN_0602EEC2 (linker-resolved) */
     nop
     .4byte  0x005C0108
     .4byte  0x010C0120

@@ -48,7 +48,8 @@ cmd_validate_exec:
 .L_0603AC62:
     mov.l   .L_pool_0603ACA0, r3
     mov.l r5, @r3
-    .byte   0xB5, 0x71    /* bsr 0x0603B74C (external) */
+    .reloc ., R_SH_IND12W, sys_boot_table_init - 4
+    .2byte 0xB000    /* bsr sys_boot_table_init (linker-resolved) */
     nop
     tst r14, r14
     bf      .L_0603AC72
@@ -65,7 +66,8 @@ cmd_validate_exec:
     bt      .L_0603AC88
     lds.l @r15+, pr
     mov.l @r15+, r13
-    .byte   0xA6, 0x5A    /* bra 0x0603B93C (external) */
+    .reloc ., R_SH_IND12W, save_checksum_calc - 4
+    .2byte 0xA000    /* bra save_checksum_calc (linker-resolved) */
     mov.l @r15+, r14
 .L_0603AC88:
     mov.l   .L_pool_0603ACA0, r0
@@ -77,7 +79,8 @@ cmd_validate_exec:
     mov #-0x2, r4
     lds.l @r15+, pr
     mov.l @r15+, r13
-    .byte   0xA6, 0x4F    /* bra 0x0603B93C (external) */
+    .reloc ., R_SH_IND12W, save_checksum_calc - 4
+    .2byte 0xA000    /* bra save_checksum_calc (linker-resolved) */
     mov.l @r15+, r14
 
     .global DAT_0603ac9e
@@ -99,7 +102,8 @@ DAT_0603ac9e:
     mov #-0x7, r4
     lds.l @r15+, pr
     mov.l @r15+, r13
-    .byte   0xA6, 0x3D    /* bra 0x0603B93C (external) */
+    .reloc ., R_SH_IND12W, save_checksum_calc - 4
+    .2byte 0xA000    /* bra save_checksum_calc (linker-resolved) */
     mov.l @r15+, r14
 .L_0603ACC2:
     .byte   0xD3, 0x1C    /* mov.l .L_pool_0603AD34, r3 */
@@ -111,12 +115,15 @@ DAT_0603ac9e:
     mov #-0x1, r4
     lds.l @r15+, pr
     mov.l @r15+, r13
-    .byte   0xA6, 0x32    /* bra 0x0603B93C (external) */
+    .reloc ., R_SH_IND12W, save_checksum_calc - 4
+    .2byte 0xA000    /* bra save_checksum_calc (linker-resolved) */
     mov.l @r15+, r14
 .L_0603ACD8:
-    .byte   0xB0, 0x68    /* bsr 0x0603ADAC (external) */
+    .reloc ., R_SH_IND12W, cmd_dispatch_helper - 4
+    .2byte 0xB000    /* bsr cmd_dispatch_helper (linker-resolved) */
     mov r14, r4
-    .byte   0xB6, 0x2E    /* bsr 0x0603B93C (external) */
+    .reloc ., R_SH_IND12W, save_checksum_calc - 4
+    .2byte 0xB000    /* bsr save_checksum_calc (linker-resolved) */
     mov #0x0, r4
     mov r13, r0
 .L_0603ACE2:

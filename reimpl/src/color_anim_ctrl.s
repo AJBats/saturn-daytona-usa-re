@@ -6,7 +6,8 @@
     .type color_anim_ctrl, @function
 color_anim_ctrl:
     sts.l pr, @-r15
-    .byte   0xB0, 0x6D    /* bsr 0x0603320C (external) */
+    .reloc ., R_SH_IND12W, FUN_0603320C - 4
+    .2byte 0xB000    /* bsr FUN_0603320C (linker-resolved) */
     nop
     lds.l @r15+, pr
     mov.l @r15+, r0
@@ -27,6 +28,8 @@ color_anim_ctrl:
     .4byte  sym_06033884
     .4byte  0x00000700
     .4byte  0x0000FFFF
+    .global FUN_0603316C
+FUN_0603316C:
     .4byte  0xD204042E
     .4byte  0xD204032E
     .4byte  0x343C343C
@@ -34,6 +37,8 @@ color_anim_ctrl:
     .4byte  0x00090000
     .4byte  0x00000020
     .4byte  0x000001D8
+    .global FUN_06033188
+FUN_06033188:
     .4byte  0x2F062F66
     .4byte  0x2F762F86
     .4byte  0x6463D019

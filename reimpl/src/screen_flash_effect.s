@@ -10,11 +10,14 @@ screen_flash_effect:
     mov.l @(r0, r4), r2
     mov.l @r2, r2
     add r2, r5
-    .byte   0xBF, 0x97    /* bsr 0x060282C0 (external) */
+    .reloc ., R_SH_IND12W, FUN_060282C0 - 4
+    .2byte 0xB000    /* bsr FUN_060282C0 (linker-resolved) */
     mov r7, r4
     mov r0, r1
     mov #0x16, r7
     mov #0x0, r0
+    .global FUN_06028398
+FUN_06028398:
 .L_06028398:
     mov.b @r1+, r3
     add r6, r3

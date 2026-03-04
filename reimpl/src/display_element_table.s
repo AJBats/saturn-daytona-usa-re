@@ -6,7 +6,8 @@
     .type display_element_table, @function
 display_element_table:
     sts.l pr, @-r15
-    .byte   0xB6, 0x12    /* bsr 0x06032E18 (external) */
+    .reloc ., R_SH_IND12W, FUN_06032E18 - 4
+    .2byte 0xB000    /* bsr FUN_06032E18 (linker-resolved) */
     nop
     lds.l @r15+, pr
     mov.l @r15+, r7

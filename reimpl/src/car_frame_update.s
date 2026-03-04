@@ -190,7 +190,8 @@ DAT_0600e522:
     extu.b r0, r0
     tst r0, r0
     bf      .L_0600E67A
-    .byte   0xB1, 0xCF    /* bsr 0x0600EA18 (external) */
+    .reloc ., R_SH_IND12W, FUN_0600EA18 - 4
+    .2byte 0xB000    /* bsr FUN_0600EA18 (linker-resolved) */
     mov r14, r4
 .L_0600E67A:
     .byte   0xD0, 0x0D    /* mov.l .L_0600E6B0, r0 */

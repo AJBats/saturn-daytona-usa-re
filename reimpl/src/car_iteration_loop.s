@@ -98,7 +98,8 @@ DAT_0600deb2:
     bf      .L_0600DF1C
     mov.l r13, @r9
 .L_0600DF1C:
-    .byte   0xB2, 0xE9    /* bsr 0x0600E4F2 (external) */
+    .reloc ., R_SH_IND12W, car_frame_update - 4
+    .2byte 0xB000    /* bsr car_frame_update (linker-resolved) */
     nop
     add #0x1, r12
 .L_0600DF22:
@@ -136,5 +137,6 @@ DAT_0600deb2:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xA0, 0xAD    /* bra 0x0600E0C0 (external) */
+    .reloc ., R_SH_IND12W, car_update_racing - 4
+    .2byte 0xA000    /* bra car_update_racing (linker-resolved) */
     mov.l @r15+, r14

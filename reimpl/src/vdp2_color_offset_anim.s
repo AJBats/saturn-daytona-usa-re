@@ -9,7 +9,8 @@ vdp2_color_offset_anim:
     jsr @r13
     nop
     lds.l @r15+, pr
-    .byte   0xA0, 0x11    /* bra 0x0602E6CC (external) */
+    .reloc ., R_SH_IND12W, FUN_0602E6CC - 4
+    .2byte 0xA000    /* bra FUN_0602E6CC (linker-resolved) */
     shll r0
     .2byte  0x0000
     .4byte  0x00000008

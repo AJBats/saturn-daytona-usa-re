@@ -12,7 +12,8 @@ cd_course_loader:
     bf      .L_06012D8E
     mov r14, r5
     mov.l   .L_pool_06012DA8, r4
-    .byte   0xAF, 0x57    /* bra 0x06012C3C (external) */
+    .reloc ., R_SH_IND12W, cd_dma_setup - 4
+    .2byte 0xA000    /* bra cd_dma_setup (linker-resolved) */
     mov.l @r15+, r14
 .L_06012D8E:
     mov r4, r0
@@ -20,12 +21,14 @@ cd_course_loader:
     bf      .L_06012D9C
     mov r14, r5
     mov.l   .L_pool_06012DAC, r4
-    .byte   0xAF, 0x50    /* bra 0x06012C3C (external) */
+    .reloc ., R_SH_IND12W, cd_dma_setup - 4
+    .2byte 0xA000    /* bra cd_dma_setup (linker-resolved) */
     mov.l @r15+, r14
 .L_06012D9C:
     mov r14, r5
     mov.l   .L_pool_06012DB0, r4
-    .byte   0xAF, 0x4C    /* bra 0x06012C3C (external) */
+    .reloc ., R_SH_IND12W, cd_dma_setup - 4
+    .2byte 0xA000    /* bra cd_dma_setup (linker-resolved) */
     mov.l @r15+, r14
 .L_06012DA4:
     .4byte  0x00200000

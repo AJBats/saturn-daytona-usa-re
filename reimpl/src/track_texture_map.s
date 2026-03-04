@@ -112,7 +112,8 @@ DAT_0602f890:
     sub r3, r1
     shll8 r1
     mov.w   .L_0602F8BA, r0
-    .byte   0xBA, 0x10    /* bsr 0x0602ECCC (external) */
+    .reloc ., R_SH_IND12W, FUN_0602ECCC - 4
+    .2byte 0xB000    /* bsr FUN_0602ECCC (linker-resolved) */
     shlr r1
     mov #0x7F, r4
     mov #0x1, r3
@@ -214,6 +215,8 @@ DAT_0602f8f2:
     mov #0xA, r4
     mov.b r4, @r3
     mov #0x1, r5
+    .global FUN_0602F956
+FUN_0602F956:
 .L_0602F956:
     jsr @r12
     mov #0x3, r4

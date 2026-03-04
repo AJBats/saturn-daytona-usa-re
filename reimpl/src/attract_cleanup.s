@@ -41,7 +41,8 @@ attract_cleanup:
     and #0x3, r0
     mov r0, r4
     mov.l @r15+, r13
-    .byte   0xA0, 0x31    /* bra 0x0603FFE6 (external) */
+    .reloc ., R_SH_IND12W, FUN_0603FFE6 - 4
+    .2byte 0xA000    /* bra FUN_0603FFE6 (linker-resolved) */
     mov.l @r15+, r14
 .L_0603FF84:
     mov.l @r15+, r13

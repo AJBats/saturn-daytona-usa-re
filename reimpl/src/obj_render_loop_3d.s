@@ -32,6 +32,8 @@ obj_render_loop_3d:
     mov.l r4, @(4, r15)
     .byte   0xD3, 0x3E    /* mov.l .L_pool_06013F68, r3 */
     mov.l r3, @r15
+    .global FUN_06013E72
+FUN_06013E72:
     .byte   0xD3, 0x3E    /* mov.l .L_pool_06013F6C, r3 */
     jsr @r3
     mov r10, r12

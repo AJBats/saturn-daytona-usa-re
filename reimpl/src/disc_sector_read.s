@@ -22,7 +22,8 @@ disc_sector_read:
     mov.l   .L_0601B068, r3
     jsr @r3
     mov r7, r4
-    .byte   0xB0, 0x47    /* bsr 0x0601B0D8 (external) */
+    .reloc ., R_SH_IND12W, course_state_setup - 4
+    .2byte 0xB000    /* bsr course_state_setup (linker-resolved) */
     add #0x10, r15
     mov #0x14, r2
     mov.l   .L_0601B070, r3

@@ -27,7 +27,8 @@ replay_cam_auto_cut:
     mov.l @r5, r5
     mov.l @r4, r4
     exts.b r5, r5
-    .byte   0xB0, 0xA6    /* bsr 0x0601B09A (external) */
+    .reloc ., R_SH_IND12W, FUN_0601B09A - 4
+    .2byte 0xB000    /* bsr FUN_0601B09A (linker-resolved) */
     exts.b r4, r4
     mov #0xA, r3
     mov.b @r14, r2

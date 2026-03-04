@@ -8,7 +8,8 @@ pre_update_setup:
     mov.l r14, @-r15
     sts.l pr, @-r15
     mov.l   .L_0600EA08, r14
-    .byte   0xBF, 0xB0    /* bsr 0x0600E906 (external) */
+    .reloc ., R_SH_IND12W, ai_physics_main - 4
+    .2byte 0xB000    /* bsr ai_physics_main (linker-resolved) */
     mov.l @r14, r14
     mov.l   .L_0600EA0C, r0
     mov.l @r0, r0
@@ -75,7 +76,10 @@ DAT_0600e9ea:
     .4byte  0x066505B3
 .L_0600EA14:
     .4byte  sym_0607EAD0
-    .4byte  0x7FF4952C
+    .global FUN_0600EA18
+FUN_0600EA18:
+    .2byte 0x7FF4
+    .2byte 0x952C
     .4byte  0x354C5351
     .4byte  0x2F325352
     .4byte  0x1F3266F2

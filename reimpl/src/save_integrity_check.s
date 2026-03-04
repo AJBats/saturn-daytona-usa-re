@@ -92,6 +92,8 @@ save_integrity_check:
     .4byte  0x308C7F10
     .4byte  0x4F164F26
     .4byte  0x000B68F6
+    .global FUN_0603BE7C
+FUN_0603BE7C:
     .4byte  0xE01D004C
     .4byte  0x600CC860
     .4byte  0x8B02D304

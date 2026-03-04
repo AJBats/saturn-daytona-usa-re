@@ -263,7 +263,8 @@ results_screen_render:
     mov.l r2, @(4, r5)
     extu.b r4, r12
 .L_060161B4:
-    .byte   0xB6, 0x10    /* bsr 0x06016DD8 (external) */
+    .reloc ., R_SH_IND12W, track_vtx_builder - 4
+    .2byte 0xB000    /* bsr track_vtx_builder (linker-resolved) */
     extu.b r14, r4
     extu.b r12, r12
     tst r12, r12

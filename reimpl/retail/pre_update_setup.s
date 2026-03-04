@@ -62,6 +62,8 @@ DAT_0600e9ea:
     .byte 0x06, 0x65
     .byte 0x05, 0xB3
     .4byte sym_0607EAD0
+    .global FUN_0600EA18
+FUN_0600EA18:
     .byte 0x7F, 0xF4
     .byte 0x95, 0x2C
     .byte 0x35, 0x4C

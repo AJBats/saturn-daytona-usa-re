@@ -10,7 +10,8 @@ save_commit_write:
     mov r5, r14
     add #-0x4, r15
     mov.l r4, @r15
-    .byte   0xBD, 0x53    /* bsr 0x0603B9D6 (external) */
+    .reloc ., R_SH_IND12W, save_field_read - 4
+    .2byte 0xB000    /* bsr save_field_read (linker-resolved) */
     mov r5, r4
     mov.l @r15, r4
     mov #0x0, r3
@@ -32,7 +33,10 @@ save_commit_write:
     mov.l @r15+, r14
     .2byte  0x7F04
     .4byte  0x4F26000B
-    .4byte  0x6EF6E11D
+    .2byte 0x6EF6
+    .global FUN_0603BF5A
+FUN_0603BF5A:
+    .2byte 0xE11D
     .4byte  0x6042001C
     .4byte  0x600CC860
     .4byte  0x8B066542

@@ -48,5 +48,6 @@ track_seg_lookup:
     lds.l @r15+, pr
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xAF, 0x8E    /* bra 0x06012B58 (external) */
+    .reloc ., R_SH_IND12W, cd_status_reader - 4
+    .2byte 0xA000    /* bra cd_status_reader (linker-resolved) */
     mov.l @r15+, r14

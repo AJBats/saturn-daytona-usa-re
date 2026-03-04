@@ -46,7 +46,8 @@ sprite_pair_render:
     exts.b r12, r0
     cmp/eq #0x4, r0
     bf      .L_060265E4
-    .byte   0xBE, 0xBF    /* bsr 0x06026362 (external) */
+    .reloc ., R_SH_IND12W, transform_rotation_apply - 4
+    .2byte 0xB000    /* bsr transform_rotation_apply (linker-resolved) */
     nop
 .L_060265E4:
     mov r14, r5
@@ -105,7 +106,8 @@ sprite_pair_render:
     exts.b r12, r0
     cmp/eq #0x4, r0
     bf      .L_0602664C
-    .byte   0xBF, 0x21    /* bsr 0x0602648E (external) */
+    .reloc ., R_SH_IND12W, transform_rotation_alt - 4
+    .2byte 0xB000    /* bsr transform_rotation_alt (linker-resolved) */
     nop
 .L_0602664C:
     mov r14, r5

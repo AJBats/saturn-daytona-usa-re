@@ -73,7 +73,8 @@ vdp1_cmd_list_reset:
     .byte   0xD1, 0x1C    /* mov.l .L_pool_0602DC14, r1 */
     mov.w   DAT_0602dbc2, r2
     mov.l r2, @r1
-    .byte   0xA0, 0x3D    /* bra 0x0602DC26 (external) */
+    .reloc ., R_SH_IND12W, FUN_0602DC26 - 4
+    .2byte 0xA000    /* bra FUN_0602DC26 (linker-resolved) */
     nop
 
     .global DAT_0602dbac

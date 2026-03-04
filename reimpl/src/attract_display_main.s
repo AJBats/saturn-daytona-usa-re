@@ -38,7 +38,10 @@ attract_display_main:
     .4byte  0x7FFC2F42
     .4byte  0x6043500B
     .4byte  0x5448402B
-    .4byte  0x7F047FFC
+    .2byte 0x7F04
+    .global FUN_0603FFE6
+FUN_0603FFE6:
+    .2byte 0x7FFC
     .4byte  0x44158B0D
     .4byte  0x67536262
     .4byte  0xE6002F22

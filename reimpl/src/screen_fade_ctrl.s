@@ -11,7 +11,8 @@ screen_fade_ctrl:
     mov.l @(r0, r4), r4
     mov.l @r4, r4
     add r4, r5
-    .byte   0xBF, 0x5E    /* bsr 0x06028306 (external) */
+    .reloc ., R_SH_IND12W, FUN_06028306 - 4
+    .2byte 0xB000    /* bsr FUN_06028306 (linker-resolved) */
     mov r7, r4
     .byte   0xD1, 0x17    /* mov.l .L_pool_060284A8, r1 */
     add r1, r6

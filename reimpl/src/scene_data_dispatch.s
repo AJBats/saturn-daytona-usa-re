@@ -12,7 +12,8 @@ scene_data_dispatch:
     bra     .L_06038A28
     extu.w r0, r0
 .L_060389B2:
-    .byte   0xBF, 0x85    /* bsr 0x060388C0 (external) */
+    .reloc ., R_SH_IND12W, scene_data_block_copy - 4
+    .2byte 0xB000    /* bsr scene_data_block_copy (linker-resolved) */
     nop
     bra     .L_060389EA
     nop
@@ -39,7 +40,8 @@ scene_data_dispatch:
     shll2 r6
     bsr     sym_06038A48
     mov.l @r4, r4
-    .byte   0xBF, 0x6B    /* bsr 0x060388C0 (external) */
+    .reloc ., R_SH_IND12W, scene_data_block_copy - 4
+    .2byte 0xB000    /* bsr scene_data_block_copy (linker-resolved) */
     nop
 .L_060389EA:
     mov #0x0, r2
@@ -82,8 +84,11 @@ scene_data_dispatch:
     cmp/eq #0x7, r0
 .L_06038A42:
     lds.l @r15+, pr
-    .byte   0xA0, 0x40    /* bra 0x06038AC8 (external) */
+    .reloc ., R_SH_IND12W, display_mode_config - 4
+    .2byte 0xA000    /* bra display_mode_config (linker-resolved) */
     mov.l @r15+, r14
+    .global FUN_06038A48
+FUN_06038A48:
 
     .global sym_06038A48
 sym_06038A48:

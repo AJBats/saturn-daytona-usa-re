@@ -15,7 +15,8 @@ restore_state_snapshot:
     mov.l   .L_pool_06019048, r5
     jsr @r14
     mov #0xF, r4
-    .byte   0xB1, 0x6A    /* bsr 0x060192E8 (external) */
+    .reloc ., R_SH_IND12W, FUN_060192E8 - 4
+    .2byte 0xB000    /* bsr FUN_060192E8 (linker-resolved) */
     nop
     mov.l   .L_pool_06019040, r0
     mov.l @r0, r0

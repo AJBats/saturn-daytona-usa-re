@@ -75,7 +75,8 @@ lap_complete_flag:
     tst #0x8, r0
     bf      .L_0600DA4A
     lds.l @r15+, pr
-    .byte   0xA1, 0x9F    /* bra 0x0600DD88 (external) */
+    .reloc ., R_SH_IND12W, audio_dist_calc - 4
+    .2byte 0xA000    /* bra audio_dist_calc (linker-resolved) */
     mov.l @r15+, r14
 .L_0600DA4A:
     lds.l @r15+, pr

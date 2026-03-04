@@ -137,7 +137,8 @@ DAT_0604155e:
     mov.l @(r0, r3), r2
     add #0x1, r2
     mov.l r2, @(r0, r3)
-    .byte   0xB5, 0xBB    /* bsr 0x06042134 (external) */
+    .reloc ., R_SH_IND12W, player_vehicle_interp - 4
+    .2byte 0xB000    /* bsr player_vehicle_interp (linker-resolved) */
     mov r15, r4
     mov #0x0, r0
     add #0x4, r15

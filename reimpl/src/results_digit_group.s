@@ -25,6 +25,8 @@ results_digit_group:
     .4byte  sym_06063190
     .4byte  sincos_pair
     .4byte  fpmul
+    .global FUN_0603320C
+FUN_0603320C:
     .4byte  0x2F662F76
     .4byte  0xD3153138
     .4byte  0x3238D315

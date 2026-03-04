@@ -63,7 +63,8 @@ hud_overlay_render:
     mov.l @r5, r5
     jsr @r3
     mov.l @r4, r4
-    .byte   0xB0, 0x2C    /* bsr 0x0601E37C (external) */
+    .reloc ., R_SH_IND12W, hud_large_element - 4
+    .2byte 0xB000    /* bsr hud_large_element (linker-resolved) */
     nop
 .L_0601E324:
     mov.b @r13, r2

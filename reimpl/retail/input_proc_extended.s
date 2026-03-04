@@ -11,6 +11,8 @@ input_proc_extended:
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
+    .global FUN_06035F16
+FUN_06035F16:
     .global sym_06035F16
 sym_06035F16:
     .byte 0x63, 0x40

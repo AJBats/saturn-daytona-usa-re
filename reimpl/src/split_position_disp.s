@@ -19,6 +19,8 @@ split_position_disp:
     .4byte  sym_06033884
     .4byte  sym_060785FC
     .4byte  sym_060280F8
+    .global FUN_06033504
+FUN_06033504:
 .L_06033504:
     .byte   0xD0, 0x04    /* mov.l .L_pool_0603351A, r0 */
     mov.l @r0, r1
@@ -34,6 +36,8 @@ split_position_disp:
     .4byte  sym_0605A008
 .L_pool_0603351E:
     .4byte  sym_060785FC
+    .global FUN_06033520
+FUN_06033520:
     .4byte  0x2F06D409
     .4byte  0x60238143
     .4byte  0xD0081400
@@ -46,6 +50,8 @@ split_position_disp:
     .4byte  0x00090000
     .4byte  sym_06062970
     .4byte  0x00000000
+    .global FUN_06033550
+FUN_06033550:
     .4byte  0x2F06D0C8
     .4byte  0x60024008
     .4byte  0xD51F350C

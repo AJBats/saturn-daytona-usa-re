@@ -66,7 +66,8 @@ file_read_callback:
     mov #0x14, r3
     mov.l r3, @r5
     lds.l @r15+, pr
-    .byte   0xA0, 0xA1    /* bra 0x0601228A (external) */
+    .reloc ., R_SH_IND12W, lap_time_formatter - 4
+    .2byte 0xA000    /* bra lap_time_formatter (linker-resolved) */
     mov.l @r15+, r14
 .L_06012148:
     lds.l @r15+, pr
@@ -119,8 +120,10 @@ sym_06012198:
     mov.l @r0, r0
     tst r0, r0
     bt      .L_060121A4
-    .byte   0xA0, 0x73    /* bra 0x0601228A (external) */
+    .reloc ., R_SH_IND12W, lap_time_formatter - 4
+    .2byte 0xA000    /* bra lap_time_formatter (linker-resolved) */
     nop
 .L_060121A4:
-    .byte   0xA3, 0x1C    /* bra 0x060127E0 (external) */
+    .reloc ., R_SH_IND12W, hud_menu_logic - 4
+    .2byte 0xA000    /* bra hud_menu_logic (linker-resolved) */
     nop

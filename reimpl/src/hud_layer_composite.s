@@ -68,13 +68,15 @@ hud_layer_composite:
     add r2, r11
     add #0xC, r11
     mov.l @r11, r5
-    .byte   0xB0, 0xBB    /* bsr 0x060116A8 (external) */
+    .reloc ., R_SH_IND12W, sprite_3d_render - 4
+    .2byte 0xB000    /* bsr sprite_3d_render (linker-resolved) */
     mov.l @r14, r4
     add #0x4, r15
     mov.w @r12, r7
     mov.l @r11, r6
     .byte   0xD4, 0x26    /* mov.l @(+0x0E cross-TU pool), r4 */
-    .byte   0xB2, 0x1D    /* bsr 0x06011978 (external) */
+    .reloc ., R_SH_IND12W, vertex_transform_rot - 4
+    .2byte 0xB000    /* bsr vertex_transform_rot (linker-resolved) */
     mov.l @r14, r5
     mov.w @r12, r7
     mov.l @r11, r6
@@ -84,7 +86,8 @@ hud_layer_composite:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xA2, 0x13    /* bra 0x06011978 (external) */
+    .reloc ., R_SH_IND12W, vertex_transform_rot - 4
+    .2byte 0xA000    /* bra vertex_transform_rot (linker-resolved) */
     mov.l @r15+, r14
 
 .L_06011552:

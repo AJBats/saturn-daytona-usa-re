@@ -18,7 +18,8 @@ geom_coord_calc:
     shll2 r3
     shll r3
     add r3, r4
-    .byte   0xBD, 0x0B    /* bsr 0x0601E4D4 (hud_state_machine) */
+    .reloc ., R_SH_IND12W, hud_state_machine - 4
+    .2byte 0xB000    /* bsr hud_state_machine (linker-resolved) */
     add r2, r4
     extu.b r0, r4
     mov.l   .L_pool_0601EAE8, r6

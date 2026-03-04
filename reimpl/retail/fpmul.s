@@ -7,6 +7,8 @@ fpmul:
     .byte 0x00, 0x1A
     .byte 0x00, 0x0B
     .byte 0x20, 0x4D
+    .global FUN_0602755C
+FUN_0602755C:
     .global fpdiv_setup
 fpdiv_setup:
     .byte 0x92, 0x08

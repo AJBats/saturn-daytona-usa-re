@@ -20,7 +20,8 @@ cmd_dispatch_helper:
     bt      .L_0603ADCE
     mov #-0x7, r4
     lds.l @r15+, pr
-    .byte   0xA5, 0xB7    /* bra 0x0603B93C (external) */
+    .reloc ., R_SH_IND12W, save_checksum_calc - 4
+    .2byte 0xA000    /* bra save_checksum_calc (linker-resolved) */
     mov.l @r15+, r14
 .L_0603ADCE:
     mov #0x0, r4
@@ -45,11 +46,13 @@ cmd_dispatch_helper:
     .byte   0xD3, 0x1C    /* mov.l pool_memcpy_long@0x0603AE68, r3 */
     jsr @r3
     mov #0xC, r0
-    .byte   0xB4, 0xE1    /* bsr 0x0603B7C0 (external) */
+    .reloc ., R_SH_IND12W, sys_timer_config - 4
+    .2byte 0xB000    /* bsr sys_timer_config (linker-resolved) */
     nop
     mov.l r0, @(12, r14)
 .L_0603AE00:
     mov #0x0, r4
     lds.l @r15+, pr
-    .byte   0xA5, 0x9A    /* bra 0x0603B93C (external) */
+    .reloc ., R_SH_IND12W, save_checksum_calc - 4
+    .2byte 0xA000    /* bra save_checksum_calc (linker-resolved) */
     mov.l @r15+, r14

@@ -36,7 +36,8 @@ course_select_state:
     .byte   0xD3, 0x28    /* mov.l .L_060194D8, r3 */
     jsr @r3
     nop
-    .byte   0xBF, 0xA6    /* bsr 0x0601938C (external helper) */
+    .reloc ., R_SH_IND12W, palette_frame_effects - 4
+    .2byte 0xB000    /* bsr palette_frame_effects (linker-resolved) */
     nop
     .byte   0xD3, 0x26    /* mov.l .L_060194DC, r3 */
     jsr @r3
@@ -92,7 +93,8 @@ course_select_state:
     add #0x4, r15
     lds.l @r15+, pr
     mov.l @r15+, r13
-    .byte   0xAF, 0x3A    /* bra 0x06019324 (external tail-call) */
+    .reloc ., R_SH_IND12W, race_data_handler - 4
+    .2byte 0xA000    /* bra race_data_handler (linker-resolved) */
     mov.l @r15+, r14
 .L_060194B0:
     .4byte  sym_06085FF0

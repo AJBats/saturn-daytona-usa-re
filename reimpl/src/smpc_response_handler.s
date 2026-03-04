@@ -16,7 +16,8 @@ smpc_response_handler:
     and r3, r0
     or #0xF0, r0
     ldc r0, sr
-    .byte   0xB0, 0x0E    /* bsr 0x06035D5A (smpc_peripheral_query) */
+    .reloc ., R_SH_IND12W, smpc_peripheral_query - 4
+    .2byte 0xB000    /* bsr smpc_peripheral_query (linker-resolved) */
     nop
     mov r0, r4
     mov r14, r0

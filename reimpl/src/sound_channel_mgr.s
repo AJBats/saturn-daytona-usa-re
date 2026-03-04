@@ -53,6 +53,8 @@ DAT_06030eae:
     sts macl, r4
     xtrct r3, r4
     mov.l r4, @(12, r14)
+    .global FUN_06030ECC
+FUN_06030ECC:
     mov.l @r15+, r10
     mov.l @r15+, r9
     mov.l @r15+, r8

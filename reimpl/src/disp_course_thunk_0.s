@@ -6,7 +6,8 @@
     .type disp_course_thunk_0, @function
 disp_course_thunk_0:
     sts.l pr, @-r15
-    .byte   0xB0, 0x3B    /* bsr 0x060335F4 (external) */
+    .reloc ., R_SH_IND12W, FUN_060335F4 - 4
+    .2byte 0xB000    /* bsr FUN_060335F4 (linker-resolved) */
     nop
     lds.l @r15+, pr
     .byte   0xD2, 0x19    /* mov.l .L_pool_060335E8, r2 */

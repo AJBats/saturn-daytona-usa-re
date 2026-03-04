@@ -104,6 +104,8 @@ loc_0602E108:
     .byte 0x00, 0x00
     .4byte sym_0607EAC8
     .4byte sym_0607E940
+    .global FUN_0602E16C
+FUN_0602E16C:
     .byte 0xD1, 0x0E
     .byte 0x63, 0x12
     .byte 0x23, 0x38

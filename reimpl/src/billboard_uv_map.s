@@ -9,7 +9,8 @@ billboard_uv_map:
     jsr @r13
     nop
     lds.l @r15+, pr
-    .byte   0xAF, 0x88    /* bra 0x0602E78C (external) */
+    .reloc ., R_SH_IND12W, FUN_0602E78C - 4
+    .2byte 0xA000    /* bra FUN_0602E78C (linker-resolved) */
     nop
     .4byte  0x00000050
     .4byte  0x00000000

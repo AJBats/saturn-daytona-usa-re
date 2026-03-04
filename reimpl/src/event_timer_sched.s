@@ -17,7 +17,8 @@ event_timer_sched:
     tst r2, r2
     bt/s    .L_06040B54
     mov r4, r13
-    .byte   0xA0, 0x51    /* bra 0x06040BF2 (external: event_callback_dispatch epilogue) */
+    .reloc ., R_SH_IND12W, FUN_06040BF2 - 4
+    .2byte 0xA000    /* bra FUN_06040BF2 (linker-resolved) */
     mov #0x0, r0
 .L_pool_06040B50:
     .4byte  sym_0606367C
@@ -35,7 +36,8 @@ event_timer_sched:
     tst r0, r0
     bt/s    .L_06040B72
     add #0x4, r15
-    .byte   0xA0, 0x40    /* bra 0x06040BF2 (external: event_callback_dispatch epilogue) */
+    .reloc ., R_SH_IND12W, FUN_06040BF2 - 4
+    .2byte 0xA000    /* bra FUN_06040BF2 (linker-resolved) */
     mov #0x0, r0
 .L_06040B72:
     .byte   0xD3, 0x23    /* mov.l .L_pool_06040C00, r3 */
@@ -43,13 +45,15 @@ event_timer_sched:
     nop
     tst r0, r0
     bt      .L_06040B80
-    .byte   0xA0, 0x39    /* bra 0x06040BF2 (external: event_callback_dispatch epilogue) */
+    .reloc ., R_SH_IND12W, FUN_06040BF2 - 4
+    .2byte 0xA000    /* bra FUN_06040BF2 (linker-resolved) */
     mov #0x0, r0
 .L_06040B80:
     mov.l @(4, r15), r3
     cmp/pl r3
     bt      .L_06040B8A
-    .byte   0xA0, 0x34    /* bra 0x06040BF2 (external: event_callback_dispatch epilogue) */
+    .reloc ., R_SH_IND12W, FUN_06040BF2 - 4
+    .2byte 0xA000    /* bra FUN_06040BF2 (linker-resolved) */
     mov #0x0, r0
 .L_06040B8A:
     mov r14, r6

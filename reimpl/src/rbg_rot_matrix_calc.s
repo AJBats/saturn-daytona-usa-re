@@ -47,6 +47,8 @@ DAT_0602e376:
     .4byte  checkpoint_detect
 .L_pool_0602E39C:
     .4byte  0x00000096
+    .global FUN_0602E3A0
+FUN_0602E3A0:
     .4byte  0xD10BD30C
     .4byte  0x2132D10C
     .4byte  0x6212D10C
@@ -83,7 +85,8 @@ DAT_0602e376:
     mov.l   .L_pool_0602E424, r0
     mov.l   .L_pool_0602E428, r1
     mov.b r1, @r0
-    .byte   0xA0, 0x12    /* bra 0x0602E438 (external) */
+    .reloc ., R_SH_IND12W, FUN_0602E438 - 4
+    .2byte 0xA000    /* bra FUN_0602E438 (linker-resolved) */
     nop
 .L_pool_0602E414:
     .4byte  sym_06082A2C

@@ -11,20 +11,23 @@ save_size_calc:
     add #-0x10, r15
     mov.l r4, @r15
     mov r15, r4
-    .byte   0xBF, 0xB2    /* bsr 0x0603BB86 (external) */
+    .reloc ., R_SH_IND12W, save_header_parse - 4
+    .2byte 0xB000    /* bsr save_header_parse (linker-resolved) */
     add #0x4, r4
     tst r0, r0
     bf      .L_0603BC2A
     bra     .L_0603BC3C
     mov #0x0, r14
 .L_0603BC2A:
-    .byte   0xBD, 0xF8    /* bsr 0x0603B81E (external) */
+    .reloc ., R_SH_IND12W, FUN_0603B81E - 4
+    .2byte 0xB000    /* bsr FUN_0603B81E (linker-resolved) */
     nop
     mov r0, r13
     mov #0x0, r6
     mov r15, r5
     add #0x4, r5
-    .byte   0xBE, 0xF9    /* bsr 0x0603BA2C (external) */
+    .reloc ., R_SH_IND12W, save_field_write - 4
+    .2byte 0xB000    /* bsr save_field_write (linker-resolved) */
     mov r0, r4
     mov r0, r14
 .L_0603BC3C:
@@ -69,7 +72,8 @@ DAT_0603bc56:
     tst r14, r14
     bt      .L_0603BC7A
     mov r14, r5
-    .byte   0xB1, 0x54    /* bsr 0x0603BF22 (external) */
+    .reloc ., R_SH_IND12W, save_commit_write - 4
+    .2byte 0xB000    /* bsr save_commit_write (linker-resolved) */
     mov r13, r4
 .L_0603BC7A:
     mov.l @r15, r0

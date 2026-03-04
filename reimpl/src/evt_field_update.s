@@ -42,7 +42,8 @@ evt_field_update:
     mov.l @r7, r3
     add #0x4, r0
     mov.l r6, @(r0, r3)
-    .byte   0xB5, 0x3D    /* bsr 0x06041CC8 (external) */
+    .reloc ., R_SH_IND12W, state_transition_handler - 4
+    .2byte 0xB000    /* bsr state_transition_handler (linker-resolved) */
     mov r15, r4
     mov #0x0, r0
     add #0x4, r15

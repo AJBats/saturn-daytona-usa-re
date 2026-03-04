@@ -53,7 +53,8 @@ hud_handler_main:
     mov.b r0, @(10, r2)
 .L_0601E86A:
     mov.l   .L_pool_0601E914, r4
-    .byte   0xB6, 0x22    /* bsr 0x0601F4B4 (geom_display_proc */
+    .reloc ., R_SH_IND12W, geom_display_proc - 4
+    .2byte 0xB000    /* bsr geom_display_proc (linker-resolved) */
     nop
     mov.l   .L_pool_0601E918, r12
     mov r9, r5

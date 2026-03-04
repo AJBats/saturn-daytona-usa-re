@@ -34,9 +34,12 @@ sym_0603363C:
     mov.b r0, @(0, gbr)
     .word 0x0000
     add #0x0, r6
+    .global FUN_06033648
+FUN_06033648:
     mov.l r0, @-r15
     sts.l pr, @-r15
-    .byte   0xB0, 0x51    /* bsr 0x060336F2 (external) */
+    .reloc ., R_SH_IND12W, FUN_060336F2 - 4
+    .2byte 0xB000    /* bsr FUN_060336F2 (linker-resolved) */
     nop
     lds.l @r15+, pr
     bf      .L_0603365A

@@ -76,6 +76,8 @@ vdp1_scaled_sprite:
     .4byte sym_06082A30
     .byte 0x00, 0x00
     .byte 0x00, 0x01
+    .global FUN_0602DD10
+FUN_0602DD10:
     .global loc_0602DD10
 loc_0602DD10:
     .byte 0xD3, 0x0B

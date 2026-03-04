@@ -6,7 +6,8 @@
     .type display_palette_load, @function
 display_palette_load:
     sts.l pr, @-r15
-    .byte   0xB0, 0x41    /* bsr 0x06033188 (external) */
+    .reloc ., R_SH_IND12W, FUN_06033188 - 4
+    .2byte 0xB000    /* bsr FUN_06033188 (linker-resolved) */
     nop
     lds.l @r15+, pr
     add r6, r0

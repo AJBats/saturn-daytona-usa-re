@@ -21,18 +21,21 @@ cmd_multi_validate:
     tst r4, r4
     bt      .L_0603B244
     mov.l @r14, r5
-    .byte   0xB3, 0x7E    /* bsr 0x0603B93C (external) */
+    .reloc ., R_SH_IND12W, save_checksum_calc - 4
+    .2byte 0xB000    /* bsr save_checksum_calc (linker-resolved) */
     mov.l r13, @(40, r5)
     bra     .L_0603B284
     nop
 .L_0603B244:
-    .byte   0xB0, 0xEE    /* bsr 0x0603B424 (external) */
+    .reloc ., R_SH_IND12W, cmd_dispatch_main - 4
+    .2byte 0xB000    /* bsr cmd_dispatch_main (linker-resolved) */
     mov r14, r4
     mov r0, r4
     cmp/pz r4
     bt      .L_0603B258
     mov.l @r14, r5
-    .byte   0xB3, 0x74    /* bsr 0x0603B93C (external) */
+    .reloc ., R_SH_IND12W, save_checksum_calc - 4
+    .2byte 0xB000    /* bsr save_checksum_calc (linker-resolved) */
     mov.l r13, @(40, r5)
     bra     .L_0603B284
     nop
@@ -42,9 +45,11 @@ cmd_multi_validate:
     mov r15, r6
     mov r15, r5
     add #0x4, r5
-    .byte   0xB0, 0xCA    /* bsr 0x0603B3FA (external) */
+    .reloc ., R_SH_IND12W, FUN_0603B3FA - 4
+    .2byte 0xB000    /* bsr FUN_0603B3FA (linker-resolved) */
     mov r14, r4
-    .byte   0xB3, 0x69    /* bsr 0x0603B93C (external) */
+    .reloc ., R_SH_IND12W, save_checksum_calc - 4
+    .2byte 0xB000    /* bsr save_checksum_calc (linker-resolved) */
     mov #0x0, r4
     mov.l @r14, r4
     bra     .L_0603B282

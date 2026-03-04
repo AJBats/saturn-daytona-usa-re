@@ -7,9 +7,11 @@
 atan2_full:
     sts.l pr, @-r15
     cmp/pz r5
-    .byte   0xB0, 0x7C    /* bsr 0x0602755C (external: fpdiv_setup) */
+    .reloc ., R_SH_IND12W, FUN_0602755C - 4
+    .2byte 0xB000    /* bsr FUN_0602755C (linker-resolved) */
     .word 0x0729
-    .byte   0xBF, 0x88    /* bsr 0x06027378 (external: atan_piecewise) */
+    .reloc ., R_SH_IND12W, FUN_06027378 - 4
+    .2byte 0xB000    /* bsr FUN_06027378 (linker-resolved) */
     mov r0, r4
     lds.l @r15+, pr
     tst r7, r7
@@ -20,6 +22,8 @@ atan2_full:
     rts
     exts.w r0, r0
 
+    .global FUN_06027476
+FUN_06027476:
     .global isqrt
 isqrt:
     cmp/pl r4

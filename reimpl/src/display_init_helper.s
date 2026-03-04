@@ -6,7 +6,8 @@
     .type display_init_helper, @function
 display_init_helper:
     sts.l pr, @-r15
-    .byte   0xB5, 0xD7    /* bsr 0x06032D90 (external) */
+    .reloc ., R_SH_IND12W, FUN_06032D90 - 4
+    .2byte 0xB000    /* bsr FUN_06032D90 (linker-resolved) */
     nop
     lds.l @r15+, pr
     .byte   0xD1, 0x17    /* mov.l .L_pool_06032244, r1 */

@@ -111,7 +111,8 @@ results_input_handler:
     add r13, r3
     mov.l r12, @(48, r3)
 .L_060168A6:
-    .byte   0xB2, 0x97    /* bsr 0x06016DD8 (external) */
+    .reloc ., R_SH_IND12W, track_vtx_builder - 4
+    .2byte 0xB000    /* bsr track_vtx_builder (linker-resolved) */
     extu.b r14, r4
     extu.b r11, r11
     tst r11, r11

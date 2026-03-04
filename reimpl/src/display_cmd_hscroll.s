@@ -6,10 +6,12 @@
     .type display_cmd_hscroll, @function
 display_cmd_hscroll:
     sts.l pr, @-r15
-    .byte   0xB5, 0x30    /* bsr 0x06032E18 (external) */
+    .reloc ., R_SH_IND12W, FUN_06032E18 - 4
+    .2byte 0xB000    /* bsr FUN_06032E18 (linker-resolved) */
     nop
     lds.l @r15+, pr
-    .byte   0xAF, 0xA6    /* bra 0x0603230A (external) */
+    .reloc ., R_SH_IND12W, FUN_0603230A - 4
+    .2byte 0xA000    /* bra FUN_0603230A (linker-resolved) */
     nop
     .2byte  0x0000
     .4byte  0x0000000E
@@ -23,7 +25,8 @@ loc_060323CC:
     .byte   0xD2, 0x03    /* mov.l .L_pool_060323E0, r2 */
     or r2, r1
     mov.w r1, @(r0, r14)
-    .byte   0xAF, 0x98    /* bra 0x0603230A (external) */
+    .reloc ., R_SH_IND12W, FUN_0603230A - 4
+    .2byte 0xA000    /* bra FUN_0603230A (linker-resolved) */
     nop
     .2byte  0x0000
 .L_pool_060323DC:

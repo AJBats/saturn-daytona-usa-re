@@ -89,7 +89,8 @@ text_scroll_marquee:
     mov.w @(r0, r5), r3
     shll16 r3
     mov.l r3, @(52, r6)
-    .byte   0xB0, 0x24    /* bsr 0x06016DD8 (external) */
+    .reloc ., R_SH_IND12W, track_vtx_builder - 4
+    .2byte 0xB000    /* bsr track_vtx_builder (linker-resolved) */
     extu.b r14, r4
     extu.b r14, r4
     .byte   0xD2, 0x10    /* mov.l .L_pool_06016DDA, r2 */

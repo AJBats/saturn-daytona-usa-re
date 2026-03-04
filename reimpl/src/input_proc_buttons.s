@@ -26,7 +26,8 @@ input_proc_buttons:
     .4byte  sym_06063594
 .L_06035EF4:
     .byte   0xD5, 0x10    /* mov.l .L_input_config_table, r5 */
-    .byte   0xB0, 0x0E    /* bsr 0x06035F16 (external) */
+    .reloc ., R_SH_IND12W, FUN_06035F16 - 4
+    .2byte 0xB000    /* bsr FUN_06035F16 (linker-resolved) */
     mov r15, r4
     mov r14, r0
     add #0x8, r15

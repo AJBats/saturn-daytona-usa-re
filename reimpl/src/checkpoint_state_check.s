@@ -43,7 +43,8 @@ checkpoint_state_check:
     mov.l @r6, r3
     add #0x4, r0
     mov.l r5, @(r0, r3)
-    .byte   0xB5, 0xE7    /* bsr 0x06042088 (external) */
+    .reloc ., R_SH_IND12W, track_shadow_validate - 4
+    .2byte 0xB000    /* bsr track_shadow_validate (linker-resolved) */
     mov r15, r4
     mov #0x0, r0
     add #0x4, r15

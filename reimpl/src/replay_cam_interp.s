@@ -6,7 +6,8 @@
     .type replay_cam_interp, @function
 replay_cam_interp:
     sts.l pr, @-r15
-    .byte   0xB0, 0x97    /* bsr 0x0601B0D8 (external) */
+    .reloc ., R_SH_IND12W, course_state_setup - 4
+    .2byte 0xB000    /* bsr course_state_setup (linker-resolved) */
     nop
     mov #0x60, r6
     mov.l   .L_pool_0601AFD4, r3

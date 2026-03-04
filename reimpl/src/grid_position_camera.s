@@ -94,7 +94,8 @@ grid_position_camera:
 .L_0601A18E:
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xAF, 0x0E    /* bra 0x06019FB2 (external) */
+    .reloc ., R_SH_IND12W, course2_physics_init - 4
+    .2byte 0xA000    /* bra course2_physics_init (linker-resolved) */
     mov.l @r15+, r14
 .L_0601A196:
     .2byte  0x4000

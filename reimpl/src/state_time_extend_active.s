@@ -230,7 +230,8 @@ state_time_extend_active:
     and r4, r2
     cmp/eq r4, r2
     bf      .L_06009972
-    .byte   0xB4, 0x43    /* bsr 0x0600A1B8 (external: end extend helper) */
+    .reloc ., R_SH_IND12W, FUN_0600A1B8 - 4
+    .2byte 0xB000    /* bsr FUN_0600A1B8 (linker-resolved) */
     nop
     mov.l   .L_060099B8, r2
     mov.l @r10, r3

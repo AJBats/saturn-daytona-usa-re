@@ -18,7 +18,8 @@ cmd_dispatch_main:
     bra     .L_0603B526
     nop
 .L_0603B43C:
-    .byte   0xB4, 0x6E    /* bsr 0x0603BD1C (external) */
+    .reloc ., R_SH_IND12W, save_deserialize - 4
+    .2byte 0xB000    /* bsr save_deserialize (linker-resolved) */
     mov r14, r4
     bra     .L_0603B4D0
     mov r0, r13
@@ -30,7 +31,8 @@ cmd_dispatch_main:
     lds.l @r15+, pr
     mov.l @r15+, r8
     mov.l @r15+, r13
-    .byte   0xA2, 0x73    /* bra 0x0603B93C (external) */
+    .reloc ., R_SH_IND12W, save_checksum_calc - 4
+    .2byte 0xA000    /* bra save_checksum_calc (linker-resolved) */
     mov.l @r15+, r14
 .L_0603B456:
     mov.w   DAT_0603b4c8, r2
@@ -40,7 +42,8 @@ cmd_dispatch_main:
     lds.l @r15+, pr
     mov.l @r15+, r8
     mov.l @r15+, r13
-    .byte   0xA2, 0x6A    /* bra 0x0603B93C (external) */
+    .reloc ., R_SH_IND12W, save_checksum_calc - 4
+    .2byte 0xA000    /* bra save_checksum_calc (linker-resolved) */
     mov.l @r15+, r14
 .L_0603B468:
     mov.w   DAT_0603b4ca, r2
@@ -50,7 +53,8 @@ cmd_dispatch_main:
     lds.l @r15+, pr
     mov.l @r15+, r8
     mov.l @r15+, r13
-    .byte   0xA2, 0x61    /* bra 0x0603B93C (external) */
+    .reloc ., R_SH_IND12W, save_checksum_calc - 4
+    .2byte 0xA000    /* bra save_checksum_calc (linker-resolved) */
     mov.l @r15+, r14
 .L_0603B47A:
     mov.w   DAT_0603b4cc, r2
@@ -60,10 +64,12 @@ cmd_dispatch_main:
     lds.l @r15+, pr
     mov.l @r15+, r8
     mov.l @r15+, r13
-    .byte   0xA2, 0x58    /* bra 0x0603B93C (external) */
+    .reloc ., R_SH_IND12W, save_checksum_calc - 4
+    .2byte 0xA000    /* bra save_checksum_calc (linker-resolved) */
     mov.l @r15+, r14
 .L_0603B48C:
-    .byte   0xB5, 0x65    /* bsr 0x0603BF5A (external) */
+    .reloc ., R_SH_IND12W, FUN_0603BF5A - 4
+    .2byte 0xB000    /* bsr FUN_0603BF5A (linker-resolved) */
     mov r14, r4
     cmp/eq #0x1, r0
     bf      .L_0603B4E8
@@ -74,7 +80,8 @@ cmd_dispatch_main:
     lds.l @r15+, pr
     mov.l @r15+, r8
     mov.l @r15+, r13
-    .byte   0xA2, 0x4B    /* bra 0x0603B93C (external) */
+    .reloc ., R_SH_IND12W, save_checksum_calc - 4
+    .2byte 0xA000    /* bra save_checksum_calc (linker-resolved) */
     mov.l @r15+, r14
 .L_0603B4A6:
     mov #0x11, r0
@@ -85,9 +92,11 @@ cmd_dispatch_main:
     mov #0x0, r2
     mov #0x12, r0
     mov.b r2, @(r0, r14)
-    .byte   0xB2, 0x8E    /* bsr 0x0603B9D6 (external) */
+    .reloc ., R_SH_IND12W, save_field_read - 4
+    .2byte 0xB000    /* bsr save_field_read (linker-resolved) */
     mov r14, r4
-    .byte   0xB2, 0x3F    /* bsr 0x0603B93C (external) */
+    .reloc ., R_SH_IND12W, save_checksum_calc - 4
+    .2byte 0xB000    /* bsr save_checksum_calc (linker-resolved) */
     mov #0x0, r4
     mov #0x12, r0
     mov.b @(r0, r14), r0
@@ -127,7 +136,8 @@ DAT_0603b4ce:
     cmp/eq #0x6, r0
     bt      .L_0603B444
 .L_0603B4E8:
-    .byte   0xB4, 0x60    /* bsr 0x0603BDAC (external) */
+    .reloc ., R_SH_IND12W, save_integrity_check - 4
+    .2byte 0xB000    /* bsr save_integrity_check (linker-resolved) */
     mov r14, r4
     mov r0, r4
     mov r13, r0
@@ -146,20 +156,25 @@ DAT_0603b4ce:
     mov r8, r5
     mov r14, r4
     sub r0, r5
-    .byte   0xBD, 0x5F    /* bsr 0x0603AFD0 (external) */
+    .reloc ., R_SH_IND12W, cmd_error_return - 4
+    .2byte 0xB000    /* bsr cmd_error_return (linker-resolved) */
     mov #0x1, r6
     mov #0x0, r2
     mov #0x12, r0
     mov r14, r13
     mov.b r2, @(r0, r14)
-    .byte   0xB1, 0xCB    /* bsr 0x0603B8B4 (external) */
+    .reloc ., R_SH_IND12W, sys_dma_channel_init - 4
+    .2byte 0xB000    /* bsr sys_dma_channel_init (linker-resolved) */
     mov r14, r4
-    .byte   0xB1, 0xE9    /* bsr 0x0603B8F4 (external) */
+    .reloc ., R_SH_IND12W, FUN_0603B8F4 - 4
+    .2byte 0xB000    /* bsr FUN_0603B8F4 (linker-resolved) */
     mov r13, r4
-    .byte   0xB2, 0x58    /* bsr 0x0603B9D6 (external) */
+    .reloc ., R_SH_IND12W, save_field_read - 4
+    .2byte 0xB000    /* bsr save_field_read (linker-resolved) */
     mov r13, r4
 .L_0603B526:
-    .byte   0xB2, 0x09    /* bsr 0x0603B93C (external) */
+    .reloc ., R_SH_IND12W, save_checksum_calc - 4
+    .2byte 0xB000    /* bsr save_checksum_calc (linker-resolved) */
     mov #0x0, r4
     mov #0x12, r0
     mov.b @(r0, r14), r0

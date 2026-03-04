@@ -19,6 +19,8 @@ sound_channel_reset:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
+    .global FUN_060192E8
+FUN_060192E8:
     .4byte  0xD107D708
     .4byte  0xD608E501
     .4byte  0xD4084410

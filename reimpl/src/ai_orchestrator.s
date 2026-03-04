@@ -12,10 +12,12 @@ ai_orchestrator:
     .byte   0xDE, 0x1D    /* mov.l .L_pool_0600C7D0, r14 */
     .byte   0xDD, 0x1D    /* mov.l .L_pool_0600C7D4, r13 */
 
-    .byte   0xB2, 0xF1    /* bsr 0x0600CD40 (external) */
+    .reloc ., R_SH_IND12W, FUN_0600CD40 - 4
+    .2byte 0xB000    /* bsr FUN_0600CD40 (linker-resolved) */
     mov.l @r14, r14
 
-    .byte   0xB1, 0x9A    /* bsr 0x0600CA96 (external) */
+    .reloc ., R_SH_IND12W, FUN_0600CA96 - 4
+    .2byte 0xB000    /* bsr FUN_0600CA96 (linker-resolved) */
     mov r13, r4
 
     mov #0x2D, r3
@@ -33,7 +35,8 @@ ai_orchestrator:
 
 .L_0600C77A:
     mov r13, r5
-    .byte   0xB0, 0xA6    /* bsr 0x0600C8CC (external) */
+    .reloc ., R_SH_IND12W, FUN_0600C8CC - 4
+    .2byte 0xB000    /* bsr FUN_0600C8CC (linker-resolved) */
     mov r14, r4
 
 .L_0600C780:
@@ -43,15 +46,18 @@ ai_orchestrator:
     mov.l @(4, r14), r0
     tst r0, r0
     bf      .L_0600C78E
-    .byte   0xB0, 0xF1    /* bsr 0x0600C970 (external) */
+    .reloc ., R_SH_IND12W, FUN_0600C970 - 4
+    .2byte 0xB000    /* bsr FUN_0600C970 (linker-resolved) */
     mov r14, r4
 
 .L_0600C78E:
-    .byte   0xB0, 0xCB    /* bsr 0x0600C928 (external) */
+    .reloc ., R_SH_IND12W, FUN_0600C928 - 4
+    .2byte 0xB000    /* bsr FUN_0600C928 (linker-resolved) */
     mov r14, r4
 
     mov r13, r5
-    .byte   0xB0, 0x1E    /* bsr 0x0600C7D4 (external) */
+    .reloc ., R_SH_IND12W, heading_speed_damping - 4
+    .2byte 0xB000    /* bsr heading_speed_damping (linker-resolved) */
     mov r14, r4
 
     mov r15, r6

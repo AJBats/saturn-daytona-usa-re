@@ -136,6 +136,8 @@ replay_cam_main_loop:
     .4byte sym_06086012
     .4byte sym_06086000
     .4byte sym_06078638
+    .global FUN_0601ADB0
+FUN_0601ADB0:
     .byte 0xD5, 0x23
     .byte 0xD6, 0x24
     .byte 0xD2, 0x24

@@ -7,7 +7,8 @@
 evt_condition_test:
     sts.l pr, @-r15
     mov #0x0, r5
-    .byte   0xBF, 0x98    /* bsr 0x060405B8 (external) */
+    .reloc ., R_SH_IND12W, evt_validate_multi - 4
+    .2byte 0xB000    /* bsr evt_validate_multi (linker-resolved) */
     mov r5, r4
     cmp/eq #0x4, r0
     bf      .L_06040692

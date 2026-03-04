@@ -6,7 +6,8 @@
     .type disp_elem_proc_3, @function
 disp_elem_proc_3:
     sts.l pr, @-r15
-    .byte   0xB0, 0x37    /* bsr 0x06032304 (external) */
+    .reloc ., R_SH_IND12W, FUN_06032304 - 4
+    .2byte 0xB000    /* bsr FUN_06032304 (linker-resolved) */
     nop
     lds.l @r15+, pr
     .byte   0xD4, 0x10    /* mov.l .L_pool_060322DC, r4 */

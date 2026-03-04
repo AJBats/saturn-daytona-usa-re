@@ -112,7 +112,8 @@ dma_param_chain_init:
     sts macl, r5
     shll2 r5
     add r2, r5
-    .byte   0xB0, 0xED    /* bsr 0x0603FFE6 (external) */
+    .reloc ., R_SH_IND12W, FUN_0603FFE6 - 4
+    .2byte 0xB000    /* bsr FUN_0603FFE6 (linker-resolved) */
     and r8, r4
     mov r8, r5
     mov.l   .L_pool_0603FE3C, r3

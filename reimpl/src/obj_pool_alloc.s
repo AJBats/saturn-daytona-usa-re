@@ -33,7 +33,8 @@ obj_pool_alloc:
     tst r2, r2
     bf      .L_06020258
 .L_060201EC:
-    .byte   0xB6, 0x26    /* bsr 0x06020E3C (external) */
+    .reloc ., R_SH_IND12W, obj_render_prepare - 4
+    .2byte 0xB000    /* bsr obj_render_prepare (linker-resolved) */
     mov #0x0, r4
     extu.w r0, r4
     extu.w r4, r0
@@ -90,12 +91,14 @@ obj_pool_alloc:
 .L_06020258:
     mov.w @r13, r2
     add #-0x1, r2
-    .byte   0xB5, 0x73    /* bsr 0x06020D46 (external) */
+    .reloc ., R_SH_IND12W, obj_pool_return - 4
+    .2byte 0xB000    /* bsr obj_pool_return (linker-resolved) */
     mov.w r2, @r13
     lds.l @r15+, pr
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xA0, 0x0D    /* bra 0x06020284 (external) */
+    .reloc ., R_SH_IND12W, obj_pool_dealloc - 4
+    .2byte 0xA000    /* bra obj_pool_dealloc (linker-resolved) */
     mov.l @r15+, r14
 .L_0602026A:
     .2byte  0x0800

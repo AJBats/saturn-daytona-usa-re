@@ -70,6 +70,8 @@ scene_data_dispatch:
     .byte 0x4F, 0x26
     .byte 0xA0, 0x40
     .byte 0x6E, 0xF6
+    .global FUN_06038A48
+FUN_06038A48:
     .global sym_06038A48
 sym_06038A48:
     .byte 0x46, 0x01

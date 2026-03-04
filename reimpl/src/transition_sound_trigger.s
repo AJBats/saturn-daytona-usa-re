@@ -15,7 +15,8 @@ transition_sound_trigger:
     mov.l   .L_pool_060191D0, r5
     jsr @r14
     mov #0xF, r4
-    .byte   0xB0, 0xA2    /* bsr 0x060192E8 (external) */
+    .reloc ., R_SH_IND12W, FUN_060192E8 - 4
+    .2byte 0xB000    /* bsr FUN_060192E8 (linker-resolved) */
     nop
     mov.l   .L_pool_060191C8, r0
     mov.l @r0, r0

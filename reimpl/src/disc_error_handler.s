@@ -41,9 +41,11 @@ disc_error_handler:
 .L_0601B52C:
     .4byte  handler_init_reset
 .L_0601B530:
-    .byte   0xB1, 0x60    /* bsr 0x0601B7F4 */
+    .reloc ., R_SH_IND12W, disc_texture_load_ext - 4
+    .2byte 0xB000    /* bsr disc_texture_load_ext (linker-resolved) */
     nop
-    .byte   0xB0, 0xD2    /* bsr 0x0601B6DC */
+    .reloc ., R_SH_IND12W, disc_anim_data_load - 4
+    .2byte 0xB000    /* bsr disc_anim_data_load (linker-resolved) */
     nop
     .byte   0xD2, 0x0D    /* mov.l .L_0601B570, r2 */
     mov.w @r2, r3

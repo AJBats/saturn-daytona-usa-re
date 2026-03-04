@@ -68,6 +68,8 @@ menu_ranking_display:
     .4byte sym_0603F1F0
     .4byte sym_060360FC
     .4byte sym_0603F1E0
+    .global FUN_0603B734
+FUN_0603B734:
     .byte 0xD4, 0x1D
     .byte 0xD3, 0x1E
     .byte 0x64, 0x42

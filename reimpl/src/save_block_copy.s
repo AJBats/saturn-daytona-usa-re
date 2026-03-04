@@ -66,13 +66,15 @@ DAT_0603bae6:
     extu.b r14, r0
     add #0x4, r3
     mov.b r0, @(9, r3)
-    .byte   0xBE, 0x69    /* bsr 0x0603B81E (external) */
+    .reloc ., R_SH_IND12W, FUN_0603B81E - 4
+    .2byte 0xB000    /* bsr FUN_0603B81E (linker-resolved) */
     nop
     mov r0, r13
     mov #0x0, r6
     mov r15, r5
     add #0x4, r5
-    .byte   0xBF, 0x6A    /* bsr 0x0603BA2C (external) */
+    .reloc ., R_SH_IND12W, save_field_write - 4
+    .2byte 0xB000    /* bsr save_field_write (linker-resolved) */
     mov r0, r4
     mov r0, r14
     tst r14, r14
@@ -80,14 +82,16 @@ DAT_0603bae6:
     mov r11, r7
     mov #0x1, r5
     mov.l @r15, r6
-    .byte   0xBB, 0x5A    /* bsr 0x0603B21C (external) */
+    .reloc ., R_SH_IND12W, cmd_multi_validate - 4
+    .2byte 0xB000    /* bsr cmd_multi_validate (linker-resolved) */
     mov r14, r4
     cmp/eq r11, r0
     bf      .L_0603BB6E
     mov #0x1, r12
 .L_0603BB6E:
     mov r14, r5
-    .byte   0xB1, 0xD7    /* bsr 0x0603BF22 (external) */
+    .reloc ., R_SH_IND12W, save_commit_write - 4
+    .2byte 0xB000    /* bsr save_commit_write (linker-resolved) */
     mov r13, r4
     mov r12, r0
 .L_0603BB76:

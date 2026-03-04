@@ -7,10 +7,12 @@
 menu_elem_visible:
     sts.l pr, @-r15
     add #-0x8, r15
-    .byte   0xBF, 0xE1    /* bsr 0x0603B058 (external) */
+    .reloc ., R_SH_IND12W, menu_element_dispatch - 4
+    .2byte 0xB000    /* bsr menu_element_dispatch (linker-resolved) */
     mov.l r4, @r15
     mov.l r0, @(4, r15)
-    .byte   0xB4, 0x50    /* bsr 0x0603B93C (external) */
+    .reloc ., R_SH_IND12W, save_checksum_calc - 4
+    .2byte 0xB000    /* bsr save_checksum_calc (linker-resolved) */
     mov #0x0, r4
     mov.l @r15, r2
     mov.l @r2, r3

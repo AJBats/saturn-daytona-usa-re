@@ -27,7 +27,8 @@ car_param_lookup:
     bra     .L_06012B28
     nop
 .L_06012B24:
-    .byte   0xBF, 0xCE    /* bsr 0x06012AC4 (external) */
+    .reloc ., R_SH_IND12W, course_table_lookup - 4
+    .2byte 0xB000    /* bsr course_table_lookup (linker-resolved) */
     nop
 .L_06012B28:
     mov.l @r14, r2

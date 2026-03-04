@@ -48,7 +48,8 @@ DAT_06012c66:
 .L_pool_06012C98:
     .4byte  sym_0600026C
 .L_06012C9C:
-    .byte   0xBF, 0x9E    /* bsr 0x06012BDC (external) */
+    .reloc ., R_SH_IND12W, cd_error_recover - 4
+    .2byte 0xB000    /* bsr cd_error_recover (linker-resolved) */
     nop
 .L_06012CA0:
     mov.b @r10, r0

@@ -261,7 +261,8 @@ vdp1_distorted_sprite:
     .byte   0xD1, 0x03    /* mov.l .L_0602E070, r1 */
     .byte   0xD0, 0x03    /* mov.l .L_0602E074, r0 */
     mov.l r0, @r1
-    .byte   0xAE, 0x52    /* bra 0x0602DD10 (external) */
+    .reloc ., R_SH_IND12W, FUN_0602DD10 - 4
+    .2byte 0xA000    /* bra FUN_0602DD10 (linker-resolved) */
     nop
 .L_0602E06C:
     .4byte  sym_06082A38

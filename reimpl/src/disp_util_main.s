@@ -6,7 +6,8 @@
     .type disp_util_main, @function
 disp_util_main:
     sts.l pr, @-r15
-    .byte   0xB0, 0x61    /* bsr 0x0603316C (external) */
+    .reloc ., R_SH_IND12W, FUN_0603316C - 4
+    .2byte 0xB000    /* bsr FUN_0603316C (linker-resolved) */
     nop
     lds.l @r15+, pr
     .byte   0xD8, 0x26    /* mov.l .L_pool_06033148, r8 */
@@ -48,7 +49,8 @@ disp_util_main:
     mov.l r0, @-r15
     mov.l r6, @-r15
     sts.l pr, @-r15
-    .byte   0xB0, 0x39    /* bsr 0x0603316C (external) */
+    .reloc ., R_SH_IND12W, FUN_0603316C - 4
+    .2byte 0xB000    /* bsr FUN_0603316C (linker-resolved) */
     nop
     lds.l @r15+, pr
     neg r6, r0

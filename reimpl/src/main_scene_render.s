@@ -439,6 +439,8 @@ sym_0602ECBC:
     .4byte  loc_0602EB70
     .4byte  loc_0602EA8C
 
+    .global FUN_0602ECCC
+FUN_0602ECCC:
     .global sym_0602ECCC
 sym_0602ECCC:
     mov.l r3, @-r15

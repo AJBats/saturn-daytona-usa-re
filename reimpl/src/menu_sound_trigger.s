@@ -20,7 +20,8 @@ menu_sound_trigger:
     cmp/eq #0x1, r0
     bt      .L_0603AE9E
 .L_0603AE90:
-    .byte   0xB5, 0x54    /* bsr 0x0603B93C (external) */
+    .reloc ., R_SH_IND12W, save_checksum_calc - 4
+    .2byte 0xB000    /* bsr save_checksum_calc (linker-resolved) */
     mov #-0x8, r4
     mov #0x0, r0
     add #0x4, r15
@@ -37,7 +38,8 @@ menu_sound_trigger:
     cmp/gt r4, r2
     bt      .L_0603AEBC
 .L_0603AEAE:
-    .byte   0xB5, 0x45    /* bsr 0x0603B93C (external) */
+    .reloc ., R_SH_IND12W, save_checksum_calc - 4
+    .2byte 0xB000    /* bsr save_checksum_calc (linker-resolved) */
     mov #-0x9, r4
     mov #0x0, r0
     add #0x4, r15
@@ -51,7 +53,8 @@ menu_sound_trigger:
     jsr @r3
     mov.l @(r0, r5), r5
     mov.l r0, @r15
-    .byte   0xB5, 0x38    /* bsr 0x0603B93C (external) */
+    .reloc ., R_SH_IND12W, save_checksum_calc - 4
+    .2byte 0xB000    /* bsr save_checksum_calc (linker-resolved) */
     mov #0x0, r4
     mov.l @r15, r0
     add #0xC, r0

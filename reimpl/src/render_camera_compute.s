@@ -54,7 +54,8 @@ DAT_0602f01e:
     muls.w r1, r2
     mov.w   .L_0602F062, r0
     sts macl, r1
-    .byte   0xBE, 0x44    /* bsr 0x0602ECCC (external) */
+    .reloc ., R_SH_IND12W, FUN_0602ECCC - 4
+    .2byte 0xB000    /* bsr FUN_0602ECCC (linker-resolved) */
     nop
     mov r0, r2
     mov r14, r0
@@ -101,7 +102,8 @@ DAT_0602f066:
     mov.l   .L_0602F0A8, r3
     sts macl, r1
     mov.l   .L_0602F0AC, r0
-    .byte   0xBE, 0x20    /* bsr 0x0602ECCC (external) */
+    .reloc ., R_SH_IND12W, FUN_0602ECCC - 4
+    .2byte 0xB000    /* bsr FUN_0602ECCC (linker-resolved) */
     nop
     mov.l @r15+, r0
     mov.l @(r0, r3), r2
@@ -138,7 +140,8 @@ DAT_0602f066:
     mov.l r0, @-r15
     sts macl, r1
     mov.w   .L_0602F0DE, r0
-    .byte   0xBD, 0xFF    /* bsr 0x0602ECCC (external) */
+    .reloc ., R_SH_IND12W, FUN_0602ECCC - 4
+    .2byte 0xB000    /* bsr FUN_0602ECCC (linker-resolved) */
     nop
     mov.l @r15+, r0
     mov.w   .L_0602F0E0, r3
@@ -306,7 +309,8 @@ sym_0602F17C:
     mov.l @r6, r6
     cmp/ge r4, r6
     bt      .L_0602F1F8
-    .byte   0xA0, 0x35    /* bra 0x0602F224 (external) */
+    .reloc ., R_SH_IND12W, FUN_0602F224 - 4
+    .2byte 0xA000    /* bra FUN_0602F224 (linker-resolved) */
     nop
 .L_0602F1BA:
     .2byte  0x00D8
@@ -342,7 +346,8 @@ DAT_0602f1be:
     xtrct r4, r1
     mov #0x0, r2
     shlr16 r1
-    .byte   0xA0, 0x19    /* bra 0x0602F224 (external) */
+    .reloc ., R_SH_IND12W, FUN_0602F224 - 4
+    .2byte 0xA000    /* bra FUN_0602F224 (linker-resolved) */
     mov.l r1, @(r0, r8)
 
     .global DAT_0602f1f2

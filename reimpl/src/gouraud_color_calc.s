@@ -9,7 +9,8 @@ gouraud_color_calc:
     jsr @r13
     nop
     lds.l @r15+, pr
-    .byte   0xA0, 0x15    /* bra 0x0602E770 (external) */
+    .reloc ., R_SH_IND12W, FUN_0602E770 - 4
+    .2byte 0xA000    /* bra FUN_0602E770 (linker-resolved) */
     shll r0
     .2byte  0x0000
     .4byte  DAT_06083264

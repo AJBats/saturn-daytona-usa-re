@@ -46,6 +46,8 @@ disp_mode_switch:
     .4byte sym_06082A28
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
+    .global FUN_0603307C
+FUN_0603307C:
     .byte 0xD0, 0x07
     .byte 0x60, 0x02
     .byte 0x60, 0x02

@@ -9,6 +9,8 @@ per_vtx_lighting:
     jsr @r13
     nop
     lds.l @r15+, pr
+    .global FUN_0602E770
+FUN_0602E770:
     mov r0, r7
     cmp/pz r7
     bt      .L_0602E778
@@ -23,6 +25,8 @@ per_vtx_lighting:
     .4byte  isqrt
 .L_0602E788:
     .4byte  0x000F0000
+    .global FUN_0602E78C
+FUN_0602E78C:
 
 .L_0602E78C:
     mov.l   .L_0602E7B0, r0
@@ -51,6 +55,8 @@ per_vtx_lighting:
     .4byte  0x0000023C
 .L_0602E7BC:
     .4byte  DAT_06083268
+    .global FUN_0602E7C0
+FUN_0602E7C0:
 
 .L_0602E7C0:
     mov.l @(16, r9), r6

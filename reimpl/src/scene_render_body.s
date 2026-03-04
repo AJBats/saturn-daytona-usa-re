@@ -135,7 +135,8 @@ scene_render_body:
     .byte   0xD3, 0x28    /* mov.l .L_pool_0600C1A0, r3 */
     jsr @r3
     nop
-    .byte   0xBA, 0xCC    /* bsr 0x0600B6A0 (external) */
+    .reloc ., R_SH_IND12W, render_cs0_loop - 4
+    .2byte 0xB000    /* bsr render_cs0_loop (linker-resolved) */
     nop
     mov.l @r8, r2
     .byte   0xD3, 0x26    /* mov.l .L_pool_0600C0AC, r3 */

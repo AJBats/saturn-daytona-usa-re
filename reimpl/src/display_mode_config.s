@@ -20,7 +20,8 @@ display_mode_config:
     mov #0x10, r6
     mov.l   .L_06038B84, r5
     mov.l   .L_06038B88, r4
-    .byte   0xBF, 0xB0    /* bsr 0x06038A48 (data_loader) */
+    .reloc ., R_SH_IND12W, FUN_06038A48 - 4
+    .2byte 0xB000    /* bsr FUN_06038A48 (linker-resolved) */
     mov.l @r4, r4
     mov r13, r0
     mov r14, r2
@@ -36,7 +37,8 @@ display_mode_config:
     mov #0x8, r6
     mov.l   .L_06038B90, r5
     mov.l   .L_06038B94, r4
-    .byte   0xBF, 0xA2    /* bsr 0x06038A48 (data_loader) */
+    .reloc ., R_SH_IND12W, FUN_06038A48 - 4
+    .2byte 0xB000    /* bsr FUN_06038A48 (linker-resolved) */
     mov.l @r4, r4
     mov r13, r0
     mov.w   .L_06038B74, r1
@@ -52,7 +54,8 @@ display_mode_config:
     mov #0x6, r6
     mov.l   .L_06038B98, r5
     mov.l   .L_06038B9C, r4
-    .byte   0xBF, 0x94    /* bsr 0x06038A48 (data_loader) */
+    .reloc ., R_SH_IND12W, FUN_06038A48 - 4
+    .2byte 0xB000    /* bsr FUN_06038A48 (linker-resolved) */
     mov.l @r4, r4
     mov r13, r0
     mov.w   .L_06038B76, r1
@@ -68,7 +71,8 @@ display_mode_config:
     mov #0x8, r6
     mov.l   .L_06038BA0, r5
     mov.l   .L_06038BA4, r4
-    .byte   0xBF, 0x86    /* bsr 0x06038A48 (data_loader) */
+    .reloc ., R_SH_IND12W, FUN_06038A48 - 4
+    .2byte 0xB000    /* bsr FUN_06038A48 (linker-resolved) */
     mov.l @r4, r4
     mov r13, r0
     mov.w   .L_06038B78, r1
@@ -84,7 +88,8 @@ display_mode_config:
     mov #0x8, r6
     mov.l   .L_06038BA8, r5
     mov.l   .L_06038BAC, r4
-    .byte   0xBF, 0x78    /* bsr 0x06038A48 (data_loader) */
+    .reloc ., R_SH_IND12W, FUN_06038A48 - 4
+    .2byte 0xB000    /* bsr FUN_06038A48 (linker-resolved) */
     mov.l @r4, r4
     mov r13, r0
     mov.w   .L_06038B7A, r1
@@ -143,7 +148,8 @@ display_mode_config:
     .4byte  sym_06063620
 
 .L_06038BB8:
-    .byte   0xBF, 0x46    /* bsr 0x06038A48 (data_loader) */
+    .reloc ., R_SH_IND12W, FUN_06038A48 - 4
+    .2byte 0xB000    /* bsr FUN_06038A48 (linker-resolved) */
     nop
     mov r13, r0
     mov.w   .L_06038BCE, r1

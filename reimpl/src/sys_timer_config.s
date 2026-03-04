@@ -60,6 +60,8 @@ sys_timer_config:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
+    .global FUN_0603B81E
+FUN_0603B81E:
     .2byte  0xE700
     .4byte  0xD6096462
     .4byte  0x9309343C
@@ -92,6 +94,8 @@ DAT_0603b83a:
     .4byte  0x000B6043
     .4byte  0xE300900C
     .4byte  0x000B0436
+    .global FUN_0603B878
+FUN_0603B878:
     .4byte  0xD7066572
     .4byte  0x9308353C
     .4byte  0xA00DE600

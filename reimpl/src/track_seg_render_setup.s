@@ -13,6 +13,8 @@ track_seg_render_setup:
     shlr16 r1
     mov r14, r0
     mov.l r1, @(r0, r8)
+    .global FUN_0602F224
+FUN_0602F224:
     mov.w   DAT_0602f24e, r1
     mov.l @(r0, r1), r4
     mov.w   DAT_0602f24c, r1

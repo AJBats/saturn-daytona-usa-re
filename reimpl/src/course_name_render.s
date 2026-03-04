@@ -25,6 +25,8 @@ course_name_render:
     .4byte  0x00000010
     .4byte  0x00000018
     .4byte  fpmul
+    .global FUN_060335F4
+FUN_060335F4:
     .4byte  0x2F06D09F
     .4byte  0x60024008
     .4byte  0xD409340C

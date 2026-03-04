@@ -16,7 +16,8 @@ FUN_0600C5D6:
     .byte   0xDB, 0x0F    /* mov.l .L_0600C624, r11 */
     .byte   0xDE, 0x0F    /* mov.l .L_0600C628, r14 */
     .byte   0xDD, 0x10    /* mov.l .L_0600C62C, r13 */
-    .byte   0xB3, 0xA8    /* bsr 0x0600CD40 (external) */
+    .reloc ., R_SH_IND12W, FUN_0600CD40 - 4
+    .2byte 0xB000    /* bsr FUN_0600CD40 (linker-resolved) */
     mov.l @r14, r14
     mov r0, r12
     .byte   0xD0, 0x0F    /* mov.l .L_0600C630, r0 */
@@ -34,7 +35,8 @@ FUN_0600C5D6:
     cmp/pl r2
     bf      .L_0600C634
 .L_0600C60E:
-    .byte   0xB2, 0x42    /* bsr 0x0600CA96 (external) */
+    .reloc ., R_SH_IND12W, FUN_0600CA96 - 4
+    .2byte 0xB000    /* bsr FUN_0600CA96 (linker-resolved) */
     mov r13, r4
     bra     .L_0600C692
     nop
@@ -80,7 +82,8 @@ DAT_0600c616:
     mov.l @(r0, r14), r2
     cmp/ge r3, r2
     bt      .L_0600C666
-    .byte   0xB4, 0x79    /* bsr 0x0600CF58 (external) */
+    .reloc ., R_SH_IND12W, collision_dispatch - 4
+    .2byte 0xB000    /* bsr collision_dispatch (linker-resolved) */
     mov r12, r4
 .L_0600C666:
     mov.w   DAT_0600c6fa, r0
@@ -91,7 +94,8 @@ DAT_0600c616:
     mov.l @(r0, r14), r2
     add #-0x2, r2
     mov.l r2, @(r0, r14)
-    .byte   0xB2, 0x0E    /* bsr 0x0600CA96 (external) */
+    .reloc ., R_SH_IND12W, FUN_0600CA96 - 4
+    .2byte 0xB000    /* bsr FUN_0600CA96 (linker-resolved) */
     mov r13, r4
     mov.l @r11, r2
     add #0x1, r2
@@ -99,13 +103,15 @@ DAT_0600c616:
     mov.l r2, @r11
 .L_0600C682:
     mov r13, r5
-    .byte   0xB2, 0xD8    /* bsr 0x0600CC38 (external) */
+    .reloc ., R_SH_IND12W, heading_correct - 4
+    .2byte 0xB000    /* bsr heading_correct (linker-resolved) */
     mov r12, r4
     bra     .L_0600C692
     nop
 .L_0600C68C:
     mov r13, r5
-    .byte   0xB2, 0xD3    /* bsr 0x0600CC38 (external) */
+    .reloc ., R_SH_IND12W, heading_correct - 4
+    .2byte 0xB000    /* bsr heading_correct (linker-resolved) */
     mov r12, r4
 .L_0600C692:
     .byte   0xD0, 0x1D    /* mov.l .L_0600C708, r0 */
@@ -122,7 +128,8 @@ DAT_0600c616:
     mov.l r0, @r1
 .L_0600C6AA:
     mov r13, r5
-    .byte   0xB1, 0x0E    /* bsr 0x0600C8CC (external) */
+    .reloc ., R_SH_IND12W, FUN_0600C8CC - 4
+    .2byte 0xB000    /* bsr FUN_0600C8CC (linker-resolved) */
     mov r14, r4
     .byte   0xD2, 0x16    /* mov.l .L_0600C70C, r2 */
     mov.l @r2, r2
@@ -198,10 +205,12 @@ DAT_0600c702:
 .L_0600C714:
     .4byte  sincos_pair
 .L_0600C718:
-    .byte   0xB1, 0x06    /* bsr 0x0600C928 (external) */
+    .reloc ., R_SH_IND12W, FUN_0600C928 - 4
+    .2byte 0xB000    /* bsr FUN_0600C928 (linker-resolved) */
     mov r14, r4
     mov r13, r5
-    .byte   0xB0, 0x59    /* bsr 0x0600C7D4 (external) */
+    .reloc ., R_SH_IND12W, heading_speed_damping - 4
+    .2byte 0xB000    /* bsr heading_speed_damping (linker-resolved) */
     mov r14, r4
     mov r15, r6
     mov r14, r5

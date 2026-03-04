@@ -15,7 +15,9 @@ race_state_update:
     .byte   0xD2, 0x17    /* mov.l .L_pool_0600DEC0, r2 */
     mov.l @r1, r1
     mov.l r1, @r2
-    .byte   0xB5, 0x98    /* bsr 0x0600E99C (external) */
+    .reloc ., R_SH_IND12W, pre_update_setup - 4
+    .2byte 0xB000    /* bsr pre_update_setup (linker-resolved) */
     nop
-    .byte   0xA1, 0x28    /* bra 0x0600E0C0 (external) */
+    .reloc ., R_SH_IND12W, car_update_racing - 4
+    .2byte 0xA000    /* bra car_update_racing (linker-resolved) */
     lds.l @r15+, pr

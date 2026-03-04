@@ -321,5 +321,6 @@ DAT_06006362:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xA1, 0x6B    /* bra 0x060067C8 (external) */
+    .reloc ., R_SH_IND12W, steering_input_dispatch - 4
+    .2byte 0xA000    /* bra steering_input_dispatch (linker-resolved) */
     mov.l @r15+, r14

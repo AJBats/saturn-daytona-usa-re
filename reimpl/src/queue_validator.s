@@ -38,7 +38,8 @@ queue_validator:
     mov.l @r6, r3
     add #0x4, r0
     mov.l r4, @(r0, r3)
-    .byte   0xB4, 0x9B    /* bsr 0x06041AA0 (external) */
+    .reloc ., R_SH_IND12W, track_boundary_check - 4
+    .2byte 0xB000    /* bsr track_boundary_check (linker-resolved) */
     mov r15, r4
     mov #0x0, r0
     add #0x4, r15

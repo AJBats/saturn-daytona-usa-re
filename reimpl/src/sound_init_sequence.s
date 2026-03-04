@@ -12,7 +12,8 @@ sound_init_sequence:
     bf      .L_06012E4C
     mov r14, r5
     mov.l   .L_pool_06012E48, r4
-    .byte   0xAF, 0x11    /* bra 0x06012C3C (external) */
+    .reloc ., R_SH_IND12W, cd_dma_setup - 4
+    .2byte 0xA000    /* bra cd_dma_setup (linker-resolved) */
     mov.l @r15+, r14
     .2byte  0xFFFF
     .4byte  0x00200000
@@ -35,17 +36,20 @@ sound_init_sequence:
     bf      .L_06012E5A
     mov r14, r5
     .byte   0xD4, 0x0D    /* mov.l .L_pool_06012E8C, r4 */
-    .byte   0xAE, 0xF1    /* bra 0x06012C3C (external) */
+    .reloc ., R_SH_IND12W, cd_dma_setup - 4
+    .2byte 0xA000    /* bra cd_dma_setup (linker-resolved) */
     mov.l @r15+, r14
 .L_06012E5A:
     mov r14, r5
     .byte   0xD4, 0x0C    /* mov.l .L_pool_06012E90, r4 */
-    .byte   0xAE, 0xED    /* bra 0x06012C3C (external) */
+    .reloc ., R_SH_IND12W, cd_dma_setup - 4
+    .2byte 0xA000    /* bra cd_dma_setup (linker-resolved) */
     mov.l @r15+, r14
 
     .global sym_06012E62
 sym_06012E62:
     .byte   0xD5, 0x0C    /* mov.l .L_pool_06012E94, r5 */
     .byte   0xD4, 0x0C    /* mov.l .L_pool_06012E98, r4 */
-    .byte   0xAE, 0xE9    /* bra 0x06012C3C (external) */
+    .reloc ., R_SH_IND12W, cd_dma_setup - 4
+    .2byte 0xA000    /* bra cd_dma_setup (linker-resolved) */
     nop

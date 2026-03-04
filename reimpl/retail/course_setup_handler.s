@@ -23,6 +23,8 @@ course_setup_handler:
 loc_0601B096:
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
+    .global FUN_0601B09A
+FUN_0601B09A:
     .byte 0x64, 0x4E
     .byte 0x65, 0x5E
     .byte 0x7F, 0xFC

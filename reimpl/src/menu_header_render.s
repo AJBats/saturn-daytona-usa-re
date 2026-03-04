@@ -18,7 +18,8 @@ menu_header_render:
     mov.l @(4, r4), r4
     mov #0x0, r4
     add #0x4, r15
-    .byte   0xA2, 0x90    /* bra 0x0603B93C (external) */
+    .reloc ., R_SH_IND12W, save_checksum_calc - 4
+    .2byte 0xA000    /* bra save_checksum_calc (linker-resolved) */
     lds.l @r15+, pr
 .L_0603B41C:
     .4byte  0x7FFFFFFF

@@ -38,6 +38,8 @@ sys_dma_channel_init:
     add #0x4, r15
     rts
     mov.l @r15+, r14
+    .global FUN_0603B8F4
+FUN_0603B8F4:
     .4byte  0x7FFC2F42
     .4byte  0xD4099010
     .4byte  0x6342023E

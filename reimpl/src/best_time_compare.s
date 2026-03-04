@@ -7,30 +7,38 @@
     .type best_time_compare, @function
 best_time_compare:
     sts.l pr, @-r15
-    .byte   0xB4, 0x73    /* bsr 0x06014360 (external) */
+    .reloc ., R_SH_IND12W, multi_obj_physics - 4
+    .2byte 0xB000    /* bsr multi_obj_physics (linker-resolved) */
     nop
-    .byte   0xB3, 0x77    /* bsr 0x0601416C (external) */
+    .reloc ., R_SH_IND12W, race_variant_setup_a - 4
+    .2byte 0xB000    /* bsr race_variant_setup_a (linker-resolved) */
     nop
-    .byte   0xB3, 0xE5    /* bsr 0x0601424C (external) */
+    .reloc ., R_SH_IND12W, camera_angle_interp - 4
+    .2byte 0xB000    /* bsr camera_angle_interp (linker-resolved) */
     nop
-    .byte   0xB3, 0x1F    /* bsr 0x060140C4 (external) */
+    .reloc ., R_SH_IND12W, dyn_obj_physics - 4
+    .2byte 0xB000    /* bsr dyn_obj_physics (linker-resolved) */
     nop
-    .byte   0xB4, 0xE1    /* bsr 0x0601444C (external) */
+    .reloc ., R_SH_IND12W, race_variant_setup_b - 4
+    .2byte 0xB000    /* bsr race_variant_setup_b (linker-resolved) */
     nop
     mov.l   .L_pool_06013AEC, r0
     mov.w @r0, r0
     extu.w r0, r0
     cmp/eq #0x10, r0
     bf      .L_06013A9C
-    .byte   0xB4, 0xE7    /* bsr 0x06014466 (external) */
+    .reloc ., R_SH_IND12W, race_variant_setup_c - 4
+    .2byte 0xB000    /* bsr race_variant_setup_c (linker-resolved) */
     nop
     bra     .L_06013AA0
     nop
 .L_06013A9C:
-    .byte   0xB5, 0x36    /* bsr 0x0601450C (external) */
+    .reloc ., R_SH_IND12W, camera_track_update - 4
+    .2byte 0xB000    /* bsr camera_track_update (linker-resolved) */
     nop
 .L_06013AA0:
-    .byte   0xB5, 0x8C    /* bsr 0x060145BC (external) */
+    .reloc ., R_SH_IND12W, adv_collision_resp - 4
+    .2byte 0xB000    /* bsr adv_collision_resp (linker-resolved) */
     nop
     mov.l   .L_pool_06013AF0, r2
     mov.w @r2, r3
@@ -39,7 +47,8 @@ best_time_compare:
     and r2, r3
     tst r3, r3
     bt      .L_06013AB6
-    .byte   0xB6, 0x0E    /* bsr 0x060146D2 (external) */
+    .reloc ., R_SH_IND12W, track_wall_collision - 4
+    .2byte 0xB000    /* bsr track_wall_collision (linker-resolved) */
     nop
 .L_06013AB6:
     mov #0x4, r3
@@ -56,7 +65,8 @@ best_time_compare:
     cmp/pl r3
     bt      .L_06013AD4
 .L_06013AD0:
-    .byte   0xA5, 0xFF    /* bra 0x060146D2 (external) */
+    .reloc ., R_SH_IND12W, track_wall_collision - 4
+    .2byte 0xA000    /* bra track_wall_collision (linker-resolved) */
     lds.l @r15+, pr
 .L_06013AD4:
     lds.l @r15+, pr
@@ -71,7 +81,8 @@ loc_06013ADA:
     mov #0x0, r3
     mov.l   .L_pool_06013B00, r2
     mov.w r3, @r2
-    .byte   0xA0, 0x0D    /* bra 0x06013B04 (external) */
+    .reloc ., R_SH_IND12W, ranking_pts_calc - 4
+    .2byte 0xA000    /* bra ranking_pts_calc (linker-resolved) */
     nop
 .L_wpool_06013AEA:
     .2byte  0x0800

@@ -9,7 +9,8 @@ attract_demo_select:
     mov r4, r14
     add #-0x8, r15
     mov r15, r5
-    .byte   0xBF, 0x59    /* bsr 0x0603F3F6 (external) */
+    .reloc ., R_SH_IND12W, menu_element_render - 4
+    .2byte 0xB000    /* bsr menu_element_render (linker-resolved) */
     add #0x4, r5
     mov.b @(4, r15), r0
     mov r0, r4
@@ -33,7 +34,8 @@ attract_demo_select:
     mov r14, r4
     mov #0x1, r6
     mov.l r2, @(8, r14)
-    .byte   0xBF, 0x41    /* bsr 0x0603F3F6 (external) */
+    .reloc ., R_SH_IND12W, menu_element_render - 4
+    .2byte 0xB000    /* bsr menu_element_render (linker-resolved) */
     mov r15, r5
     mov.b @r15, r5
     extu.b r5, r4

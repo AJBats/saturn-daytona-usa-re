@@ -15,7 +15,8 @@ transition_full_exec:
     mov.l   .L_0601929C, r5
     jsr @r14
     mov #0xF, r4
-    .byte   0xB0, 0x42    /* bsr 0x060192E8 (external) */
+    .reloc ., R_SH_IND12W, FUN_060192E8 - 4
+    .2byte 0xB000    /* bsr FUN_060192E8 (linker-resolved) */
     nop
     mov.l   .L_06019294, r0
     mov.l @r0, r0
@@ -57,6 +58,8 @@ transition_full_exec:
     .4byte  memcpy_byte_idx
 .L_060192B0:
     .4byte  0x25A02DBE
+    .global FUN_060192B4
+FUN_060192B4:
     .4byte  0xE500D611
     .4byte  0xD4116363
     .4byte  0x625E7601

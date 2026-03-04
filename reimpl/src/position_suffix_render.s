@@ -24,5 +24,7 @@ position_suffix_render:
     .4byte  camera_push_save
     .4byte  0x00000030
     .4byte  sym_06026DF8
+    .global FUN_0603268C
+FUN_0603268C:
     .4byte  0xDD476DD2
     .4byte  0xDC47D048

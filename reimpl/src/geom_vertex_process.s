@@ -26,7 +26,8 @@ geom_vertex_process:
     bra     .L_0601EA8E
     mov.b r8, @r13
 .L_0601E980:
-    .byte   0xBC, 0x98    /* bsr 0x0601E2B4 (hud_overlay_render) */
+    .reloc ., R_SH_IND12W, hud_overlay_render - 4
+    .2byte 0xB000    /* bsr hud_overlay_render (linker-resolved) */
     nop
     mov.l   .L_pool_0601EA04, r14
     mov.l   .L_pool_0601EA08, r2
@@ -37,13 +38,15 @@ geom_vertex_process:
     shll2 r3
     shll r3
     add r3, r4
-    .byte   0xBD, 0x9D    /* bsr 0x0601E4D4 (hud_state_machine) */
+    .reloc ., R_SH_IND12W, hud_state_machine - 4
+    .2byte 0xB000    /* bsr hud_state_machine (linker-resolved) */
     add r2, r4
     extu.b r0, r4
     mov #0x7, r2
     cmp/ge r2, r4
     bf      .L_0601E9BA
-    .byte   0xB0, 0xE5    /* bsr 0x0601EB70 (geom_normal_compute) */
+    .reloc ., R_SH_IND12W, geom_normal_compute - 4
+    .2byte 0xB000    /* bsr geom_normal_compute (linker-resolved) */
     nop
     mov.b @r14, r2
     mov.l   .L_pool_0601EA0C, r3
@@ -72,7 +75,8 @@ geom_vertex_process:
     extu.b r3, r3
     add r2, r3
     mov.b r4, @r3
-    .byte   0xB0, 0xC9    /* bsr 0x0601EB70 (geom_normal_compute) */
+    .reloc ., R_SH_IND12W, geom_normal_compute - 4
+    .2byte 0xB000    /* bsr geom_normal_compute (linker-resolved) */
     nop
     lds.l @r15+, pr
     mov.l @r15+, r8
@@ -81,7 +85,8 @@ geom_vertex_process:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xA5, 0x0E    /* bra 0x0601F40C (geom_output_handler) */
+    .reloc ., R_SH_IND12W, geom_output_handler - 4
+    .2byte 0xA000    /* bra geom_output_handler (linker-resolved) */
     mov.l @r15+, r14
     .4byte  0x2010001F
 .L_pool_0601E9F4:
@@ -121,7 +126,8 @@ geom_vertex_process:
     .byte   0xD3, 0x27    /* mov.l @(0x9C,PC), r3 */
     add r3, r4
     mov.b @r4, r4
-    .byte   0xBE, 0x92    /* bsr 0x0601E764 (hud_render_stage) */
+    .reloc ., R_SH_IND12W, hud_render_stage - 4
+    .2byte 0xB000    /* bsr hud_render_stage (linker-resolved) */
     extu.b r4, r4
     mov r0, r4
     tst r4, r4
@@ -163,7 +169,8 @@ geom_vertex_process:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xA0, 0xA6    /* bra 0x0601EBDA (geom_vertex_compute) */
+    .reloc ., R_SH_IND12W, geom_vertex_compute - 4
+    .2byte 0xA000    /* bra geom_vertex_compute (linker-resolved) */
     mov.l @r15+, r14
 .L_0601EA8E:
     lds.l @r15+, pr

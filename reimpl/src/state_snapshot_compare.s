@@ -15,7 +15,8 @@ state_snapshot_compare:
     mov.l   .L_pool_060190A8, r5
     jsr @r14
     mov #0xF, r4
-    .byte   0xB1, 0x3A    /* bsr 0x060192E8 (external) */
+    .reloc ., R_SH_IND12W, FUN_060192E8 - 4
+    .2byte 0xB000    /* bsr FUN_060192E8 (linker-resolved) */
     nop
     mov.l   .L_pool_060190A0, r0
     mov.l @r0, r0

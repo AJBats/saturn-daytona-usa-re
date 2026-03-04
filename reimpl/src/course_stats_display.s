@@ -6,7 +6,8 @@
     .type course_stats_display, @function
 course_stats_display:
     sts.l pr, @-r15
-    .byte   0xBF, 0x4F    /* bsr 0x06033550 (external) */
+    .reloc ., R_SH_IND12W, FUN_06033550 - 4
+    .2byte 0xB000    /* bsr FUN_06033550 (linker-resolved) */
     nop
     lds.l @r15+, pr
     mov.l @r15+, r0
@@ -16,6 +17,8 @@ course_stats_display:
     .4byte  sym_0603386C
     .4byte  0x00000224
     .4byte  0x00000268
+    .global FUN_060336C8
+FUN_060336C8:
     .4byte  0x2F06D071
     .4byte  0x60004015
     .4byte  0x8B0CD06D
@@ -26,10 +29,15 @@ course_stats_display:
     .4byte  0x8B026033
     .4byte  0x70FF6403
     .4byte  0x60F6000B
-    .4byte  0x00092F06
+    .2byte 0x0009
+    .global FUN_060336F2
+FUN_060336F2:
+    .2byte 0x2F06
     .4byte  0xD0626000
     .4byte  0x401560F6
     .4byte  0x000B0009
+    .global FUN_06033700
+FUN_06033700:
     .4byte  0x2F062F66
     .4byte  0x6E666D66
     .4byte  0x6C666B65

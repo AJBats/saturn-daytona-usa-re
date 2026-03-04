@@ -6,7 +6,8 @@
     .type evt_status_flag_set, @function
 evt_status_flag_set:
     sts.l pr, @-r15
-    .byte   0xB0, 0x05    /* bsr 0x06040964 (external) */
+    .reloc ., R_SH_IND12W, evt_condition_return - 4
+    .2byte 0xB000    /* bsr evt_condition_return (linker-resolved) */
     nop
     shll8 r0
     lds.l @r15+, pr

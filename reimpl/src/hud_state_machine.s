@@ -96,7 +96,8 @@ hud_state_machine:
     shll r3
     add r3, r5
     add r2, r5
-    .byte   0xB0, 0xF0    /* bsr 0x0601E764 (hud_render_stage) */
+    .reloc ., R_SH_IND12W, hud_render_stage - 4
+    .2byte 0xB000    /* bsr hud_render_stage (linker-resolved) */
     mov r0, r4
     mov r0, r4
 

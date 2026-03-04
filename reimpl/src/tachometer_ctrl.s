@@ -74,7 +74,8 @@ tachometer_ctrl:
     mov.w r2, @r5
 
 .L_06010B26:
-    .byte   0xB0, 0x15    /* bsr 0x06010B54 (external) */
+    .reloc ., R_SH_IND12W, hud_sound_trigger - 4
+    .2byte 0xB000    /* bsr hud_sound_trigger (linker-resolved) */
     mov.l r13, @r14
     mov #0xA, r4
     .byte   0xD3, 0x15    /* mov.l .L_pool_06010B84, r3 */
