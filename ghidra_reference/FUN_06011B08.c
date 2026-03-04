@@ -1,0 +1,101 @@
+/* FUN_06011B08  0x06011B08 */
+
+
+void FUN_06011b08(undefined4 param_1,undefined4 param_2)
+
+{
+  undefined *puVar1;
+  undefined *puVar2;
+  undefined *puVar3;
+  undefined *puVar4;
+  int in_r0;
+  int iVar5;
+  int iVar6;
+  undefined4 uVar7;
+  short sVar8;
+  short sVar9;
+  short sVar10;
+  short *psVar11;
+  int unaff_r8;
+  int unaff_r9;
+  undefined4 in_stack_00000020;
+  undefined2 in_stack_00000026;
+  undefined4 uStack_1c;
+  undefined4 uStack_18;
+  undefined4 uStack_14;
+  undefined4 uStack_10;
+  int iStack_c;
+  int iStack_8;
+  
+  uStack_10 = param_1;
+  uStack_14 = param_2;
+  (*(code *)PTR_FUN_06011c18)((int)*(short *)((int)&uStack_1c + in_r0),&uStack_1c,&uStack_18);
+  puVar4 = PTR_FUN_06011c28;
+  puVar3 = PTR_FUN_06011c24;
+  puVar2 = PTR_DAT_06011c20;
+  puVar1 = PTR_DAT_06011c1c;
+  iStack_8 = -unaff_r8;
+  psVar11 = (short *)(PTR_DAT_06011c1c + (short)(*(short *)PTR_DAT_06011c20 * 0x18) + 8);
+  iVar5 = (*(code *)PTR_FUN_06011c28)(iStack_8,uStack_18);
+  iVar6 = (*(code *)puVar4)();
+  uVar7 = (*(code *)puVar4)(iVar5 - iVar6,in_stack_00000020);
+  sVar8 = (*(code *)puVar3)(uVar7);
+  sVar9 = (*(code *)puVar3)(uStack_10);
+  *psVar11 = sVar9 - sVar8;
+  sVar8 = *(short *)puVar2;
+  iVar5 = (*(code *)puVar4)(iStack_8,uStack_1c);
+  iVar6 = (*(code *)puVar4)();
+  uVar7 = (*(code *)puVar4)(iVar5 + iVar6,in_stack_00000020);
+  sVar9 = (*(code *)puVar3)(uVar7);
+  sVar10 = (*(code *)puVar3)(uStack_14);
+  *(short *)(puVar1 + (short)(sVar8 * 0x18) + 10) = sVar10 + sVar9;
+  sVar8 = *(short *)puVar2;
+  iVar5 = (*(code *)puVar4)();
+  iVar6 = (*(code *)puVar4)();
+  uVar7 = (*(code *)puVar4)(iVar5 - iVar6,in_stack_00000020);
+  sVar9 = (*(code *)puVar3)(uVar7);
+  sVar10 = (*(code *)puVar3)(uStack_10);
+  *(short *)(puVar1 + (short)(sVar8 * 0x18) + 0xc) = sVar10 - sVar9;
+  sVar8 = *(short *)puVar2;
+  iVar5 = (*(code *)puVar4)();
+  iVar6 = (*(code *)puVar4)();
+  uVar7 = (*(code *)puVar4)(iVar5 + iVar6,in_stack_00000020);
+  sVar9 = (*(code *)puVar3)(uVar7);
+  sVar10 = (*(code *)puVar3)(uStack_14);
+  *(short *)(puVar1 + (short)(sVar8 * 0x18) + 0xe) = sVar10 + sVar9;
+  sVar8 = *(short *)puVar2;
+  iVar5 = (*(code *)puVar4)();
+  iStack_c = -unaff_r9;
+  iVar6 = (*(code *)puVar4)(iStack_c,uStack_1c);
+  uVar7 = (*(code *)puVar4)(iVar5 - iVar6,in_stack_00000020);
+  sVar9 = (*(code *)puVar3)(uVar7);
+  sVar10 = (*(code *)puVar3)(uStack_10);
+  *(short *)(puVar1 + (short)(sVar8 * 0x18) + 0x10) = sVar10 - sVar9;
+  sVar8 = *(short *)puVar2;
+  iVar5 = (*(code *)puVar4)();
+  iVar6 = (*(code *)puVar4)(iStack_c,uStack_18);
+  uVar7 = (*(code *)puVar4)(iVar5 + iVar6,in_stack_00000020);
+  sVar9 = (*(code *)puVar3)(uVar7);
+  sVar10 = (*(code *)puVar3)(uStack_14);
+  *(short *)(puVar1 + (short)(sVar8 * 0x18) + 0x12) = sVar10 + sVar9;
+  sVar8 = *(short *)puVar2;
+  iVar5 = (*(code *)puVar4)(iStack_8,uStack_18);
+  iVar6 = (*(code *)puVar4)(iStack_c,uStack_1c);
+  uVar7 = (*(code *)puVar4)(iVar5 - iVar6,in_stack_00000020);
+  sVar9 = (*(code *)puVar3)(uVar7);
+  sVar10 = (*(code *)puVar3)(uStack_10);
+  *(short *)(puVar1 + (short)(sVar8 * 0x18) + 0x14) = sVar10 - sVar9;
+  sVar8 = *(short *)puVar2;
+  iVar5 = (*(code *)puVar4)(iStack_8,uStack_1c);
+  iVar6 = (*(code *)puVar4)(iStack_c,uStack_18);
+  uVar7 = (*(code *)puVar4)(iVar5 + iVar6,in_stack_00000020);
+  sVar9 = (*(code *)puVar3)(uVar7);
+  sVar10 = (*(code *)puVar3)(uStack_14);
+  *(short *)(puVar1 + (short)(sVar8 * 0x18) + 0x16) = sVar10 + sVar9;
+  *(undefined2 *)(puVar1 + (short)(*(short *)puVar2 * 0x18) + 6) = in_stack_00000026;
+  puVar1[(short)(*(short *)puVar2 * 0x18) + 4] = 0;
+  puVar1[(short)(*(short *)puVar2 * 0x18) + 5] = 0;
+  *(short *)puVar2 = *(short *)puVar2 + 1;
+  return;
+}
+

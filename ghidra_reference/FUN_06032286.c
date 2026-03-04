@@ -1,0 +1,17 @@
+/* FUN_06032286  0x06032286 */
+
+
+undefined4 FUN_06032286(void)
+
+{
+  undefined4 uVar1;
+  
+  FUN_06032304();
+  FUN_06032304(DAT_060322d8);
+  FUN_06032304(DAT_060322dc);
+  FUN_06032304(DAT_060322e0);
+  FUN_06032304(DAT_060322e4);
+  uVar1 = FUN_060322e8();
+  return uVar1;
+}
+
