@@ -69,7 +69,8 @@ anim_frame_counter:
     jsr @r3
     mov #0x8, r4
 .L_060059A2:
-    .byte   0xB2, 0x17    /* bsr 0x06005DD4 (anim_frame_transform) */
+    .reloc ., R_SH_IND12W, anim_frame_transform - 4
+    .2byte 0xB000         /* bsr anim_frame_transform (linker-resolved) */
     mov r14, r4
     mov r0, r7
     mov #0x78, r6
