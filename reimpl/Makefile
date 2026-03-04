@@ -51,7 +51,7 @@ LDSCRIPT := free.ld
 SHIFT    ?= 0
 MODS     ?= 0
 RE_TESTS ?= 0
-LDFLAGS  := -T $(LDSCRIPT) -b coff-sh -nostdlib -Map=$(BUILDDIR)/daytona.map
+LDFLAGS  := -T $(LDSCRIPT) -b coff-sh -nostdlib -relax -Map=$(BUILDDIR)/daytona.map
 ifneq ($(SHIFT),0)
     LDFLAGS += --defsym __pad_size=$(SHIFT)
 endif

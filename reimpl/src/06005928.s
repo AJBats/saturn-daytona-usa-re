@@ -65,7 +65,10 @@ anim_frame_counter:
     jsr @r3
     mov #0x8, r4
 .L_060059A2:
-    .byte   0xB2, 0x17    /* bsr 0x06005DD4 (anim_frame_transform) */
+.Lrelax_load:
+    mov.l .Lrelax_pool, r1
+    .uses .Lrelax_load
+    jsr @r1
     mov r14, r4
     mov r0, r7
     mov #0x78, r6
@@ -150,6 +153,8 @@ DAT_060059e6:
     .long  sym_060283E0
 .L_pool_06005A14:
     .long  sym_0605ACDD
+.Lrelax_pool:
+    .long  anim_frame_transform
 
 
 .L_06005A18:
