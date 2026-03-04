@@ -5,11 +5,7 @@
 
 | # | Workstream | Status | Notes |
 |---|-----------|--------|-------|
-| 1 | Car Flip Benchmark — Empirical Annotation Validation | **Blocked** | workstreams/car_flip_benchmark.md |
-| 2 | Kill BSR Problem — `.reloc` Conversion | **Active** | workstreams/kill_bsr_problem/kill_bsr_problem.md |
-
-Car Flip goals 1-5 complete (size-neutral mods). Further goals need function
-size changes, which break hardcoded BSR/BRA displacements. Kill BSR unblocks this.
+| 1 | Car Flip Benchmark — Empirical Annotation Validation | **Active** | workstreams/car_flip_benchmark.md |
 
 **Free build**: `make disc` — builds free-layout binary, injects into disc. Boots to title, races laps.
 **Build system**: `reimpl/retail/` = original Sega ASM, `reimpl/src/` = reimplemented functions (C or ASM).
