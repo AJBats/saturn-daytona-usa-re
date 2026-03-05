@@ -45,13 +45,15 @@ Velocity integration at end of both pipelines: `position = velocity * scale + ol
 
 ### Verification Tiers
 
-| Tier | Meaning | Commit? |
-|------|---------|---------|
-| **THEORY** | Static analysis only (Ghidra + code reading). Hypothesis. | Yes, as comment |
-| **OBSERVED** | One empirical observation supports the theory | Yes, as comment |
-| **VERIFIED** | 2+ independent observations, none contradicting | Yes, rename function |
+| Tier | Requirement | Action |
+|------|-------------|--------|
+| *(no tier)* | Static analysis only (Ghidra, code reading) | No tag. Use findings to design experiments. |
+| **THEORY** | 1 empirical observation from the emulator | Comment tag, keep `FUN_*` name |
+| **OBSERVED** | 2+ empirical datapoints from the emulator, none contradicting | Comment tag, keep `FUN_*` name |
+| **VERIFIED** | Human user has reviewed, confirmed, and approved graduation | Rename function from `FUN_*` |
 
-Functions only get renamed from `FUN_*` when they reach **VERIFIED**. THEORY/OBSERVED stay as comments on `FUN_*` files.
+Static analysis (Ghidra, code reading) tells you what to test, not what is true. It cannot
+validate anything. No tag without the emulator. Functions only get renamed at VERIFIED.
 
 ### Verification Loop (per function)
 
@@ -59,7 +61,7 @@ Functions only get renamed from `FUN_*` when they reach **VERIFIED**. THEORY/OBS
 2. **PREDICT**: Make a testable prediction based on the theory
 3. **TEST**: Run experiment (breakpoint, watchpoint, NOP, call-trace diff)
 4. **EVALUATE**: Did observation match prediction? If NO → stop, investigate
-5. **CONVERGE**: After 2+ agreeing observations → VERIFIED, propose name
+5. **CONVERGE**: After 2+ agreeing observations → OBSERVED, propose to user for VERIFIED
 
 ### Tools Available
 

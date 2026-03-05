@@ -7,9 +7,10 @@ passes. They are hypotheses, not facts.
 
 1. **Never use a function name as evidence of what it does.** Reason from instructions,
    data flow, and empirical observation — not from names.
-2. **VERIFIED tags in `reimpl/src/*.s` are LLM-generated claims under review.**
-   ~26 functions were tagged VERIFIED by Claude — the user is reviewing each one.
-   Until a function's review is complete, its VERIFIED tag is a claim, not proof.
+2. **VERIFIED means human-approved.** A function only reaches VERIFIED when the user
+   has reviewed the emulator evidence and approved graduation. Some existing VERIFIED
+   functions in `reimpl/src/*.s` predate the current tier system — they stand but new
+   graduations require the full process (see `ground-truth.md`).
 3. **`asm/*.s` is entirely LLM-generated.** Everything in there — names, comments,
    VERIFIED tags — is inference. None of it counts as ground truth.
 4. **When analyzing code, say "this function is named X" not "this function does X"**
