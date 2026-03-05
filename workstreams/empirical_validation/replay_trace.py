@@ -267,15 +267,11 @@ def main():
             screenshot_wsl = wsl_path(screenshot_path)
             ack = bot.send_and_wait(
                 f"screenshot {screenshot_wsl}",
-                "ok screenshot_queued",
+                "ok screenshot",
             )
             if not ack:
                 print(f"  screenshot {idx} FAILED (timeout)")
                 continue
-
-            # One more frame for capture
-            bot.send_and_wait("frame_advance 1", "done frame_advance", timeout=30)
-            current_frame += 1
 
             # Wait for file
             deadline = time.time() + 5

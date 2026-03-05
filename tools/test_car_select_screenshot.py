@@ -121,15 +121,11 @@ def run_navigation(verbose=False, re_tests=False):
 
             ack = bot.send_and_wait(
                 f"screenshot {screenshot_path_wsl}",
-                "ok screenshot_queued",
+                "ok screenshot",
             )
             if not ack:
                 print(f"FAIL: screenshot {stage_name} timed out")
                 continue
-
-            # Need one more frame for screenshot to be captured
-            bot.send_and_wait("frame_advance 1", "done frame_advance", timeout=30)
-            current_frame += 1
 
             # Wait for file to appear (DrvFS latency)
             deadline = time.time() + 5

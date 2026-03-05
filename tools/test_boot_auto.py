@@ -277,16 +277,12 @@ def run_boot_test(cue_wsl, stages_to_run, screenshot_dir, compare=True, verbose=
             )
             ack = bot.send_and_wait(
                 f"screenshot {screenshot_path_wsl}",
-                "ok screenshot_queued",
+                "ok screenshot",
             )
             if not ack:
                 print(f"FAIL: screenshot {stage_name} timed out")
                 results[stage_name] = (False, "screenshot timeout")
                 continue
-
-            # Need one more frame for screenshot to be captured
-            bot.send_and_wait("frame_advance 1", "done frame_advance", timeout=30)
-            current_frame += 1
 
             test_path = os.path.join(screenshot_dir, f"test_{stage_name}.png")
             # Wait for file to appear (DrvFS latency)

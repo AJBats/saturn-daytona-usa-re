@@ -127,14 +127,11 @@ def run_navigation(verbose=False, re_tests=False):
 
             ack = bot.send_and_wait(
                 f"screenshot {screenshot_path_wsl}",
-                "ok screenshot_queued",
+                "ok screenshot",
             )
             if not ack:
                 print(f"FAIL: screenshot {stage_name} timed out")
                 continue
-
-            bot.send_and_wait("frame_advance 1", "done frame_advance", timeout=30)
-            current_frame += 1
 
             deadline = time.time() + 5
             while time.time() < deadline and not os.path.exists(screenshot_path):

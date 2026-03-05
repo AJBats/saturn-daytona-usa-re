@@ -305,9 +305,8 @@ class MednafenBot:
 
     def screenshot(self, path):
         wsl_p = wsl_path(path)
-        ack = self.send_and_wait(f"screenshot {wsl_p}", "ok screenshot_queued")
+        ack = self.send_and_wait(f"screenshot {wsl_p}", "ok screenshot")
         if ack:
-            self.frame_advance(1)
             deadline = time.time() + 5
             while time.time() < deadline and not os.path.exists(path):
                 time.sleep(0.2)
