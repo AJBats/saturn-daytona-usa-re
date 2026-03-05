@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "mednafen": {
+      "type": "stdio",
+      "command": "python",
+      "args": [
+        "D:/Projects/SaturnReverseTest/mednafen/mcp_server.py",
+        "--cue",
+        "D:/Projects/SaturnReverseTest/build/disc/rebuilt_disc/daytona_rebuilt.cue",
+        "--ipc-dir",
+        "D:/Projects/SaturnReverseTest/build/mcp_ipc"
+      ],
+      "env": {}
+    }
+  }
+}
