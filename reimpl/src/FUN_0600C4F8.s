@@ -2,6 +2,10 @@
     .section .text.FUN_0600C4F8
 
 
+    /* THEORY: speed_update — reads car[+0xFC] (accel_delta), adds to
+       car[+0x0C] (speed), computes car[+0x08] = fpmul(speed, 0x480000).
+       Checks sym_0607EBC4 global flag for player vs AI path.
+       Ghidra decompilation confirms arithmetic. */
     .global FUN_0600C4F8
     .type FUN_0600C4F8, @function
 FUN_0600C4F8:

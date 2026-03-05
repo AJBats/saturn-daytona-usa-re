@@ -40,32 +40,32 @@ Status: `UNNAMED` / `NAMED_GUESS` / `THEORY` / `OBSERVED` / `VERIFIED`
 
 | Address | File | Current Name | Status | Method | Notes |
 |---------|------|-------------|--------|--------|-------|
-| 0600e0c0 | car_update_racing.s | car_update_racing | NAMED_GUESS | — | Ghidra: iterates cars 1..N, branches player/AI |
-| 0600e71a | FUN_0600E71A.s | (was player_physics_main) | THEORY | Ghidra call graph | Calls 6 sub-functions + velocity integration |
-| 0600e906 | ai_physics_main.s | ai_physics_main | NAMED_GUESS | — | AI equivalent of 0600e71a |
+| 0600e0c0 | car_update_racing.s | car_update_racing | THEORY | Ghidra + watchpoint | THEORY: ai_car_loop — iterates cars 1..N, skips car 0 (player). Branches on sym_0607EBC4 & 0x8000 |
+| 0600e71a | FUN_0600E71A.s | FUN_0600E71A | THEORY | Ghidra call graph | THEORY: car_physics_pipeline — 6 callees + velocity integration |
+| 0600e906 | ai_physics_main.s | ai_physics_main | THEORY | Ghidra call graph | THEORY: ai_physics_main — AI equivalent, shares d266/fpmul/ceba |
 
 ### Player Physics Pipeline (callees of 0600e71a)
 
 | Address | File | Current Name | Status | Method | Notes |
 |---------|------|-------------|--------|--------|-------|
-| 0600d266 | heading_correct.s | (sublabel) | **VERIFIED** | Breakpoint + disasm | `rts; nop` — confirmed empty |
-| 0600c4f8 | FUN_0600C4F8.s | (was accel_response) | UNNAMED | — | Calls fpmul |
-| 0600c5d6 | FUN_0600C5D6.s | (was player_collision) | THEORY | Ghidra call graph | CORE: 11 callees, steering/forces |
-| 0600ceba | FUN_0600CEBA.s | (was track_segment_advance) | UNNAMED | — | Calls FUN_06035228 |
-| 06008318 | FUN_06008318.s | (was gear_shift_handler) | UNNAMED | — | Calls FUN_06034f78 |
+| 0600d266 | (retail only) | — | **VERIFIED** | Breakpoint + disasm | `rts; nop` — confirmed empty |
+| 0600c4f8 | FUN_0600C4F8.s | FUN_0600C4F8 | THEORY | Ghidra decompilation | THEORY: speed_update — car[+0x0C] += car[+0xFC], car[+0x08] = fpmul(speed, 0x480000) |
+| 0600c5d6 | FUN_0600C5D6.s | FUN_0600C5D6 | THEORY | Ghidra decompilation | THEORY: car_forces_main — 11 callees, ground/airborne paths |
+| 0600ceba | FUN_0600CEBA.s | FUN_0600CEBA | THEORY | Ghidra decompilation | THEORY: track_segment_advance — heading change detection, car[+0x228]++ |
+| 06008318 | FUN_06008318.s | FUN_06008318 | THEORY | Ghidra + struct_map | THEORY: gear_shift_handler — car[+0xB8] countdown, UP/DOWN pad, table at 0x060453CC |
 | 06008640 | (unnamed) | — | UNNAMED | — | Calls 060086c0, 06008730 |
 
 ### Shared Physics Subfunctions (callees of 0600c5d6)
 
 | Address | File | Current Name | Status | Method | Notes |
 |---------|------|-------------|--------|--------|-------|
-| 0600cd40 | FUN_0600CD40.s | (was track_pos_query) | UNNAMED | — | Calls FUN_0602744c |
-| 0600ca96 | (in ai_orchestrator?) | — | UNNAMED | — | Friction/drag candidate |
-| 0600cf58 | collision_dispatch.s | collision_dispatch | NAMED_GUESS | — | 4 callees, player-only |
-| 0600cc38 | (unnamed) | — | UNNAMED | — | Force application candidate |
-| 0600c8cc | FUN_0600C8CC.s | (was ai_speed_trampoline) | UNNAMED | — | Speed calc candidate |
-| 0600c928 | heading_correct.s | heading_correct | NAMED_GUESS | — | Heading correction candidate |
-| 0600c7d4 | heading_speed_damping.s | heading_speed_damping | NAMED_GUESS | — | Damping candidate |
+| 0600cd40 | FUN_0600CD40.s | FUN_0600CD40 | THEORY | Ghidra decompilation | THEORY: track_position_query — reads car[+0x1E4], calls FUN_0602744c |
+| 0600ca96 | FUN_0600C994.s | FUN_0600CA96 (sublabel) | THEORY | Ghidra decompilation | THEORY: surface_friction — car[+0x1EC] table lookup, ±4 step |
+| 0600cf58 | collision_dispatch.s | collision_dispatch | THEORY | Ghidra decompilation | THEORY: collision_dispatch — 4 callees, player-only |
+| 0600cc38 | FUN_0600CC38.s | FUN_0600CC38 | THEORY | Ghidra decompilation | THEORY: force_application — car[+0x01F8]/[+0x01FC] deltas (was heading_correct — reverted) |
+| 0600c8cc | FUN_0600C8CC.s | FUN_0600C8CC | THEORY | Ghidra decompilation | THEORY: steering_toward_track — car[+0x28] steered toward track, max ±0x600 |
+| 0600c928 | ai_speed_target.s | FUN_0600C928 (sublabel) | THEORY | Ghidra decompilation | THEORY: heading_correction — car[+0x48] decremented, copied to car[+0x50] |
+| 0600c7d4 | heading_speed_damping.s | heading_speed_damping | THEORY | Ghidra decompilation | THEORY: heading_speed_damping — airborne damping, speed brackets |
 
 ### Math Library (shared)
 
@@ -80,13 +80,13 @@ Status: `UNNAMED` / `NAMED_GUESS` / `THEORY` / `OBSERVED` / `VERIFIED`
 
 | Address | File | Current Name | Status | Method | Notes |
 |---------|------|-------------|--------|--------|-------|
-| 0600c74e | ai_orchestrator.s | ai_orchestrator | NAMED_GUESS | — | AI core (equiv of c5d6) |
+| 0600c74e | ai_orchestrator.s | ai_orchestrator | THEORY | Ghidra call graph | THEORY: ai_orchestrator — AI equiv of c5d6, has c970 instead of cf58/cc38 |
 | 0600c970 | (unnamed) | — | UNNAMED | — | AI-specific steering? |
 
 ### Rendering/Update Loops
 
 | Address | File | Current Name | Status | Method | Notes |
 |---------|------|-------------|--------|--------|-------|
-| 0600b6a0 | FUN_0600B6A0.s | (was render_cs0_loop) | OBSERVED | NOP test | NOP removes rendering + collision |
-| 0600b914 | FUN_0600B914.s | (was render_scene_loop) | OBSERVED | NOP test | Secondary CPU equivalent |
+| 0600b6a0 | FUN_0600B6A0.s | FUN_0600B6A0 | OBSERVED | NOP test | THEORY: opponent_update_primary — NOP removes rendering + collision |
+| 0600b914 | FUN_0600B914.s | FUN_0600B914 | OBSERVED | NOP test | THEORY: opponent_update_secondary — secondary CPU equivalent |
 | 0600c010 | scene_render_body.s | scene_render_body | NAMED_GUESS | — | Frame orchestrator |

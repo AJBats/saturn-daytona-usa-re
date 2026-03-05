@@ -2,6 +2,13 @@
     .section .text.FUN_0600C5D6
 
 
+    /* THEORY: car_forces_main — central force/steering/collision dispatcher.
+       11 callees: track query (CD40), friction (CA96), collision (CF58),
+       force application (CC38), speed calc (C8CC), heading correction (C928),
+       heading/speed damping (C7D4), atan2 (6838), vector rotation (27ede),
+       sin/cos (27358). Ground path: heading from track, vel += speed * sincos.
+       Airborne path: heading damped, atan2-based rotation.
+       Ghidra decompilation + struct_map cross-reference. */
     .global FUN_0600C5D6
     .type FUN_0600C5D6, @function
 FUN_0600C5D6:
@@ -103,15 +110,15 @@ DAT_0600c616:
     mov.l r2, @r11
 .L_0600C682:
     mov r13, r5
-    .reloc ., R_SH_IND12W, heading_correct - 4
-    .2byte 0xB000    /* bsr heading_correct (linker-resolved) */
+    .reloc ., R_SH_IND12W, FUN_0600CC38 - 4
+    .2byte 0xB000    /* bsr FUN_0600CC38 (linker-resolved) */
     mov r12, r4
     bra     .L_0600C692
     nop
 .L_0600C68C:
     mov r13, r5
-    .reloc ., R_SH_IND12W, heading_correct - 4
-    .2byte 0xB000    /* bsr heading_correct (linker-resolved) */
+    .reloc ., R_SH_IND12W, FUN_0600CC38 - 4
+    .2byte 0xB000    /* bsr FUN_0600CC38 (linker-resolved) */
     mov r12, r4
 .L_0600C692:
     .byte   0xD0, 0x1D    /* mov.l .L_0600C708, r0 */

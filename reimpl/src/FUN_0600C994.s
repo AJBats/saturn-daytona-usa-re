@@ -147,6 +147,10 @@ DAT_0600c9e6:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
+    /* THEORY: surface_friction — uses car[+0x1EC] as table lookup base.
+       Computes delta with car[+0x1FC] for surface interpolation (±4 step).
+       Writes to sym_06078680 surface buffer. Shared by player and AI.
+       Ghidra decompilation. */
     .global FUN_0600CA96
 FUN_0600CA96:
 

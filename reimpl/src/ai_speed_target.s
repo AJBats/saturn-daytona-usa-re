@@ -52,6 +52,9 @@ ai_speed_target:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
+    /* THEORY: heading_correction — decrements car[+0x48] (angular velocity)
+       by speed-based value, copies to car[+0x50]. Shared by player and AI.
+       Ghidra decompilation. */
     .global FUN_0600C928
 FUN_0600C928:
 

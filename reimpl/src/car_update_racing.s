@@ -2,6 +2,11 @@
     .section .text.FUN_0600E0C0
 
 
+    /* THEORY: ai_car_loop — iterates cars i=1..sym_0607EA98, skipping car 0
+       (player). Branches on sym_0607EBC4 & 0x8000: if clear, calls
+       FUN_0600e71a (car_physics_pipeline); if set, calls ai_physics_main.
+       Car 0 has its own code path at ~0x0602EF00. Ghidra decompilation +
+       empirical (watchpoint on car 0 speed shows different writer PC). */
     .global car_update_racing
     .type car_update_racing, @function
 car_update_racing:

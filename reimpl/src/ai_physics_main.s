@@ -2,6 +2,10 @@
     .section .text.FUN_0600E906
 
 
+    /* THEORY: ai_physics_main — AI equivalent of FUN_0600e71a. Shares
+       FUN_0600d266, fpmul, FUN_0600ceba. Core body is ai_orchestrator
+       (FUN_0600c74e) instead of FUN_0600c5d6. No collision dispatch,
+       no force application. Ghidra call graph. */
     .global ai_physics_main
     .type ai_physics_main, @function
 ai_physics_main:

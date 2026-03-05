@@ -2,9 +2,13 @@
     .section .text.FUN_0600CC38
 
 
-    .global heading_correct
-    .type heading_correct, @function
-heading_correct:
+    /* THEORY: force_application — reads car[+0x01F8] and car[+0x01FC],
+       computes deltas (clamped ±8). Writes to sym_06078680 surface buffer.
+       Player-only (not in AI path). Ghidra decompilation.
+       Previously misnamed heading_correct — reverted per theory-tagging rule. */
+    .global FUN_0600CC38
+    .type FUN_0600CC38, @function
+FUN_0600CC38:
     mov.l r14, @-r15
     mov.l r11, @-r15
     sts.l macl, @-r15
