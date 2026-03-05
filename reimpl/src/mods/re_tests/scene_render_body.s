@@ -135,9 +135,8 @@ scene_render_body:
     .byte   0xD3, 0x28    /* mov.l .L_pool_0600C1A0, r3 */
     jsr @r3
     nop
-    .reloc ., R_SH_IND12W, FUN_0600B6A0 - 4
-    .2byte 0xB000    /* bsr FUN_0600B6A0 (linker-resolved) */
-    nop
+    nop                    /* RE_TEST 6: NOP'd BSR to FUN_0600B6A0 (loop A) */
+    nop                    /* RE_TEST 6: was delay slot */
     mov.l @r8, r2
     .byte   0xD3, 0x26    /* mov.l .L_pool_0600C0AC, r3 */
     cmp/eq r3, r2

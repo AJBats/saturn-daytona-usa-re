@@ -37,9 +37,8 @@ race_utility_calc:
     jsr @r3
     nop
 .L_0600C1BE:
-    .reloc ., R_SH_IND12W, FUN_0600B914 - 4
-    .2byte 0xB000    /* bsr FUN_0600B914 (linker-resolved) */
-    nop
+    nop                    /* RE_TEST 6b: NOP'd BSR to FUN_0600B914 (loop B) */
+    nop                    /* RE_TEST 6b: was delay slot */
     mov.l   .L_0600C1F8, r0
     mov.l   .L_0600C1FC, r3
     mov.l @r0, r0

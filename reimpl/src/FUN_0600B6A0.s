@@ -1,10 +1,13 @@
 
-    .section .text.FUN_0600B914
+    .section .text.FUN_0600B6A0
 
 
-    .global render_scene_loop
-    .type render_scene_loop, @function
-render_scene_loop:
+    /* THEORY: per-car opponent update loop (primary CPU, cars 1..N).
+       Empirical: NOPping BSR to this function removes those cars
+       from both rendering and collision. Minimap still tracks them. */
+    .global FUN_0600B6A0
+    .type FUN_0600B6A0, @function
+FUN_0600B6A0:
     mov.l r14, @-r15
     mov.l r13, @-r15
     mov.l r12, @-r15
@@ -15,35 +18,46 @@ render_scene_loop:
     sts.l pr, @-r15
     sts.l macl, @-r15
     add #-0x44, r15
-    mov.l   .L_0600B9AC, r8
-    mov.l   .L_0600B9B0, r11
-    mov.l   .L_0600B9B4, r12
-    mov.l   .L_0600B9B8, r13
-    mov.l   .L_0600B9BC, r0
+    mov.l   .L_0600B6D0, r8
+    mov.l   .L_0600B6D4, r11
+    mov.l   .L_0600B6D8, r12
+    mov.l   .L_0600B6DC, r13
+    mov.l   .L_0600B6E0, r0
     mov.l @r0, r0
     tst r0, r0
-    bt      .L_0600B93C
-    bra     .L_0600BB76
+    bt      .L_0600B6E4
+    bra     .L_0600B8F8
     nop
-.L_0600B93C:
-    mov.l   .L_0600B9C0, r10
-    mov.w @r10, r10
-    mov.l   .L_0600B9C4, r5
+    .4byte  sym_06031DF4
+    .4byte  sym_0608A52C
+.L_0600B6D0:
+    .4byte  sym_06089EDC
+.L_0600B6D4:
+    .4byte  sym_06089E44
+.L_0600B6D8:
+    .4byte  sym_06031D8C
+.L_0600B6DC:
+    .4byte  sym_06031A28
+.L_0600B6E0:
+    .4byte  sym_0607EAE0
+.L_0600B6E4:
+    mov #0x1, r10
+    mov.l   .L_0600B750, r5
     mov r5, r3
     add #0x28, r3
     mov.l r3, @(16, r15)
-    mov.l   .L_0600B9C8, r6
+    mov.l   .L_0600B754, r6
     mov r6, r2
     add #0x28, r2
     mov.l r2, @(8, r15)
-    mov.l   .L_0600B9CC, r4
+    mov.l   .L_0600B758, r4
     mov r4, r3
     add #0x28, r3
     mov.l r3, @(4, r15)
     mov r11, r2
     add #0x4, r2
     mov.l r2, @r15
-    mov.l   .L_0600B9D0, r7
+    mov.l   .L_0600B75C, r7
     mov r7, r3
     add #0x28, r3
     mov.l r3, @(12, r15)
@@ -79,114 +93,101 @@ render_scene_loop:
     add #0x18, r4
     mov.l r4, @(28, r15)
     add #0x18, r7
-    bra     .L_0600BB6A
+    bra     .L_0600B8EC
     mov.l r7, @(32, r15)
-    .2byte  0xFFFF
-.L_0600B9AC:
-    .4byte  sym_0608A52C
-.L_0600B9B0:
-    .4byte  sym_06089E44
-.L_0600B9B4:
-    .4byte  sym_06032158
-.L_0600B9B8:
-    .4byte  sym_06031DF4
-.L_0600B9BC:
-    .4byte  sym_0607EAE0
-.L_0600B9C0:
-    .4byte  sym_06078664
-.L_0600B9C4:
+.L_0600B750:
     .4byte  sym_060621D8
-.L_0600B9C8:
+.L_0600B754:
     .4byte  sym_0606212C
-.L_0600B9CC:
+.L_0600B758:
     .4byte  sym_06062180
-.L_0600B9D0:
+.L_0600B75C:
     .4byte  sym_060620D8
-.L_0600B9D4:
-    mov.w   .L_0600BAB0, r14
-    mov.l   .L_0600BAC0, r3
-    mov.l   .L_0600BAC4, r1
+.L_0600B760:
+    mov.w   .L_0600B838, r14
+    mov.l   .L_0600B848, r3
+    mov.l   .L_0600B84C, r1
     mul.l r14, r10
     sts macl, r14
     add r3, r14
     mov.l @r14, r2
     and r1, r2
     tst r2, r2
-    bf      .L_0600B9EC
-    bra     .L_0600BB68
+    bf      .L_0600B778
+    bra     .L_0600B8EA
     nop
-.L_0600B9EC:
-    mov.l   .L_0600BAC8, r3
+.L_0600B778:
+    mov.l   .L_0600B850, r3
     jsr @r3
     nop
     mov.l @(24, r14), r6
     mov.l @(20, r14), r5
-    mov.w   DAT_0600bab2, r0
-    mov.l   .L_0600BACC, r3
+    mov.w   DAT_0600b83a, r0
+    mov.l   .L_0600B854, r3
     mov.l @(r0, r14), r2
     add r2, r5
     jsr @r3
     mov.l @(16, r14), r4
     mov.l @(32, r14), r4
-    mov.l   .L_0600BAD0, r2
-    mov.l   .L_0600BAD4, r3
+    mov.l   .L_0600B858, r2
+    mov.l   .L_0600B85C, r3
     jsr @r3
     add r2, r4
     mov.l @(36, r14), r4
-    mov.l   .L_0600BAD8, r3
+    mov.l   .L_0600B860, r3
     jsr @r3
     neg r4, r4
     mov.l @(28, r14), r4
-    mov.l   .L_0600BADC, r3
+    mov.l   .L_0600B864, r3
     jsr @r3
     neg r4, r4
-    mov.w   DAT_0600bab4, r0
+    mov.w   DAT_0600b83c, r0
     mov.l @(r0, r14), r2
-    mov.w   .L_0600BAB6, r0
+    mov.w   .L_0600B83E, r0
     mov.l @(r0, r14), r3
     add r3, r2
     tst r2, r2
-    bt      .L_0600BA50
-    mov.w   DAT_0600bab8, r0
+    bt      .L_0600B7DC
+    mov.w   DAT_0600b840, r0
     mov.l @(r0, r14), r4
     add #-0xC, r0
     neg r4, r4
     mov.l @(r0, r14), r3
     sub r3, r4
-    mov.l   .L_0600BAD4, r3
+    mov.l   .L_0600B85C, r3
     jsr @r3
     nop
-    mov.w   .L_0600BABA, r0
-    mov.l   .L_0600BAD8, r3
+    mov.w   .L_0600B842, r0
+    mov.l   .L_0600B860, r3
     mov.l @(r0, r14), r4
     jsr @r3
     neg r4, r4
-    mov.w   .L_0600BABC, r0
-    mov.l   .L_0600BADC, r3
+    mov.w   .L_0600B844, r0
+    mov.l   .L_0600B864, r3
     mov.l @(r0, r14), r4
     jsr @r3
     neg r4, r4
-.L_0600BA50:
-    mov.l   .L_0600BAE0, r9
+.L_0600B7DC:
+    mov.l   .L_0600B868, r9
     mov r14, r0
     add r10, r9
     mov.b @(1, r0), r0
     mov.b @r9, r9
     tst #0x40, r0
-    bf/s    .L_0600BA6E
+    bf/s    .L_0600B7FA
     extu.b r9, r9
-    mov.l   .L_0600BAE4, r0
-    mov.l   .L_0600BAE8, r3
+    mov.l   .L_0600B86C, r0
+    mov.l   .L_0600B870, r3
     mov.l @r0, r0
     mov.l @r3, r3
     add r3, r0
     cmp/eq #0x8, r0
-    bf      .L_0600BAEC
-.L_0600BA6E:
-    mov.w   DAT_0600bab4, r0
+    bf      .L_0600B874
+.L_0600B7FA:
+    mov.w   DAT_0600b83c, r0
     mov.l @(r0, r14), r3
     cmp/pl r3
-    bt      .L_0600BA90
+    bt      .L_0600B81A
     mov.l @(16, r15), r5
     mov.l @(8, r15), r4
     mov.l @r5, r5
@@ -197,74 +198,72 @@ render_scene_loop:
     mov.l @(12, r15), r4
     mov.l @r6, r6
     mov.w @r5, r5
-    extu.w r5, r5
     jsr @r13
     mov.l @r4, r4
-.L_0600BA90:
+.L_0600B81A:
     mov.l @(36, r15), r5
     mov.l @(40, r15), r4
     mov.l @r5, r5
     jsr @r12
     mov.l @r4, r4
+    mov.l @(44, r15), r6
     mov r9, r0
     mov.l @(48, r15), r4
-    mov.l @(44, r15), r6
-    shll r0
     mov.l @r6, r6
+    shll r0
     mov.w @(r0, r11), r5
-    extu.w r5, r5
     jsr @r13
     mov.l @r4, r4
-    bra     .L_0600BB62
+    bra     .L_0600B8E4
     nop
-.L_0600BAB0:
+.L_0600B838:
     .2byte  0x0268
 
-    .global DAT_0600bab2
-DAT_0600bab2:
+    .global DAT_0600b83a
+DAT_0600b83a:
     .2byte  0x01B4
 
-    .global DAT_0600bab4
-DAT_0600bab4:
+    .global DAT_0600b83c
+DAT_0600b83c:
     .2byte  0x01BC
-.L_0600BAB6:
+.L_0600B83E:
     .2byte  0x00B8
 
-    .global DAT_0600bab8
-DAT_0600bab8:
+    .global DAT_0600b840
+DAT_0600b840:
     .2byte  0x01D8
-.L_0600BABA:
+.L_0600B842:
     .2byte  0x01D0
-.L_0600BABC:
+.L_0600B844:
     .2byte  0x01C8
     .2byte  0xFFFF
-.L_0600BAC0:
+.L_0600B848:
     .4byte  sym_06078900
-.L_0600BAC4:
+.L_0600B84C:
     .4byte  0x00E00000
-.L_0600BAC8:
-    .4byte  sym_06027080
-.L_0600BACC:
-    .4byte  sym_060270F2
-.L_0600BAD0:
+.L_0600B850:
+    .4byte  sym_06026DBC
+.L_0600B854:
+    .4byte  sym_06026E2E
+.L_0600B858:
     .4byte  0x00008000
-.L_0600BAD4:
-    .4byte  mat_rot_xy_b
-.L_0600BAD8:
-    .4byte  mat_rot_yz_b
-.L_0600BADC:
-    .4byte  mat_rot_xz_b
-.L_0600BAE0:
+.L_0600B85C:
+    .4byte  mat_rot_y
+.L_0600B860:
+    .4byte  mat_rot_z
+.L_0600B864:
+    .4byte  mat_rot_x
+.L_0600B868:
     .4byte  sym_06047FC4
-.L_0600BAE4:
+.L_0600B86C:
     .4byte  sym_06063E1C
-.L_0600BAE8:
+.L_0600B870:
     .4byte  sym_06063E20
-.L_0600BAEC:
+.L_0600B874:
     mov r14, r0
     mov.b @(1, r0), r0
     tst #0x20, r0
-    bt      .L_0600BB16
+    bt      .L_0600B89C
     mov.l @(52, r15), r5
     mov.l @(56, r15), r4
     mov.l @r5, r5
@@ -276,21 +275,20 @@ DAT_0600bab8:
     shll r0
     mov.w @(r0, r11), r5
     mov #0x40, r0
-    extu.w r5, r5
     mov.l @(r0, r15), r4
     jsr @r13
     mov.l @r4, r4
-    bra     .L_0600BB62
+    bra     .L_0600B8E4
     nop
-.L_0600BB16:
+.L_0600B89C:
     mov r14, r0
     mov.b @(1, r0), r0
     tst #0x80, r0
-    bt      .L_0600BB62
-    mov.w   .L_0600BB8C, r0
+    bt      .L_0600B8E4
+    mov.w   DAT_0600b90e, r0
     mov.l @(r0, r14), r3
     cmp/pl r3
-    bt      .L_0600BB40
+    bt      .L_0600B8C4
     mov.l @(16, r15), r5
     mov.l @(8, r15), r4
     mov.l @r5, r5
@@ -301,13 +299,12 @@ DAT_0600bab8:
     mov.l @(12, r15), r4
     mov.l @r6, r6
     mov.w @r5, r5
-    extu.w r5, r5
     jsr @r13
     mov.l @r4, r4
-.L_0600BB40:
+.L_0600B8C4:
     mov #0x1, r5
-    .reloc ., R_SH_IND12W, render_obj_absolute - 4
-    .2byte 0xB000    /* bsr render_obj_absolute (linker-resolved) */
+    .reloc ., R_SH_IND12W, render_obj_additive - 4
+    .2byte 0xB000    /* bsr render_obj_additive (linker-resolved) */
     mov r14, r4
     mov.l @(20, r15), r5
     mov.l @(24, r15), r4
@@ -320,23 +317,22 @@ DAT_0600bab8:
     mov.l @r6, r6
     shll r0
     mov.w @(r0, r11), r5
-    extu.w r5, r5
     jsr @r13
     mov.l @r4, r4
-.L_0600BB62:
+.L_0600B8E4:
     mov.l @r8, r3
     add #-0x30, r3
     mov.l r3, @r8
-.L_0600BB68:
+.L_0600B8EA:
     add #0x1, r10
-.L_0600BB6A:
-    mov.l   .L_0600BB90, r2
-    mov.l @r2, r2
+.L_0600B8EC:
+    mov.l   .L_0600B910, r2
+    mov.w @r2, r2
     cmp/hs r2, r10
-    bt      .L_0600BB76
-    bra     .L_0600B9D4
+    bt      .L_0600B8F8
+    bra     .L_0600B760
     nop
-.L_0600BB76:
+.L_0600B8F8:
     add #0x44, r15
     lds.l @r15+, macl
     lds.l @r15+, pr
@@ -348,8 +344,9 @@ DAT_0600bab8:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_0600BB8C:
+
+    .global DAT_0600b90e
+DAT_0600b90e:
     .2byte  0x01BC
-    .2byte  0xFFFF
-.L_0600BB90:
-    .4byte  sym_0607EA98
+.L_0600B910:
+    .4byte  sym_06078664

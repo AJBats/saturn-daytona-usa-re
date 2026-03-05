@@ -2,9 +2,12 @@
     .section .text.FUN_0600B6A0
 
 
-    .global render_cs0_loop
-    .type render_cs0_loop, @function
-render_cs0_loop:
+    /* THEORY: per-car opponent update loop (primary CPU, cars 1..N).
+       Empirical: NOPping BSR to this function removes those cars
+       from both rendering and collision. Minimap still tracks them. */
+    .global FUN_0600B6A0
+    .type FUN_0600B6A0, @function
+FUN_0600B6A0:
     mov.l r14, @-r15
     mov.l r13, @-r15
     mov.l r12, @-r15
@@ -245,11 +248,11 @@ DAT_0600b840:
 .L_0600B858:
     .4byte  0x00008000
 .L_0600B85C:
-    .4byte  mat_rot_y
+    .4byte  mat_rot_y    /* RE_TEST 5: DISABLED — restored to original */
 .L_0600B860:
     .4byte  mat_rot_z
 .L_0600B864:
-    .4byte  mat_rot_x
+    .4byte  mat_rot_x    /* RE_TEST 5: DISABLED — restored to original */
 .L_0600B868:
     .4byte  sym_06047FC4
 .L_0600B86C:
