@@ -2,13 +2,6 @@
     .section .text.FUN_0600C5D6
 
 
-    /* THEORY: car_forces_main — central force/steering/collision dispatcher.
-       11 callees: track query (CD40), friction (CA96), collision (CF58),
-       force application (CC38), speed calc (C8CC), heading correction (C928),
-       heading/speed damping (C7D4), atan2 (6838), vector rotation (27ede),
-       sin/cos (27358). Ground path: heading from track, vel += speed * sincos.
-       Airborne path: heading damped, atan2-based rotation.
-       Ghidra decompilation + struct_map cross-reference. */
     .global FUN_0600C5D6
     .type FUN_0600C5D6, @function
 FUN_0600C5D6:

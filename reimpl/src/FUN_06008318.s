@@ -2,11 +2,6 @@
    .section .text.FUN_06008318
 
 
-   /* THEORY: gear_shift_handler — checks car[+0xB8] == 0, sym_0607EBD0 > 0x258,
-      car[+0xBC] == 0 for shift permission. UP sets car[+0x1DC]=-1 (downshift),
-      DOWN sets car[+0x1DC]=+1 (upshift). Countdown at car[+0xB8]=0x20 with
-      table lookup at 0x060453CC for car[+0x1D8] (gear effect).
-      Ghidra decompilation + struct_map. */
    .global FUN_06008318
    .type FUN_06008318, @function
 FUN_06008318:

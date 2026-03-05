@@ -2,11 +2,6 @@
     .section .text.FUN_0600CF58
 
 
-    /* THEORY: collision_dispatch — 4 callees (D12C, 35168, D210, D0B8).
-       Player-only (not called by AI path). Checks car[+0x04] (collision
-       target), car[+0x0210] (collision type == 1 or 2), car[+0x0224].
-       Writes car[+0x01F8]=0x300/0x400, car[+0x01FC]=0x80.
-       Ghidra decompilation. */
     .global collision_dispatch
     .type collision_dispatch, @function
 collision_dispatch:

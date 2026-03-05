@@ -2,10 +2,6 @@
     .section .text.FUN_0600CD40
 
 
-    /* THEORY: track_position_query — reads car[+0x1E4] (track segment index)
-       and car[+0x1E0] (track segment table pointer). Calls FUN_0602744c.
-       Writes car[+0x0184] from table[+0x16]. Shared by player and AI.
-       Ghidra decompilation. */
     .global FUN_0600CD40
     .type FUN_0600CD40, @function
 FUN_0600CD40:

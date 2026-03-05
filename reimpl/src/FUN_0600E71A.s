@@ -2,12 +2,6 @@
     .section .text.FUN_0600E71A
 
 
-    /* THEORY: car_physics_pipeline — orchestrates 6 sub-calls per car:
-       FUN_0600d266 (empty), FUN_0600c4f8 (speed_update), FUN_0600c5d6
-       (forces/steering/collision), FUN_0600ceba (track segment advance),
-       FUN_06008318, FUN_06008640. Ends with velocity integration:
-       car[+0x1F4] = car[+0x228] * sym_0607EA9C + car[+0x1EC].
-       Ghidra call graph confirmed. */
     .global FUN_0600E71A
     .type FUN_0600E71A, @function
 FUN_0600E71A:

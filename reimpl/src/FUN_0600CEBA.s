@@ -2,10 +2,6 @@
     .section .text.FUN_0600CEBA
 
 
-    /* THEORY: track_segment_advance — detects heading change > threshold,
-       increments car[+0x228], updates car[+0x21C], car[+0x220], car[+0x22C]
-       with sym_0607EBD0 timing. Calls FUN_06035228. Shared by player and AI.
-       Ghidra decompilation. */
     .global FUN_0600CEBA
     .type FUN_0600CEBA, @function
 FUN_0600CEBA:

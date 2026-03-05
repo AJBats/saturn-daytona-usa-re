@@ -2,11 +2,6 @@
     .section .text.FUN_0600C74E
 
 
-    /* THEORY: ai_orchestrator — AI equivalent of FUN_0600c5d6
-       (car_forces_main). Shares track query, atan2, heading correction,
-       friction, speed calc, damping. Has AI-specific FUN_0600c970 steering.
-       Missing collision dispatch (CF58) and force application (CC38).
-       Ghidra call graph. */
     .global ai_orchestrator
     .type ai_orchestrator, @function
 ai_orchestrator:
