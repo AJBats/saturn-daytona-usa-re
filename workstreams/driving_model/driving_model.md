@@ -26,11 +26,18 @@ internal mechanisms understood. Required for transplanting gameplay code to Dayt
 
 ### Open Questions
 
-1. **Player physics entry point** — FUN_0602D814/0x0602EF4E writes car 0's acceleration
-   and speed. This is a separate code path from FUN_0600c4f8 (which handles AI cars).
-   Need to map the full player-specific physics pipeline.
-2. **sym_0607EBC4** — what sets bit 15? When is it non-zero? Controls AI vs player pipeline
-   for the car iteration loop.
+1. **Player physics pipeline is UNMAPPED** — FUN_0602D814 writes car 0's speed at
+   pc=0x0602D822. Called from ~0x0602EF00. This is THE player driving code — throttle,
+   steering, everything the human controls. The entire FUN_0600e71a tree we mapped is
+   for AI opponent cars (1..N), not the player. **This is the #1 priority.**
+2. **sym_0607EBC4** — what sets bit 15? When is it non-zero? Controls normal vs AI pipeline
+   for the car iteration loop. During our testing it was always 0 (normal mode).
+3. **What does "normal mode" vs "AI mode" mean?** — We assumed "player" vs "AI" but
+   the loop processes cars 1..N regardless. Maybe it's a race phase distinction
+   (e.g., rolling start vs racing vs replay)?
+4. **FUN_0600cc38 THEORY name mismatch** — We called it "force_application" but
+   function_theories.md describes it as "track surface lookup (force path)". Both may
+   be partially right. Needs empirical verification.
 
 ## Function Scoreboard
 
@@ -44,7 +51,7 @@ Status: `UNNAMED` / `NAMED_GUESS` / `THEORY` / `OBSERVED` / `VERIFIED`
 | 0600e71a | FUN_0600E71A.s | FUN_0600E71A | THEORY | Ghidra call graph | THEORY: car_physics_pipeline — 6 callees + velocity integration |
 | 0600e906 | ai_physics_main.s | ai_physics_main | THEORY | Ghidra call graph | THEORY: ai_physics_main — AI equivalent, shares d266/fpmul/ceba |
 
-### Player Physics Pipeline (callees of 0600e71a)
+### Normal Mode Physics Pipeline (callees of 0600e71a, processes cars 1..N — NOT player)
 
 | Address | File | Current Name | Status | Method | Notes |
 |---------|------|-------------|--------|--------|-------|

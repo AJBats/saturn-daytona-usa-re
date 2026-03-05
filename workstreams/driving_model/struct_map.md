@@ -18,7 +18,7 @@ Car count: `sym_0607EA98`
 | 0x0607EAE0 | sym_0607EAE0 | Race mode flag (non-zero = skip car iteration) |
 | 0x0607EB84 | sym_0607EB84 | Track segment table base pointer |
 | 0x0607EB88 | sym_0607EB88 | Track surface data table base pointer |
-| 0x0607EBC4 | sym_0607EBC4 | Per-car flags (bit 15 = AI path, bit 23 = special mode) |
+| 0x0607EBC4 | sym_0607EBC4 | GLOBAL mode flags — NOT per-car (bit 15 = AI/player pipeline selector for car iteration loop) |
 | 0x0607EBD0 | sym_0607EBD0 | Track progress / global timer |
 | 0x0607EBDC | sym_0607EBDC | Collision cooldown counter |
 | 0x0607EBE0 | sym_0607EBE0 | Gear shift target car pointer |

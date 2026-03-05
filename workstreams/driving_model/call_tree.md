@@ -28,7 +28,7 @@ FUN_0600e0c0 (car_update_racing) — iterates cars 1..car_count
   │    sym_0607E940 = car_ptr  (current car pointer global)
   │
   ├─ if (sym_0607EBC4 & 0x8000 == 0):   ← GLOBAL mode flag, NOT per-car
-  │    FUN_0600e71a  ← "player mode" physics pipeline (ALL cars take this path)
+  │    FUN_0600e71a  ← "normal mode" physics pipeline (ALL cars 1..N take this path)
   │    if (car[+0x01] & 0x80):
   │      extra processing (4 indirect calls + 1 return)
   │
@@ -41,14 +41,17 @@ FUN_0600e0c0 (car_update_racing) — iterates cars 1..car_count
   the pipeline (e.g. FUN_0600c4f8) also check this same global flag to decide
   whether to run player-specific logic like throttle response.
 
-  Car 0 is skipped by the loop (i starts at 1). Car 0 appears to be a
-  dummy/camera object (flags=0x00800000, speed=0 after rolling start).
+  Car 0 is skipped by the loop (i starts at 1). Car 0 = PLAYER (confirmed
+  via HUD speed correlation, ratio 1,467). Player has its own physics path
+  rooted at ~0x0602EF00 → FUN_0602D814. NOT a dummy object.
 ```
 
-## Player Physics Pipeline (FUN_0600e71a)
+## "Normal Mode" Physics Pipeline (FUN_0600e71a)
 
 ```
-FUN_0600e71a — player physics orchestrator
+FUN_0600e71a — car physics pipeline (runs for cars 1..N when sym_0607EBC4 bit 15 clear)
+NOTE: Despite the name, this does NOT process the player (car 0).
+Car 0 has its own path at ~0x0602EF00 → FUN_0602D814.
   │
   ├─ [1] FUN_0600d266  — empty (NOP function, no-op)
   ├─ [2] FUN_0600c4f8  — calls fpmul (06027552)
@@ -95,21 +98,25 @@ FUN_0600e906 — AI physics orchestrator
   └─ FUN_0600ceba  — track segment advance (shared)
 ```
 
-### Player vs AI Comparison
+### Normal Mode vs AI Mode Comparison
 
-| Function | Player (c5d6) | AI (c74e) | Notes |
+The two pipeline branches for the car iteration loop (cars 1..N).
+"Normal mode" = sym_0607EBC4 bit 15 clear. "AI mode" = bit 15 set.
+Neither processes car 0 (player) — that has its own path.
+
+| Function | Normal (c5d6) | AI (c74e) | Notes |
 |----------|:---:|:---:|-------|
 | FUN_0600cd40 track query | Y | Y | Shared |
 | FUN_0600ca96 friction | Y | Y | Shared |
-| FUN_0600cf58 collision | Y | **N** | Player-only collision dispatch |
-| FUN_0600cc38 force app | Y | **N** | Player-only force application |
+| FUN_0600cf58 collision | Y | **N** | Normal-mode only |
+| FUN_0600cc38 force app | Y | **N** | Normal-mode only |
 | FUN_0600c8cc speed | Y | Y | Shared |
 | FUN_0600c928 heading | Y | Y | Shared |
 | FUN_0600c7d4 damping | Y | Y | Shared |
 | FUN_06006838 atan2 | Y | Y | Shared |
 | FUN_06027ede vector rot | Y | Y | Shared |
-| FUN_06027358 sin/cos | Y | **N** | Player-only |
+| FUN_06027358 sin/cos | Y | **N** | Normal-mode only |
 | FUN_0600c970 AI steer | **N** | Y | AI-only |
 
-AI has NO collision dispatch and NO force application — these are player-only.
-AI has its own steering function (FUN_0600c970) instead.
+AI mode has NO collision dispatch and NO force application.
+AI mode has its own steering function (FUN_0600c970) instead.

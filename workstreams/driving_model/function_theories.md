@@ -3,7 +3,11 @@
 All theories below are from STATIC ANALYSIS ONLY (Ghidra decompilation + ASM pool constant resolution).
 None are empirically verified. Names are hypotheses. See `driving_model.md` for verification status.
 
-## Player Physics Pipeline (callees of FUN_0600e71a)
+## Normal Mode Physics Pipeline (callees of FUN_0600e71a)
+
+**NOTE**: FUN_0600e71a processes cars 1..N in the iteration loop, NOT the
+player (car 0). The player has its own code path at ~0x0602EF00 → FUN_0602D814.
+The label "player physics" was misleading — renamed to "normal mode".
 
 ### FUN_0600d266 — Empty function (CONFIRMED via decompilation)
 - Ghidra decompilation: `return;`
@@ -35,7 +39,9 @@ None are empirically verified. Names are hypotheses. See `driving_model.md` for 
 ### FUN_0600c4f8 — Speed/acceleration calculator
 **Theory**: Computes acceleration from table lookups and updates car speed.
 **Evidence** (static):
-- Only runs for player cars (checks 0x0607EBC4 & 0x8000 == 0)
+- Checks 0x0607EBC4 & 0x8000: if clear, runs throttle/accel logic; if set, simpler path
+- NOTE: This processes cars 1..N in the loop, NOT car 0 (player). Car 0's speed is
+  written by FUN_0602D814 via a separate code path (~0x0602EF00).
 - Reads car[+0x08] as index into two tables (0x060477EC and 0x060454CC)
 - Acceleration = table difference, scaled by fpmul with car[+0x198]
 - Clamped between -4014 and half the scaled value
