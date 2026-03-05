@@ -25,14 +25,24 @@ FUN_0600e0c0 (car_update_racing) — iterates cars 1..car_count
   │
   │  for (i = 1; i < car_count; i++):
   │    car_ptr = base + i * 0x268
+  │    sym_0607E940 = car_ptr  (current car pointer global)
   │
-  ├─ if (flags_field == 0):
-  │    FUN_0600e71a  ← PLAYER physics pipeline
+  ├─ if (sym_0607EBC4 & 0x8000 == 0):   ← GLOBAL mode flag, NOT per-car
+  │    FUN_0600e71a  ← "player mode" physics pipeline (ALL cars take this path)
   │    if (car[+0x01] & 0x80):
   │      extra processing (4 indirect calls + 1 return)
   │
   └─ else:
-       FUN_0600e906  ← AI physics pipeline
+       FUN_0600e906  ← "AI mode" physics pipeline (ALL cars take this path)
+
+  NOTE: The branch is on a GLOBAL flag (sym_0607EBC4), not per-car flags.
+  In normal racing, ALL cars go through the same pipeline. The "player" vs "AI"
+  distinction is at the game mode level, not per-car. Individual functions inside
+  the pipeline (e.g. FUN_0600c4f8) also check this same global flag to decide
+  whether to run player-specific logic like throttle response.
+
+  Car 0 is skipped by the loop (i starts at 1). Car 0 appears to be a
+  dummy/camera object (flags=0x00800000, speed=0 after rolling start).
 ```
 
 ## Player Physics Pipeline (FUN_0600e71a)

@@ -133,9 +133,84 @@ if not AI:
     car[+0x08] = fpmul(car[+0x0C], 0x480000)
 ```
 
+## Empirical Observations (2026-03-05)
+
+### g_pad_state read-consume-clear pattern
+
+`sym_06063D98` (g_pad_state) IS the pad state during racing — CONFIRMED with breakpoint
+at FUN_06008318 mid-frame. A held = 0x0400 at +2, matching known button mapping.
+
+**Critical**: The game CLEARS g_pad_state before frame end. Reading between frames always
+returns zero. Must use breakpoints to read transient per-frame state. Persistent car struct
+fields (speed, position, heading) are safe to read between frames.
+
+### Save state + input injection verified
+
+Save state `daytona_rebuilt.*.mc0` loads to race start (lap 1/8, pos 40/40, ~179 mph).
+Input injection works immediately after load:
+- LEFT held 60 frames: car steered onto grass, speed dropped to 6 mph
+- A held 30 frames: speed barely dropped (262K → 258K vs idle 262K → 86K)
+
+### Player car = index 0 (CONFIRMED)
+
+Car 0 (base 0x06078900) IS the player car. Confirmed by:
+1. Speed field +0x0C correlates perfectly with HUD speedometer (ratio ~1,467 stable)
+2. Watchpoint on 0x0607890C: written by FUN_0602D814 (pc=0x0602D822), NOT the main
+   physics loop. Player is processed separately from the AI car iteration loop.
+
+The FUN_0600e0c0 loop (i=1..car_count) processes AI cars only. Player car 0 is
+handled by a separate code path rooted at ~0x0602EF00.
+
+### C button = throttle (CONFIRMED)
+
+Watchpoint on car[+0xFC] (acceleration delta) at 0x060789FC:
+
+| Frame delta | C held | Idle |
+|-------------|--------|------|
+| +3 | -468 → -394 (+74) | -468 → -469 (-1) |
+| +6 | -394 → -325 (+69) | -469 → -474 (-5) |
+| +9 | -325 → -256 (+69) | -474 → -481 (-7) |
+
+C shifts the accel delta toward zero/positive by ~70 units/update. Without C, it drifts
+more negative (engine braking). At rolling start speed (~179 mph) the car still
+decelerates with C held because it's above the natural max speed for that throttle level.
+Writer PC: 0x0602EF4E (in the player-specific physics path, not FUN_0600c4f8).
+
+### Speed unit conversion (CONFIRMED)
+
+Internal speed (+0x0C) → kph-ish (+0x08) → mph (HUD):
+- `car[+0x08] = fpmul(car[+0x0C], 0x480000)` — 16.16 fixed-point multiply by 72
+- HUD mph = car[+0x0C] / 1,467 (stable across 3 data points)
+- 262,577 / 1,467 = 179 mph, 258,164 / 1,467 = 176 mph, 253,749 / 1,467 = 173 mph
+
+### Initial car struct dump at race start
+
+```
++0x00: 00 80 00 00  — flags: 0x00800000 (bit 23 set)
++0x04: 00 00 00 00  — collision target: none
++0x08: 00 00 01 20  — speed index: 0x120 (288)
++0x0C: 00 04 01 B1  — speed: 0x401B1 (262,577)
++0x10: FF DC EB C7  — vel X: -2,298,937
++0x14: 00 00 00 00  — vel Y: 0 (on ground)
++0x18: FF 7A A9 16  — vel Z: -8,738,538
++0x1C: 00 00 00 00  — pitch: 0
++0x20: FF FF AA AB  — heading: -21,845 (0xFFFFAAAB)
++0x24: 00 00 00 00  — roll: 0
++0x28: FF FF AA AB  — slip angle: -21,845 (= heading, no slip)
++0x30: FF FF AA AB  — heading delta: same as heading
++0x38: FF D9 73 40  — prev vel X
++0x3C: FF 7C A9 77  — prev vel Z
++0x78: 00 00 00 38  — (unknown)
++0x7C: 00 00 07 05  — (unknown)
++0xB8: 00 00 00 00  — gear timer: 0 (ready to shift)
++0x1E4: 00 00 00 05  — track segment index: 5
++0x228: 00 00 00 00  — segment velocity: 0
+```
+
 ## Method
 
 1. [DONE] Resolve ALL pool constants from ASM → concrete struct offsets (45 fields mapped)
 2. [DONE] Cross-reference ALL 13 core physics functions
-3. [NEXT] Watchpoint experiments during racing to confirm field purposes
-4. [NEXT] Hexdump car struct at race start to see initial values
+3. [DONE] Hexdump car struct at race start — initial values recorded
+4. [DONE] Verify input injection + speed field behavior
+5. [NEXT] Breakpoint-based field verification for remaining physics functions

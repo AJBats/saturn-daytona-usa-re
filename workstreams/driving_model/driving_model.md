@@ -9,10 +9,28 @@ internal mechanisms understood. Required for transplanting gameplay code to Dayt
 
 | Phase | Description | Status |
 |-------|-------------|--------|
-| 1 | Car struct field map | **Active** |
-| 2 | Core physics pipeline (12 functions) | Pending |
+| 1 | Car struct field map | **Active** — static map done, empirical validation in progress |
+| 2 | Core physics pipeline (12 functions) | **Active** — FUN_0600d266 VERIFIED empty |
 | 3 | AI pipeline delta | Pending |
 | 4 | Surrounding systems | Pending |
+
+### Resolved Questions
+
+1. **C button = throttle** — CONFIRMED via watchpoint on car[+0xFC]. C shifts accel delta
+   +70 units/update vs idle drift of -1 to -7. See struct_map.md.
+2. **Car 0 = player** — CONFIRMED. HUD speedometer reads car 0's speed field (ratio 1,467
+   stable). Car 0 is processed by FUN_0602D814, separate from the AI loop.
+3. **sym_0607EBC4 bit 15 = global mode flag** — when clear, ALL cars in the loop use
+   FUN_0600e71a (player physics). The loop (i=1..N) processes AI cars only. Player car 0
+   has its own code path rooted at ~0x0602EF00.
+
+### Open Questions
+
+1. **Player physics entry point** — FUN_0602D814/0x0602EF4E writes car 0's acceleration
+   and speed. This is a separate code path from FUN_0600c4f8 (which handles AI cars).
+   Need to map the full player-specific physics pipeline.
+2. **sym_0607EBC4** — what sets bit 15? When is it non-zero? Controls AI vs player pipeline
+   for the car iteration loop.
 
 ## Function Scoreboard
 
@@ -30,7 +48,7 @@ Status: `UNNAMED` / `NAMED_GUESS` / `THEORY` / `OBSERVED` / `VERIFIED`
 
 | Address | File | Current Name | Status | Method | Notes |
 |---------|------|-------------|--------|--------|-------|
-| 0600d266 | heading_correct.s | (sublabel) | THEORY | Ghidra | Empty/NOP function |
+| 0600d266 | heading_correct.s | (sublabel) | **VERIFIED** | Breakpoint + disasm | `rts; nop` — confirmed empty |
 | 0600c4f8 | FUN_0600C4F8.s | (was accel_response) | UNNAMED | — | Calls fpmul |
 | 0600c5d6 | FUN_0600C5D6.s | (was player_collision) | THEORY | Ghidra call graph | CORE: 11 callees, steering/forces |
 | 0600ceba | FUN_0600CEBA.s | (was track_segment_advance) | UNNAMED | — | Calls FUN_06035228 |
