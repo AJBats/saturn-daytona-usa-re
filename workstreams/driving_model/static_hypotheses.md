@@ -1,7 +1,12 @@
-# Driving Model Function Theories
+# Static Hypotheses — Experiment Design Seeds
 
-All theories below are from STATIC ANALYSIS ONLY (Ghidra decompilation + ASM pool constant resolution).
-None are empirically verified. Names are hypotheses. See `driving_model.md` for verification status.
+**These are UNTESTED hypotheses from Ghidra static analysis.** They exist to design
+experiments, not to describe what functions do. Per our rules, static analysis tells
+you what to test, not what is true. None of these qualify for THEORY tier without
+emulator evidence.
+
+Check `reimpl/src/*.s` for the real status — `grep 'THEORY\|OBSERVED\|VERIFIED'`.
+If a function below has a tag in its source file, the source file supersedes this doc.
 
 ## Normal Mode Physics Pipeline (callees of FUN_0600e71a)
 
