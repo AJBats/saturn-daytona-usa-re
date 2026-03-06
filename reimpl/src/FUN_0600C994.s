@@ -147,6 +147,15 @@ DAT_0600c9e6:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
+    /* THEORY: track_surface_drag — looks up track data and writes to a buffer
+       that feeds into speed calculation. Removing it makes cars faster.
+       Evidence: NOP'd both BSR→FUN_0600CA96 in FUN_0600C5D6 (at 0x0600c60e
+       and 0x0600c676). After 600 frames from rolling start, all 3 AI cars
+       (cars 1-3) had higher speeds than baseline:
+         car[1]: 208316→209208 (+892), car[2]: 219002→219490 (+488),
+         car[3]: 210670→212201 (+1531). All positive = directionally unanimous.
+       Note: NOP in FUN_0600c74e had ZERO effect on cars 1-3 — that pipeline
+       does not process these cars. FUN_0600c5d6 (via FUN_0600e71a) does. */
     .global FUN_0600CA96
 FUN_0600CA96:
 
