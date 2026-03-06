@@ -54,6 +54,17 @@ Before marking any function as THEORY, OBSERVED, or proposing for VERIFIED:
 3. **Any renameable symbols discovered?** — Did the investigation reveal what any `sym_*`
    variables actually are?
 
+## Evidence Hierarchy
+
+**Memory reads are evidence. Screenshots are context only.**
+
+- Memory values (read_u32, read_memory, watchpoints) are precise and unambiguous — use
+  these to draw conclusions about function behavior.
+- Screenshots provide visual context (confirming we're in the right game state) but Claude
+  cannot reliably interpret game visuals. Never claim to see specific behaviors in a
+  screenshot (e.g., "AI cars are visible," "the car turned left"). If visual confirmation
+  is needed, describe the screenshot to the user and let them interpret it.
+
 ## Static Analysis Role
 
 Static analysis (Ghidra, code reading, disassembly) is valuable for:

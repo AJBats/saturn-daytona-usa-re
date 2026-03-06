@@ -2,6 +2,11 @@
     .section .text.FUN_0600C4F8
 
 
+    /* THEORY: speed_update — computes acceleration delta and adds to car speed.
+       Evidence: NOP'd JSR at 0x0600E736 in FUN_0600E71A (AI pipeline). All 3 AI
+       car speed fields (car[+0x0C]) froze at starting values across 60 frames.
+       Writes car[+0xFC] (acceleration delta) and car[+0x0C] (speed).
+       Note: only tested in AI pipeline (cars 1..N). Player pipeline untested. */
     .global FUN_0600C4F8
     .type FUN_0600C4F8, @function
 FUN_0600C4F8:
