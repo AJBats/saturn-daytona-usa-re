@@ -2,15 +2,12 @@
     .section .text.FUN_0600C8CC
 
 
-    /* THEORY: speed_delta_calc — computes per-frame speed change for cars.
-       Evidence: NOP'd BSR→FUN_0600C8CC at 0x0600c6ac in FUN_0600C5D6.
-       After 600 frames from rolling start, cars 1 and 3 nearly froze:
-         car[1]: 214915→214683 (-232), car[3]: 218352→217590 (-762).
-       Baseline (no NOP): car[1]: 214915→208316, car[3]: 218352→210670.
-       car[2] anomalously dropped to 167650 (possibly wall collision via
-       a separate code path). Two of three cars freezing is strong evidence
-       this function computes the main speed delta each frame.
-       Tested in FUN_0600C5D6 pipeline (cars 1-3 via FUN_0600E71A). */
+    /* THEORY: fall-through prologue for FUN_0600C8D0.
+       2 instructions: push r14, r14=r4 (car pointer). Falls through into
+       FUN_0600C8D0 which contains the actual logic. See FUN_0600C8D0 for
+       the heading_angle_update theory.
+       Evidence: NOP'd BSR→FUN_0600C8CC at 0x0600c6ac — skips both this
+       prologue and the FUN_0600C8D0 body it falls into. */
     .global FUN_0600C8CC
     .type FUN_0600C8CC, @function
 FUN_0600C8CC:

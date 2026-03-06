@@ -70,8 +70,9 @@ Status: `UNNAMED` / `NAMED_GUESS` / `THEORY` / `OBSERVED` / `VERIFIED`
 | 0600ca96 | FUN_0600C994.s | FUN_0600CA96 (sublabel) | THEORY | Ghidra decompilation | THEORY: surface_friction — car[+0x1EC] table lookup, ±4 step |
 | 0600cf58 | collision_dispatch.s | collision_dispatch | THEORY | Ghidra decompilation | THEORY: collision_dispatch — 4 callees, player-only |
 | 0600cc38 | FUN_0600CC38.s | FUN_0600CC38 | THEORY | Ghidra decompilation | THEORY: force_application — car[+0x01F8]/[+0x01FC] deltas (was heading_correct — reverted) |
-| 0600c8cc | FUN_0600C8CC.s | FUN_0600C8CC | THEORY | Ghidra decompilation | THEORY: steering_toward_track — car[+0x28] steered toward track, max ±0x600 |
-| 0600c928 | ai_speed_target.s | FUN_0600C928 (sublabel) | THEORY | Ghidra decompilation | THEORY: heading_correction — car[+0x48] decremented, copied to car[+0x50] |
+| 0600c8cc | FUN_0600C8CC.s | FUN_0600C8CC | THEORY | NOP test | THEORY: fall-through prologue for FUN_0600C8D0 (push r14, r14=r4) |
+| 0600c8d0 | FUN_0600C8D0.s | FUN_0600C8D0 | THEORY | NOP test + Ghidra | THEORY: heading_angle_update — atan2 to waypoint, rate-limited write to car[+0x28] |
+| 0600c928 | FUN_0600C8D0.s | FUN_0600C928 (sublabel) | THEORY | Ghidra decompilation | THEORY: heading_correction — car[+0x48] decremented, copied to car[+0x50] |
 | 0600c7d4 | heading_speed_damping.s | heading_speed_damping | THEORY | Ghidra decompilation | THEORY: heading_speed_damping — airborne damping, speed brackets |
 
 ### Math Library (shared)

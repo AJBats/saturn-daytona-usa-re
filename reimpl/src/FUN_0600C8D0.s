@@ -2,9 +2,19 @@
     .section .text.FUN_0600C8D0
 
 
-    .global ai_speed_target
-    .type ai_speed_target, @function
-ai_speed_target:
+    /* THEORY: heading_angle_update — computes target heading via atan2
+       from car position (car[+0x10], car[+0x18]) to waypoint, then
+       rate-limits the write to car[+0x28] (heading angle).
+       Delta clamped to ±0x0600 per call (DAT_0600c962 / DAT_0600c964).
+       Evidence: NOP'd BSR→FUN_0600C8CC at 0x0600c6ac in FUN_0600C5D6 —
+       skips this function (FUN_0600C8CC is a 2-instruction fall-through
+       prologue). After 600 frames, car[1] speed dropped from 208316
+       to 134498 (−35%). Speed loss is INDIRECT: car[+0x28] freezes,
+       which starves downstream deceleration logic (FUN_0600C7D4 reads
+       car[+0x28]). Confirmed via ghidra_reference/FUN_0600C8D0.c. */
+    .global FUN_0600C8D0
+    .type FUN_0600C8D0, @function
+FUN_0600C8D0:
     sts.l pr, @-r15
     add #-0x4, r15
     mov.l r5, @r15
