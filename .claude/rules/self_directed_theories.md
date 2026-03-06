@@ -47,7 +47,17 @@ as well."
 - "Multiplies speed each frame" vs "multiplies speed during collision" is the
   difference between a correct and incorrect theory.
 
+## Save States
+
+Humans create save states for experiments. Do not create new save states.
+If an experiment would benefit from a different starting state (e.g., mid-corner,
+post-collision, different track), ask the user to create one and document it in
+`build/save_states/README.md`.
+
+Use only save states documented in README.md. Pass Windows paths (not WSL paths)
+to load_state.
+
 ## Standard
 
-If the commit wouldn't survive these five questions from the human reviewer,
+If the commit wouldn't survive these four questions from the human reviewer,
 don't commit it. Revise the theory text until it would.
