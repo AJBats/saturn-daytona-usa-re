@@ -2,9 +2,17 @@
     .section .text.FUN_06030548
 
 
-    .global sound_music_ctrl
-    .type sound_music_ctrl, @function
-sound_music_ctrl:
+    /* THEORY: player_collision_response_chain — calls speed_damping (FUN_06030E72)
+       during player wall collision.
+       Evidence: breakpoint at FUN_06030E72 during RIGHT+A wall impact. Registers:
+       R14=0x06078900 (car[0], player), PR=0x06030DBE (inside this function).
+       Watchpoint on car[+0x0C] confirmed speed_damping writer (PC=0x06030ECE)
+       only appears during collision frames, not during normal driving.
+       2332 bytes — may do more than collision, but only collision observed.
+       Previously misnamed "sound_music_ctrl" — no relation to sound. */
+    .global FUN_06030548
+    .type FUN_06030548, @function
+FUN_06030548:
     sts.l pr, @-r15
     mov.l @r14, r14
     mov.w   DAT_0603056a, r1
