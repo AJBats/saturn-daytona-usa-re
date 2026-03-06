@@ -209,8 +209,8 @@ DAT_0600c702:
     .2byte 0xB000    /* bsr FUN_0600C928 (linker-resolved) */
     mov r14, r4
     mov r13, r5
-    .reloc ., R_SH_IND12W, heading_speed_damping - 4
-    .2byte 0xB000    /* bsr heading_speed_damping (linker-resolved) */
+    .reloc ., R_SH_IND12W, FUN_0600C7D4 - 4
+    .2byte 0xB000    /* bsr FUN_0600C7D4 (linker-resolved) */
     mov r14, r4
     mov r15, r6
     mov r14, r5
