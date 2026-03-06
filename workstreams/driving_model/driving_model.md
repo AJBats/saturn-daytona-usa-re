@@ -73,7 +73,8 @@ Status: `UNNAMED` / `NAMED_GUESS` / `THEORY` / `OBSERVED` / `VERIFIED`
 | 0600c8cc | FUN_0600C8CC.s | FUN_0600C8CC | THEORY | NOP test | THEORY: fall-through prologue for FUN_0600C8D0 (push r14, r14=r4) |
 | 0600c8d0 | FUN_0600C8D0.s | FUN_0600C8D0 | THEORY | NOP test + Ghidra | THEORY: heading_angle_update — atan2 to waypoint, rate-limited write to car[+0x28] |
 | 0600c928 | FUN_0600C8D0.s | FUN_0600C928 (sublabel) | THEORY | Ghidra decompilation | THEORY: heading_correction — car[+0x48] decremented, copied to car[+0x50] |
-| 0600c7d4 | heading_speed_damping.s | heading_speed_damping | THEORY | Ghidra decompilation | THEORY: heading_speed_damping — airborne damping, speed brackets |
+| 0600c7d4 | FUN_0600C7D4.s | FUN_0600C7D4 | THEORY | NOP test | THEORY: fall-through prologue for FUN_0600C7D8 (push r14, r14=r4) |
+| 0600c7d8 | FUN_0600C7D8.s | FUN_0600C7D8 | THEORY | NOP test + Ghidra | THEORY: heading_and_position_update — smooths heading, integrates position from speed |
 
 ### Math Library (shared)
 

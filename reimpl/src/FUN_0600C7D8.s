@@ -2,9 +2,22 @@
     .section .text.FUN_0600C7D8
 
 
-    .global ai_steering_update
-    .type ai_steering_update, @function
-ai_steering_update:
+    /* THEORY: heading_and_position_update — smooths car[+0x20] toward
+       target heading car[+0x28] (speed-dependent rate: >>3 above 0x118,
+       >>2 above 0xFA, >>1 above 0xDC). Then integrates position:
+       car[+0x10] += fpmul(car[+0x0c], sin(heading)),
+       car[+0x18] += fpmul(car[+0x0c], cos(heading)).
+       Also saves old position to car[+0x38]/[+0x3c], writes car[+0x30],
+       car[+0x1c], car[+0x24], car[+0x1B0], car[+0x18C]/[+0x190].
+       Reads car[+0x0c] (speed) but does NOT write it.
+       Evidence: NOP'd BSR→FUN_0600C7D4 at 0x0600c71e in FUN_0600C5D6.
+       Cars 1,3 held starting speed (car[1]: +723, car[3]: +371 vs
+       baseline -6599, -7682). Effect is INDIRECT: position stops
+       updating, so track-driven speed changes don't occur.
+       Confirmed read/write set via ghidra_reference/FUN_0600C7D8.c. */
+    .global FUN_0600C7D8
+    .type FUN_0600C7D8, @function
+FUN_0600C7D8:
     sts.l pr, @-r15
 
     mov.l @(32, r14), r3
