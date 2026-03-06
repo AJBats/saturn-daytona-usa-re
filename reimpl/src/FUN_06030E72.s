@@ -2,9 +2,15 @@
     .section .text.FUN_06030E72
 
 
-    .global sound_channel_mgr
-    .type sound_channel_mgr, @function
-sound_channel_mgr:
+    /* THEORY: speed_damping — multiplies car speed by a friction factor each frame.
+       Evidence: watchpoint on player car[+0x0C] during wall collision (hold RIGHT+A).
+       PC=0x06030ECE writes speed via dmuls.l + xtrct (fixed-point multiply).
+       Damping factor selected by car[+0x7C]: <6 → 0.75x, 6-7 → 0.87x, ≥8 → 0.98x.
+       During wall impact, aggressive 0.75x factor causes 260K→0 in ~15 frames.
+       Previously misnamed "sound_channel_mgr" — no relation to sound. */
+    .global FUN_06030E72
+    .type FUN_06030E72, @function
+FUN_06030E72:
     sts.l pr, @-r15
     jsr @r0
     nop
