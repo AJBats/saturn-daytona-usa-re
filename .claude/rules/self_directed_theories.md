@@ -1,15 +1,32 @@
-# Self-Directed Theory Work (temporary rule)
+# Self-Directed Work Rules
 
-This branch builds on prior art from three human-reviewed commits:
+## Scope
+
+**Theory tagging checklist** (items 1-6): Applies when writing THEORY, OBSERVED, or
+VERIFIED tags on functions in `reimpl/src/*.s`. These guard against overstating evidence.
+
+**Boundary capture work** (CDL, call trace, mem_profile): Produces empirical facts, not
+interpretations. CDL bits, call edges, and write logs are CPU event records. The primary
+risk is completeness (did we exercise all code paths?), not misinterpretation. Lightweight
+principles:
+- Capture multiple input scenarios (idle, steering, collision, different speeds)
+- Cross-validate empirical traces against Ghidra static analysis for missed paths
+- If an interpretation pitfall emerges, add a checklist item — same way #5 and #6 were born
+
+## Prior Art
+
+Checklist items originated from human-reviewed commits and subsequent corrections:
 
 - `27f44da0` — FUN_06030548 (player_collision_response_chain), revert sound_music_ctrl
 - `bd78326c` — FUN_06030E72 (speed_damping), revert sound_channel_mgr
 - `ee0c9555` — FUN_0600C4F8 (speed_update) + evidence hierarchy rule
+- `12404109` — FUN_0600C8CC theory correction → origin of items #5 and #6
 
-## Pre-Commit Checklist
+## Theory Tagging Checklist
 
-Before every commit on this branch, put the following questions to yourself.
-These are the kinds of scrutiny the human applied during the prior art reviews.
+Before every commit that adds or modifies a THEORY/OBSERVED/VERIFIED tag, put the
+following questions to yourself. These are the kinds of scrutiny the human applied
+during the prior art reviews.
 
 ### 1. Does the theory match the evidence scope exactly?
 
@@ -98,6 +115,10 @@ falling through to FUN_0600C7D8.
 
 ## Save States
 
+Save states exist for jumping straight into specific game states without menu
+navigation. See `build/save_states/README.md` for the full inventory and
+descriptions. Use them — they save minutes of boot-and-navigate per experiment.
+
 Humans create save states for experiments. Do not create new save states.
 If an experiment would benefit from a different starting state (e.g., mid-corner,
 post-collision, different track), ask the user to create one and document it in
@@ -108,5 +129,5 @@ to load_state.
 
 ## Standard
 
-If the commit wouldn't survive these five questions from the human reviewer,
+If the commit wouldn't survive these six questions from the human reviewer,
 don't commit it. Revise the theory text until it would.
