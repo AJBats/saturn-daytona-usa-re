@@ -18,7 +18,9 @@ for transplanting gameplay code to Daytona USA CCE.
 | File | Purpose |
 |------|---------|
 | `function_set.md` | 572 racing-only functions from merged CDL captures |
-| `writer_map_car0.md` | Car[0] writer map — which PCs write which struct offsets |
+| `writer_map_car0.md` | Car[0] writer map — which PCs write which struct offsets (60f scripted) |
+| `writer_map_comprehensive.md` | Car[0]+Car[1] writer map — 95 offsets, 62K writes (human-driven) |
+| `globals_writer_map.md` | Globals region (0x0607E940-0x0607EBE0) writer map — 21 globals |
 | `mem_profile_car0_60f.txt` | Raw mem_profile log (60 frames: idle/throttle/steer) |
 | `dma_trace_60f.txt` | DMA trace confirming zero DMA writes to car struct |
 
@@ -27,6 +29,8 @@ for transplanting gameplay code to Daytona USA CCE.
 |------|---------|
 | `merge_cdl.py` | Merges multiple CDL captures into combined function_set.md |
 | `cdl_boundary.py` | CDL report generator for racing vs menu classification |
+| `parse_mem_profile.py` | Parses mem_profile into car[N] writer maps (address-only) |
+| `parse_globals_profile.py` | Parses mem_profile of globals region into writer map |
 | `watch_car_fields.py` | Watchpoint tool for car struct field investigation |
 
 ## Reproduction Steps
@@ -101,3 +105,47 @@ If any appear, the writer map is incomplete (DMA writes bypass mem_profile).
 **Name stripping**: the writer map uses function start addresses from
 `reimpl/build/daytona.map`, NOT the LLM-generated symbol names. This prevents
 name bias from polluting analysis. Look up names separately if needed.
+
+### Comprehensive writer map (writer_map_comprehensive.md)
+
+Human-driven capture covering collision, braking, steering, grass, cones.
+Covers car[0] (95 offsets) and car[1] (32 offsets).
+
+```
+boot(cue_path="...Daytona USA (USA).cue", sound=True)
+load_state("build/save_states/daytona_rebuilt.*.mc0")
+show_window()
+
+# Start all 4 traces simultaneously
+mem_profile_start("0x06078900", "0x06078DCF")  # car[0] + car[1]
+input_trace_start()
+cdl_start()
+dma_trace_start()
+
+run_free()
+# Human drives: ram car ahead, wall collision, gas/brake/steer, grass, cones
+# pause() when done
+
+mem_profile_stop()
+input_trace_stop()
+cdl_stop()
+cdl_dump("build/cdl_racing_comprehensive.bin")
+dma_trace_stop()
+```
+
+Parse with: `python workstreams/driving_model/parse_mem_profile.py build/mem_profile_comprehensive.txt`
+
+### Globals writer map (globals_writer_map.md)
+
+Scripted 60-frame capture of globals region during idle racing (no input).
+
+```
+boot(cue_path="...Daytona USA (USA).cue", sound=False)
+load_state("build/save_states/daytona_rebuilt.*.mc0")
+
+mem_profile_start("0x0607E940", "0x0607EBE0")
+frame_advance(60)
+mem_profile_stop()
+```
+
+Parse with: `python workstreams/driving_model/parse_globals_profile.py build/mem_profile_globals_60f.txt`
