@@ -13,7 +13,7 @@ FUN_0602CA84	3	3	2	call_count(1x/frame), value_changes(accel_delta+C, speed+C). 
 sym_0602D8BC	4	5	2	call_count(1x/frame), writes_to(+0x10,+0x18C), value_changes(position_x-C). writes_heading(+0x20) [WP:indexed].
 FUN_0600C010	3	3	2	call_count(2x/frame), value_changes(speed+C, position_x-C). Racing orchestrator — no car struct writes.
 FUN_0602F5B6	3	5	2	call_count(1x/frame), value_changes(track_progress+C, speed+C). writes_to(+0xF4,+0xEC) [WP:indexed]. Surface writer pipeline call 11.
-FUN_0602CCEC	4	4	2	call_count(1x/frame), writes_to(+0x110 force term, 58 hits), value_changes(speed+C, position_x-C). Force term computation, gates on speed>0.
+FUN_0602CCEC	4	4	2	call_count(1x/frame), writes_to(+0x110 traction limit, 58 hits), value_changes(speed+C, position_x-C). TRACTION MODEL (NOP confirmed). Speed convergence is side effect of traction limiting.
 FUN_0602EFF0	3	4	2	call_count(1x/frame), value_changes(speed+C, position_x-C). writes_to(+0xB0) [WP:indexed]. Steering input pipeline call 2.
 brake_scenario	0	0	0	Scenario observation (no function). Not testable [ORACLE:no brake scenario]. Brake data: +0x8C/+0x90 56→216, decel 27→0 mph in ~100f.
 sym_0602D814	3	3	2	call_count(1x/frame), writes_to(+0x0C speed, 59 hits), value_changes(speed+C). NOP-confirmed speed integrator pipeline call 18.
