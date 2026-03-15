@@ -74,7 +74,7 @@ Only fields with emulator evidence. Offset labels come from observations, not Gh
 | sym_0602D8BC Tier 2 (4/5, heading write missed) | Oracle test | results.tsv |
 | FUN_0602F5B6 Tier 2 (3/5, surface writes missed) | Oracle test | results.tsv |
 | FUN_0602CCEC Tier 2 (3/3, gates on speed>0) | Oracle test | results.tsv |
-| FUN_0602CA84 Tier 1 (2/2, all writes_to failed) | Oracle test | results.tsv |
+| FUN_0602CA84 Tier 2 (3/3, writes_to infeasible) | Oracle test | results.tsv |
 | FUN_0602EFF0 Tier 2 (3/3, steering processor) | Oracle test | results.tsv |
 
 ## Empirical Observations (2026-03-05)
