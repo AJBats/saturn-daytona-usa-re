@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Automated 3-stage boot test with frame-precise input and screenshot comparison.
 
-Launches WSL Mednafen in automation mode, replays exact frame inputs from
-a golden trace, takes screenshots at each stage, and compares against
+Launches Mednafen (Windows .exe) in automation mode, replays exact frame inputs
+from a golden trace, takes screenshots at each stage, and compares against
 golden baselines using compare_screenshot.py.
 
 Stages:
@@ -53,7 +53,7 @@ STAGES = {
 
 
 def wsl_path(win_path):
-    """Convert Windows path to WSL path."""
+    """Convert Windows path to WSL path (kept for legacy callers)."""
     drive = win_path[0].lower()
     rest = win_path[2:].replace("\\", "/")
     return f"/mnt/{drive}{rest}"
@@ -68,9 +68,9 @@ FATAL_PATTERNS = [
 
 
 class MednafenBot:
-    """Drives WSL Mednafen via automation IPC."""
+    """Drives Mednafen (Windows .exe) via automation IPC."""
 
-    def __init__(self, ipc_dir, cue_wsl, verbose=False):
+    def __init__(self, ipc_dir, cue_path, verbose=False):
         self.ipc_dir = ipc_dir
         self.action_file = os.path.join(ipc_dir, "mednafen_action.txt")
         self.ack_file = os.path.join(ipc_dir, "mednafen_ack.txt")
@@ -78,33 +78,40 @@ class MednafenBot:
         self.last_ack = ""
         self.proc = None
         self.stderr_file = None
-        self.cue_wsl = cue_wsl
+        self.cue_path = cue_path
         self.verbose = verbose
 
     def start(self, timeout=30):
         """Launch Mednafen and wait for ready."""
-        mednafen_wsl = wsl_path(os.path.join(PROJECT, "mednafen", "src", "mednafen"))
-        ipc_wsl = wsl_path(self.ipc_dir)
+        med_bin = os.path.join(PROJECT, "mednafen", "src", "mednafen.exe")
+
+        # Project-local MEDNAFEN_HOME (same pattern as MCP server)
+        med_home = os.path.join(PROJECT, "mednafen", "home")
+        os.makedirs(med_home, exist_ok=True)
 
         # Clean IPC files
         for f in [self.action_file, self.ack_file]:
             if os.path.exists(f):
                 os.remove(f)
 
-        launch_cmd = (
-            f'export DISPLAY=:0; '
-            f'rm -f "$HOME/.mednafen/mednafen.lck"; '
-            f'"{mednafen_wsl}" '
-            f'--sound 0 --automation "{ipc_wsl}" "{self.cue_wsl}"'
-        )
+        # Remove stale lockfile
+        lockfile = os.path.join(med_home, "mednafen.lck")
+        if os.path.exists(lockfile):
+            os.remove(lockfile)
+
+        env = os.environ.copy()
+        env["MEDNAFEN_HOME"] = med_home
 
         self.stderr_file = tempfile.NamedTemporaryFile(
             mode="w", suffix="_mednafen_stderr.txt", delete=False,
         )
         self.proc = subprocess.Popen(
-            ["wsl", "-d", "Ubuntu", "-e", "bash", "-c", launch_cmd],
+            [med_bin, "--sound", "0",
+             "--automation", self.ipc_dir, self.cue_path],
+            stdin=subprocess.DEVNULL,
             stdout=subprocess.DEVNULL,
             stderr=self.stderr_file,
+            env=env,
         )
 
         # Wait for ready
@@ -202,7 +209,7 @@ class MednafenBot:
                 pass
 
 
-def run_boot_test(cue_wsl, stages_to_run, screenshot_dir, compare=True, verbose=False):
+def run_boot_test(cue_path, stages_to_run, screenshot_dir, compare=True, verbose=False):
     """Run the boot test, return dict of {stage: (pass, detail)}."""
     ipc_dir = os.path.join(PROJECT, "build", "boot_test_ipc")
     os.makedirs(ipc_dir, exist_ok=True)
@@ -214,9 +221,9 @@ def run_boot_test(cue_wsl, stages_to_run, screenshot_dir, compare=True, verbose=
         if os.path.exists(stale):
             os.remove(stale)
 
-    bot = MednafenBot(ipc_dir, cue_wsl, verbose=verbose)
+    bot = MednafenBot(ipc_dir, cue_path, verbose=verbose)
 
-    print("Launching WSL Mednafen...")
+    print("Launching Mednafen...")
     if not bot.start():
         print("FAIL: Mednafen did not start in 30s")
         return {"_error": "launch_failed"}
@@ -272,11 +279,9 @@ def run_boot_test(cue_wsl, stages_to_run, screenshot_dir, compare=True, verbose=
             if stage_name not in stages_to_run:
                 continue
 
-            screenshot_path_wsl = wsl_path(
-                os.path.join(screenshot_dir, f"test_{stage_name}.png")
-            )
+            screenshot_path = os.path.join(screenshot_dir, f"test_{stage_name}.png")
             ack = bot.send_and_wait(
-                f"screenshot {screenshot_path_wsl}",
+                f"screenshot {screenshot_path}",
                 "ok screenshot",
             )
             if not ack:
@@ -367,17 +372,15 @@ def main():
 
     # Resolve disc path
     if args.disc == "vanilla":
-        cue_win = os.path.join(
+        cue_path = os.path.join(
             PROJECT, "external_resources", "Daytona USA (USA)", "Daytona USA (USA).cue"
         )
     elif args.disc == "rebuilt":
-        cue_win = os.path.join(
+        cue_path = os.path.join(
             PROJECT, "build", "disc", "rebuilt_disc", "daytona_rebuilt.cue"
         )
     else:
-        cue_win = args.disc
-
-    cue_wsl = wsl_path(cue_win)
+        cue_path = args.disc
 
     # Which stages
     if args.stage == "all":
@@ -390,11 +393,11 @@ def main():
 
     print(f"Boot test: {args.disc}")
     print(f"Stages: {', '.join(stages)}")
-    print(f"CUE: {cue_wsl}")
+    print(f"CUE: {cue_path}")
     print()
 
     results = run_boot_test(
-        cue_wsl, stages, screenshot_dir,
+        cue_path, stages, screenshot_dir,
         compare=not args.no_compare, verbose=args.verbose,
     )
 
