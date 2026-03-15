@@ -273,17 +273,17 @@ Sources: W=writer_map_comprehensive, C=consumer_map, S=static_hypotheses, D=init
 - **Pipeline**: FUN_0602CA84 zeros this field when drift (+0x250) is active.
 - **Hypothesis**: Acceleration-phase internal state. Inactive during braking.
 
-#### +0x48 — drag_accumulator?
-- **Init**: Not in dump.
-- **Writers**: FUN_0602F3F0 (pc=0x0602F452, 493x, 470 unique — nearly unique each frame).
-- **Consumers**: Not in consumer map.
-- **Hypothesis**: Speed-dependent drag term. Pipeline stage 4 (sym_0602F3EC) subtracts a speed-scaled value from this field every frame. AI path static: FUN_0600c928 also subtracts speed-scaled damping from car[+0x48] (airborne path). Sample values in 0xFFBAxxxx range = small negative.
+#### +0x48 — drag_accumulator (CONFIRMED computation)
+- **Init**: -2,733,006 (from save state).
+- **Writers**: sym_0602F3EC (pc=0x0602F452, 493x, 470 unique).
+- **Pipeline**: `car[+0x48] -= clamp(speed_index × 64, 0, 2730)`. Decreases each frame proportional to speed. At speed=0, drag_amount=0, no change. Feeds downstream force calculations.
+- **CONFIRMED**: Monotonic decrease with throttle (-2733006 → -2951628 over 300f). Static at idle.
 
-#### +0x50 — drag_copy?
-- **Init**: Not in dump.
-- **Writers**: FUN_0602EEC6 (pc=0x0602EEDE, 493x, 470 unique).
-- **Consumers**: Not in consumer map.
-- **Hypothesis**: Copy of +0x48 drag term. Pipeline stage 4 also writes this field (from +0xC0 check). AI static: FUN_0600c928 copies car[+0x50] = car[+0x48]. Same unique count as +0x48 confirms tight correlation.
+#### +0x50 — drag_accumulator_b (CONFIRMED computation)
+- **Init**: -2,814,926 (from save state).
+- **Writers**: sym_0602F3EC (pc=0x0602EEDE, 493x, 470 unique).
+- **Pipeline**: Same as +0x48 UNLESS car[+0xC0] != 0, in which case a fixed alternate constant is subtracted instead of speed-proportional drag. Diverges from +0x48 during active driving.
+- **CONFIRMED**: -2814926 → -3798290 over 300f throttle (diverges from +0x48 because +0xC0 becomes nonzero with force applied).
 
 #### +0x58 — steering_input?
 - **Init**: Not in dump.
