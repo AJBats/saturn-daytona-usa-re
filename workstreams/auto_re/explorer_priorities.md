@@ -138,25 +138,17 @@ signal path and deepening field understanding.
 
 ## Medium Priority (deepens existing knowledge)
 
-### 5. Throttle-to-speed pipeline — trace the gap
+### 5. Throttle-to-speed pipeline — PARTIALLY RESOLVED
 
-- **Why**: Static analysis mapped the speed pipeline end-to-end EXCEPT the
-  link between C button (g_pad_state) and car[+0x100]. The pipeline is:
-  `C button → [GAP] → car[+0x100] → FUN_0602EF4C → car[+0xFC] → sym_0602D814 → car[+0x0C]`.
-  car[+0x100] is written by FUN_0602735C (near sin/cos functions, 72 unique
-  values). The function that reads g_pad_state and eventually produces
-  car[+0x100] is the missing link. FUN_0602EF4C writes +0xFC (accel delta, confirmed) but ALSO writes
-  +0x00 (493 writes, value 0x800000) and +0x5C (493 writes, 301 unique values).
-  +0x00 looks like a status/flags word (only 6 unique values total: 0x0, 0x80,
-  0x100, 0x800000, 0x800080, 0x800100). +0x5C has high cardinality — maybe
-  a computed derivative. Understanding what FUN_0602EF4C reads to compute
-  +0xFC would reveal the throttle→accel pipeline.
-- **What to do**: Load `usa_tt_straight.mc0`. Set breakpoint at FUN_0602EF4C
-  entry (use map file for free-build address). Record r0-r7, r14 (car pointer)
-  at entry and exit for 10 frames with C held, then 10 frames idle. Focus on
-  which registers change between throttle vs idle — those carry the input signal.
-- **What this unblocks**: Reveals how controller input (C button) becomes the
-  +70/update accel delta shift. Maps the input→force stage of the pipeline.
+- **Status**: car[+0x100] is sin(roll), NOT throttle (corrected in cycle 9).
+  The throttle signal enters through car[+0x108/+0x10C] force accumulators,
+  which self-accumulate within FUN_0602CA84. The brake scenario (cycle 16)
+  showed +0x108/+0x10C approaching 65536 during deceleration.
+- **Remaining gap**: Which field WITHIN FUN_0602CA84's reads carries the C
+  button signal? The function reads +0x60, +0x64, +0xEC, +0xF0, +0xF4, +0xF8,
+  +0x11C, +0x114, +0x108, +0x10C, +0xD8, +0x7C, +0x250. The throttle enters
+  through one of these being different between C-held and idle.
+- **Merged into Phase 2 Priority #1** (watchpoint on +0x108).
 
 ### 6. Surface/terrain fields — per-frame sample of +0xEC, +0xF0, +0xF4, +0xF8
 
@@ -262,7 +254,63 @@ one write instruction and observes the effect. Requires `MODS=1` build.
   dual position representations is plausible but unverified — needs Explorer
   investigation to identify the internal physics position fields.
 
-### NOP Test: car[+0xFC] accel delta write — BLOCKED (bad address)
+### NOP Test: FUN_0602EFF0 (steering processor, pipeline call 2)
+
+- **What to NOP**: `jsr @r13` at 0x0602EEC4 (opcode `4D 0B` → `00 09`).
+  Poke command: `poke 0602EEC4 00 09`. Skips the call to FUN_0602EFF0
+  (steering input processor) in the player physics dispatcher.
+- **Writer function**: FUN_0602EFF0 (reads +0xAC steering input, writes +0xB0/+0xB4/+0x78/+0x94)
+- **Expected effect**: D-pad LEFT/RIGHT has no effect on car heading. Car
+  goes straight regardless of steering input. Throttle still works normally.
+- **Best scenario**: Load `usa_tt_straight.mc0`, hold C + LEFT. Car should
+  accelerate straight ahead — no turning.
+- **Confidence**: HIGH — Tier 2, steering pipeline fully traced.
+
+### NOP Test: FUN_0602F5B6 (surface writer, pipeline call 10)
+
+- **What to NOP**: `jsr @r13` at 0x0602EF30 (opcode `4D 0B` → `00 09`).
+  Poke command: `poke 0602EF30 00 09`. Skips surface property computation.
+- **Writer function**: FUN_0602F5B6 (writes +0xEC, +0xF0, +0xF4, +0x11C)
+- **Expected effect**: Car doesn't recognize surface changes. Driving onto
+  grass should NOT produce the 51 mph speed cap. Car accelerates as if still
+  on road. Surface-related force terms stay at initial values.
+- **Best scenario**: Load `usa_tt_offtrack_stop.mc0`, hold C. Car should
+  accelerate past 51 mph without the grass speed cap.
+- **Confidence**: HIGH — Tier 2, surface fields empirically characterized.
+
+### NOP Test: FUN_0602CA84 (force accumulator, pipeline call 14)
+
+- **What to NOP**: `jsr @r13` at 0x0602EF48 (opcode `4D 0B` → `00 09`).
+  Poke command: `poke 0602EF48 00 09`. Skips the entire force accumulator.
+- **Writer function**: FUN_0602CA84 (writes +0xFC accel delta, +0x108, +0x10C, +0x148, +0x40, +0xC0)
+- **Expected effect**: Accel delta stays at 0. Speed should not change
+  regardless of throttle (C) or brake (B). Car coasts at starting speed.
+  This is a broader test than the individual +0xFC write NOP — it disables
+  all force computation, not just the final store.
+- **Best scenario**: Load `usa_tt_straight.mc0`, hold C from dead stop.
+  Speed should remain 0.
+- **Confidence**: HIGH — Tier 2, NOP-confirmed speed writer reads +0xFC
+  which this function produces.
+
+### NOP Test: FUN_0602CCEC (speed convergence, called from FUN_0602CA84)
+
+- **What to NOP**: The BSR to FUN_0602CCEC inside FUN_0602CA84. The exact
+  poke address needs verification in live memory — the BSR is at approximately
+  FUN_0602CA84 + 0x1C4 (source line 280-281) but BSR encoding is PC-relative
+  and must be verified. **Ask human to disassemble at 0x0602CC4C area to find
+  the BSR opcode.**
+- **Writer function**: FUN_0602CCEC (writes +0x264, +0x110, +0x10C, +0xC0)
+- **Expected effect**: Speed accelerates WITHOUT converging to gear max.
+  The feedback loop `car[+0xE0] → car[+0x110] → car[+0xFC]` is broken —
+  +0x110 never updates, so force deficit is never applied. Car should exceed
+  normal speed limits.
+- **Best scenario**: Load `usa_tt_straight.mc0`, hold C. Speed should increase
+  past the normal ~30 mph cap for gear 1 and keep climbing.
+- **Confidence**: HIGH (proposed) — feedback loop is from static analysis +
+  per-frame correlation but no NOP confirmation yet. This test validates the
+  cycle 12 feedback loop discovery.
+
+### NOP Test: car[+0xFC] accel delta write — SUPERSEDED
 
 - **What to NOP**: Replace the write instruction at PC 0x0602EF4E with
   `nop` (0x0009).
@@ -272,14 +320,8 @@ one write instruction and observes the effect. Requires `MODS=1` build.
 - **Best scenario**: Load `usa_tt_straight.mc0`, hold C from dead stop.
 - **Confidence**: HIGH — watchpoint-confirmed writer, C button correlation
   established (+70/update toward positive).
-- **BLOCKED (2026-03-15)**: PC 0x0602EF4E is the dispatcher return target,
-  not the write instruction. The actual write is in FUN_0602CA84's RTS delay
-  slot (source line 327: `mov.l r3, @(r0, r4)` where r4=0xFC). This is a
-  profiler PC-offset artifact — the profiler records the post-RTS PC.
-- **UNBLOCKED (Mapper fix)**: Instead of NOPping the individual write, NOP the
-  `jsr @r13` call to FUN_0602CA84 at **0x0602EF8E** (opcode `4D 0B` → `00 09`).
-  Poke: `poke 0602EF8E 00 09`. This skips the entire force accumulator —
-  broader effect than just +0xFC, but clean test of the accel delta path.
-  **Expected effect**: accel delta stays at initial value (0). Speed should
-  not change regardless of throttle, brake, or surface. Car coasts at whatever
-  speed was set at the moment of patching.
+- **SUPERSEDED (2026-03-15)**: The individual +0xFC write is in FUN_0602CA84's
+  RTS delay slot — NOPping a single instruction in the middle of a complex
+  function risks corruption. The FUN_0602CA84 JSR-level NOP test (above,
+  poke 0602EF48) is the clean replacement. It disables the entire force
+  accumulator, which includes the +0xFC write.

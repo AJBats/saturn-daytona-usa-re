@@ -348,13 +348,16 @@ it's sin(roll_angle). The C button signal enters through car[+0x108] and/or
 car[+0x10C], which are intermediate force accumulators read AND written by
 FUN_0602CA84. These fields accumulate frame-over-frame.
 
-**Speed convergence loop (2026-03-15)**: FUN_0602CCEC (called from FUN_0602CA84)
-creates a feedback loop: `car[+0xE0] → car[+0x110] → car[+0xFC] → car[+0x0C]
-→ car[+0xE0]`. The force term +0x110 is derived from `0x2134 - car[+0xE0]`
-(force deficit from gear max speed). +0x110 decays linearly by 1474/frame
-when positive. This produces speed convergence: as speed → gear_max, force
-deficit → 0, accel delta → 0. The gear lookup table at sym_0602E938 selects
-different force constants per gear (+0x7C) and track section (+0xDC).
+**Speed convergence loop (PROPOSED — static + correlation, needs NOP confirmation)**:
+FUN_0602CCEC (called from FUN_0602CA84) creates a feedback loop:
+`car[+0xE0] → car[+0x110] → car[+0xFC] → car[+0x0C] → car[+0xE0]`.
+The force term +0x110 is derived from `0x2134 - car[+0xE0]` (force deficit
+from gear max speed). +0x110 decays linearly by 1474/frame when positive.
+This produces speed convergence: as speed → gear_max, force deficit → 0,
+accel delta → 0. The gear lookup table at sym_0602E938 selects different force
+constants per gear (+0x7C) and track section (+0xDC).
+Evidence: static disassembly of both functions + per-frame CSV correlation.
+NOP test of FUN_0602CCEC would confirm (expect: speed exceeds gear max).
 
 **Brake behavior (2026-03-15)**: Braking from 27 mph → 0 in ~100 frames.
 Accel delta peaks at -303 (frame 20), decreases as speed drops. Force
