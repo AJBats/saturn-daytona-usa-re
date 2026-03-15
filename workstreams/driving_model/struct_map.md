@@ -340,10 +340,18 @@ car[+0x18] (CONFIRMED: world Z position)
 **Throttle gap update (2026-03-15)**: car[+0x100] is NOT throttle input —
 it's sin(roll_angle). The C button signal enters through car[+0x108] and/or
 car[+0x10C], which are intermediate force accumulators read AND written by
-FUN_0602CA84. These fields accumulate frame-over-frame, and an upstream
-pipeline stage writes the throttle-dependent component. **Explorer next step**:
-watchpoint on car[+0x108] to find which prior pipeline call carries the
-throttle signal.
+FUN_0602CA84. These fields accumulate frame-over-frame.
+
+**Speed convergence loop (2026-03-15)**: FUN_0602CCEC (called from FUN_0602CA84)
+creates a feedback loop: `car[+0xE0] → car[+0x110] → car[+0xFC] → car[+0x0C]
+→ car[+0xE0]`. The force term +0x110 is derived from `0x2134 - car[+0xE0]`
+(force deficit from gear max speed). +0x110 decays linearly by 1474/frame
+when positive. This produces speed convergence: as speed → gear_max, force
+deficit → 0, accel delta → 0. The gear lookup table at sym_0602E938 selects
+different force constants per gear (+0x7C) and track section (+0xDC).
+
+**Explorer next step**: watchpoint on car[+0x108] comparing C-held vs idle
+to find which pipeline stage writes the throttle-dependent value.
 
 ### Surface and Terrain
 
@@ -503,11 +511,11 @@ throttle signal.
 - **Writers**: FUN_0602F022 (pc=0x0602F052/F054, 493x each, 19 unique each — same values).
 - **Hypothesis**: Twin fields written by adjacent instructions. 19 unique values = stepped/quantized.
 
-#### +0xC0 — computed_value?
+#### +0xC0 — force_output?
 - **Init**: Not in dump.
 - **Writers**: FUN_0602CB7E (pc=0x0602CC46, 493x, 119 unique).
-- **Consumers**: Not in consumer map.
-- **Hypothesis**: Unknown. Moderate cardinality.
+- **Pipeline**: Written by FUN_0602CCEC in RTS delay slot (line 156) — the final output of the force term sub-function. 91 unique values when throttle active, 0 when idle.
+- **Hypothesis**: Force computation output from FUN_0602CCEC. Fed back into FUN_0602CA84's next iteration.
 
 #### +0xC4 — cumulative_track_force?
 - **Init**: Not in dump.
