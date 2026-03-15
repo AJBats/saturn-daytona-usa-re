@@ -70,3 +70,27 @@ regardless of LEFT being held. This is because:
 | 0x8000 | RIGHT (steer) | sub-call 0x0603006A | +0xAC (steering value, presumed positive) |
 
 **All 6 racing inputs now traced to their car struct writers.**
+
+## Steering Computation Detail (from source lines 393-407)
+
+```
+r1 = *(sym_06063D9C)       // g_pad_state+4 — ANALOG AXIS (16-bit)
+r7 = *(sym_06078663)       // flag byte (inversion control)
+if r7 != 0: r1 = ~r1       // optional bit inversion
+r1 = r1 & 0xFF             // mask to byte (0-255)
+r1 = r1 - 128              // center at 0 (range -128 to +127)
+car[+0xAC] = r1            // write steering value
+```
+
+**car[+0xAC] is an ANALOG steering input**, not a digital button state.
+The value at g_pad_state+4 is the analog steering axis (0-255). The D-pad
+LEFT/RIGHT buttons are mapped to analog extremes by the emulator/hardware.
+Subtracting 128 centers the range at 0 (neutral), with LEFT negative and
+RIGHT positive.
+
+The flag at sym_06078663 appears to be a steering inversion flag (for
+different controller configurations or reverse mode).
+
+This explains why +0xAC showed value -16 (not -128) when LEFT was pressed
+— the emulator's `input_press LEFT` may produce a partial analog value,
+or the value is further processed before the write.
