@@ -73,6 +73,31 @@ sessions:
 The struct map does not have an entry for +0xAC. **Identifying the writer of
 car[+0xAC] would reveal the controller→steering input chain.**
 
+## Per-Frame Field Analysis
+
+Captures: `tt_throttle_300f.csv`, `tt_idle_300f.csv`, `tt_steer_left_throttle_300f.csv`.
+
+| Offset | Idle (300f) | Throttle (300f) | Steer LEFT (300f) | Category |
+|--------|-------------|-----------------|-------------------|----------|
+| +0xAC | 23 unique, f100=-106 | 23 unique, f100=-106 | 23 unique, f100=-106 | active-all-same |
+| +0xB0 | 10 unique, f100=-127 | 10 unique, f100=-127 | 10 unique, f100=-127 | active-all-same |
+| +0xB4 | 10 unique, f100=-127 | 10 unique, f100=-127 | 10 unique, f100=-127 | active-all-same |
+| +0x94 | constant 0 | constant 0 | constant 0 | static |
+| +0xD0 | 22 unique, f100=-32512 | 22 unique, f100=-32512 | 22 unique, f100=-32512 | active-all-same |
+
+**All three scenarios produce IDENTICAL values.** The steering input (+0xAC)
+and rotation outputs (+0xB0, +0xB4, +0xD0) change even with no input held,
+but the changes are the same regardless of whether LEFT is pressed.
+
+This confirms the cycle 2 finding: from a 0 mph standstill, LEFT steering
+has NO observable effect on any car struct field for 300 frames. The changes
+in +0xAC (23 unique values, starting near -106) represent the car settling
+onto the track heading, not player input. At 0 mph, the steering pipeline
+processes track alignment adjustments, not d-pad input.
+
+To observe actual steering response, a capture from a rolling start (30+ mph)
+with LEFT held would be needed.
+
 ## Key Finding: This Function Does NOT Process Throttle
 
 FUN_0602EFF0 (pipeline call 2, "input/state dispatch") processes **only steering**

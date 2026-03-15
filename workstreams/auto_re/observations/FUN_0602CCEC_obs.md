@@ -88,6 +88,25 @@ speed convergence behavior: as the car approaches its gear-limited max
 speed, +0xE0 approaches the 0x2134 threshold, the force deficit shrinks,
 and +0x110 decreases, reducing the accel delta toward zero.
 
+## Per-Frame Field Analysis
+
+Captures: `tt_throttle_300f.csv` (C held) and `tt_idle_300f.csv` (no input).
+
+| Offset | Idle behavior | Throttle behavior | Category | Notes |
+|--------|---------------|-------------------|----------|-------|
+| +0xE0 | constant 0 | 0 → 3151 → 3308 (97 uniq) | input-responsive | Gear-scaled speed from sym_0602D814 |
+| +0x110 | constant -1372 | -1372 → 20800 → 22650 (91 uniq) | input-responsive | Force term, derived from +0xE0 |
+| +0x10C | constant 65536 | 65536 → 40194 → 11141 (34 uniq) | input-responsive | Clamped force Z, decreases with speed |
+| +0xC0 | constant 0 | 0 → 6118 → 6626 (91 uniq) | input-responsive | Written in RTS delay slot |
+| +0x264 | constant -5323 | -5323 → 57747 → 15472 (89 uniq) | input-responsive | Computed via FUN_0602755C |
+| +0x08 | constant 0 | 0 → 43 → 47 (35 uniq) | input-responsive | Speed index (read, gates computation) |
+| +0x11C | constant -48064153 | -48064153 → 130998939 (38 uniq) | input-responsive | Surface energy (read) |
+| +0x144 | 34 unique values | 101 unique values | active-both | World coordinate, changes even idle |
+
+All fields this function writes (+0x110, +0x10C, +0xC0, +0x264) are constant
+when idle and change with throttle. The gate on +0x08 (speed index > 0) explains
+why: at 0 speed, the function skips its main computation entirely.
+
 ## Other Observations
 
 - The gate on car[+0x08] (speed index > 0) means this entire computation
