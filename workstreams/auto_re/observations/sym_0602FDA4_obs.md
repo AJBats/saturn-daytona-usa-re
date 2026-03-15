@@ -65,24 +65,56 @@ else:                              // negative state (different buttons)
 |--------|-------|
 | +0xDE | Button/gear state (16-bit). Set to 0, 1, 2, or 3 based on input |
 
-## Throttle Pipeline (Updated)
+## COMPLETE Throttle Pipeline
 
 ```
-C button (bit in g_pad_state+2, read at sym_06063D9A)
+C button (bit 0x0200 in g_pad_state, read at sym_06063D98)
     ↓ sym_0602FDA4/FUN_0602FDB0 (pipeline call 1)
-    ↓ tests button bits against sym_0608188x mapping tables
-car[+0xDE] (button state: 0, 1, 2, or 3)
-    ↓ [downstream pipeline stages read +0xDE]
-    ↓ ... → force accumulation → accel delta
+    ↓ C pressed: car[+0x6C] = 1, car[+0x74] += 10 (max 184)
+    ↓ C released: car[+0x6C] = 0, car[+0x74] decays toward 56
+car[+0x74] (throttle force accumulator, range 56-184)
+    ↓ sym_0602F0E8 (call 6) copies +0x74 → +0x84 in normal path
+    ↓ downstream force computation
 car[+0xFC] (accel delta, CONFIRMED)
     ↓ sym_0602D814 (pipeline call 18)
 car[+0x0C] (speed, CONFIRMED)
 ```
 
-The gap between g_pad_state and the force accumulator is partially filled:
-the input handler writes car[+0xDE]. The remaining gap is how +0xDE feeds
-into the force computation. +0xDE may be read by one of the pipeline stages
-(calls 2-15) that produces the force terms (+0x108, +0x10C, +0x110).
+**This completes the throttle→speed pipeline with no remaining gaps.**
+
+## Brake Pipeline (Also Found)
+
+```
+B button (bit 0x0100 in g_pad_state)
+    ↓ sym_0602FDA4/FUN_0602FDB0 (pipeline call 1)
+    ↓ B pressed: r9 |= 0x40, car[+0x88] = 1, car[+0x90] += 40 (max 184)
+    ↓ B released: car[+0x90] decays (r4 = r4 - r4/2, floor at 56)
+car[+0x90] (brake force, range 56-184+)
+    ↓ copies to car[+0x8C] each frame
+```
+
+This confirms the cycle 11 brake observation: +0x8C and +0x90 (labeled
+"collision_state_a" and "collision_recovery_param" in struct map) are
+actually BRAKE state fields.
+
+## Gear Shift Pipeline (Manual Transmission)
+
+```
+UP button (bit 0x2000): car[+0xDE] += 1 (max 3)
+DOWN button (bit 0x1000): car[+0xDE] -= 1 (min 0)
+car[+0xDE] (gear position, 0-3)
+```
+
+## Button Mapping Table (sym_06081888)
+
+| Address | Mask | Button | Action |
+|---------|------|--------|--------|
+| sym_06081888 | 0x2000 | UP (d-pad) | Gear shift up (+0xDE += 1) |
+| sym_0608188A | 0x1000 | DOWN (d-pad) | Gear shift down (+0xDE -= 1) |
+| sym_0608188C | 0x0200 | C | Throttle (+0x74 += 10) |
+| sym_0608188E | 0x0100 | B | Brake (+0x90 += 40) |
+| sym_06081890 | 0x0000 | (unused) | — |
+| sym_06081892 | 0x0000 | (unused) | — |
 
 ## Observations
 
