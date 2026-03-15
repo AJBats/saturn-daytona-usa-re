@@ -1,0 +1,34 @@
+function: sym_0602F17C
+address: 0x0602F17C
+address_end: 0x0602F224
+source_file: reimpl/src/FUN_0602EFF0.s
+
+# Gear/section state machine, pipeline call 7a (conditional on +0x9C == 0).
+# Dual-threshold hysteresis: force > upper → section++, force < lower → section--.
+# All writes to 16-bit (+0xDC) or indexed addressing — no viable writes_to.
+
+claims:
+  - id: call_count_throttle
+    type: call_count_per_frame
+    description: "sym_0602F17C (gear state machine) fires ~1x per frame (pipeline call 7a)"
+    function: sym_0602F17C
+    address: 0x0602F17C
+    scenario: straight_throttle
+    expected_count: 2
+    tolerance: 1
+
+  - id: speed_increases_throttle
+    type: value_changes_with_input
+    description: "Speed (car[+0x0C]) increases when C is held — pipeline validation"
+    address: 0x0607890C
+    input: C
+    direction: increases
+    frames: 60
+
+  - id: position_decreases_throttle
+    type: value_changes_with_input
+    description: "Position X (car[+0x10]) decreases when C is held — pipeline validation"
+    address: 0x06078910
+    input: C
+    direction: decreases
+    frames: 60
