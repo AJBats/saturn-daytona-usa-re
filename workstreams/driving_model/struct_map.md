@@ -506,10 +506,23 @@ to find which pipeline stage writes the throttle-dependent value.
 - **Pipeline**: Stage 6 (sym_0602F0E8) sets +0x90 = 0x38 during collision recovery path.
 - **Hypothesis**: Collision recovery parameter, paired with +0x74. Both set to 0x38 on collision detection.
 
-#### +0xB0, +0xB4 — paired_counters?
+#### +0xAC — raw_steering_input? (NOT in writer maps)
 - **Init**: Not in dump.
-- **Writers**: FUN_0602F022 (pc=0x0602F052/F054, 493x each, 19 unique each — same values).
-- **Hypothesis**: Twin fields written by adjacent instructions. 19 unique values = stepped/quantized.
+- **Writers**: NOT in any writer map (81 or 95 offsets). Written before the physics pipeline by the input polling system, or by DMA/secondary SH-2.
+- **Pipeline**: Read by FUN_0602EFF0 (call 2). Deadzone ±5, clamp max 80, scale ×255, then 3× atan2 → rotation angles.
+- **Hypothesis**: Raw D-pad steering value. The controller→steering chain starts here. **Identifying the writer of +0xAC reveals the input polling path.**
+
+#### +0xB0 — steering_rotation?
+- **Init**: Not in dump.
+- **Writers**: FUN_0602F022 (pc=0x0602F052, 493x, 19 unique).
+- **Pipeline**: Written by FUN_0602EFF0 (call 2) after atan2 of processed steering input. Previous value copied to +0xB4 before overwrite. Read by sym_0602F0E8 (call 6).
+- **Hypothesis**: Computed steering rotation angle from deadzone/clamped input.
+
+#### +0xB4 — prev_steering_rotation?
+- **Init**: Not in dump.
+- **Writers**: FUN_0602F022 (pc=0x0602F054, 493x, 19 unique — same values as +0xB0).
+- **Pipeline**: Written by FUN_0602EFF0 (call 2): old car[+0xB0] → car[+0xB4].
+- **Hypothesis**: Previous-frame steering rotation. Same values as +0xB0 = one frame lagged.
 
 #### +0xC0 — force_output?
 - **Init**: Not in dump.
