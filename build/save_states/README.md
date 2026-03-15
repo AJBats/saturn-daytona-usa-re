@@ -1,8 +1,38 @@
-# Save States
+# Save States Catalog
 
-Do not rename `.mc0` files — Mednafen matches by the hash in the filename.
+Reference for all save states used in reverse engineering investigations.
+Each entry documents the game state, constraints, and recommended use cases.
 
-| File | State |
-|------|-------|
-| `daytona_rebuilt.8180a74b2162ad4393a9630de58615e3.mc0` | Race start after 3-2-1-GO. Vanilla build, Arcade, Three Seven, automatic transmission. |
-| `daytona_manual_trans.8180a74b2162ad4393a9630de58615e3.mc0` | Race start after 3-2-1-GO. Vanilla build, Arcade, Three Seven, manual transmission. |
+Renaming `.mc0` files is fine when loading by explicit path (e.g., via MCP
+`load_state`). The hash in the filename is only used by Mednafen's auto-discovery.
+
+## daytona_rebuilt.8180a74b2162ad4393a9630de58615e3.mc0
+
+- **Mode**: Race (40 cars, 1P)
+- **Course**: Three Seven Speedway (Beginner)
+- **Speed**: Rolling start (~300 km/h)
+- **Position**: 40/40
+- **Transmission**: AUTO
+- **Build**: Vanilla (unmodified retail binary)
+- **Location**: Start/finish line, race start after 3-2-1-GO
+- **Known constraints**:
+  TO BE DETERMINED ALONG WITH HUMAN USER.
+- **Best for**: Multi-car observations (39 AI cars active), collision functions,
+  per-car iteration studies, opponent rendering loops
+- **Avoid for**: Clean throttle/brake speed tests (cars everywhere), manual
+  transmission studies
+
+## daytona_manual_trans.8180a74b2162ad4393a9630de58615e3.mc0
+
+- **Mode**: Race (40 cars, 1P)
+- **Course**: Three Seven Speedway (Beginner)
+- **Speed**: Rolling start (~300 km/h)
+- **Position**: 40/40
+- **Transmission**: MANUAL
+- **Build**: Vanilla (unmodified retail binary)
+- **Location**: Start/finish line, race start after 3-2-1-GO
+- **Known constraints**:
+  TO BE DETERMINED ALONG WITH HUMAN USER.
+- **Best for**: Gear shift logic, manual transmission mechanics, RPM/speed
+  relationship studies
+- **Avoid for**: Clean physics tests where gear shifts add noise (use auto instead)
