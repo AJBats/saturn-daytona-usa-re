@@ -26,3 +26,4 @@ FUN_0602CDF6	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). S
 FUN_0602D43C	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). Collision/steering pipeline call 16a. 689 lines, gates heading correction on speed>240.
 steering_rolling	0	0	0	Scenario observation (no function). Not testable [ORACLE:no multi-phase input]. Steering at 65 mph: heading changes, +0xAC NOT d-pad-driven, +0x58/+0x5C respond at speed.
 sym_0602FDA4	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). Throttle input handler pipeline call 1. Reads g_pad_state, writes +0xDE [WP:16-bit].
+dual_position	0	0	0	NOP experiment (sym_0602D8BC). DISPROVED dual position theory: all physics fields identical with/without position writer. Position is write-only terminal output. Track segments are only consumer.
