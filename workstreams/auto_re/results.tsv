@@ -7,3 +7,4 @@ FUN_0602F5B6	3	5	2	call_count(1x/frame), value_changes(track_progress+C, speed+C
 FUN_0602CCEC	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). Force term computation, called by FUN_0602CA84. Gates on speed>0.
 FUN_0602EFF0	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). Steering input processor pipeline call 2. Reads +0xAC, writes +0xB0/+0xB4/+0x78/+0x94.
 brake_scenario	0	0	0	Scenario observation (no function). Not testable: oracle hardcodes straight_throttle (0 mph), brake needs speed>0. Brake data: +0x8C/+0x90 change 56→216, decel ~100 frames 27→0 mph.
+sym_0602D814	3	3	2	call_count(1x/frame), writes_to(+0x0C speed, 59 hits from PC 0x0602D822), value_changes(speed+C). NOP-confirmed speed integrator pipeline call 18.

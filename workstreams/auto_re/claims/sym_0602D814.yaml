@@ -1,0 +1,35 @@
+function: sym_0602D814
+address: 0x0602D814
+address_end: 0x0602D88C
+source_file: reimpl/src/FUN_0602D43C.s
+
+# Speed integrator, pipeline call 18. NOP-confirmed: freezes speed at 0.
+# speed += accel_delta, then gear-clamp → +0xE0, headroom → +0xE8.
+# All writer PCs (0x0602D822, 0x0602D82C, 0x0602D87E, 0x0602D88A) within range.
+
+claims:
+  - id: call_count_throttle
+    type: call_count_per_frame
+    description: "sym_0602D814 (speed writer) breakpoint fires ~1x per frame (pipeline call 18)"
+    function: sym_0602D814
+    address: 0x0602D814
+    scenario: straight_throttle
+    expected_count: 2
+    tolerance: 1
+
+  - id: writes_speed
+    type: writes_to
+    description: "sym_0602D814 writes car[+0x0C] (speed) via PC 0x0602D822"
+    function: sym_0602D814
+    function_end: 0x0602D88C
+    address: 0x0607890C
+    scenario: straight_throttle
+    frames: 60
+
+  - id: speed_increases_throttle
+    type: value_changes_with_input
+    description: "Speed (car[+0x0C]) increases when C is held — direct output of this function"
+    address: 0x0607890C
+    input: C
+    direction: increases
+    frames: 60
