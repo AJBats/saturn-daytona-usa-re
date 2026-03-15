@@ -165,19 +165,19 @@ Phase 1 targets. Focus on the player physics pipeline — the code we're transpl
 These fields have enough evidence for targeted NOP tests. Each test patches
 one write instruction and observes the effect. Requires `MODS=1` build.
 
-### NOP Test: sym_0602D814 (speed accumulator, pipeline call 18)
+### NOP Test: sym_0602D814 (speed accumulator, pipeline call 18) — PASSED 2026-03-15
 
-- **What to NOP**: Replace the BSR/JSR to sym_0602D814 in FUN_0602EEB8 with
-  two `nop` instructions (0x0009 0x0009). This skips the speed += accel_delta
-  integration entirely.
+- **What to NOP**: `jsr @r13` at 0x0602EF98 (opcode `4D 0B` → `00 09`).
+  Poke command: `poke 0602EF98 00 09`. Skips the call to sym_0602D814
+  (speed += accel_delta integration) in the player physics dispatcher.
 - **Writer function**: sym_0602D814 in FUN_0602D43C.s (writes +0x0C, +0xE0, +0xE8)
 - **Expected effect**: Speed freezes at its current value. Throttle (C) and
-  braking (B) have no effect on speed. Car continues moving at constant speed
-  because position writer (call 19) still reads the frozen speed.
-- **Best scenario**: Load `usa_tt_straight.mc0`, hold C. Speed should NOT increase
-  from 0. If speed is already nonzero, it should stay constant.
-- **Confidence**: HIGH — writer is in the confirmed speed pipeline, the
-  speed += accel_delta formula is understood from both static and empirical evidence.
+  braking (B) have no effect on speed.
+- **Actual result**: **CONFIRMED.** Speed stayed at 0. Holding C had zero effect —
+  "like C is unbound." Restoring save state restored normal behavior (C worked).
+  sym_0602D814 is the sole gate for accel_delta → speed.
+- **Best scenario**: Load `usa_tt_straight.mc0`, hold C from dead stop.
+- **Confidence**: HIGH → **CONFIRMED**
 
 ### NOP Test: sym_0602D8BC (position writer, pipeline call 19)
 
