@@ -569,16 +569,16 @@ to find which pipeline stage writes the throttle-dependent value.
 - **Pipeline**: Stage 10 (sym_0602F4B4) sets +0xD6 = 0x14 when an opponent is detected nearby and within heading angle. Decremented each frame.
 - **Hypothesis**: Opponent proximity cooldown timer. Set to 20 (0x14) on detection, counts down to 0.
 
-#### +0xD8 — section_transition_direction?
+#### +0xD8 — gear_shift_direction (CONFIRMED computation)
 - **Init**: Not in dump.
-- **Writers**: FUN_0602F180 (pc=0x0602F194, 493x, 9 unique: 0-8).
-- **Pipeline**: Stage 7 (sym_0602F17C) sets +0xD8 to +5 or -5 based on track section boundary crossing.
-- **Hypothesis**: Track section transition indicator. Values ±5 indicate ascending/descending section change.
+- **Writers**: sym_0602F17C (pc=0x0602F194, 493x, 9 unique: 0-8).
+- **Pipeline**: Set to +5 on gear-up transition, -5 on gear-down, decays toward 0 by ±1/frame. 0 = neutral, ±5 = just shifted, intermediate = decaying. Called 2× per frame (conditional + unconditional).
+- **CONFIRMED**: Gear transition flag with decay. Values 0-8 map to: neutral, decaying states, freshly shifted.
 
-#### +0xDC — track_section_index? (16-bit)
-- **Init**: Not in dump.
-- **Pipeline**: Stage 7 (sym_0602F17C) increments/decrements +0xDC as section boundaries are crossed.
-- **Hypothesis**: Current position in a gear/power table indexed by sections.
+#### +0xDC — gear_section_index (CONFIRMED — selects gear ratio)
+- **Init**: Not in dump (likely 0 from standstill).
+- **Pipeline**: sym_0602F17C increments when `car[+0xE0] > sym_060477AC[section]` (upper threshold), decrements when `car[+0xE0] < sym_0604779C[section]` (lower threshold). Hysteresis design prevents oscillation. **sym_0602D814 uses `sym_060477BC[car[+0xDC]]` as the gear ratio** for speed→force conversion.
+- **CONFIRMED**: This is the game's gear shift mechanism. +0xDC selects which entry in the gear ratio table is used. 16-bit field.
 
 #### +0xE0 — gear_scaled_speed (CONFIRMED computation)
 - **Init**: Not in dump.
