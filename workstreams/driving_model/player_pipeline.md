@@ -1,0 +1,167 @@
+# Player Physics Pipeline — Static Call Tree
+
+**Source: Static analysis only (ASM source + Ghidra decompilation).**
+NOT validated with the emulator. This is an experiment-design artifact for
+the Explorer to validate via call_trace.
+
+Corresponds to Phase C2 of `boundary_mapping_plan.md`.
+
+## Entry Point
+
+FUN_0602EEB8 — player physics main dispatcher.
+Called once per frame for car[0] (player) only.
+Car pointer loaded from `sym_0607E944`.
+
+The AI car loop (FUN_0600e0c0, cars 1..N) uses a completely separate
+pipeline (FUN_0600e71a / FUN_0600e906). This document covers ONLY the
+player path.
+
+## Ordered Call Sequence
+
+```
+FUN_0602EEB8 [player physics dispatcher]
+│
+├─ [1] JSR sym_0602FDA4         — initial state setup
+│
+├─ [2] JSR FUN_0602EFF0         — input/state dispatch
+│      └─ BSR FUN_0602ECCC (x3) — atan2/rotation computation
+│
+├─ [3] clear sym_0607EAC8       — zero a global (purpose unknown)
+│
+├─ [4] JSR sym_0602F3EC         — (unknown, one of the physics stages)
+│
+├─ [5] JSR sym_0602F7BC         — (unknown, one of the physics stages)
+│
+├─ [6] JSR sym_0602F0E8         — check/set condition flag
+│
+├─ [7] CONDITIONAL on car[+0x9C]:
+│      ├─ if flag == 0: JSR sym_0602F17C
+│      └─ if flag != 0: JSR FUN_0602F270
+│
+├─ [8] JSR sym_0602F17C         — (called unconditionally after [7])
+│
+├─ [9] JSR sym_0602F474         — (unknown stage)
+│
+├─[10] JSR sym_0602F4B4         — (unknown stage)
+│
+├─[11] JSR FUN_0602F5B6         — surface/drag computation
+│                                  (writes +0xEC, +0xF0, +0xF4, +0x11C)
+│
+├─[12] JSR sym_0602EFCC         — rotation/animation (same TU)
+│
+├─[13] JSR FUN_0602C690         — collision magnitude
+│
+├─[14] JSR FUN_0602C8E2         — collision response decision
+│
+├─[15] JSR FUN_0602CA84         — collision impact computation
+│
+├─[16] CONDITIONAL on car[+0x9E]:
+│      ├─ if flag == 0: JSR FUN_0602D43C — collision & steering response
+│      │   ├─ BSR FUN_0602D7E4          — damping/clamp
+│      │   ├─ JSR FUN_06027344 (x3)     — atan2/trig lookup
+│      │   ├─ JSR FUN_06027378          — inverse trig
+│      │   └─ JSR sym_0602ECCC (x3)     — rotation calc
+│      │
+│      └─ if flag != 0: JSR FUN_0602D08A — alternate collision path
+│
+├─[17] JSR FUN_0602CDF6         — cleanup/state finalize
+│
+├─[18] JSR sym_0602D814         — SPEED WRITER (car[+0x0C])
+│      Reads: car[+0x0C], car[+0xFC]
+│      Writes: car[+0x0C] (speed += accel_delta, floor at 0)
+│              car[+0xE0] (clamped speed via gear lookup)
+│              car[+0xE8] (speed headroom: max_avail - current)
+│      Uses: gear ratio table at sym_060477BC
+│
+├─[19] JSR sym_0602D8BC         — POSITION WRITER (car[+0x10], car[+0x18])
+│      Conditional on car[+0x250]:
+│      ├─ if != 0 (drift/rotation): trig-based position delta
+│      │   └─ BSR FUN_0602ECCC, JSR FUN_06027344, JSR FUN_06027348
+│      └─ if == 0 (normal): straight velocity integration
+│      Writes: car[+0x10] (X position), car[+0x18] (Z position)
+│              car[+0x38], car[+0x3C] (previous/velocity)
+│              car[+0x18C], car[+0x190] (velocity components)
+│
+└─ RETURN
+```
+
+## Call Details
+
+### All JSR targets (ordered by call position)
+
+| # | Target | Pool Label | Source File | Role (hypothesis) |
+|---|--------|-----------|-------------|-------------------|
+| 1 | sym_0602FDA4 | .L_0602EF00 | FUN_0602F9A6.s | Initial state setup |
+| 2 | FUN_0602EFF0 | .L_0602EF04 | FUN_0602EFF0.s | Input/state dispatch |
+| 4 | sym_0602F3EC | .L_0602EF0C | FUN_0602F270.s | Physics stage |
+| 5 | sym_0602F7BC | .L_0602EF10 | FUN_0602F270.s | Physics stage |
+| 6 | sym_0602F0E8 | .L_0602EF14 | FUN_0602EFF0.s | Flag check |
+| 7a | sym_0602F17C | .L_0602EF64 | FUN_0602EFF0.s | Conditional path A |
+| 7b | FUN_0602F270 | .L_0602EF18 | FUN_0602F270.s | Conditional path B (steering?) |
+| 8 | sym_0602F17C | .L_0602EF64 | (same as 7a) | Post-condition call |
+| 9 | sym_0602F474 | .L_0602EF68 | FUN_0602EFF0.s | Physics stage |
+| 10 | sym_0602F4B4 | .L_0602EF6C | FUN_0602EFF0.s | Physics stage |
+| 11 | FUN_0602F5B6 | .L_0602EF70 | FUN_0602F5B6.s | Surface/drag |
+| 12 | sym_0602EFCC | .L_0602EF74 | FUN_0602EEB8.s | Rotation (inline) |
+| 13 | FUN_0602C690 | .L_0602EF78 | FUN_0602C690.s | Collision magnitude |
+| 14 | FUN_0602C8E2 | .L_0602EF7C | FUN_0602C8E2.s | Collision response |
+| 15 | FUN_0602CA84 | .L_0602EF80 | FUN_0602CA84.s | Collision impact |
+| 16a | FUN_0602D43C | .L_0602EF88 | FUN_0602D43C.s | Collision+steering (main) |
+| 16b | FUN_0602D08A | .L_0602EF84 | ? | Collision (alternate) |
+| 17 | FUN_0602CDF6 | .L_0602EFBC | ? | State finalize |
+| 18 | sym_0602D814 | .L_0602EFC0 | FUN_0602D43C.s | Speed writer |
+| 19 | sym_0602D8BC | .L_0602EFC4 | FUN_0602D89A.s | Position writer |
+
+### Register Conventions
+
+- **r14** = car pointer (preserved across all sub-calls)
+- **r13** = indirect call register (loaded from pool before JSR)
+- **r12** = secondary call register (used in some conditional paths)
+- **r0** = car pointer source (loaded from sym_0607E944, saved to r14)
+
+### Pipeline Architecture
+
+The pipeline follows a clear pattern:
+
+1. **Setup** (calls 1-2): Initialize state, dispatch input
+2. **Physics stages** (calls 4-10): Multiple computational passes over car fields.
+   These are the "black box" stages — we know they're called but not what
+   each specifically computes. Identifying them is Priority #1 for the Explorer.
+3. **Surface** (call 11): FUN_0602F5B6 writes surface-related fields
+4. **Collision** (calls 12-16): Detect, measure, and respond to collisions
+5. **Finalize** (call 17): State cleanup
+6. **Accumulators** (calls 18-19): Apply deltas to speed and position
+
+The accumulators always run last. All upstream computation feeds into
+car[+0xFC] (accel delta) and directional state that the accumulators
+integrate into car[+0x0C] (speed) and car[+0x10]/[+0x18] (position).
+
+## Comparison with AI Pipeline
+
+| Stage | Player (FUN_0602EEB8) | AI Normal (FUN_0600e71a) | AI Alt (FUN_0600e906) |
+|-------|----------------------|--------------------------|----------------------|
+| Speed calc | sym_0602D814 (call 18) | FUN_0600c4f8 | FUN_06027552 |
+| Position | sym_0602D8BC (call 19) | inline velocity integration | inline |
+| Collision | FUN_0602C690→CA84 | FUN_0600cf58 | NONE |
+| Steering | FUN_0602F270 (conditional) | part of FUN_0600c5d6 | FUN_0600c970 (AI) |
+| Surface/drag | FUN_0602F5B6 | FUN_0600ca96 | FUN_0600ca96 |
+| Heading | embedded in stages | FUN_0600c8cc + c7d4 | FUN_0600c8cc + c7d4 |
+
+The player pipeline is significantly MORE complex than the AI pipeline:
+- 19 ordered calls vs 6 for AI
+- Dedicated collision sequence (3 functions) vs single collision dispatch
+- Separate speed and position accumulator functions vs inline integration
+- Two conditional branch points vs linear flow
+
+This likely reflects the player needing fuller physics (collision response,
+surface traction, gear ratios) while AI cars use simplified approximations.
+
+## Validation Plan
+
+The Explorer should validate this call tree by running `call_trace` on
+FUN_0602EEB8 for 1 frame during `usa_tt_straight.mc0` straight_throttle.
+The trace should confirm:
+1. The 19-call ordering matches runtime execution
+2. Which conditional paths are taken during straight-line driving
+3. Whether any calls are skipped under normal conditions
+4. The exact sub-calls within FUN_0602D43C
