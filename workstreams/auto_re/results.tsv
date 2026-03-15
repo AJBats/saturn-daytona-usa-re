@@ -34,3 +34,4 @@ sym_0602EFCC	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). S
 sym_0602F4B4	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). Opponent proximity detection pipeline call 10. Manhattan distance, sets +0xD6=20 on detect [WP:16-bit].
 dual_position_A	0	0	0	NOP test A (sym_0602D8BC + steer). Heading (+0x20) FROZEN when NOPped, slip angle (+0x28) NOT frozen. Camera rotation = slip angle, not heading. Explains human's "camera rotates around frozen car."
 throttle_gap	0	0	0	Finding: throttle gap RESOLVED. C button → +0x74 (throttle accumulator, +10/frame max 184) → FUN_0602CA84 reads +0x74 directly → +0xFC. No gaps remain in throttle pipeline.
+lookup_tables	0	0	0	Data extraction: 7 lookup tables dumped (gear ratios, shift thresholds, force bounds, drift scaling, animation states, traction constants). Phase 3 sim constants.
