@@ -254,7 +254,7 @@ one write instruction and observes the effect. Requires `MODS=1` build.
   dual position representations is plausible but unverified — needs Explorer
   investigation to identify the internal physics position fields.
 
-### NOP Test: FUN_0602EFF0 (steering processor, pipeline call 2)
+### NOP Test: FUN_0602EFF0 (steering processor, pipeline call 2) — PARTIAL PASS 2026-03-15
 
 - **What to NOP**: `jsr @r13` at 0x0602EEC4 (opcode `4D 0B` → `00 09`).
   Poke command: `poke 0602EEC4 00 09`. Skips the call to FUN_0602EFF0
@@ -262,9 +262,19 @@ one write instruction and observes the effect. Requires `MODS=1` build.
 - **Writer function**: FUN_0602EFF0 (reads +0xAC steering input, writes +0xB0/+0xB4/+0x78/+0x94)
 - **Expected effect**: D-pad LEFT/RIGHT has no effect on car heading. Car
   goes straight regardless of steering input. Throttle still works normally.
-- **Best scenario**: Load `usa_tt_straight.mc0`, hold C + LEFT. Car should
-  accelerate straight ahead — no turning.
-- **Confidence**: HIGH — Tier 2, steering pipeline fully traced.
+- **Actual result**: **STEERING CONFIRMED DEAD — but throttle also died.**
+  C button had zero effect (speed stayed 0). D-pad LEFT/RIGHT had zero effect
+  (no camera sway, which normally happens even at dead stop). All input
+  appeared completely unbound. One instruction poked (jsr only), verified
+  clean NOP with mov.l and delay slot untouched.
+  **Conclusion**: FUN_0602EFF0 is NOT just a steering processor. It
+  initializes state that downstream pipeline calls depend on — including the
+  force accumulator. The "steering input dispatch" name is too narrow.
+  Mapper should investigate what state FUN_0602EFF0 writes that the force
+  pipeline reads.
+- **Best scenario**: Load `usa_tt_straight.mc0`, hold C + LEFT.
+- **Confidence**: HIGH → **CONFIRMED** (steering dead). UNEXPECTED (throttle
+  also dead — hypothesis was steering-only).
 
 ### NOP Test: FUN_0602F5B6 (surface writer, pipeline call 10)
 
