@@ -1,15 +1,24 @@
 function	passed	total	tier	notes
-FUN_0602EEB8	4	4	2	call_count(2x/frame), writes_to(+0xFC,+0x50), value_changes(speed+C). Dropped writes_frame_counter(+0x252 watchpoint 0 hits, question filed).
-FUN_0602CA84	3	3	2	call_count(1x/frame), value_changes(accel_delta+C, speed+C). All writes_to infeasible (mov.l @(R0,Rn) invisible to watchpoints). Force accumulator pipeline call 15.
-sym_0602D8BC	4	5	2	call_count(1x/frame), writes_to(+0x10,+0x18C), value_changes(position_x decreases with C). writes_heading(+0x20) failed (0 hits, watchpoint issue).
-FUN_0600C010	3	3	2	call_count(2x/frame), value_changes(speed+C, position_x-C). Racing orchestrator — frame execution order validated.
-FUN_0602F5B6	3	5	2	call_count(1x/frame), value_changes(track_progress+C, speed+C). writes_to(+0xF4,+0xEC) failed (0 hits, watchpoint issue). Surface writer pipeline call 11.
-FUN_0602CCEC	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). Force term computation, called by FUN_0602CA84. Gates on speed>0.
-FUN_0602EFF0	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). Steering input processor pipeline call 2. Reads +0xAC, writes +0xB0/+0xB4/+0x78/+0x94.
-brake_scenario	0	0	0	Scenario observation (no function). Not testable: oracle hardcodes straight_throttle (0 mph), brake needs speed>0. Brake data: +0x8C/+0x90 change 56→216, decel ~100 frames 27→0 mph.
-sym_0602D814	3	3	2	call_count(1x/frame), writes_to(+0x0C speed, 59 hits from PC 0x0602D822), value_changes(speed+C). NOP-confirmed speed integrator pipeline call 18.
-sym_0602F3EC	3	3	2	call_count(1x/frame), writes_to(+0x08 speed_index, 59 hits from PC 0x0602F41E), value_changes(speed_index+C 0→21). Speed index + drag scaling pipeline call 4.
-sym_0602F0E8	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). Collision state check + state transfer pipeline call 6. Normal: EMA on +0xD0, copies +0x94→+0x84.
-sym_0602F7BC	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). Timer decrementor pipeline call 5. Decrements +0x166, +0x152, +0x208 each frame.
-sym_0602F474	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). Animation frame counter pipeline call 9. 4-state lookup from +0xD4 counter.
-sym_0602F17C	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). Gear/section state machine pipeline call 7a. Dual-threshold hysteresis for gear shifts.
+# ORACLE LIMITATION: value_changes_with_input hardcodes straight_throttle (0 mph).
+# Brake (B) and multi-phase scenarios (accelerate then brake/steer) are untestable.
+# This blocks an entire input class. Human: consider adding scenario parameter support
+# to the value_changes test, or a new "value_changes_with_sequence" test type.
+#
+# WATCHPOINT LIMITATION: mov.l Rm, @(R0, Rn) indexed addressing is invisible to
+# the Mednafen watchpoint system. mov.l Rn, @(disp, R0) displacement addressing works.
+# mov.w (16-bit) writes are also invisible. Failed writes_to claims marked [WP] below
+# are instrumentation failures, NOT incorrect hypotheses.
+FUN_0602EEB8	4	4	2	call_count(2x/frame), writes_to(+0xFC,+0x50), value_changes(speed+C). Dropped: writes_frame_counter(+0x252) [WP:16-bit].
+FUN_0602CA84	3	3	2	call_count(1x/frame), value_changes(accel_delta+C, speed+C). Force accumulator pipeline call 15. writes_to infeasible [WP:indexed].
+sym_0602D8BC	4	5	2	call_count(1x/frame), writes_to(+0x10,+0x18C), value_changes(position_x-C). writes_heading(+0x20) [WP:indexed].
+FUN_0600C010	3	3	2	call_count(2x/frame), value_changes(speed+C, position_x-C). Racing orchestrator — no car struct writes.
+FUN_0602F5B6	3	5	2	call_count(1x/frame), value_changes(track_progress+C, speed+C). writes_to(+0xF4,+0xEC) [WP:indexed]. Surface writer pipeline call 11.
+FUN_0602CCEC	4	4	2	call_count(1x/frame), writes_to(+0x110 force term, 58 hits), value_changes(speed+C, position_x-C). Force term computation, gates on speed>0.
+FUN_0602EFF0	3	4	2	call_count(1x/frame), value_changes(speed+C, position_x-C). writes_to(+0xB0) [WP:indexed]. Steering input pipeline call 2.
+brake_scenario	0	0	0	Scenario observation (no function). Not testable [ORACLE:no brake scenario]. Brake data: +0x8C/+0x90 56→216, decel 27→0 mph in ~100f.
+sym_0602D814	3	3	2	call_count(1x/frame), writes_to(+0x0C speed, 59 hits), value_changes(speed+C). NOP-confirmed speed integrator pipeline call 18.
+sym_0602F3EC	3	3	2	call_count(1x/frame), writes_to(+0x08 speed_index, 59 hits), value_changes(speed_index+C 0→21). Speed index + drag scaling pipeline call 4.
+sym_0602F0E8	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). Collision state check pipeline call 6. writes_to infeasible [WP:indexed+delay].
+sym_0602F7BC	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). Timer decrementor pipeline call 5. writes_to infeasible [WP:16-bit+indexed].
+sym_0602F474	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). Animation counter pipeline call 9. writes_to infeasible [WP:16-bit+indexed].
+sym_0602F17C	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). Gear state machine pipeline call 7a. writes_to infeasible [WP:16-bit+indexed].

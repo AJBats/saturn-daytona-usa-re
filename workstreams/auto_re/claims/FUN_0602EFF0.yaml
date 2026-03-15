@@ -5,10 +5,18 @@ source_file: reimpl/src/FUN_0602EFF0.s
 
 # Steering input processor, pipeline call 2. Reads car[+0xAC] (raw steering),
 # applies deadzone(5)/clamp(80)/scale(255), writes rotation angles via 3x atan2.
-# writes_to claims omitted: all car struct writes use mov.l @(R0,Rn) addressing
-# which is invisible to the Mednafen watchpoint system (see FUN_0602CA84_answers.md).
+# Reviewer action item #2: attempt writes_to on +0xB0 despite addressing concerns.
 
 claims:
+  - id: writes_rotation_b0
+    type: writes_to
+    description: "FUN_0602EFF0 writes car[+0xB0] (computed rotation from steering atan2)"
+    function: FUN_0602EFF0
+    function_end: 0x0602F0E4
+    address: 0x060789B0
+    scenario: straight_throttle
+    frames: 60
+
   - id: call_count_throttle
     type: call_count_per_frame
     description: "FUN_0602EFF0 (steering input) breakpoint fires ~1x per frame (pipeline call 2)"

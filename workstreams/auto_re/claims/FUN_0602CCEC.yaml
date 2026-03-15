@@ -7,9 +7,19 @@ source_file: reimpl/src/FUN_0602CCEC.s
 # the main computation is SKIPPED. The function still runs but only executes
 # the final block (.L_0602CD9A). Its writes (+0x264, +0x110, +0x10C, +0xC0)
 # are in addresses that have consistently failed with the watchpoint system.
-# Testing with value_changes on pipeline outputs instead.
+# Reviewer action item #3: attempt writes_to on +0x110 (key output field).
+# The final block always runs (even at speed=0), writing +0x10C and +0x110.
 
 claims:
+  - id: writes_force_110
+    type: writes_to
+    description: "FUN_0602CCEC writes car[+0x110] (force term with linear decay)"
+    function: FUN_0602CCEC
+    function_end: 0x0602CDF4
+    address: 0x06078A10
+    scenario: straight_throttle
+    frames: 60
+
   - id: call_count_throttle
     type: call_count_per_frame
     description: "FUN_0602CCEC breakpoint fires ~1x per frame (called by FUN_0602CA84)"
