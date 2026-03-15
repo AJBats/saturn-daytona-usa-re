@@ -6,7 +6,7 @@
 # Run from WSL:  bash /mnt/d/Projects/SaturnReverseTest/tools/run_debug_mednafen.sh
 # Run from Windows: wsl -d Ubuntu -- bash /mnt/d/Projects/SaturnReverseTest/tools/run_debug_mednafen.sh
 
-PROJ=/mnt/d/Projects/SaturnReverseTest
+PROJ="$(cd "$(dirname "$0")/.." && pwd)"
 MEDNAFEN="$PROJ/mednafen/src/mednafen"
 DEFAULT_CUE="$PROJ/build/disc/rebuilt_disc/daytona_rebuilt.cue"
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-PROJDIR="/mnt/d/Projects/SaturnReverseTest"
+PROJDIR="$(cd "$(dirname "$0")/.." && pwd)"
 GENDIR="$PROJDIR/build/gen"
 CC1="$PROJDIR/tools/gcc26-build/cc1"
 AS="$PROJDIR/tools/sh-elf/bin/sh-elf-as"

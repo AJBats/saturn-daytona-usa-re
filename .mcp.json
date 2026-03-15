@@ -4,9 +4,9 @@
       "type": "stdio",
       "command": "python",
       "args": [
-        "D:/Projects/SaturnReverseTest/mednafen/mcp_server.py",
+        "mednafen/mcp_server.py",
         "--ipc-dir",
-        "D:/Projects/SaturnReverseTest/build/mcp_ipc"
+        "build/mcp_ipc"
       ],
       "env": {}
     }
