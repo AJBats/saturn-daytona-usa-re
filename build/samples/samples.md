@@ -27,6 +27,15 @@
 - **Files**: tt_steer_left_throttle_300f.bin, tt_steer_left_throttle_300f.csv
 - **Captured**: 2026-03-15
 
+## tt_offtrack_throttle_566f
+
+- **Save state**: usa_tt_offtrack_stop.mc0
+- **Scenario**: offtrack_throttle (hold C, 566 frames, road→grass)
+- **Address**: 0x06078900 (car[0])
+- **Size**: 616 bytes (full car struct)
+- **Files**: tt_offtrack_throttle_566f.bin, tt_offtrack_throttle_566f.csv
+- **Captured**: 2026-03-15
+
 ## tt_right_wall_strike_662f
 
 - **Save state**: usa_tt_straight.mc0
