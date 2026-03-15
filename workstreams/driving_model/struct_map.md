@@ -234,17 +234,17 @@ Sources: W=writer_map_comprehensive, C=consumer_map, S=static_hypotheses, D=init
 - **Consumers**: Not in consumer map.
 - **Hypothesis**: Unknown. High cardinality but not consumed by any known function. Possibly internal physics state.
 
-#### +0x48 — angular_velocity_damped?
+#### +0x48 — drag_accumulator?
 - **Init**: Not in dump.
 - **Writers**: FUN_0602F3F0 (pc=0x0602F452, 493x, 470 unique — nearly unique each frame).
 - **Consumers**: Not in consumer map.
-- **Hypothesis**: Static: FUN_0600c928 subtracts speed-scaled damping from car[+0x48]. Only called in airborne path. Sample values in 0xFFBAxxxx range = small negative (near-zero 32-bit signed).
+- **Hypothesis**: Speed-dependent drag term. Pipeline stage 4 (sym_0602F3EC) subtracts a speed-scaled value from this field every frame. AI path static: FUN_0600c928 also subtracts speed-scaled damping from car[+0x48] (airborne path). Sample values in 0xFFBAxxxx range = small negative.
 
-#### +0x50 — angular_velocity_copy?
+#### +0x50 — drag_copy?
 - **Init**: Not in dump.
 - **Writers**: FUN_0602EEC6 (pc=0x0602EEDE, 493x, 470 unique).
 - **Consumers**: Not in consumer map.
-- **Hypothesis**: Static: FUN_0600c928 copies car[+0x50] = car[+0x48]. Same unique count confirms tight correlation.
+- **Hypothesis**: Copy of +0x48 drag term. Pipeline stage 4 also writes this field (from +0xC0 check). AI static: FUN_0600c928 copies car[+0x50] = car[+0x48]. Same unique count as +0x48 confirms tight correlation.
 
 #### +0x58 — steering_input?
 - **Init**: Not in dump.
@@ -365,7 +365,26 @@ Sources: W=writer_map_comprehensive, C=consumer_map, S=static_hypotheses, D=init
 - **Init**: 0x00000000
 - **Writers**: Not in car[0] writer map (no gear shifts during capture).
 - **Consumers**: FUN_06008318 reads +0xB8 (gear shift handler checks countdown=0 before allowing shift).
-- **Hypothesis**: Static: Starts at 0x20 on gear shift, decrements each frame. 0 = ready to shift.
+- **Pipeline**: Stage 6 (sym_0602F0E8) reads +0xB8 as a collision detection flag — nonzero triggers collision recovery.
+- **Hypothesis**: Dual-purpose: gear shift cooldown (static) AND collision state flag (pipeline stage 6). Static says starts at 0x20 on gear shift, decrements each frame. Stage 6 uses nonzero = collision active.
+
+#### +0x152 — effect_timer_a? (16-bit)
+- **Init**: Not in dump.
+- **Writers**: Comprehensive map shows FUN_0602CCF0 (pc=0x0602CCE8, 2x, const 0xA) + FUN_0602F7C0 (pc=0x0602F7D6, 16x, 10 unique: 0-9).
+- **Pipeline**: Stage 5 (sym_0602F7BC) decrements if > 0.
+- **Hypothesis**: Frame-based effect timer. Counts down from set value. Part of the 3-timer group (+0x152, +0x166, +0x208).
+
+#### +0x166 — effect_timer_b? (16-bit)
+- **Init**: Not in dump.
+- **Writers**: Comprehensive map shows FUN_0602D818 (pc=0x0602D806, 32x, 2 unique: 0x7, 0xA) + FUN_0602F7C0 (pc=0x0602F7CA, 171x, 10 unique: 0-9).
+- **Pipeline**: Stage 5 (sym_0602F7BC) decrements if > 0. Stage 6 (sym_0602F0E8) resets to 0 during collision recovery.
+- **Hypothesis**: Frame-based effect timer, reset on collision. The collision-reset behavior suggests it tracks a state that collision interrupts.
+
+#### +0x208 — effect_timer_c?
+- **Init**: Not in dump.
+- **Writers**: Comprehensive map shows FUN_0602F7E2 (36x, 8 unique: 0-7) + FUN_060305E0 (6x, const 8).
+- **Pipeline**: Stage 5 (sym_0602F7BC) decrements if > 0.
+- **Hypothesis**: Frame-based effect timer. Third in the 3-timer group.
 
 #### +0xD8 — gear_state?
 - **Init**: Not in dump.
@@ -390,10 +409,22 @@ Sources: W=writer_map_comprehensive, C=consumer_map, S=static_hypotheses, D=init
 - **Consumers**: FUN_0600CE66, FUN_0600CEBA read +0x68.
 - **Hypothesis**: Read by track segment advance functions. 31 unique values. Possibly segment type or track feature flags.
 
-#### +0x78, +0x84, +0x94 — angular_state?
+#### +0x74 — collision_recovery_state?
+- **Init**: Not in dump.
+- **Writers**: FUN_0602FDB4: pc=0x0602FED2 (91x) + pc=0x0602FED8 (402x).
+- **Pipeline**: Stage 6 (sym_0602F0E8) sets +0x74 = 0x38 during collision recovery.
+- **Hypothesis**: Collision recovery parameter. Set to fixed value during collision detection, then managed by FUN_0602FDB4.
+
+#### +0x78, +0x84, +0x94 — state_transfer_group?
 - **Init**: +0x78 = 0x00000038 (56)
 - **Writers**: +0x78: FUN_0602F06A (493x, 31 unique). +0x84: FUN_0602F0EC (pc=0x0602F116, 493x, 5 unique: 0x0,0x6A,0x8A,0xD4,0xFF). +0x94: FUN_0602F06A (pc=0x0602F0D6, 493x, 5 unique — same values as +0x84).
-- **Hypothesis**: +0x84 and +0x94 have identical 5-value sets — mirrored fields? +0x78 has 31 unique values matching +0x68.
+- **Pipeline**: Stage 6 (sym_0602F0E8) copies car[+0x94]→[+0x84] and car[+0x78]→[+0x68] in normal path. Sets +0x84 = 0x38 in one path.
+- **Hypothesis**: State transfer group. +0x94 and +0x78 are "current" values; +0x84 and +0x68 are "previous" copies. Updated each frame by stage 6.
+
+#### +0x90 — collision_recovery_param?
+- **Init**: Not in dump.
+- **Pipeline**: Stage 6 (sym_0602F0E8) sets +0x90 = 0x38 during collision recovery path.
+- **Hypothesis**: Collision recovery parameter, paired with +0x74. Both set to 0x38 on collision detection.
 
 #### +0xB0, +0xB4 — paired_counters?
 - **Init**: Not in dump.
@@ -406,25 +437,50 @@ Sources: W=writer_map_comprehensive, C=consumer_map, S=static_hypotheses, D=init
 - **Consumers**: Not in consumer map.
 - **Hypothesis**: Unknown. Moderate cardinality.
 
-#### +0xD0 — continuous_counter?
+#### +0xC4 — cumulative_track_force?
+- **Init**: Not in dump.
+- **Pipeline**: Stage 7 (FUN_0602F270 / sym_0602F17C) writes +0xC4. Updated with cumulative force from track lookup tables.
+- **Hypothesis**: Accumulated track-derived force. Written during the track force application conditional.
+
+#### +0xD0 — collision_delta?
 - **Init**: Not in dump.
 - **Writers**: FUN_0602F0EC (pc=0x0602F0FE, 493x, 349 unique).
-- **Hypothesis**: High cardinality. Written by same function as +0x84 but with much more variation.
+- **Pipeline**: Stage 6 (sym_0602F0E8) reads and modifies +0xD0 with ±0x071C delta during collision path.
+- **Hypothesis**: Collision angle or deflection delta. High cardinality, modified during collision state transitions.
 
-#### +0xE0 — acceleration_component?
+#### +0xD6 — proximity_counter? (16-bit)
+- **Init**: Not in dump.
+- **Writers**: Comprehensive map shows FUN_0602F4B8 (pc=0x0602F4D6, 64x, 20 unique) + FUN_0602F554 (pc=0x0602F5B2, 12x, const 0x14).
+- **Pipeline**: Stage 10 (sym_0602F4B4) sets +0xD6 = 0x14 when an opponent is detected nearby and within heading angle. Decremented each frame.
+- **Hypothesis**: Opponent proximity cooldown timer. Set to 20 (0x14) on detection, counts down to 0.
+
+#### +0xD8 — section_transition_direction?
+- **Init**: Not in dump.
+- **Writers**: FUN_0602F180 (pc=0x0602F194, 493x, 9 unique: 0-8).
+- **Pipeline**: Stage 7 (sym_0602F17C) sets +0xD8 to +5 or -5 based on track section boundary crossing.
+- **Hypothesis**: Track section transition indicator. Values ±5 indicate ascending/descending section change.
+
+#### +0xDC — track_section_index? (16-bit)
+- **Init**: Not in dump.
+- **Pipeline**: Stage 7 (sym_0602F17C) increments/decrements +0xDC as section boundaries are crossed.
+- **Hypothesis**: Current position in a gear/power table indexed by sections.
+
+#### +0xE0 — track_force_output?
 - **Init**: Not in dump.
 - **Writers**: FUN_0602D86A (pc=0x0602D87E, 493x, 441 unique). Also FUN_0602F224 (pc=0x0602F226, 10x).
-- **Hypothesis**: Very high cardinality (441/493 = nearly unique each frame). Possibly a force or acceleration component.
+- **Pipeline**: Stage 7 (FUN_0602F270) reads and writes +0xE0 with lookup table results. sym_0602D814 (speed writer) also writes +0xE0 as clamped speed via gear lookup.
+- **Hypothesis**: Track/gear force output. Very high cardinality (441/493). Updated by both track force stage and speed accumulator.
 
 #### +0xE4 — acceleration_copy?
 - **Init**: Not in dump.
 - **Writers**: FUN_0602EEC6 (pc=0x0602EF24, 493x, 424 unique).
 - **Hypothesis**: Similar cardinality to +0xE0. Written by FUN_0602EEC6 (which also writes +0x50, +0xF8, +0x114, +0x144, +0x252).
 
-#### +0xE8 — collision_type?
+#### +0xE8 — speed_headroom?
 - **Init**: Not in dump.
 - **Writers**: FUN_0602D86A (pc=0x0602D88A, 493x, only 2 unique: 0x0 and 0x212).
-- **Hypothesis**: Binary flag or type code. Only 2 values. Same writer as +0xE0.
+- **Pipeline**: sym_0602D814 (speed writer, call 18) writes +0xE8 as `max_available_speed - current_speed`. Represents headroom before speed cap.
+- **Hypothesis**: Speed headroom. Only 2 values during capture = car was near max speed most of the time (headroom ~0 or ~0x212).
 
 #### +0x108 — heading_derivative?
 - **Init**: Not in dump.
@@ -436,10 +492,11 @@ Sources: W=writer_map_comprehensive, C=consumer_map, S=static_hypotheses, D=init
 - **Writers**: FUN_0602CB7E (pc=0x0602CBBC, 493x, 229 unique) + FUN_0602CCF0 (pc=0x0602CDEC, 493x, 190 unique) + FUN_0602D7E4 (pc=0x0602D7E6, 10x).
 - **Hypothesis**: Three writers = updated by multiple pipeline stages. Important internal state.
 
-#### +0x114 — constant_zero?
+#### +0x114 — animation_lookup?
 - **Init**: Not in dump.
 - **Writers**: FUN_0602EEC6 (pc=0x0602EF2A, 493x, const 0).
-- **Hypothesis**: Always zero. Possibly a cleared/reserved field.
+- **Pipeline**: Stage 9 (sym_0602F474) writes +0x114 from a 4-entry lookup table (sym_060477D8) based on car[+0xD4] counter value.
+- **Hypothesis**: Animation/display state from a 4-frame cycle. The writer map shows const 0, meaning the counter stayed at one value during capture. Needs varied driving to see all 4 states.
 
 #### +0x11C — energy_or_force?
 - **Init**: Not in dump.

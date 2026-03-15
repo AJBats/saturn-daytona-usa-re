@@ -28,21 +28,46 @@ FUN_0602EEB8 [player physics dispatcher]
 │
 ├─ [3] clear sym_0607EAC8       — zero a global (purpose unknown)
 │
-├─ [4] JSR sym_0602F3EC         — (unknown, one of the physics stages)
+├─ [4] JSR sym_0602F3EC         — speed index + drag computation
+│      Reads: car[+0x0C] (speed)
+│      Writes: car[+0x08] (speed index: speed * 0x480000),
+│              car[+0x48], car[+0x50] (drag/damping terms)
+│      Note: car[+0x08] computation matches CONFIRMED formula.
+│            Also applies speed-dependent damping to +0x48/+0x50.
 │
-├─ [5] JSR sym_0602F7BC         — (unknown, one of the physics stages)
+├─ [5] JSR sym_0602F7BC         — effect counter decrements
+│      Reads/writes: car[+0x166], car[+0x152], car[+0x208]
+│      Each counter decremented if > 0. Simple frame-based timers.
 │
-├─ [6] JSR sym_0602F0E8         — check/set condition flag
+├─ [6] JSR sym_0602F0E8         — collision state check
+│      Reads: car[+0xB8], car[+0x1BC] (collision/damage flags)
+│      Normal path: copies car[+0x94]→[+0x84], car[+0x78]→[+0x68]
+│      Collision path: resets counter at +0x166, sets +0x90/+0x74=0x38
+│      Also reads/writes: +0xB0, +0xD0
 │
 ├─ [7] CONDITIONAL on car[+0x9C]:
-│      ├─ if flag == 0: JSR sym_0602F17C
-│      └─ if flag != 0: JSR FUN_0602F270
+│      ├─ if flag == 0: JSR sym_0602F17C — gear/section state machine
+│      │   Reads: car[+0xD8], car[+0xE0], car[+0xDC]
+│      │   Writes: car[+0xD8] (±5), car[+0xDC] (section index), car[+0xE0]
+│      │   Uses lookup tables at sym_060477AC, sym_0604779C
+│      │
+│      └─ if flag != 0: JSR FUN_0602F270 — track force application
+│         Reads: car[+0xD8], car[+0xDC/+0xDE], car[+0xC0], car[+0xE0], car[+0xE8]
+│         Writes: car[+0xE0], car[+0xC4], car[+0x84]
+│         Uses lookup table at sym_0602F3CC, calls FUN_0602755C (math)
 │
-├─ [8] JSR sym_0602F17C         — (called unconditionally after [7])
+├─ [8] JSR sym_0602F17C         — gear/section state machine (unconditional)
 │
-├─ [9] JSR sym_0602F474         — (unknown stage)
+├─ [9] JSR sym_0602F474         — animation/display counter
+│      Reads: car[+0xD4] (frame counter, 16-bit)
+│      Writes: car[+0xD4] (decremented), car[+0x114] (lookup table result)
+│      4-state lookup from sym_060477D8
 │
-├─[10] JSR sym_0602F4B4         — (unknown stage)
+├─[10] JSR sym_0602F4B4         — opponent proximity check
+│      Reads: car[+0x10], car[+0x18] (position), car[+0x28] (heading)
+│      Writes: car[+0xD6] (proximity counter, set to 0x14 on detection)
+│      Iterates all opponent cars, checks distance < 0x1E0000 AND
+│      angle within ±0x071C of heading. Early return on first match.
 │
 ├─[11] JSR FUN_0602F5B6         — surface/drag computation
 │                                  (writes +0xEC, +0xF0, +0xF4, +0x11C)
