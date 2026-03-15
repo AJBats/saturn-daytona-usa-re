@@ -553,11 +553,11 @@ to find which pipeline stage writes the throttle-dependent value.
 - **Pipeline**: Stage 7 (FUN_0602F270 / sym_0602F17C) writes +0xC4. Updated with cumulative force from track lookup tables.
 - **Hypothesis**: Accumulated track-derived force. Written during the track force application conditional.
 
-#### +0xD0 — collision_delta?
+#### +0xD0 — smoothed_rotation (CONFIRMED computation)
 - **Init**: Not in dump.
-- **Writers**: FUN_0602F0EC (pc=0x0602F0FE, 493x, 349 unique).
-- **Pipeline**: Stage 6 (sym_0602F0E8) reads and modifies +0xD0 with ±0x071C delta during collision path.
-- **Hypothesis**: Collision angle or deflection delta. High cardinality, modified during collision state transitions.
+- **Writers**: sym_0602F0E8 (pipeline call 6, 493x, 349 unique).
+- **Pipeline**: Normal path: `car[+0xD0] = (car[+0xB0] << 8 + car[+0xD0]) >> 1` — exponential moving average of steering rotation signal. Collision path: `car[+0xD0] ±= 0x071C` toward zero (clamped). Smoothed rotation consumed by downstream stages.
+- **CONFIRMED**: EMA blending of +0xB0 (steering atan2 output). Prior hypothesis "collision delta" was imprecise — it's the smoothed rotation with collision adjustment.
 
 #### +0xD6 — proximity_counter? (16-bit)
 - **Init**: Not in dump.
