@@ -370,24 +370,55 @@ accumulators +0x108/+0x10C increase toward 65536 during braking (force
 +0x114 (resistance) clears to 0 at rest. +0x8C/+0x90 activate (56→216)
 only during braking — dual-purpose with collision.
 
-**THROTTLE INPUT FOUND (2026-03-15)**: sym_0602FDA4 (pipeline call 1) reads
-g_pad_state+2 (sym_06063D9A) and writes car[+0xDE] with values 0-3 based on
-button mapping tables at sym_0608188x. This is the first link in the throttle
-chain. car[+0xDE] is a 16-bit field at offset 0xDE (upper half of the +0xDC
-word). Downstream pipeline stages read +0xDE to produce force terms.
+**THROTTLE PIPELINE COMPLETE (2026-03-15)**: sym_0602FDA4 (pipeline call 1)
+reads g_pad_state (sym_06063D98) and processes button inputs:
 
-Updated speed pipeline:
 ```
-C button → sym_0602FDA4 (call 1) → car[+0xDE] (0-3 button state)
-    → [downstream reads +0xDE] → car[+0x108/+0x10C] (force accumulators)
-    → FUN_0602CA84 (call 15) → car[+0xFC] (accel delta)
-    → sym_0602D814 (call 17) → car[+0x0C] (speed)
-    → sym_0602D8BC (call 18) → car[+0x10/+0x18] (position)
+C button (0x0200 in g_pad_state)
+    ↓ sym_0602FDA4 (call 1): C pressed → car[+0x6C]=1, car[+0x74] += 10 (max 184)
+    ↓                        C released → car[+0x6C]=0, car[+0x74] decays toward 56
+car[+0x74] (throttle force accumulator, range 56-184)
+    ↓ sym_0602F0E8 (call 6): copies car[+0x74] → car[+0x84] in normal path
+    ↓ downstream force computation reads car[+0x84]
+    ↓ FUN_0602CA84 (call 15) → car[+0xFC] (accel delta)
+    ↓ sym_0602D814 (call 17) → car[+0x0C] (speed)
+    ↓ sym_0602D8BC (call 18) → car[+0x10/+0x18] (position)
+
+B button (0x0100): car[+0x88]=1, car[+0x90] += 40 (max 184+). Copies → +0x8C.
+UP (0x2000): car[+0xDE] += 1 (gear up, max 3)
+DOWN (0x1000): car[+0xDE] -= 1 (gear down, min 0)
 ```
 
-**Remaining gap**: Which pipeline call (2-14) reads car[+0xDE] and converts
-it into the force accumulator values? FUN_0602EFF0 NOP kills all input —
-it likely reads +0xDE as part of its "initialization" role.
+**No remaining gaps in the throttle→speed→position pipeline.**
+
+Button mapping table at sym_06081888:
+| Mask | Button | Action |
+|------|--------|--------|
+| 0x2000 | UP | Gear up (+0xDE += 1) |
+| 0x1000 | DOWN | Gear down (+0xDE -= 1) |
+| 0x0200 | C | Throttle (+0x74 += 10) |
+| 0x0100 | B | Brake (+0x90 += 40) |
+
+### Pipeline Coupling Architecture (from NOP tests)
+
+NOP tests revealed the pipeline's dependency structure:
+
+```
+call 1  sym_0602FDA4 [input handler] → +0x6C, +0x74, +0x88, +0x90, +0xDE
+call 2  FUN_0602EFF0 [rotation init] → +0xB0, +0xB4, +0x78, +0x94
+           ↓ (indirect: +0xB0 → call 6 EMA → +0xD0 → call 16a → +0x58/+0x5C → force)
+           NOP kills ALL input — rotation state is the directional reference frame
+call 6  sym_0602F0E8 [state transfer] → copies +0x74→+0x84, +0x94→+0x84, +0x78→+0x68
+call 11 FUN_0602F5B6 [surface writer] → +0xEC, +0xF0, +0xF4, +0x11C
+           ↓ (direct: all 4 fields read by FUN_0602CA84 for surface modulation)
+           NOP kills throttle — surface fields feed directly into force formula
+call 15 FUN_0602CA84 [force accumulator] → +0xFC, +0x108, +0x10C, +0x40, +0xC0
+           NOP kills throttle, steering STILL WORKS — clean force/throttle gate
+call 17 sym_0602D814 [speed writer] → +0x0C, +0xE0, +0xE8
+           NOP freezes speed at 0
+call 18 sym_0602D8BC [position writer] → +0x10, +0x18, +0x38, +0x3C, +0x18C, +0x190
+           NOP freezes position, all physics identical (write-only output)
+```
 
 ### Surface and Terrain
 
@@ -419,10 +450,11 @@ it likely reads +0xDE as part of its "initialization" role.
 - **Consumers**: FUN_0600CEBA reads +0x6C.
 - **Hypothesis**: Boolean collision active flag. 402 frames = 1, 91 frames = 0. Read by track segment advance.
 
-#### +0x74 — collision_timer?
-- **Init**: Not in dump.
-- **Writers**: FUN_0602FDB4: pc=0x0602FED2 (91x, 17 unique: 0x38-0xFE) + pc=0x0602FED8 (402x, 15 unique: 0x42-0xFE).
-- **Hypothesis**: Collision countdown or magnitude. Small values (0x38-0xFE), variable. Written by same function as +0x6C.
+#### +0x74 — throttle_force (CONFIRMED — written by sym_0602FDA4)
+- **Init**: Not in dump (likely 56 = 0x38 = resting value).
+- **Writers**: sym_0602FDA4 (call 1): C pressed → +10/frame (max 184). C released → decays toward 56. Also FUN_0602FDB4 (91x, values 0x38-0xFE) in comprehensive map.
+- **Pipeline**: sym_0602F0E8 (call 6) copies +0x74 → +0x84 in normal path. +0x84 feeds downstream force computation.
+- **CONFIRMED**: Throttle force accumulator. Range 56 (idle) to 184 (full throttle). Resting value matches +0x78 init (0x38=56).
 
 #### +0x88 — collision_state_a?
 - **Init**: Not in dump.
@@ -537,16 +569,21 @@ it likely reads +0xDE as part of its "initialization" role.
 - **Pipeline**: Stage 6 (sym_0602F0E8) copies car[+0x94]→[+0x84] and car[+0x78]→[+0x68] in normal path. Sets +0x84 = 0x38 in one path.
 - **Hypothesis**: State transfer group. +0x94 and +0x78 are "current" values; +0x84 and +0x68 are "previous" copies. Updated each frame by stage 6.
 
-#### +0x8C — brake_state?
-- **Init**: Not in dump (struct map listed as "collision_state_a" with value 56).
-- **OBSERVED**: Constant 56 during throttle. During braking: changes to 5 values (56→216). Identical pattern to +0x90. NOT collision-only — activated by braking.
-- **Hypothesis**: Brake/deceleration state. Dual-purpose with collision (both produce deceleration). Value range 56-216.
-
-#### +0x90 — brake_state_b?
+#### +0x88 — brake_active_flag (CONFIRMED — written by sym_0602FDA4)
 - **Init**: Not in dump.
-- **Pipeline**: Stage 6 (sym_0602F0E8) sets +0x90 = 0x38 (56) during collision recovery.
-- **OBSERVED**: Identical values to +0x8C during braking (56→216). Constant 56 during throttle.
-- **Hypothesis**: Paired brake/collision state with +0x8C. Both share the initial value 0x38 = 56.
+- **Writers**: sym_0602FDA4 (call 1): B pressed → car[+0x88] = 1. B released → clears.
+- **CONFIRMED**: Brake active flag, set by the input handler.
+
+#### +0x8C — brake_force_copy (CONFIRMED)
+- **Init**: 56 (0x38, resting value).
+- **Pipeline**: sym_0602FDA4 copies car[+0x90] → car[+0x8C] each frame. Mirrors +0x90.
+- **CONFIRMED**: Brake force mirror. Previously misidentified as "collision_state_a."
+
+#### +0x90 — brake_force (CONFIRMED — written by sym_0602FDA4)
+- **Init**: 56 (0x38, resting value).
+- **Writers**: sym_0602FDA4 (call 1): B pressed → +40/frame (max 184+). B released → decays (r4 = r4 - r4/2, floor at 56).
+- **Pipeline**: sym_0602F0E8 (call 6) sets +0x90 = 0x38 during collision recovery (resets brake force).
+- **CONFIRMED**: Brake force accumulator. Range 56 (idle) to 184+ (full brake). Previously misidentified as "collision_recovery_param."
 
 #### +0xAC — steering_sensor? (NOT D-pad, NOT in writer maps)
 - **Init**: Not in dump.

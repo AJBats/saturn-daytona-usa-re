@@ -268,10 +268,13 @@ one write instruction and observes the effect. Requires `MODS=1` build.
   appeared completely unbound. One instruction poked (jsr only), verified
   clean NOP with mov.l and delay slot untouched.
   **Conclusion**: FUN_0602EFF0 is NOT just a steering processor. It
-  initializes state that downstream pipeline calls depend on — including the
-  force accumulator. The "steering input dispatch" name is too narrow.
-  Mapper should investigate what state FUN_0602EFF0 writes that the force
-  pipeline reads.
+  initializes the rotation state vector (+0xB0, +0x78, +0x94) that ALL
+  downstream physics depends on. **Dependency chain**: FUN_0602EFF0 → +0xB0
+  → sym_0602F0E8 (call 6, EMA → +0xD0) → FUN_0602D43C (call 16a, reads +0xD0
+  for steering/collision) → +0x58/+0x5C → force chain. Without the atan2
+  rotation outputs, the physics has no directional reference frame — force
+  decomposition produces zero. No DIRECT overlap with FUN_0602CA84's read
+  set; the coupling is through intermediate pipeline stages.
 - **Best scenario**: Load `usa_tt_straight.mc0`, hold C + LEFT.
 - **Confidence**: HIGH → **CONFIRMED** (steering dead). UNEXPECTED (throttle
   also dead — hypothesis was steering-only).
@@ -286,9 +289,11 @@ one write instruction and observes the effect. Requires `MODS=1` build.
 - **Actual result**: **UNEXPECTED — throttle completely dead.** Could not
   accelerate at all. Same pattern as FUN_0602EFF0 test — a function labeled
   as domain-specific (surface) is actually a dependency for the force pipeline.
-  FUN_0602F5B6 must write state that FUN_0602CA84 (force accumulator, call 14)
-  reads. Mapper should trace which fields FUN_0602F5B6 writes that
-  FUN_0602CA84 consumes.
+  **Dependency chain**: FUN_0602F5B6 writes +0xEC, +0xF0, +0xF4, +0x11C.
+  FUN_0602CA84 reads ALL FOUR of these for surface modulation in the force
+  formula. DIRECT coupling — skipping the surface writer leaves these at
+  stale/zero values, zeroing the surface contribution to force. This is
+  the most tightly coupled dependency in the pipeline.
 - **Best scenario**: Load `usa_tt_offtrack_stop.mc0`, hold C.
 - **Confidence**: CONFIRMED (throttle dead). Surface-isolation hypothesis
   DISPROVEN — cannot isolate surface response by skipping this call alone.
@@ -309,11 +314,10 @@ one write instruction and observes the effect. Requires `MODS=1` build.
 
 ### NOP Test: FUN_0602CCEC (speed convergence, called from FUN_0602CA84)
 
-- **What to NOP**: The BSR to FUN_0602CCEC inside FUN_0602CA84. The exact
-  poke address needs verification in live memory — the BSR is at approximately
-  FUN_0602CA84 + 0x1C4 (source line 280-281) but BSR encoding is PC-relative
-  and must be verified. **Ask human to disassemble at 0x0602CC4C area to find
-  the BSR opcode.**
+- **What to NOP**: BSR at 0x0602CC40 (source line 280: `.reloc` + `.2byte 0xB000`).
+  Poke command: `poke 0602CC40 00 09`. This is inside FUN_0602CA84, not the
+  dispatcher. Address derived from `.L_0602CC40` label in FUN_0602CA84.s (retail
+  address, same methodology as confirmed NOP tests).
 - **Writer function**: FUN_0602CCEC (writes +0x264, +0x110, +0x10C, +0xC0)
 - **Expected effect**: Speed accelerates WITHOUT converging to gear max.
   The feedback loop `car[+0xE0] → car[+0x110] → car[+0xFC]` is broken —
