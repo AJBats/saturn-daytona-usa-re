@@ -30,21 +30,30 @@ signal path and deepening field understanding.
 - **What this unblocks**: Completes the throttle→speed pipeline. Identifies
   which pipeline call (1-14) carries the C button signal into the force chain.
 
-### 2. Dual position investigation — find physics-internal position
+### 2. NOP position writer behavior proof — 3 sub-tests
 
-- **Why**: NOP test of sym_0602D8BC (position writer) showed the car graphic
-  froze but physics continued (speed/gears worked, surface changed as if car
-  was moving). The human theorizes there's an internal physics position that
-  continued advancing, separate from the rendered +0x10/+0x18. Identifying
-  this internal position would reveal the physics→rendering handoff.
-- **What to do**: NOP sym_0602D8BC (poke 0602EF9E 00 09), then hold C for
-  200 frames. Sample ALL 616 bytes of car[0] at frames 0, 100, 200. Compare
-  with un-NOPped run. Fields that STILL change when position is frozen are
-  physics-internal and not rendered. Focus on +0x140, +0x144 (unique every
-  frame, potentially internal coordinates).
-- **What this unblocks**: Maps the internal physics coordinate system. Critical
-  for transplant — need to know which position the physics reads for collision
-  detection, track segment advance, etc.
+- **Why**: Dual position theory DISPROVED (no internal position field). But the
+  ALTERNATIVE explanation for the human's observations needs proof, not inference.
+
+  **Test A — Camera follows heading (proves camera rotation observation):**
+  NOP position writer (poke 0602EF9E 00 09). Hold C + LEFT for 60 frames.
+  Read car[+0x20] (heading) at 0x06078920 before and after. If heading changed,
+  camera rotation is explained (camera reads heading, heading updates normally,
+  car graphic stays frozen). Existing CSVs can't prove this — they used
+  straight-throttle (no steering), so heading stayed constant.
+
+  **Test B — Surface fields vs track segments (PROVEN from existing data):**
+  CSV analysis shows: track segment fields (+0x184, +0x1E4) diverge at frame
+  106-112 in the NOP run. BUT surface fields (+0xF4, +0x1FC) do NOT diverge
+  within 200 frames — the segment change at frame 106 doesn't trigger a surface
+  type change on this particular track section. The human's "grass" observation
+  likely occurred much later (past 200 frames) when the frozen position falls
+  further behind the advancing segments.
+
+  **Test C — Accel delta vs surface divergence (PROVEN — no divergence):**
+  +0xFC (accel delta) is IDENTICAL between NOP and baseline for all 200 frames.
+  No acceleration change within the capture window. The human's observation
+  of changed acceleration was at a later time point (sustained driving).
 
 ### 3. Steering response — rolling start save state needed
 

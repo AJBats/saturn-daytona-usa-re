@@ -66,6 +66,8 @@ Only fields with emulator evidence. Offset labels come from observations, not Gh
 | sym_0602D8BC = rendered position writer (NOP → frozen car) | Human NOP test | explorer_priorities.md |
 | **NO dual position system** — all physics identical when position frozen | NOP + 200f comparison | dual_position_obs.md |
 | Pipeline does NOT read car[+0x10/+0x18] — position is write-only output | dual_position_obs.md | All physics fields identical in NOP vs baseline |
+| Track segments diverge at frame 106 in NOP run, surface fields do NOT | CSV analysis | +0xF4/+0x1FC identical all 200f, +0x1E4 diverges at f106 |
+| Accel delta (+0xFC) identical NOP vs baseline for all 200 frames | CSV analysis | Human's "felt like grass" was past capture window |
 | FUN_0602EFF0 NOP kills ALL input (steering AND throttle) | Human NOP test | Pipeline initializer, not just steering |
 | FUN_0602F5B6 NOP kills throttle (unexpected surface dependency) | Human NOP test | Surface fields feed force accumulator |
 | FUN_0602CA84 NOP kills throttle but STEERING STILL WORKS | Human NOP test | Clean throttle/force gate. Steering splits before call 14 |
