@@ -1,0 +1,34 @@
+function: sym_0602EFCC
+address: 0x0602EFCC
+address_end: 0x0602EFDA
+source_file: reimpl/src/FUN_0602EEB8.s
+
+# Sin/cos roll computation, pipeline call 12. ~12 instructions.
+# Reads +0x24 (roll angle), writes +0x100 = sin(roll), +0x104 = cos(roll).
+# Both CONFIRMED by breakpoint. On flat track: sin(0)=0, cos(0)=65536.
+
+claims:
+  - id: call_count_throttle
+    type: call_count_per_frame
+    description: "sym_0602EFCC (sin/cos roll) fires ~1x per frame (pipeline call 12)"
+    function: sym_0602EFCC
+    address: 0x0602EFCC
+    scenario: straight_throttle
+    expected_count: 2
+    tolerance: 1
+
+  - id: speed_increases_throttle
+    type: value_changes_with_input
+    description: "Speed (car[+0x0C]) increases when C is held — pipeline validation"
+    address: 0x0607890C
+    input: C
+    direction: increases
+    frames: 60
+
+  - id: position_decreases_throttle
+    type: value_changes_with_input
+    description: "Position X (car[+0x10]) decreases when C is held — pipeline validation"
+    address: 0x06078910
+    input: C
+    direction: decreases
+    frames: 60
