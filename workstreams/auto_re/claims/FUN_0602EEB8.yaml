@@ -1,0 +1,40 @@
+function: FUN_0602EEB8
+address: 0x0602EEB8
+address_end: 0x0602EFCC
+source_file: reimpl/src/FUN_0602EEB8.s
+
+claims:
+  - id: call_count_throttle
+    type: call_count_per_frame
+    description: "FUN_0602EEB8 breakpoint fires 2x per frame (1 call, 2 instruction hits at +0/+2)"
+    function: FUN_0602EEB8
+    address: 0x0602EEB8
+    scenario: straight_throttle
+    expected_count: 2
+    tolerance: 0
+
+  - id: writes_accel_delta
+    type: writes_to
+    description: "Inline code within FUN_0602EEB8 writes car[+0xFC] (accel delta) via PC 0x0602EF4E"
+    function: FUN_0602EEB8
+    function_end: 0x0602EFCC
+    address: 0x060789FC
+    scenario: straight_throttle
+    frames: 60
+
+  - id: writes_drag_copy
+    type: writes_to
+    description: "Inline code within FUN_0602EEB8 writes car[+0x50] (drag copy) via PC 0x0602EEDE"
+    function: FUN_0602EEB8
+    function_end: 0x0602EFCC
+    address: 0x06078950
+    scenario: straight_throttle
+    frames: 60
+
+  - id: speed_increases_throttle
+    type: value_changes_with_input
+    description: "Speed (car[+0x0C]) increases when C (throttle) is held from dead stop"
+    address: 0x0607890C
+    input: C
+    direction: increases
+    frames: 60

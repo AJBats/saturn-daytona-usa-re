@@ -1,0 +1,2 @@
+function	passed	total	tier	notes
+FUN_0602EEB8	4	4	2	call_count(2x/frame), writes_to(+0xFC,+0x50), value_changes(speed+C). Dropped writes_frame_counter(+0x252 watchpoint 0 hits, question filed).
