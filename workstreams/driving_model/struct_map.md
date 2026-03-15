@@ -76,6 +76,8 @@ Only fields with emulator evidence. Offset labels come from observations, not Gh
 | FUN_0602CCEC Tier 2 (3/3, gates on speed>0) | Oracle test | results.tsv |
 | FUN_0602CA84 Tier 2 (3/3, writes_to infeasible) | Oracle test | results.tsv |
 | FUN_0602EFF0 Tier 2 (3/3, steering processor) | Oracle test | results.tsv |
+| sym_0602D814 Tier 2 (3/3, writes_to +0x0C worked — 59 hits) | Oracle test | results.tsv |
+| Watchpoint catches `mov.l @(disp,Rn)` but NOT `mov.l @(R0,Rn)` | sym_0602D814 vs FUN_0602CA84 | results.tsv |
 
 ## Empirical Observations (2026-03-05)
 
