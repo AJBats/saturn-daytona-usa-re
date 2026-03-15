@@ -114,28 +114,28 @@ FUN_0602EEB8 [player physics dispatcher]
 
 ### All JSR targets (ordered by call position)
 
-| # | Target | Pool Label | Source File | Role (hypothesis) |
-|---|--------|-----------|-------------|-------------------|
-| 1 | sym_0602FDA4 | .L_0602EF00 | FUN_0602F9A6.s | Initial state setup |
-| 2 | FUN_0602EFF0 | .L_0602EF04 | FUN_0602EFF0.s | Input/state dispatch |
-| 4 | sym_0602F3EC | .L_0602EF0C | FUN_0602F270.s | Physics stage |
-| 5 | sym_0602F7BC | .L_0602EF10 | FUN_0602F270.s | Physics stage |
-| 6 | sym_0602F0E8 | .L_0602EF14 | FUN_0602EFF0.s | Flag check |
-| 7a | sym_0602F17C | .L_0602EF64 | FUN_0602EFF0.s | Conditional path A |
-| 7b | FUN_0602F270 | .L_0602EF18 | FUN_0602F270.s | Conditional path B (steering?) |
-| 8 | sym_0602F17C | .L_0602EF64 | (same as 7a) | Post-condition call |
-| 9 | sym_0602F474 | .L_0602EF68 | FUN_0602EFF0.s | Physics stage |
-| 10 | sym_0602F4B4 | .L_0602EF6C | FUN_0602EFF0.s | Physics stage |
-| 11 | FUN_0602F5B6 | .L_0602EF70 | FUN_0602F5B6.s | Surface/drag |
-| 12 | sym_0602EFCC | .L_0602EF74 | FUN_0602EEB8.s | Rotation (inline) |
-| 13 | FUN_0602C690 | .L_0602EF78 | FUN_0602C690.s | Collision magnitude |
-| 14 | FUN_0602C8E2 | .L_0602EF7C | FUN_0602C8E2.s | Collision response |
-| 15 | FUN_0602CA84 | .L_0602EF80 | FUN_0602CA84.s | Collision impact |
-| 16a | FUN_0602D43C | .L_0602EF88 | FUN_0602D43C.s | Collision+steering (main) |
-| 16b | FUN_0602D08A | .L_0602EF84 | ? | Collision (alternate) |
-| 17 | FUN_0602CDF6 | .L_0602EFBC | ? | State finalize |
-| 18 | sym_0602D814 | .L_0602EFC0 | FUN_0602D43C.s | Speed writer |
-| 19 | sym_0602D8BC | .L_0602EFC4 | FUN_0602D89A.s | Position writer |
+| # | Target | Source File | Role (static hypothesis) | Field Access |
+|---|--------|-------------|--------------------------|-------------|
+| 1 | sym_0602FDA4 | FUN_0602F9A6.s | Initial state setup | Unknown |
+| 2 | FUN_0602EFF0 | FUN_0602EFF0.s | Input/state dispatch | Calls FUN_0602ECCC (atan2) x3 |
+| 4 | sym_0602F3EC | FUN_0602F270.s | Speed index + drag | R: +0x0C. W: +0x08, +0x48, +0x50 |
+| 5 | sym_0602F7BC | FUN_0602F5B6.s | Effect counter ticks | RW: +0x152, +0x166, +0x208 |
+| 6 | sym_0602F0E8 | FUN_0602EFF0.s | Collision state check | R: +0xB8, +0x1BC. W: +0x68, +0x74, +0x84, +0x90, +0xD0, +0x166 |
+| 7a | sym_0602F17C | FUN_0602EFF0.s | Gear/section state machine | RW: +0xD8, +0xDC, +0xE0. Tables: sym_060477AC, sym_0604779C |
+| 7b | FUN_0602F270 | FUN_0602F270.s | Track force application | R: +0xC0, +0xDC/DE, +0xE0, +0xE8. W: +0xC4, +0xE0, +0x84 |
+| 8 | sym_0602F17C | (same as 7a) | Post-condition repeat | (same as 7a) |
+| 9 | sym_0602F474 | FUN_0602F270.s | Animation counter | R: +0xD4. W: +0xD4, +0x114. Table: sym_060477D8 |
+| 10 | sym_0602F4B4 | FUN_0602F270.s | Opponent proximity | R: +0x10, +0x18, +0x28. W: +0xD6 |
+| 11 | FUN_0602F5B6 | FUN_0602F5B6.s | Surface/drag | W: +0xEC, +0xF0, +0xF4, +0x11C |
+| 12 | sym_0602EFCC | FUN_0602EEB8.s | Rotation (inline) | Unknown |
+| 13 | FUN_0602C690 | FUN_0602C690.s | Collision magnitude | R: +0x120-+0x12C |
+| 14 | FUN_0602C8E2 | FUN_0602C8E2.s | Collision response | R: +0x40, +0x5C, +0x60, +0x64 |
+| 15 | FUN_0602CA84 | FUN_0602CA84.s | Collision impact | R: +0x100, +0x104. W: +0xFC (accel delta) |
+| 16a | FUN_0602D43C | FUN_0602D43C.s | Collision+steering (main) | Calls atan2 x3, ECCC x3. W: +0x166 |
+| 16b | FUN_0602D08A | ? | Collision (alternate) | Unknown |
+| 17 | FUN_0602CDF6 | ? | State finalize | Unknown |
+| 18 | sym_0602D814 | FUN_0602D43C.s | **Speed writer** | R: +0x0C, +0xFC. W: +0x0C, +0xE0, +0xE8 |
+| 19 | sym_0602D8BC | FUN_0602D89A.s | **Position writer** | R: +0x0C, +0x250. W: +0x10, +0x18, +0x38, +0x3C, +0x18C, +0x190 |
 
 ### Register Conventions
 
@@ -149,13 +149,16 @@ FUN_0602EEB8 [player physics dispatcher]
 The pipeline follows a clear pattern:
 
 1. **Setup** (calls 1-2): Initialize state, dispatch input
-2. **Physics stages** (calls 4-10): Multiple computational passes over car fields.
-   These are the "black box" stages — we know they're called but not what
-   each specifically computes. Identifying them is Priority #1 for the Explorer.
-3. **Surface** (call 11): FUN_0602F5B6 writes surface-related fields
-4. **Collision** (calls 12-16): Detect, measure, and respond to collisions
-5. **Finalize** (call 17): State cleanup
-6. **Accumulators** (calls 18-19): Apply deltas to speed and position
+2. **Drag + counters** (calls 4-5): Speed index computation, speed-dependent
+   drag on +0x48/+0x50, frame-based effect timer decrements
+3. **State checks** (calls 6-8): Collision detection → conditional track force
+   application OR section state machine transition
+4. **Display + proximity** (calls 9-10): Animation frame cycling, opponent
+   distance/angle check
+5. **Surface** (call 11): FUN_0602F5B6 writes surface fields (+0xEC/F0/F4/11C)
+6. **Collision** (calls 12-16): Magnitude → response → impact → steering/damping
+7. **Finalize** (call 17): State cleanup
+8. **Accumulators** (calls 18-19): Apply deltas to speed and position
 
 The accumulators always run last. All upstream computation feeds into
 car[+0xFC] (accel delta) and directional state that the accumulators
@@ -171,6 +174,26 @@ integrate into car[+0x0C] (speed) and car[+0x10]/[+0x18] (position).
 | Steering | FUN_0602F270 (conditional) | part of FUN_0600c5d6 | FUN_0600c970 (AI) |
 | Surface/drag | FUN_0602F5B6 | FUN_0600ca96 | FUN_0600ca96 |
 | Heading | embedded in stages | FUN_0600c8cc + c7d4 | FUN_0600c8cc + c7d4 |
+
+### Functional Correspondence (field-access based)
+
+The AI pipeline functions have known hypotheses (from `static_hypotheses.md`).
+By matching field access patterns, we can propose player pipeline equivalents.
+
+| Physics concept | AI function | Player equivalent | Evidence |
+|----------------|------------|-------------------|----------|
+| Speed index | FUN_0600c4f8 (R/W +0x08, +0x0C) | sym_0602F3EC (call 4) | Both R: +0x0C, W: +0x08 via ×0x480000 |
+| Friction/drag | FUN_0600ca96 (R: +0x1F8/+0x1FC) | FUN_0602F5B6 (call 11) | Both write surface-related fields |
+| Collision dispatch | FUN_0600cf58 (R: +0x04, +0x08) | FUN_0602C690→CA84 (calls 13-15) | Both involve collision detection |
+| Track segment advance | FUN_0600ceba (R: +0x68, +0x6C) | NOT IN PLAYER PIPELINE? | May be called elsewhere for player |
+| Heading/slip calc | FUN_0600c8cc (RW: +0x28) | Embedded in calls 13-16? | +0x28 (slip) writers in comprehensive map all in 0x0602Cxxx range |
+| Airborne damping | FUN_0600c928 (W: +0x48, +0x50) | sym_0602F3EC (call 4) | Both modify +0x48/+0x50 with speed-scaled values |
+| Gear shift | FUN_06008318 (R: +0xB8) | NOT IN PLAYER PIPELINE | Called from AI normal pipeline only? Or called separately for player |
+
+Key insight: the player pipeline does NOT call the same shared functions as
+the AI pipeline. It has its OWN implementations in the 0x0602xxxx address
+range. This means the player physics is a **completely separate codebase**
+from the AI physics — not a shared library with different entry points.
 
 The player pipeline is significantly MORE complex than the AI pipeline:
 - 19 ordered calls vs 6 for AI
