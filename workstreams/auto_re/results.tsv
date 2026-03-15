@@ -2,3 +2,5 @@ function	passed	total	tier	notes
 FUN_0602EEB8	4	4	2	call_count(2x/frame), writes_to(+0xFC,+0x50), value_changes(speed+C). Dropped writes_frame_counter(+0x252 watchpoint 0 hits, question filed).
 FUN_0602CA84	2	2	1	call_count(1x/frame), value_changes(accel_delta+C). All writes_to failed (0 watchpoint hits for +0xC0,+0x108,+0x148). Question filed re: watchpoint limitations.
 sym_0602D8BC	4	5	2	call_count(1x/frame), writes_to(+0x10,+0x18C), value_changes(position_x decreases with C). writes_heading(+0x20) failed (0 hits, watchpoint issue).
+FUN_0600C010	3	3	2	call_count(2x/frame), value_changes(speed+C, position_x-C). Racing orchestrator — frame execution order validated.
+FUN_0602F5B6	3	5	2	call_count(1x/frame), value_changes(track_progress+C, speed+C). writes_to(+0xF4,+0xEC) failed (0 hits, watchpoint issue). Surface writer pipeline call 11.

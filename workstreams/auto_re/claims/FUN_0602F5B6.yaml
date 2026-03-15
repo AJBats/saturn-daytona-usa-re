@@ -1,0 +1,48 @@
+function: FUN_0602F5B6
+address: 0x0602F5B6
+address_end: 0x0602F6E0
+source_file: reimpl/src/FUN_0602F5B6.s
+
+claims:
+  - id: call_count_throttle
+    type: call_count_per_frame
+    description: "FUN_0602F5B6 (surface writer) breakpoint fires ~1x per frame (pipeline call 11)"
+    function: FUN_0602F5B6
+    address: 0x0602F5B6
+    scenario: straight_throttle
+    expected_count: 2
+    tolerance: 1
+
+  - id: writes_surface_f4
+    type: writes_to
+    description: "FUN_0602F5B6 writes car[+0xF4] (surface grip) via FUN_0602F5EE at PC 0x0602F6B6"
+    function: FUN_0602F5B6
+    function_end: 0x0602F6E0
+    address: 0x060789F4
+    scenario: straight_throttle
+    frames: 60
+
+  - id: writes_surface_ec
+    type: writes_to
+    description: "FUN_0602F5B6 writes car[+0xEC] (surface normal) via FUN_0602F5EE at PC 0x0602F68C"
+    function: FUN_0602F5B6
+    function_end: 0x0602F6E0
+    address: 0x060789EC
+    scenario: straight_throttle
+    frames: 60
+
+  - id: track_progress_increases
+    type: value_changes_with_input
+    description: "Track progress (car[+0xF8]) increases when C is held from dead stop"
+    address: 0x060789F8
+    input: C
+    direction: increases
+    frames: 60
+
+  - id: speed_increases_throttle
+    type: value_changes_with_input
+    description: "Speed (car[+0x0C]) increases when C is held — validates pipeline execution"
+    address: 0x0607890C
+    input: C
+    direction: increases
+    frames: 60
