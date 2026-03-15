@@ -16,19 +16,13 @@ signal path and deepening field understanding.
 
 ## High Priority (fills remaining gaps)
 
-### 1. Throttle signal path — watchpoint on car[+0x108]
+### 1. Throttle signal path — RESOLVED
 
-- **Why**: The #1 remaining gap. We now know the accel delta computation
-  reads car[+0x108] and car[+0x10C] as force accumulators, and the C button
-  signal enters through one of these. car[+0x100/+0x104] are sin/cos(roll),
-  NOT throttle. The upstream pipeline stage that writes the throttle-dependent
-  component of +0x108 or +0x10C is unknown.
-- **What to do**: Load `usa_tt_straight.mc0`. Set watchpoint on car[+0x108]
-  (0x06078A08). Run 10 frames with C held, note writer PCs and values.
-  Then 10 frames idle. Compare: the PC that writes DIFFERENT values between
-  C-held and idle carries the throttle signal. Repeat for car[+0x10C].
-- **What this unblocks**: Completes the throttle→speed pipeline. Identifies
-  which pipeline call (1-14) carries the C button signal into the force chain.
+- **Status**: CLOSED. car[+0x74] (throttle accumulator, range 56-184) is
+  the primary throttle input to FUN_0602CA84. Written by sym_0602FDA4 (call 1):
+  C pressed → +10/frame (max 184), C released → decays to 56. FUN_0602CA84
+  reads +0x74 DIRECTLY. +0x108/+0x10C are secondary self-accumulated effects,
+  not the throttle carrier. No watchpoints needed.
 
 ### 2. Dual position theory — RESOLVED (human confirmed)
 
