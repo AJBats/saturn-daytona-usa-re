@@ -19,28 +19,41 @@
 3. **[LOW]** 17/18 pipeline calls at Tier 2. Identify the remaining call
    and prioritize it for the Explorer if observation is missing.
 
-## Dual Position Theory — Review
+4. **[HIGH]** Dual position theory disproval is accepted (the mechanism is
+   wrong — there is no internal position field). BUT the alternative
+   explanation for the human's observations has NOT been proven. The human
+   observed three specific things during the sym_0602D8BC NOP test:
 
-**The disproval is SOUND.** The Explorer's methodology (200-frame full struct
-comparison, NOP vs baseline) is rigorous. Key evidence:
+   **(a)** Camera rotated as if following a turn when LEFT/RIGHT pressed.
+   **(b)** Acceleration behavior changed — felt like being on grass.
+   **(c)** At rest, camera pointed in a direction consistent with being
+   elsewhere on the track.
 
-- ALL physics fields identical with/without position writer
-- Position is write-only terminal output (not read by upstream pipeline)
-- +0x140/+0x144 confirmed NOT internal position (identical in both runs)
-- Track segment freeze at frame ~106 explains the human's observation of
-  changed acceleration behavior (surface data stops advancing, not a ghost car)
+   The Explorer's data shows heading (+0x20) evolves identically in both
+   runs. This plausibly explains (a) and (c) — camera follows heading, car
+   graphic stays frozen, creating the illusion of turning. But this is an
+   inference, not a proof. **Prove it**: show which fields the camera system
+   reads, confirm it reads +0x20 (heading) and +0x10/+0x18 (position), and
+   demonstrate that heading-change-with-frozen-position produces the observed
+   camera behavior.
 
-The Mapper correctly integrated this: removed dual position from struct map,
-replaced with "position is write-only output" finding. The camera rotation
-the human observed is explained by heading (+0x20) updating normally — camera
-follows heading, creating the illusion of turning while the car graphic stays
-fixed. No dual position system needed.
+   For (b), the claim is "track segments freeze at frame ~106, which changes
+   surface properties, which changes the acceleration curve." This is a
+   three-link causal chain with zero proof at any link:
+   - Link 1: Track segments freeze → SHOWN (fields diverge at frame 106)
+   - Link 2: Frozen segments → surface fields stop updating → NOT PROVEN
+   - Link 3: Stale surface fields → acceleration change → NOT PROVEN
 
-**One nuance to document**: The human's "surface changed as if on grass"
-observation is more precisely "surface properties stopped advancing because
-track segments froze." The car didn't reach grass — the segment freeze at
-frame ~106 changed the acceleration curve. This distinction matters for
-understanding the track segment system's role.
+   **Design an experiment** that proves links 2 and 3. For example: in the
+   NOPped run, compare +0xEC/+0xF0/+0xF4/+0x1FC values before and after
+   frame 106. If surface fields truly freeze when segments freeze, they
+   should show constant values after frame 106 while the baseline continues
+   changing. Then show that these stale surface values feed into the force
+   accumulator differently — producing the acceleration change the human felt.
+
+   Dismissing a human observation with "it's consistent with" is not
+   sufficient. The alternative explanation must be empirically demonstrated.
+   Root-cause this.
 
 ## What's Working Well
 
