@@ -528,11 +528,11 @@ to find which pipeline stage writes the throttle-dependent value.
 - **OBSERVED**: Identical values to +0x8C during braking (56→216). Constant 56 during throttle.
 - **Hypothesis**: Paired brake/collision state with +0x8C. Both share the initial value 0x38 = 56.
 
-#### +0xAC — raw_steering_input? (NOT in writer maps)
+#### +0xAC — steering_sensor? (NOT D-pad, NOT in writer maps)
 - **Init**: Not in dump.
-- **Writers**: NOT in any writer map (81 or 95 offsets). Written before the physics pipeline by the input polling system, or by DMA/secondary SH-2.
+- **Writers**: NOT in any writer map (81 or 95 offsets). Written before the physics pipeline by unknown mechanism.
 - **Pipeline**: Read by FUN_0602EFF0 (call 2). Deadzone ±5, clamp max 80, scale ×255, then 3× atan2 → rotation angles.
-- **Hypothesis**: Raw D-pad steering value. The controller→steering chain starts here. **Identifying the writer of +0xAC reveals the input polling path.**
+- **OBSERVED (rolling_steer_left)**: Does NOT respond to D-pad LEFT. Shows same values (-106 at f100) with and without LEFT held. Prior hypothesis "raw D-pad steering" was WRONG. The D-pad steering input enters through a DIFFERENT mechanism. +0xAC may be an analog steering sensor or track-derived value, not button input. **The D-pad → steering path is still unmapped.**
 
 #### +0xB0 — steering_rotation?
 - **Init**: Not in dump.
