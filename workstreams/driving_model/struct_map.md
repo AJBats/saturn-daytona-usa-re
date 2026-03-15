@@ -682,10 +682,11 @@ to find which pipeline stage writes the throttle-dependent value.
   - If nonzero: drift/rotation path using lookup table at 0x0602E8B8 indexed by this value
 - **Hypothesis**: Drift mode intensity counter (0-10). 0 = normal driving. 1-10 = drift with table-scaled rotation. Set to 0xA (10) to start drift, counts down.
 
-#### +0x258 — collision_counter?
+#### +0x258 — heading_divergence_counter (OBSERVED)
 - **Init**: Not in dump.
 - **Writers**: FUN_0602D054 (pc=0x0602D05A, 230x, 84 unique) + FUN_0602D07C (pc=0x0602D086, 263x, const 0).
-- **Hypothesis**: Active in 230 frames, cleared in 263. Possibly collision persistence timer.
+- **Pipeline**: FUN_0602CDF6 (call 17) increments when `|car[+0x30] - car[+0x25C]| > 0x0444` (heading diverged from target by >6°). Zeroed when heading converges. Constant 0 at idle, 89 unique with throttle.
+- **OBSERVED**: NOT a collision counter — it's a heading divergence detector.
 
 #### +0x25C — computed_angle?
 - **Init**: Not in dump.
