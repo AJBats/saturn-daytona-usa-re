@@ -153,9 +153,9 @@ move the driving model from Daytona USA to Daytona USA CCE.
 | E4 | Shared infrastructure: math, memory, sync | **Ready** | Frame order known. Math functions (atan2, sin/cos, fixed-mul) identified. |
 | E5 | CCE compatibility analysis | Blocked on E2 | Need steering + track data format to compare with CCE. |
 
-**Blocker**: E2 steering input. We can specify the throttle/brake/gear
-input wiring today, but cannot specify the steering wire until the D-pad
-→ car struct path is traced. This is Explorer Priority #1.
+**NO REMAINING BLOCKERS.** All 6 racing inputs traced to car struct fields
+(2026-03-15). Steering enters via sym_0602FDA4 sub-call → +0xAC.
+Transplant spec can now be written in full.
 
 Deliverable: `transplant_spec.md`
 
