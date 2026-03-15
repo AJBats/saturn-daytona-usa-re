@@ -23,10 +23,12 @@ import sys
 import time
 import subprocess
 import argparse
-import shutil
-import tempfile
 
 PROJECT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# Import shared MednafenBot from the mednafen submodule
+sys.path.insert(0, os.path.join(PROJECT, "mednafen"))
+from mednafen_bot import MednafenBot
 
 # Frame timing from golden trace (2026-02-21 driven session)
 TRACE = [
@@ -59,156 +61,6 @@ def wsl_path(win_path):
     return f"/mnt/{drive}{rest}"
 
 
-# Fatal error patterns in Mednafen stderr that must fail the test.
-# SH2-ADDRERR = misaligned memory access (our custom Mednafen patch).
-# Note: SH2-EXCEPTION is too broad — it fires for normal BIOS interrupts.
-FATAL_PATTERNS = [
-    "SH2-ADDRERR",
-]
-
-
-class MednafenBot:
-    """Drives Mednafen (Windows .exe) via automation IPC."""
-
-    def __init__(self, ipc_dir, cue_path, verbose=False):
-        self.ipc_dir = ipc_dir
-        self.action_file = os.path.join(ipc_dir, "mednafen_action.txt")
-        self.ack_file = os.path.join(ipc_dir, "mednafen_ack.txt")
-        self.seq = 0
-        self.last_ack = ""
-        self.proc = None
-        self.stderr_file = None
-        self.cue_path = cue_path
-        self.verbose = verbose
-
-    def start(self, timeout=30):
-        """Launch Mednafen and wait for ready."""
-        med_bin = os.path.join(PROJECT, "mednafen", "src", "mednafen.exe")
-
-        # Project-local MEDNAFEN_HOME (same pattern as MCP server)
-        med_home = os.path.join(PROJECT, "mednafen", "home")
-        os.makedirs(med_home, exist_ok=True)
-
-        # Clean IPC files
-        for f in [self.action_file, self.ack_file]:
-            if os.path.exists(f):
-                os.remove(f)
-
-        # Remove stale lockfile
-        lockfile = os.path.join(med_home, "mednafen.lck")
-        if os.path.exists(lockfile):
-            os.remove(lockfile)
-
-        env = os.environ.copy()
-        env["MEDNAFEN_HOME"] = med_home
-
-        self.stderr_file = tempfile.NamedTemporaryFile(
-            mode="w", suffix="_mednafen_stderr.txt", delete=False,
-        )
-        self.proc = subprocess.Popen(
-            [med_bin, "--sound", "0",
-             "--automation", self.ipc_dir, self.cue_path],
-            stdin=subprocess.DEVNULL,
-            stdout=subprocess.DEVNULL,
-            stderr=self.stderr_file,
-            env=env,
-        )
-
-        # Wait for ready
-        deadline = time.time() + timeout
-        while time.time() < deadline:
-            if os.path.exists(self.ack_file):
-                with open(self.ack_file) as f:
-                    content = f.read().strip()
-                if "ready" in content:
-                    self.last_ack = content
-                    return True
-            time.sleep(0.2)
-        return False
-
-    def send(self, cmd):
-        """Send a command via action file."""
-        self.seq += 1
-        padding = "." * (self.seq % 16)
-        tmp = self.action_file + ".tmp"
-        with open(tmp, "w", newline="\n") as f:
-            f.write(f"# {self.seq}{padding}\n")
-            f.write(cmd + "\n")
-        if os.path.exists(self.action_file):
-            os.remove(self.action_file)
-        os.rename(tmp, self.action_file)
-
-    def wait_ack_change(self, keyword, timeout=30):
-        """Wait for ack to change and contain keyword."""
-        deadline = time.time() + timeout
-        last_content = None
-        while time.time() < deadline:
-            # Check process health
-            if self.proc and self.proc.poll() is not None:
-                print(f"  [!] Mednafen process exited (rc={self.proc.returncode})")
-                return None
-            if os.path.exists(self.ack_file):
-                try:
-                    with open(self.ack_file) as f:
-                        content = f.read().strip()
-                except (IOError, PermissionError):
-                    time.sleep(0.05)
-                    continue
-                if content != last_content:
-                    last_content = content
-                    if self.verbose:
-                        print(f"  [ack] {content[:80]}")
-                if content != self.last_ack and keyword in content:
-                    self.last_ack = content
-                    return content
-            time.sleep(0.05)
-        # Debug: print what we have vs what we want
-        print(f"  [timeout] keyword='{keyword}' last_ack='{self.last_ack[:60]}...'")
-        if last_content:
-            print(f"  [timeout] current='{last_content[:80]}'")
-        return None
-
-    def send_and_wait(self, cmd, keyword, timeout=30):
-        """Send command and wait for ack change."""
-        if self.verbose:
-            print(f"  [send] {cmd} (wait for '{keyword}')")
-        self.send(cmd)
-        return self.wait_ack_change(keyword, timeout)
-
-    def check_stderr(self):
-        """Check captured stderr for fatal CPU errors. Returns list of errors found."""
-        if not self.stderr_file:
-            return []
-        self.stderr_file.flush()
-        stderr_path = self.stderr_file.name
-        errors = []
-        try:
-            with open(stderr_path, "r") as f:
-                for line in f:
-                    for pattern in FATAL_PATTERNS:
-                        if pattern in line:
-                            errors.append(line.strip())
-                            break
-        except (IOError, PermissionError):
-            pass
-        return errors
-
-    def quit(self):
-        """Shutdown Mednafen."""
-        if self.proc and self.proc.poll() is None:
-            self.send("quit")
-            try:
-                self.proc.wait(timeout=5)
-            except subprocess.TimeoutExpired:
-                self.proc.kill()
-        if self.stderr_file:
-            self.stderr_file.close()
-            try:
-                os.unlink(self.stderr_file.name)
-            except OSError:
-                pass
-
-
 def run_boot_test(cue_path, stages_to_run, screenshot_dir, compare=True, verbose=False):
     """Run the boot test, return dict of {stage: (pass, detail)}."""
     ipc_dir = os.path.join(PROJECT, "build", "boot_test_ipc")
@@ -225,7 +77,7 @@ def run_boot_test(cue_path, stages_to_run, screenshot_dir, compare=True, verbose
 
     print("Launching Mednafen...")
     if not bot.start():
-        print("FAIL: Mednafen did not start in 30s")
+        print("FAIL: Mednafen did not start in time")
         return {"_error": "launch_failed"}
 
     print("Mednafen ready.")

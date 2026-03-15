@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Interactive car select trace — launches visible WSL Mednafen, loads car
+"""Interactive car select trace — launches visible Mednafen, loads car
 select save state, records call trace + input trace while you switch cars.
 
 Usage:
@@ -11,8 +11,10 @@ Press LEFT/RIGHT to switch car selection. Close window or Ctrl+C when done.
 import os
 import sys
 import time
-import subprocess
 import tempfile
+
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "mednafen"))
+from mednafen_bot import MednafenBot
 
 PROJECT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -24,94 +26,17 @@ CUE = os.path.join(PROJECT, "build", "disc", "rebuilt_disc", "daytona_rebuilt.cu
 OUTPUT_DIR = os.path.join(PROJECT, "workstreams", "car_flip_benchmark")
 
 
-def wsl_path(win_path):
-    drive = win_path[0].lower()
-    rest = win_path[2:].replace("\\", "/")
-    return f"/mnt/{drive}{rest}"
-
-
-class MednafenBot:
-    def __init__(self, ipc_dir):
-        self.ipc_dir = ipc_dir
-        self.action_file = os.path.join(ipc_dir, "mednafen_action.txt")
-        self.ack_file = os.path.join(ipc_dir, "mednafen_ack.txt")
-        self.seq = 0
-        self.proc = None
-
-    def start(self, timeout=30):
-        for f in [self.action_file, self.ack_file]:
-            if os.path.exists(f):
-                os.remove(f)
-
-        mednafen_wsl = wsl_path(os.path.join(PROJECT, "mednafen", "src", "mednafen"))
-        ipc_wsl = wsl_path(self.ipc_dir)
-        cue_wsl = wsl_path(CUE)
-
-        launch_cmd = (
-            f'export DISPLAY=:0; '
-            f'rm -f "$HOME/.mednafen/mednafen.lck"; '
-            f'"{mednafen_wsl}" '
-            f'--automation "{ipc_wsl}" "{cue_wsl}"'
-        )
-
-        self.proc = subprocess.Popen(
-            ["wsl", "-d", "Ubuntu", "-e", "bash", "-c", launch_cmd],
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-        )
-
-        deadline = time.time() + timeout
-        while time.time() < deadline:
-            if os.path.exists(self.ack_file):
-                with open(self.ack_file) as f:
-                    if "ready" in f.read():
-                        return True
-            time.sleep(0.2)
-        return False
-
-    def send(self, cmd):
-        self.seq += 1
-        padding = "." * (self.seq % 16)
-        tmp = self.action_file + ".tmp"
-        with open(tmp, "w", newline="\n") as f:
-            f.write(f"# {self.seq}{padding}\n")
-            f.write(cmd + "\n")
-        if os.path.exists(self.action_file):
-            os.remove(self.action_file)
-        os.rename(tmp, self.action_file)
-
-    def wait_ack(self, keyword, timeout=30):
-        deadline = time.time() + timeout
-        while time.time() < deadline:
-            if self.proc and self.proc.poll() is not None:
-                return None
-            if os.path.exists(self.ack_file):
-                try:
-                    with open(self.ack_file) as f:
-                        content = f.read().strip()
-                    if keyword in content:
-                        return content
-                except (IOError, PermissionError):
-                    pass
-            time.sleep(0.1)
-        return None
-
-    def alive(self):
-        return self.proc and self.proc.poll() is None
-
-
 def main():
     if not os.path.exists(SAVE_STATE):
         print(f"Save state not found: {SAVE_STATE}")
         sys.exit(1)
 
-    call_trace_path = wsl_path(os.path.join(OUTPUT_DIR, "carsel_call_trace.txt"))
-    input_trace_path = wsl_path(os.path.join(OUTPUT_DIR, "carsel_input_trace.txt"))
-    state_wsl = wsl_path(SAVE_STATE)
+    call_trace_path = os.path.join(OUTPUT_DIR, "carsel_call_trace.txt")
+    input_trace_path = os.path.join(OUTPUT_DIR, "carsel_input_trace.txt")
 
     with tempfile.TemporaryDirectory() as ipc_dir:
-        bot = MednafenBot(ipc_dir)
-        print("Launching WSL Mednafen (visible, with sound)...")
+        bot = MednafenBot(ipc_dir, CUE, show=True, sound=True, verbose=True)
+        print("Launching Mednafen...")
         if not bot.start():
             print("Failed to start Mednafen")
             sys.exit(1)
@@ -126,7 +51,7 @@ def main():
 
         # Load save state
         print("Loading car select save state...")
-        bot.send(f"load_state {state_wsl}")
+        bot.send(f"load_state {SAVE_STATE}")
         ack = bot.wait_ack("load_state")
         if not ack or "error" in ack:
             print(f"Failed to load state: {ack}")
@@ -153,17 +78,12 @@ def main():
 
         # Wait for user to close Mednafen (Ctrl+C to force quit)
         try:
-            while bot.alive():
+            while bot.proc and bot.proc.poll() is None:
                 time.sleep(0.5)
         except KeyboardInterrupt:
-            print("\nCtrl+C — killing Mednafen...")
-            bot.proc.terminate()
-            try:
-                bot.proc.wait(timeout=3)
-            except subprocess.TimeoutExpired:
-                bot.proc.kill()
-                bot.proc.wait()
+            print("\nCtrl+C — shutting down Mednafen...")
 
+        bot.quit()
         print("Mednafen exited.")
 
     # Check output

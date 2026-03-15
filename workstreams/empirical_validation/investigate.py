@@ -23,13 +23,14 @@ Usage:
 import os
 import sys
 import time
-import subprocess
 import argparse
-import tempfile
 import json
 from collections import Counter
 
 PROJECT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "mednafen"))
+from mednafen_bot import MednafenBot
+
 TRACE_FILE = os.path.join(PROJECT, "build", "golden_trace", "arcade_full.txt")
 RESULTS_DIR = os.path.join(PROJECT, "build", "investigation_results")
 LOG_FILE = None  # Set per-run
@@ -41,12 +42,6 @@ def log(msg):
     if LOG_FILE:
         with open(LOG_FILE, "a") as f:
             f.write(msg + "\n")
-
-
-def wsl_path(win_path):
-    drive = win_path[0].lower()
-    rest = win_path[2:].replace("\\", "/")
-    return f"/mnt/{drive}{rest}"
 
 
 def load_symbols():
@@ -185,81 +180,24 @@ GAME_STATES = {
 }
 
 
-class MednafenBot:
-    """Drives WSL Mednafen via automation IPC."""
+class DebugBot(MednafenBot):
+    """Extends MednafenBot with debug-specific methods (watchpoints, call traces, etc.)."""
 
-    def __init__(self, ipc_dir, cue_wsl):
-        self.ipc_dir = ipc_dir
-        self.action_file = os.path.join(ipc_dir, "mednafen_action.txt")
-        self.ack_file = os.path.join(ipc_dir, "mednafen_ack.txt")
+    def __init__(self, ipc_dir, cue_path):
+        super().__init__(ipc_dir, cue_path)
         self.wp_file = os.path.join(ipc_dir, "watchpoint_hits.txt")
-        self.seq = 0
-        self.last_ack = ""
-        self.proc = None
-        self.stderr_file = None
-        self.cue_wsl = cue_wsl
         self.current_frame = 0
 
-    def start(self, timeout=30):
-        mednafen_wsl = wsl_path(os.path.join(PROJECT, "mednafen", "src", "mednafen"))
-        ipc_wsl = wsl_path(self.ipc_dir)
-        for f in [self.action_file, self.ack_file, self.wp_file]:
-            if os.path.exists(f):
-                os.remove(f)
-        launch_cmd = (
-            f'export DISPLAY=:0; '
-            f'rm -f "$HOME/.mednafen/mednafen.lck"; '
-            f'"{mednafen_wsl}" '
-            f'--sound 0 --automation "{ipc_wsl}" "{self.cue_wsl}"'
-        )
-        self.stderr_file = tempfile.NamedTemporaryFile(
-            mode="w", suffix="_stderr.txt", delete=False,
-        )
-        self.proc = subprocess.Popen(
-            ["wsl", "-d", "Ubuntu", "-e", "bash", "-c", launch_cmd],
-            stdout=subprocess.DEVNULL, stderr=self.stderr_file,
-        )
-        deadline = time.time() + timeout
-        while time.time() < deadline:
-            if os.path.exists(self.ack_file):
-                with open(self.ack_file) as f:
-                    content = f.read().strip()
-                if "ready" in content:
-                    self.last_ack = content
-                    return True
-            time.sleep(0.2)
-        return False
+    def start(self, timeout=45):
+        # Clean watchpoint file alongside the parent's IPC files
+        if os.path.exists(self.wp_file):
+            os.remove(self.wp_file)
+        return super().start(timeout=timeout)
 
-    def send_and_wait(self, cmd, keyword, timeout=30):
-        self.seq += 1
-        padding = "." * (self.seq % 16)
-        tmp = self.action_file + ".tmp"
-        with open(tmp, "w", newline="\n") as f:
-            f.write(f"# {self.seq}{padding}\n")
-            f.write(cmd + "\n")
-        if os.path.exists(self.action_file):
-            os.remove(self.action_file)
-        os.rename(tmp, self.action_file)
-
-        deadline = time.time() + timeout
-        while time.time() < deadline:
-            if self.proc and self.proc.poll() is not None:
-                return None
-            if os.path.exists(self.ack_file):
-                try:
-                    with open(self.ack_file) as f:
-                        content = f.read().strip()
-                except (IOError, PermissionError):
-                    time.sleep(0.05)
-                    continue
-                if content != self.last_ack and keyword in content:
-                    self.last_ack = content
-                    return content
-            time.sleep(0.05)
-        return None
-
-    def frame_advance(self, n):
-        ack = self.send_and_wait(f"frame_advance {n}", "done frame_advance", timeout=120)
+    def frame_advance(self, n, timeout=120):
+        ack = self.send_and_wait(
+            f"frame_advance {n}", "done frame_advance", timeout=timeout
+        )
         if ack:
             self.current_frame += n
         return ack
@@ -272,9 +210,8 @@ class MednafenBot:
 
     def dump_mem_bin(self, addr_hex, size_hex, out_path):
         """Dump memory to binary file (supports up to 1MB)."""
-        wsl_p = wsl_path(out_path)
         ack = self.send_and_wait(
-            f"dump_mem_bin {addr_hex} {size_hex} {wsl_p}",
+            f"dump_mem_bin {addr_hex} {size_hex} {out_path}",
             "ok dump_mem_bin", timeout=60
         )
         if ack:
@@ -304,8 +241,7 @@ class MednafenBot:
         return hits
 
     def screenshot(self, path):
-        wsl_p = wsl_path(path)
-        ack = self.send_and_wait(f"screenshot {wsl_p}", "ok screenshot")
+        ack = self.send_and_wait(f"screenshot {path}", "ok screenshot")
         if ack:
             deadline = time.time() + 5
             while time.time() < deadline and not os.path.exists(path):
@@ -316,8 +252,7 @@ class MednafenBot:
         return self.send_and_wait("dump_regs", "R0=")
 
     def start_call_trace(self, path):
-        wsl_p = wsl_path(path)
-        return self.send_and_wait(f"call_trace {wsl_p}", "ok call_trace")
+        return self.send_and_wait(f"call_trace {path}", "ok call_trace")
 
     def stop_call_trace(self):
         return self.send_and_wait("call_trace_stop", "ok call_trace_stop")
@@ -330,20 +265,6 @@ class MednafenBot:
 
     def continue_to_break(self, timeout=30):
         return self.send_and_wait("continue", "break", timeout=timeout)
-
-    def quit(self):
-        if self.proc and self.proc.poll() is None:
-            self.send_and_wait("quit", "quit", timeout=5)
-            try:
-                self.proc.wait(timeout=5)
-            except subprocess.TimeoutExpired:
-                self.proc.kill()
-        if self.stderr_file:
-            self.stderr_file.close()
-            try:
-                os.unlink(self.stderr_file.name)
-            except OSError:
-                pass
 
 
 def replay_to_state(bot, target_state, trace_events):
@@ -860,7 +781,6 @@ def main():
     if not os.path.exists(cue_win):
         log(f"ERROR: Disc not found: {cue_win}")
         return 1
-    cue_wsl = wsl_path(cue_win)
 
     states_to_run = []
     if args.state == "all":
@@ -876,7 +796,7 @@ def main():
         ipc_dir = os.path.join(PROJECT, "build", "investigate_ipc")
         os.makedirs(ipc_dir, exist_ok=True)
 
-        bot = MednafenBot(ipc_dir, cue_wsl)
+        bot = DebugBot(ipc_dir, cue_win)
 
         log("Launching Mednafen...")
         if not bot.start():
