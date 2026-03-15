@@ -357,16 +357,27 @@ it's sin(roll_angle). The C button signal enters through car[+0x108] and/or
 car[+0x10C], which are intermediate force accumulators read AND written by
 FUN_0602CA84. These fields accumulate frame-over-frame.
 
-**Speed convergence loop (PROPOSED — static + correlation, needs NOP confirmation)**:
-FUN_0602CCEC (called from FUN_0602CA84) creates a feedback loop:
-`car[+0xE0] → car[+0x110] → car[+0xFC] → car[+0x0C] → car[+0xE0]`.
-The force term +0x110 is derived from `0x2134 - car[+0xE0]` (force deficit
-from gear max speed). +0x110 decays linearly by 1474/frame when positive.
-This produces speed convergence: as speed → gear_max, force deficit → 0,
-accel delta → 0. The gear lookup table at sym_0602E938 selects different force
-constants per gear (+0x7C) and track section (+0xDC).
-Evidence: static disassembly of both functions + per-frame CSV correlation.
-NOP test of FUN_0602CCEC would confirm (expect: speed exceeds gear max).
+**Traction model (CONFIRMED via NOP test — previously "speed convergence loop")**:
+FUN_0602CCEC is the **traction limiter**. The feedback loop
+`car[+0xE0] → car[+0x110] → car[+0xFC] → car[+0x0C] → car[+0xE0]`
+limits how much throttle force reaches the road surface. NOP test showed:
+- No tire peel-out at launch (unlimited grip from standstill)
+- Speed exceeded normal gear caps (reached gear 4 in auto)
+- Grass traction retained (surface slowed speed but grip stayed tight)
+- Gear shifting still worked normally
+
+The "speed converges to gear max" behavior is a SIDE EFFECT of traction
+limiting force throughput, not a direct speed governor. The force deficit
+`0x2134 - car[+0xE0]` represents available traction: as speed increases,
+more force is used just maintaining speed (rolling resistance), leaving
+less traction available for acceleration. The 1474/frame linear decay of
++0x110 models traction recovery over time.
+
+On grass, surface properties (+0xF4, +0x11C fed through FUN_0602F5B6)
+reduce available traction further — explaining both the speed cap AND
+the poor handling. With FUN_0602CCEC NOPped, surface still reduces speed
+(through the force accumulator) but can't reduce grip (traction model
+bypassed).
 
 **Brake behavior (2026-03-15)**: Braking from 27 mph → 0 in ~100 frames.
 Accel delta peaks at -303 (frame 20), decreases as speed drops. Force
