@@ -84,8 +84,8 @@ Maps the function call structure. Who calls whom, and in what order.
 | # | Task | Status | Artifact |
 |---|------|--------|----------|
 | C1 | AI pipeline call tree (FUN_0600e71a, FUN_0600e906) | Done | `call_tree.md` |
-| C2 | Player pipeline call tree (~0x0602EF00 -> FUN_0602D814) | Static draft | `player_pipeline.md` — 19-call sequence from ASM+Ghidra. Needs emulator call_trace validation. |
-| C3 | Frame orchestration — FUN_0600c010 call order per frame | Not started | Call trace 1 full racing frame |
+| C2 | Player pipeline call tree (~0x0602EF00 -> FUN_0602D814) | **Done** | `player_pipeline.md` — 18-call sequence validated via pc_trace_frame. Conditional paths observed. |
+| C3 | Frame orchestration — FUN_0600c010 call order per frame | **Done** | `FUN_0600C010_obs.md` — Player physics first (3.4%), AI loop, rendering last (93.1%). 217K PCs analyzed. |
 | C4 | Primary vs secondary SH-2 work split during racing | Not started | Dual-CPU call trace |
 
 ### C2: Player pipeline

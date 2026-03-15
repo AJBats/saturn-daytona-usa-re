@@ -1,13 +1,68 @@
 # Explorer Priorities — Updated 2026-03-15
 
-Phase 1 targets. Focus on the player physics pipeline — the code we're transplanting.
+Phase 2 targets. Pipeline validated, NOP tests confirmed. Now tracing throttle
+signal path and deepening field understanding.
 
-## High Priority (fills struct map gaps)
+## COMPLETED (Phase 1)
 
-### 1. Player physics call tree — full observation of FUN_0602EEB8
+- [x] Priority 1: Player physics call tree — **DONE** (FUN_0602EEB8_obs.md, 18 calls validated)
+- [x] Priority 2: Position fields — **DONE** (+0x10/+0x18 confirmed as world position)
+- [x] Priority 3: Heading angle fields — **DONE** (+0x20 heading, +0x28 slip, +0x30 = copy of +0x20)
+- [x] Priority 4: Velocity fields — **DONE** (+0x18C = +0x10 - +0x38, +0x190 = +0x18 - +0x3C)
+- [x] Priority 6: Surface fields — **DONE** (FUN_0602F5B6_obs.md, +0x1FC surface type index)
+- [x] Priority 7: Frame execution order — **DONE** (FUN_0600C010_obs.md, player runs first)
+- [x] NOP Test 1: sym_0602D814 — **CONFIRMED** (speed gate)
+- [x] NOP Test 2: sym_0602D8BC — **CONFIRMED** (position writer, dual-position theory)
 
-- **Why**: The player pipeline is the #1 unmapped area. Static analysis (Ghidra +
-  ASM) suggests FUN_0602EEB8 is the player physics dispatcher, calling ~15
+## High Priority (fills remaining gaps)
+
+### 1. Throttle signal path — watchpoint on car[+0x108]
+
+- **Why**: The #1 remaining gap. We now know the accel delta computation
+  reads car[+0x108] and car[+0x10C] as force accumulators, and the C button
+  signal enters through one of these. car[+0x100/+0x104] are sin/cos(roll),
+  NOT throttle. The upstream pipeline stage that writes the throttle-dependent
+  component of +0x108 or +0x10C is unknown.
+- **What to do**: Load `usa_tt_straight.mc0`. Set watchpoint on car[+0x108]
+  (0x06078A08). Run 10 frames with C held, note writer PCs and values.
+  Then 10 frames idle. Compare: the PC that writes DIFFERENT values between
+  C-held and idle carries the throttle signal. Repeat for car[+0x10C].
+- **What this unblocks**: Completes the throttle→speed pipeline. Identifies
+  which pipeline call (1-14) carries the C button signal into the force chain.
+
+### 2. Dual position investigation — find physics-internal position
+
+- **Why**: NOP test of sym_0602D8BC (position writer) showed the car graphic
+  froze but physics continued (speed/gears worked, surface changed as if car
+  was moving). The human theorizes there's an internal physics position that
+  continued advancing, separate from the rendered +0x10/+0x18. Identifying
+  this internal position would reveal the physics→rendering handoff.
+- **What to do**: NOP sym_0602D8BC (poke 0602EF9E 00 09), then hold C for
+  200 frames. Sample ALL 616 bytes of car[0] at frames 0, 100, 200. Compare
+  with un-NOPped run. Fields that STILL change when position is frozen are
+  physics-internal and not rendered. Focus on +0x140, +0x144 (unique every
+  frame, potentially internal coordinates).
+- **What this unblocks**: Maps the internal physics coordinate system. Critical
+  for transplant — need to know which position the physics reads for collision
+  detection, track segment advance, etc.
+
+### 3. Steering response — rolling start save state needed
+
+- **Why**: Steer LEFT from 0 mph produced IDENTICAL results to throttle-only.
+  Steering has zero effect at low speeds. Need a rolling-start scenario to
+  observe steering mechanics. The `daytona_rebuilt` save state starts at ~179
+  mph but with 39 AI cars (collision noise). Need clean time-trial high-speed
+  steering data.
+- **What to do**: Use `usa_tt_straight.mc0`, hold C for ~200 frames to build
+  speed to ~30 mph, THEN hold LEFT while maintaining C. Sample +0x20, +0x28,
+  +0x10, +0x18 every frame. The heading divergence from straight-line should
+  become visible once speed exceeds the steering threshold.
+- **What this unblocks**: Maps the steering pipeline — which fields change
+  with LEFT/RIGHT at speed. Identifies the speed threshold for steering activation.
+
+### 1 (original). Player physics call tree — DONE
+- **Status**: ~~Active~~ → **COMPLETED**. See FUN_0602EEB8_obs.md.
+  18-call sequence empirically validated via pc_trace_frame.
   sub-functions via `jsr @r13`. But the call ORDER, execution frequency, and
   field writes are all unconfirmed. The AI pipeline (FUN_0600e71a) has a call
   tree from Ghidra — the player pipeline has none from the emulator.
@@ -217,10 +272,14 @@ one write instruction and observes the effect. Requires `MODS=1` build.
 - **Best scenario**: Load `usa_tt_straight.mc0`, hold C from dead stop.
 - **Confidence**: HIGH — watchpoint-confirmed writer, C button correlation
   established (+70/update toward positive).
-- **BLOCKED (2026-03-15)**: Instruction at 0x0602EF4E in the retail binary is
-  `DC 0D` (`mov.l @(disp,PC), r12`) — a pool load, NOT a store to car[+0xFC].
-  The preceding instruction at 0x0602EF4C is `91 08` (`mov.w @(disp,PC), r1`)
-  — also a load. The PC 0x0602EF4E likely came from a free-build watchpoint
-  trace where addresses differ from retail. **Mapper: please re-derive the
-  write PC from retail addresses or identify which called function contains
-  the actual `mov.l rN, @(0xFC, rM)` store instruction.**
+- **BLOCKED (2026-03-15)**: PC 0x0602EF4E is the dispatcher return target,
+  not the write instruction. The actual write is in FUN_0602CA84's RTS delay
+  slot (source line 327: `mov.l r3, @(r0, r4)` where r4=0xFC). This is a
+  profiler PC-offset artifact — the profiler records the post-RTS PC.
+- **UNBLOCKED (Mapper fix)**: Instead of NOPping the individual write, NOP the
+  `jsr @r13` call to FUN_0602CA84 at **0x0602EF8E** (opcode `4D 0B` → `00 09`).
+  Poke: `poke 0602EF8E 00 09`. This skips the entire force accumulator —
+  broader effect than just +0xFC, but clean test of the accel delta path.
+  **Expected effect**: accel delta stays at initial value (0). Speed should
+  not change regardless of throttle, brake, or surface. Car coasts at whatever
+  speed was set at the moment of patching.

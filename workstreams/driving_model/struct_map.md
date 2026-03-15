@@ -38,9 +38,36 @@ Only fields with emulator evidence. Offset labels come from observations, not Gh
 
 | Offset | Evidence | Finding |
 |--------|----------|---------|
-| +0x0C | Watchpoint + HUD correlation | Speed magnitude. HUD mph = value / 1,467. Written by FUN_0602D814 (pc=0x0602D822) for player car. |
 | +0x08 | Observed formula | Speed index: `FUN_06027552(car[+0x0C], 0x480000)` — fixed-point multiply by 72 |
-| +0xFC | Watchpoint with C button | Acceleration delta. C button shifts +70/update toward positive. Writer PC: 0x0602EF4E (player path). |
+| +0x0C | Watchpoint + HUD + NOP | Speed magnitude. HUD mph = value / 1,467. NOP of sym_0602D814 freezes speed at 0. Written by sym_0602D814 for player. |
+| +0x10 | Per-frame sampling + NOP | World X position. Decreases monotonically with forward motion. NOP of sym_0602D8BC freezes car in place (rendering disconnected from physics). |
+| +0x18 | Per-frame sampling + NOP | World Z position. Same evidence as +0x10. |
+| +0x20 | Per-frame sampling | Heading angle. Changes even when idle (settles to track direction in ~18 frames). 101 unique values in 300f throttle. |
+| +0x28 | Per-frame sampling | Slip/body angle. Diverges from +0x20 at speed — ~12K units at steady state on curves. Angular values in 16-bit space. |
+| +0x30 | Per-frame sampling | **Copy of +0x20** (NOT heading delta). Identical to +0x20 at every frame across all 4 scenarios. |
+| +0x38 | Per-frame sampling | Pre-update X position. NOT previous-frame +0x10 (only 106/299 match). Holds position from before the most recent position update WITHIN the same frame. |
+| +0x3C | Per-frame sampling | Pre-update Z position. Same as +0x38 pattern. |
+| +0xFC | Watchpoint + C button | Acceleration delta. C button shifts +70/update toward positive. Writer: FUN_0602CA84 RTS delay slot (profiler reported PC 0x0602EF4E = return target artifact). |
+| +0x100 | Breakpoint at FUN_06027370 | **sin(car[+0x24])** — NOT throttle input. Written by FUN_06027358 from pipeline call 12 (sym_0602EFCC). On flat track, roll=0 → sin(0)=0. |
+| +0x104 | Breakpoint at FUN_06027370 | **cos(car[+0x24])** — paired with +0x100. On flat track, cos(0)=1. |
+| +0x18C | Per-frame sampling | Velocity X. Empirically verified: `car[+0x18C] = car[+0x10] - car[+0x38]` — 300/300 frames match. Per-frame position delta. |
+| +0x190 | Per-frame sampling | Velocity Z. `car[+0x190] = car[+0x18] - car[+0x3C]` — 300/300 match. |
+| +0x1FC | Per-frame sampling | Surface type index. On-track: 0x300/0x400/0x500 (road segments). Off-track: constant 0x600 (grass). 6 discrete values total. |
+
+### Empirically Confirmed Pipeline Facts
+
+| Fact | Evidence | Source |
+|------|----------|--------|
+| Pipeline order: 18 JSR calls from FUN_0602EEB8 | pc_trace_frame | FUN_0602EEB8_obs.md |
+| Player physics runs FIRST in frame | pc_trace_frame on FUN_0600C010 | FUN_0600C010_obs.md |
+| Frame budget: physics 3.4%, rendering 93.1% | 217K PCs analyzed | FUN_0600C010_obs.md |
+| FUN_0602CA84 is central force accumulator | Assembly + breakpoint | FUN_0602CA84_obs.md |
+| sym_0602D814 = speed gate (NOP → speed=0) | Human NOP test | explorer_priorities.md |
+| sym_0602D8BC = rendered position writer (NOP → frozen car) | Human NOP test | explorer_priorities.md |
+| Dual position theory: physics-internal vs render-output | NOP test side effect | explorer_priorities.md |
+| Steering has no effect at low speed (~30 mph from standstill) | LEFT identical to throttle-only | FUN_0602D8BC_obs.md |
+| 16-bit writes invisible to 4-byte watchpoints | +0x252 gets 0 hits | FUN_0602EEB8_answers.md |
+| FUN_0602EEB8 Tier 2 (4/4 claims passed) | Oracle test | results.tsv |
 
 ## Empirical Observations (2026-03-05)
 
@@ -194,11 +221,11 @@ Sources: W=writer_map_comprehensive, C=consumer_map, S=static_hypotheses, D=init
 - **Consumers**: 8 READ + 6 WRITE = 14 total (tied for 2nd most). FUN_0600B6A0/B914, FUN_060085B8, FUN_0600C5D6/C74E, FUN_0600DA7C, FUN_0600E1D4, FUN_0600E7C8, FUN_0601FEC0, FUN_06030A06.
 - **Hypothesis**: Slip angle. Init value = heading value (no slip at start). Static: FUN_0600c8cc adjusts car[+0x28] toward track-derived angle, clamped +-0x600/frame. FUN_0600c7d4 computes car[+0x28] - car[+0x20] for airborne heading correction.
 
-#### +0x30 — heading_delta?
-- **Init**: 0xFFFFAAAB (-21,845 signed, SAME as +0x20 and +0x28)
+#### +0x30 — heading_copy (CONFIRMED copy of +0x20)
+- **Init**: 0xFFFFAAAB (-21,845 signed, SAME as +0x20)
 - **Writers**: FUN_0602CE4E (pc=0x0602CF16, 493x, 378 unique) + FUN_0602D07C (pc=0x0602D086, 211x). Also FUN_0602D962 (18x), FUN_06030D0C (4x, const 0x4000), FUN_06031526 (1x).
 - **Consumers**: 7 READ + 6 WRITE = 13 total. FUN_060061C8, FUN_060085B8, FUN_0600E1D4, FUN_0600E7C8, FUN_0600E906, FUN_0601FEC0, FUN_0603053C, FUN_06030A06.
-- **Hypothesis**: Heading rate or heading delta. Two writers in normal path = updated by two pipeline stages. Static: FUN_0600c7d4 writes car[+0x30] = heading_change - track_yaw_rate.
+- **CONFIRMED**: Identical to +0x20 at every frame across all 4 test scenarios (throttle, idle, steer, wall strike). Written at a different pipeline stage — serves as a snapshot for downstream readers. Prior hypothesis "heading delta" was WRONG.
 
 ### Velocity / Previous Position
 
@@ -265,48 +292,51 @@ Sources: W=writer_map_comprehensive, C=consumer_map, S=static_hypotheses, D=init
 - **Confirmed**: C button shifts +70/update toward positive. Writer PC: 0x0602EF4E.
 - **Pipeline position**: Written inline between calls 15 and 16 in the dispatcher. Read by call 18 (sym_0602D814). The secondary writer (FUN_0602D818, const 0) zeros the delta when speed is clamped to 0.
 
-#### +0x100 — throttle_input?
+#### +0x100 — sin(roll_angle) (CONFIRMED)
 - **Init**: Not in dump.
 - **Writers**: FUN_0602735C (pc=0x06027370, 493x, 72 unique).
-- **Pipeline**: Read by the accel delta computation (near FUN_0602EF4C). Static analysis suggests it's negated and multiplied by fixed-point constants (0x03700000, 0x02D00000) to produce force.
-- **Hypothesis**: Throttle input value. Writer FUN_0602735C is near sin/cos lookup functions — possibly a direction-projected throttle. 72 unique values = moderate resolution.
-- **GAP**: How does C button (0x0200 in g_pad_state) become car[+0x100]? The function chain between input reading and this field is unmapped. HIGH PRIORITY for Explorer.
+- **Pipeline**: Computed by FUN_06027358 (sin/cos), called from sym_0602EFCC (pipeline call 12). `car[+0x100] = sin(car[+0x24])`. On flat track, roll=0 → value=0.
+- **CONFIRMED**: Breakpoint at 0x06027370 showed R5=0x06078A00 (car[+0x100]), called from sym_0602EFCC. Prior hypothesis "throttle_input?" was WRONG.
 
-#### +0x104 — throttle_secondary?
+#### +0x104 — cos(roll_angle) (CONFIRMED)
 - **Init**: Not in dump.
 - **Writers**: FUN_0602EFDE (pc=0x0602EFE2, 493x, 66 unique: 0xE44F-0xEFxx range).
-- **Pipeline**: Also read by the accel delta computation. Multiplied by car[+0x60] and car[+0x64].
-- **Hypothesis**: Secondary throttle parameter or heading-projected force. Narrow value range (0xE44F-0xEFxx) = slowly varying signed value near -0x1xxx.
+- **Pipeline**: Paired with +0x100. `car[+0x104] = cos(car[+0x24])`. On flat track, cos(0)≈1 (values near 0xE44F-0xEFxx range represent the fixed-point cosine).
+- **CONFIRMED**: Same breakpoint evidence as +0x100.
 
-### Speed Pipeline Data Flow (static, unvalidated)
+### Speed Pipeline Data Flow (partially validated)
 
 ```
 C button (0x0200 in g_pad_state)
-    ↓ [UNKNOWN FUNCTION — gap]
-car[+0x100] (throttle input, writer FUN_0602735C)
-car[+0x104] (secondary input, writer FUN_0602EFDE)
-    ↓ FUN_0602EF4C — fixed-point multiply + accumulate
+    ↓ [UNKNOWN — throttle signal enters via car[+0x108] or +0x10C]
+car[+0x108] (intermediate force, read+written by FUN_0602CA84)
+car[+0x10C] (intermediate force, read+written by FUN_0602CA84)
+    ↓ FUN_0602CA84 (pipeline call 15) — central force accumulator
+    │  roll_projection: car[+0x100]=sin(roll) × 0x3700000
+    │  surface_modulation: +0xEC, +0xF0, +0xF4, +0xF8, +0x11C
+    │  gear_selection: car[+0xD8] → constant 0x140 or 0x100
+    │  final: (car[+0x108] × A + car[+0x10C] × B - car[+0x114]) × gear >> 8
+    ↓
 car[+0xFC] (accel delta, CONFIRMED: +70/frame with C)
-    ↓ sym_0602D814 (pipeline call 18) — speed += accel_delta
-car[+0x0C] (speed, CONFIRMED: mph = value / 1467)
-    ↓ sym_0602D8BC (pipeline call 19) — trig-based decomposition
-    │  save: car[+0x38] = car[+0x10], car[+0x3C] = car[+0x18] (prev position)
-    │  if car[+0x250] == 0 (normal):
-    │    velocity_x = speed × sin(heading)
-    │    velocity_z = speed × cos(heading)
-    │  else (drift, counter 1-10):
-    │    velocity_x = TABLE[+0x250] × speed × sin(heading)
-    │    velocity_z = TABLE[+0x250] × speed × cos(heading)
-    │  car[+0x18C] = velocity_x, car[+0x190] = velocity_z
+    ↓ sym_0602D814 (pipeline call 17, NOP CONFIRMED) — speed += accel_delta
+car[+0x0C] (speed, CONFIRMED: NOP freezes speed at 0)
+    ↓ sym_0602D8BC (pipeline call 18, NOP CONFIRMED) — trig-based decomposition
+    │  save: car[+0x38] = car[+0x10], car[+0x3C] = car[+0x18] (pre-update)
+    │  car[+0x18C] = position_delta_X (CONFIRMED: = +0x10 - +0x38)
+    │  car[+0x190] = position_delta_Z (CONFIRMED: = +0x18 - +0x3C)
     │  car[+0x10] += velocity_x, car[+0x18] += velocity_z
     ↓
-car[+0x10] (position_x?), car[+0x18] (position_z?)
+car[+0x10] (CONFIRMED: world X position)
+car[+0x18] (CONFIRMED: world Z position)
 ```
 
-The gap between g_pad_state and car[+0x100] is the #1 remaining static
-analysis blocker. It requires either (a) the Explorer tracing with a
-breakpoint on car[+0x100] writes to find the writer chain, or (b)
-finding which function reads sym_06063D98 during racing.
+**Throttle gap update (2026-03-15)**: car[+0x100] is NOT throttle input —
+it's sin(roll_angle). The C button signal enters through car[+0x108] and/or
+car[+0x10C], which are intermediate force accumulators read AND written by
+FUN_0602CA84. These fields accumulate frame-over-frame, and an upstream
+pipeline stage writes the throttle-dependent component. **Explorer next step**:
+watchpoint on car[+0x108] to find which prior pipeline call carries the
+throttle signal.
 
 ### Surface and Terrain
 
@@ -320,10 +350,10 @@ finding which function reads sym_06063D98 during racing.
 - **Writers**: FUN_0602F5EE (pc=0x0602F690, 493x, 5 unique: 0x0, 0x14BBA80, 0x2324B80, 0x52F0080, 0x7800000).
 - **Hypothesis**: Paired with +0xEC. Same writer, same 5-value quantization. Second component of surface normal.
 
-#### +0xF4 — surface_grip?
+#### +0xF4 — terrain_lateral_force?
 - **Init**: Not in dump.
 - **Writers**: FUN_0602F5EE (pc=0x0602F6B6, 493x, 54 unique: 0x0 to 0x91340).
-- **Hypothesis**: Surface friction/grip coefficient. Same writer as +0xEC/+0xF0 but more values (54) and smaller range = continuous within terrain type.
+- **OBSERVED**: On-track: nearly zero (3 unique values). Off-track/grass: oscillates between -2.9M and +2.7M (41 unique values). NOT a friction coefficient — large magnitude and sign oscillation indicate terrain slope or lateral force. Prior hypothesis "surface_grip?" was WRONG.
 
 #### +0xF8 — surface_progress?
 - **Init**: Not in dump.
@@ -386,16 +416,7 @@ finding which function reads sym_06063D98 during racing.
 
 ### Rendering / Display
 
-#### +0x100 — display_field?
-- **Init**: Not in dump.
-- **Writers**: FUN_0602735C (pc=0x06027370, 493x, 72 unique).
-- **Consumers**: Not in consumer map.
-- **Hypothesis**: sin/cos-related output. Writer is near cos_lookup/sin_lookup functions.
-
-#### +0x104 — display_heading?
-- **Init**: Not in dump.
-- **Writers**: FUN_0602EFDE (pc=0x0602EFE2, 493x, 66 unique: 0xE44F-0xEFxx range).
-- **Hypothesis**: Narrow value range with 66 unique values — possibly a display/HUD heading or compass value.
+(+0x100 and +0x104 moved to Forces section — they are sin/cos(roll), not display fields)
 
 #### +0x120, +0x124, +0x128, +0x12C — matrix/orientation?
 - **Init**: Not in dump.
@@ -526,15 +547,17 @@ finding which function reads sym_06063D98 during racing.
 - **Pipeline**: sym_0602D814 (speed writer, call 18) writes +0xE8 as `max_available_speed - current_speed`. Represents headroom before speed cap.
 - **Hypothesis**: Speed headroom. Only 2 values during capture = car was near max speed most of the time (headroom ~0 or ~0x212).
 
-#### +0x108 — heading_derivative?
+#### +0x108 — force_accumulator_a? (THROTTLE CANDIDATE)
 - **Init**: Not in dump.
 - **Writers**: FUN_0602CB12 (pc=0x0602CB3C, 493x, 167 unique).
-- **Hypothesis**: Moderate cardinality, written every frame.
+- **Pipeline**: Read AND written by FUN_0602CA84 (force accumulator, call 15). Clamped via FUN_0602755C. Multiplied in final accel delta formula: `(car[+0x108] × A + car[+0x10C] × B - car[+0x114]) × gear >> 8 → car[+0xFC]`.
+- **Hypothesis**: Intermediate longitudinal force accumulator. **This is the most likely carrier of the C button throttle signal** — written by an upstream pipeline stage, then consumed by the force accumulator. HIGH PRIORITY: watchpoint to find which stage writes the throttle component.
 
-#### +0x10C — dual_writer_field?
+#### +0x10C — force_accumulator_b? (THROTTLE CANDIDATE)
 - **Init**: Not in dump.
 - **Writers**: FUN_0602CB7E (pc=0x0602CBBC, 493x, 229 unique) + FUN_0602CCF0 (pc=0x0602CDEC, 493x, 190 unique) + FUN_0602D7E4 (pc=0x0602D7E6, 10x).
-- **Hypothesis**: Three writers = updated by multiple pipeline stages. Important internal state.
+- **Pipeline**: Same role as +0x108 in FUN_0602CA84. Three writers = updated by multiple pipeline stages before the force accumulator reads it.
+- **Hypothesis**: Second force accumulator component. Together with +0x108, these are the inputs to the final accel delta computation.
 
 #### +0x114 — animation_lookup?
 - **Init**: Not in dump.
@@ -595,10 +618,10 @@ finding which function reads sym_06063D98 during racing.
 - **Writers**: FUN_0600D4AA: 3 PCs for each, values are pointers (0x6079C40, 0x607AD18, etc.).
 - **Hypothesis**: Pointers into track segment data arrays. Values are RAM addresses in the 0x0607xxxx range.
 
-#### +0x252 — frame_counter?
+#### +0x252 — drift_counter_copy? (16-bit, CONFIRMED copy of +0x250)
 - **Init**: Not in dump.
-- **Writers**: FUN_0602EEC6 (pc=0x0602EED8, 493x, 10 unique: 0-9).
-- **Hypothesis**: Modulo counter (0-9). Possibly sub-frame phase or animation tick.
+- **Writers**: FUN_0602EEC6 (pc=0x0602EED4 actual, profiler says 0x0602EED8). 16-bit `mov.w` write.
+- **CONFIRMED**: Assembly at 0x0602EECE-0x0602EED4 reads car[+0x250] then writes it to car[+0x252]. Values 0-9 match +0x250's 0-10 range (lagged copy). 16-bit field — invisible to 4-byte watchpoints.
 
 #### +0x250 — drift_counter? (16-bit)
 - **Init**: Not in dump.

@@ -1,8 +1,8 @@
-# Player Physics Pipeline — Static Call Tree
+# Player Physics Pipeline — Empirically Validated Call Tree
 
-**Source: Static analysis only (ASM source + Ghidra decompilation).**
-NOT validated with the emulator. This is an experiment-design artifact for
-the Explorer to validate via call_trace.
+**VALIDATED** via pc_trace_frame (2026-03-15). 18-call sequence confirmed.
+Static analysis predicted 19 calls; empirical trace shows 18 (FUN_0602D08A
+is a fall-through within FUN_0602CDF6, not a separate dispatcher call).
 
 Corresponds to Phase C2 of `boundary_mapping_plan.md`.
 
