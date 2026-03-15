@@ -159,3 +159,48 @@ Phase 1 targets. Focus on the player physics pipeline — the code we're transpl
   brief airborne state.
 - **What it would unlock**: Airborne physics path validation, fields +0x48
   and +0x50 (angular velocity, only 31 unique values — rarely exercised).
+
+## NOP Test Recommendations (for human)
+
+These fields have enough evidence for targeted NOP tests. Each test patches
+one write instruction and observes the effect. Requires `MODS=1` build.
+
+### NOP Test: sym_0602D814 (speed accumulator, pipeline call 18)
+
+- **What to NOP**: Replace the BSR/JSR to sym_0602D814 in FUN_0602EEB8 with
+  two `nop` instructions (0x0009 0x0009). This skips the speed += accel_delta
+  integration entirely.
+- **Writer function**: sym_0602D814 in FUN_0602D43C.s (writes +0x0C, +0xE0, +0xE8)
+- **Expected effect**: Speed freezes at its current value. Throttle (C) and
+  braking (B) have no effect on speed. Car continues moving at constant speed
+  because position writer (call 19) still reads the frozen speed.
+- **Best scenario**: Load `usa_tt_straight.mc0`, hold C. Speed should NOT increase
+  from 0. If speed is already nonzero, it should stay constant.
+- **Confidence**: HIGH — writer is in the confirmed speed pipeline, the
+  speed += accel_delta formula is understood from both static and empirical evidence.
+
+### NOP Test: sym_0602D8BC (position writer, pipeline call 19)
+
+- **What to NOP**: Replace the BSR/JSR to sym_0602D8BC in FUN_0602EEB8 with nops.
+- **Writer function**: sym_0602D8BC in FUN_0602D89A.s (writes +0x10, +0x18, +0x38, +0x3C, +0x18C, +0x190)
+- **Expected effect**: Car position freezes. Speed still changes (speed writer
+  still runs) but car does not move on screen. HUD speedometer shows changing
+  speed but car stays in place. AI cars continue normally.
+- **Best scenario**: Load `usa_tt_straight.mc0`, hold C. Car should accelerate
+  (speed increases) but not move forward.
+- **Confidence**: HIGH — position is the direct output of this function. If
+  +0x10/+0x18 are not position, the car will still move and this test
+  disproves the hypothesis (which is also valuable).
+
+### NOP Test: car[+0xFC] accel delta write
+
+- **What to NOP**: Replace the write instruction at PC 0x0602EF4E with
+  `nop` (0x0009).
+- **Writer function**: FUN_0602EF4C (writes +0xFC at pc=0x0602EF4E)
+- **Expected effect**: Acceleration delta stays at its current value. C button
+  (throttle) has no effect on speed change rate. Car should coast at constant
+  deceleration rate (engine braking continues from whatever delta was last set).
+- **Best scenario**: Load `usa_tt_straight.mc0`, hold C from dead stop.
+  Speed should NOT increase — accel delta stays at 0 (initial value).
+- **Confidence**: HIGH — watchpoint-confirmed writer, C button correlation
+  established (+70/update toward positive).
