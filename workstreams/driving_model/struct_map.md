@@ -202,29 +202,29 @@ Sources: W=writer_map_comprehensive, C=consumer_map, S=static_hypotheses, D=init
 
 ### Velocity / Previous Position
 
-#### +0x38 — prev_position_x? or velocity_x?
+#### +0x38 — prev_position_x?
 - **Init**: 0xFFD97340 (-2,526,400 signed, different from +0x10)
 - **Writers**: FUN_0602D8CA (pc=0x0602D8DE, 475x, 455 unique). Also FUN_0602D994 (18x), FUN_06030E62 (6x), FUN_0603164C (6x).
-- **Consumers**: Not in consumer map (no known readers via static analysis).
-- **Hypothesis**: Previous-frame X position OR X velocity component. Same writer as +0x10 (position), same write count. Static: FUN_0600c7d4 writes car[+0x38] = car[+0x10]. Value differs from +0x10 by ~162K at init = one frame of movement at 179 mph.
+- **Pipeline**: sym_0602D8BC (call 19) saves `car[+0x38] = car[+0x10]` before updating position, in BOTH normal and drift paths.
+- **Hypothesis**: Previous-frame X position. Saved for velocity computation or collision rollback. Init differs from +0x10 by ~162K = one frame of movement at 179 mph, confirming one-frame lag.
 
-#### +0x3C — prev_position_z? or velocity_z?
+#### +0x3C — prev_position_z?
 - **Init**: 0xFF7CA977 (-8,607,369 signed, differs from +0x18 by ~131K)
 - **Writers**: FUN_0602D8CA (pc=0x0602D8E0, 475x, 372 unique). Also FUN_0602D996 (18x), FUN_06030E64 (6x), FUN_0603164E (6x).
-- **Consumers**: Not in consumer map.
-- **Hypothesis**: Previous-frame Z position OR Z velocity. Same pattern as +0x38.
+- **Pipeline**: sym_0602D8BC saves `car[+0x3C] = car[+0x18]` before updating position.
+- **Hypothesis**: Previous-frame Z position. Same pattern as +0x38.
 
-#### +0x18C — velocity_component_x?
+#### +0x18C — velocity_x?
 - **Init**: Not in dump.
 - **Writers**: FUN_0602D8CA (pc=0x0602D8FE, 475x, 456 unique). Also FUN_0602D9B8 (18x).
-- **Consumers**: Not in consumer map.
-- **Hypothesis**: Velocity or position derivative. Same primary writer as position fields but different PC within FUN_0602D8CA.
+- **Pipeline**: sym_0602D8BC computes `car[+0x18C] = speed_factor × sin(heading)` (16.16 fixed-point), then `car[+0x10] += car[+0x18C]`.
+- **Hypothesis**: X-axis velocity component. The per-frame position delta. Derived from speed × trig(heading).
 
-#### +0x190 — velocity_component_z?
+#### +0x190 — velocity_z?
 - **Init**: Not in dump.
 - **Writers**: FUN_0602D8CA (pc=0x0602D90E, 475x, 376 unique). Also FUN_0602D9C8 (18x).
-- **Consumers**: Not in consumer map.
-- **Hypothesis**: Paired with +0x18C. Same writer, same count pattern.
+- **Pipeline**: sym_0602D8BC computes `car[+0x190] = speed_factor × cos(heading)` (16.16 fixed-point), then `car[+0x18] += car[+0x190]`.
+- **Hypothesis**: Z-axis velocity component. Paired with +0x18C.
 
 ### Forces and Derivatives
 
@@ -289,7 +289,17 @@ car[+0x104] (secondary input, writer FUN_0602EFDE)
 car[+0xFC] (accel delta, CONFIRMED: +70/frame with C)
     ↓ sym_0602D814 (pipeline call 18) — speed += accel_delta
 car[+0x0C] (speed, CONFIRMED: mph = value / 1467)
-    ↓ sym_0602D8BC (pipeline call 19) — trig-based integration
+    ↓ sym_0602D8BC (pipeline call 19) — trig-based decomposition
+    │  save: car[+0x38] = car[+0x10], car[+0x3C] = car[+0x18] (prev position)
+    │  if car[+0x250] == 0 (normal):
+    │    velocity_x = speed × sin(heading)
+    │    velocity_z = speed × cos(heading)
+    │  else (drift, counter 1-10):
+    │    velocity_x = TABLE[+0x250] × speed × sin(heading)
+    │    velocity_z = TABLE[+0x250] × speed × cos(heading)
+    │  car[+0x18C] = velocity_x, car[+0x190] = velocity_z
+    │  car[+0x10] += velocity_x, car[+0x18] += velocity_z
+    ↓
 car[+0x10] (position_x?), car[+0x18] (position_z?)
 ```
 
@@ -589,6 +599,14 @@ finding which function reads sym_06063D98 during racing.
 - **Init**: Not in dump.
 - **Writers**: FUN_0602EEC6 (pc=0x0602EED8, 493x, 10 unique: 0-9).
 - **Hypothesis**: Modulo counter (0-9). Possibly sub-frame phase or animation tick.
+
+#### +0x250 — drift_counter? (16-bit)
+- **Init**: Not in dump.
+- **Writers**: FUN_06030848 (pc=0x06030848, 2x, const 0xA) + FUN_06030A1C (2x, const 0) + FUN_06030A3C (18x, values 1-9).
+- **Pipeline**: sym_0602D8BC (call 19) branches on `car[+0x250] != 0`:
+  - If 0: normal heading-based velocity integration
+  - If nonzero: drift/rotation path using lookup table at 0x0602E8B8 indexed by this value
+- **Hypothesis**: Drift mode intensity counter (0-10). 0 = normal driving. 1-10 = drift with table-scaled rotation. Set to 0xA (10) to start drift, counts down.
 
 #### +0x258 — collision_counter?
 - **Init**: Not in dump.
