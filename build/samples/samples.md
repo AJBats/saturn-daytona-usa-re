@@ -36,6 +36,16 @@
 - **Files**: tt_offtrack_throttle_566f.bin, tt_offtrack_throttle_566f.csv
 - **Captured**: 2026-03-15
 
+## tt_rolling_steer_left_300f
+
+- **Save state**: usa_tt_straight.mc0
+- **Scenario**: rolling_steer_left (C held 200 frames to ~65 mph, then C+LEFT 300 frames)
+- **Address**: 0x06078900 (car[0])
+- **Size**: 616 bytes (full car struct)
+- **Files**: tt_rolling_steer_left_300f.bin, tt_rolling_steer_left_300f.csv
+- **Captured**: 2026-03-15
+- **Notes**: Steering capture starts at ~65 mph. Heading visibly changes with LEFT.
+
 ## tt_brake_300f
 
 - **Save state**: usa_tt_straight.mc0
