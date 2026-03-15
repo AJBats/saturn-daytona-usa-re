@@ -131,10 +131,25 @@ car[+0xDE] (gear position, 0-3)
 
 ## Per-Frame Field Analysis
 
-| Offset | Idle | Throttle | Category |
-|--------|------|----------|----------|
-| +0xDE | Not in CSV (16-bit sub-field of +0xDC word) | N/A | Needs investigation |
+Captures: `tt_throttle_300f.csv`, `tt_idle_300f.csv`, `tt_brake_300f.csv`.
 
-car[+0xDE] is a 16-bit field at offset 0xDE. The CSV captures 32-bit values
-at 4-byte aligned offsets. +0xDE falls within the +0xDC word's upper 16 bits.
-Check: the +0xDC column in CSVs may contain +0xDE in its upper half.
+| Offset | Idle | Throttle (C) | Brake (B) | Category | Notes |
+|--------|------|-------------|-----------|----------|-------|
+| +0x74 | const 56 | 56→184 in ~13f, stays 184 (12 uniq) | 184→56 decay (18 uniq) | input-responsive | **Throttle accumulator**: +10/frame with C, max 184, decays to 56 |
+| +0x6C | const 0 | const 1 | 0 or 1 | input-responsive | **Throttle active flag**: 1 when C held |
+| +0x90 | const 56 | const 56 | 56→216 (5 uniq) | brake-only | **Brake accumulator**: increases with B |
+| +0x8C | const 56 | const 56 | 56→216 (5 uniq) | brake-only | **Brake copy**: tracks +0x90 |
+| +0x88 | const 0 | const 0 | 0 or 1 | brake-only | **Brake active flag**: 1 when B held |
+
+### Throttle Ramp Behavior (+0x74)
+- Base value: 56 (0x38)
+- C held: +10 per frame, max 184 (0xB8). Reaches max in ~13 frames.
+- C released: decays back toward 56 (rate varies — faster at high values)
+- The ramp time (~13 frames = ~0.2 seconds) produces smooth acceleration onset.
+
+### Struct Map Corrections
+- +0x74 is NOT "collision_timer" — it's the **throttle force accumulator**
+- +0x8C is NOT "collision_state_a" — it's the **brake force copy**
+- +0x90 is NOT "collision_recovery_param" — it's the **brake force accumulator**
+- +0x88 is NOT "collision_state_a" — it's the **brake active flag**
+- +0x6C is NOT "collision_flag" — it's the **throttle active flag**

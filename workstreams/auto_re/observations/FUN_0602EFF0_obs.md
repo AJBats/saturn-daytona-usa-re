@@ -98,7 +98,37 @@ processes track alignment adjustments, not d-pad input.
 To observe actual steering response, a capture from a rolling start (30+ mph)
 with LEFT held would be needed.
 
-## Key Finding: This Function Does NOT Process Throttle
+## NOP Test Result: Kills BOTH Steering AND Throttle
+
+**CORRECTION**: The NOP test of FUN_0602EFF0 (poke 0602EEC4 00 09) killed
+throttle as well as steering. The original characterization "does NOT process
+throttle" was incomplete. While FUN_0602EFF0 doesn't read g_pad_state for the
+C button, it initializes state that the force pipeline depends on.
+
+### Dependency Chain (why NOP kills throttle)
+
+```
+FUN_0602EFF0 (call 2) writes: +0xB0 (rotation), +0xB4 (prev), +0x78, +0x94
+    ↓
+sym_0602F0E8 (call 6) copies: +0x94 → +0x84, +0x78 → +0x68
+    also: +0xD0 = EMA(+0xB0) (smoothed rotation)
+    ↓
+FUN_0602D43C (call 16a) reads +0xD0, computes: +0x58, +0x5C (steering values)
+    ↓
+FUN_0602CDF6 (call 17) reads steering state, writes: +0x60, +0x64 (track angles)
+    ↓
+FUN_0602CA84 (call 15) reads +0x60, +0x64 → force accumulator → +0xFC
+```
+
+When FUN_0602EFF0 is NOPped, the rotation values (+0xB0, +0x78, +0x94) never
+update. The downstream EMA (+0xD0) stalls, steering chain (+0x58/+0x5C) freezes,
+track angles (+0x60/+0x64) go stale, and the force accumulator receives
+zero/stale inputs. Result: accel delta stays at 0, throttle has no effect.
+
+**FUN_0602EFF0 is a PREREQUISITE for the entire force pipeline, not just steering.**
+It initializes the rotation state that all downstream physics depends on.
+
+## Characterization: Steering Input + Pipeline State Initialization
 
 FUN_0602EFF0 (pipeline call 2, "input/state dispatch") processes **only steering**
 input. It reads car[+0xAC] (steering), applies deadzone/clamp/scale, and writes
