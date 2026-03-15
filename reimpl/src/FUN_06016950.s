@@ -1,0 +1,124 @@
+
+    .section .text.FUN_06016950
+
+
+    .global FUN_06016950
+    .type FUN_06016950, @function
+FUN_06016950:
+    sts.l pr, @-r15
+    mov.l   .L_pool_06016A10, r13
+    cmp/ge r2, r3
+    bt/s    .L_0601699C
+    mov #0x4, r5
+
+
+    extu.b r14, r4
+    mov.l   .L_pool_06016A14, r2
+    mov r4, r3
+    shll2 r4
+    shll2 r3
+    shll2 r3
+    shll2 r3
+    add r3, r4
+    exts.w r4, r4
+    add r13, r4
+    mov.l @(56, r4), r1
+    jsr @r2
+    mov r5, r0
+    mov.l @(48, r4), r3
+    add r0, r3
+    mov.l r3, @(48, r4)
+    mov r3, r2
+    mov.l @(56, r4), r3
+    cmp/gt r3, r2
+    bt      .L_060169E0
+
+    extu.b r14, r4
+    mov r4, r3
+    shll2 r4
+    shll2 r3
+    shll2 r3
+    shll2 r3
+    add r3, r4
+    exts.w r4, r4
+    add r13, r4
+    mov.l @(56, r4), r2
+    mov.l r2, @(48, r4)
+    bra     .L_060169E0
+    mov #0x1, r11
+
+.L_0601699C:
+
+    extu.b r14, r12
+    mov.l   .L_pool_06016A14, r2
+    mov r12, r3
+    shll2 r12
+    shll2 r3
+    shll2 r3
+    shll2 r3
+    add r3, r12
+    exts.w r12, r12
+    add r13, r12
+    mov.l @(56, r12), r1
+    jsr @r2
+    mov r5, r0
+    mov.l @(48, r12), r3
+    add r0, r3
+    mov.l r3, @(48, r12)
+    .reloc ., R_SH_IND12W, FUN_06016DD8 - 4
+    .2byte 0xB000    /* bsr FUN_06016DD8 (linker-resolved) */
+    extu.b r14, r4
+    mov.l @(48, r12), r2
+    mov.l @(56, r12), r3
+    cmp/ge r3, r2
+    bf      .L_060169E0
+
+    extu.b r14, r4
+    mov r4, r3
+    shll2 r4
+    shll2 r3
+    shll2 r3
+    shll2 r3
+    add r3, r4
+    exts.w r4, r4
+    add r13, r4
+    mov.l @(56, r4), r2
+    mov.l r2, @(48, r4)
+    mov #0x1, r11
+
+.L_060169E0:
+
+    .reloc ., R_SH_IND12W, FUN_06016DD8 - 4
+    .2byte 0xB000    /* bsr FUN_06016DD8 (linker-resolved) */
+    extu.b r14, r4
+    extu.b r11, r11
+    tst r11, r11
+    bt      .L_06016A02
+
+    extu.b r14, r14
+    mov r14, r3
+    shll2 r14
+    shll2 r3
+    shll2 r3
+    shll2 r3
+    add r3, r14
+    exts.w r14, r14
+    add r13, r14
+    mov #0x2, r2
+    mov r2, r0
+    mov.b r0, @(2, r14)
+
+.L_06016A02:
+    lds.l @r15+, pr
+    mov.l @r15+, r11
+    mov.l @r15+, r12
+    mov.l @r15+, r13
+    rts
+    mov.l @r15+, r14
+    .2byte  0xFFFF
+
+
+.L_pool_06016A10:
+    .4byte  sym_06084FC8
+.L_pool_06016A14:
+    .4byte  sym_06034FE0

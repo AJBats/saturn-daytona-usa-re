@@ -1,0 +1,25 @@
+
+    .section .text.FUN_06018E4C
+
+
+    .global FUN_06018E4C
+    .type FUN_06018E4C, @function
+FUN_06018E4C:
+    sts.l pr, @-r15
+    mov #0x3, r4
+    mov #0x10, r0
+    add #-0x14, r15
+    mov r15, r3
+    mov r15, r2
+    mov.l r4, @r3
+    mov r15, r3
+    mov.l r4, @(8, r2)
+    .byte   0x92, 0x1F    /* mov.w .L_wpool_06018EA0, r2 */
+    mov.b r2, @(r0, r3)
+    .byte   0xD3, 0x10    /* mov.l .L_pool_06018EA4, r3 */
+    jsr @r3
+    mov r15, r4
+    add #0x14, r15
+    lds.l @r15+, pr
+    rts
+    nop

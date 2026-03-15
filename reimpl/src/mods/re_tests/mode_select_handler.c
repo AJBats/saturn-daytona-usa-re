@@ -7,7 +7,7 @@
  * VERIFIED via watchpoint on sym_0605D244 (selection index):
  *   DOWN: increments index, wraps 4->0
  *   UP:   decrements index, wraps -1->3
- *   B:    writes g_game_state=4 (return to title)
+ *   B:    writes FUN_0605ACC4=4 (return to title)
  */
 
 typedef unsigned char  u8;
@@ -18,7 +18,7 @@ typedef signed char    s8;
 /* --- External symbols (all resolved by linker) --- */
 
 /* Functions */
-extern void scene_dual_finalize(int);
+extern void FUN_06026110(int);
 extern void sym_06028400(int r4, u32 r5, u32 r6, u32 r7);
 
 /* Pad state: array of u16 words. Buttons at index 1 (offset +2). */
@@ -28,7 +28,7 @@ extern u16 g_pad_state[];
 extern s8  sym_0605D244;   /* selection index (0-3) */
 extern u8  sym_0605D242;   /* counter byte */
 extern u8  sym_0605D243;   /* animation timer byte */
-extern u32 g_game_state;
+extern u32 FUN_0605ACC4;
 extern u8  sym_06085FF1;   /* lock/active flag */
 extern u8  sym_06085FF5;   /* secondary flag */
 extern u32 sym_06059F44;   /* cleared on B press */
@@ -50,7 +50,7 @@ extern void (*sym_0605D250[])(void);
 __attribute__((section(".text.FUN_060196B0")))
 void mode_select_handler(void)
 {
-    scene_dual_finalize(1);
+    FUN_06026110(1);
 
     u16 buttons = g_pad_state[1]; /* offset +2 */
 
@@ -80,7 +80,7 @@ void mode_select_handler(void)
         }
         sym_06059F44 = 0;
         sym_0605D242 = 0;
-        g_game_state = 4;
+        FUN_0605ACC4 = 4;
         sym_06085FF1 = 1;
         sym_06085FF5 = 1;
         return;

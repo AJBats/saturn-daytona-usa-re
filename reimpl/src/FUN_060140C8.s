@@ -1,0 +1,92 @@
+
+    .section .text.FUN_060140C8
+
+
+    .global FUN_060140C8
+    .type FUN_060140C8, @function
+FUN_060140C8:
+    sts.l pr, @-r15
+    add #-0x4, r15
+    mov.l   .L_pool_06014138, r4
+    mov.l @r4, r3
+    cmp/hi r2, r3
+    bt      .L_0601412E
+    mov.l @r4, r2
+    mov.l   .L_pool_0601413C, r3
+    shll2 r2
+    add r3, r2
+    mov.l @r2, r1
+    mov.l   .L_pool_06014140, r2
+    jsr @r2
+    mov.l r1, @r15
+    mov.l   .L_pool_06014144, r14
+    mov.w   .L_wpool_06014136, r5
+    mov.l   .L_pool_06014148, r3
+    mov r14, r6
+    jsr @r3
+    mov.l @r15, r4
+    mov r14, r6
+    mov r14, r5
+    mov.l   .L_pool_0601414C, r3
+    jsr @r3
+    mov r14, r4
+    .reloc ., R_SH_IND12W, FUN_06013E12 - 4
+    .2byte 0xB000    /* bsr FUN_06013E12 (linker-resolved) */
+    nop
+    mov #0x4, r5
+    mov.l   .L_pool_06014150, r4
+    mov.l   .L_pool_06014154, r3
+    mov.l   .L_pool_06014158, r2
+    mov.l @r4, r4
+    shll2 r4
+    add r3, r4
+    jsr @r2
+    mov.l @r4, r4
+    mov #0x1, r6
+    mov.l   .L_pool_0601415C, r5
+    mov.l   .L_pool_06014150, r4
+    mov.l   .L_pool_06014160, r3
+    mov.l   .L_pool_06014164, r2
+    mov.w @r5, r5
+    mov.l @r4, r4
+    shll2 r4
+    add r3, r4
+    jsr @r2
+    mov.l @r4, r4
+    mov.l   .L_pool_06014168, r4
+    mov.l @r4, r3
+    add #-0x30, r3
+    mov.l r3, @r4
+.L_0601412E:
+    add #0x4, r15
+    lds.l @r15+, pr
+    rts
+    mov.l @r15+, r14
+.L_wpool_06014136:
+    .2byte  0xCCCD
+.L_pool_06014138:
+    .4byte  sym_06084B18
+.L_pool_0601413C:
+    .4byte  sym_0605AD4C
+.L_pool_06014140:
+    .4byte  sym_06026DBC
+.L_pool_06014144:
+    .4byte  0x00010000
+.L_pool_06014148:
+    .4byte  sym_06026E2E
+.L_pool_0601414C:
+    .4byte  FUN_06026E60
+.L_pool_06014150:
+    .4byte  sym_06084B08
+.L_pool_06014154:
+    .4byte  sym_06062338
+.L_pool_06014158:
+    .4byte  sym_06031D8C
+.L_pool_0601415C:
+    .4byte  sym_06089E4A
+.L_pool_06014160:
+    .4byte  sym_060622C0
+.L_pool_06014164:
+    .4byte  sym_06031A28
+.L_pool_06014168:
+    .4byte  sym_06089EDC

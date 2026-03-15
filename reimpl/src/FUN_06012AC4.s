@@ -1,0 +1,34 @@
+
+    .section .text.FUN_06012AC4
+
+
+    .global FUN_06012AC4
+    .type FUN_06012AC4, @function
+FUN_06012AC4:
+    mov.l r14, @-r15
+    mov.l r13, @-r15
+    mov.l r12, @-r15
+    sts.l pr, @-r15
+    .byte   0xDC, 0x1C    /* mov.l .L_pool_06012B40, r12 */
+    .byte   0xDD, 0x1D    /* mov.l .L_pool_06012B44, r13 */
+    .byte   0xDE, 0x1D    /* mov.l .L_pool_06012B48, r14 */
+    .byte   0x95, 0x30    /* mov.w .L_wpool_06012B36, r5 */
+    mov r12, r7
+    mov r14, r6
+    jsr @r13
+    mov #0x8, r4
+    mov r12, r7
+    mov r14, r6
+    .byte   0x95, 0x2A    /* mov.w .L_wpool_06012B38, r5 */
+    jsr @r13
+    mov #0x8, r4
+    mov r12, r7
+    mov r14, r6
+    .byte   0x95, 0x26    /* mov.w .L_wpool_06012B3A, r5 */
+    jsr @r13
+    mov #0x8, r4
+    lds.l @r15+, pr
+    mov.l @r15+, r12
+    mov.l @r15+, r13
+    rts
+    mov.l @r15+, r14

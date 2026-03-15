@@ -1,0 +1,36 @@
+
+    .section .text.FUN_0600FD54
+
+
+    .global FUN_0600FD54
+    .type FUN_0600FD54, @function
+FUN_0600FD54:
+    sts.l pr, @-r15
+    .byte   0xD5, 0x1F    /* mov.l .L_pool_0600FDD4, r5 */
+    .byte   0xD3, 0x1F    /* mov.l .L_pool_0600FDD8, r3 */
+    jsr @r3
+    mov #0x0, r4
+    mov #0x78, r2
+    .byte   0xD3, 0x1E    /* mov.l .L_pool_0600FDDC, r3 */
+    mov.w r2, @r3
+    mov #0xB, r2
+    .byte   0xD3, 0x1E    /* mov.l .L_pool_0600FDE0, r3 */
+    mov.b r2, @r3
+    .reloc ., R_SH_IND12W, FUN_06010BC4 - 4
+    .2byte 0xB000    /* bsr FUN_06010BC4 (linker-resolved) */
+    nop
+    .byte   0xD3, 0x1D    /* mov.l .L_pool_0600FDE4, r3 */
+    jsr @r3
+    nop
+    .byte   0xD0, 0x1C    /* mov.l .L_pool_0600FDE8, r0 */
+    mov.b @r0, r0
+    tst r0, r0
+    bf      .L_0600FD84
+    mov #0x1, r4
+    .byte   0xD3, 0x1B    /* mov.l .L_pool_0600FDEC, r3 */
+    jmp @r3
+    lds.l @r15+, pr
+.L_0600FD84:
+    lds.l @r15+, pr
+    rts
+    nop

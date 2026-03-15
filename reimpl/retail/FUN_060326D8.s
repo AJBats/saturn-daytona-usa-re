@@ -1,0 +1,11 @@
+    .section .text.FUN_060326D8
+    .global FUN_060326D8
+    .type FUN_060326D8, @function
+FUN_060326D8:
+    .byte 0x4F, 0x22
+    .byte 0x40, 0x0B
+    .byte 0x00, 0x09
+    .byte 0x4F, 0x26
+    .byte 0xD0, 0x3E
+    .byte 0x04, 0xED
+    .byte 0xD0, 0x3E

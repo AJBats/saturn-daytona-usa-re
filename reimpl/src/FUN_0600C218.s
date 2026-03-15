@@ -1,0 +1,63 @@
+
+    .section .text.FUN_0600C218
+
+
+    .global FUN_0600C218
+    .type FUN_0600C218, @function
+FUN_0600C218:
+    mov.l r14, @-r15
+    mov #0x30, r6
+    mov.l r13, @-r15
+    mov.l r12, @-r15
+    sts.l pr, @-r15
+    .byte   0x9C, 0x40    /* mov.w .L_ftcsr_addr, r12 */
+    .byte   0xDD, 0x21    /* mov.l .L_secondary_obj_state_ptr, r13 */
+    .byte   0x9E, 0x3F    /* mov.w .L_icf_mask, r14 */
+    mov.l @r13, r3
+    add #0x30, r3
+    mov.l r3, @r13
+    mov r3, r4
+    .byte   0xD5, 0x1F    /* mov.l .L_primary_obj_state_ptr, r5 */
+    .byte   0xD3, 0x20    /* mov.l .L_fn_memcpy_long_idx, r3 */
+    jsr @r3
+    mov.l @r5, r5
+    .byte   0xD3, 0x1F    /* mov.l .L_fn_physics_calc_dispatch, r3 */
+    jsr @r3
+    nop
+    .byte   0xD2, 0x1F    /* mov.l .L_fn_race_utility_fn, r2 */
+    .byte   0xD3, 0x1F    /* mov.l .L_secondary_callback_ptr, r3 */
+    mov.l r2, @r3
+    .byte   0xD2, 0x1F    /* mov.l .L_pool_0600C2CC, r2 */
+    .byte   0xD3, 0x20    /* mov.l .L_minit_register, r3 */
+    mov.w r2, @r3
+    .byte   0xD3, 0x20    /* mov.l .L_fn_frame_dispatch, r3 */
+    jsr @r3
+    nop
+    .byte   0xD3, 0x1F    /* mov.l .L_fn_scene_post_render, r3 */
+    jsr @r3
+    nop
+    .byte   0xD3, 0x1F    /* mov.l .L_fn_replay_playback, r3 */
+    jsr @r3
+    nop
+    .byte   0xD0, 0x1E    /* mov.l .L_timing_var, r0 */
+    mov.l @r0, r0
+    tst r0, r0
+.L_0600C262:
+    mov.b @r12, r2
+    extu.b r2, r2
+    and r14, r2
+    cmp/eq r14, r2
+    bf      .L_0600C262
+    mov.b @r12, r0
+    .byte   0xD3, 0x1B    /* mov.l .L_fn_render_finalize, r3 */
+    and #0xF, r0
+    jsr @r3
+    mov.b r0, @r12
+    mov.l @r13, r2
+    add #-0x30, r2
+    mov.l r2, @r13
+    lds.l @r15+, pr
+    mov.l @r15+, r12
+    mov.l @r15+, r13
+    rts
+    mov.l @r15+, r14

@@ -1,0 +1,110 @@
+
+    .section .text.FUN_060389A6
+
+
+    .global FUN_060389A6
+    .type FUN_060389A6, @function
+FUN_060389A6:
+    mov.l r14, @-r15
+    sts.l pr, @-r15
+    .byte   0xDE, 0x18    /* mov.l .L_pool_06038A0C, r14 */
+    mov.w @r14, r0
+    bra     .L_06038A28
+    extu.w r0, r0
+.L_060389B2:
+    .reloc ., R_SH_IND12W, FUN_060388C0 - 4
+    .2byte 0xB000    /* bsr FUN_060388C0 (linker-resolved) */
+    nop
+    bra     .L_060389EA
+    nop
+.L_060389BA:
+    .byte   0xD6, 0x15    /* mov.l .L_pool_06038A10, r6 */
+    .byte   0xD5, 0x15    /* mov.l .L_pool_06038A14, r5 */
+    .byte   0xD4, 0x16    /* mov.l .L_pool_06038A18, r4 */
+    mov.w @r6, r6
+    mov.l @r5, r5
+    extu.w r6, r6
+    mov r6, r3
+    shll2 r6
+    shll2 r3
+    shll r3
+    add r3, r6
+    bsr     sym_06038A48
+    mov.l @r4, r4
+    .byte   0xD6, 0x11    /* mov.l .L_pool_06038A1C, r6 */
+    .byte   0xD5, 0x12    /* mov.l .L_pool_06038A20, r5 */
+    .byte   0xD4, 0x12    /* mov.l .L_pool_06038A24, r4 */
+    mov.w @r6, r6
+    mov.l @r5, r5
+    extu.w r6, r6
+    shll2 r6
+    bsr     sym_06038A48
+    mov.l @r4, r4
+    .reloc ., R_SH_IND12W, FUN_060388C0 - 4
+    .2byte 0xB000    /* bsr FUN_060388C0 (linker-resolved) */
+    nop
+.L_060389EA:
+    mov #0x0, r2
+    bra     .L_06038A42
+    mov.w r2, @r14
+    .4byte  0x00B000C0
+    .4byte  sym_060A3D84
+    .4byte  sym_060A3D88
+    .4byte  sym_060A3DB0
+    .4byte  sym_060A3DF8
+    .4byte  sym_060A3E38
+    .4byte  sym_060A3E48
+.L_pool_06038A0C:
+    .4byte  sym_060635AC
+.L_pool_06038A10:
+    .4byte  sym_060635A0
+.L_pool_06038A14:
+    .4byte  sym_060A3D74
+.L_pool_06038A18:
+    .4byte  sym_060A3D70
+.L_pool_06038A1C:
+    .4byte  sym_060635A2
+.L_pool_06038A20:
+    .4byte  sym_060A3D7C
+.L_pool_06038A24:
+    .4byte  sym_060A3D78
+.L_06038A28:
+    cmp/eq #0x1, r0
+    bt      .L_060389B2
+    cmp/eq #0x2, r0
+    bt      .L_060389BA
+    cmp/eq #0x3, r0
+    bt      .L_06038A42
+    cmp/eq #0x4, r0
+    bt      .L_06038A42
+    cmp/eq #0x5, r0
+    bt      .L_06038A42
+    cmp/eq #0x6, r0
+    bt      .L_06038A42
+    cmp/eq #0x7, r0
+.L_06038A42:
+    lds.l @r15+, pr
+    .reloc ., R_SH_IND12W, FUN_06038AC8 - 4
+    .2byte 0xA000    /* bra FUN_06038AC8 (linker-resolved) */
+    mov.l @r15+, r14
+    .global FUN_06038A48
+FUN_06038A48:
+
+    .global sym_06038A48
+sym_06038A48:
+    shlr r6
+    mov #0x0, r7
+    mov r7, r3
+    cmp/hs r6, r3
+    bt      .L_06038A60
+.L_06038A52:
+    add #0x1, r7
+    mov.w @r5, r3
+    mov.w r3, @r4
+    add #0x2, r4
+    cmp/hs r6, r7
+    bf/s    .L_06038A52
+    add #0x2, r5
+.L_06038A60:
+    rts
+    nop

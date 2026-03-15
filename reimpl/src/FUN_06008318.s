@@ -50,7 +50,7 @@ DAT_0600835a:
     .2byte  0x01D8
     .2byte  0xFFFF
     .4byte  0xAE111BFF
-    .4byte  sound_cmd_dispatch
+    .4byte  FUN_0601D5F4
     .4byte  sym_06034F78
 .L_06008370:
     .4byte  sym_0607E940

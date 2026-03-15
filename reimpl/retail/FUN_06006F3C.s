@@ -82,9 +82,9 @@ FUN_06006F3C:
     .byte 0xA0, 0x3F
     .byte 0x2B, 0xC2
     .byte 0xFF, 0xFF
-    .4byte display_channel_b
-    .4byte display_channel_a
-    .4byte scene_data_dispatch
+    .4byte FUN_06014884
+    .4byte FUN_06014868
+    .4byte FUN_060389A6
     .4byte sym_060635C4
     .4byte sym_060635C0
     .4byte sym_0605B6D8
@@ -217,7 +217,7 @@ FUN_06006F3C:
     .byte 0x20, 0x00
     .byte 0x00, 0x00
     .4byte sym_06063F60
-    .4byte dma_transfer
+    .4byte FUN_0602766C
     .4byte sym_0606129C
     .4byte sym_060612B4
     .4byte sym_0605B700
@@ -354,10 +354,10 @@ FUN_06006F3C:
     .4byte sym_060149CC
     .byte 0x00, 0x10
     .byte 0x00, 0x00
-    .4byte display_channels_load
+    .4byte FUN_060148A2
     .byte 0x04, 0x00
     .byte 0x00, 0x00
-    .4byte obj_collision_update
+    .4byte FUN_06020C3C
     .byte 0x08, 0x00
     .byte 0x00, 0x00
     .4byte sym_06033354

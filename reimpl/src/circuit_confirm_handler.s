@@ -1,6 +1,6 @@
 /* VERIFIED (2026-03-01): circuit select confirm/back handler.
- * Called from transition_handler_a every frame on circuit select screen.
- * BACK path: checks button mask at .L_wpool_0601030C (B=0x0100), sets g_game_state=6.
+ * Called from FUN_0600F794 every frame on circuit select screen.
+ * BACK path: checks button mask at .L_wpool_0601030C (B=0x0100), sets FUN_0605ACC4=6.
  * CONFIRM path: checks mask at DAT_0601038c (C=0x0200), plays sound, advances dispatch to 2.
  * Evidence: RE_TEST #2 swapped B/C masks, confirmed working in-game.
  */
@@ -37,7 +37,7 @@ circuit_confirm_handler:
 .L_pool_06010320:
     .4byte  sym_0607EBCC
 .L_pool_06010324:
-    .4byte  g_game_state
+    .4byte  FUN_0605ACC4
 .L_06010328:
     mov.l @r14, r2
     cmp/pl r2
@@ -104,7 +104,7 @@ DAT_0601038e:
 .L_pool_06010394:
     .4byte  sym_0604481C                    /* sound command table base (4-byte entries) */
 .L_pool_06010398:
-    .4byte  sound_cmd_dispatch
+    .4byte  FUN_0601D5F4
 .L_pool_0601039C:
     .4byte  sym_0607887F
 .L_pool_060103A0:

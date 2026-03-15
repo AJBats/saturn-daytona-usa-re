@@ -181,7 +181,7 @@ DAT_0602d54a:
 .L_0602D550:
     .4byte  0x000A0000
 .L_0602D554:
-    .4byte  cos_lookup
+    .4byte  FUN_06027344
 .L_0602D558:
     .4byte  0x00000100
 .L_0602D55C:
@@ -278,9 +278,9 @@ DAT_0602d5f4:
     .2byte  0x005C
     .2byte  0x0000
 .L_0602D5FC:
-    .4byte  atan_piecewise
+    .4byte  FUN_06027378
 .L_0602D600:
-    .4byte  cos_lookup
+    .4byte  FUN_06027344
 .L_0602D604:
     neg r6, r6
     cmp/gt r6, r5
@@ -401,7 +401,7 @@ DAT_0602d682:
 DAT_0602d6c2:
     .2byte  0x00FA
 .L_0602D6C4:
-    .4byte  atan_piecewise
+    .4byte  FUN_06027378
 .L_0602D6C8:
     cmp/gt r7, r4
     bt      .L_0602D6CE

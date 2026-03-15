@@ -1,0 +1,49 @@
+    .section .text.FUN_06009D4E
+    .global FUN_06009D4E
+    .type FUN_06009D4E, @function
+FUN_06009D4E:
+    .byte 0x4F, 0x22
+    .byte 0xD3, 0x16
+    .byte 0x43, 0x0B
+    .byte 0x00, 0x09
+    .byte 0xD2, 0x16
+    .byte 0x62, 0x20
+    .byte 0x22, 0x28
+    .byte 0x8B, 0x0B
+    .byte 0xD3, 0x15
+    .byte 0x43, 0x0B
+    .byte 0x00, 0x09
+    .byte 0xD6, 0x14
+    .byte 0xD5, 0x15
+    .byte 0xD4, 0x15
+    .byte 0xD3, 0x16
+    .byte 0x43, 0x0B
+    .byte 0x66, 0x62
+    .byte 0xD3, 0x15
+    .byte 0x43, 0x0B
+    .byte 0x00, 0x09
+    .byte 0xD3, 0x15
+    .byte 0x43, 0x2B
+    .byte 0x4F, 0x26
+    .4byte sym_0605A016
+    .4byte FUN_06014A74
+    .4byte FUN_06019058
+    .4byte FUN_0605ACC4
+    .4byte sym_06078654
+    .4byte FUN_060032D4
+    .4byte FUN_060210F6
+    .4byte sym_0607E944
+    .4byte sym_0605B6D8
+    .byte 0x40, 0x00
+    .byte 0x00, 0x00
+    .4byte sym_06026CE0
+    .4byte sym_06059F44
+    .4byte FUN_06014D2C
+    .4byte sym_06085F8A
+    .4byte FUN_0600BB94
+    .4byte sym_06063E24
+    .4byte sym_06063EEC
+    .4byte sym_06063EF8
+    .4byte FUN_060053AC
+    .4byte FUN_0600BFFC
+    .4byte FUN_060078DC

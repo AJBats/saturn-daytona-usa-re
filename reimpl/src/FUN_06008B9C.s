@@ -20,8 +20,8 @@ FUN_06008B9C:
     rts
     mov.l r2, @r3
     .2byte  0xFFFF
-    .4byte  g_game_state
-    .4byte  car_select_setup
+    .4byte  FUN_0605ACC4
+    .4byte  FUN_060198E0
 .L_pool_06008BC4:
     .4byte  sym_06026CE0
 .L_pool_06008BC8:

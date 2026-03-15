@@ -48,7 +48,7 @@ FUN_0602EEC2:
 .L_0602EF00:
     .4byte  sym_0602FDA4
 .L_0602EF04:
-    .4byte  render_camera_compute
+    .4byte  FUN_0602EFF0
 .L_0602EF08:
     .4byte  sym_0607EAC8
 .L_0602EF0C:
@@ -58,7 +58,7 @@ FUN_0602EEC2:
 .L_0602EF14:
     .4byte  sym_0602F0E8
 .L_0602EF18:
-    .4byte  collision_response_b
+    .4byte  FUN_0602F270
 .L_0602EF1C:
     mov.l   .L_0602EF64, r13
     jsr @r13
@@ -107,17 +107,17 @@ FUN_0602EF48:
 .L_0602EF6C:
     .4byte  sym_0602F4B4
 .L_0602EF70:
-    .4byte  color_material_blend
+    .4byte  FUN_0602F5B6
 .L_0602EF74:
     .4byte  sym_0602EFCC
 .L_0602EF78:
-    .4byte  vdp1_display_list_setup
+    .4byte  FUN_0602C690
 .L_0602EF7C:
-    .4byte  vdp1_color_setup
+    .4byte  FUN_0602C8E2
 .L_0602EF80:
-    .4byte  vdp1_coord_setup
+    .4byte  FUN_0602CA84
 .L_0602EF84:
-    .4byte  vdp1_sprite_cmd
+    .4byte  FUN_0602D08A
 .L_0602EF88:
     .4byte  FUN_0602D43C
 .L_0602EF8C:
@@ -147,7 +147,7 @@ FUN_0602EF48:
     rts
     mov.l @r15+, r8
 .L_0602EFBC:
-    .4byte  vdp1_cmd_list_mgr
+    .4byte  FUN_0602CDF6
 .L_0602EFC0:
     .4byte  sym_0602D814
 .L_0602EFC4:

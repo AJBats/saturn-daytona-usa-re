@@ -1,0 +1,71 @@
+
+    .section .text.FUN_0602E768
+
+
+    .global FUN_0602E768
+    .type FUN_0602E768, @function
+FUN_0602E768:
+    sts.l pr, @-r15
+    jsr @r13
+    nop
+    lds.l @r15+, pr
+    .global FUN_0602E770
+FUN_0602E770:
+    mov r0, r7
+    cmp/pz r7
+    bt      .L_0602E778
+    neg r7, r7
+.L_0602E778:
+    mov.l   .L_0602E788, r11
+    cmp/ge r11, r7
+    bt      .L_0602E78C
+    bra     .L_0602E7C0
+    nop
+    .2byte  0x0000
+    .4byte  FUN_06027476
+.L_0602E788:
+    .4byte  0x000F0000
+    .global FUN_0602E78C
+FUN_0602E78C:
+
+.L_0602E78C:
+    mov.l   .L_0602E7B0, r0
+    mov.l @(r0, r9), r3
+    mov.l   .L_0602E7B4, r1
+    mov.l r3, @r1
+    mov.l   .L_0602E7B8, r0
+    mov.l @(r0, r9), r3
+    mov.l   .L_0602E7BC, r1
+    mov.l r3, @r1
+    mov.l @r15+, r14
+    mov.l @r15+, r13
+    mov.l @r15+, r12
+    mov.l @r15+, r11
+    mov.l @r15+, r10
+    mov.l @r15+, r9
+    mov.l @r15+, r8
+    rts
+    nop
+    .2byte  0x0000
+.L_0602E7B0:
+    .4byte  0x00000238
+.L_0602E7B4:
+    .4byte  DAT_06083264
+.L_0602E7B8:
+    .4byte  0x0000023C
+.L_0602E7BC:
+    .4byte  DAT_06083268
+    .global FUN_0602E7C0
+FUN_0602E7C0:
+
+.L_0602E7C0:
+    mov.l @(16, r9), r6
+    mov.l @(24, r9), r7
+    mov.l @(16, r10), r11
+    mov.l @(24, r10), r12
+    mov.l r0, @-r15
+    mov r11, r4
+    sub r6, r4
+    mov r12, r5
+    sub r7, r5
+    .byte   0xD0, 0x0E    /* mov.l .L_pool_0602E80C, r0 */

@@ -53,7 +53,7 @@ DAT_06006802:
 DAT_06006804:
     .2byte  0x8000
     .2byte  0xFFFF
-    .4byte  fpmul
+    .4byte  FUN_06027552
     .4byte  sym_06063F04
     .4byte  sym_06063F08
     .4byte  sym_06059F30
@@ -63,7 +63,7 @@ DAT_06006804:
 .L_pool_06006820:
     .4byte  sym_0605D240
 .L_pool_06006824:
-    .4byte  sprite_pair_render
+    .4byte  FUN_06026590
 .L_pool_06006828:
     .4byte  sym_06063F4A
 .L_pool_0600682C:

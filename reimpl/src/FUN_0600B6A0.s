@@ -248,11 +248,11 @@ DAT_0600b840:
 .L_0600B858:
     .4byte  0x00008000
 .L_0600B85C:
-    .4byte  mat_rot_y
+    .4byte  FUN_06026EDE
 .L_0600B860:
-    .4byte  mat_rot_z
+    .4byte  FUN_06026F2A
 .L_0600B864:
-    .4byte  mat_rot_x
+    .4byte  FUN_06026E94
 .L_0600B868:
     .4byte  sym_06047FC4
 .L_0600B86C:
@@ -303,8 +303,8 @@ DAT_0600b840:
     mov.l @r4, r4
 .L_0600B8C4:
     mov #0x1, r5
-    .reloc ., R_SH_IND12W, render_obj_additive - 4
-    .2byte 0xB000    /* bsr render_obj_additive (linker-resolved) */
+    .reloc ., R_SH_IND12W, FUN_0600AA98 - 4
+    .2byte 0xB000    /* bsr FUN_0600AA98 (linker-resolved) */
     mov r14, r4
     mov.l @(20, r15), r5
     mov.l @(24, r15), r4

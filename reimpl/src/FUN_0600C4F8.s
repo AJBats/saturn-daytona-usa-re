@@ -118,7 +118,7 @@ DAT_0600c59a:
     .2byte  0x0194
     .2byte  0xFFFF
 .L_0600C5A0:
-    .4byte  fpmul
+    .4byte  FUN_06027552
 .L_0600C5A4:
     .4byte  sym_0607E940
 .L_0600C5A8:

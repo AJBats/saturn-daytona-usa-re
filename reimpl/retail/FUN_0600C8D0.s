@@ -84,7 +84,7 @@ DAT_0600c962:
 DAT_0600c964:
     .byte 0xFA, 0x00
     .byte 0x20, 0x00
-    .4byte atan2
+    .4byte FUN_0602744C
     .byte 0x00, 0x00
     .byte 0xFA, 0x00
     .global FUN_0600C970

@@ -1,0 +1,14 @@
+
+    .section .text.FUN_06032CC0
+
+
+    .global FUN_06032CC0
+    .type FUN_06032CC0, @function
+FUN_06032CC0:
+    sts.l pr, @-r15
+    jsr @r0
+    nop
+    lds.l @r15+, pr
+    .byte   0xD0, 0x2F    /* mov.l .L_pool_06032D88, r0 */
+    mov.w @(r0, r14), r4
+    .byte   0xD0, 0x19    /* mov.l .L_pool_06032D34, r0 */

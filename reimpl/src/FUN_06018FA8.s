@@ -1,0 +1,49 @@
+
+    .section .text.FUN_06018FA8
+
+
+    .global FUN_06018FA8
+    .type FUN_06018FA8, @function
+FUN_06018FA8:
+    sts.l pr, @-r15
+    mov.l   .L_pool_06018FE0, r14
+    mov.l   .L_pool_06018FE4, r2
+    mov.l r3, @r2
+    mov.l   .L_pool_06018FE8, r5
+    jsr @r14
+    mov #0xF, r4
+    mov.l   .L_pool_06018FEC, r5
+    jsr @r14
+    mov #0xF, r4
+    .reloc ., R_SH_IND12W, FUN_060192E8 - 4
+    .2byte 0xB000    /* bsr FUN_060192E8 (linker-resolved) */
+    nop
+    mov.l   .L_pool_06018FE4, r0
+    mov.l @r0, r0
+    tst r0, r0
+    bf      .L_06018FD4
+    mov.l   .L_pool_06018FF0, r3
+    jsr @r3
+    nop
+    mov #0x0, r2
+    mov.l   .L_pool_06018FF4, r3
+    mov.w r2, @r3
+.L_06018FD4:
+    mov.l   .L_pool_06018FE8, r5
+    jsr @r14
+    mov #0xF, r4
+    lds.l @r15+, pr
+    rts
+    mov.l @r15+, r14
+.L_pool_06018FE0:
+    .4byte  FUN_0601D5F4
+.L_pool_06018FE4:
+    .4byte  sym_06086050
+.L_pool_06018FE8:
+    .4byte  0xAE0001FF
+.L_pool_06018FEC:
+    .4byte  0xAE0005FF
+.L_pool_06018FF0:
+    .4byte  sym_06012EDC
+.L_pool_06018FF4:
+    .4byte  0x25A02DBE

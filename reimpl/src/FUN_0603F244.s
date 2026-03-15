@@ -1,0 +1,93 @@
+
+    .section .text.FUN_0603F244
+
+
+    .global FUN_0603F244
+    .type FUN_0603F244, @function
+FUN_0603F244:
+    sts.l pr, @-r15
+    add #-0xC, r15
+    mov.l   .L_0603F2C4, r11
+    mov.l   .L_0603F2C8, r12
+    mov.l   .L_0603F2CC, r13
+    mov.w   .L_0603F2C2, r0
+    mov.l @r13, r5
+    jsr @r12
+    mov.l @(r0, r5), r5
+    cmp/eq #-0x5, r0
+    bf/s    .L_0603F260
+    mov r0, r14
+    bra     .L_0603F2B2
+    mov #-0x1, r0
+.L_0603F260:
+    mov.l   .L_0603F2D0, r4
+    mov.l   .L_0603F2D4, r3
+    jsr @r3
+    nop
+    bra     .L_0603F284
+    nop
+.L_0603F26C:
+    jsr @r11
+    nop
+    cmp/eq #-0xC, r0
+    bf      .L_0603F278
+    bra     .L_0603F2B2
+    mov #-0x1, r0
+.L_0603F278:
+    mov.l @r13, r5
+    mov.w   .L_0603F2C2, r0
+    mov.l @(r0, r5), r5
+    jsr @r12
+    mov r10, r4
+    mov r0, r14
+.L_0603F284:
+    tst r14, r14
+    bf      .L_0603F26C
+    mov.l   .L_0603F2D8, r3
+    jsr @r3
+    nop
+    tst r0, r0
+    bt      .L_0603F296
+    bra     .L_0603F2B2
+    mov #-0x1, r0
+.L_0603F296:
+    mov r15, r6
+    mov r15, r5
+    mov r15, r4
+    mov.l   .L_0603F2DC, r3
+    add #0x8, r6
+    jsr @r3
+    add #0x4, r4
+    mov r0, r4
+    tst r4, r4
+    bt      .L_0603F2AE
+    bra     .L_0603F2B2
+    mov #-0x1, r0
+.L_0603F2AE:
+    mov.l @r15, r0
+    add #0x2, r0
+.L_0603F2B2:
+    add #0xC, r15
+    lds.l @r15+, pr
+    mov.l @r15+, r10
+    mov.l @r15+, r11
+    mov.l @r15+, r12
+    mov.l @r15+, r13
+    rts
+    mov.l @r15+, r14
+.L_0603F2C2:
+    .2byte  0x00C8
+.L_0603F2C4:
+    .4byte  FUN_06041698
+.L_0603F2C8:
+    .4byte  FUN_06041470
+.L_0603F2CC:
+    .4byte  sym_060A4D14
+.L_0603F2D0:
+    .4byte  0x00008000
+.L_0603F2D4:
+    .4byte  sym_06041884
+.L_0603F2D8:
+    .4byte  FUN_0604188C
+.L_0603F2DC:
+    .4byte  FUN_06036A98

@@ -137,7 +137,7 @@ FUN_06019A48:
 .L_pool_06019B40:
     .4byte  sym_0605D4F0
 .L_pool_06019B44:
-    .4byte  g_game_state
+    .4byte  FUN_0605ACC4
 .L_pool_06019B48:
     .4byte  sym_06059F44
 .L_pool_06019B4C:

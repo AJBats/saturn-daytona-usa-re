@@ -2,9 +2,9 @@
     .section .text.FUN_06033BC8
 
 
-    .global camera_attract_init
-    .type camera_attract_init, @function
-camera_attract_init:
+    .global FUN_06033BC8
+    .type FUN_06033BC8, @function
+FUN_06033BC8:
     mov.l r14, @-r15
     mov.l r13, @-r15
     mov.l r12, @-r15
@@ -40,9 +40,9 @@ camera_attract_init:
     mov #0x0, r4
     mov.l   .L_06033C2C, r0
 
-    .global disp_timeext_digit_0
-    .type disp_timeext_digit_0, @function
-disp_timeext_digit_0:
+    .global FUN_06033C08
+    .type FUN_06033C08, @function
+FUN_06033C08:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -50,9 +50,9 @@ disp_timeext_digit_0:
     mov #0x1, r4
     mov.l   .L_06033C2C, r0
 
-    .global disp_timeext_digit_1
-    .type disp_timeext_digit_1, @function
-disp_timeext_digit_1:
+    .global FUN_06033C14
+    .type FUN_06033C14, @function
+FUN_06033C14:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -60,9 +60,9 @@ disp_timeext_digit_1:
     mov #0x2, r4
     mov.l   .L_06033C2C, r0
 
-    .global disp_timeext_digit_2
-    .type disp_timeext_digit_2, @function
-disp_timeext_digit_2:
+    .global FUN_06033C20
+    .type FUN_06033C20, @function
+FUN_06033C20:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -74,9 +74,9 @@ disp_timeext_digit_2:
 .L_06033C30:
     mov.l   .L_06033C54, r0
 
-    .global time_extend_digits
-    .type time_extend_digits, @function
-time_extend_digits:
+    .global FUN_06033C32
+    .type FUN_06033C32, @function
+FUN_06033C32:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -111,180 +111,180 @@ time_extend_digits:
     bf      .L_06033D34
     mov #0x5, r4
 
-    .global disp_sel_thunk_00
-    .type disp_sel_thunk_00, @function
-disp_sel_thunk_00:
+    .global FUN_06033C6E
+    .type FUN_06033C6E, @function
+FUN_06033C6E:
     sts.l pr, @-r15
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
     mov #0x6, r4
 
-    .global disp_sel_thunk_01
-    .type disp_sel_thunk_01, @function
-disp_sel_thunk_01:
+    .global FUN_06033C78
+    .type FUN_06033C78, @function
+FUN_06033C78:
     sts.l pr, @-r15
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
     mov #0x7, r4
 
-    .global disp_sel_thunk_02
-    .type disp_sel_thunk_02, @function
-disp_sel_thunk_02:
+    .global FUN_06033C82
+    .type FUN_06033C82, @function
+FUN_06033C82:
     sts.l pr, @-r15
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
     mov #0x8, r4
 
-    .global disp_sel_thunk_03
-    .type disp_sel_thunk_03, @function
-disp_sel_thunk_03:
+    .global FUN_06033C8C
+    .type FUN_06033C8C, @function
+FUN_06033C8C:
     sts.l pr, @-r15
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
     mov #0x9, r4
 
-    .global disp_sel_thunk_04
-    .type disp_sel_thunk_04, @function
-disp_sel_thunk_04:
+    .global FUN_06033C96
+    .type FUN_06033C96, @function
+FUN_06033C96:
     sts.l pr, @-r15
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
     mov #0xA, r4
 
-    .global disp_sel_thunk_05
-    .type disp_sel_thunk_05, @function
-disp_sel_thunk_05:
+    .global FUN_06033CA0
+    .type FUN_06033CA0, @function
+FUN_06033CA0:
     sts.l pr, @-r15
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
     mov #0xB, r4
 
-    .global disp_sel_thunk_06
-    .type disp_sel_thunk_06, @function
-disp_sel_thunk_06:
+    .global FUN_06033CAA
+    .type FUN_06033CAA, @function
+FUN_06033CAA:
     sts.l pr, @-r15
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
     mov #0xC, r4
 
-    .global disp_sel_thunk_07
-    .type disp_sel_thunk_07, @function
-disp_sel_thunk_07:
+    .global FUN_06033CB4
+    .type FUN_06033CB4, @function
+FUN_06033CB4:
     sts.l pr, @-r15
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
     mov #0xD, r4
 
-    .global disp_sel_thunk_08
-    .type disp_sel_thunk_08, @function
-disp_sel_thunk_08:
+    .global FUN_06033CBE
+    .type FUN_06033CBE, @function
+FUN_06033CBE:
     sts.l pr, @-r15
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
     mov #0xE, r4
 
-    .global disp_sel_thunk_09
-    .type disp_sel_thunk_09, @function
-disp_sel_thunk_09:
+    .global FUN_06033CC8
+    .type FUN_06033CC8, @function
+FUN_06033CC8:
     sts.l pr, @-r15
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
     mov #0xF, r4
 
-    .global disp_sel_thunk_10
-    .type disp_sel_thunk_10, @function
-disp_sel_thunk_10:
+    .global FUN_06033CD2
+    .type FUN_06033CD2, @function
+FUN_06033CD2:
     sts.l pr, @-r15
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
     mov #0x10, r4
 
-    .global disp_sel_thunk_11
-    .type disp_sel_thunk_11, @function
-disp_sel_thunk_11:
+    .global FUN_06033CDC
+    .type FUN_06033CDC, @function
+FUN_06033CDC:
     sts.l pr, @-r15
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
     mov #0x11, r4
 
-    .global disp_sel_thunk_12
-    .type disp_sel_thunk_12, @function
-disp_sel_thunk_12:
+    .global FUN_06033CE6
+    .type FUN_06033CE6, @function
+FUN_06033CE6:
     sts.l pr, @-r15
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
     mov #0x12, r4
 
-    .global disp_sel_thunk_13
-    .type disp_sel_thunk_13, @function
-disp_sel_thunk_13:
+    .global FUN_06033CF0
+    .type FUN_06033CF0, @function
+FUN_06033CF0:
     sts.l pr, @-r15
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
     mov #0x13, r4
 
-    .global disp_sel_thunk_14
-    .type disp_sel_thunk_14, @function
-disp_sel_thunk_14:
+    .global FUN_06033CFA
+    .type FUN_06033CFA, @function
+FUN_06033CFA:
     sts.l pr, @-r15
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
     mov #0x14, r4
 
-    .global disp_sel_thunk_15
-    .type disp_sel_thunk_15, @function
-disp_sel_thunk_15:
+    .global FUN_06033D04
+    .type FUN_06033D04, @function
+FUN_06033D04:
     sts.l pr, @-r15
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
     mov #0x15, r4
 
-    .global disp_sel_thunk_16
-    .type disp_sel_thunk_16, @function
-disp_sel_thunk_16:
+    .global FUN_06033D0E
+    .type FUN_06033D0E, @function
+FUN_06033D0E:
     sts.l pr, @-r15
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
     mov #0x16, r4
 
-    .global disp_sel_thunk_17
-    .type disp_sel_thunk_17, @function
-disp_sel_thunk_17:
+    .global FUN_06033D18
+    .type FUN_06033D18, @function
+FUN_06033D18:
     sts.l pr, @-r15
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
     mov #0x17, r4
 
-    .global disp_sel_thunk_18
-    .type disp_sel_thunk_18, @function
-disp_sel_thunk_18:
+    .global FUN_06033D22
+    .type FUN_06033D22, @function
+FUN_06033D22:
     sts.l pr, @-r15
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
     mov #0x18, r4
 
-    .global selector_group_render
-    .type selector_group_render, @function
-selector_group_render:
+    .global FUN_06033D2C
+    .type FUN_06033D2C, @function
+FUN_06033D2C:
     sts.l pr, @-r15
     bsr     sym_06033F54
     nop
@@ -328,9 +328,9 @@ selector_group_render:
 .L_06033D74:
     mov.l   .L_06033E64, r4
 
-    .global disp_selext_thunk_00
-    .type disp_selext_thunk_00, @function
-disp_selext_thunk_00:
+    .global FUN_06033D76
+    .type FUN_06033D76, @function
+FUN_06033D76:
     sts.l pr, @-r15
     bsr     sym_06033F54
     nop
@@ -342,36 +342,36 @@ disp_selext_thunk_00:
     bf      .L_06033E52
     mov.l   .L_06033E70, r4
 
-    .global disp_selext_thunk_01
-    .type disp_selext_thunk_01, @function
-disp_selext_thunk_01:
+    .global FUN_06033D8A
+    .type FUN_06033D8A, @function
+FUN_06033D8A:
     sts.l pr, @-r15
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
     mov.l   .L_06033E74, r4
 
-    .global disp_selext_thunk_02
-    .type disp_selext_thunk_02, @function
-disp_selext_thunk_02:
+    .global FUN_06033D94
+    .type FUN_06033D94, @function
+FUN_06033D94:
     sts.l pr, @-r15
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
     mov.l   .L_06033E78, r4
 
-    .global disp_selext_thunk_03
-    .type disp_selext_thunk_03, @function
-disp_selext_thunk_03:
+    .global FUN_06033D9E
+    .type FUN_06033D9E, @function
+FUN_06033D9E:
     sts.l pr, @-r15
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
     mov.l   .L_06033E7C, r4
 
-    .global disp_selext_thunk_04
-    .type disp_selext_thunk_04, @function
-disp_selext_thunk_04:
+    .global FUN_06033DA8
+    .type FUN_06033DA8, @function
+FUN_06033DA8:
     sts.l pr, @-r15
     bsr     sym_06033F54
     nop
@@ -381,45 +381,45 @@ disp_selext_thunk_04:
     bf      .L_06033E52
     mov #0x1E, r4
 
-    .global disp_selext_thunk_05
-    .type disp_selext_thunk_05, @function
-disp_selext_thunk_05:
+    .global FUN_06033DB8
+    .type FUN_06033DB8, @function
+FUN_06033DB8:
     sts.l pr, @-r15
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
     mov #0x1F, r4
 
-    .global disp_selext_thunk_06
-    .type disp_selext_thunk_06, @function
-disp_selext_thunk_06:
+    .global FUN_06033DC2
+    .type FUN_06033DC2, @function
+FUN_06033DC2:
     sts.l pr, @-r15
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
     mov #0x20, r4
 
-    .global disp_selext_thunk_07
-    .type disp_selext_thunk_07, @function
-disp_selext_thunk_07:
+    .global FUN_06033DCC
+    .type FUN_06033DCC, @function
+FUN_06033DCC:
     sts.l pr, @-r15
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
     mov #0x21, r4
 
-    .global disp_selext_thunk_08
-    .type disp_selext_thunk_08, @function
-disp_selext_thunk_08:
+    .global FUN_06033DD6
+    .type FUN_06033DD6, @function
+FUN_06033DD6:
     sts.l pr, @-r15
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
     mov #0x22, r4
 
-    .global disp_selext_thunk_09
-    .type disp_selext_thunk_09, @function
-disp_selext_thunk_09:
+    .global FUN_06033DE0
+    .type FUN_06033DE0, @function
+FUN_06033DE0:
     sts.l pr, @-r15
     bsr     sym_06033F54
     nop
@@ -429,90 +429,90 @@ disp_selext_thunk_09:
     bf      .L_06033E52
     mov #0x23, r4
 
-    .global disp_selext_thunk_10
-    .type disp_selext_thunk_10, @function
-disp_selext_thunk_10:
+    .global FUN_06033DF0
+    .type FUN_06033DF0, @function
+FUN_06033DF0:
     sts.l pr, @-r15
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
     mov #0x24, r4
 
-    .global disp_selext_thunk_11
-    .type disp_selext_thunk_11, @function
-disp_selext_thunk_11:
+    .global FUN_06033DFA
+    .type FUN_06033DFA, @function
+FUN_06033DFA:
     sts.l pr, @-r15
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
     mov #0x25, r4
 
-    .global disp_selext_thunk_12
-    .type disp_selext_thunk_12, @function
-disp_selext_thunk_12:
+    .global FUN_06033E04
+    .type FUN_06033E04, @function
+FUN_06033E04:
     sts.l pr, @-r15
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
     mov #0x26, r4
 
-    .global disp_selext_thunk_13
-    .type disp_selext_thunk_13, @function
-disp_selext_thunk_13:
+    .global FUN_06033E0E
+    .type FUN_06033E0E, @function
+FUN_06033E0E:
     sts.l pr, @-r15
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
     mov #0x27, r4
 
-    .global disp_selext_thunk_14
-    .type disp_selext_thunk_14, @function
-disp_selext_thunk_14:
+    .global FUN_06033E18
+    .type FUN_06033E18, @function
+FUN_06033E18:
     sts.l pr, @-r15
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
     mov #0x28, r4
 
-    .global disp_selext_thunk_15
-    .type disp_selext_thunk_15, @function
-disp_selext_thunk_15:
+    .global FUN_06033E22
+    .type FUN_06033E22, @function
+FUN_06033E22:
     sts.l pr, @-r15
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
     mov #0x29, r4
 
-    .global disp_selext_thunk_16
-    .type disp_selext_thunk_16, @function
-disp_selext_thunk_16:
+    .global FUN_06033E2C
+    .type FUN_06033E2C, @function
+FUN_06033E2C:
     sts.l pr, @-r15
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
     mov #0x2A, r4
 
-    .global disp_selext_thunk_17
-    .type disp_selext_thunk_17, @function
-disp_selext_thunk_17:
+    .global FUN_06033E36
+    .type FUN_06033E36, @function
+FUN_06033E36:
     sts.l pr, @-r15
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
     mov #0x2B, r4
 
-    .global disp_selext_thunk_18
-    .type disp_selext_thunk_18, @function
-disp_selext_thunk_18:
+    .global FUN_06033E40
+    .type FUN_06033E40, @function
+FUN_06033E40:
     sts.l pr, @-r15
     bsr     sym_06033F54
     nop
     lds.l @r15+, pr
     mov #0x2C, r4
 
-    .global score_display_render
-    .type score_display_render, @function
-score_display_render:
+    .global FUN_06033E4A
+    .type FUN_06033E4A, @function
+FUN_06033E4A:
     sts.l pr, @-r15
     bsr     sym_06033F54
     nop
@@ -565,9 +565,9 @@ score_display_render:
 .L_06033EA4:
     .4byte  sym_06083250
 
-    .global disp_score_renderer
-    .type disp_score_renderer, @function
-disp_score_renderer:
+    .global FUN_06033EA8
+    .type FUN_06033EA8, @function
+FUN_06033EA8:
     mov.l r14, @-r15
     mov.l r13, @-r15
     mov.l r12, @-r15
@@ -591,9 +591,9 @@ disp_score_renderer:
     mov.l   .L_06033F38, r4
     mov.l   .L_06033F3C, r0
 
-    .global disp_score_digit_0
-    .type disp_score_digit_0, @function
-disp_score_digit_0:
+    .global FUN_06033ED2
+    .type FUN_06033ED2, @function
+FUN_06033ED2:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -601,9 +601,9 @@ disp_score_digit_0:
     mov.l   .L_06033F40, r4
     mov.l   .L_06033F3C, r0
 
-    .global disp_score_digit_1
-    .type disp_score_digit_1, @function
-disp_score_digit_1:
+    .global FUN_06033EDE
+    .type FUN_06033EDE, @function
+FUN_06033EDE:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -611,9 +611,9 @@ disp_score_digit_1:
     mov.l   .L_06033F44, r4
     mov.l   .L_06033F3C, r0
 
-    .global disp_score_digit_2
-    .type disp_score_digit_2, @function
-disp_score_digit_2:
+    .global FUN_06033EEA
+    .type FUN_06033EEA, @function
+FUN_06033EEA:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -621,9 +621,9 @@ disp_score_digit_2:
     mov.l   .L_06033F48, r4
     mov.l   .L_06033F3C, r0
 
-    .global bonus_points_display
-    .type bonus_points_display, @function
-bonus_points_display:
+    .global FUN_06033EF6
+    .type FUN_06033EF6, @function
+FUN_06033EF6:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -688,37 +688,37 @@ sym_06033F54:
     mov.l   .L_06033FA8, r0
     mov.b @(r0, r14), r0
     cmp/eq #0x1, r0
-    bt      disp_end_stub_0
+    bt      FUN_06033F80
     cmp/eq #0x4, r0
-    bt      disp_end_stub_0
+    bt      FUN_06033F80
     mov.l   .L_06033FAC, r0
     mov.b @(r0, r14), r0
     cmp/eq #0x0, r0
-    bt      disp_end_stub_2
+    bt      FUN_06033FB0
     cmp/eq #0x1, r0
-    bt      disp_end_stub_6
+    bt      FUN_06033FD4
     cmp/eq #0x2, r0
-    bt      disp_end_stub_7
+    bt      FUN_06033FDC
 
-    .global disp_end_stub_0
-    .type disp_end_stub_0, @function
-disp_end_stub_0:
+    .global FUN_06033F80
+    .type FUN_06033F80, @function
+FUN_06033F80:
     sts.l pr, @-r15
     bsr     .L_06034000
     nop
     lds.l @r15+, pr
 
-    .global disp_end_stub_1
-    .type disp_end_stub_1, @function
-disp_end_stub_1:
+    .global FUN_06033F88
+    .type FUN_06033F88, @function
+FUN_06033F88:
     sts.l pr, @-r15
     bsr     .L_06034168
     nop
     lds.l @r15+, pr
 
-    .global display_frame_mgr
-    .type display_frame_mgr, @function
-display_frame_mgr:
+    .global FUN_06033F90
+    .type FUN_06033F90, @function
+FUN_06033F90:
     sts.l pr, @-r15
     bsr     .L_060346C0
     nop
@@ -736,33 +736,33 @@ display_frame_mgr:
 .L_06033FAC:
     .4byte  0x00000026
 
-    .global disp_end_stub_2
-    .type disp_end_stub_2, @function
-disp_end_stub_2:
+    .global FUN_06033FB0
+    .type FUN_06033FB0, @function
+FUN_06033FB0:
     sts.l pr, @-r15
     bsr     .L_0603449C
     nop
     lds.l @r15+, pr
 
-    .global disp_end_stub_3
-    .type disp_end_stub_3, @function
-disp_end_stub_3:
+    .global FUN_06033FB8
+    .type FUN_06033FB8, @function
+FUN_06033FB8:
     sts.l pr, @-r15
     bsr     .L_06034000
     nop
     lds.l @r15+, pr
 
-    .global disp_end_stub_4
-    .type disp_end_stub_4, @function
-disp_end_stub_4:
+    .global FUN_06033FC0
+    .type FUN_06033FC0, @function
+FUN_06033FC0:
     sts.l pr, @-r15
     bsr     .L_06034168
     nop
     lds.l @r15+, pr
 
-    .global disp_end_stub_5
-    .type disp_end_stub_5, @function
-disp_end_stub_5:
+    .global FUN_06033FC8
+    .type FUN_06033FC8, @function
+FUN_06033FC8:
     sts.l pr, @-r15
     bsr     .L_060346C0
     nop
@@ -770,41 +770,41 @@ disp_end_stub_5:
     bra     .L_06033FFC
     nop
 
-    .global disp_end_stub_6
-    .type disp_end_stub_6, @function
-disp_end_stub_6:
+    .global FUN_06033FD4
+    .type FUN_06033FD4, @function
+FUN_06033FD4:
     sts.l pr, @-r15
     bsr     .L_06034560
     nop
     lds.l @r15+, pr
 
-    .global disp_end_stub_7
-    .type disp_end_stub_7, @function
-disp_end_stub_7:
+    .global FUN_06033FDC
+    .type FUN_06033FDC, @function
+FUN_06033FDC:
     sts.l pr, @-r15
     bsr     .L_0603449C
     nop
     lds.l @r15+, pr
 
-    .global disp_end_stub_8
-    .type disp_end_stub_8, @function
-disp_end_stub_8:
+    .global FUN_06033FE4
+    .type FUN_06033FE4, @function
+FUN_06033FE4:
     sts.l pr, @-r15
     bsr     .L_0603458C
     nop
     lds.l @r15+, pr
 
-    .global disp_end_stub_9
-    .type disp_end_stub_9, @function
-disp_end_stub_9:
+    .global FUN_06033FEC
+    .type FUN_06033FEC, @function
+FUN_06033FEC:
     sts.l pr, @-r15
     bsr     .L_06034640
     nop
     lds.l @r15+, pr
 
-    .global display_frame_flush
-    .type display_frame_flush, @function
-display_frame_flush:
+    .global FUN_06033FF4
+    .type FUN_06033FF4, @function
+FUN_06033FF4:
     sts.l pr, @-r15
     bsr     .L_060346C0
     nop
@@ -842,9 +842,9 @@ display_frame_flush:
     mov r13, r4
     mov.l   .L_06034090, r0
 
-    .global phys_position_load
-    .type phys_position_load, @function
-phys_position_load:
+    .global FUN_06034036
+    .type FUN_06034036, @function
+FUN_06034036:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -864,9 +864,9 @@ phys_position_load:
     mov r13, r4
     mov.l   .L_060340A0, r0
 
-    .global phys_velocity_integrate
-    .type phys_velocity_integrate, @function
-phys_velocity_integrate:
+    .global FUN_0603405A
+    .type FUN_0603405A, @function
+FUN_0603405A:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -895,7 +895,7 @@ phys_velocity_integrate:
 .L_0603408C:
     .4byte  0x00000002
 .L_06034090:
-    .4byte  cos_lookup
+    .4byte  FUN_06027344
 .L_06034094:
     .4byte  0x00000020
 .L_06034098:
@@ -903,7 +903,7 @@ phys_velocity_integrate:
 .L_0603409C:
     .4byte  0x00000004
 .L_060340A0:
-    .4byte  sin_lookup
+    .4byte  FUN_06027348
 .L_060340A4:
     .4byte  0x0000001C
 .L_060340A8:
@@ -920,9 +920,9 @@ phys_velocity_integrate:
     mov r10, r4
     mov.l   .L_060340F8, r0
 
-    .global phys_result_store
-    .type phys_result_store, @function
-phys_result_store:
+    .global FUN_060340C0
+    .type FUN_060340C0, @function
+FUN_060340C0:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -931,9 +931,9 @@ phys_result_store:
     mov r10, r4
     mov.l   .L_060340FC, r0
 
-    .global phys_perspective
-    .type phys_perspective, @function
-phys_perspective:
+    .global FUN_060340CE
+    .type FUN_060340CE, @function
+FUN_060340CE:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -942,9 +942,9 @@ phys_perspective:
     mov r9, r4
     mov.l   .L_06034100, r0
 
-    .global phys_final_integrate
-    .type phys_final_integrate, @function
-phys_final_integrate:
+    .global FUN_060340DC
+    .type FUN_060340DC, @function
+FUN_060340DC:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -961,11 +961,11 @@ phys_final_integrate:
     bra     .L_0603413E
     mov.l r2, @(r0, r14)
 .L_060340F8:
-    .4byte  sin_lookup
+    .4byte  FUN_06027348
 .L_060340FC:
-    .4byte  cos_lookup
+    .4byte  FUN_06027344
 .L_06034100:
-    .4byte  fpdiv_setup
+    .4byte  FUN_0602755C
 .L_06034104:
     .4byte  0x00000018
 .L_06034108:
@@ -981,9 +981,9 @@ phys_final_integrate:
     mov.l r5, @r0
     mov.l   .L_06034154, r0
 
-    .global phys_lighting_setup
-    .type phys_lighting_setup, @function
-phys_lighting_setup:
+    .global FUN_0603411E
+    .type FUN_0603411E, @function
+FUN_0603411E:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -993,9 +993,9 @@ phys_lighting_setup:
     mov.l   .L_06034158, r6
     mov.l   .L_0603415C, r0
 
-    .global ai_steering_response
-    .type ai_steering_response, @function
-ai_steering_response:
+    .global FUN_0603412E
+    .type FUN_0603412E, @function
+FUN_0603412E:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -1021,7 +1021,7 @@ ai_steering_response:
 .L_06034158:
     .4byte  sym_06083244
 .L_0603415C:
-    .4byte  scene_render_alt
+    .4byte  FUN_06027EDE
 .L_06034160:
     .4byte  sym_0608323C
 .L_06034164:
@@ -1033,9 +1033,9 @@ ai_steering_response:
     bf      .L_060341F4
     mov.l   .L_060341C8, r0
 
-    .global ai_vel_x_entry
-    .type ai_vel_x_entry, @function
-ai_vel_x_entry:
+    .global FUN_06034172
+    .type FUN_06034172, @function
+FUN_06034172:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -1050,9 +1050,9 @@ ai_vel_x_entry:
     mov.l @(r0, r14), r6
     mov.l   .L_060341DC, r0
 
-    .global ai_vel_x_step_a
-    .type ai_vel_x_step_a, @function
-ai_vel_x_step_a:
+    .global FUN_0603418C
+    .type FUN_0603418C, @function
+FUN_0603418C:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -1061,9 +1061,9 @@ ai_vel_x_step_a:
     mov.w @(r0, r14), r4
     mov.l   .L_060341E4, r0
 
-    .global ai_vel_x_step_b
-    .type ai_vel_x_step_b, @function
-ai_vel_x_step_b:
+    .global FUN_0603419A
+    .type FUN_0603419A, @function
+FUN_0603419A:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -1072,18 +1072,18 @@ ai_vel_x_step_b:
     mov.b @(r0, r14), r4
     mov.l   .L_060341EC, r0
 
-    .global ai_vel_x_step_c
-    .type ai_vel_x_step_c, @function
-ai_vel_x_step_c:
+    .global FUN_060341A8
+    .type FUN_060341A8, @function
+FUN_060341A8:
     sts.l pr, @-r15
     jsr @r0
     nop
     lds.l @r15+, pr
     mov.l   .L_060341F0, r0
 
-    .global xaxis_integrate_damp
-    .type xaxis_integrate_damp, @function
-xaxis_integrate_damp:
+    .global FUN_060341B2
+    .type FUN_060341B2, @function
+FUN_060341B2:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -1110,11 +1110,11 @@ xaxis_integrate_damp:
 .L_060341E0:
     .4byte  0x00000002
 .L_060341E4:
-    .4byte  mat_rot_y
+    .4byte  FUN_06026EDE
 .L_060341E8:
     .4byte  0x00000011
 .L_060341EC:
-    .4byte  camera_param_load
+    .4byte  FUN_0600A5B2
 .L_060341F0:
     .4byte  sym_06026DF8
 .L_060341F4:
@@ -1122,9 +1122,9 @@ xaxis_integrate_damp:
     bf      .L_06034280
     mov.l   .L_06034250, r0
 
-    .global ai_vel_x_cleanup_entry
-    .type ai_vel_x_cleanup_entry, @function
-ai_vel_x_cleanup_entry:
+    .global FUN_060341FA
+    .type FUN_060341FA, @function
+FUN_060341FA:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -1139,9 +1139,9 @@ ai_vel_x_cleanup_entry:
     mov.l @(r0, r14), r6
     mov.l   .L_06034264, r0
 
-    .global ai_vel_x_cleanup_a
-    .type ai_vel_x_cleanup_a, @function
-ai_vel_x_cleanup_a:
+    .global FUN_06034214
+    .type FUN_06034214, @function
+FUN_06034214:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -1153,9 +1153,9 @@ ai_vel_x_cleanup_a:
     exts.w r4, r4
     mov.l   .L_06034270, r0
 
-    .global ai_vel_x_cleanup_b
-    .type ai_vel_x_cleanup_b, @function
-ai_vel_x_cleanup_b:
+    .global FUN_06034228
+    .type FUN_06034228, @function
+FUN_06034228:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -1164,18 +1164,18 @@ ai_vel_x_cleanup_b:
     mov.b @(r0, r14), r4
     mov.l   .L_06034278, r0
 
-    .global ai_vel_x_cleanup_c
-    .type ai_vel_x_cleanup_c, @function
-ai_vel_x_cleanup_c:
+    .global FUN_06034236
+    .type FUN_06034236, @function
+FUN_06034236:
     sts.l pr, @-r15
     jsr @r0
     nop
     lds.l @r15+, pr
     mov.l   .L_0603427C, r0
 
-    .global yaxis_integrate
-    .type yaxis_integrate, @function
-yaxis_integrate:
+    .global FUN_06034240
+    .type FUN_06034240, @function
+FUN_06034240:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -1201,11 +1201,11 @@ yaxis_integrate:
 .L_0603426C:
     .4byte  0x00008000
 .L_06034270:
-    .4byte  mat_rot_y
+    .4byte  FUN_06026EDE
 .L_06034274:
     .4byte  0x00000011
 .L_06034278:
-    .4byte  camera_scene_setup
+    .4byte  FUN_0600A4CA
 .L_0603427C:
     .4byte  sym_06026DF8
 .L_06034280:
@@ -1213,9 +1213,9 @@ yaxis_integrate:
     bf      .L_06034304
     mov.l   .L_060342D8, r0
 
-    .global ai_vel_y_entry
-    .type ai_vel_y_entry, @function
-ai_vel_y_entry:
+    .global FUN_06034286
+    .type FUN_06034286, @function
+FUN_06034286:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -1230,9 +1230,9 @@ ai_vel_y_entry:
     mov.l @(r0, r14), r6
     mov.l   .L_060342EC, r0
 
-    .global ai_vel_y_step_a
-    .type ai_vel_y_step_a, @function
-ai_vel_y_step_a:
+    .global FUN_060342A0
+    .type FUN_060342A0, @function
+FUN_060342A0:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -1241,9 +1241,9 @@ ai_vel_y_step_a:
     mov.w @(r0, r14), r4
     mov.l   .L_060342F4, r0
 
-    .global ai_vel_y_step_b
-    .type ai_vel_y_step_b, @function
-ai_vel_y_step_b:
+    .global FUN_060342AE
+    .type FUN_060342AE, @function
+FUN_060342AE:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -1252,18 +1252,18 @@ ai_vel_y_step_b:
     mov.b @(r0, r14), r4
     mov.l   .L_060342FC, r0
 
-    .global ai_vel_y_step_c
-    .type ai_vel_y_step_c, @function
-ai_vel_y_step_c:
+    .global FUN_060342BC
+    .type FUN_060342BC, @function
+FUN_060342BC:
     sts.l pr, @-r15
     jsr @r0
     nop
     lds.l @r15+, pr
     mov.l   .L_06034300, r0
 
-    .global zaxis_integrate
-    .type zaxis_integrate, @function
-zaxis_integrate:
+    .global FUN_060342C6
+    .type FUN_060342C6, @function
+FUN_060342C6:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -1288,11 +1288,11 @@ zaxis_integrate:
 .L_060342F0:
     .4byte  0x00000002
 .L_060342F4:
-    .4byte  mat_rot_y
+    .4byte  FUN_06026EDE
 .L_060342F8:
     .4byte  0x00000011
 .L_060342FC:
-    .4byte  camera_scene_setup
+    .4byte  FUN_0600A4CA
 .L_06034300:
     .4byte  sym_06026DF8
 .L_06034304:
@@ -1303,9 +1303,9 @@ zaxis_integrate:
 .L_0603430C:
     mov.l   .L_06034420, r0
 
-    .global ai_vel_z_entry
-    .type ai_vel_z_entry, @function
-ai_vel_z_entry:
+    .global FUN_0603430E
+    .type FUN_0603430E, @function
+FUN_0603430E:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -1320,9 +1320,9 @@ ai_vel_z_entry:
     mov.l @(r0, r14), r6
     mov.l   .L_06034434, r0
 
-    .global ai_vel_z_step_a
-    .type ai_vel_z_step_a, @function
-ai_vel_z_step_a:
+    .global FUN_06034328
+    .type FUN_06034328, @function
+FUN_06034328:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -1331,9 +1331,9 @@ ai_vel_z_step_a:
     mov.w @(r0, r14), r4
     mov.l   .L_0603443C, r0
 
-    .global ai_vel_z_step_b
-    .type ai_vel_z_step_b, @function
-ai_vel_z_step_b:
+    .global FUN_06034336
+    .type FUN_06034336, @function
+FUN_06034336:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -1342,18 +1342,18 @@ ai_vel_z_step_b:
     mov.b @(r0, r14), r4
     mov.l   .L_06034444, r0
 
-    .global ai_vel_z_step_c
-    .type ai_vel_z_step_c, @function
-ai_vel_z_step_c:
+    .global FUN_06034344
+    .type FUN_06034344, @function
+FUN_06034344:
     sts.l pr, @-r15
     jsr @r0
     nop
     lds.l @r15+, pr
     mov.l   .L_06034448, r0
 
-    .global ai_rot_a_entry
-    .type ai_rot_a_entry, @function
-ai_rot_a_entry:
+    .global FUN_0603434E
+    .type FUN_0603434E, @function
+FUN_0603434E:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -1367,9 +1367,9 @@ ai_rot_a_entry:
     bf      .L_0603441C
     mov.l   .L_06034420, r0
 
-    .global ai_rot_a_step
-    .type ai_rot_a_step, @function
-ai_rot_a_step:
+    .global FUN_06034366
+    .type FUN_06034366, @function
+FUN_06034366:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -1388,9 +1388,9 @@ ai_rot_a_step:
     sub r0, r6
     mov.l   .L_06034434, r0
 
-    .global ai_rot_a_fix_a
-    .type ai_rot_a_fix_a, @function
-ai_rot_a_fix_a:
+    .global FUN_06034388
+    .type FUN_06034388, @function
+FUN_06034388:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -1399,9 +1399,9 @@ ai_rot_a_fix_a:
     mov.w @(r0, r14), r4
     mov.l   .L_0603443C, r0
 
-    .global ai_rot_a_fix_b
-    .type ai_rot_a_fix_b, @function
-ai_rot_a_fix_b:
+    .global FUN_06034396
+    .type FUN_06034396, @function
+FUN_06034396:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -1410,18 +1410,18 @@ ai_rot_a_fix_b:
     mov.b @(r0, r14), r4
     mov.l   .L_06034444, r0
 
-    .global ai_rot_a_fix_c
-    .type ai_rot_a_fix_c, @function
-ai_rot_a_fix_c:
+    .global FUN_060343A4
+    .type FUN_060343A4, @function
+FUN_060343A4:
     sts.l pr, @-r15
     jsr @r0
     nop
     lds.l @r15+, pr
     mov.l   .L_06034448, r0
 
-    .global ai_rot_b_entry
-    .type ai_rot_b_entry, @function
-ai_rot_b_entry:
+    .global FUN_060343AE
+    .type FUN_060343AE, @function
+FUN_060343AE:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -1435,9 +1435,9 @@ ai_rot_b_entry:
     bf      .L_0603441C
     mov.l   .L_06034420, r0
 
-    .global ai_rot_b_step
-    .type ai_rot_b_step, @function
-ai_rot_b_step:
+    .global FUN_060343C6
+    .type FUN_060343C6, @function
+FUN_060343C6:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -1456,9 +1456,9 @@ ai_rot_b_step:
     sub r0, r6
     mov.l   .L_06034434, r0
 
-    .global ai_rot_b_fix_a
-    .type ai_rot_b_fix_a, @function
-ai_rot_b_fix_a:
+    .global FUN_060343E8
+    .type FUN_060343E8, @function
+FUN_060343E8:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -1468,9 +1468,9 @@ ai_rot_b_fix_a:
     add r0, r4
     mov.l   .L_0603443C, r0
 
-    .global ai_rot_b_fix_b
-    .type ai_rot_b_fix_b, @function
-ai_rot_b_fix_b:
+    .global FUN_060343F8
+    .type FUN_060343F8, @function
+FUN_060343F8:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -1479,18 +1479,18 @@ ai_rot_b_fix_b:
     mov.b @(r0, r14), r4
     mov.l   .L_06034444, r0
 
-    .global ai_rot_b_fix_c
-    .type ai_rot_b_fix_c, @function
-ai_rot_b_fix_c:
+    .global FUN_06034406
+    .type FUN_06034406, @function
+FUN_06034406:
     sts.l pr, @-r15
     jsr @r0
     nop
     lds.l @r15+, pr
     mov.l   .L_06034448, r0
 
-    .global ai_decision_dispatch
-    .type ai_decision_dispatch, @function
-ai_decision_dispatch:
+    .global FUN_06034410
+    .type FUN_06034410, @function
+FUN_06034410:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -1515,11 +1515,11 @@ ai_decision_dispatch:
 .L_06034438:
     .4byte  0x00000002
 .L_0603443C:
-    .4byte  mat_rot_y
+    .4byte  FUN_06026EDE
 .L_06034440:
     .4byte  0x00000011
 .L_06034444:
-    .4byte  camera_param_load
+    .4byte  FUN_0600A5B2
 .L_06034448:
     .4byte  sym_06026DF8
 .L_0603444C:
@@ -1617,9 +1617,9 @@ sym_0603446C:
     shlr2 r4
     mov.l   .L_06034520, r0
 
-    .global ai_speed_limit
-    .type ai_speed_limit, @function
-ai_speed_limit:
+    .global FUN_060344FC
+    .type FUN_060344FC, @function
+FUN_060344FC:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -1639,13 +1639,13 @@ ai_speed_limit:
 .L_0603451C:
     .4byte  sym_06083238
 .L_06034520:
-    .4byte  isqrt
+    .4byte  FUN_06027476
 .L_06034524:
     mov.l   .L_06034550, r0
 
-    .global ai_waypoint_follower
-    .type ai_waypoint_follower, @function
-ai_waypoint_follower:
+    .global FUN_06034526
+    .type FUN_06034526, @function
+FUN_06034526:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -1670,7 +1670,7 @@ ai_waypoint_follower:
     nop
     .2byte  0x0000
 .L_06034550:
-    .4byte  isqrt
+    .4byte  FUN_06027476
 .L_06034554:
     .4byte  0x00080000
 .L_06034558:
@@ -1710,9 +1710,9 @@ ai_waypoint_follower:
     mov r9, r4
     mov.l   .L_06034614, r0
 
-    .global ai_collision_trigger
-    .type ai_collision_trigger, @function
-ai_collision_trigger:
+    .global FUN_0603459C
+    .type FUN_0603459C, @function
+FUN_0603459C:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -1728,9 +1728,9 @@ ai_collision_trigger:
     mov r9, r4
     mov.l   .L_0603461C, r0
 
-    .global ai_collision_response
-    .type ai_collision_response, @function
-ai_collision_response:
+    .global FUN_060345B8
+    .type FUN_060345B8, @function
+FUN_060345B8:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -1753,9 +1753,9 @@ ai_collision_response:
     mov.l r5, @r0
     mov.l   .L_0603462C, r0
 
-    .global ai_reset_stub
-    .type ai_reset_stub, @function
-ai_reset_stub:
+    .global FUN_060345E2
+    .type FUN_060345E2, @function
+FUN_060345E2:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -1765,9 +1765,9 @@ ai_reset_stub:
     mov.l   .L_06034630, r6
     mov.l   .L_06034634, r0
 
-    .global ai_car_pos_init
-    .type ai_car_pos_init, @function
-ai_car_pos_init:
+    .global FUN_060345F2
+    .type FUN_060345F2, @function
+FUN_060345F2:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -1786,11 +1786,11 @@ ai_car_pos_init:
 .L_06034610:
     .4byte  0x00000028
 .L_06034614:
-    .4byte  cos_lookup
+    .4byte  FUN_06027344
 .L_06034618:
     .4byte  0x00000004
 .L_0603461C:
-    .4byte  sin_lookup
+    .4byte  FUN_06027348
 .L_06034620:
     .4byte  0x0000000C
 .L_06034624:
@@ -1802,7 +1802,7 @@ ai_car_pos_init:
 .L_06034630:
     .4byte  sym_06083244
 .L_06034634:
-    .4byte  scene_render_alt
+    .4byte  FUN_06027EDE
 .L_06034638:
     .4byte  sym_0608323C
 .L_0603463C:
@@ -1810,9 +1810,9 @@ ai_car_pos_init:
 .L_06034640:
     mov.l   .L_06034694, r0
 
-    .global ai_spawn_helper_a
-    .type ai_spawn_helper_a, @function
-ai_spawn_helper_a:
+    .global FUN_06034642
+    .type FUN_06034642, @function
+FUN_06034642:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -1827,9 +1827,9 @@ ai_spawn_helper_a:
     mov.l @(r0, r14), r6
     mov.l   .L_060346A8, r0
 
-    .global ai_spawn_helper_b
-    .type ai_spawn_helper_b, @function
-ai_spawn_helper_b:
+    .global FUN_0603465C
+    .type FUN_0603465C, @function
+FUN_0603465C:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -1838,9 +1838,9 @@ ai_spawn_helper_b:
     mov.w @(r0, r14), r4
     mov.l   .L_060346B0, r0
 
-    .global ai_spawn_helper_c
-    .type ai_spawn_helper_c, @function
-ai_spawn_helper_c:
+    .global FUN_0603466A
+    .type FUN_0603466A, @function
+FUN_0603466A:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -1849,18 +1849,18 @@ ai_spawn_helper_c:
     mov.b @(r0, r14), r4
     mov.l   .L_060346B8, r0
 
-    .global ai_spawn_helper_d
-    .type ai_spawn_helper_d, @function
-ai_spawn_helper_d:
+    .global FUN_06034678
+    .type FUN_06034678, @function
+FUN_06034678:
     sts.l pr, @-r15
     jsr @r0
     nop
     lds.l @r15+, pr
     mov.l   .L_060346BC, r0
 
-    .global ai_car_full_init
-    .type ai_car_full_init, @function
-ai_car_full_init:
+    .global FUN_06034682
+    .type FUN_06034682, @function
+FUN_06034682:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -1885,11 +1885,11 @@ ai_car_full_init:
 .L_060346AC:
     .4byte  0x00000002
 .L_060346B0:
-    .4byte  mat_rot_y
+    .4byte  FUN_06026EDE
 .L_060346B4:
     .4byte  0x00000011
 .L_060346B8:
-    .4byte  camera_scene_setup
+    .4byte  FUN_0600A4CA
 .L_060346BC:
     .4byte  sym_06026DF8
 .L_060346C0:
@@ -1932,9 +1932,9 @@ ai_car_full_init:
 .L_06034704:
     .4byte  0x00000000
 
-    .global vblank_handler
-    .type vblank_handler, @function
-vblank_handler:
+    .global FUN_06034708
+    .type FUN_06034708, @function
+FUN_06034708:
     mov.l r14, @-r15
     mov.l r13, @-r15
     mov.l r12, @-r15
@@ -1948,25 +1948,25 @@ vblank_handler:
     mov.l   .L_06034750, r0
     mov.l r2, @(r0, r14)
 
-    .global ai_rank_stub_a
-    .type ai_rank_stub_a, @function
-ai_rank_stub_a:
+    .global FUN_06034720
+    .type FUN_06034720, @function
+FUN_06034720:
     sts.l pr, @-r15
     bsr     .L_06034754
     nop
     lds.l @r15+, pr
 
-    .global ai_rank_stub_b
-    .type ai_rank_stub_b, @function
-ai_rank_stub_b:
+    .global FUN_06034728
+    .type FUN_06034728, @function
+FUN_06034728:
     sts.l pr, @-r15
     bsr     .L_060347A8
     nop
     lds.l @r15+, pr
 
-    .global position_calc_current
-    .type position_calc_current, @function
-position_calc_current:
+    .global FUN_06034730
+    .type FUN_06034730, @function
+FUN_06034730:
     sts.l pr, @-r15
     bsr     .L_06034848
     nop
@@ -1994,9 +1994,9 @@ position_calc_current:
     shll16 r4
     mov.l   .L_06034798, r0
 
-    .global ranking_system_full
-    .type ranking_system_full, @function
-ranking_system_full:
+    .global FUN_06034762
+    .type FUN_06034762, @function
+FUN_06034762:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -2026,7 +2026,7 @@ ranking_system_full:
 .L_06034794:
     .4byte  0x012C0000
 .L_06034798:
-    .4byte  fpdiv_setup
+    .4byte  FUN_0602755C
 .L_0603479C:
     .4byte  0x00060000
 .L_060347A0:
@@ -2208,9 +2208,9 @@ DAT_0603489e:
     mov.l   .L_060348F8, r4
     mov.l   .L_060348FC, r0
 
-    .global lap_complete_check
-    .type lap_complete_check, @function
-lap_complete_check:
+    .global FUN_060348E6
+    .type FUN_060348E6, @function
+FUN_060348E6:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -2224,11 +2224,11 @@ lap_complete_check:
 .L_060348F8:
     .4byte  0x00000000
 .L_060348FC:
-    .4byte  sound_cmd_dispatch
+    .4byte  FUN_0601D5F4
 
-    .global terrain_data_lookup
-    .type terrain_data_lookup, @function
-terrain_data_lookup:
+    .global FUN_06034900
+    .type FUN_06034900, @function
+FUN_06034900:
     mov.l r14, @-r15
     mov.l r13, @-r15
     mov.l r12, @-r15
@@ -2260,9 +2260,9 @@ terrain_data_lookup:
     mov.l   .L_0603497C, r5
     mov.l   .L_06034980, r0
 
-    .global checkpoint_validate
-    .type checkpoint_validate, @function
-checkpoint_validate:
+    .global FUN_0603493A
+    .type FUN_0603493A, @function
+FUN_0603493A:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -2284,9 +2284,9 @@ checkpoint_validate:
     mov #0x2, r4
     mov.l   .L_06034980, r0
 
-    .global section_transition
-    .type section_transition, @function
-section_transition:
+    .global FUN_0603495C
+    .type FUN_0603495C, @function
+FUN_0603495C:
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -2309,11 +2309,11 @@ DAT_06034976:
 .L_0603497C:
     .4byte  0xAE1128FF
 .L_06034980:
-    .4byte  sound_cmd_dispatch
+    .4byte  FUN_0601D5F4
 
-    .global ai_checkpoint_section
-    .type ai_checkpoint_section, @function
-ai_checkpoint_section:
+    .global FUN_06034984
+    .type FUN_06034984, @function
+FUN_06034984:
     mov.l r14, @-r15
     mov.l r13, @-r15
     sts.l pr, @-r15
@@ -2340,9 +2340,9 @@ ai_checkpoint_section:
     rts
     mov.l @r15+, r14
 
-    .global ai_checkpoint_validate
-    .type ai_checkpoint_validate, @function
-ai_checkpoint_validate:
+    .global FUN_060349B6
+    .type FUN_060349B6, @function
+FUN_060349B6:
     sts.l pr, @-r15
     mov.l   .L_060349E4, r3
     jsr @r3
@@ -2356,15 +2356,15 @@ ai_checkpoint_validate:
  * Method: code audit — hardware register addresses are definitive.
  * Date: 2026-02-28
  */
-    .global cd_block_read_safe
-    .type cd_block_read_safe, @function
-cd_block_read_safe:
+    .global FUN_060349C4
+    .type FUN_060349C4, @function
+FUN_060349C4:
     mov.l r14, @-r15
     mov.l r13, @-r15
     sts.l pr, @-r15
     mov r4, r13
     add #-0x8, r15
-    bsr     cd_block_read_atomic
+    bsr     FUN_06034A10
     mov r15, r4
     mov r0, r14
     tst r14, r14
@@ -2372,11 +2372,11 @@ cd_block_read_safe:
     bra     .L_06034A06
     mov r14, r0
 .L_060349DC:
-    .4byte  input_proc_analog
+    .4byte  FUN_06035E90
 .L_060349E0:
-    .4byte  input_proc_buttons
+    .4byte  FUN_06035EC8
 .L_060349E4:
-    .4byte  input_proc_extended
+    .4byte  FUN_06035F04
 .L_060349E8:
     mov r13, r5
     mov.l   .L_06034A94, r3
@@ -2403,13 +2403,13 @@ cd_block_read_safe:
     mov.l @r15+, r14
 
 /* VERIFIED: inner double-read helper. Saves/restores IMASK, reads CD Block
- * registers twice for consistency check. Part of cd_block_read_safe family.
- * Method: code audit — same CD Block register addresses as cd_block_read_safe.
+ * registers twice for consistency check. Part of FUN_060349C4 family.
+ * Method: code audit — same CD Block register addresses as FUN_060349C4.
  * Date: 2026-02-28
  */
-    .global cd_block_read_atomic
-    .type cd_block_read_atomic, @function
-cd_block_read_atomic:
+    .global FUN_06034A10
+    .type FUN_06034A10, @function
+FUN_06034A10:
     mov.l r14, @-r15
     mov.l r13, @-r15
     mov.l r12, @-r15
@@ -2488,15 +2488,15 @@ DAT_06034a8e:
 .L_06034A98:
     .4byte  sym_06035E5E
 
-    .global ai_nop_stub
-    .type ai_nop_stub, @function
-ai_nop_stub:
+    .global FUN_06034A9C
+    .type FUN_06034A9C, @function
+FUN_06034A9C:
     mov.l r14, @-r15
     mov r4, r14
 
-    .global ai_pit_stop_logic
-    .type ai_pit_stop_logic, @function
-ai_pit_stop_logic:
+    .global FUN_06034AA0
+    .type FUN_06034AA0, @function
+FUN_06034AA0:
     sts.l pr, @-r15
     add #-0x10, r15
     mov r15, r4
@@ -2537,9 +2537,9 @@ ai_pit_stop_logic:
     rts
     mov.l @r15+, r14
 
-    .global track_intersect_test
-    .type track_intersect_test, @function
-track_intersect_test:
+    .global FUN_06034AEE
+    .type FUN_06034AEE, @function
+FUN_06034AEE:
     mov.l r14, @-r15
     sts.l pr, @-r15
     mov r4, r14
@@ -2585,25 +2585,25 @@ track_intersect_test:
     mov.l @r15+, r14
     .2byte  0xFFFF
 .L_06034B44:
-    .4byte  input_proc_analog
+    .4byte  FUN_06035E90
 .L_06034B48:
-    .4byte  input_proc_digital
+    .4byte  FUN_06035EA2
 .L_06034B4C:
     .4byte  0x00FFFFFF
 .L_06034B50:
-    .4byte  smpc_secondary_proc
+    .4byte  FUN_06035CBC
 
-    .global mesh_boundary_check
-    .type mesh_boundary_check, @function
-mesh_boundary_check:
+    .global FUN_06034B54
+    .type FUN_06034B54, @function
+FUN_06034B54:
     mov.l r14, @-r15
     mov r4, r14
     mov.l r13, @-r15
     mov r5, r13
 
-    .global ai_crash_recovery
-    .type ai_crash_recovery, @function
-ai_crash_recovery:
+    .global FUN_06034B5C
+    .type FUN_06034B5C, @function
+FUN_06034B5C:
     sts.l pr, @-r15
     add #-0x10, r15
     mov r15, r4
@@ -2636,9 +2636,9 @@ ai_crash_recovery:
     rts
     mov.l @r15+, r14
 
-    .global road_segment_query
-    .type road_segment_query, @function
-road_segment_query:
+    .global FUN_06034B9A
+    .type FUN_06034B9A, @function
+FUN_06034B9A:
     mov.l r14, @-r15
     mov.l r13, @-r15
     mov r4, r14
@@ -2647,9 +2647,9 @@ road_segment_query:
     mov.l r11, @-r15
     mov r7, r12
 
-    .global ai_drafting_calc
-    .type ai_drafting_calc, @function
-ai_drafting_calc:
+    .global FUN_06034BA8
+    .type FUN_06034BA8, @function
+FUN_06034BA8:
     sts.l pr, @-r15
     mov r5, r11
     add #-0xC, r15
@@ -2693,9 +2693,9 @@ ai_drafting_calc:
 .L_06034BF6:
     .2byte  0x0DAC
 .L_06034BF8:
-    .4byte  input_proc_analog
+    .4byte  FUN_06035E90
 .L_06034BFC:
-    .4byte  input_proc_digital
+    .4byte  FUN_06035EA2
 .L_06034C00:
     mov.l @r15, r2
     add #-0x1, r2
@@ -2737,9 +2737,9 @@ ai_drafting_calc:
     rts
     mov.l @r15+, r14
 
-    .global ai_brake_zone_calc
-    .type ai_brake_zone_calc, @function
-ai_brake_zone_calc:
+    .global FUN_06034C48
+    .type FUN_06034C48, @function
+FUN_06034C48:
     sts.l pr, @-r15
     add #-0x8, r15
     mov.l   .L_06034C88, r3
@@ -2757,9 +2757,9 @@ ai_brake_zone_calc:
     rts
     mov r0, r4
 
-    .global ai_brake_zone_adjust
-    .type ai_brake_zone_adjust, @function
-ai_brake_zone_adjust:
+    .global FUN_06034C68
+    .type FUN_06034C68, @function
+FUN_06034C68:
     mov.l r14, @-r15
     mov.l r13, @-r15
     sts.l pr, @-r15
@@ -2773,11 +2773,11 @@ ai_brake_zone_adjust:
 .L_06034C7C:
     .4byte  sym_06035C92
 .L_06034C80:
-    .4byte  input_proc_buttons
+    .4byte  FUN_06035EC8
 .L_06034C84:
-    .4byte  smpc_cmd_helper_c
+    .4byte  FUN_06035C80
 .L_06034C88:
-    .4byte  input_proc_analog
+    .4byte  FUN_06035E90
 .L_06034C8C:
     mov.w   .L_06034D02, r4
 .L_06034C8E:
@@ -2799,7 +2799,7 @@ ai_brake_zone_adjust:
     tst r14, r14
     bt      .L_06034CB4
     mov r15, r4
-    bsr     ai_brake_zone_main
+    bsr     FUN_06034CC8
     add #0x4, r4
 .L_06034CB4:
     mov.l   .L_06034D08, r4
@@ -2813,15 +2813,15 @@ ai_brake_zone_adjust:
     rts
     mov.l @r15+, r14
 
-    .global ai_brake_zone_main
-    .type ai_brake_zone_main, @function
-ai_brake_zone_main:
+    .global FUN_06034CC8
+    .type FUN_06034CC8, @function
+FUN_06034CC8:
     mov.l r14, @-r15
     mov r4, r14
 
-    .global ai_brake_zone
-    .type ai_brake_zone, @function
-ai_brake_zone:
+    .global FUN_06034CCC
+    .type FUN_06034CCC, @function
+FUN_06034CCC:
     sts.l pr, @-r15
     add #-0x10, r15
     mov r15, r4
@@ -2852,27 +2852,27 @@ ai_brake_zone:
 .L_06034D02:
     .2byte  0x0082
 .L_06034D04:
-    .4byte  input_proc_init
+    .4byte  FUN_06035E00
 .L_06034D08:
     .4byte  0x0000FFFD
 .L_06034D0C:
     .4byte  sym_06035C6E
 .L_06034D10:
-    .4byte  input_proc_analog
+    .4byte  FUN_06035E90
 .L_06034D14:
-    .4byte  input_proc_digital
+    .4byte  FUN_06035EA2
 .L_06034D18:
     .4byte  0x00FFFFFF
 
-    .global ai_throttle_modulate
-    .type ai_throttle_modulate, @function
-ai_throttle_modulate:
+    .global FUN_06034D1C
+    .type FUN_06034D1C, @function
+FUN_06034D1C:
     mov.l r14, @-r15
     mov r4, r14
 
-    .global ai_throttle_mod
-    .type ai_throttle_mod, @function
-ai_throttle_mod:
+    .global FUN_06034D20
+    .type FUN_06034D20, @function
+FUN_06034D20:
     sts.l pr, @-r15
     add #-0x8, r15
     mov.l   .L_06034DBC, r3
@@ -2883,7 +2883,7 @@ ai_throttle_mod:
     mov r15, r5
     mov.b r3, @r2
     add #0x1, r5
-    bsr     ai_throttle_adjust
+    bsr     FUN_06034D5E
     mov r14, r4
     mov r15, r2
     mov #0x10, r0
@@ -2893,7 +2893,7 @@ ai_throttle_mod:
     add #0x5, r5
     mov r3, r0
     mov.b r0, @(4, r2)
-    bsr     ai_throttle_adjust
+    bsr     FUN_06034D5E
     add #0x8, r4
     mov r15, r5
     mov.l   .L_06034DC0, r3
@@ -2905,9 +2905,9 @@ ai_throttle_mod:
     rts
     mov.l @r15+, r14
 
-    .global ai_throttle_adjust
-    .type ai_throttle_adjust, @function
-ai_throttle_adjust:
+    .global FUN_06034D5E
+    .type FUN_06034D5E, @function
+FUN_06034D5E:
     sts.l pr, @-r15
     bra     .L_06034DD0
     mov.l @r4, r0
@@ -2961,9 +2961,9 @@ ai_throttle_adjust:
     nop
     .2byte  0xFFFF
 .L_06034DBC:
-    .4byte  input_proc_analog
+    .4byte  FUN_06035E90
 .L_06034DC0:
-    .4byte  input_proc_buttons
+    .4byte  FUN_06035EC8
 .L_06034DC4:
     .4byte  sym_06059CA7
 .L_06034DC8:
@@ -2986,9 +2986,9 @@ ai_throttle_adjust:
     rts
     nop
 
-    .global ai_recovery_handler
-    .type ai_recovery_handler, @function
-ai_recovery_handler:
+    .global FUN_06034DEA
+    .type FUN_06034DEA, @function
+FUN_06034DEA:
     mov.l r14, @-r15
     sts.l pr, @-r15
     mov r4, r14
@@ -3001,7 +3001,7 @@ ai_recovery_handler:
     mov r15, r5
     mov.b r3, @r2
     add #0x1, r5
-    bsr     ai_throttle_adjust
+    bsr     FUN_06034D5E
     mov r14, r4
     mov r15, r5
     mov.l   .L_06034E1C, r3
@@ -3013,6 +3013,6 @@ ai_recovery_handler:
     rts
     mov.l @r15+, r14
 .L_06034E18:
-    .4byte  input_proc_analog
+    .4byte  FUN_06035E90
 .L_06034E1C:
-    .4byte  input_proc_buttons
+    .4byte  FUN_06035EC8

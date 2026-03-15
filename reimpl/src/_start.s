@@ -51,42 +51,42 @@ sym_06003000:
     .byte 0x22, 0x52
     .byte 0xAF, 0xD5
     .byte 0x00, 0x09
-    .4byte system_init
+    .4byte FUN_060030FC
     .4byte FUN_0600A392
     .4byte sym_06003000
     .4byte sym_0607EBC0
     .4byte sym_0607EBC4
-    .4byte g_game_state
+    .4byte FUN_0605ACC4
     .4byte sym_0607EBC8
-    .4byte state_boot_init
-    .4byte loc_0600890A
-    .4byte state_attract_setup
-    .4byte state_attract_active
-    .4byte state_mode_select_entry
-    .4byte state_mode_select_active
-    .4byte state_course_select_init
-    .4byte state_course_select_active
-    .4byte state_car_select_init
+    .4byte FUN_060088CC
+    .4byte FUN_0600890A
+    .4byte FUN_06008938
+    .4byte FUN_06008A18
+    .4byte FUN_06008CCC
+    .4byte FUN_06008D74
+    .4byte FUN_06008B04
+    .4byte FUN_06008B34
+    .4byte FUN_06008B78
     .4byte FUN_06008B9C
-    .4byte state_loading_init
-    .4byte state_loading_check
-    .4byte state_race_prepare
-    .4byte state_pre_race
-    .4byte state_race_setup
-    .4byte state_race_main
-    .4byte state_post_countdown
-    .4byte state_post_lap
-    .4byte state_time_extend_setup
-    .4byte state_time_extend_active
-    .4byte state_race_complete
-    .4byte state_post_race_cleanup
-    .4byte state_attract_return
-    .4byte state_demo_setup
-    .4byte state_post_race_init
-    .4byte state_post_race_display
-    .4byte state_postrace_wait_init
-    .4byte state_postrace_countdown
-    .4byte state_abort
-    .4byte state_results_screen
-    .4byte state_resource_load
-    .4byte state_memory_route
+    .4byte FUN_06008BD8
+    .4byte FUN_06008BFC
+    .4byte FUN_06008E00
+    .4byte FUN_06008E48
+    .4byte FUN_06008EBC
+    .4byte FUN_06009098
+    .4byte FUN_06009290
+    .4byte FUN_060092D0
+    .4byte FUN_060096DC
+    .4byte FUN_06009788
+    .4byte FUN_06009A60
+    .4byte FUN_06009C48
+    .4byte FUN_06009E60
+    .4byte FUN_06009F10
+    .4byte FUN_06009CFC
+    .4byte FUN_06009D4E
+    .4byte FUN_06009DD0
+    .4byte FUN_06009E02
+    .4byte FUN_06009508
+    .4byte FUN_0600955E
+    .4byte FUN_06008C14
+    .4byte FUN_06008C76

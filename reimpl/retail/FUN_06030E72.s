@@ -35,8 +35,8 @@ FUN_06030E72:
     .global DAT_06030eae
 DAT_06030eae:
     .byte 0x00, 0x7C
-    .4byte cos_lookup
-    .4byte sin_lookup
+    .4byte FUN_06027344
+    .4byte FUN_06027348
     .byte 0x00, 0x00
     .byte 0xDE, 0xB8
     .byte 0x00, 0x00
@@ -86,15 +86,15 @@ sym_06030EE0:
     .byte 0x00, 0x0B
     .byte 0x6C, 0xF6
     .byte 0x00, 0x00
-    .4byte sound_cmd_dispatch
+    .4byte FUN_0601D5F4
     .byte 0xAE, 0x11
     .byte 0x02, 0xFF
     .global sym_06030F1C
 sym_06030F1C:
-    .4byte loc_060307E8
-    .4byte loc_060307B8
-    .4byte loc_06030788
-    .4byte loc_06030758
+    .4byte FUN_060307E8
+    .4byte FUN_060307B8
+    .4byte FUN_06030788
+    .4byte FUN_06030758
     .byte 0x01, 0x22
     .byte 0x01, 0x22
     .byte 0x01, 0x2C

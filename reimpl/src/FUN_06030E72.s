@@ -47,8 +47,8 @@ FUN_06030E72:
     .global DAT_06030eae
 DAT_06030eae:
     .2byte  0x007C
-    .4byte  cos_lookup
-    .4byte  sin_lookup
+    .4byte  FUN_06027344
+    .4byte  FUN_06027348
 .L_pool_06030EBB:
     .4byte  0x0000DEB8
 .L_pool_06030EBF:
@@ -93,20 +93,20 @@ sym_06030EE0:
 .L_pool_06030EFD:
     .4byte  sym_0607E940
     .4byte  0x2FC62F06                  /* mov.l r12, @-r15 / mov.l r0, @-r15 */
-    .4byte  0x4F22DC04                  /* sts.l pr, @-r15 / mov.l @(PC+16), r12 = sound_cmd_dispatch */
+    .4byte  0x4F22DC04                  /* sts.l pr, @-r15 / mov.l @(PC+16), r12 = FUN_0601D5F4 */
     .4byte  0xD5044C0B                  /* mov.l @(PC+16), r5 = 0xAE1102FF / jsr @r12 */
     .4byte  0xE4004F26                  /* mov #0, r4 / lds.l @r15+, pr */
     .4byte  0x60F6000B                  /* mov.l @r15+, r0 / rts */
     .4byte  0x6CF60000                  /* mov.l @r15+, r12 / padding */
-    .4byte  sound_cmd_dispatch
+    .4byte  FUN_0601D5F4
     .4byte  0xAE1102FF                  /* pool: sound command ID (sound effect trigger) */
 
     .global sym_06030F1C
 sym_06030F1C:
-    .4byte  loc_060307E8
-    .4byte  loc_060307B8
-    .4byte  loc_06030788
-    .4byte  loc_06030758
+    .4byte  FUN_060307E8
+    .4byte  FUN_060307B8
+    .4byte  FUN_06030788
+    .4byte  FUN_06030758
     .4byte  0x01220122
     .4byte  0x012C0140
     .4byte  0x01400140

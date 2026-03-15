@@ -28,8 +28,8 @@ FUN_0600FD8A:
     bra     .L_0600FDF8
     nop
 .L_0600FDB8:
-    .reloc ., R_SH_IND12W, graphics_mode_setup - 4
-    .2byte 0xB000    /* bsr graphics_mode_setup (linker-resolved) */
+    .reloc ., R_SH_IND12W, FUN_06010BC4 - 4
+    .2byte 0xB000    /* bsr FUN_06010BC4 (linker-resolved) */
     nop
     .byte   0xD3, 0x09    /* mov.l .L_pool_0600FDE4, r3 */
     jsr @r3
@@ -44,7 +44,7 @@ FUN_0600FD8A:
     lds.l @r15+, pr
     .2byte  0xFFFF
     .4byte  0xAB1101FF
-    .4byte  sound_cmd_dispatch
+    .4byte  FUN_0601D5F4
 .L_pool_0600FDDC:
     .4byte  sym_0607887A
 .L_pool_0600FDE0:
@@ -54,7 +54,7 @@ FUN_0600FD8A:
 .L_pool_0600FDE8:
     .4byte  sym_06085FF4
 .L_pool_0600FDEC:
-    .4byte  anim_ui_transition
+    .4byte  FUN_060114AC
 .L_pool_0600FDF0:
     .4byte  sym_0602853E
 .L_pool_0600FDF4:

@@ -26,7 +26,7 @@ circuit_confirm_handler:
     .4byte sym_0607887E
     .4byte sym_0607EAD8
     .4byte sym_0607EBCC
-    .4byte g_game_state
+    .4byte FUN_0605ACC4
     .byte 0x62, 0xE2
     .byte 0x42, 0x15
     .byte 0x8B, 0x04
@@ -85,7 +85,7 @@ DAT_0601038e:
     .byte 0x10, 0x00
     .4byte sym_0607EADC
     .4byte sym_0604481C
-    .4byte sound_cmd_dispatch
+    .4byte FUN_0601D5F4
     .4byte sym_0607887F
     .4byte sym_0607EAD8
     .4byte sym_06078648

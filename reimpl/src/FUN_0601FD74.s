@@ -1,0 +1,27 @@
+
+    .section .text.FUN_0601FD74
+
+
+    .global FUN_0601FD74
+    .type FUN_0601FD74, @function
+FUN_0601FD74:
+    sts.l pr, @-r15
+    add #-0x10, r15
+    mov r15, r1
+    .byte   0xD2, 0x1E    /* mov.l .L_pool_0601FDF4, r2 */
+    .byte   0xD3, 0x1E    /* mov.l .L_pool_0601FDF8, r3 */
+    jsr @r3
+    mov #0x10, r0
+    mov r15, r3
+    .byte   0xD2, 0x1D    /* mov.l .L_pool_0601FDFC, r2 */
+    mov.w @r2, r2
+    extu.w r2, r2
+    shll2 r2
+    add r3, r2
+    mov.l @r2, r2
+    jsr @r2
+    nop
+    add #0x10, r15
+    lds.l @r15+, pr
+    rts
+    nop

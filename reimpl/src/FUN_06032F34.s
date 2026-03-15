@@ -1,0 +1,19 @@
+
+    .section .text.FUN_06032F34
+
+
+    .global FUN_06032F34
+    .type FUN_06032F34, @function
+FUN_06032F34:
+    sts.l pr, @-r15
+    jsr @r0
+    nop
+    lds.l @r15+, pr
+    .byte   0xDD, 0x2A    /* mov.l .L_pool_06032FE8, r13 */
+    mov.l @r13, r13
+    mov.l @r15+, r1
+    .byte   0xD0, 0x2C    /* mov.l .L_pool_06032FF4, r0 */
+    tst r0, r1
+    .byte   0x89, 0x24    /* bt 0x06032F92 (external) */
+    mov.l r1, @-r15
+    .byte   0xD0, 0x26    /* mov.l .L_pool_06032FE4, r0 */

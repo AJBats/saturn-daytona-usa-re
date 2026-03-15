@@ -1,0 +1,21 @@
+
+    .section .text.FUN_060321C0
+
+
+    .global FUN_060321C0
+    .type FUN_060321C0, @function
+FUN_060321C0:
+    mov.l r14, @-r15
+    mov.l r13, @-r15
+    mov.l r12, @-r15
+    mov.l r11, @-r15
+    mov.l r10, @-r15
+    mov.l r9, @-r15
+    mov.l r8, @-r15
+    xor r7, r7
+    mov r7, r1
+    .byte   0xD0, 0x1A    /* mov.l .L_pool_0603223C, r0 */
+    shll2 r1
+    mov.l @(r0, r1), r14
+    .byte   0xD0, 0x19    /* mov.l .L_pool_06032240, r0 */
+    mov.b r7, @(r0, r14)

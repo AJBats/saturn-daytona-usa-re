@@ -1,0 +1,33 @@
+
+    .section .text.FUN_060368E4
+
+
+    .global FUN_060368E4
+    .type FUN_060368E4, @function
+FUN_060368E4:
+    sts.l pr, @-r15
+    add #-0x8, r15
+    .byte   0xD3, 0x22    /* mov.l .L_pool_06036974, r3 */
+    jsr @r3
+    mov r15, r4
+    mov r15, r2
+    mov #0x64, r3
+    extu.b r14, r14
+    extu.w r13, r13
+    mov.b r3, @r2
+    mov r14, r0
+    mov r15, r2
+    mov r15, r3
+    mov.b r0, @(4, r2)
+    mov r13, r0
+    mov.w r0, @(6, r3)
+    .byte   0x94, 0x34    /* mov.w .L_wpool_06036970, r4 */
+    .byte   0xD3, 0x1C    /* mov.l .L_pool_06036978, r3 */
+    jsr @r3
+    mov r15, r5
+    mov r0, r4
+    add #0x8, r15
+    lds.l @r15+, pr
+    mov.l @r15+, r13
+    rts
+    mov.l @r15+, r14

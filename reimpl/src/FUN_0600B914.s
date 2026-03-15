@@ -252,11 +252,11 @@ DAT_0600bab8:
 .L_0600BAD0:
     .4byte  0x00008000
 .L_0600BAD4:
-    .4byte  mat_rot_xy_b
+    .4byte  FUN_060271A2
 .L_0600BAD8:
-    .4byte  mat_rot_yz_b
+    .4byte  FUN_060271EE
 .L_0600BADC:
-    .4byte  mat_rot_xz_b
+    .4byte  FUN_06027158
 .L_0600BAE0:
     .4byte  sym_06047FC4
 .L_0600BAE4:
@@ -309,8 +309,8 @@ DAT_0600bab8:
     mov.l @r4, r4
 .L_0600BB40:
     mov #0x1, r5
-    .reloc ., R_SH_IND12W, render_obj_absolute - 4
-    .2byte 0xB000    /* bsr render_obj_absolute (linker-resolved) */
+    .reloc ., R_SH_IND12W, FUN_0600AC44 - 4
+    .2byte 0xB000    /* bsr FUN_0600AC44 (linker-resolved) */
     mov r14, r4
     mov.l @(20, r15), r5
     mov.l @(24, r15), r4

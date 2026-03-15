@@ -8,7 +8,7 @@
  *   C:     word[+0]=0x0200, word[+2]=0x0200  (SMPC bit 9 = C)
  *   No button: no writes at all.
  *   All writes come from controller_input_update (PC +0x5E and +0x62).
- *   Static analysis confirms data source is SMPC OREGs via smpc_data_manage.
+ *   Static analysis confirms data source is SMPC OREGs via FUN_06039808.
  * Date: 2026-02-28
  */
 
@@ -89,7 +89,7 @@ controller_input_update:
 .L_pool_06005220:
     .4byte  g_pad_state
 .L_pool_06005224:
-    .4byte  smpc_data_manage
+    .4byte  FUN_06039808
 .L_pool_06005228:
     .4byte  sym_06059F44
 .L_0600522C:

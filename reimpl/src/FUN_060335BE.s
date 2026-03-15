@@ -1,0 +1,34 @@
+
+    .section .text.FUN_060335BE
+
+
+    .global FUN_060335BE
+    .type FUN_060335BE, @function
+FUN_060335BE:
+    sts.l pr, @-r15
+    jsr @r0
+    nop
+    lds.l @r15+, pr
+    mov r0, r11
+    neg r11, r11
+    add r11, r14
+    mov.l r14, @-r1
+    add r12, r13
+    mov.l r13, @-r1
+    mov.l @r15+, r0
+    rts
+    nop
+    .4byte  sym_06033630
+    .4byte  0x00000020
+    .4byte  0x000001D8
+    .4byte  0x000001CC
+    .4byte  0x00000010
+    .4byte  0x00000018
+    .4byte  FUN_06027552
+    .global FUN_060335F4
+FUN_060335F4:
+    .4byte  0x2F06D09F
+    .4byte  0x60024008
+    .4byte  0xD409340C
+    .4byte  0x64422F46
+    .2byte  0xD008

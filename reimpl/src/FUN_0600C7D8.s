@@ -5,8 +5,8 @@
     /* THEORY: heading_and_position_update — smooths car[+0x20] toward
        target heading car[+0x28] (speed-dependent rate: >>3 above 0x118,
        >>2 above 0xFA, >>1 above 0xDC). Then integrates position:
-       car[+0x10] += fpmul(car[+0x0c], sin(heading)),
-       car[+0x18] += fpmul(car[+0x0c], cos(heading)).
+       car[+0x10] += FUN_06027552(car[+0x0c], sin(heading)),
+       car[+0x18] += FUN_06027552(car[+0x0c], cos(heading)).
        Also saves old position to car[+0x38]/[+0x3c], writes car[+0x30],
        car[+0x1c], car[+0x24], car[+0x1B0], car[+0x18C]/[+0x190].
        Reads car[+0x0c] (speed) but does NOT write it.
@@ -174,6 +174,6 @@ DAT_0600c8c0:
 DAT_0600c8c2:
     .2byte  0x018C
 .L_0600C8C4:
-    .4byte  sincos_pair
+    .4byte  FUN_06027358
 .L_0600C8C8:
-    .4byte  fpmul
+    .4byte  FUN_06027552

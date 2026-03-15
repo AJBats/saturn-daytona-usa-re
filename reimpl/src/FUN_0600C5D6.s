@@ -49,7 +49,7 @@ DAT_0600c616:
     .2byte  0xFFFF
     .4byte  0x00480000
 .L_0600C620:
-    .4byte  fpmul
+    .4byte  FUN_06027552
 .L_0600C624:
     .4byte  sym_0607EBDC
 .L_0600C628:
@@ -82,8 +82,8 @@ DAT_0600c616:
     mov.l @(r0, r14), r2
     cmp/ge r3, r2
     bt      .L_0600C666
-    .reloc ., R_SH_IND12W, collision_dispatch - 4
-    .2byte 0xB000    /* bsr collision_dispatch (linker-resolved) */
+    .reloc ., R_SH_IND12W, FUN_0600CF58 - 4
+    .2byte 0xB000    /* bsr FUN_0600CF58 (linker-resolved) */
     mov r12, r4
 .L_0600C666:
     mov.w   DAT_0600c6fa, r0
@@ -203,7 +203,7 @@ DAT_0600c702:
 .L_0600C710:
     .4byte  0x00E00000
 .L_0600C714:
-    .4byte  sincos_pair
+    .4byte  FUN_06027358
 .L_0600C718:
     .reloc ., R_SH_IND12W, FUN_0600C928 - 4
     .2byte 0xB000    /* bsr FUN_0600C928 (linker-resolved) */

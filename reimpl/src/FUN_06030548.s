@@ -337,8 +337,8 @@ DAT_06030742:
 .L_06030754:
     .4byte  sym_06030F1C
 
-    .global loc_06030758
-loc_06030758:
+    .global FUN_06030758
+FUN_06030758:
     mov.l   .L_06030780, r0
     mov #0x8, r5
     mov.b r5, @r0
@@ -367,8 +367,8 @@ loc_06030758:
 .L_06030784:
     .4byte  sym_06089595
 
-    .global loc_06030788
-loc_06030788:
+    .global FUN_06030788
+FUN_06030788:
     mov.l   .L_060307B0, r0
     mov #0x4, r5
     mov.b r5, @r0
@@ -397,8 +397,8 @@ loc_06030788:
 .L_060307B4:
     .4byte  sym_06089595
 
-    .global loc_060307B8
-loc_060307B8:
+    .global FUN_060307B8
+FUN_060307B8:
     mov.l   .L_060307E0, r0
     mov #0x2, r5
     mov.b r5, @r0
@@ -427,8 +427,8 @@ loc_060307B8:
 .L_060307E4:
     .4byte  sym_06089595
 
-    .global loc_060307E8
-loc_060307E8:
+    .global FUN_060307E8
+FUN_060307E8:
     mov.l   .L_06030884, r0
     mov #0x1, r5
     mov.b r5, @r0
@@ -528,7 +528,7 @@ loc_060307E8:
 .L_06030894:
     .4byte  sym_06030FBE
 .L_06030898:
-    .4byte  force_steer_impact
+    .4byte  FUN_06008460
 .L_0603089C:
     cmp/ge r0, r5
     bt      .L_060308C4
@@ -545,7 +545,7 @@ loc_060307E8:
 .L_060308B4:
     .4byte  sym_06030FBE
 .L_060308B8:
-    .4byte  force_steer_calc
+    .4byte  FUN_06008418
 .L_060308BC:
     mov.l @(0, r14), r0
     mov.l   .L_06030924, r4
@@ -635,7 +635,7 @@ loc_060307E8:
     bra     .L_06030DFE
     nop
 .L_06030958:
-    .4byte  fpdiv_setup
+    .4byte  FUN_0602755C
 .L_0603095C:
     mov.l @(24, r14), r2
     add r10, r2
@@ -680,7 +680,7 @@ loc_060307E8:
 .L_060309AA:
     .2byte  0x7FFF
 .L_060309AC:
-    .4byte  fpdiv_setup
+    .4byte  FUN_0602755C
 .L_060309B0:
     xtrct r2, r3
     mov.l @(16, r14), r4
@@ -722,7 +722,7 @@ loc_060307E8:
     add r0, r5
     .2byte  0x0000
 .L_060309F8:
-    .4byte  fpdiv_setup
+    .4byte  FUN_0602755C
 .L_060309FC:
     shar r0
     shar r0
@@ -902,7 +902,7 @@ DAT_06030b2a:
 .L_06030B3C:
     .4byte  sym_06030FBE
 .L_06030B40:
-    .4byte  force_steer_impact
+    .4byte  FUN_06008460
 .L_06030B44:
     .4byte  0x01000000
 .L_06030B48:
@@ -1208,7 +1208,7 @@ DAT_06030d22:
     bra     .L_06030DFE
     nop
 .L_06030D50:
-    .4byte  fpdiv_setup
+    .4byte  FUN_0602755C
 .L_06030D54:
     mov.l @(24, r14), r2
     add r10, r2
@@ -1255,7 +1255,7 @@ DAT_06030d22:
 DAT_06030da2:
     .2byte  0x7FFF
 .L_06030DA4:
-    .4byte  fpdiv_setup
+    .4byte  FUN_0602755C
 .L_06030DA8:
     xtrct r2, r3
     mov.l @(16, r14), r4
@@ -1297,7 +1297,7 @@ DAT_06030da2:
     add r0, r5
     .2byte  0x0000
 .L_06030DF0:
-    .4byte  fpdiv_setup
+    .4byte  FUN_0602755C
 .L_06030DF4:
     shar r0
     shar r0
@@ -1331,7 +1331,7 @@ DAT_06030da2:
 .L_06030E28:
     .4byte  sym_06030FBC
 .L_06030E2C:
-    .4byte  sin_lookup
+    .4byte  FUN_06027348
 .L_06030E30:
     .4byte  0x00038000
 .L_06030E34:

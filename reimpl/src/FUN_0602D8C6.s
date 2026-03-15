@@ -55,6 +55,6 @@ DAT_0602d918:
 DAT_0602d91a:
     .2byte  0x0190
 .L_pool_0602D91E:
-    .4byte  cos_lookup
+    .4byte  FUN_06027344
 .L_pool_0602D922:
-    .4byte  sin_lookup
+    .4byte  FUN_06027348

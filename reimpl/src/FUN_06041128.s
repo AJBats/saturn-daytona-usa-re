@@ -1,0 +1,57 @@
+
+    .section .text.FUN_06041128
+
+
+    .global FUN_06041128
+    .type FUN_06041128, @function
+FUN_06041128:
+    sts.l pr, @-r15
+    add #-0x4, r15
+    mov.w   DAT_06041174, r3
+    cmp/eq r3, r4
+    bt      .L_06041146
+    mov.l   .L_pool_0604117C, r0
+    mov.l @r0, r0
+    add #0x18, r0
+    mov.b @(r0, r4), r0
+    cmp/eq #0x1, r0
+    bt      .L_06041146
+    add #0x4, r15
+    lds.l @r15+, pr
+    rts
+    mov #-0x7, r0
+.L_06041146:
+    mov.l   .L_pool_0604117C, r6
+    mov.l @r6, r2
+    mov.l @(56, r2), r3
+    cmp/eq r5, r3
+    bt      .L_06041158
+    add #0x4, r15
+    lds.l @r15+, pr
+    rts
+    mov #-0x9, r0
+.L_06041158:
+    mov.l @r6, r3
+    mov #0x1, r2
+    mov.w   .L_06041176, r0
+    mov.l r2, @(r0, r3)
+    mov.l @r6, r3
+    add #0x4, r0
+    mov.l r4, @(r0, r3)
+    .reloc ., R_SH_IND12W, FUN_06041AA0 - 4
+    .2byte 0xB000    /* bsr FUN_06041AA0 (linker-resolved) */
+    mov r15, r4
+    mov #0x0, r0
+    add #0x4, r15
+    lds.l @r15+, pr
+    rts
+    nop
+
+    .global DAT_06041174
+DAT_06041174:
+    .2byte  0x00FF
+.L_06041176:
+    .2byte  0x0304
+    .4byte  FUN_060349B6
+.L_pool_0604117C:
+    .4byte  sym_060A5400

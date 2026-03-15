@@ -45,15 +45,15 @@ FUN_0600A392:
     .2byte  0xFFFF
     .4byte  sym_06078644
 .L_pool_0600A3E6:
-    .4byte  g_game_state
+    .4byte  FUN_0605ACC4
 .L_pool_0600A3EA:
-    .4byte  cdb_read_status
+    .4byte  FUN_06018EAC
 .L_pool_0600A3EE:
     .4byte  sym_0600026C
 .L_pool_0600A3F2:
     .4byte  sym_0607864A
 .L_pool_0600A3F6:
-    .4byte  cd_block_read_safe
+    .4byte  FUN_060349C4
 .L_pool_0600A3FA:
     .4byte  sym_06078649
 .L_0600A3F8:
@@ -83,8 +83,8 @@ FUN_0600A392:
     and r4, r3
     cmp/eq r4, r3
     bf      .L_0600A454
-    .reloc ., R_SH_IND12W, state_timeext_setup - 4
-    .2byte 0xB000    /* bsr state_timeext_setup (linker-resolved) */
+    .reloc ., R_SH_IND12W, FUN_06009FFC - 4
+    .2byte 0xB000    /* bsr FUN_06009FFC (linker-resolved) */
     nop
     mov #0x6, r3
     mov.l @r13, r2
@@ -122,10 +122,10 @@ DAT_0600a460:
 .L_wpool_0600A46C:
     .2byte  0x0700
 .L_pool_0600A46E:
-    .4byte  cd_status_reader
+    .4byte  FUN_06012B58
 .L_pool_0600A472:
     .4byte  g_pad_state
 .L_pool_0600A476:
-    .4byte  obj_state_pack
+    .4byte  FUN_06020BCE
 .L_pool_0600A47A:
     .4byte  sym_0600026C

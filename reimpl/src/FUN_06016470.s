@@ -1,0 +1,56 @@
+
+    .section .text.FUN_06016470
+
+
+    .global FUN_06016470
+    .type FUN_06016470, @function
+FUN_06016470:
+    sts.l pr, @-r15
+    extu.b r13, r14
+    .byte   0xD2, 0x22    /* mov.l .L_pool_06016500, r2 */
+    mov r14, r3
+    shll2 r14
+    shll2 r3
+    shll2 r3
+    shll2 r3
+    add r3, r14
+    exts.w r14, r14
+    add r2, r14
+    mov.b @(r0, r14), r5
+    extu.b r5, r5
+    .reloc ., R_SH_IND12W, FUN_06016CDC - 4
+    .2byte 0xB000    /* bsr FUN_06016CDC (linker-resolved) */
+    extu.b r13, r4
+    .byte   0xD2, 0x1D    /* mov.l .L_pool_06016504, r2 */
+    mov.l r2, @(12, r14)
+    .byte   0xD3, 0x1D    /* mov.l .L_pool_06016508, r3 */
+    mov.l r3, @(24, r14)
+    .byte   0xD2, 0x1D    /* mov.l .L_pool_0601650C, r2 */
+    mov.l r2, @(36, r14)
+    mov.b @(2, r14), r0
+    mov r0, r3
+    add #0x1, r3
+    mov r3, r0
+    mov.b r0, @(2, r14)
+    .byte   0xD0, 0x1A    /* mov.l .L_pool_06016510, r0 */
+    mov.b @r0, r0
+    tst r0, r0
+    bt      .L_060164C6
+    extu.b r13, r13
+    mov r13, r3
+    shll2 r13
+    shll2 r3
+    shll2 r3
+    shll2 r3
+    add r3, r13
+    exts.w r13, r13
+    .byte   0xD2, 0x10    /* mov.l .L_pool_06016500, r2 */
+    add r2, r13
+    mov #0x3, r3
+    mov r3, r0
+    mov.b r0, @(2, r13)
+.L_060164C6:
+    lds.l @r15+, pr
+    mov.l @r15+, r13
+    rts
+    mov.l @r15+, r14

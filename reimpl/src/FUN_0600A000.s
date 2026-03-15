@@ -1,0 +1,26 @@
+
+    .section .text.FUN_0600A000
+
+
+    .global FUN_0600A000
+    .type FUN_0600A000, @function
+FUN_0600A000:
+    sts.l pr, @-r15
+    .byte   0xDE, 0x1A    /* mov.l .L_pool_0600A06C, r14 */
+    jsr @r14
+    mov #0x1, r4
+    mov #0x0, r5
+    jsr @r14
+    mov #0x3, r4
+    mov #0x0, r5
+    jsr @r14
+    mov #0x2, r4
+    .byte   0xD5, 0x16    /* mov.l .L_pool_0600A070, r5 */
+    jsr @r14
+    mov #0x0, r4
+    .byte   0xD5, 0x16    /* mov.l .L_pool_0600A074, r5 */
+    jsr @r14
+    mov #0x0, r4
+    lds.l @r15+, pr
+    rts
+    mov.l @r15+, r14

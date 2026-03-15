@@ -1,0 +1,18 @@
+
+    .section .text.FUN_0603338E
+
+
+    .global FUN_0603338E
+    .type FUN_0603338E, @function
+FUN_0603338E:
+    sts.l pr, @-r15
+    jsr @r0
+    nop
+    lds.l @r15+, pr
+    add #-0x1, r7
+    cmp/pl r7
+    .byte   0x89, 0xF2    /* bt 0x06033382 (external) */
+    .byte   0xD5, 0x0B    /* mov.l .L_pool_060333CC, r5 */
+    .byte   0xD4, 0x0D    /* mov.l .L_pool_060333D4, r4 */
+    .byte   0x96, 0x06    /* mov.w .L_wpool_060333B0, r6 */
+    .byte   0xD0, 0x0B    /* mov.l .L_pool_060333D0, r0 */

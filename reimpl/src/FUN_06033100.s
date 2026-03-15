@@ -1,0 +1,31 @@
+
+    .section .text.FUN_06033100
+
+
+    .global FUN_06033100
+    .type FUN_06033100, @function
+FUN_06033100:
+    sts.l pr, @-r15
+    .reloc ., R_SH_IND12W, FUN_06033188 - 4
+    .2byte 0xB000    /* bsr FUN_06033188 (linker-resolved) */
+    nop
+    lds.l @r15+, pr
+    add r6, r0
+    .byte   0xD3, 0x15    /* mov.l .L_pool_06033160, r3 */
+    mov.l @r3, r3
+    mov.b @r3, r3
+    extu.b r3, r3
+    .byte   0xD4, 0x14    /* mov.l .L_pool_06033164, r4 */
+    cmp/pl r3
+    bt      .L_0603311A
+    neg r0, r0
+.L_0603311A:
+    add r4, r0
+    .byte   0xD4, 0x12    /* mov.l .L_pool_06033168, r4 */
+    and r4, r0
+    shlr8 r0
+    shlr2 r0
+    shlr2 r0
+    cmp/pl r3
+    .byte   0x89, 0x00    /* bt 0x0603312C (external) */
+    neg r1, r1

@@ -55,7 +55,7 @@ DAT_0600c9e6:
     .2byte  0x0100
     .4byte  sym_0605A1E0
 .L_0600C9EC:
-    .4byte  atan2
+    .4byte  FUN_0602744C
 .L_0600C9F0:
     .4byte  sym_0607EB88
 .L_0600C9F4:

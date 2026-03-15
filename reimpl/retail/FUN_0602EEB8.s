@@ -41,12 +41,12 @@ FUN_0602EEC2:
     .byte 0x00, 0x9C
     .byte 0x00, 0x00
     .4byte sym_0602FDA4
-    .4byte render_camera_compute
+    .4byte FUN_0602EFF0
     .4byte sym_0607EAC8
     .4byte sym_0602F3EC
     .4byte sym_0602F7BC
     .4byte sym_0602F0E8
-    .4byte collision_response_b
+    .4byte FUN_0602F270
     .byte 0xDD, 0x11
     .byte 0x4D, 0x0B
     .byte 0x00, 0x09
@@ -88,12 +88,12 @@ FUN_0602EF48:
     .4byte sym_0602F17C
     .4byte sym_0602F474
     .4byte sym_0602F4B4
-    .4byte color_material_blend
+    .4byte FUN_0602F5B6
     .4byte sym_0602EFCC
-    .4byte vdp1_display_list_setup
-    .4byte vdp1_color_setup
-    .4byte vdp1_coord_setup
-    .4byte vdp1_sprite_cmd
+    .4byte FUN_0602C690
+    .4byte FUN_0602C8E2
+    .4byte FUN_0602CA84
+    .4byte FUN_0602D08A
     .4byte FUN_0602D43C
     .byte 0x4D, 0x0B
     .byte 0x00, 0x09
@@ -119,7 +119,7 @@ FUN_0602EF48:
     .byte 0x69, 0xF6
     .byte 0x00, 0x0B
     .byte 0x68, 0xF6
-    .4byte vdp1_cmd_list_mgr
+    .4byte FUN_0602CDF6
     .4byte sym_0602D814
     .4byte sym_0602D8BC
     .byte 0xFF, 0xFF

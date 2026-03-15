@@ -1,0 +1,27 @@
+
+    .section .text.FUN_0603B680
+
+
+    .global FUN_0603B680
+    .type FUN_0603B680, @function
+FUN_0603B680:
+    sts.l pr, @-r15
+    mov r4, r1
+    mov.l   .L_0603B6A0, r2
+    mov.w   .L_0603B69A, r3
+    mov.l @r2, r2
+    add r3, r2
+    mov.l   .L_0603B6A4, r3
+    jsr @r3
+    mov #0xC, r0
+    lds.l @r15+, pr
+    rts
+    nop
+    .2byte  0x00A8
+.L_0603B69A:
+    .2byte  0x00B8
+    .4byte  FUN_060406B4
+.L_0603B6A0:
+    .4byte  sym_060A4D14               /* [HIGH] global UI/command state pointer — dereferenced to get struct base */
+.L_0603B6A4:
+    .4byte  sym_06035168

@@ -1,5 +1,5 @@
 /* VERIFIED: handles B (back) + UP/DOWN on Mode Select screen
- * Method: watchpoint on sym_0605D244 (selection index) + g_game_state (game state)
+ * Method: watchpoint on sym_0605D244 (selection index) + FUN_0605ACC4 (game state)
  *   DOWN: PC=0x0601975A (handler+0xA6) writes index, wraps 4→0
  *   UP:   PC=0x060197B8 (handler+0x104) writes index, wraps -1→3
  *   B:    PC=handler+0x80 writes game_state=4 (return to title)
@@ -120,7 +120,7 @@ DAT_06019762:
 .L_pool_06019770:
     .4byte  sym_0605D244
 .L_pool_06019774:
-    .4byte  scene_dual_finalize
+    .4byte  FUN_06026110
 .L_pool_06019778:
     .4byte  g_pad_state
 .L_pool_0601977C:
@@ -134,7 +134,7 @@ DAT_06019762:
 .L_pool_0601978C:
     .4byte  sym_06059F44
 .L_pool_06019790:
-    .4byte  g_game_state
+    .4byte  FUN_0605ACC4
 .L_pool_06019794:
     .4byte  sym_06085FF5
 .L_06019798:

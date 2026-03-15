@@ -87,6 +87,6 @@ DAT_0600cdc2:
 .L_pool_0600CDC4:
     .4byte  sym_0607E940
 .L_pool_0600CDC8:
-    .4byte  atan2
+    .4byte  FUN_0602744C
 .L_pool_0600CDCC:
     .4byte  sym_0607EA9C

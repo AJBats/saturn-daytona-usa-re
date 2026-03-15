@@ -1,0 +1,66 @@
+
+    .section .text.FUN_0600CE66
+
+
+    .global FUN_0600CE66
+    .type FUN_0600CE66, @function
+FUN_0600CE66:
+    mov.l r14, @-r15
+    sts.l pr, @-r15
+    .byte   0xDE, 0x09    /* mov.l .L_pool_0600CE91, r14 */
+    mov.w   DAT_0600ce8e, r0
+    mov.l @r14, r14
+    mov.l @(r0, r14), r3
+    add #0x4, r0
+    mov.l r3, @(r0, r14)
+    mov r14, r0
+    mov.b @(3, r0), r0
+    tst #0x8, r0
+    bf      .L_0600CE9C
+    .reloc ., R_SH_IND12W, FUN_0600CD40 - 4
+    .2byte 0xB000    /* bsr FUN_0600CD40 (linker-resolved) */
+    nop
+    bra     .L_0600CEA0
+    nop
+
+    .global DAT_0600ce86
+DAT_0600ce86:
+    mov.b r14, @(r0, r1)
+
+    .global DAT_0600ce88
+DAT_0600ce88:
+    mov.b r8, @(r0, r1)
+
+    .global DAT_0600ce8a
+DAT_0600ce8a:
+    .word 0x01E0
+
+    .global DAT_0600ce8c
+DAT_0600ce8c:
+    shll r0
+
+    .global DAT_0600ce8e
+DAT_0600ce8e:
+    .2byte  0x01EC
+.L_pool_0600CE91:
+    .4byte  sym_0607E940
+    .4byte  sym_0607EA9C
+    .4byte  FUN_0602744C
+.L_0600CE9C:
+    .reloc ., R_SH_IND12W, FUN_0600CDD0 - 4
+    .2byte 0xB000    /* bsr FUN_0600CDD0 (linker-resolved) */
+    nop
+.L_0600CEA0:
+    .byte   0x90, 0x4B    /* mov.w .L_wpool_0600CF3A, r0 */
+    .byte   0xD3, 0x28    /* mov.l .L_pool_0600CF44, r3 */
+    mov.l @(r0, r14), r2
+    mov.l @r3, r3
+    shll2 r2
+    add #0x68, r0
+    add r3, r2
+    mov.w @r2, r2
+    extu.w r2, r2
+    mov.l r2, @(r0, r14)
+    lds.l @r15+, pr
+    rts
+    mov.l @r15+, r14

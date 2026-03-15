@@ -1,0 +1,33 @@
+
+    .section .text.FUN_06030FCC
+
+
+    .global FUN_06030FCC
+    .type FUN_06030FCC, @function
+FUN_06030FCC:
+    mov.l r14, @-r15
+    sts.l pr, @-r15
+    mov r4, r14
+    mov r5, r13
+    mov r6, r12
+    mov.l @(12, r14), r1
+    mov.l @(12, r13), r2
+    cmp/gt r2, r1
+    bt      .L_06030FE8
+    mov.l @(16, r14), r8
+    mov.l @(24, r14), r9
+    mov.l @(16, r13), r6
+    .reloc ., R_SH_IND12W, FUN_0603136E - 4
+    .2byte 0xA000    /* bra FUN_0603136E (linker-resolved) */
+    mov.l @(24, r13), r7
+.L_06030FE8:
+    mov.l @(16, r14), r6
+    mov.l @(24, r14), r7
+    mov.l @(16, r13), r8
+    mov.l @(24, r13), r9
+    mov.l r0, @-r15
+    mov r8, r4
+    sub r6, r4
+    mov r9, r5
+    sub r7, r5
+    .byte   0xD0, 0x30    /* mov.l .L_pool_060310BC, r0 */

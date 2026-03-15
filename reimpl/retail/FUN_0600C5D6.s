@@ -41,7 +41,7 @@ DAT_0600c616:
     .byte 0xFF, 0xFF
     .byte 0x00, 0x48
     .byte 0x00, 0x00
-    .4byte fpmul
+    .4byte FUN_06027552
     .4byte sym_0607EBDC
     .4byte sym_0607E940
     .4byte sym_06078680
@@ -169,7 +169,7 @@ DAT_0600c702:
     .4byte sym_0607E940
     .byte 0x00, 0xE0
     .byte 0x00, 0x00
-    .4byte sincos_pair
+    .4byte FUN_06027358
     .byte 0xB1, 0x06
     .byte 0x64, 0xE3
     .byte 0x65, 0xD3

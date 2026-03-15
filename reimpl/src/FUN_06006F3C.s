@@ -90,11 +90,11 @@ FUN_06006F3C:
     .2byte  0xFFFF
 
 .L_06006FDC:
-    .4byte  display_channel_b
+    .4byte  FUN_06014884
 .L_06006FE0:
-    .4byte  display_channel_a
+    .4byte  FUN_06014868
 .L_06006FE4:
-    .4byte  scene_data_dispatch
+    .4byte  FUN_060389A6
 .L_06006FE8:
     .4byte  sym_060635C4
 .L_06006FEC:
@@ -267,7 +267,7 @@ FUN_06006F3C:
 .L_06007110:
     .4byte  sym_06063F60
 .L_06007114:
-    .4byte  dma_transfer
+    .4byte  FUN_0602766C
 .L_06007118:
     .4byte  sym_0606129C
 .L_0600711C:
@@ -451,11 +451,11 @@ FUN_06006F3C:
 .L_0600724C:
     .4byte  0x00100000
 .L_06007250:
-    .4byte  display_channels_load
+    .4byte  FUN_060148A2
 .L_06007254:
     .4byte  0x04000000
 .L_06007258:
-    .4byte  obj_collision_update
+    .4byte  FUN_06020C3C
 .L_0600725C:
     .4byte  0x08000000
 .L_06007260:

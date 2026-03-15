@@ -1,0 +1,17 @@
+
+    .section .text.FUN_06016298
+
+
+    .global FUN_06016298
+    .type FUN_06016298, @function
+FUN_06016298:
+    mov.l r14, @-r15
+    mov r4, r14
+    mov.l r13, @-r15
+    mov.l r12, @-r15
+    mov.l r11, @-r15
+    extu.b r14, r12
+    mov.l r10, @-r15
+    mov #0x0, r11
+    mov r12, r3
+    mov #0x1, r10

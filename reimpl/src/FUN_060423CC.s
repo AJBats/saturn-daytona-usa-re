@@ -1,0 +1,47 @@
+
+    .section .text.FUN_060423CC
+
+
+    .global FUN_06063644
+    .type FUN_06063644, @function
+FUN_06063644:
+    mov.l r14, @-r15
+    mov.l r13, @-r15
+    mov.l r12, @-r15
+    mov.l r11, @-r15
+    sts.l pr, @-r15
+    mov.l   .L_pool_06042400, r11
+    mov.l   .L_pool_06042404, r12
+    mov.l   .L_pool_06042408, r13
+    mov.w   .L_wpool_060423F6, r14
+.L_060423DE:
+    jsr @r12
+    nop
+    extu.w r0, r0
+    and r14, r0
+    tst r0, r0
+    bt      .L_060423F2
+    jsr @r11
+    extu.w r13, r4
+    bra     .L_0604240C
+    nop
+.L_060423F2:
+    bra     .L_060423DE
+    nop
+.L_wpool_060423F6:
+    .2byte  0x0400
+    .4byte  FUN_060349B6      /* [HIGH] adjacent pool: fn ptr (not used by this TU) */
+    .4byte  sym_060A5400                /* [HIGH] adjacent pool: AI/game state base ptr (not used by this TU) */
+.L_pool_06042400:
+    .4byte  FUN_06035C54
+.L_pool_06042404:
+    .4byte  sym_06035C4E
+.L_pool_06042408:
+    .4byte  0x0000FBFF
+.L_0604240C:
+    lds.l @r15+, pr
+    mov.l @r15+, r11
+    mov.l @r15+, r12
+    mov.l @r15+, r13
+    rts
+    mov.l @r15+, r14

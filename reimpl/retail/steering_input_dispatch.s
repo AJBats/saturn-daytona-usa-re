@@ -38,14 +38,14 @@ DAT_06006802:
 DAT_06006804:
     .byte 0x40, 0x00
     .byte 0xFF, 0xFF
-    .4byte fpmul
+    .4byte FUN_06027552
     .4byte sym_06063F04
     .4byte sym_06063F08
     .4byte sym_06059F30
     .4byte sym_06063E20
     .4byte sym_0601A5F8
     .4byte sym_0605D240
-    .4byte sprite_pair_render
+    .4byte FUN_06026590
     .4byte sym_06063F4A
     .4byte sym_06063F48
     .byte 0x00, 0x00

@@ -2,7 +2,7 @@
     .section .text.FUN_0600C8D0
 
 
-    /* THEORY: heading_angle_update — computes target heading via atan2
+    /* THEORY: heading_angle_update — computes target heading via FUN_0602744C
        from car position (car[+0x10], car[+0x18]) to waypoint, then
        rate-limits the write to car[+0x28] (heading angle).
        Delta clamped to ±0x0600 per call (DAT_0600c962 / DAT_0600c964).
@@ -91,7 +91,7 @@ DAT_0600c964:
 
     .2byte  0x2000
 .L_pool_0600C968:
-    .4byte  atan2
+    .4byte  FUN_0602744C
 .L_pool_0600C96C:
     .4byte  0x0000FA00
     .global FUN_0600C970

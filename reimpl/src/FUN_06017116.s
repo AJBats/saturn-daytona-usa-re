@@ -1,0 +1,19 @@
+
+    .section .text.FUN_06017116
+
+
+    .global FUN_06017116
+    .type FUN_06017116, @function
+FUN_06017116:
+    sts.l pr, @-r15
+    add #-0x4, r15
+    mov.b r4, @r15
+    .byte   0xD3, 0x1F    /* mov.l .L_pool_0601719C, r3 */
+    jsr @r3
+    mov #0x12, r4
+    mov.b @r15, r4
+    extu.b r4, r4
+    add #0x4, r15
+    .reloc ., R_SH_IND12W, FUN_060172E4 - 4
+    .2byte 0xA000    /* bra FUN_060172E4 (linker-resolved) */
+    lds.l @r15+, pr

@@ -1,0 +1,36 @@
+
+    .section .text.FUN_06035EC8
+
+
+    .global FUN_06035EC8
+    .type FUN_06035EC8, @function
+FUN_06035EC8:
+    mov.l r14, @-r15
+    sts.l pr, @-r15
+    add #-0x8, r15
+    mov.l   .L_06035EEC, r3
+    jsr @r3
+    mov r15, r6
+    mov r0, r14
+    tst r14, r14
+    bt      .L_06035EF4
+    mov r14, r0
+    add #0x8, r15
+    lds.l @r15+, pr
+    rts
+    mov.l @r15+, r14
+    .4byte  sym_06059CB0
+    .4byte  sym_06035168
+.L_06035EEC:
+    .4byte  FUN_06035D22
+    .4byte  sym_06063594
+.L_06035EF4:
+    .byte   0xD5, 0x10    /* mov.l .L_input_config_table, r5 */
+    .reloc ., R_SH_IND12W, FUN_06035F16 - 4
+    .2byte 0xB000    /* bsr FUN_06035F16 (linker-resolved) */
+    mov r15, r4
+    mov r14, r0
+    add #0x8, r15
+    lds.l @r15+, pr
+    rts
+    mov.l @r15+, r14

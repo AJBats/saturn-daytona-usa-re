@@ -8,7 +8,7 @@
  * Also converted 3 cross-TU .byte references to proper mnemonics with
  * local pool entries (btn_down mask, sym_0605D243, sym_0605D250).
  *
- * Split prologue: course_select_input pushes r10-r14 and falls through.
+ * Split prologue: FUN_060196A4 pushes r10-r14 and falls through.
  * This function's epilogue pops them. Do NOT change the epilogue.
  */
 
@@ -128,7 +128,7 @@ DAT_06019762:
 .L_pool_06019770:
     .4byte  sym_0605D244
 .L_pool_06019774:
-    .4byte  scene_dual_finalize
+    .4byte  FUN_06026110
 .L_pool_06019778:
     .4byte  g_pad_state
 .L_pool_0601977C:
@@ -142,7 +142,7 @@ DAT_06019762:
 .L_pool_0601978C:
     .4byte  sym_06059F44
 .L_pool_06019790:
-    .4byte  g_game_state
+    .4byte  FUN_0605ACC4
 .L_pool_06019794:
     .4byte  sym_06085FF5
 .L_06019798:
