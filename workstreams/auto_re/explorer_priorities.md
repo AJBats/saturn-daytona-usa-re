@@ -298,7 +298,7 @@ one write instruction and observes the effect. Requires `MODS=1` build.
 - **Best scenario**: Load `usa_tt_straight.mc0`, hold C from dead stop.
 - **Confidence**: HIGH → **CONFIRMED**
 
-### NOP Test: FUN_0602CCEC (speed convergence, called from FUN_0602CA84)
+### NOP Test: FUN_0602CCEC (speed convergence, called from FUN_0602CA84) — PASSED 2026-03-15
 
 - **What to NOP**: BSR at 0x0602CC40 (source line 280: `.reloc` + `.2byte 0xB000`).
   Poke command: `poke 0602CC40 00 09`. This is inside FUN_0602CA84, not the
@@ -306,14 +306,30 @@ one write instruction and observes the effect. Requires `MODS=1` build.
   address, same methodology as confirmed NOP tests).
 - **Writer function**: FUN_0602CCEC (writes +0x264, +0x110, +0x10C, +0xC0)
 - **Expected effect**: Speed accelerates WITHOUT converging to gear max.
-  The feedback loop `car[+0xE0] → car[+0x110] → car[+0xFC]` is broken —
-  +0x110 never updates, so force deficit is never applied. Car should exceed
-  normal speed limits.
-- **Best scenario**: Load `usa_tt_straight.mc0`, hold C. Speed should increase
-  past the normal ~30 mph cap for gear 1 and keep climbing.
-- **Confidence**: HIGH (proposed) — feedback loop is from static analysis +
-  per-frame correlation but no NOP confirmation yet. This test validates the
-  cycle 12 feedback loop discovery.
+- **Actual result**: **CONFIRMED — with major additional discovery.**
+  Raw observations:
+  - No tire peel-out at launch. Car felt grippy from standstill, unlike
+    normal behavior where tires smoke/spin.
+  - Accelerated cleanly up to gear 4 in auto transmission. Speed DID exceed
+    the normal gear 1 cap (~30 mph). Gear shifting still worked normally.
+  - Drove onto grass: speed reduced as expected (surface penalty still
+    active), BUT grip/traction was retained. Car maintained tight handling
+    on grass, unlike normal behavior where grass causes traction loss and
+    poor steering response.
+  - No thorough speed-limit test performed (human restarted session).
+  **Conclusion**: FUN_0602CCEC is NOT just a speed convergence loop — it is
+  the **traction model**. It controls tire grip, which manifests as:
+  (a) Launch wheelspin (grip limited → tires spin → slower initial accel)
+  (b) Grass traction loss (grip reduced on off-road surfaces)
+  (c) Speed convergence (traction limits how much force reaches the road)
+  The "speed converges to gear max" behavior is a SIDE EFFECT of traction
+  limiting force throughput — not a direct speed cap. The force deficit
+  feedback loop (`+0xE0 → +0x110 → +0xFC`) is the traction limiting
+  mechanism, not a speed governor.
+  Mapper should update the struct map to reflect this reinterpretation.
+- **Best scenario**: Load `usa_tt_straight.mc0`, hold C from dead stop.
+  Also test with `usa_tt_offtrack_stop.mc0` for grass grip comparison.
+- **Confidence**: HIGH → **CONFIRMED** (speed convergence + traction model)
 
 ### NOP Test: car[+0xFC] accel delta write — SUPERSEDED
 
