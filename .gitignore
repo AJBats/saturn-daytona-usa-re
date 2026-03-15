@@ -7,6 +7,8 @@ build/screenshots/*
 !build/screenshots/golden_*.png
 !build/golden_trace/
 !build/save_states/
+!build/samples/
+build/samples/*.bin
 reimpl/build/
 reimpl/daytona_sizing.elf
 reimpl/saturn_fixed.ld
