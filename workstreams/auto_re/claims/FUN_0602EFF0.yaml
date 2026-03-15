@@ -1,0 +1,35 @@
+function: FUN_0602EFF0
+address: 0x0602EFF0
+address_end: 0x0602F0E4
+source_file: reimpl/src/FUN_0602EFF0.s
+
+# Steering input processor, pipeline call 2. Reads car[+0xAC] (raw steering),
+# applies deadzone(5)/clamp(80)/scale(255), writes rotation angles via 3x atan2.
+# writes_to claims omitted: all car struct writes use mov.l @(R0,Rn) addressing
+# which is invisible to the Mednafen watchpoint system (see FUN_0602CA84_answers.md).
+
+claims:
+  - id: call_count_throttle
+    type: call_count_per_frame
+    description: "FUN_0602EFF0 (steering input) breakpoint fires ~1x per frame (pipeline call 2)"
+    function: FUN_0602EFF0
+    address: 0x0602EFF0
+    scenario: straight_throttle
+    expected_count: 2
+    tolerance: 1
+
+  - id: speed_increases_throttle
+    type: value_changes_with_input
+    description: "Speed (car[+0x0C]) increases when C is held — validates pipeline execution"
+    address: 0x0607890C
+    input: C
+    direction: increases
+    frames: 60
+
+  - id: position_decreases_throttle
+    type: value_changes_with_input
+    description: "Position X (car[+0x10]) decreases when C is held — validates pipeline output"
+    address: 0x06078910
+    input: C
+    direction: decreases
+    frames: 60
