@@ -64,7 +64,11 @@ Only fields with emulator evidence. Offset labels come from observations, not Gh
 | FUN_0602CA84 is central force accumulator | Assembly + breakpoint | FUN_0602CA84_obs.md |
 | sym_0602D814 = speed gate (NOP → speed=0) | Human NOP test | explorer_priorities.md |
 | sym_0602D8BC = rendered position writer (NOP → frozen car) | Human NOP test | explorer_priorities.md |
-| Dual position theory: physics-internal vs render-output | NOP test side effect | explorer_priorities.md |
+| **NO dual position system** — all physics identical when position frozen | NOP + 200f comparison | dual_position_obs.md |
+| Pipeline does NOT read car[+0x10/+0x18] — position is write-only output | dual_position_obs.md | All physics fields identical in NOP vs baseline |
+| FUN_0602EFF0 NOP kills ALL input (steering AND throttle) | Human NOP test | Pipeline initializer, not just steering |
+| FUN_0602F5B6 NOP kills throttle (unexpected surface dependency) | Human NOP test | Surface fields feed force accumulator |
+| FUN_0602CA84 NOP kills throttle but STEERING STILL WORKS | Human NOP test | Clean throttle/force gate. Steering splits before call 14 |
 | Steering has no effect at low speed (~30 mph from standstill) | LEFT identical to throttle-only | FUN_0602D8BC_obs.md |
 | 16-bit writes invisible to 4-byte watchpoints | +0x252 gets 0 hits | FUN_0602EEB8_answers.md |
 | `mov.l Rm, @(R0,Rn)` writes invisible to watchpoints | +0xC0,+0x108,+0x148 all 0 hits | FUN_0602CA84_answers.md |
@@ -636,15 +640,17 @@ it likely reads +0xDE as part of its "initialization" role.
 - **Writers**: FUN_0602F5EE (pc=0x0602F652, 493x, 185 unique: large values 0x3DD485-0x22xxxxxx).
 - **Hypothesis**: Same writer as surface fields (+0xEC/+0xF0/+0xF4) but much more variation. Possibly integrated force from surface interaction.
 
-#### +0x140 — world_coordinate?
+#### +0x140 — force_magnitude_x (CONFIRMED not position)
 - **Init**: Not in dump.
-- **Writers**: FUN_0602C72E (pc=0x0602C7F4, 493x, 493 unique — unique every frame).
-- **Hypothesis**: Completely unique each frame = monotonically changing. Possibly a track-space coordinate or accumulated distance. Values: 0x55AE92A, 0x55B0DF6... (incrementing slowly).
+- **Writers**: FUN_0602C690 (pc=0x0602C7F4, 493x, 493 unique — unique every frame).
+- **Pipeline**: Computed by FUN_0602C690 (call 13) from orientation (+0x120-12C), track angles (+0x60/64), roll projection (+0x100/104). Read by FUN_0602CA84 (force accumulator, call 15).
+- **CONFIRMED NOT POSITION**: Dual-position NOP test showed identical values with/without position writer. Computed from speed/heading/surface, not from position.
 
-#### +0x144 — world_coordinate_b?
+#### +0x144 — force_magnitude_z (CONFIRMED not position)
 - **Init**: Not in dump.
-- **Writers**: FUN_0602EEC6 (pc=0x0602EF42, 493x, 493 unique).
-- **Hypothesis**: Also unique every frame. Values: 0x1BCDB3D... (different range from +0x140).
+- **Writers**: FUN_0602C690 (pc=0x0602EF42, 493x, 493 unique).
+- **Pipeline**: Paired with +0x140. Same evidence from dual-position NOP test.
+- **CONFIRMED NOT POSITION**: Identical between NOPped and baseline runs.
 
 #### +0x148 — rotation_accumulator?
 - **Init**: Not in dump.
