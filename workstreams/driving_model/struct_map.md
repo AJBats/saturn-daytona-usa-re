@@ -85,6 +85,9 @@ Only fields with emulator evidence. Offset labels come from observations, not Gh
 | sym_0602D814 Tier 2 (3/3, writes_to +0x0C worked — 59 hits) | Oracle test | results.tsv |
 | Watchpoint catches `mov.l @(disp,Rn)` but NOT `mov.l @(R0,Rn)` | sym_0602D814 vs FUN_0602CA84 | results.tsv |
 | sym_0602F3EC Tier 2 (3/3, writes_to +0x08 — 59 hits) | Oracle test | results.tsv |
+| sym_0602EFCC Tier 2 (3/3, sin/cos roll writer) | Oracle test | results.tsv |
+| sym_0602F4B4 Tier 2 (3/3, opponent proximity) | Oracle test | results.tsv |
+| **ALL 18 pipeline calls at Tier 2** | Oracle tests | 21 total Tier 2 functions |
 
 ## Empirical Observations (2026-03-05)
 
