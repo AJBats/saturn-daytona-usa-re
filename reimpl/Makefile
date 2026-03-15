@@ -38,7 +38,7 @@
 #   make validate                        — test 2: free matches original
 #   python tools/validate_build.py       — all 3 tests (includes shifted boot test)
 
-PROJDIR := /mnt/d/Projects/SaturnReverseTest
+PROJDIR := $(abspath $(dir $(lastword $(MAKEFILE_LIST)))..)
 TOOLDIR := $(PROJDIR)/tools/sh-elf/bin
 
 AS      := $(TOOLDIR)/sh-elf-as
