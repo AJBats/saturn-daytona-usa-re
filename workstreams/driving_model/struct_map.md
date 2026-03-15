@@ -286,17 +286,17 @@ Sources: W=writer_map_comprehensive, C=consumer_map, S=static_hypotheses, D=init
 - **Pipeline**: Same as +0x48 UNLESS car[+0xC0] != 0, in which case a fixed alternate constant is subtracted instead of speed-proportional drag. Diverges from +0x48 during active driving.
 - **CONFIRMED**: -2814926 → -3798290 over 300f throttle (diverges from +0x48 because +0xC0 becomes nonzero with force applied).
 
-#### +0x58 — steering_input?
+#### +0x58 — steering_input (CONFIRMED — modified by FUN_0602D43C)
 - **Init**: Not in dump.
 - **Writers**: FUN_0602D736 (pc=0x0602D76C, 493x, 354 unique). Also FUN_0602CC12 (10x), FUN_0602CC32 (18x, const 0).
-- **Consumers**: Not in consumer map.
-- **Hypothesis**: Steering angle or input-derived heading component. High cardinality, written every frame.
+- **Pipeline**: FUN_0602D43C (call 16a) reads and modifies via atan2-based steering correction. Active even at idle (18 unique values) — affected by heading adjustment.
+- **CONFIRMED**: Steering-related field modified by the collision+steering response stage.
 
-#### +0x5C — steering_accumulator?
+#### +0x5C — steering_accumulator (CONFIRMED — modified by FUN_0602D43C)
 - **Init**: Not in dump.
-- **Writers**: FUN_0602D5F8 (pc=0x0602D650, 493x, 301 unique) + FUN_0602EF4C (pc=0x0602EF92, 493x, 301 unique, SAME values). Also FUN_0602CC14 (10x), FUN_0602CC34 (18x, const 0).
-- **Consumers**: Not in consumer map.
-- **Hypothesis**: Two writers produce identical values = one computes, the other copies (or both write the same result). Paired with accel delta writer FUN_0602EF4C.
+- **Writers**: FUN_0602D5F8 (pc=0x0602D650, 493x, 301 unique) + FUN_0602EF4C (pc=0x0602EF92, 493x, 301 unique, SAME values).
+- **Pipeline**: FUN_0602D43C reads and modifies. Input-responsive (constant 1 at idle, 37 unique with throttle). Two writers produce identical values = upstream compute + FUN_0602D43C update.
+- **CONFIRMED**: Steering accumulator, updated by collision+steering response stage.
 
 #### +0xFC — accel_delta (CONFIRMED)
 - **Init**: Not in dump.
@@ -640,10 +640,11 @@ to find which pipeline stage writes the throttle-dependent value.
 - **Writers**: FUN_0602CE4E (pc=0x0602CF18, 493x, 286 unique).
 - **Hypothesis**: Written by same function as +0x28 (slip angle) and +0x30 (heading delta). Moderate cardinality = smoothed/filtered value.
 
-#### +0x178 — lateral_force?
+#### +0x178 — lateral_force (CONFIRMED — modified by FUN_0602D43C)
 - **Init**: Not in dump.
 - **Writers**: FUN_0602D5F8 (pc=0x0602D63A, 493x, 271 unique).
-- **Hypothesis**: High cardinality, written every frame by a force-computation function.
+- **Pipeline**: FUN_0602D43C reads and modifies. Constant -1 at idle, 47 unique values with throttle. Lateral force component.
+- **CONFIRMED**: Lateral force field, updated by collision+steering response.
 
 #### +0x1B0 — saved_heading?
 - **Init**: Not in dump.
