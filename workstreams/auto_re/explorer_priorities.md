@@ -179,18 +179,33 @@ one write instruction and observes the effect. Requires `MODS=1` build.
 - **Best scenario**: Load `usa_tt_straight.mc0`, hold C from dead stop.
 - **Confidence**: HIGH → **CONFIRMED**
 
-### NOP Test: sym_0602D8BC (position writer, pipeline call 19)
+### NOP Test: sym_0602D8BC (position writer, pipeline call 19) — PASSED 2026-03-15
 
-- **What to NOP**: Replace the BSR/JSR to sym_0602D8BC in FUN_0602EEB8 with nops.
+- **What to NOP**: `jsr @r13` at 0x0602EF9E (opcode `4D 0B` → `00 09`).
+  Poke command: `poke 0602EF9E 00 09`. Skips the call to sym_0602D8BC
+  (position writer) in the player physics dispatcher.
 - **Writer function**: sym_0602D8BC in FUN_0602D89A.s (writes +0x10, +0x18, +0x38, +0x3C, +0x18C, +0x190)
-- **Expected effect**: Car position freezes. Speed still changes (speed writer
-  still runs) but car does not move on screen. HUD speedometer shows changing
-  speed but car stays in place. AI cars continue normally.
-- **Best scenario**: Load `usa_tt_straight.mc0`, hold C. Car should accelerate
-  (speed increases) but not move forward.
-- **Confidence**: HIGH — position is the direct output of this function. If
-  +0x10/+0x18 are not position, the car will still move and this test
-  disproves the hypothesis (which is also valuable).
+- **Expected effect**: Car position freezes. Speed still changes but car
+  does not move on screen.
+- **Actual result**: **CONFIRMED — with additional discoveries.** Tested twice.
+  Raw observations:
+  - Car graphic stayed locked at starting position. Never moved.
+  - Speed/RPM/gears all worked normally — acceleration, gear shifts responded to C.
+  - LEFT/RIGHT caused tire animation and camera rotation around the frozen car,
+    as if the camera was following a heading change on a stationary car.
+  - After sustained throttle + steering, acceleration behavior changed — consistent
+    with the car's physics position having advanced onto grass (surface change).
+  - At rest, camera pointed in a direction consistent with the car's simulated
+    position around the circular track.
+  - **Human theory (needs more data)**: The physics simulation has an internal
+    position that continued advancing. sym_0602D8BC copies this to the rendered
+    position fields (+0x10, +0x18). NOPping disconnected the visible car from
+    the simulation. This suggests two position representations: physics-internal
+    and render-output.
+- **Best scenario**: Load `usa_tt_straight.mc0`, hold C from dead stop.
+- **Confidence**: HIGH → **CONFIRMED** (position freeze). Human theory about
+  dual position representations is plausible but unverified — needs Explorer
+  investigation to identify the internal physics position fields.
 
 ### NOP Test: car[+0xFC] accel delta write
 
