@@ -1,0 +1,34 @@
+function: sym_0602FDA4
+address: 0x0602FDA4
+address_end: 0x060300B0
+source_file: reimpl/src/FUN_0602F9A6.s
+
+# Throttle/gear input handler — FIRST pipeline call. Reads g_pad_state+2,
+# writes car[+0xDE] (button state 0-3). The missing link in the throttle pipeline.
+# +0xDE is 16-bit (mov.w) — invisible to watchpoints.
+
+claims:
+  - id: call_count_throttle
+    type: call_count_per_frame
+    description: "sym_0602FDA4 (throttle input handler) fires ~1x per frame (pipeline call 1)"
+    function: sym_0602FDA4
+    address: 0x0602FDA4
+    scenario: straight_throttle
+    expected_count: 2
+    tolerance: 1
+
+  - id: speed_increases_throttle
+    type: value_changes_with_input
+    description: "Speed (car[+0x0C]) increases when C is held — this function reads g_pad_state"
+    address: 0x0607890C
+    input: C
+    direction: increases
+    frames: 60
+
+  - id: position_decreases_throttle
+    type: value_changes_with_input
+    description: "Position X (car[+0x10]) decreases when C is held — pipeline validation"
+    address: 0x06078910
+    input: C
+    direction: decreases
+    frames: 60
