@@ -36,6 +36,16 @@
 - **Files**: tt_offtrack_throttle_566f.bin, tt_offtrack_throttle_566f.csv
 - **Captured**: 2026-03-15
 
+## tt_brake_300f
+
+- **Save state**: usa_tt_straight.mc0
+- **Scenario**: throttle_then_brake (C held 750 frames to ~27 mph, then B held 300 frames)
+- **Address**: 0x06078900 (car[0])
+- **Size**: 616 bytes (full car struct)
+- **Files**: tt_brake_300f.bin, tt_brake_300f.csv
+- **Captured**: 2026-03-15
+- **Notes**: Brake capture starts at ~27 mph. Car stops by ~frame 100.
+
 ## tt_right_wall_strike_662f
 
 - **Save state**: usa_tt_straight.mc0
