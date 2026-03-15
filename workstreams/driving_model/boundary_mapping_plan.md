@@ -140,18 +140,22 @@ D8-D9 target the player pipeline (blocked until C2 maps it).
 
 ---
 
-## Phase E: Transplant specification — Not started
+## Phase E: Transplant specification — READY TO START (partially)
 
 The final deliverable. Draws the box and specifies everything needed to
 move the driving model from Daytona USA to Daytona USA CCE.
 
-| # | Task | Blocked on |
-|---|------|------------|
-| E1 | Function list: everything inside the driving model | B4-B6, C2 |
-| E2 | Input API: controller, track data, game mode flags | B6 |
-| E3 | Output API: car struct fields read by rendering/HUD/sound | B4, B5 |
-| E4 | Shared infrastructure: math, memory, sync | C3 |
-| E5 | CCE compatibility analysis | E1-E4 |
+| # | Task | Status | Notes |
+|---|------|--------|-------|
+| E1 | Function list: everything inside the driving model | **Ready** | 18 pipeline calls + sub-functions, all Tier 2. 21 functions total. |
+| E2 | Input API: controller, track data, game mode flags | **Partial** | Buttons mapped (throttle/brake/gear). **Steering input unknown.** Track tables identified but format undocumented. |
+| E3 | Output API: car struct fields read by rendering/HUD/sound | **Ready** | 15-field rendering API in output_boundary.md. |
+| E4 | Shared infrastructure: math, memory, sync | **Ready** | Frame order known. Math functions (atan2, sin/cos, fixed-mul) identified. |
+| E5 | CCE compatibility analysis | Blocked on E2 | Need steering + track data format to compare with CCE. |
+
+**Blocker**: E2 steering input. We can specify the throttle/brake/gear
+input wiring today, but cannot specify the steering wire until the D-pad
+→ car struct path is traced. This is Explorer Priority #1.
 
 Deliverable: `transplant_spec.md`
 
