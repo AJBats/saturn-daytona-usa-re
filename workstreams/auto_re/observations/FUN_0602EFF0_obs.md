@@ -1,0 +1,98 @@
+---
+function: FUN_0602EFF0
+address: 0x0602EFF0
+address_end: 0x0602F0E4
+source_file: reimpl/src/FUN_0602EFF0.s
+explored: 2026-03-15
+scenarios_tested: [straight_throttle, idle, steer_left_throttle]
+reachable: true
+---
+
+## Call Frequency
+
+| Scenario | Calls/Frame | Notes |
+|----------|-------------|-------|
+| straight_throttle | 1 | Pipeline call 2 in FUN_0602EEB8 |
+
+## Field Access (from Static Analysis)
+
+### Reads
+
+| Offset | Notes |
+|--------|-------|
+| +0xAC | **Raw steering input.** Read at line 19: `mov.l @(r0, r1), r1` where r1=0xAC |
+| +0x74 | Clamp value or state. Read at line 68/112 |
+| +0x90 | State field. Read at line 112 |
+
+### Writes
+
+| Offset | Notes |
+|--------|-------|
+| +0xB0 | Computed rotation value (from atan2 of steering). Written at line 65 |
+| +0xB4 | Previous rotation value. Written at line 66 (old +0xB0 → +0xB4) |
+| +0x78 | State update. Written within second atan2 block |
+| +0x94 | Third atan2 result. Written at line 148 |
+
+### Steering Input Pipeline
+
+```
+car[+0xAC] (raw steering input, source unknown)
+    ↓ abs(value)
+    ↓ subtract deadzone (5)
+    ↓ clamp to max 80 (0x50)
+    ↓ restore sign
+    ↓ multiply by 255 (0xFF)
+    ↓ FUN_0602ECCC (atan2/rotation computation)
+    ↓ output → rotation angle
+    ↓
+car[+0xB0] (computed rotation, prev value moved to +0xB4)
+    ↓ second atan2 pass (car[+0x74] → car[+0x78])
+    ↓ third atan2 pass → car[+0x94]
+```
+
+The function calls FUN_0602ECCC three times with different inputs/outputs,
+producing three rotation-related values from the steering input.
+
+### Steering Input Details
+
+- **Deadzone**: ±5 units. Values between -5 and +5 produce 0 output.
+- **Clamp**: Maximum magnitude 80 (0x50). Steering saturates at this value.
+- **Scale**: Multiply by 255 (0xFF) after deadzone/clamp. Max output: 80 × 255 = 20400.
+- **atan2 parameter**: 0x0096 = 150. The second parameter to FUN_0602ECCC.
+
+### Source of car[+0xAC]
+
+car[+0xAC] is the raw steering input but it does NOT appear in the car[0]
+writer map (81 offsets) or the comprehensive writer map (95 offsets). This
+means it's written by a function/mechanism NOT captured during the profiling
+sessions:
+1. Written before the physics pipeline starts (by the input polling code)
+2. Written by DMA or the secondary SH-2
+3. Written only under specific conditions not covered in profiling
+
+The struct map does not have an entry for +0xAC. **Identifying the writer of
+car[+0xAC] would reveal the controller→steering input chain.**
+
+## Key Finding: This Function Does NOT Process Throttle
+
+FUN_0602EFF0 (pipeline call 2, "input/state dispatch") processes **only steering**
+input. It reads car[+0xAC] (steering), applies deadzone/clamp/scale, and writes
+rotation angles. There is NO reference to g_pad_state, the C button, or the
+B button in this function.
+
+The throttle (C button) → accel delta (+0xFC) path enters through a different
+mechanism, likely:
+1. An upstream function (before the pipeline) that reads g_pad_state and writes
+   a car struct field
+2. Inline code in the dispatcher between JSR calls
+3. Through the force accumulator (FUN_0602CA84) reading a field that was set
+   by the input polling code
+
+## Other Observations
+
+- sym_0602F0E8 (pipeline call 6, collision state check) immediately follows
+  in the same source file. It reads +0xB0 (written by this function), +0xB8,
+  +0x1BC (collision flags) and does state transfer: copies +0x94→+0x84 and
+  +0x78→+0x68 under normal conditions, or resets counters during collision.
+- The three atan2 outputs (+0xB0, +0x78, +0x94) form a "rotation state vector"
+  that downstream pipeline stages consume for heading and slip angle computation.
