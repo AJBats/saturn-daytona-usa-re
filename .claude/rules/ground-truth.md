@@ -24,36 +24,6 @@ output, tool scripts, binary comparisons, static analysis — is inference that 
    wrong. Not the emulator, not the hardware docs, not our understanding of the code. We
    are wrong. Find out why.
 
-## Validation Tiers
-
-Every function annotation must earn its tier through emulator evidence. Static analysis
-(Ghidra decompilation, code reading) is an experiment design tool — it tells you what to
-test, not what is true. It cannot validate anything.
-
-| Tier | Requirement | Action |
-|------|-------------|--------|
-| *(no tier)* | Static analysis only (Ghidra, code reading) | No tag. Use findings to design experiments. |
-| **THEORY** | 1 empirical observation from the emulator (breakpoint, watchpoint, NOP test, etc.) | Comment tag, keep `FUN_*` name |
-| **OBSERVED** | 2+ empirical datapoints from the emulator, none contradicting | Comment tag, keep `FUN_*` name |
-| **VERIFIED** | Human user has reviewed, confirmed, and approved graduation | Rename function from `FUN_*` |
-
-**No tier without the emulator.** Ghidra says a function does X? That's a hypothesis to
-test, not a THEORY to tag. Run the experiment first.
-
-## Empirical Verification Checklist
-
-Before marking any function as THEORY, OBSERVED, or proposing for VERIFIED:
-
-0. **Emulator evidence required.** No review is complete without running the function in
-   the debugger — breakpoints, watchpoints, or screenshots. Static analysis alone is never
-   sufficient.
-1. **Every code path accounted for?** — Not just the ones you tested. Every branch, every
-   button mask, every state write.
-2. **Every experiment matched prediction?** — If a result surprised you, STOP. Investigate
-   the mismatch before moving on. Surprises are discoveries.
-3. **Any renameable symbols discovered?** — Did the investigation reveal what any `sym_*`
-   variables actually are?
-
 ## Evidence Hierarchy
 
 **Memory reads are evidence. Screenshots are context only.**
@@ -65,16 +35,7 @@ Before marking any function as THEORY, OBSERVED, or proposing for VERIFIED:
   screenshot (e.g., "AI cars are visible," "the car turned left"). If visual confirmation
   is needed, describe the screenshot to the user and let them interpret it.
 
-## Static Analysis Role
+## Validation Tiers & Tagging
 
-Static analysis (Ghidra, code reading, disassembly) is valuable for:
-- Identifying which functions to investigate
-- Designing experiments (what to breakpoint, what memory to watch)
-- Understanding control flow to plan test scenarios
-- Forming hypotheses about struct fields and data flow
-
-It is NOT valid for:
-- Tagging functions at any tier
-- Claiming to know what a function does
-- Mass-producing annotations
-- Background agent work on function behavior
+See `.claude/rules/theory-tagging.md` for the THEORY/OBSERVED/VERIFIED tier system
+and tagging conventions.
