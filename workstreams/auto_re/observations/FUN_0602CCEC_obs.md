@@ -107,6 +107,31 @@ All fields this function writes (+0x110, +0x10C, +0xC0, +0x264) are constant
 when idle and change with throttle. The gate on +0x08 (speed index > 0) explains
 why: at 0 speed, the function skips its main computation entirely.
 
+## NOP Test Result: TRACTION MODEL (Human Confirmed 2026-03-15)
+
+NOPping the BSR to FUN_0602CCEC (poke 0602CC40 00 09) revealed this
+function is the **traction model**, not just speed convergence:
+
+1. **No tire peel-out** at launch — car is grippy from standstill
+2. **Speed exceeds gear 1 cap** (~30 mph) — accelerated cleanly to gear 4
+3. **Grass traction retained** — car maintained grip on grass (normally lost)
+4. **Gear shifting still worked** — the gear state machine is independent
+
+The "speed converges to gear max" behavior is a SIDE EFFECT of traction
+limiting force throughput. The feedback loop (`+0xE0 → +0x110 → +0xFC`)
+is the traction limiting mechanism, not a speed governor. Without traction
+limits, all force reaches the road surface, producing clean acceleration
+without wheelspin.
+
+### Reinterpretation of Fields
+
+| Field | Old interpretation | New interpretation |
+|-------|-------------------|-------------------|
+| +0x110 | Force term (speed convergence) | **Traction limit** (how much force reaches road) |
+| +0xE0 | Gear-scaled speed | **Traction state** (speed-dependent grip level) |
+| +0x10C | Clamped force Z | **Traction-limited force** |
+| +0xC0 | Computed value | **Traction coefficient** (gates force delivery) |
+
 ## Other Observations
 
 - The gate on car[+0x08] (speed index > 0) means this entire computation
