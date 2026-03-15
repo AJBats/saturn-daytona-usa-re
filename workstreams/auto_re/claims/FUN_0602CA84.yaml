@@ -27,3 +27,11 @@ claims:
     input: C
     direction: increases
     frames: 60
+
+  - id: speed_increases_throttle
+    type: value_changes_with_input
+    description: "Speed (car[+0x0C]) increases when C is held — downstream of force accumulator"
+    address: 0x0607890C
+    input: C
+    direction: increases
+    frames: 60
