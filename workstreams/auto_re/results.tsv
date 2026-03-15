@@ -22,3 +22,5 @@ sym_0602F0E8	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). C
 sym_0602F7BC	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). Timer decrementor pipeline call 5. writes_to infeasible [WP:16-bit+indexed].
 sym_0602F474	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). Animation counter pipeline call 9. writes_to infeasible [WP:16-bit+indexed].
 sym_0602F17C	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). Gear state machine pipeline call 7a. writes_to infeasible [WP:16-bit+indexed].
+FUN_0602CDF6	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). State finalize pipeline call 17. Heading convergence + collision counter.
+FUN_0602D43C	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). Collision/steering pipeline call 16a. 689 lines, gates heading correction on speed>240.
