@@ -366,8 +366,24 @@ accumulators +0x108/+0x10C increase toward 65536 during braking (force
 +0x114 (resistance) clears to 0 at rest. +0x8C/+0x90 activate (56→216)
 only during braking — dual-purpose with collision.
 
-**Explorer next step**: watchpoint on car[+0x108] comparing C-held vs idle
-to find which pipeline stage writes the throttle-dependent value.
+**THROTTLE INPUT FOUND (2026-03-15)**: sym_0602FDA4 (pipeline call 1) reads
+g_pad_state+2 (sym_06063D9A) and writes car[+0xDE] with values 0-3 based on
+button mapping tables at sym_0608188x. This is the first link in the throttle
+chain. car[+0xDE] is a 16-bit field at offset 0xDE (upper half of the +0xDC
+word). Downstream pipeline stages read +0xDE to produce force terms.
+
+Updated speed pipeline:
+```
+C button → sym_0602FDA4 (call 1) → car[+0xDE] (0-3 button state)
+    → [downstream reads +0xDE] → car[+0x108/+0x10C] (force accumulators)
+    → FUN_0602CA84 (call 15) → car[+0xFC] (accel delta)
+    → sym_0602D814 (call 17) → car[+0x0C] (speed)
+    → sym_0602D8BC (call 18) → car[+0x10/+0x18] (position)
+```
+
+**Remaining gap**: Which pipeline call (2-14) reads car[+0xDE] and converts
+it into the force accumulator values? FUN_0602EFF0 NOP kills all input —
+it likely reads +0xDE as part of its "initialization" role.
 
 ### Surface and Terrain
 
