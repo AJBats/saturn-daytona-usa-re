@@ -1,33 +1,23 @@
-# Verifier Review — 2026-03-15
+# Verifier Review — 2026-03-15 (Review 2)
 
 ## Action Items
 
-1. **[HIGH]** The oracle test runner cannot test brake scenarios because it
-   hardcodes `straight_throttle` (starting from 0 mph). Braking needs speed > 0.
-   This blocks an entire input class. File a prominent note in results.tsv or
-   a separate issue — the human needs to know the oracle has this limitation
-   so it can be addressed.
+1. **[MED]** Oracle still can't test brake scenarios (hardcoded straight_throttle
+   from 0 mph). Previous review flagged this. sym_0602FDA4 observation now
+   confirms brake pipeline exists (B button → car[+0x90]). Brake testing is
+   increasingly important — escalate to human if oracle tool changes are needed.
 
-2. **[MED]** FUN_0602EFF0 (steering processor, Tier 2) has only call_count and
-   generic value_changes claims. The observation shows it writes +0xB0, +0xB4,
-   +0x78, +0x94 — but no writes_to claims were attempted. Even if watchpoints
-   fail on some addressing modes, at least attempt writes_to for +0xB0 (written
-   via standard mov.l) — it may succeed where others failed.
+2. **[MED]** 17 of 18 pipeline calls at Tier 2 — excellent coverage. What's
+   the one remaining? Identify it and file a priority for Explorer if the
+   observation is missing, or write claims if data exists.
 
-3. **[MED]** FUN_0602CCEC (Tier 2) has no writes_to claims at all. The
-   observation identifies +0x110 as the key output field with linear decay.
-   Attempt a writes_to claim on +0x110 — if the write uses standard addressing,
-   the watchpoint should catch it.
-
-4. **[LOW]** Clean pass rate (94.7%) is good, but 6 failed claims are all
-   watchpoint limitations, not incorrect hypotheses. Consider adding a note
-   to results.tsv distinguishing "failed (wrong hypothesis)" from "failed
-   (instrumentation limitation)" so the Mapper can weigh them differently.
+3. **[LOW]** The watchpoint limitation pattern ([WP:indexed], [WP:16-bit])
+   is well-documented in results.tsv notes. Good practice — keep doing this.
 
 ## What's Working Well
 
-- Zero tier gaming — no value_stable padding detected. All Tier 2 promotions
-  are earned with function-specific evidence.
-- Question filing is prompt and well-structured — both FUN_0602EEB8 and
-  FUN_0602CA84 got timely questions that the Explorer answered.
-- All questions have been resolved. No stale backlog.
+- 17/18 pipeline calls validated at Tier 2 — outstanding coverage.
+- sym_0602FDA4 verified quickly (run 14, Tier 2 on first attempt).
+- Dual position experiment processed correctly — no overclaiming.
+- Previous review items addressed (run 11 notes added).
+- Zero tier gaming still holds across all 17 Tier 2 functions.

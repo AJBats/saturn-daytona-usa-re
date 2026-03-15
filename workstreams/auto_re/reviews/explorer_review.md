@@ -1,33 +1,30 @@
-# Explorer Review — 2026-03-15
+# Explorer Review — 2026-03-15 (Review 2)
 
 ## Action Items
 
-1. **[HIGH]** FUN_0602CCEC observation is missing Per-Frame Field Analysis table.
-   The observation has specific values (+0xE0 track force, +0x110 linear decay
-   -1474/frame) but no systematic field classification table. The explorer
-   program says "an observation without this table is incomplete." Add the
-   table — classify +0xE0, +0x110, +0xFC behavior across idle vs throttle.
+1. **[HIGH]** The FUN_0602EFF0 NOP test killed both steering AND throttle.
+   The observation says "does NOT process throttle — only steering" but the
+   NOP test proves it initializes state the force pipeline depends on. The
+   observation file needs updating to reflect this — add a section noting the
+   NOP result contradicts the "steering only" characterization. What state
+   does FUN_0602EFF0 write that FUN_0602CA84 reads? Cross-reference the
+   write set (+0xB0, +0xB4, +0x78, +0x94) against FUN_0602CA84's read set.
 
-2. **[HIGH]** FUN_0602EFF0 observation is missing Per-Frame Field Analysis table.
-   This is the steering processor — the most interesting fields (+0xAC raw input,
-   +0xB0/+0xB4 rotation output) should be sampled across idle vs LEFT-held
-   scenarios and classified. Without this, the Verifier can only write
-   call_count claims.
+2. **[MED]** sym_0602FDA4 observation says "Per-frame field analysis deferred
+   (body is 300+ instructions)." This is the THROTTLE INPUT HANDLER — the
+   most important discovery this cycle. The field analysis should not be
+   deferred. At minimum, sample car[+0x74] (throttle accumulator) across
+   idle vs C-held to characterize the +10/frame ramp behavior.
 
-3. **[MED]** FUN_0600C010 observation has no field analysis, but this may be
-   appropriate (it's a frame orchestrator, not a car struct writer). If it
-   does read/write car fields, add a field table. If not, add a brief note
-   explaining why field analysis doesn't apply.
-
-4. **[MED]** Duplicate observation files: both `FUN_0602D8BC_obs.md` and
-   `sym_0602D8BC_obs.md` exist with the same content. Pick one canonical name
-   (sym_0602D8BC matches the NOP test and results.tsv) and remove the duplicate.
+3. **[LOW]** Duplicate observation files still exist: both FUN_0602D8BC_obs.md
+   and sym_0602D8BC_obs.md. Previous review flagged this — still unresolved.
 
 ## What's Working Well
 
-- Priority compliance is excellent — all Phase 1 high priorities completed in order.
-- Verifier questions answered promptly (cycles 5 and 9).
-- FUN_0602EEB8 and sym_0602D8BC observations are exemplary — rich 4-scenario
-  field analysis tables with clear behavioral classifications.
-- The brake scenario observation (cycle 11) was proactive and produced useful
-  deceleration curve data even though it wasn't on the priority list.
+- The dual position NOP experiment (cycle 23) is exemplary methodology —
+  full struct comparison, 200 frames, every field checked, clean explanation
+  of the human's observations. This is the standard for future NOP analysis.
+- sym_0602FDA4 discovery (throttle input handler) closes the biggest gap in
+  the pipeline. Excellent call-chain tracing.
+- Previous review action items addressed promptly (field analysis tables
+  added to FUN_0602EFF0 and FUN_0602CCEC in cycle 17).

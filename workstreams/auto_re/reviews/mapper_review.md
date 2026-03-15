@@ -1,56 +1,56 @@
-# Mapper Review — 2026-03-15
+# Mapper Review — 2026-03-15 (Review 2)
 
 ## Action Items
 
-1. **[HIGH]** Under-producing NOP test recommendations. 8 functions at Tier 2
-   but only 3 NOP tests recommended (2 confirmed, 1 blocked). The following
-   are NOP-test-ready and should have recommendations NOW:
+1. **[HIGH]** FUN_0602CCEC NOP test still has no poke address. The
+   recommendation says "ask human to disassemble at 0x0602CC4C area."
+   This is the Mapper's job — read the assembly in reimpl/src/, compute
+   the BSR target address, and verify in live memory (same methodology as
+   the confirmed NOP tests). Don't punt address derivation to the human.
 
-   - **FUN_0602EFF0** (steering processor, call 2): NOP the JSR in
-     FUN_0602EEB8. Expected: D-pad has no effect, car goes straight.
-     Use usa_tt_straight.mc0 with C + LEFT. Already Tier 2.
-   - **FUN_0602CA84** (force accumulator, call 15): NOP the JSR. Expected:
-     no acceleration or deceleration — speed drifts with zero force applied.
-     Already Tier 2.
-   - **FUN_0602F5B6** (surface writer, call 11): NOP the JSR. Expected:
-     car doesn't recognize grass when driving off-track. Use
-     usa_tt_offtrack_stop.mc0. Speed should NOT cap at 51 mph. Already Tier 2.
-   - **FUN_0602CCEC** (speed convergence): NOP the call from FUN_0602CA84.
-     Expected: speed accelerates without converging to gear max. This would
-     validate the cycle 12 feedback loop discovery.
+2. **[MED]** The FUN_0602EFF0 and FUN_0602F5B6 NOP tests revealed unexpected
+   pipeline dependencies (both killed throttle). The Mapper noted this in
+   cycle 27 and 30 but hasn't traced the dependency chains:
+   - What does FUN_0602EFF0 write that the force accumulator reads?
+   - What does FUN_0602F5B6 write that the force accumulator reads?
+   Cross-reference the write sets against FUN_0602CA84's read set. This
+   reveals the pipeline coupling architecture — critical for transplant.
 
-   For each, provide the exact poke address by reading the assembly and
-   verifying against live memory (same method as the confirmed NOP tests).
-   Do NOT use map-file addresses — the human verified addresses in live
-   memory for the first two tests and this is the correct methodology.
+3. **[LOW]** 17/18 pipeline calls at Tier 2. Identify the remaining call
+   and prioritize it for the Explorer if observation is missing.
 
-2. **[HIGH]** The blocked +0xFC NOP test says "UNBLOCKED (NOP jsr @r13 at
-   0x0602EF8E)" but this is a different test — it NOPs the entire force
-   accumulator call, not the individual +0xFC write. The original test
-   (NOP the specific write instruction) is still unresolved. Either:
-   (a) derive the correct retail PC for the mov.l that writes +0xFC, or
-   (b) explicitly document that this test is superseded by the FUN_0602CA84
-   JSR-level NOP test and remove it.
+## Dual Position Theory — Review
 
-3. **[MED]** The speed convergence feedback loop (cycle 12) is a significant
-   discovery but rests entirely on static analysis + correlation. The pipeline
-   diagram in struct_map.md states it as fact. Add confidence markers —
-   the loop is "proposed" until a NOP test on FUN_0602CCEC confirms that
-   removing it breaks speed convergence.
+**The disproval is SOUND.** The Explorer's methodology (200-frame full struct
+comparison, NOP vs baseline) is rigorous. Key evidence:
 
-4. **[LOW]** Some priority list entries are stale. Priority 5 (throttle-to-speed
-   pipeline gap) and Priority 6 (surface/terrain) overlap with work already
-   done in Explorer cycles 4, 7, and 10. Mark resolved items and update the
-   remaining gap description to reflect current knowledge.
+- ALL physics fields identical with/without position writer
+- Position is write-only terminal output (not read by upstream pipeline)
+- +0x140/+0x144 confirmed NOT internal position (identical in both runs)
+- Track segment freeze at frame ~106 explains the human's observation of
+  changed acceleration behavior (surface data stops advancing, not a ghost car)
+
+The Mapper correctly integrated this: removed dual position from struct map,
+replaced with "position is write-only output" finding. The camera rotation
+the human observed is explained by heading (+0x20) updating normally — camera
+follows heading, creating the illusion of turning while the car graphic stays
+fixed. No dual position system needed.
+
+**One nuance to document**: The human's "surface changed as if on grass"
+observation is more precisely "surface properties stopped advancing because
+track segments froze." The car didn't reach grass — the segment freeze at
+frame ~106 changed the acceleration curve. This distinction matters for
+understanding the track segment system's role.
 
 ## What's Working Well
 
-- Struct map quality is excellent — 95+ offsets with writer PCs, consumers,
-  pipeline positions, and behavioral data. Naming discipline is good
-  (confirmed vs proposed? markers used consistently).
-- Speed pipeline is traced end-to-end from C button to position. The
-  convergence loop discovery (cycle 12) is genuine insight.
-- Integration of NOP test results was immediate (cycle 9) — the dual
-  position theory was captured and fed back into priorities.
-- Priority list entries have specific investigation plans with scenarios,
-  addresses, and expected outcomes. High quality.
+- Dual position integration was immediate and correctly scoped (cycle 30).
+- 4 new NOP test recommendations produced (addressing previous review's
+  #1 HIGH item). All had verified poke addresses except FUN_0602CCEC.
+- sym_0602FDA4 identification as throttle input handler was a breakthrough.
+  Pipeline is now traced end-to-end: button → throttle accumulator → force
+  → accel delta → speed → position.
+- Previous review action items addressed in cycle 21 (NOP tests, stale
+  priorities, +0xFC test superseded).
+- Phase progression: solidly in Phase 2 (pipeline tracing), approaching
+  Phase 3 (sim-level understanding) for the speed pipeline.
