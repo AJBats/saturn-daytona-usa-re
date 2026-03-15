@@ -44,12 +44,32 @@
    - Link 2: Frozen segments → surface fields stop updating → NOT PROVEN
    - Link 3: Stale surface fields → acceleration change → NOT PROVEN
 
-   **Design an experiment** that proves links 2 and 3. For example: in the
-   NOPped run, compare +0xEC/+0xF0/+0xF4/+0x1FC values before and after
-   frame 106. If surface fields truly freeze when segments freeze, they
-   should show constant values after frame 106 while the baseline continues
-   changing. Then show that these stale surface values feed into the force
-   accumulator differently — producing the acceleration change the human felt.
+   **Break this into three small tests.** Each proves or disproves one
+   piece independently. Add these to Explorer priorities:
+
+   **Test A — Camera follows heading (proves a and c):**
+   NOP position writer (poke 0602EF9E 00 09). Hold C + LEFT for 60
+   frames. Read car[+0x20] (heading). If heading changed from the
+   initial value, camera rotation is explained: camera reads heading,
+   heading changes normally, car graphic stays frozen. One `read_u32`
+   at 0x06078920 proves or disproves it.
+
+   **Test B — Surface fields freeze after segment boundary (proves link 2):**
+   Two runs, both C held for 200 frames: baseline and NOPped position
+   writer. Use `sample_memory` to capture +0xF4 and +0x1FC every frame
+   in both runs. If surface fields go flat after frame ~106 in the
+   NOPped run while baseline keeps changing, link 2 is proven. The
+   existing CSVs (tt_baseline_200f.csv, tt_nopped_poswriter_200f.csv)
+   may already contain this data — check before recapturing.
+
+   **Test C — Stale surface causes acceleration change (proves link 3):**
+   Compare +0xFC (accel delta) frame-by-frame between the NOP and
+   baseline CSVs. Values should be IDENTICAL until the frame where
+   surface fields diverge, then start differing. The first frame where
+   +0xFC diverges should match (within 1-2 frames of) the frame where
+   surface fields froze in Test B. If they match, the causal chain is
+   proven. If +0xFC diverges at a different frame, something else
+   caused the acceleration change.
 
    Dismissing a human observation with "it's consistent with" is not
    sufficient. The alternative explanation must be empirically demonstrated.
