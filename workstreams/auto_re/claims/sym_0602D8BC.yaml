@@ -1,0 +1,49 @@
+function: sym_0602D8BC
+address: 0x0602D8BC
+address_end: 0x0602DA98
+source_file: reimpl/src/FUN_0602D89A.s
+
+claims:
+  - id: call_count_throttle
+    type: call_count_per_frame
+    description: "sym_0602D8BC breakpoint fires 2x per frame (pipeline call 19, Mednafen double-hit)"
+    function: sym_0602D8BC
+    address: 0x0602D8BC
+    scenario: straight_throttle
+    expected_count: 2
+    tolerance: 1
+
+  - id: writes_heading
+    type: writes_to
+    description: "sym_0602D8BC writes car[+0x20] (heading) via PC 0x0602D8CE"
+    function: sym_0602D8BC
+    function_end: 0x0602DA98
+    address: 0x06078920
+    scenario: straight_throttle
+    frames: 60
+
+  - id: writes_position_x
+    type: writes_to
+    description: "sym_0602D8BC writes car[+0x10] (position X) via PC 0x0602D902"
+    function: sym_0602D8BC
+    function_end: 0x0602DA98
+    address: 0x06078910
+    scenario: straight_throttle
+    frames: 60
+
+  - id: writes_velocity_x
+    type: writes_to
+    description: "sym_0602D8BC writes car[+0x18C] (velocity X) via PC 0x0602D8FE"
+    function: sym_0602D8BC
+    function_end: 0x0602DA98
+    address: 0x06078A8C
+    scenario: straight_throttle
+    frames: 60
+
+  - id: position_decreases_throttle
+    type: value_changes_with_input
+    description: "Position X (car[+0x10]) decreases when C is held (car moves forward on track)"
+    address: 0x06078910
+    input: C
+    direction: decreases
+    frames: 60

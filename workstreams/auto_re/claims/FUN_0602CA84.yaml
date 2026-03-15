@@ -1,0 +1,29 @@
+function: FUN_0602CA84
+address: 0x0602CA84
+address_end: 0x0602CCEE
+source_file: reimpl/src/FUN_0602CA84.s
+
+claims:
+  - id: call_count_throttle
+    type: call_count_per_frame
+    description: "FUN_0602CA84 breakpoint fires 2x per frame (pipeline call 15, Mednafen double-hit)"
+    function: FUN_0602CA84
+    address: 0x0602CA84
+    scenario: straight_throttle
+    expected_count: 2
+    tolerance: 1
+
+  # writes_to claims removed: watchpoints at 0x06078A08 (+0x108), 0x06078A48 (+0x148),
+  # and 0x060789C0 (+0xC0) all produced 0 hits across both straight_throttle and
+  # race_throttle scenarios. The writer map (mem_profile) shows these fields ARE written,
+  # but the Mednafen watchpoint system does not catch them. See FUN_0602CA84_questions.md.
+  # The +0xFC (accel delta) write is caught — but at return-target PC 0x0602EF4E, outside
+  # FUN_0602CA84's range, due to RTS delay slot profiler artifact.
+
+  - id: accel_delta_increases_throttle
+    type: value_changes_with_input
+    description: "Accel delta (car[+0xFC]) increases when C is held from dead stop"
+    address: 0x060789FC
+    input: C
+    direction: increases
+    frames: 60
