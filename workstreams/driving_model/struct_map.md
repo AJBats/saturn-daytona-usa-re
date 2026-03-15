@@ -263,11 +263,13 @@ Sources: W=writer_map_comprehensive, C=consumer_map, S=static_hypotheses, D=init
 
 ### Forces and Derivatives
 
-#### +0x40 — angular_velocity?
+#### +0x40 — acceleration_state?
 - **Init**: Not in dump.
 - **Writers**: FUN_0602CB7E (pc=0x0602CBEC, 493x, 296 unique). Also FUN_0602CC30 (18x, const 0).
 - **Consumers**: Not in consumer map.
-- **Hypothesis**: Unknown. High cardinality but not consumed by any known function. Possibly internal physics state.
+- **OBSERVED**: 19 unique values during throttle, constant -4064 during braking. Only active during acceleration — becomes static when decelerating.
+- **Pipeline**: FUN_0602CA84 zeros this field when drift (+0x250) is active.
+- **Hypothesis**: Acceleration-phase internal state. Inactive during braking.
 
 #### +0x48 — drag_accumulator?
 - **Init**: Not in dump.
@@ -350,6 +352,13 @@ creates a feedback loop: `car[+0xE0] → car[+0x110] → car[+0xFC] → car[+0x0
 when positive. This produces speed convergence: as speed → gear_max, force
 deficit → 0, accel delta → 0. The gear lookup table at sym_0602E938 selects
 different force constants per gear (+0x7C) and track section (+0xDC).
+
+**Brake behavior (2026-03-15)**: Braking from 27 mph → 0 in ~100 frames.
+Accel delta peaks at -303 (frame 20), decreases as speed drops. Force
+accumulators +0x108/+0x10C increase toward 65536 during braking (force
+"restored" as speed drops). +0x110 and +0xE0 drop to 0 when stopped.
++0x114 (resistance) clears to 0 at rest. +0x8C/+0x90 activate (56→216)
+only during braking — dual-purpose with collision.
 
 **Explorer next step**: watchpoint on car[+0x108] comparing C-held vs idle
 to find which pipeline stage writes the throttle-dependent value.
@@ -502,10 +511,16 @@ to find which pipeline stage writes the throttle-dependent value.
 - **Pipeline**: Stage 6 (sym_0602F0E8) copies car[+0x94]→[+0x84] and car[+0x78]→[+0x68] in normal path. Sets +0x84 = 0x38 in one path.
 - **Hypothesis**: State transfer group. +0x94 and +0x78 are "current" values; +0x84 and +0x68 are "previous" copies. Updated each frame by stage 6.
 
-#### +0x90 — collision_recovery_param?
+#### +0x8C — brake_state?
+- **Init**: Not in dump (struct map listed as "collision_state_a" with value 56).
+- **OBSERVED**: Constant 56 during throttle. During braking: changes to 5 values (56→216). Identical pattern to +0x90. NOT collision-only — activated by braking.
+- **Hypothesis**: Brake/deceleration state. Dual-purpose with collision (both produce deceleration). Value range 56-216.
+
+#### +0x90 — brake_state_b?
 - **Init**: Not in dump.
-- **Pipeline**: Stage 6 (sym_0602F0E8) sets +0x90 = 0x38 during collision recovery path.
-- **Hypothesis**: Collision recovery parameter, paired with +0x74. Both set to 0x38 on collision detection.
+- **Pipeline**: Stage 6 (sym_0602F0E8) sets +0x90 = 0x38 (56) during collision recovery.
+- **OBSERVED**: Identical values to +0x8C during braking (56→216). Constant 56 during throttle.
+- **Hypothesis**: Paired brake/collision state with +0x8C. Both share the initial value 0x38 = 56.
 
 #### +0xAC — raw_steering_input? (NOT in writer maps)
 - **Init**: Not in dump.
@@ -559,22 +574,22 @@ to find which pipeline stage writes the throttle-dependent value.
 - **Pipeline**: Stage 7 (sym_0602F17C) increments/decrements +0xDC as section boundaries are crossed.
 - **Hypothesis**: Current position in a gear/power table indexed by sections.
 
-#### +0xE0 — track_force_output?
+#### +0xE0 — gear_scaled_speed (CONFIRMED computation)
 - **Init**: Not in dump.
-- **Writers**: FUN_0602D86A (pc=0x0602D87E, 493x, 441 unique). Also FUN_0602F224 (pc=0x0602F226, 10x).
-- **Pipeline**: Stage 7 (FUN_0602F270) reads and writes +0xE0 with lookup table results. sym_0602D814 (speed writer) also writes +0xE0 as clamped speed via gear lookup.
-- **Hypothesis**: Track/gear force output. Very high cardinality (441/493). Updated by both track force stage and speed accumulator.
+- **Writers**: sym_0602D814 (pc=0x0602D87E, 493x, 441 unique). Also FUN_0602F224 (pc=0x0602F226, 10x).
+- **Pipeline**: sym_0602D814 (call 17) computes: `clamp((speed × gear_ratio × 0x0221AC91) >> 32, 0, 0x2134)`. Gear ratio from sym_060477BC[car[+0xDC]]. Max = 8500 (0x2134).
+- **CONFIRMED**: Drives the speed convergence feedback loop. FUN_0602CCEC reads `8500 - car[+0xE0]` as force deficit. Braking: drops to 0 when speed = 0.
 
 #### +0xE4 — acceleration_copy?
 - **Init**: Not in dump.
 - **Writers**: FUN_0602EEC6 (pc=0x0602EF24, 493x, 424 unique).
 - **Hypothesis**: Similar cardinality to +0xE0. Written by FUN_0602EEC6 (which also writes +0x50, +0xF8, +0x114, +0x144, +0x252).
 
-#### +0xE8 — speed_headroom?
+#### +0xE8 — gear_speed_headroom (CONFIRMED computation)
 - **Init**: Not in dump.
-- **Writers**: FUN_0602D86A (pc=0x0602D88A, 493x, only 2 unique: 0x0 and 0x212).
-- **Pipeline**: sym_0602D814 (speed writer, call 18) writes +0xE8 as `max_available_speed - current_speed`. Represents headroom before speed cap.
-- **Hypothesis**: Speed headroom. Only 2 values during capture = car was near max speed most of the time (headroom ~0 or ~0x212).
+- **Writers**: sym_0602D814 (pc=0x0602D88A, 493x, only 2 unique: 0x0 and 0x212).
+- **Pipeline**: sym_0602D814 computes: `max(0, unclamped_scaled - clamped)`. Nonzero only when scaled speed exceeds the 8500 clamp.
+- **CONFIRMED**: Always 0 in time-trial captures (speed never reaches clamp at ~30 mph). Would activate at higher speeds in later gears.
 
 #### +0x108 — force_accumulator_a? (THROTTLE PATH)
 - **Init**: Not in dump.
