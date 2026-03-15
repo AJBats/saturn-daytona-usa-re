@@ -30,7 +30,7 @@ edges of the box: what flows in, what flows out.
 | B1 | Car[0] writer map (scripted 60f: idle/throttle/steer) | Done | `writer_map_car0.md` — 81 offsets |
 | B2 | Car[0]+Car[1] writer map (human-driven: collision, braking, grass, cones) | Done | `writer_map_comprehensive.md` — 95 offsets, 62K writes |
 | B3 | Globals region writer map (0x0607E940-0x0607EBE0) | Done | `globals_writer_map.md` — 21 globals |
-| B4 | Boundary consumer map — who READS car struct fields | Not started | Ghidra xrefs on car base + key offsets |
+| B4 | Boundary consumer map — who READS car struct fields | Static draft | `output_boundary.md` — 25 pure consumers classified, 15-field rendering API identified. Needs CDL cross-validation. |
 | B5 | Rendering output boundary — which PCs write VDP1 commands | Not started | mem_profile on VDP1 command table |
 | B6 | Track data inputs — which read-only tables feed the model | Not started | Ghidra xrefs on known table addresses |
 
