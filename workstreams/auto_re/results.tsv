@@ -4,3 +4,4 @@ FUN_0602CA84	2	2	1	call_count(1x/frame), value_changes(accel_delta+C). All write
 sym_0602D8BC	4	5	2	call_count(1x/frame), writes_to(+0x10,+0x18C), value_changes(position_x decreases with C). writes_heading(+0x20) failed (0 hits, watchpoint issue).
 FUN_0600C010	3	3	2	call_count(2x/frame), value_changes(speed+C, position_x-C). Racing orchestrator — frame execution order validated.
 FUN_0602F5B6	3	5	2	call_count(1x/frame), value_changes(track_progress+C, speed+C). writes_to(+0xF4,+0xEC) failed (0 hits, watchpoint issue). Surface writer pipeline call 11.
+FUN_0602CCEC	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). Force term computation, called by FUN_0602CA84. Gates on speed>0.

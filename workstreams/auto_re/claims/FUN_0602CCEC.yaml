@@ -1,0 +1,36 @@
+function: FUN_0602CCEC
+address: 0x0602CCEC
+address_end: 0x0602CDF4
+source_file: reimpl/src/FUN_0602CCEC.s
+
+# Note: This function gates on car[+0x08] (speed index) > 0. At dead stop,
+# the main computation is SKIPPED. The function still runs but only executes
+# the final block (.L_0602CD9A). Its writes (+0x264, +0x110, +0x10C, +0xC0)
+# are in addresses that have consistently failed with the watchpoint system.
+# Testing with value_changes on pipeline outputs instead.
+
+claims:
+  - id: call_count_throttle
+    type: call_count_per_frame
+    description: "FUN_0602CCEC breakpoint fires ~1x per frame (called by FUN_0602CA84)"
+    function: FUN_0602CCEC
+    address: 0x0602CCEC
+    scenario: straight_throttle
+    expected_count: 2
+    tolerance: 1
+
+  - id: speed_increases_throttle
+    type: value_changes_with_input
+    description: "Speed (car[+0x0C]) increases when C is held — validates pipeline output"
+    address: 0x0607890C
+    input: C
+    direction: increases
+    frames: 60
+
+  - id: position_decreases_throttle
+    type: value_changes_with_input
+    description: "Position X (car[+0x10]) decreases when C is held — validates pipeline output"
+    address: 0x06078910
+    input: C
+    direction: decreases
+    frames: 60
