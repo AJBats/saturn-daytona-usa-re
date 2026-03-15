@@ -83,9 +83,14 @@ Phase 1 targets. Focus on the player physics pipeline — the code we're transpl
 
 ## Medium Priority (deepens existing knowledge)
 
-### 5. Accel delta writer — full observation of FUN_0602EF4C
+### 5. Throttle-to-speed pipeline — trace the gap
 
-- **Why**: FUN_0602EF4C writes +0xFC (accel delta, confirmed) but ALSO writes
+- **Why**: Static analysis mapped the speed pipeline end-to-end EXCEPT the
+  link between C button (g_pad_state) and car[+0x100]. The pipeline is:
+  `C button → [GAP] → car[+0x100] → FUN_0602EF4C → car[+0xFC] → sym_0602D814 → car[+0x0C]`.
+  car[+0x100] is written by FUN_0602735C (near sin/cos functions, 72 unique
+  values). The function that reads g_pad_state and eventually produces
+  car[+0x100] is the missing link. FUN_0602EF4C writes +0xFC (accel delta, confirmed) but ALSO writes
   +0x00 (493 writes, value 0x800000) and +0x5C (493 writes, 301 unique values).
   +0x00 looks like a status/flags word (only 6 unique values total: 0x0, 0x80,
   0x100, 0x800000, 0x800080, 0x800100). +0x5C has high cardinality — maybe

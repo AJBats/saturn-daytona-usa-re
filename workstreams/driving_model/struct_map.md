@@ -261,8 +261,42 @@ Sources: W=writer_map_comprehensive, C=consumer_map, S=static_hypotheses, D=init
 #### +0xFC — accel_delta (CONFIRMED)
 - **Init**: Not in dump.
 - **Writers**: FUN_0602EF4C (pc=0x0602EF4E, 493x, 406 unique). Also FUN_0602D818 (pc=0x0602D82C, 20x, const 0).
-- **Consumers**: Not in consumer map (internal to speed pipeline).
+- **Consumers**: sym_0602D814 reads +0xFC and adds to +0x0C (speed accumulator).
 - **Confirmed**: C button shifts +70/update toward positive. Writer PC: 0x0602EF4E.
+- **Pipeline position**: Written inline between calls 15 and 16 in the dispatcher. Read by call 18 (sym_0602D814). The secondary writer (FUN_0602D818, const 0) zeros the delta when speed is clamped to 0.
+
+#### +0x100 — throttle_input?
+- **Init**: Not in dump.
+- **Writers**: FUN_0602735C (pc=0x06027370, 493x, 72 unique).
+- **Pipeline**: Read by the accel delta computation (near FUN_0602EF4C). Static analysis suggests it's negated and multiplied by fixed-point constants (0x03700000, 0x02D00000) to produce force.
+- **Hypothesis**: Throttle input value. Writer FUN_0602735C is near sin/cos lookup functions — possibly a direction-projected throttle. 72 unique values = moderate resolution.
+- **GAP**: How does C button (0x0200 in g_pad_state) become car[+0x100]? The function chain between input reading and this field is unmapped. HIGH PRIORITY for Explorer.
+
+#### +0x104 — throttle_secondary?
+- **Init**: Not in dump.
+- **Writers**: FUN_0602EFDE (pc=0x0602EFE2, 493x, 66 unique: 0xE44F-0xEFxx range).
+- **Pipeline**: Also read by the accel delta computation. Multiplied by car[+0x60] and car[+0x64].
+- **Hypothesis**: Secondary throttle parameter or heading-projected force. Narrow value range (0xE44F-0xEFxx) = slowly varying signed value near -0x1xxx.
+
+### Speed Pipeline Data Flow (static, unvalidated)
+
+```
+C button (0x0200 in g_pad_state)
+    ↓ [UNKNOWN FUNCTION — gap]
+car[+0x100] (throttle input, writer FUN_0602735C)
+car[+0x104] (secondary input, writer FUN_0602EFDE)
+    ↓ FUN_0602EF4C — fixed-point multiply + accumulate
+car[+0xFC] (accel delta, CONFIRMED: +70/frame with C)
+    ↓ sym_0602D814 (pipeline call 18) — speed += accel_delta
+car[+0x0C] (speed, CONFIRMED: mph = value / 1467)
+    ↓ sym_0602D8BC (pipeline call 19) — trig-based integration
+car[+0x10] (position_x?), car[+0x18] (position_z?)
+```
+
+The gap between g_pad_state and car[+0x100] is the #1 remaining static
+analysis blocker. It requires either (a) the Explorer tracing with a
+breakpoint on car[+0x100] writes to find the writer chain, or (b)
+finding which function reads sym_06063D98 during racing.
 
 ### Surface and Terrain
 
