@@ -85,3 +85,4 @@ All scenarios: load state → hold inputs → free run.
 | Scenario | Inputs | Frames | Expected outcome |
 |----------|--------|--------|------------------|
 | **offtrack_throttle** | C (hold) | 566 | Car reaches track/grass boundary at frame 109 (27 mph). Fully on grass by frame ~110+. By frame 566: 51 mph, stuck in gear 1 with maxed RPM — suggests tire slip/traction loss on grass prevents speed buildup and gear shift. Compare memory before/at/after frame 109 for surface transition |
+| **offtrack_donut** | C (hold entire), LEFT (frame 133–439) | 439 | Throttle into grass then left turn at frame 133. Car does donuts on grass, 33 mph gear 1, no collision. Tests off-track steering + surface handling. Replay: load state → hold C → advance 133 frames → press LEFT → advance 306 frames |
