@@ -421,9 +421,9 @@ rotation helpers, waypoint following, braking, throttle, and recovery. Sega cram
 entire per-frame car update into one C file — classic 90s game dev.
 
 Boundaries confirmed by absence of cross-section references:
-- **Start**: `camera_attract_init` (0x06033BC8). Prior function `hud_subsystem_init`
+- **Start**: `FUN_06033BC8` (0x06033BC8). Prior function `FUN_06033AAC`
   (0x06033AAC) is fully self-contained.
-- **End**: `ai_recovery_handler` (0x06034DEA). Next function `smpc_cmd_init`
+- **End**: `FUN_06034DEA` (0x06034DEA). Next function `FUN_06034E20`
   (0x06034E20) is a different subsystem with zero cross-references.
 
 Internal structure — the compiler placed pool holders at intervals, with clusters
@@ -431,19 +431,19 @@ of small functions borrowing from them:
 
 | Pool holder | Cluster functions | Address range |
 |------------|-------------------|---------------|
-| `time_extend_digits` | camera_attract_init, disp_timeext_digit_{0,1,2} | 0x06033BC8–0x06033C6E |
-| `selector_group_render` | 19× disp_sel_thunk | 0x06033C6E–0x06033D76 |
-| `bonus_points_display` | 19× disp_selext_thunk, score_display_render, disp_score_* | 0x06033D76–0x06033F80 |
-| `display_frame_flush` | 9× disp_end_stub, display_frame_mgr | 0x06033F80–0x06034036 |
-| `phys_velocity_integrate` | phys_position_load | 0x06034036–0x060340C0 |
-| `phys_final_integrate` | phys_result_store, phys_perspective | 0x060340C0–0x0603411E |
-| `ai_steering_response` | phys_lighting_setup | 0x0603411E–0x06034172 |
-| `xaxis_integrate_damp` | ai_vel_x_{entry,step_a,step_b,step_c} | 0x06034172–0x060341FA |
-| `yaxis_integrate` | ai_vel_x_cleanup_{entry,a,b,c} | 0x060341FA–0x06034286 |
-| `zaxis_integrate` | ai_vel_y_{entry,step_a,step_b,step_c} | 0x06034286–0x0603430E |
-| `ai_decision_dispatch` | ai_vel_z_{entry,step_a,step_b,step_c}, ai_rot_* (11 fn) | 0x0603430E–0x060344FC |
-| `ai_car_full_init` | ai_speed_limit through ai_spawn_helper_d | 0x060344FC–0x06034708 |
-| More clusters... | vblank_handler through ai_recovery_handler | 0x06034708–0x06034E20 |
+| `FUN_06033C32` | FUN_06033BC8, disp_timeext_digit_{0,1,2} | 0x06033BC8–0x06033C6E |
+| `FUN_06033D2C` | 19× disp_sel_thunk | 0x06033C6E–0x06033D76 |
+| `FUN_06033EF6` | 19× disp_selext_thunk, FUN_06033E4A, disp_score_* | 0x06033D76–0x06033F80 |
+| `FUN_06033FF4` | 9× disp_end_stub, FUN_06033F90 | 0x06033F80–0x06034036 |
+| `FUN_0603405A` | FUN_06034036 | 0x06034036–0x060340C0 |
+| `FUN_060340DC` | FUN_060340C0, FUN_060340CE | 0x060340C0–0x0603411E |
+| `FUN_0603412E` | FUN_0603411E | 0x0603411E–0x06034172 |
+| `FUN_060341B2` | ai_vel_x_{entry,step_a,step_b,step_c} | 0x06034172–0x060341FA |
+| `FUN_06034240` | ai_vel_x_cleanup_{entry,a,b,c} | 0x060341FA–0x06034286 |
+| `FUN_060342C6` | ai_vel_y_{entry,step_a,step_b,step_c} | 0x06034286–0x0603430E |
+| `FUN_06034410` | ai_vel_z_{entry,step_a,step_b,step_c}, ai_rot_* (11 fn) | 0x0603430E–0x060344FC |
+| `FUN_06034682` | FUN_060344FC through FUN_06034678 | 0x060344FC–0x06034708 |
+| More clusters... | FUN_06034708 through FUN_06034DEA | 0x06034708–0x06034E20 |
 
 #### Consolidation approach
 

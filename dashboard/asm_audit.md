@@ -32,8 +32,8 @@ Generated: 2026-02-10
 |------|----------------|-----------|
 | ai_behavior.s | 10 | Track-following AI behavior |
 | ai_physics_pipeline.s | 19 | AI physics update pipeline |
-| car_collision.s | 1 | Car-to-car collision |
-| collision.s | 10 | General collision detection |
+| car_FUN_060316D0.s | 1 | Car-to-car collision |
+| FUN_060316D0.s | 10 | General collision detection |
 | collision_response.s | 2 | Collision response/resolution |
 | disc_loading_replay.s | 24 | CD-ROM loading, replay system |
 | display_elements.s | 9 | On-screen display element interpreter |
@@ -46,7 +46,7 @@ Generated: 2026-02-10
 | math_transform.s | 15 | 3D matrix/vector pipeline |
 | object_management.s | 9 | Car object lifecycle |
 | per_car_loop.s | 3 | Per-car update iteration |
-| player_physics.s | 10 | Player car physics pipeline |
+| FUN_0600E71A.s | 10 | Player car physics pipeline |
 | race_orchestration.s | 13 | Camera/physics/race state orchestration |
 | race_states.s | 11 | In-race state handlers (states 14-29) |
 | race_update.s | 5 | Race update dispatch |
@@ -69,7 +69,7 @@ Generated: 2026-02-10
 | render_pipeline.s | 36 | Render pipeline stages | Catalog-style, many functions unverified |
 | sound_driver.s | 8 | Low-level sound driver | Several misidentifications, busy-wait contradiction |
 | state_handlers.s | 17 | 32-state handler catalog | 6 incorrect state-to-address mappings |
-| system_init.s | 31 | System bootstrap, hardware init | Some hardware subsystem labels inaccurate |
+| FUN_060030FC.s | 31 | System bootstrap, hardware init | Some hardware subsystem labels inaccurate |
 | track_hud_extended.s | 11 | Track-specific HUD | Mixed file covering track/HUD/menus/camera |
 | ui_event_extended.s | 26 | UI event handling | Some size/stub claims wrong |
 | vdp_scene_rendering.s | 45 | VDP1/VDP2 rendering commands | High-level catalog of 72 functions |

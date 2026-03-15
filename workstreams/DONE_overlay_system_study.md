@@ -172,7 +172,7 @@ Called immediately by `_start` at 0x06003000. Executes 14+ subsystem init calls:
 | 10 | 0x06000344 | bios_callback_2 | Via function pointer, params (word, 0) |
 | 11 | 0x06005174 | obj_init | Clear animation state buffer (8 shorts) |
 | 12 | 0x0601F936 | render_init | Sound/audio system init |
-| 13 | 0x0601492C | vdp1_cmd_init | VDP1 command setup |
+| 13 | 0x0601492C | FUN_0602DC24 | VDP1 command setup |
 | 14 | 0x060149E0 | state_init | Game state flag bit setup |
 | 15 | — | set state=2 | Write 2 to *(0x0605AD10) → attract mode |
 

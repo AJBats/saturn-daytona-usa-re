@@ -91,7 +91,7 @@ def main():
 
     # The trace format is: <cycle> M/S <src_pc> <dst_pc>
     # We need to map cycles to frames. Let's use the call trace to find frame boundaries.
-    # game_update_loop or vblank_frame_handler should fire once per frame.
+    # game_update_loop or FUN_06007E08 should fire once per frame.
 
     # Actually, let's just count unique callee addresses per input/idle period.
     # Find a known per-frame function to count frames.
@@ -120,11 +120,11 @@ def main():
 
     print(f"Total calls: {len(all_calls):,}")
 
-    # Find frame boundaries using vblank_frame_handler or game_update_loop
+    # Find frame boundaries using FUN_06007E08 or game_update_loop
     # Look for a function that fires exactly once per frame
     vblank_addr = None
     for addr, name in syms.items():
-        if name == "vblank_frame_handler":
+        if name == "FUN_06007E08":
             vblank_addr = addr
             break
     if not vblank_addr:

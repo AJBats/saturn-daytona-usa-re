@@ -34,7 +34,7 @@ Only fields with emulator evidence. Offset labels come from observations, not Gh
 | Offset | Evidence | Finding |
 |--------|----------|---------|
 | +0x0C | Watchpoint + HUD correlation | Speed magnitude. HUD mph = value / 1,467. Written by FUN_0602D814 (pc=0x0602D822) for player car. |
-| +0x08 | Observed formula | Speed index: `fpmul(car[+0x0C], 0x480000)` — fixed-point multiply by 72 |
+| +0x08 | Observed formula | Speed index: `FUN_06027552(car[+0x0C], 0x480000)` — fixed-point multiply by 72 |
 | +0xFC | Watchpoint with C button | Acceleration delta. C button shifts +70/update toward positive. Writer PC: 0x0602EF4E (player path). |
 
 ## Empirical Observations (2026-03-05)
@@ -83,7 +83,7 @@ Writer PC: 0x0602EF4E (in the player-specific physics path, not FUN_0600c4f8).
 ### Speed unit conversion (CONFIRMED)
 
 Internal speed (+0x0C) → kph-ish (+0x08) → mph (HUD):
-- `car[+0x08] = fpmul(car[+0x0C], 0x480000)` — 16.16 fixed-point multiply by 72
+- `car[+0x08] = FUN_06027552(car[+0x0C], 0x480000)` — 16.16 fixed-point multiply by 72
 - HUD mph = car[+0x0C] / 1,467 (stable across 3 data points)
 - 262,577 / 1,467 = 179 mph, 258,164 / 1,467 = 176 mph, 253,749 / 1,467 = 173 mph
 

@@ -22,10 +22,10 @@ GNU sh-elf-as supports `.reloc` for emitting arbitrary relocations:
 
 ```asm
 # Before (hardcoded, breaks if layout shifts):
-.byte 0xB2, 0x17    /* bsr 0x06005DD4 (anim_frame_transform) */
+.byte 0xB2, 0x17    /* bsr 0x06005DD4 (FUN_06005DD4) */
 
 # After (linker-resolved, survives layout changes):
-.reloc ., R_SH_IND12W, anim_frame_transform - 4
+.reloc ., R_SH_IND12W, FUN_06005DD4 - 4
 .2byte 0xB000       /* BSR placeholder — linker fills displacement */
 ```
 
@@ -41,8 +41,8 @@ Properties:
 - **~100 `.global FUN_XXXXXXXX` sublabels** added to src/ and retail/
   (sub-functions within consolidated TUs that lacked labels)
 - **Golden free+4shift updated** — old golden had 2 latent wrong BSR
-  displacements in math_trig_lib (targeted garbage in MODS=1 layout)
-- **Relocatability proven**: added +16 bytes to `system_init` (first
+  displacements in FUN_060425FA (targeted garbage in MODS=1 layout)
+- **Relocatability proven**: added +16 bytes to `FUN_060030FC` (first
   function after `_start`), shifted entire binary, booted and raced laps
 
 ## Tools

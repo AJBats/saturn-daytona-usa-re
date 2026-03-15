@@ -10,9 +10,9 @@ Run: `python tools/dma_analysis.py reimpl/src --summary -o build/dma_analysis.js
 
 | Function | DMA Level | Registers | Notes |
 |---|---|---|---|
-| scu_dma_transfer | L0 | D0R | Known DMA utility function |
-| fpmul | L0 | D0R | Fixed-point multiply — uses DMA for SCU DSP? |
-| attract_cleanup | L0 | D0AD | Attract mode cleanup — DMA add mode config |
+| FUN_0603FE80 | L0 | D0R | Known DMA utility function |
+| FUN_06027552 | L0 | D0R | Fixed-point multiply — uses DMA for SCU DSP? |
+| FUN_0603FF3A | L0 | D0AD | Attract mode cleanup — DMA add mode config |
 
 0 functions reference SH-2 internal DMA registers directly.
 

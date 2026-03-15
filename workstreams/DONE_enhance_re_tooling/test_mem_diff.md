@@ -19,7 +19,7 @@ Run: `python tools/mem_diff.py before.bin after.bin --base-addr 0x06004000 --map
 Changes: 4 ranges, 22 bytes modified
   0x06004100  [byte   ]  0x2F -> 0xFF  (-48)
   0x06004200  [word   ]  0x0601 -> 0xABCD
-  0x06004400  [pointer]  0x96059505 -> 0x06008000  (-> vblank_frame_handler+0x1F4)
+  0x06004400  [pointer]  0x96059505 -> 0x06008000  (-> FUN_06007E08+0x1F4)
   0x06004801  [raw    ]  15 bytes: ...
 ```
 

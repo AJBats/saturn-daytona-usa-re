@@ -35,7 +35,7 @@ of systematic issues that affect dozens of functions each, and we fix the system
 |---|-------|----------------|-------|
 | 1 | Disc environment fidelity | Missing audio tracks (TOC) | inject_binary.py, disc rebuild |
 | 2 | Observability gaps | Cache vs backing RAM reads | Mednafen debug tools |
-| 3 | Overflow without trampoline | system_init unreachable at 0x060030FC | Every `/* overflow: goes to catchall */` in linker script |
+| 3 | Overflow without trampoline | FUN_060030FC unreachable at 0x060030FC | Every `/* overflow: goes to catchall */` in linker script |
 | 4 | Missing function definitions | FUN_06040C98 → zeros → exception | 75 functions with linker sections but no source code |
 | 5 | Memory overlay architecture | APROG overwritten by game data | Init code is single-use; most of binary is workspace |
 | 6 | Fall-through function adjacency | FUN_06040B8E→FUN_06040B90 chain broken | 371 functions (30%) in fall-through chains |
@@ -206,7 +206,7 @@ The CPU hook is enabled/disabled dynamically via `update_cpu_hook()`:
 
 **Usage pattern — breakpoint comparison** (`tools/parallel_compare.py --breakpoint-at`):
 1. Launch both Mednafen instances
-2. Set same breakpoint (e.g. `0x060030FC` — system_init entry) in both
+2. Set same breakpoint (e.g. `0x060030FC` — FUN_060030FC entry) in both
 3. `continue` both — they run until breakpoint hit
 4. Compare registers + memory at that exact instruction
 5. Identify which function/data differs first
@@ -530,7 +530,7 @@ These categories of bugs will recur. Each instance teaches a pattern.
 
 ### Class 4: Missing Function Definitions (75 functions)
 
-**Discovery**: system_init() → game_subsystem_init() → FUN_0603AC1C → FUN_06040010 →
+**Discovery**: FUN_060030FC() → game_subsystem_init() → FUN_0603AC1C → FUN_06040010 →
 `jsr FUN_06040C98` → crash (jumps into zeros, illegal instruction exception).
 
 **Root cause**: 75 functions exist in the original binary (labeled in `build/aprog.s`,
@@ -933,7 +933,7 @@ continues running).
 The reimpl successfully completes:
 - BIOS animation (SEGA logo)
 - CD loading and TOC processing
-- system_init (FUN_060030FC) — all subsystem initialization
+- FUN_060030FC (FUN_060030FC) — all subsystem initialization
 - VDP1/VDP2 setup (title screen graphics)
 - Main loop entry (32-state game machine at 0x0600300A)
 - Title screen state rendering
@@ -1004,7 +1004,7 @@ production, all data variables shift by -0x10:
 
 | Symbol | Original (prod) | Reimpl (free) | Shift |
 |--------|-----------------|---------------|-------|
-| g_game_state (game state) | 0x0605AD10 | 0x0605AD00 | -0x10 |
+| FUN_0605ACC4 (game state) | 0x0605AD10 | 0x0605AD00 | -0x10 |
 | sym_0605B6D8 (input state) | 0x0605B6D8 | 0x0605B6C8 | -0x10 |
 
 This is handled correctly by the code (all references use symbolic names, not
@@ -1044,7 +1044,7 @@ entries — fixed by pool symbolization (Sawyer L2 Phase 2). See `workstreams/sa
 
 ### Black screen despite 83.9% binary match
 - Original main function (252 bytes) at 0x06003000 — byte-identical
-- system_init at 0x060030FC — gap-patched, byte-identical
+- FUN_060030FC at 0x060030FC — gap-patched, byte-identical
 - 17/18 ASM-restored functions — byte-perfect at correct addresses
 - 91KB of data tables restored by patch_data_holes.py
 - Still black screen — root cause unknown
@@ -1053,7 +1053,7 @@ entries — fixed by pool symbolization (Sawyer L2 Phase 2). See `workstreams/sa
 ### C reimplementations in init chain
 These functions have C code instead of original bytes in the init chain:
 - `vdp_init_dispatcher` — VDP initialization
-- `sound_timer_init` — at 0x06003218, confirmed as our C code
+- `FUN_06003218` — at 0x06003218, confirmed as our C code
 - `cd_system_init` — SCSP handshake, potential hang point
 - `vdp_system_init_a` — game state init
 

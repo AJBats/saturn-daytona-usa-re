@@ -47,7 +47,7 @@ SDK Matches:
 
 ### Known Limitations
 
-- HW tag merge only matches 7/130 tagged functions. The TU file names (e.g., `vdp1_init`)
+- HW tag merge only matches 7/130 tagged functions. The TU file names (e.g., `FUN_0600A140`)
   must match either a symbol name in the map or a FUN_XXXXXXXX address. Many TU names are
   human-readable and don't appear as top-level symbols. Future: reverse-lookup via .s file
   → first .global symbol → address.

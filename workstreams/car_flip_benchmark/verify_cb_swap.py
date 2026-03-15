@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Verify RE_TEST #2: C/B swap on circuit select.
 
-Expected: B confirms (dispatch_state changes), C backs out (g_game_state -> 6).
+Expected: B confirms (dispatch_state changes), C backs out (FUN_0605ACC4 -> 6).
 """
 
 import os
@@ -37,7 +37,7 @@ def read_state(bot):
     c = read_mem(bot, 0x0607EADB, 1)
     return {
         "dispatch": d[0] if d else "?",
-        "g_game_state": int.from_bytes(g, 'big') if g else "?",
+        "FUN_0605ACC4": int.from_bytes(g, 'big') if g else "?",
         "circuit": c[0] if c else "?",
     }
 

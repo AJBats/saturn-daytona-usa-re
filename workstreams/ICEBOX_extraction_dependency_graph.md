@@ -25,9 +25,9 @@ subsystem reads/writes. Get these wrong and nothing works.
 | Force table B (aggressive) | 0x06044C90 | 85 x 12B | force_tables.s |
 | Speed curve table A | 0x060477EC | course-dep | speed_position.s |
 | Speed curve table B | 0x060454CC | course-dep | speed_position.s |
-| Steering deflection table | 0x060453CC | indexed | player_physics.s |
+| Steering deflection table | 0x060453CC | indexed | FUN_0600E71A.s |
 | Checkpoint tables | per-course | 24B/entry | lap_counting.s |
-| Track segment data | 0x060C2000 | 512B/seg | collision.s, track_geometry.s |
+| Track segment data | 0x060C2000 | 512B/seg | FUN_060316D0.s, track_geometry.s |
 | Sin/cos lookup | 0x06044000 | 1024 entries | math_helpers.s |
 | Config table (car types) | 0x06047DE4 | 12B/car | object_management.s |
 | Master flags | 0x0607EBC4 | 4 bytes | race_update.s |
@@ -65,7 +65,7 @@ The core physics step: convert velocity to position change.
 
 | Function | Size | Purpose | Documented In |
 |----------|------|---------|---------------|
-| FUN_0600C5D6 | ~150 insns | Collision detect + heading->position integration | collision.s, player_physics.s |
+| FUN_0600C5D6 | ~150 insns | Collision detect + heading->position integration | FUN_060316D0.s, FUN_0600E71A.s |
 | FUN_0600EA18 | LEAF | Track-following velocity (AI path) | ai_behavior.s, race_update.s |
 | Position integrator | inline at 0x0600E5B4 | car.X += vel_X, car.Z += vel_Z, car.heading += ang_vel | race_update.s |
 
@@ -89,10 +89,10 @@ How controller input becomes car velocity.
 | Function | Size | Purpose | Documented In |
 |----------|------|---------|---------------|
 | FUN_0600C4F8 | 178 insns | Speed curve lookup + clamping | speed_position.s, scene_camera.s |
-| FUN_060086C0 | ~200 insns | Force vector extraction from steering table | player_physics.s |
-| FUN_06008640 | inline | Gear/force table selection | player_physics.s |
-| FUN_06008318 | ~100 insns | Controller: gear shift, steering column | player_physics.s |
-| Force application | inline 0x06008730+ | Gas/brake flag -> force sign -> car struct | player_physics.s |
+| FUN_060086C0 | ~200 insns | Force vector extraction from steering table | FUN_0600E71A.s |
+| FUN_06008640 | inline | Gear/force table selection | FUN_0600E71A.s |
+| FUN_06008318 | ~100 insns | Controller: gear shift, steering column | FUN_0600E71A.s |
+| Force application | inline 0x06008730+ | Gas/brake flag -> force sign -> car struct | FUN_0600E71A.s |
 
 **Pipeline (player)**:
 ```
@@ -115,11 +115,11 @@ Car-car and car-track collision detection and response.
 
 | Function | Size | Purpose | Documented In |
 |----------|------|---------|---------------|
-| FUN_0600CD40 | ~80 insns | Checkpoint crossing detection | collision.s, lap_counting.s |
-| FUN_0600CA96 | ~100 insns | Collision response A | collision.s |
-| FUN_0600CC38 | ~80 insns | Collision response B | collision.s |
-| FUN_0600A914 | ~60 insns | Car-car collision detection | car_collision.s |
-| FUN_0600CEBA | ~120 insns | Track segment advancement & heading interp | player_physics.s |
+| FUN_0600CD40 | ~80 insns | Checkpoint crossing detection | FUN_060316D0.s, lap_counting.s |
+| FUN_0600CA96 | ~100 insns | Collision response A | FUN_060316D0.s |
+| FUN_0600CC38 | ~80 insns | Collision response B | FUN_060316D0.s |
+| FUN_0600A914 | ~60 insns | Car-car collision detection | car_FUN_060316D0.s |
+| FUN_0600CEBA | ~120 insns | Track segment advancement & heading interp | FUN_0600E71A.s |
 | FUN_0600D0B8 | ~60 insns | Position/velocity clamping | gameplay_extraction.md |
 
 **Dependencies**: Car object positions (+0x10/14/18), track segment data,
@@ -190,7 +190,7 @@ The master per-car-per-frame update that ties everything together.
 | Function | Size | Purpose | Documented In |
 |----------|------|---------|---------------|
 | FUN_0600E4F2 | ~200 insns | Mode 1: full 9-stage pipeline | object_management.s |
-| FUN_0600E71A | ~300 insns | Player physics pipeline (8 steps) | player_physics.s |
+| FUN_0600E71A | ~300 insns | Player physics pipeline (8 steps) | FUN_0600E71A.s |
 | FUN_0600E906 | ~150 insns | AI physics pipeline (5 steps) | ai_behavior.s, race_update.s |
 | FUN_0600DF66 | ~30 insns | Update mode dispatcher (0/1/2) | object_management.s |
 | FUN_0600E410 | ~50 insns | Mode 0: simplified pre-race | object_management.s |
@@ -372,10 +372,10 @@ Each tier can be tested independently before integration.
 |----------|---------|----------|
 | math_helpers.s | 1 | CRITICAL |
 | speed_position.s | 2, 3 | CRITICAL |
-| collision.s | 4 | CRITICAL |
+| FUN_060316D0.s | 4 | CRITICAL |
 | collision_response.s | 4 | CRITICAL |
-| car_collision.s | 4 | CRITICAL |
-| player_physics.s | 3, 7 | CRITICAL |
+| car_FUN_060316D0.s | 4 | CRITICAL |
+| FUN_0600E71A.s | 3, 7 | CRITICAL |
 | force_tables.s | 3 | CRITICAL |
 | force_system.s | 3 | CRITICAL |
 | ai_behavior.s | 5 | HIGH |

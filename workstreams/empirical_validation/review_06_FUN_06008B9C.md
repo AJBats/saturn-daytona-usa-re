@@ -20,10 +20,10 @@ Simple dispatcher at section .text.FUN_06008B9C (retail 0x06008B9C, free 0x06008
 5. Returns
 
 Referenced from _start.s:70 — a game state function pointer dispatch table. The table
-contains ~30 state_* entries indexed by g_game_state. This function sits at table index
+contains ~30 state_* entries indexed by FUN_0605ACC4. This function sits at table index
 that would correspond to one of the menu states.
 
-Pool also contains unreferenced entries: g_game_state, car_select_setup, sym_0605A016.
+Pool also contains unreferenced entries: FUN_0605ACC4, FUN_060198E0, sym_0605A016.
 These are constant pool data that happen to be in the section but are not loaded by
 any instruction in this function.
 
@@ -31,7 +31,7 @@ any instruction in this function.
 
 ### 1. Breakpoint didn't fire at car select (from review #5, Experiment 4)
 
-Breakpoint at 0x06008BA0, frame 3100 (g_game_state = 0x0D = car select):
+Breakpoint at 0x06008BA0, frame 3100 (FUN_0605ACC4 = 0x0D = car select):
 - frame_advance(3) completed all 3 frames
 - Function was NOT called at car select state
 
@@ -61,7 +61,7 @@ If the callees aren't car-select-related, the caller naming is doubly suspect.
 - Address: 0x06008B9C (retail), 0x06008BA0 (free)
 - Section: .text.FUN_06008B9C
 - Dispatch table entry in _start.s:70
-- Called every frame at g_game_state = 0x07 (mode select), NOT at 0x0D (car select)
+- Called every frame at FUN_0605ACC4 = 0x07 (mode select), NOT at 0x0D (car select)
 - Simple dispatcher: calls 3 functions sequentially, clears one variable, returns
 
 ## Lesson

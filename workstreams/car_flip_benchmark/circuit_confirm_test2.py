@@ -2,7 +2,7 @@
 """Test confirm/back buttons after letting circuit select settle.
 
 Hypothesis: transition animation needs to complete before B (back) is accepted.
-Also tests the flag variable that gates the button check in transition_handler_a.
+Also tests the flag variable that gates the button check in FUN_0600F794.
 """
 
 import os
@@ -22,7 +22,7 @@ WATCH_ADDRS = [
     (0x0607EADB, 1, "circuit_idx"),
     (0x06078634, 1, "mode_byte"),
     (0x06078635, 1, "display_flag"),
-    (0x0605AB18, 1, "sym_0605AB18"),  # guard in game_state_dispatch
+    (0x0605AB18, 1, "sym_0605AB18"),  # guard in FUN_0600F424
 ]
 
 

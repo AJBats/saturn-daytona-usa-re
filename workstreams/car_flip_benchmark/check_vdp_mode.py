@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check vdp_mode_select execution at car select.
+"""Check FUN_06010D94 execution at car select.
 
 Sets breakpoints at entry and past early-exit to verify if the function
 executes during car select.
@@ -16,21 +16,21 @@ from debugger_utils import DebugSession
 
 
 def main():
-    print("=== Check vdp_mode_select execution at car select ===\n")
+    print("=== Check FUN_06010D94 execution at car select ===\n")
 
     s = DebugSession("car", verbose=True)
 
-    # vdp_mode_select is at 0x06010D94
+    # FUN_06010D94 is at 0x06010D94
     # Its early exit is at 0x06010DBC (checks sym_060788A0 >= 10)
     # Body starts at 0x06010DC0
 
-    print("\n--- Setting breakpoint at vdp_mode_select entry (06010D94) ---")
+    print("\n--- Setting breakpoint at FUN_06010D94 entry (06010D94) ---")
     s.bot.set_breakpoint("06010D94")
 
     print("Continuing execution...")
     ack = s.bot.continue_to_break(timeout=10)
     if ack:
-        print(f"HIT! vdp_mode_select IS called on primary SH-2")
+        print(f"HIT! FUN_06010D94 IS called on primary SH-2")
         w = s.where()
         if w:
             print(f"  PC = 0x{w.get('pc', 0):08X} ({w.get('pc_sym', '?')})")
@@ -49,7 +49,7 @@ def main():
 
     ack = s.bot.continue_to_break(timeout=10)
     if ack:
-        print(f"HIT! vdp_mode_select body EXECUTES (past early exit)")
+        print(f"HIT! FUN_06010D94 body EXECUTES (past early exit)")
         w = s.where()
         if w:
             print(f"  PC = 0x{w.get('pc', 0):08X} ({w.get('pc_sym', '?')})")
@@ -58,10 +58,10 @@ def main():
 
     s.bot.clear_breakpoints()
 
-    # Also set BP at mat_rot_y/mat_rot_x call site to verify it's reached
-    print("\n--- Setting breakpoint at mat_rot_y/x call (approx 06010DE0) ---")
-    # The JSR @r3 for mat_rot_y is after loading .L_06010EB0
-    # Let me set BP at the actual mat_rot_x function (06026E94)
+    # Also set BP at FUN_06026EDE/FUN_06026E94 call site to verify it's reached
+    print("\n--- Setting breakpoint at FUN_06026EDE/x call (approx 06010DE0) ---")
+    # The JSR @r3 for FUN_06026EDE is after loading .L_06010EB0
+    # Let me set BP at the actual FUN_06026E94 function (06026E94)
     s.bot.set_breakpoint("06026E94")
 
     print("Advancing 1 frame...")
@@ -69,14 +69,14 @@ def main():
 
     ack = s.bot.continue_to_break(timeout=10)
     if ack:
-        print(f"HIT! mat_rot_x IS called from primary SH-2")
+        print(f"HIT! FUN_06026E94 IS called from primary SH-2")
         w = s.where()
         if w:
             print(f"  PC = 0x{w.get('pc', 0):08X} ({w.get('pc_sym', '?')})")
             print(f"  PR = 0x{w.get('pr', 0):08X} ({w.get('pr_sym', '?')})")
             print(f"  r4 = 0x{w.get('r4', 0):08X} (angle param)")
     else:
-        print("NOT HIT. mat_rot_x is not called during car select.")
+        print("NOT HIT. FUN_06026E94 is not called during car select.")
 
     s.bot.clear_breakpoints()
     s.quit()

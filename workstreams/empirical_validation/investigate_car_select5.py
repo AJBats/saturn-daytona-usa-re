@@ -48,11 +48,11 @@ def main():
     func_addr = sym_hex(name_to_addr, "car_select_input")
     index_addr = sym_hex(name_to_addr, "sym_06085FF0")
     lock_addr = sym_hex(name_to_addr, "sym_06085FF3")
-    game_state_addr = sym_hex(name_to_addr, "g_game_state")
+    game_state_addr = sym_hex(name_to_addr, "FUN_0605ACC4")
     print(f"car_select_input: 0x{func_addr}")
     print(f"sym_06085FF0: 0x{index_addr}")
     print(f"sym_06085FF3: 0x{lock_addr}")
-    print(f"g_game_state: 0x{game_state_addr}")
+    print(f"FUN_0605ACC4: 0x{game_state_addr}")
 
     trace_events = parse_trace(TRACE_FILE)
 
@@ -100,14 +100,14 @@ def main():
         print_wp_hits(hits2, addr_to_name, "DOWN on sym_06085FF4")
         bot.clear_watchpoint()
 
-    # Also try: what DOES get written during DOWN? Watch g_game_state
-    print("\n--- Watch g_game_state during DOWN ---")
+    # Also try: what DOES get written during DOWN? Watch FUN_0605ACC4
+    print("\n--- Watch FUN_0605ACC4 during DOWN ---")
     bot.set_watchpoint(game_state_addr)
     bot.input_press("DOWN")
     bot.frame_advance(5)
     bot.input_release("DOWN")
     hits3 = bot.read_watchpoint_hits()
-    print_wp_hits(hits3, addr_to_name, "DOWN on g_game_state")
+    print_wp_hits(hits3, addr_to_name, "DOWN on FUN_0605ACC4")
     bot.clear_watchpoint()
 
     # Memory diff on wider range

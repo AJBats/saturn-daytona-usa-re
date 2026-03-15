@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """One-off: check pad state + breakpoint on car_select_input at car select.
 
-1. At car select state (frame 3100, g_game_state=0x0D), dump pad state during DOWN press
+1. At car select state (frame 3100, FUN_0605ACC4=0x0D), dump pad state during DOWN press
 2. Set breakpoint on car_select_input, advance 1 frame — does it hit?
 3. Also check what value the lock flag branch check produces
 """
@@ -35,13 +35,13 @@ def main():
     func_addr = sym_hex(name_to_addr, "car_select_input")
     lock_addr = sym_hex(name_to_addr, "sym_06085FF3")
     index_addr = sym_hex(name_to_addr, "sym_06085FF0")
-    game_state_addr = sym_hex(name_to_addr, "g_game_state")
+    game_state_addr = sym_hex(name_to_addr, "FUN_0605ACC4")
     state_active_addr = sym_hex(name_to_addr, "state_car_select_active")
     print(f"g_pad_state: 0x{pad_addr}")
     print(f"car_select_input: 0x{func_addr}")
     print(f"sym_06085FF3 (lock): 0x{lock_addr}")
     print(f"sym_06085FF0 (index): 0x{index_addr}")
-    print(f"g_game_state: 0x{game_state_addr}")
+    print(f"FUN_0605ACC4: 0x{game_state_addr}")
     print(f"state_car_select_active: 0x{state_active_addr}")
 
     trace_events = parse_trace(TRACE_FILE)
@@ -114,7 +114,7 @@ def main():
         print("\n--- TEST 3: state_car_select_active not found ---")
 
     # --- Test 4: Check game_state at several frames to understand the state machine ---
-    print(f"\n--- TEST 4: g_game_state scan ---")
+    print(f"\n--- TEST 4: FUN_0605ACC4 scan ---")
     dump_bytes(bot, game_state_addr, 4, results_dir, "game_state_current")
 
     # Also check: what state was mode select?

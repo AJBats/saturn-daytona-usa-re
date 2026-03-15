@@ -6,25 +6,25 @@ Two execution contexts share one CPU via hardware interrupts.
 
 Runs once per frame. Handles game state logic:
 - `per_frame_update` — CD reads, AI section updates, timers
-- State handler (varies by game state, e.g. `state_course_select_active`)
+- State handler (varies by game state, e.g. `FUN_06008B34`)
 
 Finishes early during menus. Heavy during racing (physics, collision, AI).
 
-## "Render thread" — Timer interrupt (framebuf_swap_ctrl)
+## "Render thread" — Timer interrupt (FUN_060072E6)
 
 FRT Output Compare A interrupt. Fires **334 times per frame** (~50us interval).
 Preempts main loop, runs handler, returns via RTE.
 
 Most firings are no-ops (check flag, return). A few per frame do real work:
-- `vblank_out_handler` — controller input (SMPC), VBlank processing
-- `master_menu_render` — rendering, animation, scene dispatch
+- `FUN_06007268` — controller input (SMPC), VBlank processing
+- `FUN_0603990E` — rendering, animation, scene dispatch
 - `button_input_read` — input → scene routing
 
 Rendering and input happen IN the interrupt context, not from the main loop.
 
 ## Timer math
 
-- OCRA = 0x0166 (358 cycles), set in `system_init.s`
+- OCRA = 0x0166 (358 cycles), set in `FUN_060030FC.s`
 - CPU = 28.636 MHz (NTSC), 4x prescaler = 7.159 MHz
 - 358 / 7.159 MHz = ~50us per interrupt
 - 16.667ms (60Hz frame) / 50us = **334.1 interrupts/frame**
@@ -43,6 +43,6 @@ No explicit synchronization — interrupt preempts main loop atomically.
 
 ## Orphan roots in call graphs
 
-Call trace captures JSR/BSR only. `framebuf_swap_ctrl` appears as a disconnected
+Call trace captures JSR/BSR only. `FUN_060072E6` appears as a disconnected
 root because it's an interrupt handler (no JSR calls it — hardware vectors to it).
 Functions reached via BRA/BT/BF (branches, tail calls) also appear as orphan roots.

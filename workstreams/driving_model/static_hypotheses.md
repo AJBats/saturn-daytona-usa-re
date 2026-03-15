@@ -48,10 +48,10 @@ The label "player physics" was misleading — renamed to "normal mode".
 - NOTE: This processes cars 1..N in the loop, NOT car 0 (player). Car 0's speed is
   written by FUN_0602D814 via a separate code path (~0x0602EF00).
 - Reads car[+0x08] as index into two tables (0x060477EC and 0x060454CC)
-- Acceleration = table difference, scaled by fpmul with car[+0x198]
+- Acceleration = table difference, scaled by FUN_06027552 with car[+0x198]
 - Clamped between -4014 and half the scaled value
 - Updates car[+0x0C] (speed): `+= acceleration`, floored at 0
-- Then: `car[+0x08] = fpmul(car[+0x0C], 0x480000)` — converts speed back to table index
+- Then: `car[+0x08] = FUN_06027552(car[+0x0C], 0x480000)` — converts speed back to table index
 - Decrements car[+0xD4] timer if > 0
 **Verification plan**: Watchpoint car[+0x0C] during acceleration. Should see it increase frame by frame.
 

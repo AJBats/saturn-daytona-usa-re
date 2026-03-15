@@ -88,11 +88,11 @@ def main():
 
     print(f"Total calls: {len(all_calls):,}")
 
-    # Find frame boundaries — car select doesn't use vblank_frame_handler,
-    # use vblank_out_handler instead (fires once per vblank)
+    # Find frame boundaries — car select doesn't use FUN_06007E08,
+    # use FUN_06007268 instead (fires once per vblank)
     vblank_addr = None
     for addr, name in syms.items():
-        if name == "vblank_out_handler":
+        if name == "FUN_06007268":
             vblank_addr = addr
             break
 

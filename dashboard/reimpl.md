@@ -83,16 +83,16 @@
 | VBlank/Frame | 5 | vblank_in_handler, frame_end_display_commit |
 | Race States | 11 | state_14_first_frame_race, state_15_main_race_loop |
 | Collision | 15 | car_collision_response, collision_response_dispatcher |
-| Physics/Force | 12 | gas_force_apply, steering_physics_update |
+| Physics/Force | 12 | FUN_060081F4, steering_physics_update |
 | Camera/Scene | 16 | camera_position_lerping, race_state_machine |
-| Rendering | 25 | scene_setup_master, projection_manager |
+| Rendering | 25 | FUN_0602382C, projection_manager |
 | VDP1 Commands | 12 | vdp1_sprite_command_gen, vdp1_command_builder |
 | VDP2/Palette | 8 | vdp2_register_setup, palette_init |
-| Sound | 14 | sound_cmd_dispatch, engine_sound_generator |
-| Math/DMA | 10 | math_sin_cos, scu_dma_transfer |
+| Sound | 14 | FUN_0601D5F4, engine_sound_generator |
+| Math/DMA | 10 | math_sin_cos, FUN_0603FE80 |
 | HUD/Menu | 7 | race_hud_orchestrator, timer_display |
 | Lap/Track | 17 | checkpoint_change_detect, track_geometry_processor |
-| Object Mgmt | 12 | race_init_master, per_car_update_loop |
+| Object Mgmt | 12 | FUN_0600EB14, per_car_update_loop |
 | Other | 6 | smpc_intback_trigger, replay_camera_controller |
 | **Total** | **220** | |
 

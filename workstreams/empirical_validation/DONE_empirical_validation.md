@@ -131,14 +131,14 @@ look: does the name match what the function *actually does* per the evidence?
 | # | Function | File | Verdict | Notes |
 |---|----------|------|---------|-------|
 | 1 | ~~viewport_coord_calc~~ | controller_input_update.s | RENAMED | -> controller_input_update (+ 3 related renames) |
-| 2 | mode_select_handler | mode_select_handler.s | GOOD | Name correct; fixed comments (0x0100=B back, not confirm). Renamed sym_0605AD10 -> g_game_state. |
+| 2 | mode_select_handler | mode_select_handler.s | GOOD | Name correct; fixed comments (0x0100=B back, not confirm). Renamed sym_0605AD10 -> FUN_0605ACC4. |
 | 3 | ~~track_seg_phys_init~~ | FUN_06019928.s | RENAMED | → FUN_06019928. Called every frame during menu idle (polls flag). Name implied track physics — inconsistent with menu polling behavior. |
-| 4 | ~~button_input_read~~ | FUN_06006F3C.s | RENAMED | → FUN_06006F3C. Zero connection to button input. Reads flag word (sym_0605B6D8) set by frame_end_commit, dispatches DMA/display work, clears flags. Deferred work dispatcher. |
+| 4 | ~~button_input_read~~ | FUN_06006F3C.s | RENAMED | → FUN_06006F3C. Zero connection to button input. Reads flag word (sym_0605B6D8) set by FUN_060078DC, dispatches DMA/display work, clears flags. Deferred work dispatcher. |
 | 5 | ~~car_select_input~~ | FUN_06019A48.s | RENAMED | → FUN_06019A48. Could not observe input processing at any game state. Breakpoint didn't fire at car select. VERIFIED claim not reproducible. |
-| 6 | ~~state_car_select_active~~ | FUN_06008B9C.s | RENAMED | → FUN_06008B9C. Breakpoint didn't fire at car select (g_game_state=0x0D). Call-trace shows 10x during idle mode select — VERIFIED comment ("not present in idle") contradicts its own data. |
+| 6 | ~~state_car_select_active~~ | FUN_06008B9C.s | RENAMED | → FUN_06008B9C. Breakpoint didn't fire at car select (FUN_0605ACC4=0x0D). Call-trace shows 10x during idle mode select — VERIFIED comment ("not present in idle") contradicts its own data. |
 | 7 | ~~race_countdown_timer~~ | FUN_0600F870.s | REVERTED | Bulk revert — VERIFIED evidence insufficient for name confidence. |
 | 8 | ~~transition_medium_a~~ | FUN_0600FD8A.s | REVERTED | Bulk revert — VERIFIED evidence insufficient for name confidence. |
-| 9 | ~~player_physics_main~~ | FUN_0600E71A.s | REVERTED | Bulk revert — VERIFIED evidence insufficient for name confidence. |
+| 9 | ~~FUN_0600E71A~~ | FUN_0600E71A.s | REVERTED | Bulk revert — VERIFIED evidence insufficient for name confidence. |
 | 10 | ~~gear_shift_handler~~ | FUN_06008318.s | REVERTED | Bulk revert — VERIFIED evidence insufficient for name confidence. |
 | 11 | ~~collision_passive~~ (~~friction_stub~~) | FUN_0600D12C.s | REVERTED | Bulk revert — VERIFIED evidence insufficient for name confidence. |
 | 12 | ~~accel_response~~ | FUN_0600C4F8.s | REVERTED | Bulk revert — VERIFIED evidence insufficient for name confidence. |
@@ -151,16 +151,16 @@ look: does the name match what the function *actually does* per the evidence?
 | 19 | ~~clip_region_test~~ | FUN_0602D8C6.s | REVERTED | Bulk revert — VERIFIED evidence insufficient for name confidence. |
 | 20 | ~~render_orchestrator~~ | FUN_0602EEB8.s | REVERTED | Bulk revert — VERIFIED evidence insufficient for name confidence. |
 | 21 | ~~vdp1_display_submit~~ | FUN_0602D43C.s | REVERTED | Bulk revert — VERIFIED evidence insufficient for name confidence. |
-| 22 | ~~hud_element_draw~~ | hud_sound_trigger.s | RENAMED | → hud_sound_trigger. Only calls sound_cmd_dispatch. Zero drawing code. |
-| 23 | ~~transform_matrix~~ | mat_rot_x.s | RENAMED | → mat_rot_x. X-axis rotation, same pattern as mat_rot_y/mat_rot_z. |
-| 24 | ~~ai_section_transition~~ | game_update_loop.s | RENAMED | → cd_block_read_safe. Reads CD Block CR1-CR4 (0x25890018-24), not AI. |
-| 25 | ~~ai_section_update~~ | game_update_loop.s | RENAMED | → cd_block_read_atomic. Inner interrupt-masked double-read helper. |
+| 22 | ~~hud_element_draw~~ | FUN_06010B54.s | RENAMED | → FUN_06010B54. Only calls FUN_0601D5F4. Zero drawing code. |
+| 23 | ~~transform_matrix~~ | FUN_06026E94.s | RENAMED | → FUN_06026E94. X-axis rotation, same pattern as FUN_06026EDE/FUN_06026F2A. |
+| 24 | ~~ai_section_transition~~ | game_update_loop.s | RENAMED | → FUN_060349C4. Reads CD Block CR1-CR4 (0x25890018-24), not AI. |
+| 25 | ~~ai_section_update~~ | game_update_loop.s | RENAMED | → FUN_06034A10. Inner interrupt-masked double-read helper. |
 
 **Progress: 25/25** (24 renamed/reverted, 1 confirmed good)
 
 ### Working Theories (unverified, tracking as we go)
 
-- **sym_06059F44**: Likely `g_vblank_out_count` — cleared to 0 by mode_select_handler on B press, written by vblank_out_handler. Needs direct watchpoint evidence to confirm.
+- **sym_06059F44**: Likely `g_vblank_out_count` — cleared to 0 by mode_select_handler on B press, written by FUN_06007268. Needs direct watchpoint evidence to confirm.
 
 ---
 
@@ -170,7 +170,7 @@ look: does the name match what the function *actually does* per the evidence?
 
 - [x] Mode Select DOWN handler → `mode_select_handler` (2026-02-27, watchpoint)
 - [x] Mode Select UP handler → `mode_select_handler` (2026-02-28, watchpoint)
-- [ ] Mode Select C (confirm) → originally attributed to `car_select_setup` but PC trace shows 0 hits; VERIFIED tag struck
+- [ ] Mode Select C (confirm) → originally attributed to `FUN_060198E0` but PC trace shows 0 hits; VERIFIED tag struck
 - [ ] Circuit Select LEFT/RIGHT handler — handler code reuses mode_select_handler, browsing done by dispatched renderer
 - [x] Circuit Select C (confirm) → activates `race_countdown_timer` (2026-02-28, call-trace)
 - [ ] Car Select input → `car_select_input` claim NOT reproducible (2026-03-01, watchpoint + breakpoint). Renamed to FUN_06019A48.
@@ -178,7 +178,7 @@ look: does the name match what the function *actually does* per the evidence?
 
 ### Priority 2: Race Input Handlers (need to reach racing state)
 
-- [x] Physics pipeline → `player_physics_main` + 6 sub-functions (2026-02-28, call-trace)
+- [x] Physics pipeline → `FUN_0600E71A` + 6 sub-functions (2026-02-28, call-trace)
 - [x] Button state writer → `controller_input_update` writes g_pad_state (2026-02-28, watchpoint)
 - [ ] Steering input reader — which function reads LEFT/RIGHT and applies to heading
 - [ ] Gas (acceleration) handler — targeted investigation pending
@@ -233,7 +233,7 @@ differ from runtime addresses in free build (e.g. 0x0605D1FC). All lookups now u
 | Finding | Method | Evidence |
 |---------|--------|----------|
 | mode_select_handler handles DOWN + UP | watchpoint on sym_0605D244 | DOWN: PC=0x0601975A writes index; UP: PC=0x060197B8 writes index |
-| ~~car_select_setup sets init flag on C~~ | ~~watchpoint on sym_06085FF1~~ | STRUCK — PC trace shows 0 hits in 441K instructions. Watchpoint evidence was at wrong address or misattributed. |
+| ~~FUN_060198E0 sets init flag on C~~ | ~~watchpoint on sym_06085FF1~~ | STRUCK — PC trace shows 0 hits in 441K instructions. Watchpoint evidence was at wrong address or misattributed. |
 | FUN_06019928 clears flag byte | watchpoint on sym_06085FF1 | PC=0x06019A16 writes 1→0 after one-shot work |
 | sym_06028400 called 13x more during DOWN | call-trace | Only function with increased calls during DOWN press |
 
@@ -243,7 +243,7 @@ differ from runtime addresses in free build (e.g. 0x0605D1FC). All lookups now u
 |---------|--------|----------|
 | race_countdown_timer activated on C | call-trace | 9 calls during C, 0 during idle [NEW] |
 | Memory scan 0x0605D100-0x0605D300 found nothing for RIGHT | memory-diff | Circuit index not in this region |
-| fpmul/sincos_pair/sprite_anim_render increase during RIGHT | call-trace | 3D preview animation response |
+| FUN_06027552/sincos_pair/FUN_060100A4 increase during RIGHT | call-trace | 3D preview animation response |
 
 #### Car Select (call-trace evidence)
 
@@ -257,12 +257,12 @@ differ from runtime addresses in free build (e.g. 0x0605D1FC). All lookups now u
 
 | Finding | Method | Evidence |
 |---------|--------|----------|
-| player_physics_main pipeline: 6 sub-functions run 3x more during steering | call-trace | All show +78 delta (39→117 calls during LEFT) |
+| FUN_0600E71A pipeline: 6 sub-functions run 3x more during steering | call-trace | All show +78 delta (39→117 calls during LEFT) |
 | Physics sub-functions: gear_shift_handler, friction_stub, accel_response, player_collision, heading_smooth_gentle, ai_speed_trampoline, track_segment_advance, track_pos_query | call-trace | Same +78 delta confirms batch invocation |
 | controller_input_update writes button state struct | watchpoint on g_pad_state | 4 PCs within function write during LEFT |
 | sym_06078900 = player car struct | memory-diff | 87 bytes change during LEFT steering |
-| Rendering pipeline increase during steering | call-trace | transform_pipeline, scene_render_alt, mat_vec_transform, render_list_builder all increase |
-| Math functions spike during steering | call-trace | fpmul +496, fpdiv_setup +196, atan_piecewise +186, atan2 +182 |
+| Rendering pipeline increase during steering | call-trace | FUN_060279B0, FUN_06027EDE, FUN_06026FFC, FUN_06022820 all increase |
+| Math functions spike during steering | call-trace | FUN_06027552 +496, fpdiv_setup +196, atan_piecewise +186, atan2 +182 |
 
 **Total VERIFIED tags added**: 19 files (was 1)
 **Status**: All tags validated — 3-class build validation PASS

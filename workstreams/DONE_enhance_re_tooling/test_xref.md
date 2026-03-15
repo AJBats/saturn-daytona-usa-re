@@ -17,9 +17,9 @@ Run: `python tools/xref.py reimpl/src --summary -o build/xrefs.json`
 | sym_06028400 | 62 | Core render/update loop |
 | sym_0607E944 | 61 | Game state variable |
 | sym_0607EAD8 | 60 | Game state variable |
-| sound_cmd_dispatch | 58 | Sound command hub |
+| FUN_0601D5F4 | 58 | Sound command hub |
 | sym_0607E940 | 55 | Game state variable |
-| g_game_state | 41 | Game state enum |
+| FUN_0605ACC4 | 41 | Game state enum |
 | sym_06026CE0 | 39 | Render subsystem |
 | memcpy_word_idx | 39 | Memory copy utility |
 | g_pad_state | 35 | Controller input state |
@@ -29,16 +29,16 @@ Run: `python tools/xref.py reimpl/src --summary -o build/xrefs.json`
 
 | Function | Refs | Notes |
 |---|---|---|
-| vdp2_config_extended | 65 | VDP2 setup touches many config symbols |
-| geom_output_main | 53 | Geometry pipeline — wide data access |
-| engine_init_global | 47 | Initialization — touches everything |
-| master_menu_render | 47 | Menu rendering — many sprites/strings |
-| mega_render_func | 46 | Main render pipeline |
+| FUN_06018A3C | 65 | VDP2 setup touches many config symbols |
+| FUN_0601F9CC | 53 | Geometry pipeline — wide data access |
+| FUN_06004A98 | 47 | Initialization — touches everything |
+| FUN_0603990E | 47 | Menu rendering — many sprites/strings |
+| FUN_06029740 | 46 | Main render pipeline |
 
-### Query Example: g_game_state
+### Query Example: FUN_0605ACC4
 
-41 functions reference `g_game_state`, including all `state_*` functions
-(state machine handlers), `mode_select_handler`, `attract_init_body`, etc.
+41 functions reference `FUN_0605ACC4`, including all `state_*` functions
+(state machine handlers), `mode_select_handler`, `FUN_0600893C`, etc.
 This directly maps the game state machine architecture.
 
 ### Static Memory R/W Approximation
@@ -56,4 +56,4 @@ provides 80% of the value without C++ changes.
 ## Verdict: PASS
 
 Cross-reference analysis works correctly. 5914 reference edges mapped.
-`g_game_state` query immediately reveals the state machine architecture.
+`FUN_0605ACC4` query immediately reveals the state machine architecture.

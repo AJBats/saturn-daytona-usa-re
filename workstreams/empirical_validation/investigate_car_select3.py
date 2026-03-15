@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """One-off: find car select game state + test input at correct frame.
 
-We know g_game_state=0x0D at frame 3625 (past car select).
+We know FUN_0605ACC4=0x0D at frame 3625 (past car select).
 Try frame 3100 which should be mid-car-select per golden trace.
 """
 
@@ -49,11 +49,11 @@ def print_wp_hits(hits, addr_to_name, label):
 def main():
     addr_to_name, name_to_addr = load_symbols()
 
-    game_state_addr = sym_hex(name_to_addr, "g_game_state")
+    game_state_addr = sym_hex(name_to_addr, "FUN_0605ACC4")
     index_addr = sym_hex(name_to_addr, "sym_06085FF0")
     lock_addr = sym_hex(name_to_addr, "sym_06085FF3")
     func_addr = sym_hex(name_to_addr, "car_select_input")
-    print(f"g_game_state: 0x{game_state_addr}")
+    print(f"FUN_0605ACC4: 0x{game_state_addr}")
     print(f"sym_06085FF0 (index): 0x{index_addr}")
     print(f"sym_06085FF3 (lock): 0x{lock_addr}")
     print(f"car_select_input: 0x{func_addr}")
@@ -137,15 +137,15 @@ def main():
     dump_bytes(bot, index_addr, 8, results_dir, "car_vars_after_right")
     bot.clear_watchpoint()
 
-    # Also check: does g_game_state change if we press C?
-    print("\n--- Watchpoint on g_game_state during C (5 frames) ---")
+    # Also check: does FUN_0605ACC4 change if we press C?
+    print("\n--- Watchpoint on FUN_0605ACC4 during C (5 frames) ---")
     dump_bytes(bot, game_state_addr, 4, results_dir, "game_state_before_C")
     bot.set_watchpoint(game_state_addr)
     bot.input_press("C")
     bot.frame_advance(5)
     bot.input_release("C")
     hits4 = bot.read_watchpoint_hits()
-    print_wp_hits(hits4, addr_to_name, "WATCHPOINT: C on g_game_state")
+    print_wp_hits(hits4, addr_to_name, "WATCHPOINT: C on FUN_0605ACC4")
     dump_bytes(bot, game_state_addr, 4, results_dir, "game_state_after_C")
     bot.clear_watchpoint()
 

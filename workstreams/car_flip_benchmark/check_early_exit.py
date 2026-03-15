@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Check if race_position_track hits early exit during car select.
+"""Check if FUN_06010F04 hits early exit during car select.
 
 Reads sym_060788A4 (the gate variable) at the car select screen to determine
-whether race_position_track exits early (gate >= 10) or executes its body.
+whether FUN_06010F04 exits early (gate >= 10) or executes its body.
 """
 
 import os
@@ -17,7 +17,7 @@ from debugger_utils import DebugSession
 
 
 def main():
-    print("=== Checking race_position_track early exit gate ===\n")
+    print("=== Checking FUN_06010F04 early exit gate ===\n")
 
     # Boot to car select state
     s = DebugSession("car", verbose=True)
@@ -35,7 +35,7 @@ def main():
             print(f"\nsym_060788A4 = 0x{gate_val:08X} ({gate_val} decimal)")
             print(f"Early exit condition: gate >= 10 (0xA)")
             if gate_val >= 10:
-                print(f">>> EARLY EXIT IS TAKEN! race_position_track skips its body!")
+                print(f">>> EARLY EXIT IS TAKEN! FUN_06010F04 skips its body!")
                 print(f">>> This explains why ALL 6 experiments had zero effect.")
             else:
                 print(f">>> Function body EXECUTES (gate < 10).")
@@ -55,7 +55,7 @@ def main():
             print(f"\nsym_0607884C = 0x{val:08X} ({val} decimal)")
 
     # Now set a breakpoint at the function entry to verify it's actually called
-    print("\n=== Setting breakpoint at race_position_track (06010F04) ===")
+    print("\n=== Setting breakpoint at FUN_06010F04 (06010F04) ===")
     bp_result = s.bot.set_breakpoint("06010F04")
     print(f"Breakpoint set: {bp_result}")
 

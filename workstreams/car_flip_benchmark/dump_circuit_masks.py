@@ -2,7 +2,7 @@
 """Dump circuit select button mask values from running emulator.
 
 Loads save state (circuit select screen) and reads the 4 button masks
-that game_state_dispatch uses to map buttons to circuit selections.
+that FUN_0600F424 uses to map buttons to circuit selections.
 """
 
 import os

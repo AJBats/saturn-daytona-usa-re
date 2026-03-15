@@ -5,7 +5,7 @@ Source: Ghidra MCP decompilation of daytona_data.iso (2026-03-04)
 ## Frame-Level Entry Points
 
 ```
-FUN_0600c010 (scene_render_body) — per-frame racing orchestrator
+FUN_0600c010 (FUN_0600C010) — per-frame racing orchestrator
   ├─ FUN_060058fa
   ├─ FUN_0601bdec
   ├─ FUN_0602e610
@@ -21,7 +21,7 @@ FUN_0600c010 (scene_render_body) — per-frame racing orchestrator
 ## Car Iteration Loop
 
 ```
-FUN_0600e0c0 (car_update_racing) — iterates cars 1..car_count
+FUN_0600e0c0 (FUN_0600E0C0) — iterates cars 1..car_count
   │
   │  for (i = 1; i < car_count; i++):
   │    car_ptr = base + i * 0x268
@@ -54,7 +54,7 @@ NOTE: Despite the name, this does NOT process the player (car 0).
 Car 0 has its own path at ~0x0602EF00 → FUN_0602D814.
   │
   ├─ [1] FUN_0600d266  — empty (NOP function, no-op)
-  ├─ [2] FUN_0600c4f8  — calls fpmul (06027552)
+  ├─ [2] FUN_0600c4f8  — calls FUN_06027552 (06027552)
   ├─ [3] FUN_0600c5d6  — CORE steering/forces/collision
   │       ├─ FUN_0600cd40  — track position query → FUN_0602744c
   │       ├─ FUN_0600ca96  — friction/drag (leaf)
@@ -85,7 +85,7 @@ Car 0 has its own path at ~0x0602EF00 → FUN_0602D814.
 FUN_0600e906 — AI physics orchestrator
   │
   ├─ FUN_0600d266  — empty (shared with player)
-  ├─ FUN_06027552  — fpmul (shared)
+  ├─ FUN_06027552  — FUN_06027552 (shared)
   ├─ FUN_0600c74e  — AI core (equivalent of player's c5d6)
   │    ├─ FUN_0600c970  — AI-SPECIFIC (no player equivalent)
   │    ├─ FUN_0600cd40  — track position query (shared)

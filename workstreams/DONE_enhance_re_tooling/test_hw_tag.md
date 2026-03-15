@@ -30,11 +30,11 @@ Run: `python tools/hw_tag.py reimpl/src --summary -o build/hw_tags.json`
 
 ### Spot-Check Validation
 
-- `sound_scsp_boot`: Tagged scu_dsp (0x25A00000, 0x25A03000, 0x25A10000) — CORRECT, boots sound DSP
-- `vdp1_init`: Tagged vdp1_vram, vdp1_fb, cs0, cs2 — CORRECT for vdp1, cs0/cs2 may be data constants
-- `smpc_peripheral_query`: NOT tagged — its SMPC access is via `sym_` indirection, not raw address
-- `scu_dma_transfer`: Tagged scu_reg — CORRECT (0x25FE000C is SCU DMA register)
-- `vdp2_register_init`: 35 VDP2 references — CORRECT, this is the VDP2 register init function
+- `FUN_06012E6A`: Tagged scu_dsp (0x25A00000, 0x25A03000, 0x25A10000) — CORRECT, boots sound DSP
+- `FUN_0600A140`: Tagged vdp1_vram, vdp1_fb, cs0, cs2 — CORRECT for vdp1, cs0/cs2 may be data constants
+- `FUN_06035D5A`: NOT tagged — its SMPC access is via `sym_` indirection, not raw address
+- `FUN_0603FE80`: Tagged scu_reg — CORRECT (0x25FE000C is SCU DMA register)
+- `FUN_06003578`: 35 VDP2 references — CORRECT, this is the VDP2 register init function
 
 ### Known Limitation
 

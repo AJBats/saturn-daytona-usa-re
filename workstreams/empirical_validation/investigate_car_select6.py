@@ -47,11 +47,11 @@ def main():
 
     func_addr = sym_hex(name_to_addr, "car_select_input")
     index_addr = sym_hex(name_to_addr, "sym_06085FF0")
-    game_state_addr = sym_hex(name_to_addr, "g_game_state")
+    game_state_addr = sym_hex(name_to_addr, "FUN_0605ACC4")
     pad_addr = sym_hex(name_to_addr, "g_pad_state")
     print(f"car_select_input: 0x{func_addr}")
     print(f"sym_06085FF0: 0x{index_addr}")
-    print(f"g_game_state: 0x{game_state_addr}")
+    print(f"FUN_0605ACC4: 0x{game_state_addr}")
 
     trace_events = parse_trace(TRACE_FILE)
 
@@ -123,13 +123,13 @@ def main():
     bot.clear_watchpoint()
 
     # --- Test C (confirm) ---
-    print("\n--- Watchpoint on g_game_state during C (5 frames) ---")
+    print("\n--- Watchpoint on FUN_0605ACC4 during C (5 frames) ---")
     bot.set_watchpoint(game_state_addr)
     bot.input_press("C")
     bot.frame_advance(5)
     bot.input_release("C")
     hits3 = bot.read_watchpoint_hits()
-    print_wp_hits(hits3, addr_to_name, "C on g_game_state at car select")
+    print_wp_hits(hits3, addr_to_name, "C on FUN_0605ACC4 at car select")
     bot.clear_watchpoint()
 
     # --- Broad memory diff during RIGHT ---

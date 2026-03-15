@@ -62,13 +62,13 @@ SET DAYTONA DISC!, DAYTONA UMA/UMA2, SEGA LOGO
 | "a race course." | loc_0604C538, sym_0604D808 |
 | "PLEASE DELETE..." | loc_0604C6A8, sym_0604D808 |
 | "SAVED CORRECTLY" | loc_0604C7C0, sym_0604D808 |
-| "Blue blue skies I see" | DAT_06010c4e, hud_main_draw |
+| "Blue blue skies I see" | DAT_06010c4e, FUN_060116BC |
 | "I wanna fly sky high" | sym_0605BB74 |
 | "Let's go together" | sym_0605BB74 |
-| Song lyrics | position_vel_limiter, file_data_parse, file_format_parse |
+| Song lyrics | FUN_060122F4, FUN_06012344, FUN_06012454 |
 
 ## Verdict: PASS
 
 The scanner correctly identifies game strings and filters opcode noise.
 Pool reference resolution with symbol map works. Song lyrics referenced from
-hud_main_draw confirms karaoke display code.
+FUN_060116BC confirms karaoke display code.

@@ -108,7 +108,7 @@ def main():
                     for ch_addr, old, new, sym in changes:
                         print(f"    0x{ch_addr:08X}: 0x{old:02X} -> 0x{new:02X}{sym}")
 
-        # Check transition_handler_a's pool variables specifically
+        # Check FUN_0600F794's pool variables specifically
         # sym_06063750 (from pool), sym_0607EADC, sym_0607EBCC
         extra_addrs = [
             (0x06063748, 0x10, "sym_06063750 area"),

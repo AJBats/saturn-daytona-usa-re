@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Check what secondary SH-2 callback is set during car select.
 
-Reads sym_06063574 (the callback pointer that slave_main_loop calls)
+Reads sym_06063574 (the callback pointer that FUN_06034F08 calls)
 to determine which function the secondary SH-2 executes.
 """
 
@@ -37,12 +37,12 @@ def main():
             print(f"\nsym_06063574 (secondary callback) = 0x{callback:08X}")
             print(f"  Symbol: {sym_name}")
 
-            # Check if it's race_position_track
-            rpt_addr = name_to_addr.get("race_position_track")
+            # Check if it's FUN_06010F04
+            rpt_addr = name_to_addr.get("FUN_06010F04")
             if rpt_addr:
                 print(f"\nrace_position_track is at: 0x{rpt_addr:08X}")
                 if callback == rpt_addr:
-                    print(">>> MATCH! Secondary SH-2 IS running race_position_track")
+                    print(">>> MATCH! Secondary SH-2 IS running FUN_06010F04")
                 else:
                     print(">>> MISMATCH! Secondary SH-2 is running something ELSE")
 
@@ -64,7 +64,7 @@ def main():
                 val = struct.unpack(">I", data[:4])[0]
                 print(f"  {name} = 0x{val:08X} ({val})")
 
-    # Check sym_0608A52C (used as display list pointer in race_position_track)
+    # Check sym_0608A52C (used as display list pointer in FUN_06010F04)
     mp = os.path.join(s.results_dir, "_var_0608A52C.bin")
     s.bot.dump_mem_bin("0608A52C", "4", mp)
     time.sleep(0.3)

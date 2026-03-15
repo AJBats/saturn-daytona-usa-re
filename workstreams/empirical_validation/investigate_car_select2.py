@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """One-off: deeper investigation of car_select_input.
 
-1. Check g_game_state at frame 3625 to confirm which state we're in
+1. Check FUN_0605ACC4 at frame 3625 to confirm which state we're in
 2. Try earlier stop point (right after circuit select C at ~frame 2700)
 3. Watchpoint on sym_06085FF0 at that earlier point during DOWN
 """
@@ -68,12 +68,12 @@ def replay_to_frame(bot, target_frame, trace_events):
 def main():
     addr_to_name, name_to_addr = load_symbols()
 
-    game_state_addr = sym_hex(name_to_addr, "g_game_state")
+    game_state_addr = sym_hex(name_to_addr, "FUN_0605ACC4")
     index_addr = sym_hex(name_to_addr, "sym_06085FF0")
     lock_addr = sym_hex(name_to_addr, "sym_06085FF3")
     func_addr = sym_hex(name_to_addr, "car_select_input")
     pad_addr = sym_hex(name_to_addr, "g_pad_state")
-    print(f"g_game_state: 0x{game_state_addr}")
+    print(f"FUN_0605ACC4: 0x{game_state_addr}")
     print(f"sym_06085FF0 (index): 0x{index_addr}")
     print(f"sym_06085FF3 (lock): 0x{lock_addr}")
     print(f"car_select_input: 0x{func_addr}")
@@ -189,14 +189,14 @@ def main():
     dump_bytes(bot2, index_addr, 8, results_dir, "car_vars_after_down_3100")
     bot2.clear_watchpoint()
 
-    # Also try C button (confirm) watchpoint on g_game_state
-    print(f"\n--- Watchpoint on g_game_state during C press ---")
+    # Also try C button (confirm) watchpoint on FUN_0605ACC4
+    print(f"\n--- Watchpoint on FUN_0605ACC4 during C press ---")
     bot2.set_watchpoint(game_state_addr)
     bot2.input_press("C")
     bot2.frame_advance(5)
     bot2.input_release("C")
     hits2 = bot2.read_watchpoint_hits()
-    print_wp_hits(hits2, addr_to_name, "WATCHPOINT: C on g_game_state")
+    print_wp_hits(hits2, addr_to_name, "WATCHPOINT: C on FUN_0605ACC4")
     bot2.clear_watchpoint()
 
     bot2.quit()

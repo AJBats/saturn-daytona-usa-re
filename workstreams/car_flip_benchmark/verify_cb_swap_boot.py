@@ -38,7 +38,7 @@ def read_state(bot):
     c = read_mem(bot, 0x0607EADB, 1)
     return {
         "dispatch": d[0] if d else "?",
-        "g_game_state": int.from_bytes(g, 'big') if g else "?",
+        "FUN_0605ACC4": int.from_bytes(g, 'big') if g else "?",
         "circuit": c[0] if c else "?",
     }
 
@@ -169,7 +169,7 @@ def main():
     bot.frame_advance(1)
 
     # Test C (should now be BACK)
-    print("\nTest C (expect BACK - g_game_state changes):")
+    print("\nTest C (expect BACK - FUN_0605ACC4 changes):")
     before = read_state(bot)
     bot.input_press("C")
     bot.frame_advance(15)

@@ -13,7 +13,7 @@ no upstream input remapping, no global hacks.
    - Method: swapped button masks in pool entries (DOWN handler checks UP mask 0x1000,
      UP handler checks DOWN mask 0x2000). Added local pool entries for 3 cross-TU
      references that the original borrowed from neighboring functions.
-   - **Key discovery — split prologue/epilogue**: `course_select_input` (12 bytes at
+   - **Key discovery — split prologue/epilogue**: `FUN_060196A4` (12 bytes at
      FUN_060196A4) pushes r10-r14 and falls through into `mode_select_handler` with no
      return. The handler's epilogue pops all 5 registers. This means C reimplementation
      is NOT possible without accounting for the shared stack — the C compiler generates
@@ -30,8 +30,8 @@ no upstream input remapping, no global hacks.
    - Method: swapped two button masks in pool constants:
      - BACK mask at 0x0601030C: 0x0100 (B) → 0x0200 (C)
      - CONFIRM mask at 0x0601038C: 0x0200 (C) → 0x0100 (B)
-   - **Call chain**: `game_state_dispatch` → `transition_handler_a` → `circuit_confirm_handler` (FUN_060102EA)
-     - `transition_handler_a` reads button word from `g_pad_state+2`, passes to two inline handlers
+   - **Call chain**: `FUN_0600F424` → `FUN_0600F794` → `circuit_confirm_handler` (FUN_060102EA)
+     - `FUN_0600F794` reads button word from `g_pad_state+2`, passes to two inline handlers
      - FUN_060102A8: circuit LEFT/RIGHT (increments/decrements circuit index 0-2)
      - FUN_060102EA: circuit confirm/back (checks button masks from pool constants)
    - **Button bit mapping** (empirically confirmed from `g_pad_state+2`):
@@ -72,19 +72,19 @@ no upstream input remapping, no global hacks.
 4. ~~**Flip car select models upside down**~~ DONE (2026-03-02) — both spinning car models on
    the car select screen tumble around the X axis (head-over-tail) instead of the normal Y
    turntable spin. Demonstrates understanding of the 3D matrix pipeline across both CPUs.
-   - Files: `reimpl/src/mods/re_tests/vdp_mode_select.s` (primary SH-2),
-     `reimpl/src/mods/re_tests/race_position_track.s` (secondary SH-2),
-     `reimpl/src/mods/re_tests/graphics_mode_setup.s` (spin setup)
+   - Files: `reimpl/src/mods/re_tests/FUN_06010D94.s` (primary SH-2),
+     `reimpl/src/mods/re_tests/FUN_06010F04.s` (secondary SH-2),
+     `reimpl/src/mods/re_tests/FUN_06010BC4.s` (spin setup)
    - Build: `make RE_TESTS=1 MODS=1 disc`
    - Method: swapped rotation function pointers in pool constants (zero-cost, same as Goals 1-3):
-     - `vdp_mode_select.s` `.L_06010EB0`: `mat_rot_y` → `mat_rot_x` (primary SH-2)
-     - `race_position_track.s` `.L_06011030`: `mat_rot_xy_b` → `mat_rot_xz_b` (secondary SH-2)
+     - `FUN_06010D94.s` `.L_06010EB0`: `FUN_06026EDE` → `FUN_06026E94` (primary SH-2)
+     - `FUN_06010F04.s` `.L_06011030`: `FUN_060271A2` → `FUN_06027158` (secondary SH-2)
    - **Key discovery — corrected rotation function naming**:
-     - `mat_rot_y` (FUN_06026EDE) = Y-axis turntable rotation (modifies cols 0,2). This is what
+     - `FUN_06026EDE` (FUN_06026EDE) = Y-axis turntable rotation (modifies cols 0,2). This is what
        the vanilla car select calls for the normal left/right spin.
-     - `mat_rot_x` (FUN_06026E94) = X-axis rotation (modifies cols 1,2). Causes forward/backward
+     - `FUN_06026E94` (FUN_06026E94) = X-axis rotation (modifies cols 1,2). Causes forward/backward
        tumble, showing car underside and top.
-     - Prior VERIFIED tags had mat_rot_x and mat_rot_y naming correct, but the _b variants
+     - Prior VERIFIED tags had FUN_06026E94 and FUN_06026EDE naming correct, but the _b variants
        (secondary SH-2) follow the same axis convention.
    - **Key discovery — screenshot methodology was broken**: ALL prior "zero pixel difference"
      results (Tests 4C-4G) were invalid. Two bugs:
@@ -101,23 +101,23 @@ no upstream input remapping, no global hacks.
    **Pipeline (discovered via call graph + Ghidra C):**
    ```
    PRIMARY SH-2:
-     FUN_06010BC4 (graphics_mode_setup) — sets camera params, spins angle, triggers secondary
+     FUN_06010BC4 (FUN_06010BC4) — sets camera params, spins angle, triggers secondary
        → sym_06078850/54/58 = camera X/Y/Z for secondary SH-2
        → sym_06078878 += 0x0100 each frame (spin angle, ~1.4°/frame)
-       → sym_06063574 = race_position_track (secondary SH-2 callback)
+       → sym_06063574 = FUN_06010F04 (secondary SH-2 callback)
        → FUN_06010D94 = primary SH-2 camera/matrix setup
 
    SECONDARY SH-2:
-     race_position_track — 4 passes per frame
+     FUN_06010F04 — 4 passes per frame
        → sym_060270F2(X, Y, Z) — camera offset × rotation matrix → translation
-       → mat_rot_xy_b(angle) — apply spin rotation
+       → FUN_060271A2(angle) — apply spin rotation
        → sym_06032158 — vertex transform setup
        → sym_06031DF4 → FUN_060320E6 (×364/frame) — per-polygon vertex transform
        → sym_06027080 — matrix push, next sub-object
        → VDP1 end command 0xFFFF
    ```
 
-   **Key pool constants in graphics_mode_setup.s (unlocked path):**
+   **Key pool constants in FUN_06010BC4.s (unlocked path):**
    | Label | Value | Meaning |
    |-------|-------|---------|
    | `.L_06010D84` | 0x00038000 | Camera X for secondary SH-2 (+3.5) |
@@ -142,26 +142,26 @@ no upstream input remapping, no global hacks.
 
    The two cars on the arcade car select screen are rendered by DIFFERENT CPUs:
    - **Left car (auto transmission)**: Primary SH-2 via `FUN_06010D94`
-   - **Right car (manual transmission)**: Secondary SH-2 via `race_position_track`
+   - **Right car (manual transmission)**: Secondary SH-2 via `FUN_06010F04`
 
-   Each has its own rotation call and camera params. Modifying `race_position_track`
+   Each has its own rotation call and camera params. Modifying `FUN_06010F04`
    only affects the right car.
 
    ### Rotation function variants (discovered via static analysis + empirical test)
 
-   **Primary SH-2** (called by `vdp_mode_select` for left car):
+   **Primary SH-2** (called by `FUN_06010D94` for left car):
    | Function | Address | Modifies cols | Leaves col | Rotation axis |
    |----------|---------|--------------|------------|---------------|
-   | `mat_rot_x` | FUN_06026E94 | 1,2 (Y,Z) | 0 (X) | Around X (tumble) |
-   | `mat_rot_y` | FUN_06026EDE | 0,2 (X,Z) | 1 (Y) | Around Y (turntable) |
+   | `FUN_06026E94` | FUN_06026E94 | 1,2 (Y,Z) | 0 (X) | Around X (tumble) |
+   | `FUN_06026EDE` | FUN_06026EDE | 0,2 (X,Z) | 1 (Y) | Around Y (turntable) |
    | FUN_06026F2A | FUN_06026F2A | 0,1 (X,Y) | 2 (Z) | Around Z |
 
-   **Secondary SH-2** (called by `race_position_track` for right car):
+   **Secondary SH-2** (called by `FUN_06010F04` for right car):
    | Function | Modifies cols | Leaves col | Rotation axis |
    |----------|--------------|------------|---------------|
-   | `mat_rot_xy_b` | 0,2 (X,Z) | 1 (Y) | Around Y (turntable spin) |
-   | `mat_rot_yz_b` | 0,1 (X,Y) | 2 (Z) | Around Z |
-   | `mat_rot_xz_b` | 1,2 (Y,Z) | 0 (X) | Around X (tumble) |
+   | `FUN_060271A2` | 0,2 (X,Z) | 1 (Y) | Around Y (turntable spin) |
+   | `FUN_060271EE` | 0,1 (X,Y) | 2 (Z) | Around Z |
+   | `FUN_06027158` | 1,2 (Y,Z) | 0 (X) | Around X (tumble) |
 
    ### Experiments
 
@@ -181,7 +181,7 @@ no upstream input remapping, no global hacks.
    **Test 4E: Zero camera Y** — `.L_06010D88`: 0xFFFF0000 → 0x00000000
    Not tested (superseded by 4A result).
 
-   **Test 4F: X-axis tumble** — `race_position_track` pool: `mat_rot_xy_b` → `mat_rot_xz_b`
+   **Test 4F: X-axis tumble** — `FUN_06010F04` pool: `FUN_060271A2` → `FUN_06027158`
    Result: **Right car (manual) tumbles forward/backward around X axis.** Left car (auto)
    still spins normally — confirmed dual-CPU rendering. ✓
 
@@ -190,17 +190,17 @@ no upstream input remapping, no global hacks.
    memory is used for runtime data and gets overwritten. Identity wrapper also crashed,
    confirming the address is the problem, not the logic.
 
-   **Test 4G v2: Inline matrix flip** — Added 24 bytes to `race_position_track` to negate
+   **Test 4G v2: Inline matrix flip** — Added 24 bytes to `FUN_06010F04` to negate
    rows 1+2 of the transform matrix after Y-spin.
    Result: **Black screen.** Growing the function shifted the binary layout, likely triggering
    the SCDQ boot hang or breaking section placement.
 
-   **Test 4H: X-axis tumble (both CPUs)** — PRIMARY: `mat_rot_y` → `mat_rot_x`, SECONDARY: `mat_rot_xy_b` → `mat_rot_xz_b`
+   **Test 4H: X-axis tumble (both CPUs)** — PRIMARY: `FUN_06026EDE` → `FUN_06026E94`, SECONDARY: `FUN_060271A2` → `FUN_06027158`
    Result: **Both cars tumble forward/backward around X axis.** Dramatic visual change — cars show
    their undersides and tops during each revolution. All 3 screenshot frames different from vanilla.
    Size-neutral (pool constant swap only). **This is the final Goal 4 configuration.** ✓
 
-   **Test 4I: Static 180° upside-down** — `graphics_mode_setup.s`: spin_speed=0x8000, `add r6,r3` → `mov r6,r3`
+   **Test 4I: Static 180° upside-down** — `FUN_06010BC4.s`: spin_speed=0x8000, `add r6,r3` → `mov r6,r3`
    Result: **Cars are statically upside-down.** Frozen at 180° X rotation. Both screenshot frames
    identical (angle freeze works). Demonstrates precise angle control. Size-neutral (`mov` = 2 bytes
    like `add`). Reverted in favor of 4H as primary demonstration. ✓
@@ -242,8 +242,8 @@ no upstream input remapping, no global hacks.
    - File: `reimpl/src/mods/re_tests/render_cs0_loop.s`
    - Build: `make RE_TESTS=1 MODS=1 disc`
    - Method: swapped rotation function pointers in pool constants (size-neutral):
-     - `.L_0600B85C`: `mat_rot_y` → `mat_rot_x` (heading now applied as X-axis tumble)
-     - `.L_0600B864`: `mat_rot_x` → `mat_rot_y` (pitch now applied as Y rotation)
+     - `.L_0600B85C`: `FUN_06026EDE` → `FUN_06026E94` (heading now applied as X-axis tumble)
+     - `.L_0600B864`: `FUN_06026E94` → `FUN_06026EDE` (pitch now applied as Y rotation)
    - **Visual evidence**: Side-by-side screenshot comparison at rolling start (frame 4550)
      shows clear geometric distortion on opponent cars — body panels at wrong angles,
      "SHOPPER" text visible from unusual orientation. Effect most visible when opponents
@@ -251,8 +251,8 @@ no upstream input remapping, no global hacks.
    - **Key discovery — render_cs0_loop (FUN_0600B6A0) is the main in-race object renderer**:
      - Iterates from i=1 to car_count (skips object 0 = player car)
      - Object struct at `0x06078900 + i * 0x268`
-     - Per-object pipeline: identity init → camera translate → mat_rot_y(heading+0x8000) →
-       mat_rot_z(-roll) → mat_rot_x(-pitch) → vertex transform → polygon render
+     - Per-object pipeline: identity init → camera translate → FUN_06026EDE(heading+0x8000) →
+       FUN_06026F2A(-roll) → FUN_06026E94(-pitch) → vertex transform → polygon render
      - Also has secondary collision rotations (conditional, uses different function ptrs r12/r13)
      - One external BSR: `.byte 0xB8, 0xE7` → FUN_0600AA98 (car subpart/skeletal rendering)
    - **Key discovery — player car rendered separately**: Object 0 is NOT processed by
@@ -268,8 +268,8 @@ no upstream input remapping, no global hacks.
      **Implication**: Only size-neutral modifications are safe for functions in the first ~90%
      of the binary. Growing functions near the END is possible; growing functions early is not.
    - **Observation — 0x8000 heading offset is a 180° facing correction**: In vanilla,
-     `mat_rot_y(heading + 0x8000)` rotates the car model 180° so it faces the camera
-     correctly. With the swap, `mat_rot_x(heading + 0x8000)` applies heading as X-axis
+     `FUN_06026EDE(heading + 0x8000)` rotates the car model 180° so it faces the camera
+     correctly. With the swap, `FUN_06026E94(heading + 0x8000)` applies heading as X-axis
      tumble with a 180° offset — continuously rotating as cars turn through corners.
    - **Test script**: `tools/test_race_screenshot.py` — boots disc, navigates through menus
      to race start, holds accelerator, captures screenshots at rolling start and early race.
@@ -282,9 +282,9 @@ no upstream input remapping, no global hacks.
      if (object[0] & 0x00E00000) == 0: skip
      sym_06026DBC()                     — identity matrix init
      sym_06026E2E(cam_x, cam_y+off, cam_z)  — camera translation
-     mat_rot_y(heading + 0x8000)        — Y rotation (heading + 180° facing)
-     mat_rot_z(-roll)                   — Z rotation (negated roll)
-     mat_rot_x(-pitch)                  — X rotation (negated pitch)
+     FUN_06026EDE(heading + 0x8000)        — Y rotation (heading + 180° facing)
+     FUN_06026F2A(-roll)                   — Z rotation (negated roll)
+     FUN_06026E94(-pitch)                  — X rotation (negated pitch)
      [if collision flags set:]
        additional rotations via r12/r13 (vertex transform functions)
      sym_06031DF4(...)                  — per-polygon vertex transform
@@ -294,9 +294,9 @@ no upstream input remapping, no global hacks.
 ## Prior Art
 
 Three blind experiments (2026-02-27) targeting the car flip directly all failed:
-1. Negated Y base constants in `perspective_project` — no effect
+1. Negated Y base constants in `FUN_060055BC` — no effect
 2. Forced orientation angle to zero in `render_orchestrator` — killed audio, not visual
-3. Swapped `mat_rot_y` to `mat_rot_z` in `pre_render_transform` — no effect
+3. Swapped `FUN_06026EDE` to `FUN_06026F2A` in `FUN_060061C8` — no effect
 
 Lesson: static analysis guesses about the rendering pipeline were wrong.
 This time we use instrumentation (CDL, call traces, watchpoints, mem_profile)

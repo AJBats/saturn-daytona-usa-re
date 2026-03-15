@@ -33,18 +33,18 @@ Run: `python tools/coverage.py --output build/coverage.json`
 - Any tag: 276 entries
 
 ### Top 10 Largest Functions
-1. master_menu_render — 1806 bytes
-2. replay_playback — 1408 bytes
-3. render_obj_processor — 1388 bytes
-4. track_scenery_render — 1302 bytes
-5. mega_render_func — 1204 bytes
+1. FUN_0603990E — 1806 bytes
+2. FUN_0601BE64 — 1408 bytes
+3. FUN_06022AE0 — 1388 bytes
+4. FUN_0602FDB0 — 1302 bytes
+5. FUN_06029740 — 1204 bytes
 
 ### Key Insights
 
 - Only 21 functions still have FUN_ prefix (0.5%) — most have been renamed
 - sym_/DAT_/loc_ labels dominate (70.7%) — these are sub-labels within larger TUs
 - 38% byte coverage means we've named the functions containing 38% of code
-- The largest function (master_menu_render) is 1806 bytes
+- The largest function (FUN_0603990E) is 1806 bytes
 - No C reimplementations yet (all src/ is L3 assembly)
 
 ## Verdict: PASS

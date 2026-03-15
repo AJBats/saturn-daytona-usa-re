@@ -252,7 +252,7 @@ Once we understand enough, isolate subsystems:
 - [x] Document 3D math utilities: vector angle calc, perspective projection
 - [x] Document background/texture layer init for 3 courses
 - [x] Trace per-course DMA variants (3 functions, one per course)
-- [x] Created asm/system_init.s with init sequence and per-frame loop
+- [x] Created asm/FUN_060030FC.s with init sequence and per-frame loop
 
 ### M22: Extraction Dependency Graph ✓
 - [x] Create 9-tier dependency hierarchy for CCE transplant
@@ -1067,7 +1067,7 @@ The AI main processing function at FUN_0600C74E orchestrates all behavior for on
   - FUN_060086C0 reads forces, negates, stores to car struct
   - FUN_0600C5D6 integrates: car.X/Z += FUN_06027552(speed, direction)
 - Discovered FUN_0600D266 is a stub (rts only) — friction is NOT a separate step
-- Created annotated asm/player_physics.s documenting full player + AI physics
+- Created annotated asm/FUN_0600E71A.s documenting full player + AI physics
 - Documented partial car object struct (25+ fields identified)
 - Identified 6 shared utility functions used by both player and AI
 - Traced force table data structures:
@@ -1210,7 +1210,7 @@ The AI main processing function at FUN_0600C74E orchestrates all behavior for on
   - FUN_0600C970: AI-only speed boost from course table
     - Table at 0x0605A1E0, segments [69,98] only
     - This is likely rubber-banding / difficulty mechanism
-  - Created asm/collision.s with full annotated assembly
+  - Created asm/FUN_060316D0.s with full annotated assembly
 - Traced VDP1 sprite sorting / draw-order system (M4 complete):
   - FUN_06027CA4: 3D scene processor (culling, transform, command generation)
   - **NO runtime sorting algorithm** — polygon draw order is pre-baked in course data
@@ -1539,8 +1539,8 @@ Completed comprehensive mapping of the entire binary (0x06003000-0x06044000).
 ```
 asm/ai_behavior.s        — AI processing pipeline (mid-range, detailed)
 asm/ai_opponents.s        — AI state machine & init (high-range)
-asm/car_collision.s       — Car-car collision detection
-asm/collision.s           — Collision system core
+asm/car_FUN_060316D0.s       — Car-car collision detection
+asm/FUN_060316D0.s           — Collision system core
 asm/collision_response.s  — Collision response logic
 asm/engine_sound.s        — Engine sound effects
 asm/force_system.s        — Force table animation system
@@ -1555,7 +1555,7 @@ asm/math_transform.s      — Matrix/vector transforms
 asm/menu_display.s        — Menu screens & race HUD
 asm/object_management.s   — Car object lifecycle
 asm/per_car_loop.s        — Per-car update pipeline
-asm/player_physics.s      — Player physics (force-driven)
+asm/FUN_0600E71A.s      — Player physics (force-driven)
 asm/pre_race_states.s     — Pre-race state handlers
 asm/race_states.s         — In-race state machine
 asm/race_update.s         — Per-frame race updates
@@ -1589,7 +1589,7 @@ Filled remaining coverage gaps and created extraction plan.
 | File | Functions | Address Range | Key Discovery |
 |------|-----------|--------------|---------------|
 | asm/event_queue.s | 70 | 0x0604000C-0x06046E48 | 24-slot event queue at 0x060A5400 |
-| asm/system_init.s | 25 | 0x06003218-0x06005DD4 | Per-frame update chain (4-function dispatch) |
+| asm/FUN_060030FC.s | 25 | 0x06003218-0x06005DD4 | Per-frame update chain (4-function dispatch) |
 | asm/state_handlers.s | 32 | 0x060088CC-0x06009F10 | Complete 32-state machine catalog |
 
 **New workstream doc:**
@@ -1608,8 +1608,8 @@ Filled remaining coverage gaps and created extraction plan.
 ```
 asm/ai_behavior.s         — AI processing pipeline (mid-range, detailed)
 asm/ai_opponents.s        — AI state machine & init (high-range)
-asm/car_collision.s       — Car-car collision detection
-asm/collision.s           — Collision system core
+asm/car_FUN_060316D0.s       — Car-car collision detection
+asm/FUN_060316D0.s           — Collision system core
 asm/collision_response.s  — Collision response logic
 asm/engine_sound.s        — Engine sound effects
 asm/event_queue.s         — Gameplay event queue & state management
@@ -1625,7 +1625,7 @@ asm/math_transform.s      — Matrix/vector transforms
 asm/menu_display.s        — Menu screens & race HUD
 asm/object_management.s   — Car object lifecycle
 asm/per_car_loop.s        — Per-car update pipeline
-asm/player_physics.s      — Player physics (force-driven)
+asm/FUN_0600E71A.s      — Player physics (force-driven)
 asm/pre_race_states.s     — Pre-race state handlers
 asm/race_orchestration.s  — Race orchestration & remaining gameplay [NEW]
 asm/race_states.s         — In-race state machine
@@ -1640,7 +1640,7 @@ asm/sound_driver.s        — SCSP driver & channels
 asm/speed_position.s      — Speed curves & integration
 asm/state_handlers.s      — Complete 32-state handler catalog
 asm/subsystem_updates.s   — Subsystem coordination
-asm/system_init.s         — System bootstrap & utilities
+asm/FUN_060030FC.s         — System bootstrap & utilities
 asm/track_geometry.s      — Track segments & terrain
 asm/vblank_system.s       — VBlank interrupt system
 asm/vdp_hardware.s        — VDP1/VDP2 hardware map

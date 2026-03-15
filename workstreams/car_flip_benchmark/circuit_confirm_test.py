@@ -21,7 +21,7 @@ WATCH_ADDRS = [
     (0x0607887F, 1, "sym_0607887F (dispatch state)"),
     (0x0607EADB, 1, "circuit index 1"),
     (0x0607EADF, 1, "circuit index 2"),
-    (0x0605AD10, 1, "g_game_state"),
+    (0x0605AD10, 1, "FUN_0605ACC4"),
     (0x06078635, 1, "sym_06078635 (display flag)"),
     (0x06078634, 1, "sym_06078634 (mode byte)"),
 ]

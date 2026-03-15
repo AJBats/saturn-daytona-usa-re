@@ -121,8 +121,8 @@ def investigate_circuit_targeted(bot, addr_to_name, name_to_addr, results_dir):
             results_dir
         )
 
-    # Also scan the game state area at g_game_state region
-    gs_real = sym_addr(name_to_addr, "g_game_state")
+    # Also scan the game state area at FUN_0605ACC4 region
+    gs_real = sym_addr(name_to_addr, "FUN_0605ACC4")
     if gs_real:
         gs_base = gs_real & ~0xFF
         experiment_memory_diff(

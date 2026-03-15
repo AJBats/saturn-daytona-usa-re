@@ -22,7 +22,7 @@ Run: `python tools/sdk_match.py reimpl/build/APROG.BIN --map reimpl/build/dayton
 | atan_6 | SEGA_SAT.A | 0x06043630 | sym_060430CE+0x5AA | Atan helper |
 | atan_10 | SEGA_SAT.A | 0x0604367C | sym_060430CE+0x5F6 | Atan helper |
 | atan_14 | SEGA_SAT.A | 0x0604369C | sym_060430CE+0x616 | Atan helper |
-| slInnerProduct | SEGA_SGL.A | 0x060284DE | motion_blur_effect+0x20 | Vector inner product |
+| slInnerProduct | SEGA_SGL.A | 0x060284DE | FUN_060284BA+0x20 | Vector inner product |
 | divls | SEGA_SAT.A | 0x0602FCD0, 0x0603D0E4 | 2 locations | Long division |
 | unitMatrix | LIBSAT/SPR | 0x0602F8CC, 0x0605C6A8 | 2 locations | Identity matrix constant |
 
@@ -34,7 +34,7 @@ Run: `python tools/sdk_match.py reimpl/build/APROG.BIN --map reimpl/build/dayton
 | atan_9 | SEGA_SAT.A | 0x0604365C | 0.976 | sym_060430CE+0x5D6 |
 | MTH_Product | SEGA_SAT.A | 0x0603D0C8 | 0.973 | DAT_0603d034+0x90 |
 | bmSizeTbl | LIBSGL.A | 0x0605A05A | 0.962 | sym_0605A018+0x8A |
-| lconv | LIBG.A | 0x06063654 | 0.956 | cdb_wait_scdq+0xC |
+| lconv | LIBG.A | 0x06063654 | 0.956 | FUN_06063644+0xC |
 | tan_jmp_tbl | SEGA_SGL.A | 0x06033AA4 | 0.956 | sym_06033A8C+0x14 |
 
 ### Key Discoveries
@@ -47,8 +47,8 @@ All within `sym_060430CE` in our symbol map. This entire TU is SGL LIBMTH.
 Fixed-point arithmetic: MTH_Mul, MTH_FixedToInt, MTH_Product, divls.
 All within `DAT_0603d034` in our symbol map. This TU is SGL math utilities.
 
-**3. slInnerProduct in motion_blur_effect**
-Vector dot product at 0x060284DE, inside what we named `motion_blur_effect`.
+**3. slInnerProduct in FUN_060284BA**
+Vector dot product at 0x060284DE, inside what we named `FUN_060284BA`.
 This suggests the function is computing dot products for 3D math, consistent
 with a motion blur or projection calculation.
 

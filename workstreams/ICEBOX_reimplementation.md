@@ -55,12 +55,12 @@ our reimplemented binary replaces APROG.BIN at the same disc offset, same load
 address (0x06003000). IP.BIN boots it identically.
 
 There is no separate "crt0" to write. The first code in APROG.BIN (annotated in
-system_init.s) IS the startup: it sets the stack pointer, configures hardware, and
-enters the main loop. Our C translation of system_init.s is the startup code.
+FUN_060030FC.s) IS the startup: it sets the stack pointer, configures hardware, and
+enters the main loop. Our C translation of FUN_060030FC.s is the startup code.
 
 ### Translation, not engineering
 Every function we implement is a direct translation of annotated ASM:
-- system_init.s tells us exactly which hardware registers to write, in what order
+- FUN_060030FC.s tells us exactly which hardware registers to write, in what order
 - vblank_system.s tells us exactly how the interrupt handler works
 - game_loop.s tells us exactly how the 32-state machine dispatches
 - We don't design abstractions — we translate what Daytona does
@@ -124,7 +124,7 @@ verbatim binary import, keeping constant pools intact. Approach:
 - ~472 of these are rendering functions — critical path to getting past black screen
 
 **Pass 2 (next)**: Promote critical-path functions to L2. Priority order:
-1. Hardware init (system_init, VDP, sound) — needed to understand boot
+1. Hardware init (FUN_060030FC, VDP, sound) — needed to understand boot
 2. Game loop and state machine — needed to understand flow
 3. Physics and collision — needed for CCE transplant
 4. Rendering pipeline — needed to understand visual output
@@ -244,7 +244,7 @@ Size regression must be flagged immediately.
 - The sin/cos table (4096 entries, mask 0x3FFC) must be bit-identical
 
 ### Q4: What's the minimum set of functions for first boot?
-- system_init.s functions set up VDP, SCU, SCSP — translate these first
+- FUN_060030FC.s functions set up VDP, SCU, SCSP — translate these first
 - vblank_system.s installs interrupt handler
 - game_loop.s runs the 32-state machine
 - state 0 is the initial state — what does it need?
@@ -267,7 +267,7 @@ Size regression must be flagged immediately.
 
 ### M1: Saturn Bootstrap
 **Goal**: Boot to steady VBlank cadence
-**Source**: system_init.s (31 functions), vblank_system.s (9 functions),
+**Source**: FUN_060030FC.s (31 functions), vblank_system.s (9 functions),
 frame_timing.s (9 functions)
 **Annotation confidence**: MEDIUM / DEFINITE / DEFINITE
 **Proof**: Emulator shows VBlank interrupt firing at 60Hz, no crash
@@ -310,10 +310,10 @@ scene_renderer.s (4 functions), render_pipeline.s (36 functions)
 
 ### M7: Player Physics
 **Goal**: Drive the car around the track
-**Source**: player_physics.s (10 functions), force_system.s (5 functions),
+**Source**: FUN_0600E71A.s (10 functions), force_system.s (5 functions),
 force_tables.s (6 functions), speed_position.s (2 functions),
-collision.s (10 functions), collision_response.s (2 functions),
-car_collision.s (1 function), lap_counting.s (8 functions)
+FUN_060316D0.s (10 functions), collision_response.s (2 functions),
+car_FUN_060316D0.s (1 function), lap_counting.s (8 functions)
 **Annotation confidence**: HIGH / HIGH / HIGH / DEFINITE / HIGH / HIGH / HIGH / HIGH
 **Proof**: Car responds to input, drives on track, collides with walls
 
@@ -341,7 +341,7 @@ hud_ui.s (12 functions), display_elements.s (9 functions)
 - Document the exact entry conditions our code inherits
 
 ### P3: Register name headers (readability only)
-- `#define` names for Saturn hardware registers used by system_init.s
+- `#define` names for Saturn hardware registers used by FUN_060030FC.s
 - NOT an abstraction layer — just named constants so the C reads clearly
 - Derived directly from the annotated ASM, not from Saturn documentation
 - Example: `#define VDP2_TVMD (*(volatile short*)0x25F80000)`
