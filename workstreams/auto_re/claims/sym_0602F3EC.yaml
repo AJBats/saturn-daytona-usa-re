@@ -1,0 +1,35 @@
+function: sym_0602F3EC
+address: 0x0602F3EC
+address_end: 0x0602F470
+source_file: reimpl/src/FUN_0602F270.s
+
+# Speed index computation + drag scaling, pipeline call 4.
+# Writes +0x08 via displacement addressing (mov.l r2, @(8, r0)) — watchpoint-compatible.
+# Writes +0x48/+0x50 via indexed addressing — watchpoint-incompatible.
+
+claims:
+  - id: call_count_throttle
+    type: call_count_per_frame
+    description: "sym_0602F3EC breakpoint fires ~1x per frame (pipeline call 4)"
+    function: sym_0602F3EC
+    address: 0x0602F3EC
+    scenario: straight_throttle
+    expected_count: 2
+    tolerance: 1
+
+  - id: writes_speed_index
+    type: writes_to
+    description: "sym_0602F3EC writes car[+0x08] (speed index) via PC 0x0602F41E"
+    function: sym_0602F3EC
+    function_end: 0x0602F470
+    address: 0x06078908
+    scenario: straight_throttle
+    frames: 60
+
+  - id: speed_index_increases_throttle
+    type: value_changes_with_input
+    description: "Speed index (car[+0x08]) increases when C is held — speed × 72 / 65536"
+    address: 0x06078908
+    input: C
+    direction: increases
+    frames: 60
