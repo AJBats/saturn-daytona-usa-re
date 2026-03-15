@@ -67,7 +67,14 @@ Only fields with emulator evidence. Offset labels come from observations, not Gh
 | Dual position theory: physics-internal vs render-output | NOP test side effect | explorer_priorities.md |
 | Steering has no effect at low speed (~30 mph from standstill) | LEFT identical to throttle-only | FUN_0602D8BC_obs.md |
 | 16-bit writes invisible to 4-byte watchpoints | +0x252 gets 0 hits | FUN_0602EEB8_answers.md |
+| `mov.l Rm, @(R0,Rn)` writes invisible to watchpoints | +0xC0,+0x108,+0x148 all 0 hits | FUN_0602CA84_answers.md |
+| Writer map PCs are +4 from actual write instruction | SH-2 pipeline commit delay | FUN_0602CA84_answers.md |
 | FUN_0602EEB8 Tier 2 (4/4 claims passed) | Oracle test | results.tsv |
+| FUN_0600C010 Tier 2 (3/3 claims passed) | Oracle test | results.tsv |
+| sym_0602D8BC Tier 2 (4/5, heading write missed) | Oracle test | results.tsv |
+| FUN_0602F5B6 Tier 2 (3/5, surface writes missed) | Oracle test | results.tsv |
+| FUN_0602CCEC Tier 2 (3/3, gates on speed>0) | Oracle test | results.tsv |
+| FUN_0602CA84 Tier 1 (2/2, all writes_to failed) | Oracle test | results.tsv |
 
 ## Empirical Observations (2026-03-05)
 
