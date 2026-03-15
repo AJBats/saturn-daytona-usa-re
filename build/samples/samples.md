@@ -17,3 +17,21 @@
 - **Size**: 616 bytes (full car struct)
 - **Files**: tt_idle_300f.bin, tt_idle_300f.csv
 - **Captured**: 2026-03-15
+
+## tt_steer_left_throttle_300f
+
+- **Save state**: usa_tt_straight.mc0
+- **Scenario**: steer_left_throttle (hold C + LEFT, 300 frames)
+- **Address**: 0x06078900 (car[0])
+- **Size**: 616 bytes (full car struct)
+- **Files**: tt_steer_left_throttle_300f.bin, tt_steer_left_throttle_300f.csv
+- **Captured**: 2026-03-15
+
+## tt_right_wall_strike_662f
+
+- **Save state**: usa_tt_straight.mc0
+- **Scenario**: right_wall_strike (hold C + RIGHT, 662 frames)
+- **Address**: 0x06078900 (car[0])
+- **Size**: 616 bytes (full car struct)
+- **Files**: tt_right_wall_strike_662f.bin, tt_right_wall_strike_662f.csv
+- **Captured**: 2026-03-15
