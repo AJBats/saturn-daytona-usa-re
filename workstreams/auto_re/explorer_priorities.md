@@ -207,15 +207,20 @@ one write instruction and observes the effect. Requires `MODS=1` build.
   dual position representations is plausible but unverified — needs Explorer
   investigation to identify the internal physics position fields.
 
-### NOP Test: car[+0xFC] accel delta write
+### NOP Test: car[+0xFC] accel delta write — BLOCKED (bad address)
 
 - **What to NOP**: Replace the write instruction at PC 0x0602EF4E with
   `nop` (0x0009).
 - **Writer function**: FUN_0602EF4C (writes +0xFC at pc=0x0602EF4E)
 - **Expected effect**: Acceleration delta stays at its current value. C button
-  (throttle) has no effect on speed change rate. Car should coast at constant
-  deceleration rate (engine braking continues from whatever delta was last set).
+  (throttle) has no effect on speed change rate.
 - **Best scenario**: Load `usa_tt_straight.mc0`, hold C from dead stop.
-  Speed should NOT increase — accel delta stays at 0 (initial value).
 - **Confidence**: HIGH — watchpoint-confirmed writer, C button correlation
   established (+70/update toward positive).
+- **BLOCKED (2026-03-15)**: Instruction at 0x0602EF4E in the retail binary is
+  `DC 0D` (`mov.l @(disp,PC), r12`) — a pool load, NOT a store to car[+0xFC].
+  The preceding instruction at 0x0602EF4C is `91 08` (`mov.w @(disp,PC), r1`)
+  — also a load. The PC 0x0602EF4E likely came from a free-build watchpoint
+  trace where addresses differ from retail. **Mapper: please re-derive the
+  write PC from retail addresses or identify which called function contains
+  the actual `mov.l rN, @(0xFC, rM)` store instruction.**
