@@ -9,3 +9,5 @@ FUN_0602EFF0	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). S
 brake_scenario	0	0	0	Scenario observation (no function). Not testable: oracle hardcodes straight_throttle (0 mph), brake needs speed>0. Brake data: +0x8C/+0x90 change 56→216, decel ~100 frames 27→0 mph.
 sym_0602D814	3	3	2	call_count(1x/frame), writes_to(+0x0C speed, 59 hits from PC 0x0602D822), value_changes(speed+C). NOP-confirmed speed integrator pipeline call 18.
 sym_0602F3EC	3	3	2	call_count(1x/frame), writes_to(+0x08 speed_index, 59 hits from PC 0x0602F41E), value_changes(speed_index+C 0→21). Speed index + drag scaling pipeline call 4.
+sym_0602F0E8	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). Collision state check + state transfer pipeline call 6. Normal: EMA on +0xD0, copies +0x94→+0x84.
+sym_0602F7BC	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). Timer decrementor pipeline call 5. Decrements +0x166, +0x152, +0x208 each frame.

@@ -1,0 +1,35 @@
+function: sym_0602F0E8
+address: 0x0602F0E8
+address_end: 0x0602F178
+source_file: reimpl/src/FUN_0602EFF0.s
+
+# Collision state check + state transfer, pipeline call 6.
+# Normal: EMA on +0xD0, copies +0x94→+0x84, +0x78→+0x68.
+# Collision: sets +0x90/+0x74 = 0x38, clears +0x166, adjusts +0xD0.
+# All writes use indexed addressing or delay slots — no viable writes_to.
+
+claims:
+  - id: call_count_throttle
+    type: call_count_per_frame
+    description: "sym_0602F0E8 (collision state check) fires ~1x per frame (pipeline call 6)"
+    function: sym_0602F0E8
+    address: 0x0602F0E8
+    scenario: straight_throttle
+    expected_count: 2
+    tolerance: 1
+
+  - id: speed_increases_throttle
+    type: value_changes_with_input
+    description: "Speed (car[+0x0C]) increases when C is held — pipeline validation"
+    address: 0x0607890C
+    input: C
+    direction: increases
+    frames: 60
+
+  - id: position_decreases_throttle
+    type: value_changes_with_input
+    description: "Position X (car[+0x10]) decreases when C is held — pipeline validation"
+    address: 0x06078910
+    input: C
+    direction: decreases
+    frames: 60
