@@ -10,7 +10,7 @@ Renaming `.mc0` files is fine when loading by explicit path (e.g., via MCP
 
 - **Mode**: Race (40 cars, 1P)
 - **Course**: Three Seven Speedway (Beginner)
-- **Speed**: Rolling start (~300 km/h)
+- **Speed**: Rolling start (~150 mph)
 - **Position**: 40/40
 - **Transmission**: AUTO
 - **Build**: Vanilla (unmodified retail binary)
@@ -26,7 +26,7 @@ Renaming `.mc0` files is fine when loading by explicit path (e.g., via MCP
 
 - **Mode**: Race (40 cars, 1P)
 - **Course**: Three Seven Speedway (Beginner)
-- **Speed**: Rolling start (~300 km/h)
+- **Speed**: Rolling start (~150 mph)
 - **Position**: 40/40
 - **Transmission**: MANUAL
 - **Build**: Vanilla (unmodified retail binary)
@@ -41,7 +41,7 @@ Renaming `.mc0` files is fine when loading by explicit path (e.g., via MCP
 
 - **Mode**: Time Trial (solo, no AI cars)
 - **Course**: Three Seven Speedway (Beginner)
-- **Speed**: 0 km/h (dead stop)
+- **Speed**: 0 mph (dead stop)
 - **Position**: N/A (time trial)
 - **Transmission**: AUTO
 - **Build**: Vanilla (unmodified retail binary)
@@ -62,3 +62,26 @@ All scenarios: load state → hold inputs → free run.
 |----------|--------|--------|------------------|
 | **straight_throttle** | C (hold) | 1314 | Full-speed run down straight, wall strike at far corner, 65 mph gear 2 |
 | **right_wall_strike** | C + RIGHT (hold) | 662 | Angled collision with right guardrail, 26 mph gear 1. Wall impact occurs before frame 662 — use earlier frames to catch the collision event |
+
+## usa_tt_offtrack_stop.mc0
+
+- **Mode**: Time Trial (solo, no AI cars)
+- **Course**: Three Seven Speedway (Beginner)
+- **Speed**: 0 mph (dead stop)
+- **Position**: N/A (time trial)
+- **Transmission**: AUTO
+- **Build**: Vanilla (unmodified retail binary)
+- **Location**: Before turn 1, facing grass from the road
+- **Known constraints**:
+  - Full throttle (hold C) from standing start, car crosses onto grass at ~**frame 109**, trial ends at **frame 566** (51 mph, stuck in gear 1, maxed RPM)
+- **Best for**: Off-track driving, grass/surface handling, terrain response,
+  car handling beyond on-track physics
+- **Avoid for**: Clean straight-line speed tests (use usa_tt_straight instead)
+
+### Scenarios (deterministic replay from usa_tt_offtrack_stop.mc0)
+
+All scenarios: load state → hold inputs → free run.
+
+| Scenario | Inputs | Frames | Expected outcome |
+|----------|--------|--------|------------------|
+| **offtrack_throttle** | C (hold) | 566 | Car reaches track/grass boundary at frame 109 (27 mph). Fully on grass by frame ~110+. By frame 566: 51 mph, stuck in gear 1 with maxed RPM — suggests tire slip/traction loss on grass prevents speed buildup and gear shift. Compare memory before/at/after frame 109 for surface transition |
