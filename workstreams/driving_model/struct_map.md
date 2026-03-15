@@ -547,17 +547,17 @@ throttle signal.
 - **Pipeline**: sym_0602D814 (speed writer, call 18) writes +0xE8 as `max_available_speed - current_speed`. Represents headroom before speed cap.
 - **Hypothesis**: Speed headroom. Only 2 values during capture = car was near max speed most of the time (headroom ~0 or ~0x212).
 
-#### +0x108 — force_accumulator_a? (THROTTLE CANDIDATE)
+#### +0x108 — force_accumulator_a? (THROTTLE PATH)
 - **Init**: Not in dump.
-- **Writers**: FUN_0602CB12 (pc=0x0602CB3C, 493x, 167 unique).
-- **Pipeline**: Read AND written by FUN_0602CA84 (force accumulator, call 15). Clamped via FUN_0602755C. Multiplied in final accel delta formula: `(car[+0x108] × A + car[+0x10C] × B - car[+0x114]) × gear >> 8 → car[+0xFC]`.
-- **Hypothesis**: Intermediate longitudinal force accumulator. **This is the most likely carrier of the C button throttle signal** — written by an upstream pipeline stage, then consumed by the force accumulator. HIGH PRIORITY: watchpoint to find which stage writes the throttle component.
+- **Writers**: PC 0x0602CB3C (493x, 167 unique) — INSIDE FUN_0602CA84.
+- **Pipeline**: Self-accumulated within FUN_0602CA84 (call 15). Written and then read within the same function call. Clamped via FUN_0602755C. Input to final accel delta formula: `(car[+0x108] × A + car[+0x10C] × B - car[+0x114]) × gear >> 8 → car[+0xFC]`.
+- **Hypothesis**: Frame-over-frame force accumulator. The throttle signal doesn't arrive as a distinct input — it's accumulated into this field by FUN_0602CA84 itself, reading other car fields that change with throttle. **Explorer next step**: compare +0x108 values frame-by-frame between C-held and idle runs. The DIFFERENCE reveals the throttle contribution.
 
-#### +0x10C — force_accumulator_b? (THROTTLE CANDIDATE)
+#### +0x10C — force_accumulator_b? (THROTTLE PATH)
 - **Init**: Not in dump.
-- **Writers**: FUN_0602CB7E (pc=0x0602CBBC, 493x, 229 unique) + FUN_0602CCF0 (pc=0x0602CDEC, 493x, 190 unique) + FUN_0602D7E4 (pc=0x0602D7E6, 10x).
-- **Pipeline**: Same role as +0x108 in FUN_0602CA84. Three writers = updated by multiple pipeline stages before the force accumulator reads it.
-- **Hypothesis**: Second force accumulator component. Together with +0x108, these are the inputs to the final accel delta computation.
+- **Writers**: PCs 0x0602CBBC, 0x0602CDEC, 0x0602D7E6 — all INSIDE FUN_0602CA84 or its sub-functions (FUN_0602CCF0 is sym_0602CCD0 within the same TU).
+- **Pipeline**: Same self-accumulation pattern as +0x108. Together they are the two force components in the final accel delta computation.
+- **Hypothesis**: Lateral force component (vs +0x108 longitudinal). Three writer PCs suggest multiple code paths within the force accumulator.
 
 #### +0x114 — animation_lookup?
 - **Init**: Not in dump.
