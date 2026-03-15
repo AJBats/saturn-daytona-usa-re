@@ -1,0 +1,34 @@
+function: sym_0602F474
+address: 0x0602F474
+address_end: 0x0602F4B0
+source_file: reimpl/src/FUN_0602F270.s
+
+# Animation frame counter, pipeline call 9. ~20 instructions.
+# Decrements +0xD4 (16-bit), writes +0x114 from 4-entry lookup table.
+# Both writes invisible to watchpoints (16-bit / indexed addressing).
+
+claims:
+  - id: call_count_throttle
+    type: call_count_per_frame
+    description: "sym_0602F474 (animation counter) fires ~1x per frame (pipeline call 9)"
+    function: sym_0602F474
+    address: 0x0602F474
+    scenario: straight_throttle
+    expected_count: 2
+    tolerance: 1
+
+  - id: speed_increases_throttle
+    type: value_changes_with_input
+    description: "Speed (car[+0x0C]) increases when C is held — pipeline validation"
+    address: 0x0607890C
+    input: C
+    direction: increases
+    frames: 60
+
+  - id: position_decreases_throttle
+    type: value_changes_with_input
+    description: "Position X (car[+0x10]) decreases when C is held — pipeline validation"
+    address: 0x06078910
+    input: C
+    direction: decreases
+    frames: 60

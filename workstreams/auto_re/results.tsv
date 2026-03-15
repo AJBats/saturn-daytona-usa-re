@@ -11,3 +11,4 @@ sym_0602D814	3	3	2	call_count(1x/frame), writes_to(+0x0C speed, 59 hits from PC 
 sym_0602F3EC	3	3	2	call_count(1x/frame), writes_to(+0x08 speed_index, 59 hits from PC 0x0602F41E), value_changes(speed_index+C 0→21). Speed index + drag scaling pipeline call 4.
 sym_0602F0E8	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). Collision state check + state transfer pipeline call 6. Normal: EMA on +0xD0, copies +0x94→+0x84.
 sym_0602F7BC	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). Timer decrementor pipeline call 5. Decrements +0x166, +0x152, +0x208 each frame.
+sym_0602F474	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). Animation frame counter pipeline call 9. 4-state lookup from +0xD4 counter.
