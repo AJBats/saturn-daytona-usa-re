@@ -276,31 +276,36 @@ one write instruction and observes the effect. Requires `MODS=1` build.
 - **Confidence**: HIGH → **CONFIRMED** (steering dead). UNEXPECTED (throttle
   also dead — hypothesis was steering-only).
 
-### NOP Test: FUN_0602F5B6 (surface writer, pipeline call 10)
+### NOP Test: FUN_0602F5B6 (surface writer, pipeline call 10) — UNEXPECTED 2026-03-15
 
 - **What to NOP**: `jsr @r13` at 0x0602EF30 (opcode `4D 0B` → `00 09`).
   Poke command: `poke 0602EF30 00 09`. Skips surface property computation.
 - **Writer function**: FUN_0602F5B6 (writes +0xEC, +0xF0, +0xF4, +0x11C)
-- **Expected effect**: Car doesn't recognize surface changes. Driving onto
-  grass should NOT produce the 51 mph speed cap. Car accelerates as if still
-  on road. Surface-related force terms stay at initial values.
-- **Best scenario**: Load `usa_tt_offtrack_stop.mc0`, hold C. Car should
-  accelerate past 51 mph without the grass speed cap.
-- **Confidence**: HIGH — Tier 2, surface fields empirically characterized.
+- **Expected effect**: Car doesn't recognize surface changes. Car accelerates
+  as if still on road past the 51 mph grass cap.
+- **Actual result**: **UNEXPECTED — throttle completely dead.** Could not
+  accelerate at all. Same pattern as FUN_0602EFF0 test — a function labeled
+  as domain-specific (surface) is actually a dependency for the force pipeline.
+  FUN_0602F5B6 must write state that FUN_0602CA84 (force accumulator, call 14)
+  reads. Mapper should trace which fields FUN_0602F5B6 writes that
+  FUN_0602CA84 consumes.
+- **Best scenario**: Load `usa_tt_offtrack_stop.mc0`, hold C.
+- **Confidence**: CONFIRMED (throttle dead). Surface-isolation hypothesis
+  DISPROVEN — cannot isolate surface response by skipping this call alone.
 
-### NOP Test: FUN_0602CA84 (force accumulator, pipeline call 14)
+### NOP Test: FUN_0602CA84 (force accumulator, pipeline call 14) — PASSED 2026-03-15
 
 - **What to NOP**: `jsr @r13` at 0x0602EF48 (opcode `4D 0B` → `00 09`).
   Poke command: `poke 0602EF48 00 09`. Skips the entire force accumulator.
 - **Writer function**: FUN_0602CA84 (writes +0xFC accel delta, +0x108, +0x10C, +0x148, +0x40, +0xC0)
-- **Expected effect**: Accel delta stays at 0. Speed should not change
-  regardless of throttle (C) or brake (B). Car coasts at starting speed.
-  This is a broader test than the individual +0xFC write NOP — it disables
-  all force computation, not just the final store.
+- **Expected effect**: Accel delta stays at 0. Speed should not change.
+- **Actual result**: **CONFIRMED.** C button had zero effect — speed stayed
+  at 0. Steering LEFT/RIGHT still worked (camera sway at dead stop). This
+  cleanly differentiates from test 3 (FUN_0602EFF0) which killed BOTH
+  steering and throttle. FUN_0602CA84 is specifically the force/throttle
+  gate — independent of the steering pipeline.
 - **Best scenario**: Load `usa_tt_straight.mc0`, hold C from dead stop.
-  Speed should remain 0.
-- **Confidence**: HIGH — Tier 2, NOP-confirmed speed writer reads +0xFC
-  which this function produces.
+- **Confidence**: HIGH → **CONFIRMED**
 
 ### NOP Test: FUN_0602CCEC (speed convergence, called from FUN_0602CA84)
 
