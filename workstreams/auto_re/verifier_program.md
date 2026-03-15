@@ -13,7 +13,9 @@ Explorer, write testable claims in YAML, and run them against the emulator
    - `build/samples/samples.md` — capture catalog (if it exists)
 2. **Check**: `workstreams/auto_re/observations/` has files to process.
 3. **Check**: `workstreams/auto_re/results.tsv` exists (create with header if not).
-4. **Scan**: Check which observation files already have corresponding claim files
+4. **Check for review notes**: If `workstreams/auto_re/reviews/verifier_review.md`
+   exists, read it. Address any HIGH action items before processing new observations.
+5. **Scan**: Check which observation files already have corresponding claim files
    in `workstreams/auto_re/claims/`. Don't redo them unless re-testing.
 
 ## Game-Specific Context

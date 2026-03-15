@@ -46,6 +46,9 @@ field to target, what to expect, and which scenario reveals the effect clearly.
 2. **Scan**: `workstreams/auto_re/observations/` — all observation reports
 3. **Scan**: `workstreams/auto_re/claims/` — all claim YAML files
 4. **Read**: `build/samples/samples.md` — capture catalog (if it exists)
+5. **Check for review notes**: If `workstreams/auto_re/reviews/mapper_review.md`
+   exists, read it. Address any HIGH action items before starting your cycle.
+   These are feedback from the Reviewer — treat them as corrections to apply.
 
 ## Game-Specific Context
 
