@@ -286,7 +286,7 @@ Sources: W=writer_map_comprehensive, C=consumer_map, S=static_hypotheses, D=init
 #### +0x48 — drag_accumulator (CONFIRMED computation)
 - **Init**: -2,733,006 (from save state).
 - **Writers**: sym_0602F3EC (pc=0x0602F452, 493x, 470 unique).
-- **Pipeline**: `car[+0x48] -= clamp(speed_index × 64, 0, 2730)`. Decreases each frame proportional to speed. At speed=0, drag_amount=0, no change. Feeds downstream force calculations.
+- **Pipeline**: `car[+0x48] -= clamp(speed_index × 64, 0, 10922)` [0x2AAA]. Decreases each frame proportional to speed. At speed=0, drag_amount=0, no change. Feeds downstream force calculations.
 - **CONFIRMED**: Monotonic decrease with throttle (-2733006 → -2951628 over 300f). Static at idle.
 
 #### +0x50 — drag_accumulator_b (CONFIRMED computation)

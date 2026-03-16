@@ -433,7 +433,7 @@ car[+0x0C] (speed)
     ↓   speed_index = clamp((car[+0x0C] × 0x00480000) >> 32, 0, 344)
     ↓   car[+0x08] = speed_index
     ↓
-    ↓   drag_amount = clamp(speed_index × 64, 0, 2730)
+    ↓   drag_amount = clamp(speed_index × 64, 0, 10922)  [0x2AAA]
     ↓   car[+0x48] -= drag_amount
     ↓
     ↓   if car[+0xC0] != 0:
