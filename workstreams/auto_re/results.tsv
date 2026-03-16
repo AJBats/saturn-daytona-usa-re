@@ -9,7 +9,7 @@ function	passed	total	tier	notes
 # mov.w (16-bit) writes are also invisible. Failed writes_to claims marked [WP] below
 # are instrumentation failures, NOT incorrect hypotheses.
 FUN_0602EEB8	4	4	2	call_count(2x/frame), writes_to(+0xFC,+0x50), value_changes(speed+C). Dropped: writes_frame_counter(+0x252) [WP:16-bit].
-FUN_0602CA84	3	3	2	call_count(1x/frame), value_changes(accel_delta+C, speed+C). Force accumulator pipeline call 15. writes_to infeasible [WP:indexed].
+FUN_0602CA84	3	3	2	call_count(1x/frame), value_changes(accel_delta+C, speed+C). Force accumulator pipeline call 15. writes_to infeasible [WP:indexed]. BRAKE PATH: +0x84=255 override + +0x114=26M resistance → negative accel delta.
 sym_0602D8BC	4	5	2	call_count(1x/frame), writes_to(+0x10,+0x18C), value_changes(position_x-C). writes_heading(+0x20) [WP:indexed].
 FUN_0600C010	3	3	2	call_count(2x/frame), value_changes(speed+C, position_x-C). Racing orchestrator — no car struct writes.
 FUN_0602F5B6	3	5	2	call_count(1x/frame), value_changes(track_progress+C, speed+C). writes_to(+0xF4,+0xEC) [WP:indexed]. Surface writer pipeline call 11.
@@ -25,7 +25,7 @@ sym_0602F17C	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). G
 FUN_0602CDF6	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). State finalize pipeline call 17. Heading convergence + collision counter.
 FUN_0602D43C	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). Collision/steering pipeline call 16a. 689 lines, gates heading correction on speed>240.
 steering_rolling	0	0	0	Scenario observation (no function). Not testable [ORACLE:no multi-phase input]. Steering at 65 mph: heading changes, +0xAC NOT d-pad-driven, +0x58/+0x5C respond at speed.
-sym_0602FDA4	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). Throttle input handler pipeline call 1. Reads g_pad_state, writes +0xDE [WP:16-bit].
+sym_0602FDA4	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). Throttle input handler pipeline call 1. Reads g_pad_state, writes +0xDE [WP:16-bit]. MANUAL GEAR: +0xDC and +0xDE move together on shift, DOWN=upshift.
 dual_position	0	0	0	NOP experiment (sym_0602D8BC). DISPROVED dual position theory: all physics fields identical with/without position writer. Position is write-only terminal output. Track segments are only consumer.
 FUN_0602C690	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). Force magnitude computation pipeline call 13. Writes +0x140/+0x144 [WP:indexed].
 FUN_0602C8E2	3	3	2	call_count(3x/frame), value_changes(speed+C, position_x-C). Oversteer detection pipeline call 14. XOR sign checks, speed gates at 70/100.
@@ -34,9 +34,6 @@ sym_0602EFCC	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). S
 sym_0602F4B4	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). Opponent proximity detection pipeline call 10. Manhattan distance, sets +0xD6=20 on detect [WP:16-bit].
 dual_position_A	0	0	0	NOP test A (sym_0602D8BC + steer). Heading (+0x20) FROZEN when NOPped, slip angle (+0x28) NOT frozen. Camera rotation = slip angle, not heading. Explains human's "camera rotates around frozen car."
 throttle_gap	0	0	0	Finding: throttle gap RESOLVED. C button → +0x74 (throttle accumulator, +10/frame max 184) → FUN_0602CA84 reads +0x74 directly → +0xFC. No gaps remain in throttle pipeline.
-lookup_tables	0	0	0	Data extraction: 7 lookup tables dumped (gear ratios, shift thresholds, force bounds, drift scaling, animation states, traction constants). Phase 3 sim constants.
+lookup_tables	0	0	0	Data extraction: 7 pipeline lookup tables + 2 track geometry tables (784-entry surface, 147-entry segment). Phase 3 sim constants + course data.
 steering_writer	0	0	0	Finding: steering gap RESOLVED. LEFT (0x4000) → sub-call 0x0603006A within sym_0602FDA4 → car[+0xAC] = -16. All 6 racing inputs (C,B,UP,DOWN,LEFT,RIGHT) now traced to car struct writers.
 FUN_0602D08A	0	0	0	Pipeline call 16b (alt collision). UNREACHABLE: car[+0x9E] always 0 in all tested scenarios (wall strike, race). Only untested pipeline path.
-brake_force_path	0	0	0	Finding: brake enters FUN_0602CA84 via TWO paths: +0x84 state override (255 vs 0) AND +0x114 resistance term (26M subtracted). Combined → negative accel delta.
-manual_gear	0	0	0	Finding: +0xDC and +0xDE move TOGETHER on manual gear shift (corrects prior "independent" conclusion). DOWN=upshift. Speed drops slightly on shift.
-track_data	0	0	0	Data extraction: surface table (784 entries, 16B each, zigzag edge pairs) at 0x060C6000 + segment table (147 entries) at 0x060D5840. Disc-loaded, course-specific.
