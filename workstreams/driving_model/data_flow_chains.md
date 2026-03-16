@@ -62,11 +62,53 @@ car[+0x84]
     ↓   car[+0xD8]  = gear shift dir      ← [call 7a] sym_0602F17C
     ↓   car[+0x7C]  = gear state          ← (source unknown)
     ↓
-    ↓   FORMULA (from FUN_0602CA84 observation, lines 285-327):
-    ↓   r3 = (car[+0x108] × r5 + car[+0x10C] × r9 - car[+0x114])
-    ↓        × gear_constant >> 8
-    ↓   where gear_constant = 0x140 (gear 4/5) or 0x100 (other gears)
-    ↓         based on car[+0x7C]
+    ↓   FORMULA (fully resolved from Ghidra + pool constants):
+    ↓
+    ↓   STEP 1 — Roll projection:
+    ↓     a = -car[+0x100] × 0x3700000 >> 16    (sin(roll) × constant)
+    ↓     b = -car[+0x100] × 0x2D00000 >> 16    (sin(roll) × constant)
+    ↓     c = -car[+0x104] × car[+0x60] >> 16   (cos(roll) × track_angle_X)
+    ↓     d = -car[+0x104] × car[+0x64] >> 16   (cos(roll) × track_angle_Z)
+    ↓     if sign(c) == sign(a): a = -a
+    ↓     force_X = a + c
+    ↓     if sign(d) == sign(b): b = -b
+    ↓     force_Z = b + d
+    ↓     car[+0x148] = force_Z   (stored)
+    ↓
+    ↓   STEP 2 — Force magnitude X:
+    ↓     diff = car[+0xEC] - car[+0x140]     (surface - force_mag threshold)
+    ↓     mag = manhattan_approx(force_X, diff) (= max + min/4)
+    ↓     if mag < car[+0x140]:
+    ↓       car[+0x108] = 0x10000  (full force)
+    ↓     else:
+    ↓       car[+0x108] = FUN_0602755C(car[+0x140], mag)  (scaled)
+    ↓
+    ↓   STEP 3 — Force magnitude Z:
+    ↓     combined = car[+0xF4] + car[+0x140] - car[+0x11C]
+    ↓     mag_Z = manhattan_approx(force_Z, combined)
+    ↓     if mag_Z < car[+0x144]:
+    ↓       car[+0x10C] = 0x10000
+    ↓     else:
+    ↓       car[+0x10C] = FUN_0602755C(car[+0x144], mag_Z)
+    ↓
+    ↓   STEP 4 — Drift detection:
+    ↓     if force_Z dominates AND car[+0x10C] ≤ 0xCCCC AND car[+0xD8] ≤ 0:
+    ↓       call FUN_0602CCD0 → may set car[+0x152] = 0xA (drift timer)
+    ↓
+    ↓   STEP 5 — Drift reset (if car[+0x250] active):
+    ↓     zero: car[+0x40], +0x58, +0x5C, +0x60, +0x64
+    ↓     set: car[+0x110] = 0xFFFF0000
+    ↓
+    ↓   STEP 6 — Traction model (FUN_0602CCEC sub-call):
+    ↓     [see Chain 5 for full traction computation]
+    ↓
+    ↓   STEP 7 — Final accel delta:
+    ↓     gear = 0x140 (if car[+0x7C] is 4 or 5) else 0x100
+    ↓     term_A = iVar5 × car[+0x108] >> 16
+    ↓     term_B = car[+0x10C] × combined_force >> 16
+    ↓     car[+0xFC] = gear × (term_A + term_B - car[+0x114]) >> 24
+    ↓
+    ↓   [iVar5 and combined_force are derived from step 1 intermediates]
     ↓
 car[+0xFC] = accel_delta (CONFIRMED: +70/frame with C held)
 
@@ -96,12 +138,17 @@ car[+0x0C] (speed, scalar)
     ↓   SAVE: car[+0x38] = car[+0x10]   (pre-update X)
     ↓   SAVE: car[+0x3C] = car[+0x18]   (pre-update Z)
     ↓
+    ↓   FIRST: car[+0x20] = car[+0x30]   (copy converged heading)
+    ↓   car[+0x08] = car[+0x0C]          (copy speed → speed index field)
+    ↓
     ↓   if car[+0x250] == 0 (normal path):
-    ↓     heading_angle = [computed from upstream pipeline stages]
-    ↓     cos_h = FUN_06027344(heading_angle)
-    ↓     sin_h = FUN_06027348(-heading_angle)
-    ↓     velocity_x = (speed_factor × sin_h) >> 16    [16.16 fixed-point]
-    ↓     velocity_z = (speed_factor × cos_h) >> 16
+    ↓     slip = car[+0x28]               (**SLIP ANGLE, not heading**)
+    ↓     cos_s = FUN_06027344(-slip)     (cos of negated slip)
+    ↓     sin_s = FUN_06027348(-slip)     (sin of negated slip)
+    ↓     velocity_x = (speed_factor × sin_s) >> 16    [16.16 fixed-point]
+    ↓     velocity_z = (speed × cos_s) >> 16
+    ↓     NOTE: car moves in SLIP direction, not heading direction.
+    ↓     The slip angle = direction of travel. Heading = where nose points.
     ↓
     ↓   if car[+0x250] != 0 (drift path, counter 1-10):
     ↓     drift_scale = sym_0602E8B8[car[+0x250]]
@@ -479,8 +526,8 @@ car[+0x50] = drag_accumulator_b (diverges from +0x48 when +0xC0 active)
 
 | Gap | Location | What's Missing | Priority |
 |-----|----------|----------------|----------|
-| Force formula internals | FUN_0602CA84 | How +0x84 (throttle) combines with surface/geometry terms in the 440-instruction body | HIGH — needed for sim-level math |
-| Heading source for position writer | sym_0602D8BC | Which field provides the heading angle for sin/cos decomposition | HIGH — determines steering→position chain |
+| Force formula internals | FUN_0602CA84 | **CLOSED** — full formula resolved from Ghidra + pool constants. See Chain 1 annotated formula. | DONE |
+| Heading source for position writer | sym_0602D8BC | **CLOSED** — uses -car[+0x28] (slip angle), NOT +0x20 (heading). Also copies +0x30→+0x20. | DONE |
 | Brake → negative force | FUN_0602CA84 | How +0x90 (brake) produces negative +0xFC | MED — symmetric to throttle |
 | Drag → force feedback | +0x48/+0x50 → ? | How drag accumulators re-enter the force computation | MED |
 | Manual gear → +0xDC | +0xDE → +0xDC | How manual gear selection feeds the gear ratio lookup | LOW — same physics, different trigger |
