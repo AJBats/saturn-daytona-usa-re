@@ -422,11 +422,12 @@ DOWN button (0x1000): car[+0xDE] -= 1 (min 0)
     ↓
 car[+0xDE] = manual_gear_position (0-3)
 
-    ↓ [NARROWED: FUN_06008318 (gear shift handler) manages UP/DOWN with a
-    ↓  32-frame timer at +0xB8 and a steering kick from table at 0x060453CC.
-    ↓  In manual mode, the handler likely writes +0xDC directly during the
-    ↓  shift event. Explorer: watchpoint on +0xDC during manual UP press
-    ↓  to confirm the writer PC and verify +0xDE→+0xDC relationship.]
+    ↓ CONFIRMED: +0xDC and +0xDE change TOGETHER on every manual shift.
+    ↓ Explorer observed: 0→1→2→3 in lockstep at frames 194, 342, 500.
+    ↓ DOWN writes +0xDE and +0xDC follows within the same frame.
+    ↓ Speed drops slightly on upshift (62.7→61.3 mph) from gear ratio change.
+    ↓ In auto mode, sym_0602F17C manages +0xDC via thresholds.
+    ↓ In manual mode, the DOWN handler writes both directly.
 ```
 
 ---
@@ -542,4 +543,4 @@ car[+0x50] = drag_accumulator_b (diverges from +0x48 when +0xC0 active)
 | Drag → force feedback | **CLOSED** | Drag accumulators feed the shared surface system, not the player force accumulator directly. Indirect path: +0x48/+0x50 → shared track system → +0xEC/+0xF0/+0xF4/+0x11C → force formula. |
 | Heading computation details | **CLOSED** | Full offset chain: +0xAC → +0xB0/+0x78/+0x94 → EMA→+0xD0 → +0x58/+0x5C → +0x30 += correction → +0x30→+0x20. Direction via -sin(+0x28). |
 | Brake → negative force | **CLOSED** | CSV analysis of tt_brake_300f.csv reveals symmetric mechanism: B→+0x90(+40/f) and +0x90 feeds +0x94 which copies to +0x84 via call 6. Meanwhile +0x74 (throttle) decays. The force accumulator reads the NET of throttle vs brake through their paired copies. When brake > throttle → negative accel delta. |
-| Manual gear → +0xDC | **NARROWED** | FUN_06008318 handles UP/DOWN with 32-frame timer. Likely writes +0xDC directly. **Explorer needed**: watchpoint on +0xDC during manual UP press to confirm. |
+| Manual gear → +0xDC | **CLOSED** | +0xDC and +0xDE change TOGETHER on every manual shift (Explorer obs: 0→1→2→3 in lockstep). DOWN writes +0xDE, +0xDC follows same frame. Speed drops slightly on upshift (gear ratio change). |
