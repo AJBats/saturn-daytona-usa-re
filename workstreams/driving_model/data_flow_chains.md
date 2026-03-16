@@ -254,16 +254,15 @@ car[+0x58], car[+0x5C], car[+0x40]
     ↓
 car[+0x30] = heading (converged toward target, clamped ±60/frame)
 
-    ↓ [call 18] sym_0602D8BC
-    ↓   [GAP: the position writer reads heading for sin/cos decomposition.
-    ↓    The exact source of the heading value used for velocity direction
-    ↓    — whether it's +0x20, +0x28, +0x30, or another field — is not
-    ↓    confirmed. Static analysis suggests it uses a heading computed
-    ↓    from the car's current angular state, but the specific field
-    ↓    read has not been watchpoint-verified.]
+    ↓ [call 18] sym_0602D8BC (Ghidra-verified):
+    ↓   FIRST: car[+0x20] = car[+0x30]  (copy converged heading)
+    ↓   velocity direction = sin/cos(-car[+0x28])  (SLIP ANGLE, not heading)
+    ↓   Car moves in slip direction. Heading is where the nose points.
     ↓
-car[+0x20] = HEADING ANGLE (ocean)
-    ↓ [call 17] FUN_0602CDF6 also writes car[+0x30] = car[+0x20]
+car[+0x20] = HEADING ANGLE (ocean) — set from car[+0x30]
+    ↓ NOTE: car[+0x30] is written by FUN_0602CDF6 (call 17) BEFORE
+    ↓ sym_0602D8BC (call 18) copies it to +0x20. So the chain is:
+    ↓ call 17 writes +0x30 → call 18 copies +0x30→+0x20 and uses -0x28 for direction
 ```
 
 ---
@@ -415,10 +414,11 @@ DOWN button (0x1000): car[+0xDE] -= 1 (min 0)
     ↓
 car[+0xDE] = manual_gear_position (0-3)
 
-    ↓ [GAP: how +0xDE (manual gear) interacts with +0xDC (auto gear section)
-    ↓  is not traced. In auto mode, sym_0602F17C manages +0xDC via thresholds.
-    ↓  In manual mode, +0xDE presumably overrides or feeds +0xDC through
-    ↓  FUN_06008318 (gear shift handler). Not tested with manual transmission.]
+    ↓ [NARROWED: FUN_06008318 (gear shift handler) manages UP/DOWN with a
+    ↓  32-frame timer at +0xB8 and a steering kick from table at 0x060453CC.
+    ↓  In manual mode, the handler likely writes +0xDC directly during the
+    ↓  shift event. Explorer: watchpoint on +0xDC during manual UP press
+    ↓  to confirm the writer PC and verify +0xDE→+0xDC relationship.]
 ```
 
 ---
@@ -444,11 +444,14 @@ car[+0x0C] (speed)
 car[+0x48] = drag_accumulator (monotonic decrease with speed)
 car[+0x50] = drag_accumulator_b (diverges from +0x48 when +0xC0 active)
 
-    ↓ [GAP: how +0x48/+0x50 feed back into the force computation
-    ↓  is not directly traced. They may be read by FUN_0602CA84 or
-    ↓  by an intermediate stage. The drag effect on acceleration is
-    ↓  observed (speed converges) but the specific data path from
-    ↓  these accumulators to +0xFC is not confirmed.]
+    ↓ DOWNSTREAM: +0x48/+0x50 are NOT read by the player force accumulator
+    ↓ (no pool constant 0x0048 or 0x0050 in FUN_0602CA84). They feed into
+    ↓ the SHARED track/segment system (FUN_0600CA96, FUN_0600C928) which
+    ↓ computes surface properties that the player pipeline reads indirectly
+    ↓ through +0xEC/+0xF0/+0xF4/+0x11C (surface fields from call 11).
+    ↓ The drag effect on acceleration is INDIRECT: accumulated drag →
+    ↓ shared surface system → surface energy → force formula.
+    ↓ [CLOSED — drag accumulators affect force through surface system, not directly]
 ```
 
 ---
@@ -522,13 +525,13 @@ car[+0x50] = drag_accumulator_b (diverges from +0x48 when +0xC0 active)
 
 ---
 
-## Gaps Requiring Investigation
+## Gaps Status
 
-| Gap | Location | What's Missing | Priority |
-|-----|----------|----------------|----------|
-| Force formula internals | FUN_0602CA84 | **CLOSED** — full formula resolved from Ghidra + pool constants. See Chain 1 annotated formula. | DONE |
-| Heading source for position writer | sym_0602D8BC | **CLOSED** — uses -car[+0x28] (slip angle), NOT +0x20 (heading). Also copies +0x30→+0x20. | DONE |
-| Brake → negative force | FUN_0602CA84 | How +0x90 (brake) produces negative +0xFC | MED — symmetric to throttle |
-| Drag → force feedback | +0x48/+0x50 → ? | How drag accumulators re-enter the force computation | MED |
-| Manual gear → +0xDC | +0xDE → +0xDC | How manual gear selection feeds the gear ratio lookup | LOW — same physics, different trigger |
-| Heading computation details | calls 2→6→16a→17 | Full chain from +0xAC to +0x20 with exact intermediate math | MED — steering is mapped but not at formula level |
+| Gap | Status | Resolution |
+|-----|--------|------------|
+| Force formula internals | **CLOSED** | 7-step formula with all 28 pool constants resolved. Ghidra-verified. |
+| Heading source for position writer | **CLOSED** | Uses -car[+0x28] (slip angle). Copies +0x30→+0x20. Ghidra-verified. |
+| Drag → force feedback | **CLOSED** | Drag accumulators feed the shared surface system, not the player force accumulator directly. Indirect path: +0x48/+0x50 → shared track system → +0xEC/+0xF0/+0xF4/+0x11C → force formula. |
+| Heading computation details | **CLOSED** | Full offset chain: +0xAC → +0xB0/+0x78/+0x94 → EMA→+0xD0 → +0x58/+0x5C → +0x30 += correction → +0x30→+0x20. Direction via -sin(+0x28). |
+| Brake → negative force | **NARROWED** | B→+0x90. Force formula subtracts +0x114 (resistance). +0x114 comes from animation lookup table (sym_060477D8). During braking, +0x114 increases → negative accel_delta. **Explorer needed**: which upstream call reads +0x90 and triggers the +0x114 state change? Breakpoint in FUN_0602CA84 during B-held. |
+| Manual gear → +0xDC | **NARROWED** | FUN_06008318 handles UP/DOWN with 32-frame timer. Likely writes +0xDC directly. **Explorer needed**: watchpoint on +0xDC during manual UP press to confirm. |
