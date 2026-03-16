@@ -37,3 +37,6 @@ throttle_gap	0	0	0	Finding: throttle gap RESOLVED. C button → +0x74 (throttle 
 lookup_tables	0	0	0	Data extraction: 7 lookup tables dumped (gear ratios, shift thresholds, force bounds, drift scaling, animation states, traction constants). Phase 3 sim constants.
 steering_writer	0	0	0	Finding: steering gap RESOLVED. LEFT (0x4000) → sub-call 0x0603006A within sym_0602FDA4 → car[+0xAC] = -16. All 6 racing inputs (C,B,UP,DOWN,LEFT,RIGHT) now traced to car struct writers.
 FUN_0602D08A	0	0	0	Pipeline call 16b (alt collision). UNREACHABLE: car[+0x9E] always 0 in all tested scenarios (wall strike, race). Only untested pipeline path.
+brake_force_path	0	0	0	Finding: brake enters FUN_0602CA84 via TWO paths: +0x84 state override (255 vs 0) AND +0x114 resistance term (26M subtracted). Combined → negative accel delta.
+manual_gear	0	0	0	Finding: +0xDC and +0xDE move TOGETHER on manual gear shift (corrects prior "independent" conclusion). DOWN=upshift. Speed drops slightly on shift.
+track_data	0	0	0	Data extraction: surface table (784 entries, 16B each, zigzag edge pairs) at 0x060C6000 + segment table (147 entries) at 0x060D5840. Disc-loaded, course-specific.
