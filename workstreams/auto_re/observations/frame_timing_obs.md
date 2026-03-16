@@ -43,12 +43,25 @@ physics needs scaling by **2/3** (20→30 fps means each frame is 2/3 as long):
 | Timer decrements | -1/frame | -1/frame | same (but fewer frames) |
 | Steering scale | ×255 | ×170 | ×0.667 |
 
-### VBlank Wait Location
+### VBlank Wait Location (Experiment B — Partial)
 
-The VBlank wait is in the main loop chain BEFORE FUN_0600C010. The
-cycle gap between physics frames (~1.44M cycles) includes:
-- Physics computation: ~478K cycles (one frame)
-- VBlank wait: ~958K cycles (two VBlanks of idle waiting)
+The VBlank wait is in the SGL library (`slSynch` from SEGA_SGL.A).
+The call stack addresses (0x06000310, 0x060072E4, 0x0600305C) are
+boot-time return addresses on the stack, NOT per-frame loop functions
+— breakpoints on them don't fire during racing.
 
-The wait function is likely in 0x060072E4 or 0x0600305C (the early
-main loop functions). Experiment B should identify the exact function.
+The per-frame loop caller is at ~0x0600943C (PR=0x06009460 for
+FUN_0600C010). This function contains multiple `jsr @R3` calls from
+pool constants — one of these calls `slSynch` or its equivalent.
+
+**Cycle budget per physics frame**:
+- Physics computation: ~478K cycles (33% of frame)
+- VBlank wait: ~958K cycles (67% of frame — spinning for 2 VBlanks)
+- Total: ~1.44M cycles = 3 VBlanks at 28.636 MHz
+
+### sym_0607EAAC Is a Countdown Timer
+
+sym_0607EAAC (struct map: "frame counter?") is a **countdown timer**,
+not a frame counter. Decrements by 1 per physics frame (every 3 VBlanks).
+Observed: 634 → 512 (initial read was mid-frame) → 511 → 510.
+Counts physics frames remaining until some event (likely lap/race timer).
