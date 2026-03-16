@@ -8,46 +8,49 @@ reachable: true
 
 ## Experiment 2: Manual Gear Writer for +0xDC
 
-### Result: UP/DOWN writes +0xDE only, NOT +0xDC
+### CORRECTED Result: +0xDC and +0xDE Change TOGETHER on Gear Shift
 
-| Action | car[+0xDC] | car[+0xDE] |
-|--------|-----------|-----------|
-| Initial (manual, ~179 mph) | 3 | 3 |
-| After UP × 5 frames | 3 (unchanged) | 2 (decreased!) |
-| After DOWN × 5 frames | 3 (unchanged) | 3 (restored) |
-| After 100 more frames (C held) | 3 (unchanged) | 3 |
+Initial experiment (cycle 36) used an undocumented save state starting at
+gear 3 / ~179 mph — both fields were already at max, masking the behavior.
+Re-run with properly documented `usa_tt_manual_straight.mc0` (dead stop,
+gear 0) shows the correct behavior.
 
-### Key Findings
+**Replayed scenario**: C held from standstill, DOWN tapped at frames 190,
+337, 494 (matching human's recorded input trace).
 
-1. **UP button DOWNSHIFTS** (decreases +0xDE from 3 to 2). DOWN UPSHIFTS
-   (increases +0xDE back to 3). The mapping is inverted from typical racing
-   game conventions — or the d-pad direction mapping differs.
+| Point | Frame | Speed (mph) | +0xDC | +0xDE | Event |
+|-------|-------|-------------|-------|-------|-------|
+| Start | 0 | 0 | 0 | 0 | C held |
+| Pre-shift 1 | 189 | 62.7 | 0 | 0 | |
+| Post-shift 1 | 194 | 61.3 | 1 | 1 | DOWN tap |
+| Pre-shift 2 | 337 | 104.1 | 1 | 1 | |
+| Post-shift 2 | 342 | 102.1 | 2 | 2 | DOWN tap |
+| Pre-shift 3 | 494 | 130.6 | 2 | 2 | Early shift |
+| Post-shift 3 | 500 | 131.3 | 3 | 3 | DOWN tap |
 
-2. **+0xDC is NOT written by UP/DOWN buttons.** It stays at 3 throughout
-   manual mode at high speed. The auto-shift threshold system (sym_0602F17C)
-   manages +0xDC independently based on car[+0xE0] vs threshold tables.
+### Key Findings (Corrected)
 
-3. **+0xDE and +0xDC are independent systems:**
-   - +0xDE: player manual gear selection (0-3, written by sym_0602FDA4)
-   - +0xDC: auto-shift section index (written by sym_0602F17C thresholds)
+1. **+0xDC and +0xDE change TOGETHER** on every manual gear shift. DOWN
+   writes +0xDE, and +0xDC follows immediately — either the DOWN handler
+   also writes +0xDC, or sym_0602F17C's threshold system detects the gear
+   change within the same frame and updates +0xDC to match.
 
-   In manual mode, BOTH still run. The auto-shift continues managing +0xDC
-   while the player manages +0xDE. The force formula likely uses BOTH:
-   sym_0602D814 uses +0xDC for the gear ratio table, while FUN_0602CCEC
-   uses +0xDC for the force constant table.
+2. **DOWN = upshift** in Daytona USA manual transmission.
 
-### +0xDE → +0xDC Link: NONE (Independent Systems)
+3. **Speed drops slightly on upshift** (62.7→61.3, 104.1→102.1 mph).
+   Consistent with the gear ratio change affecting the speed→force
+   computation — higher gear = lower ratio = momentary speed adjustment.
 
-The Mapper's question was whether manual gear input writes +0xDC. Answer:
-**NO**. The manual button writes +0xDE exclusively. +0xDC is always managed
-by the auto-shift threshold system regardless of transmission mode.
+4. **Shift 3 was early** (human shifted at 130 mph to reach 4th gear
+   before wall strike). This produces a different RPM pattern than auto
+   transmission would choose via thresholds.
 
-This means in manual mode, the player's gear selection (+0xDE) and the
-speed-based section index (+0xDC) can DIVERGE — the player may select
-gear 1 while +0xDC says section 3 (because speed is still high). The
-game may use +0xDE to override the gear ratio lookup in manual mode,
-or +0xDE may affect a different computation path entirely.
+### +0xDE → +0xDC Link: CONFIRMED (Synchronized)
+
+The cycle 36 conclusion that these are "independent systems" was WRONG —
+that was an artifact of testing at max gear where both were already 3.
+From a clean start, **they move in lockstep on every shift.**
 
 ### Save State Used
-- `daytona_manual_trans.8180a74b2162ad4393a9630de58615e3.mc0`
-- Mode: Race, 40 cars, Three Seven, manual transmission, ~179 mph
+- `usa_tt_manual_straight.mc0`
+- Mode: Time Trial, solo, Three Seven, manual transmission, 0 mph dead stop

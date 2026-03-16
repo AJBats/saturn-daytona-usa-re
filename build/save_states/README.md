@@ -86,3 +86,39 @@ All scenarios: load state → hold inputs → free run.
 |----------|--------|--------|------------------|
 | **offtrack_throttle** | C (hold) | 566 | Car reaches track/grass boundary at frame 109 (27 mph). Fully on grass by frame ~110+. By frame 566: 51 mph, stuck in gear 1 with maxed RPM — suggests tire slip/traction loss on grass prevents speed buildup and gear shift. Compare memory before/at/after frame 109 for surface transition |
 | **offtrack_donut** | C (hold entire), LEFT (frame 133–439) | 439 | Throttle into grass then left turn at frame 133. Car does donuts on grass, 33 mph gear 1, no collision. Tests off-track steering + surface handling. Replay: load state → hold C → advance 133 frames → press LEFT → advance 306 frames |
+
+## usa_tt_manual_straight.mc0
+
+- **Mode**: Time Trial (solo, no AI cars)
+- **Course**: Three Seven Speedway (Beginner)
+- **Speed**: 0 mph (dead stop)
+- **Position**: N/A (time trial)
+- **Transmission**: MANUAL
+- **Build**: Vanilla (unmodified retail binary)
+- **Location**: Long straightaway, mid-course
+- **Known constraints**:
+  - Full throttle (hold C) from standing start, 3 manual upshifts (DOWN), wall strike at far corner ~frame 641
+  - ~641 frames of clean straight-line acceleration with manual gear shifts
+- **Best for**: Manual gear shift logic, UP/DOWN gear input tracing,
+  RPM/speed/gear relationship studies, +0xDE behavior
+- **Avoid for**: Clean physics tests where gear shifts add noise (use
+  usa_tt_straight with auto instead)
+
+### Scenarios (deterministic replay from usa_tt_manual_straight.mc0)
+
+| Frame | Event | Notes |
+|-------|-------|-------|
+| 0 | PRESS C | Throttle from standstill |
+| 190 | PRESS DOWN | Gear shift up #1 (1st → 2nd) |
+| 195 | RELEASE DOWN | |
+| 337 | PRESS DOWN | Gear shift up #2 (2nd → 3rd) |
+| 342 | RELEASE DOWN | |
+| 494 | PRESS DOWN | Gear shift up #3 (3rd → 4th) — shifted early to reach 4th before wall |
+| 500 | RELEASE DOWN | |
+| 641 | PRESS START | Wall strike at far corner |
+| 643 | RELEASE C | Throttle released |
+| 647 | RELEASE START | |
+
+Replay: load state → hold C → advance to frame 190 → tap DOWN → advance
+to frame 337 → tap DOWN → advance to frame 494 → tap DOWN → run to ~641
+for wall strike. DOWN = upshift in Daytona USA manual transmission.
