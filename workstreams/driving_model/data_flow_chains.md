@@ -10,8 +10,17 @@ intermediate computation to the final output fields.
 - car[+0x18] — World Z position
 - car[+0x20] — Heading angle (yaw)
 
+**Frame timing** (CONFIRMED 2026-03-16):
+- DUSA runs at **20 fps** (3 VBlanks per physics frame, NTSC 60Hz)
+- CCE runs at **30 fps** (2 VBlanks per physics frame)
+- ALL per-frame constants assume 50ms frame interval (20fps)
+- Transplant to CCE requires **×2/3 scaling** on all per-frame deltas
+- Physics budget: ~478K cycles/frame (33% of 3-VBlank budget)
+- At 30fps: ~958K cycles available, physics still fits (50% utilization)
+- VBlank wait is at END of loop (after physics+rendering complete)
+
 **Format**: `source → [function] computation → destination`
-Gaps marked with **[GAP]**. Pipeline call numbers in brackets.
+All gaps CLOSED. Pipeline call numbers in brackets.
 
 ---
 
@@ -544,3 +553,42 @@ car[+0x50] = drag_accumulator_b (diverges from +0x48 when +0xC0 active)
 | Heading computation details | **CLOSED** | Full offset chain: +0xAC → +0xB0/+0x78/+0x94 → EMA→+0xD0 → +0x58/+0x5C → +0x30 += correction → +0x30→+0x20. Direction via -sin(+0x28). |
 | Brake → negative force | **CLOSED** | CSV analysis of tt_brake_300f.csv reveals symmetric mechanism: B→+0x90(+40/f) and +0x90 feeds +0x94 which copies to +0x84 via call 6. Meanwhile +0x74 (throttle) decays. The force accumulator reads the NET of throttle vs brake through their paired copies. When brake > throttle → negative accel delta. |
 | Manual gear → +0xDC | **CLOSED** | +0xDC and +0xDE change TOGETHER on every manual shift (Explorer obs: 0→1→2→3 in lockstep). DOWN writes +0xDE, +0xDC follows same frame. Speed drops slightly on upshift (gear ratio change). |
+
+---
+
+## Per-Frame Constants (30fps Scaling Catalog)
+
+DUSA runs at 20fps. CCE runs at 30fps. Every per-frame constant needs ×2/3
+scaling for the transplant. This catalog lists every known fixed delta.
+
+### Confirmed per-frame deltas (from data flow chains + observations)
+
+| Constant | Function | DUSA Value (20fps) | 30fps Value (×2/3) | Type |
+|----------|----------|-------------------|-------------------|------|
+| Throttle ramp | sym_0602FDA4 | +10/frame | +7 | Linear accumulator |
+| Brake ramp | sym_0602FDA4 | +40/frame | +27 | Linear accumulator |
+| Throttle decay | sym_0602FDA4 | toward 56 (rate TBD) | rate × 2/3 | Exponential decay |
+| Brake decay | sym_0602FDA4 | r4 - r4/2 per frame | same formula, fewer frames | Half-life decay |
+| Drag amount | sym_0602F3EC | speed_idx × 64 | speed_idx × 43 | Speed-proportional |
+| Drag max clamp | sym_0602F3EC | 10922 (0x2AAA) | 7281 | Clamp ceiling |
+| Traction decay | FUN_0602CCEC | -1474/frame | -983 | Linear decay |
+| Heading correction max | FUN_0602CDF6 | ±60/frame | ±40 | Clamp per frame |
+| Heading EMA blend | sym_0602F0E8 | (B0<<8 + D0) >> 1 | Needs recalculation | Exponential moving avg |
+| Steering scale | FUN_0602EFF0 | ×255 | ×170 | Input amplification |
+| Timer decrements | sym_0602F7BC | -1/frame (3 timers) | -1/frame (but 50% more frames) | Counters run faster at 30fps |
+| Gear shift decay | sym_0602F17C | ±1/frame toward 0 | ±1/frame (shift feels faster) | Linear decay |
+| Speed integration | sym_0602D814 | speed += accel_delta | accel_delta × 2/3 (via above) | Accumulator |
+| Position integration | sym_0602D8BC | pos += velocity | velocity × 2/3 (via speed) | Accumulator |
+| Gear scaling constant | sym_0602D814 | 0x0221AC91 | unchanged (ratio, not rate) | Fixed-point multiplier |
+| Gear ratio table | sym_060477BC | [603990, 369187, ...] | unchanged (ratios) | Lookup table |
+| Threshold tables | sym_060477AC/9C | [7400, ...] / [-5000, ...] | unchanged (thresholds on +0xE0) | Gear shift triggers |
+
+### Scaling rules
+
+**Linear accumulators** (`+= K`): multiply K by 2/3.
+**Exponential decays** (`x = x - x/N`): the half-life in SECONDS stays the same, but the per-frame decay rate changes. For `x -= x/2` at 20fps (half-life = 1 frame = 50ms), at 30fps the equivalent is `x -= x/2` still, but it now decays every 33ms. To match the 50ms half-life: `x -= x × 0.0139` per 33ms frame (from `1 - 0.5^(2/3)`). In fixed-point: `x -= x/72` approximately. But this may make the feel different — test empirically.
+**Speed-proportional values** (drag = speed × K): multiply K by 2/3.
+**Clamp ceilings**: multiply by 2/3 (the cap represents max-per-frame, which is shorter at 30fps).
+**Lookup tables** (gear ratios, thresholds): UNCHANGED — these are ratios and absolute values, not rates.
+**Timer counters** (-1/frame): the counter duration in FRAMES changes (20 frames at 20fps = 1 second, but 20 frames at 30fps = 0.67 seconds). Either scale the initial count ×3/2, or accept faster timers.
+**Integration accumulators** (speed += delta, pos += vel): these cascade — if accel_delta is already scaled by 2/3, speed accumulates at the correct rate. Position integration then also correct. **Do NOT double-scale.**
