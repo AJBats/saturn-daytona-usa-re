@@ -21,11 +21,11 @@ sym_0602F3EC	3	3	2	call_count(1x/frame), writes_to(+0x08 speed_index, 59 hits), 
 sym_0602F0E8	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). Collision state check pipeline call 6. writes_to infeasible [WP:indexed+delay].
 sym_0602F7BC	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). Timer decrementor pipeline call 5. writes_to infeasible [WP:16-bit+indexed].
 sym_0602F474	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). Animation counter pipeline call 9. writes_to infeasible [WP:16-bit+indexed].
-sym_0602F17C	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). Gear state machine pipeline call 7a. writes_to infeasible [WP:16-bit+indexed].
+sym_0602F17C	4	4	2	call_count(1x/frame), value_changes(speed+C, position_x-C, gear_section+manual 0→0x30003). Gear state machine pipeline call 7a. MANUAL GEAR CONFIRMED via timed scenario.
 FUN_0602CDF6	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). State finalize pipeline call 17. Heading convergence + collision counter.
 FUN_0602D43C	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). Collision/steering pipeline call 16a. 689 lines, gates heading correction on speed>240.
 steering_rolling	0	0	0	Scenario observation (no function). Not testable [ORACLE:no multi-phase input]. Steering at 65 mph: heading changes, +0xAC NOT d-pad-driven, +0x58/+0x5C respond at speed.
-sym_0602FDA4	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). Throttle input handler pipeline call 1. Reads g_pad_state, writes +0xDE [WP:16-bit]. MANUAL GEAR: +0xDC and +0xDE move together on shift, DOWN=upshift.
+sym_0602FDA4	5	5	2	call_count(1x/frame), value_changes(speed+C, position_x-C, gear+manual 0→0x30003, speed+manual 0→136mph). Throttle+gear input handler. MANUAL GEAR CONFIRMED: +0xDC/+0xDE 0→3 in 550f.
 dual_position	0	0	0	NOP experiment (sym_0602D8BC). DISPROVED dual position theory: all physics fields identical with/without position writer. Position is write-only terminal output. Track segments are only consumer.
 FUN_0602C690	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). Force magnitude computation pipeline call 13. Writes +0x140/+0x144 [WP:indexed].
 FUN_0602C8E2	3	3	2	call_count(3x/frame), value_changes(speed+C, position_x-C). Oversteer detection pipeline call 14. XOR sign checks, speed gates at 70/100.

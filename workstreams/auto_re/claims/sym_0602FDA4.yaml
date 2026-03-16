@@ -32,3 +32,20 @@ claims:
     input: C
     direction: decreases
     frames: 60
+
+  # Manual transmission claims (using timed scenario with gear shifts)
+  - id: gear_increases_manual
+    type: value_changes_with_input
+    description: "Gear fields +0xDC/+0xDE increase from 0 to 3 during manual 4-gear run (32-bit read captures both 16-bit fields)"
+    address: 0x060789DC
+    scenario: manual_throttle_4gear
+    direction: increases
+    frames: 550
+
+  - id: speed_increases_manual
+    type: value_changes_with_input
+    description: "Speed increases from 0 to ~130 mph during manual 4-gear run with C held + 3 downshifts"
+    address: 0x0607890C
+    scenario: manual_throttle_4gear
+    direction: increases
+    frames: 550

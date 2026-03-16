@@ -32,3 +32,12 @@ claims:
     input: C
     direction: decreases
     frames: 60
+
+  # Manual transmission claim — gear state machine manages +0xDC transitions
+  - id: gear_section_increases_manual
+    type: value_changes_with_input
+    description: "Gear section +0xDC increases during manual 4-gear run (this function manages +0xDC thresholds)"
+    address: 0x060789DC
+    scenario: manual_throttle_4gear
+    direction: increases
+    frames: 550
