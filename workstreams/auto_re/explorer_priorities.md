@@ -1,12 +1,91 @@
 # Explorer Priorities — Loop 2, Updated 2026-03-16
 
-**Strategic direction**: Clearing ALL fog. The transplant may need to meld
-CCE coordinate spaces and track data with the DUSA physics model. Every
-internal data path must be fully traced — not just the interface boundary.
+**Strategic direction**: Frame timing is the new #1. The DUSA physics uses
+fixed per-frame constants with no dt variable. Every `+= K` assumes a specific
+frame interval. If DUSA runs at 20fps and CCE at 30fps, the transplanted
+physics runs 1.5× too fast. We need to: (1) measure DUSA's actual framerate,
+(2) find the frame timing mechanism, (3) modify DUSA to 30fps as a proving
+ground before transplanting to CCE.
 
-Two remaining unknowns. Both are single-experiment tasks.
+## HIGH PRIORITY — Frame Timing
 
-## Experiment 1: Brake force path inside FUN_0602CA84
+### Experiment A: Measure DUSA frame rate
+
+**Goal**: Determine exactly how many VBlanks pass between consecutive
+physics frames. NTSC VBlank = 60Hz. If physics runs every 3 VBlanks = 20fps.
+Every 2 VBlanks = 30fps.
+
+**What to do**:
+1. Load `usa_tt_straight.mc0`. Set breakpoint at FUN_0600C010 (racing
+   orchestrator, the first game code each frame).
+2. Read the VBlank counter. On Saturn, the SCU's timer or the VBlank
+   interrupt counter tracks this. Check sym_0607EAAC (we identified this
+   as a frame counter that increments +1/frame). If this increments by 1
+   each physics frame, it doesn't tell us VBlank count.
+3. **Better approach**: Use `dump_cycle` to read the cycle counter at two
+   consecutive FUN_0600C010 breakpoint hits. The delta in CPU cycles ÷
+   the SH-2 clock rate (28.6MHz) gives the exact frame interval.
+   - 20fps = 50ms = 1,430,000 cycles between frames
+   - 30fps = 33ms = 953,333 cycles between frames
+4. Measure during idle (no input) AND during racing (C held) — the
+   frame time may vary if it's not VBlank-locked.
+
+**What this tells us**: The exact N in "60/N fps" and whether the game
+runs at fixed or variable frame rate.
+
+### Experiment B: Find the VBlank wait mechanism
+
+**Goal**: Identify which function in the main loop chain waits for VBlank.
+This is the framerate governor — changing it would change the fps.
+
+**What to do**:
+1. The main loop chain is: BIOS → 0x06000310 → 0x060072E4 → 0x0600305C
+   → 0x0600943C → FUN_0600C010.
+2. One of these early functions (likely 0x060072E4 or 0x0600305C) contains
+   a VBlank wait loop. On Saturn, this typically looks like:
+   - Reading SMPC or SCU interrupt status register
+   - OR: writing to the VBlank semaphore and spinning until cleared
+   - OR: calling SGL's `slSynch()` which waits for VBlank count
+3. Set breakpoint at each function in the chain. At each break, read the
+   cycle counter. The function with the LARGEST cycle count between entry
+   and exit is the one doing the wait (it's spinning).
+4. Alternatively, search for reads of the VBlank counter register or
+   the string "slSynch" in the binary.
+
+**What this tells us**: Where to patch for 30fps. If the wait counts 3
+VBlanks (20fps), changing it to 2 gives 30fps.
+
+### Experiment C: Catalog all per-frame fixed constants
+
+**Goal**: Build the complete list of constants that need 20/30 scaling
+for the 30fps conversion.
+
+**What to do**: This can largely be done from existing data (Mapper work).
+From the data flow chains, every `+= K` or `-= K` per frame is a fixed
+constant. Catalog:
+
+| Constant | Location | Current Value | 30fps Value (×2/3) |
+|----------|----------|---------------|-------------------|
+| Throttle ramp | sym_0602FDA4 | +10/frame | +6.67 → +7 |
+| Brake ramp | sym_0602FDA4 | +40/frame | +26.67 → +27 |
+| Drag amount | sym_0602F3EC | speed_idx × 64 | speed_idx × 43 |
+| Traction decay | FUN_0602CCEC | -1474/frame | -983 |
+| Heading correction | FUN_0602CDF6 | ±60/frame | ±40 |
+| Throttle decay | sym_0602FDA4 | toward 56 | rate × 2/3 |
+| Brake decay | sym_0602FDA4 | r4 - r4/2 | same formula, runs less often |
+| Timer decrements | sym_0602F7BC | -1/frame | -1/frame (but frame count changes) |
+| Steering deadzone | FUN_0602EFF0 | ×255 scale | ×170 |
+| EMA blend | sym_0602F0E8 | (B0<<8 + D0)>>1 | blend rate needs adjustment |
+
+**What this tells us**: The exact patch list for 30fps conversion.
+Some constants can use integer 2/3 approximation. Others (like EMA blend
+rates and exponential decays) need more careful recalculation.
+
+## COMPLETED (data flow gaps)
+
+Both previous experiments resolved:
+- Experiment 1 (brake): CLOSED via CSV analysis — symmetric with throttle
+- Experiment 2 (manual gear): CLOSED — +0xDC and +0xDE synchronized
 
 **Goal**: Find exactly how car[+0x90] (brake force, range 56-184) produces
 negative car[+0xFC] (accel delta, observed peak -303).
