@@ -49,8 +49,9 @@ SAVE_STATES = {
     # Offtrack scenarios — from save_states README
     "offtrack_throttle": os.path.join(PROJECT, "build", "save_states",
         "usa_tt_offtrack_stop.mc0"),
-    # offtrack_donut requires delayed LEFT input — not expressible with
-    # the current simple input system
+    # Manual transmission time trial — from save_states README
+    "manual_throttle_4gear": os.path.join(PROJECT, "build", "save_states",
+        "usa_tt_manual_straight.mc0"),
 }
 
 SCENARIO_INPUTS = {
@@ -66,7 +67,24 @@ SCENARIO_INPUTS = {
     "right_wall_strike": ["RIGHT", "C"],
     # Offtrack scenarios
     "offtrack_throttle": ["C"],
+    # Manual transmission — timed events: (frame, "press"/"release", button)
+    # From save_states README: hold C, tap DOWN at 190, 337, 494
+    "manual_throttle_4gear": [
+        (0, "press", "C"),
+        (190, "press", "DOWN"),
+        (195, "release", "DOWN"),
+        (337, "press", "DOWN"),
+        (342, "release", "DOWN"),
+        (494, "press", "DOWN"),
+        (500, "release", "DOWN"),
+    ],
 }
+
+
+def _is_timed_scenario(scenario):
+    """Check if a scenario uses timed input events (list of tuples)."""
+    inputs = SCENARIO_INPUTS.get(scenario, [])
+    return inputs and isinstance(inputs[0], tuple)
 
 CUE_PATH = os.path.join(
     PROJECT, "external_resources",
@@ -121,38 +139,76 @@ def test_writes_to(claim, bot, verbose=False):
     if target_addr is None:
         return False, "Could not resolve target address"
 
-    for btn in SCENARIO_INPUTS.get(scenario, []):
-        bot.send_and_wait(f"input {btn}", "ok input", timeout=5)
+    # Apply inputs for simple scenarios (timed scenarios need special handling)
+    if not _is_timed_scenario(scenario):
+        _apply_simple_inputs(bot, scenario)
 
     bot.send_and_wait(f"watchpoint {_fmt_addr(target_addr)}", "ok watchpoint", timeout=5)
 
     if verbose:
         print(f"  Watchpoint set at {_fmt_addr(target_addr)}, advancing {frames} frames...")
 
-    remaining = frames
-    for _ in range(frames + 10):
-        if remaining <= 0:
+    if _is_timed_scenario(scenario):
+        # For timed scenarios, replay events while watchpoint is active.
+        # Watchpoint hits will interrupt frame_advance — handle inline.
+        events = [(f, a, b) for f, a, b in SCENARIO_INPUTS[scenario] if f <= frames]
+        current_frame = 0
+        for frame, action, button in events:
+            if frame > current_frame:
+                delta = frame - current_frame
+                remaining = delta
+                while remaining > 0:
+                    bot.send(f"frame_advance {remaining}")
+                    ack = bot.wait_ack(["done frame_advance", "hit watchpoint"],
+                                       timeout=max(remaining, 30))
+                    if not ack:
+                        break
+                    if "hit watchpoint" in ack:
+                        remaining -= 1
+                        continue
+                    break
+                current_frame = frame
+            if action == "press":
+                bot.send_and_wait(f"input {button}", "ok input", timeout=5)
+            elif action == "release":
+                bot.send_and_wait(f"input_release {button}", "ok input_release", timeout=5)
+        # Advance remaining
+        remaining = frames - current_frame
+        while remaining > 0:
+            bot.send(f"frame_advance {remaining}")
+            ack = bot.wait_ack(["done frame_advance", "hit watchpoint"],
+                               timeout=max(remaining, 30))
+            if not ack:
+                break
+            if "hit watchpoint" in ack:
+                remaining -= 1
+                continue
             break
-        bot.send(f"frame_advance {remaining}")
-        ack = bot.wait_ack(["done frame_advance", "hit watchpoint"],
-                           timeout=max(remaining, 30))
-        if not ack:
-            break
-        if "hit watchpoint" in ack:
-            if verbose:
-                print(f"  Watchpoint hit, resuming...")
-            remaining -= 1
-            continue
-        if "done frame_advance" in ack:
-            break
+    else:
+        remaining = frames
+        for _ in range(frames + 10):
+            if remaining <= 0:
+                break
+            bot.send(f"frame_advance {remaining}")
+            ack = bot.wait_ack(["done frame_advance", "hit watchpoint"],
+                               timeout=max(remaining, 30))
+            if not ack:
+                break
+            if "hit watchpoint" in ack:
+                if verbose:
+                    print(f"  Watchpoint hit, resuming...")
+                remaining -= 1
+                continue
+            if "done frame_advance" in ack:
+                break
 
     hits_path = os.path.join(IPC_DIR, "watchpoint_hits.txt")
     hits = _parse_watchpoint_hits(hits_path)
 
     bot.send_and_wait("watchpoint_clear", "ok watchpoint_clear", timeout=5)
 
-    for btn in SCENARIO_INPUTS.get(scenario, []):
-        bot.send_and_wait(f"input_release {btn}", "ok input_release", timeout=5)
+    if not _is_timed_scenario(scenario):
+        _release_simple_inputs(bot, scenario)
 
     if func_end:
         my_hits = [h for h in hits if func_start <= h["pc"] < func_end]
@@ -175,8 +231,13 @@ def test_call_count_per_frame(claim, bot, verbose=False):
 
     _load_scenario(bot, scenario, verbose)
 
-    for btn in SCENARIO_INPUTS.get(scenario, []):
-        bot.send_and_wait(f"input {btn}", "ok input", timeout=5)
+    if not _is_timed_scenario(scenario):
+        _apply_simple_inputs(bot, scenario)
+    else:
+        # For call_count, apply initial presses (frame 0 events)
+        for frame, action, button in SCENARIO_INPUTS[scenario]:
+            if frame == 0 and action == "press":
+                bot.send_and_wait(f"input {button}", "ok input", timeout=5)
 
     bot.send_and_wait(f"breakpoint {_fmt_addr(func_addr)}", "ok breakpoint", timeout=5)
 
@@ -200,8 +261,12 @@ def test_call_count_per_frame(claim, bot, verbose=False):
 
     bot.send_and_wait("breakpoint_clear", "breakpoint_clear", timeout=5)
 
-    for btn in SCENARIO_INPUTS.get(scenario, []):
-        bot.send_and_wait(f"input_release {btn}", "ok input_release", timeout=5)
+    if not _is_timed_scenario(scenario):
+        _release_simple_inputs(bot, scenario)
+    else:
+        for frame, action, button in SCENARIO_INPUTS[scenario]:
+            if frame == 0 and action == "press":
+                bot.send_and_wait(f"input_release {button}", "ok input_release", timeout=5)
 
     passed = abs(hit_count - expected) <= tolerance
     detail = f"{hit_count} calls (expected {expected} +/- {tolerance})"
@@ -213,11 +278,11 @@ def test_value_changes_with_input(claim, bot, verbose=False):
     frames = claim.get("frames", 60)
     input_btn = claim.get("input", "none")
     direction = claim["direction"]
+    scenario = claim.get("scenario", "straight_throttle")
 
     func_addr = claim.get("_parent_address", 0)
 
-    # Use straight_throttle as default (dead stop, clean baseline)
-    _load_scenario(bot, "straight_throttle", verbose)
+    _load_scenario(bot, scenario, verbose)
 
     target_addr = resolve_address(claim["address"], bot, func_addr, verbose)
     if target_addr is None:
@@ -230,14 +295,15 @@ def test_value_changes_with_input(claim, bot, verbose=False):
     if verbose:
         print(f"  Before: {target_addr:#010x} = 0x{before:08X} ({before})")
 
-    if input_btn and input_btn != "none":
-        bot.send_and_wait(f"input {input_btn}", "ok input", timeout=5)
-
-    bot.send_and_wait(f"frame_advance {frames}", "done frame_advance",
-                      timeout=max(frames, 30))
-
-    if input_btn and input_btn != "none":
-        bot.send_and_wait(f"input_release {input_btn}", "ok input_release", timeout=5)
+    if _is_timed_scenario(scenario):
+        _advance_with_timed_inputs(bot, scenario, frames, verbose)
+    else:
+        if input_btn and input_btn != "none":
+            bot.send_and_wait(f"input {input_btn}", "ok input", timeout=5)
+        bot.send_and_wait(f"frame_advance {frames}", "done frame_advance",
+                          timeout=max(frames, 30))
+        if input_btn and input_btn != "none":
+            bot.send_and_wait(f"input_release {input_btn}", "ok input_release", timeout=5)
 
     after = _read_u32(bot, target_addr)
     if after is None:
@@ -303,6 +369,82 @@ def _load_scenario(bot, scenario, verbose=False):
     bot.send_and_wait("frame_advance 2", "done frame_advance", timeout=10)
     if verbose:
         print(f"  Loaded scenario '{scenario}'")
+
+
+def _apply_simple_inputs(bot, scenario):
+    """Press and hold all buttons for a simple (non-timed) scenario."""
+    for btn in SCENARIO_INPUTS.get(scenario, []):
+        bot.send_and_wait(f"input {btn}", "ok input", timeout=5)
+
+
+def _release_simple_inputs(bot, scenario):
+    """Release all buttons for a simple (non-timed) scenario."""
+    for btn in SCENARIO_INPUTS.get(scenario, []):
+        bot.send_and_wait(f"input_release {btn}", "ok input_release", timeout=5)
+
+
+def _replay_timed_inputs(bot, total_frames, verbose=False):
+    """Replay timed input events while advancing frames.
+
+    Returns after advancing total_frames. Timed events from
+    SCENARIO_INPUTS are interleaved with frame_advance commands.
+    Call _load_scenario first to set up the save state.
+
+    Note: The caller's scenario must already be identified. This
+    function is called by the test functions that need timed input.
+    """
+    # This is handled inline by the test functions that need it.
+    # See _advance_with_timed_inputs.
+    pass
+
+
+def _advance_with_timed_inputs(bot, scenario, total_frames, verbose=False):
+    """Advance total_frames while replaying timed input events.
+
+    For simple scenarios (button list), holds all buttons then advances.
+    For timed scenarios (event tuples), interleaves press/release with
+    frame_advance commands.
+    """
+    if not _is_timed_scenario(scenario):
+        _apply_simple_inputs(bot, scenario)
+        bot.send_and_wait(f"frame_advance {total_frames}",
+                          "done frame_advance", timeout=max(total_frames, 30))
+        _release_simple_inputs(bot, scenario)
+        return
+
+    events = SCENARIO_INPUTS[scenario]
+    # Filter events within our frame window
+    events = [(f, act, btn) for f, act, btn in events if f <= total_frames]
+    current_frame = 0
+
+    for frame, action, button in events:
+        if frame > current_frame:
+            delta = frame - current_frame
+            bot.send_and_wait(f"frame_advance {delta}",
+                              "done frame_advance", timeout=max(delta, 30))
+            current_frame = frame
+        if action == "press":
+            bot.send_and_wait(f"input {button}", "ok input", timeout=5)
+        elif action == "release":
+            bot.send_and_wait(f"input_release {button}", "ok input_release", timeout=5)
+        if verbose:
+            print(f"    frame {frame}: {action} {button}")
+
+    # Advance remaining frames
+    remaining = total_frames - current_frame
+    if remaining > 0:
+        bot.send_and_wait(f"frame_advance {remaining}",
+                          "done frame_advance", timeout=max(remaining, 30))
+
+    # Release any buttons still held
+    for frame, action, button in events:
+        if action == "press":
+            # Check if there's a matching release
+            released = any(f2 > frame and act2 == "release" and btn2 == button
+                           for f2, act2, btn2 in events if f2 <= total_frames)
+            if not released:
+                bot.send_and_wait(f"input_release {button}",
+                                  "ok input_release", timeout=5)
 
 
 def _parse_watchpoint_hits(hits_path):
