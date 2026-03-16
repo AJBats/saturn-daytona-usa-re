@@ -280,18 +280,26 @@ B button (0x0100 in g_pad_state)
 car[+0x90] = brake_force (range 56-184+)
     ↓ copies to car[+0x8C] each frame
 
-=== RIVER ===
+=== RIVER (symmetric with throttle, from CSV analysis) ===
 
-car[+0x90]
-    ↓ [GAP: exact path from brake force to negative accel_delta
-    ↓  is not fully traced. Known: during braking, car[+0xFC] goes
-    ↓  negative (peaks at -303 at frame 20 from 27 mph). The brake
-    ↓  force must feed into FUN_0602CA84 similarly to throttle, but
-    ↓  producing negative force. The mechanism is likely:
-    ↓  car[+0x90] → copied to car[+0x8C] → read by force accumulator
-    ↓  as a drag/deceleration term]
+car[+0x90] (brake force, climbing: 56→88→216 with B held)
+    ↓ [call 1] sym_0602FDA4 also writes car[+0x94] from brake state
     ↓
-car[+0xFC] = negative accel_delta (decelerating)
+car[+0x94] (jumps 0→0xD4 at frame 1 of braking)
+    ↓ [call 6] sym_0602F0E8 (normal path: copies +0x94 → +0x84)
+    ↓
+car[+0x84] (jumps 0→0x6A at frame 1, climbs to 0xFF)
+
+    MEANWHILE: car[+0x74] (throttle) DECAYS (0xB8→0xB2→0x72→0x38)
+    when C is released during braking.
+
+    The force accumulator (FUN_0602CA84) reads BOTH the throttle
+    and brake signals through their paired copies. The NET effect:
+    - Throttle > brake → positive force → acceleration
+    - Brake > throttle → negative force → deceleration
+    - Both at idle (56 each) → neutral → coasting
+
+car[+0xFC] = negative accel_delta (peaks at -303 at frame 20)
     ↓ → same chain as Chain 1 (speed → position)
 ```
 
@@ -533,5 +541,5 @@ car[+0x50] = drag_accumulator_b (diverges from +0x48 when +0xC0 active)
 | Heading source for position writer | **CLOSED** | Uses -car[+0x28] (slip angle). Copies +0x30→+0x20. Ghidra-verified. |
 | Drag → force feedback | **CLOSED** | Drag accumulators feed the shared surface system, not the player force accumulator directly. Indirect path: +0x48/+0x50 → shared track system → +0xEC/+0xF0/+0xF4/+0x11C → force formula. |
 | Heading computation details | **CLOSED** | Full offset chain: +0xAC → +0xB0/+0x78/+0x94 → EMA→+0xD0 → +0x58/+0x5C → +0x30 += correction → +0x30→+0x20. Direction via -sin(+0x28). |
-| Brake → negative force | **NARROWED** | B→+0x90. Force formula subtracts +0x114 (resistance). +0x114 comes from animation lookup table (sym_060477D8). During braking, +0x114 increases → negative accel_delta. **Explorer needed**: which upstream call reads +0x90 and triggers the +0x114 state change? Breakpoint in FUN_0602CA84 during B-held. |
+| Brake → negative force | **CLOSED** | CSV analysis of tt_brake_300f.csv reveals symmetric mechanism: B→+0x90(+40/f) and +0x90 feeds +0x94 which copies to +0x84 via call 6. Meanwhile +0x74 (throttle) decays. The force accumulator reads the NET of throttle vs brake through their paired copies. When brake > throttle → negative accel delta. |
 | Manual gear → +0xDC | **NARROWED** | FUN_06008318 handles UP/DOWN with 32-frame timer. Likely writes +0xDC directly. **Explorer needed**: watchpoint on +0xDC during manual UP press to confirm. |
