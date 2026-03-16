@@ -50,9 +50,11 @@ The call stack addresses (0x06000310, 0x060072E4, 0x0600305C) are
 boot-time return addresses on the stack, NOT per-frame loop functions
 — breakpoints on them don't fire during racing.
 
-The per-frame loop caller is at ~0x0600943C (PR=0x06009460 for
-FUN_0600C010). This function contains multiple `jsr @R3` calls from
-pool constants — one of these calls `slSynch` or its equivalent.
+The per-frame loop is at ~0x06009400, called from 0x060092F8. It contains
+multiple `jsr @R3` calls from pool constants. Measured cycle delta from
+loop entry (0x06009400) to FUN_0600C010 entry: **20,273 cycles** (~0.7ms).
+This means virtually no setup before physics — the VBlank wait is at the
+**END of the loop** (after physics + rendering complete), not the beginning.
 
 **Cycle budget per physics frame**:
 - Physics computation: ~478K cycles (33% of frame)
