@@ -1,0 +1,34 @@
+function: FUN_0600E71A
+address: 0x0600E71A
+address_end: 0x0600E906
+source_file: reimpl/src/FUN_0600E71A.s
+
+# AI normal pipeline entry. Called 39x per frame (once per AI car).
+# Dispatches to speed, steering, track, friction, heading sub-functions.
+
+claims:
+  - id: call_count_race
+    type: call_count_per_frame
+    description: "FUN_0600E71A (AI pipeline) fires 39x per frame in race mode (1 per AI car)"
+    function: FUN_0600E71A
+    address: 0x0600E71A
+    scenario: race_throttle
+    expected_count: 39
+    tolerance: 5
+
+  - id: speed_increases_race
+    type: value_changes_with_input
+    description: "Player speed increases with C held in race mode (AI pipeline runs alongside)"
+    address: 0x0607890C
+    scenario: race_throttle
+    direction: decreases
+    frames: 60
+
+  - id: call_count_timetrial
+    type: call_count_per_frame
+    description: "FUN_0600E71A fires 0x per frame in time trial (no AI cars)"
+    function: FUN_0600E71A
+    address: 0x0600E71A
+    scenario: straight_throttle
+    expected_count: 0
+    tolerance: 1

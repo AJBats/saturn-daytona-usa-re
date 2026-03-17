@@ -29,7 +29,8 @@ sym_0602FDA4	5	5	2	call_count(1x/frame), value_changes(speed+C, position_x-C, ge
 dual_position	0	0	0	NOP experiment (sym_0602D8BC). DISPROVED dual position theory: all physics fields identical with/without position writer. Position is write-only terminal output. Track segments are only consumer.
 FUN_0602C690	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). Force magnitude computation pipeline call 13. Writes +0x140/+0x144 [WP:indexed].
 FUN_0602C8E2	3	3	2	call_count(3x/frame), value_changes(speed+C, position_x-C). Oversteer detection pipeline call 14. XOR sign checks, speed gates at 70/100.
-FUN_0600CD40	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). Track segment system — OUTSIDE player pipeline. Reads +0x10, writes +0x184/+0x1E4.
+FUN_0600CD40	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). Track segment system — SHARED between player and AI pipelines. Reads +0x10, writes +0x184/+0x1E4.
+FUN_0600E71A	3	3	2	call_count(39x/frame race, 0x/frame TT), value_changes(speed decreases from rolling start). AI normal pipeline entry. R3 advances by 0x268/iteration (car stride).
 sym_0602EFCC	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). Sin/cos roll pipeline call 12. Writes +0x100=sin(roll), +0x104=cos(roll). CONFIRMED by breakpoint.
 sym_0602F4B4	3	3	2	call_count(1x/frame), value_changes(speed+C, position_x-C). Opponent proximity detection pipeline call 10. Manhattan distance, sets +0xD6=20 on detect [WP:16-bit].
 dual_position_A	0	0	0	NOP test A (sym_0602D8BC + steer). Heading (+0x20) FROZEN when NOPped, slip angle (+0x28) NOT frozen. Camera rotation = slip angle, not heading. Explains human's "camera rotates around frozen car."
