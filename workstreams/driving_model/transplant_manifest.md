@@ -113,7 +113,7 @@ FUN_0600C010 makes 10 direct sub-calls per frame. Classified by transplant need:
 | 0x0601BDEC | FUN_0601BDEC | Camera/view update | Reads car[+0x20] heading. Needed if transplanting camera? |
 | 0x0602E610 | FUN_0602E610 | Opponent state snapshot | Reads car positions. Only if transplanting AI state tracking. |
 
-### 1e. Shared Math Functions (PARTIALLY VERIFIED — no external data deps)
+### 1e. Shared Math Functions (57 functions — Phase 6 complete)
 
 | Address | Name | Size | Purpose |
 |---------|------|------|---------|
@@ -203,7 +203,13 @@ data section entries needed for shared math.
 | 0x060635C4 | 4 | (unnamed) | VBlank semaphore | slSynch | VBlank ISR |
 | [PENDING] | ... | Additional globals from Phase 5 |
 
-### 3b. Globals Read But Not in Writer Map [PENDING Phase 5]
+### 3b. Globals Audit (Phase 5 complete)
+
+37 core physics globals (0x0607E940-0x0607ED91). 10 MUST-transplant.
+548 additional globals in the broader region. ~80KB data footprint.
+
+Explorer identified: sym_0607EA9C = 97 (segment count for Three Seven).
+Track-specific — would change per course.
 
 ---
 
@@ -257,21 +263,22 @@ track position in both games to derive the conversion factor.]
 
 ---
 
-## 6. TOTAL SIZE ESTIMATE
+## 6. TOTAL SIZE ESTIMATE (Updated from Phase 4-6 inventories)
 
 | Category | Items | Estimated Bytes |
 |----------|-------|----------------|
-| Player pipeline functions | ~20 | ~6,000 |
+| Player pipeline functions | ~22 | ~8,000 |
 | AI pipeline functions | ~15 | ~4,000 |
-| Shared math functions | ~15 | ~800 |
-| Collision detection | TBD | TBD |
+| Shared math functions | **57** | ~12,000 |
+| Collision detection | implicit | (within existing physics) |
 | Frame orchestration | ~5 | ~1,000 |
 | Shared track/surface functions | ~8 | ~2,000 |
-| Physics lookup tables | 9 | ~320 |
-| AI/collision tables | ~6 | ~TBD |
-| Track data (per course) | 2 | ~13,200 |
+| Physics lookup tables | 9 (player) | ~320 |
+| AI/collision tables | 5 + pointers | ~500 |
+| Track data (per course) | 2 tables | ~13,200 |
 | Car struct array | 1 | 24,640 (40×616) |
-| Globals region | ~15 | ~100 |
-| **ESTIMATED TOTAL** | | **~52,000 + TBD** |
+| Globals region | 37 core + 10 critical | ~80,000 (full region) |
+| **ESTIMATED TOTAL** | | **~130KB code+data** |
 
-[PENDING: accurate sizes from Phase 1+2+4 outputs]
+Explorer/Verifier estimate: ~80KB data + ~50KB code = ~130KB total.
+CCE race.bin must have this much free space for the transplant.
