@@ -11,7 +11,7 @@ function	passed	total	tier	notes
 FUN_0602EEB8	4	4	2	call_count(2x/frame), writes_to(+0xFC,+0x50), value_changes(speed+C). Dropped: writes_frame_counter(+0x252) [WP:16-bit].
 FUN_0602CA84	3	3	2	call_count(1x/frame), value_changes(accel_delta+C, speed+C). Force accumulator pipeline call 15. writes_to infeasible [WP:indexed]. BRAKE PATH: +0x84=255 override + +0x114=26M resistance → negative accel delta.
 sym_0602D8BC	4	5	2	call_count(1x/frame), writes_to(+0x10,+0x18C), value_changes(position_x-C). writes_heading(+0x20) [WP:indexed].
-FUN_0600C010	3	3	2	call_count(2x/frame), value_changes(speed+C, position_x-C). Racing orchestrator. FRAME TIMING: 20 fps (3 VBlanks/frame, 478K cycles). CCE transplant needs ×0.667 scaling on all per-frame constants.
+FUN_0600C010	3	3	2	call_count(2x/frame), value_changes(speed+C, position_x-C). Racing orchestrator. FRAME TIMING: 20 fps (3 VBlanks/frame, 478K cycles). CCE needs ×0.667 scaling. VBlank sync: slSynch at 0x06026CE0, semaphore at 0x060635C4.
 FUN_0602F5B6	3	5	2	call_count(1x/frame), value_changes(track_progress+C, speed+C). writes_to(+0xF4,+0xEC) [WP:indexed]. Surface writer pipeline call 11.
 FUN_0602CCEC	4	4	2	call_count(1x/frame), writes_to(+0x110 traction limit, 58 hits), value_changes(speed+C, position_x-C). TRACTION MODEL (NOP confirmed). Speed convergence is side effect of traction limiting.
 FUN_0602EFF0	3	4	2	call_count(1x/frame), value_changes(speed+C, position_x-C). writes_to(+0xB0) [WP:indexed]. Steering input pipeline call 2.
