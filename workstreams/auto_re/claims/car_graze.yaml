@@ -1,0 +1,33 @@
+function: FUN_0602EEB8
+address: 0x0602EEB8
+address_end: 0x0602EFCC
+source_file: reimpl/src/FUN_0602EEB8.s
+
+# Car graze collision claims — uses input_playback for deterministic replay.
+# The graze produces roll spikes at frames 98-113 via implicit collision
+# through the existing physics pipeline (no dedicated collision flags set).
+
+claims:
+  - id: roll_changes_graze
+    type: value_changes_with_input
+    description: "Roll angle (car[+0x24]) changes during car graze — implicit collision via physics"
+    address: 0x06078924
+    scenario: car_graze
+    direction: decreases
+    frames: 140
+
+  - id: speed_changes_graze
+    type: value_changes_with_input
+    description: "Speed decreases during car graze replay (rolling start above natural max)"
+    address: 0x0607890C
+    scenario: car_graze
+    direction: decreases
+    frames: 140
+
+  - id: position_changes_graze
+    type: value_changes_with_input
+    description: "Position X increases during car graze (car moving forward from negative coords)"
+    address: 0x06078910
+    scenario: car_graze
+    direction: increases
+    frames: 140

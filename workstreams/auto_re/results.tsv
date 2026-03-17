@@ -38,4 +38,9 @@ throttle_gap	0	0	0	Finding: throttle gap RESOLVED. C button → +0x74 (throttle 
 lookup_tables	0	0	0	Data extraction: 7 pipeline lookup tables + 2 track geometry tables (784-entry surface, 147-entry segment). Phase 3 sim constants + course data.
 steering_writer	0	0	0	Finding: steering gap RESOLVED. LEFT (0x4000) → sub-call 0x0603006A within sym_0602FDA4 → car[+0xAC] = -16. All 6 racing inputs (C,B,UP,DOWN,LEFT,RIGHT) now traced to car struct writers.
 FUN_0602D08A	0	0	0	Pipeline call 16b (alt collision). UNREACHABLE: car[+0x9E] always 0 in all tested scenarios (wall strike, race). Only untested pipeline path.
-collision_detect	0	0	0	BLOCKED: car[+0x04], +0xB8, +0x9E all zero in every scenario. Wall collisions don't set these — car-to-car only. Needs specialized save state.
+collision_detect	0	0	0	BLOCKED: car[+0x04], +0xB8, +0x9E all zero in every scenario. Implicit collision via physics (graze obs). See car_graze claims.
+car_graze	3	3	2	roll_decreases(-3084), speed_decreases(262577→255069), position_increases(-2.3M→8.5M). Input playback scenario. Implicit collision confirmed — roll spike from car-to-car contact.
+quick_wins	0	0	0	Phase 5: AI speed tables (0x060477EC, 0x060454CC), collision S-curve (0x060453CC), sym_0607EA9C=97 (segment count). Data extraction.
+globals_audit	0	0	0	Phase 5: 37 core physics globals (0x0607E940-0x0607ED91), 548 additional. 10 MUST-transplant globals identified. ~80KB data footprint.
+data_tables	0	0	0	Phase 4: 1,245 data table refs cataloged. 9 tables dumped, ~7 known undumped. Estimated transplant: ~80KB data + ~50KB code.
+shared_math	0	0	0	Phase 6: 57 shared math functions (0x06026xxx-0x06028xxx). Trig, FP, matrix, memcpy. All must be in physics box.
