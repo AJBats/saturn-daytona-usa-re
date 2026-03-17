@@ -84,14 +84,34 @@ The collision RESPONSE code (calls 13-15) is already mapped.
 | FUN_0602CA84 | call 15 | Force accumulator (response) | MAPPED |
 | FUN_0602D43C | call 16a | Collision+steering (response) | MAPPED |
 
-### 1d. Frame Orchestration [PENDING Phase 1]
+### 1d. Frame Orchestration (CATALOGED — static analysis)
 
+FUN_0600C010 makes 10 direct sub-calls per frame. Classified by transplant need:
+
+**REQUIRED (physics/orchestration):**
+| Address | Name | Role | Notes |
+|---------|------|------|-------|
+| 0x0600C010 | FUN_0600C010 | Frame orchestrator | Coordinates all subsystems. REQUIRED as entry point. |
+| 0x0600DF20 | FUN_0600DF20 | Player physics wrapper | Calls FUN_0602EEB8. REQUIRED. |
+| 0x0600E526 | FUN_0600E526 | Within wrapper chain | Part of DF20→EEB8 chain. |
+
+**NOT NEEDED (rendering):**
 | Address | Name | Role |
 |---------|------|------|
-| 0x0600C010 | FUN_0600C010 | Racing orchestrator (per-frame entry) |
-| 0x0600DF20 | FUN_0600DF20 | Player physics caller wrapper |
-| ~0x0600E526 | FUN_0600E526 | Within wrapper chain |
-| [PENDING] | ... | Additional orchestration from Phase 1 |
+| 0x06006868 | FUN_06006868 | Track polygon submission to VDP1 |
+| 0x0603C000 | FUN_0603C000 | VRAM clear |
+| 0x0600D336 | FUN_0600D336 | VDP2 rendering prep (~202K PCs, 93% of frame) |
+| 0x0600B6A0 | FUN_0600B6A0 | Car rendering loop |
+| 0x06027630 | FUN_06027630 | Memory copy utility (trivial) |
+
+**NEEDS INVESTIGATION:**
+| Address | Name | Role | Question |
+|---------|------|------|----------|
+| 0x060058FA | FUN_060058FA | Subsystem init (calls 4 subs) | Do any sub-calls write car struct? |
+| 0x0600D31C | FUN_0600D31C | Input/rendering gate | Does it handle input polling? |
+| 0x06034708 | FUN_06034708 | Secondary SH-2 dispatch | Copies car[+0x10]=car[+0x0C]. Needed for dual-CPU? |
+| 0x0601BDEC | FUN_0601BDEC | Camera/view update | Reads car[+0x20] heading. Needed if transplanting camera? |
+| 0x0602E610 | FUN_0602E610 | Opponent state snapshot | Reads car positions. Only if transplanting AI state tracking. |
 
 ### 1e. Shared Math Functions (PARTIALLY VERIFIED — no external data deps)
 

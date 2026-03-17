@@ -258,7 +258,25 @@ or disassemble ~64 bytes to identify its role and data dependencies.
 read_memory 0x0600D26A 64     # Disassemble to identify
 ```
 
-### QW3: Globals read audit (sym_0607EA9C)
+### QW3: Classify 3 unknown orchestrator sub-calls
+
+Three functions called by FUN_0600C010 have unknown roles:
+
+```
+# FUN_060058FA — subsystem init, calls 4 sub-functions
+read_memory 0x060058FA 64     # Or check ghidra_reference/FUN_060058FA.c
+
+# FUN_0600D31C — input/rendering gate, conditional on sym_0607EBC4 bit 21
+read_memory 0x0600D31C 64     # Does it do input polling?
+
+# FUN_06034708 — secondary SH-2 dispatch, copies car[+0x10]=car[+0x0C]
+read_memory 0x06034708 64     # What does it send to secondary CPU?
+```
+
+For each: does it read/write car struct fields? If yes, it may need transplanting.
+If it's pure rendering/sound, it can be excluded.
+
+### QW4: Globals read audit (sym_0607EA9C)
 
 The AI pipeline reads sym_0607EA9C (segment distance limit) which is NOT
 in the globals_writer_map.md. Check its value and whether it changes
