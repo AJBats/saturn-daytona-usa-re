@@ -110,14 +110,14 @@ FUN_0600C010 makes 10 direct sub-calls per frame. Classified by transplant need:
 | 0x0600B6A0 | FUN_0600B6A0 | Car rendering loop |
 | 0x06027630 | FUN_06027630 | Memory copy utility (trivial) |
 
-**NEEDS INVESTIGATION:**
-| Address | Name | Role | Question |
-|---------|------|------|----------|
-| 0x060058FA | FUN_060058FA | Subsystem init (calls 4 subs) | Do any sub-calls write car struct? |
-| 0x0600D31C | FUN_0600D31C | Input/rendering gate | Does it handle input polling? |
-| 0x06034708 | FUN_06034708 | Secondary SH-2 dispatch | Copies car[+0x10]=car[+0x0C]. Needed for dual-CPU? |
-| 0x0601BDEC | FUN_0601BDEC | Camera/view update | Reads car[+0x20] heading. Needed if transplanting camera? |
-| 0x0602E610 | FUN_0602E610 | Opponent state snapshot | Reads car positions. Only if transplanting AI state tracking. |
+**CLASSIFIED (Ghidra-verified, cycle 60):**
+| Address | Name | Role | Transplant? |
+|---------|------|------|-------------|
+| 0x060058FA | FUN_060058FA | Lap display/subsystem init (reads 0x0607EABC lap timer) | NO — display only |
+| 0x0600D31C | FUN_0600D31C | Orchestration gate (checks sym_0607EBC4 bit 21) | NO — conditional dispatcher |
+| 0x06034708 | FUN_06034708 | Secondary SH-2 prep (copies car[+0x10]=car[+0x0C]) | NO — rendering CPU prep |
+| 0x0601BDEC | FUN_0601BDEC | Camera update (reads car[+0x20], writes 0x06059F38) | NO — camera, not physics |
+| 0x0602E610 | FUN_0602E610 | AI state snapshot (reads car[+0x238] track ptrs) | NO — game state tracking |
 
 ### 1e. Shared Math Functions (57 functions — Phase 6 complete)
 
