@@ -387,21 +387,24 @@ def _load_scenario(bot, scenario, verbose=False):
     state_path = SAVE_STATES.get(scenario)
     if not state_path:
         raise ValueError(f"Unknown scenario: {scenario}")
-    bot.send_and_wait("frame_advance 1", "done frame_advance", timeout=10)
+    if not _is_playback_scenario(scenario):
+        bot.send_and_wait("frame_advance 1", "done frame_advance", timeout=10)
     ack = bot.send_and_wait(f"load_state {_win_path(state_path)}", "load_state", timeout=15)
     if not ack or "error" in ack.lower():
         raise RuntimeError(f"Failed to load save state: {ack}")
-    bot.send_and_wait("frame_advance 2", "done frame_advance", timeout=10)
-    # Start input playback if this scenario has a recording file.
-    # The emulator injects inputs at the correct frames — test functions
-    # just frame_advance as normal.
+    # Playback scenarios: start playback immediately after load_state with
+    # NO frame advances in between. The emulator resets frame_counter to 0
+    # on load_state, and playback events are relative to that.
+    # Non-playback: advance 2 frames to let the save state settle.
     if _is_playback_scenario(scenario):
         playback_path = SCENARIO_PLAYBACK[scenario]
         bot.send_and_wait(
-            f"input_playback_start {_win_path(playback_path)}",
+            f"input_playback {_win_path(playback_path)}",
             "ok input_playback", timeout=5)
         if verbose:
             print(f"  Input playback started: {os.path.basename(playback_path)}")
+    else:
+        bot.send_and_wait("frame_advance 2", "done frame_advance", timeout=10)
     if verbose:
         print(f"  Loaded scenario '{scenario}'")
 
