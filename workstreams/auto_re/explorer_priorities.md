@@ -276,7 +276,40 @@ read_memory 0x06034708 64     # What does it send to secondary CPU?
 For each: does it read/write car struct fields? If yes, it may need transplanting.
 If it's pure rendering/sound, it can be excluded.
 
-### QW4: Globals read audit (sym_0607EA9C)
+### QW4: Collision mechanism — call-trace differential at graze frame
+
+**Goal**: Determine if car-to-car collision uses a separate detection function
+or is emergent from the existing pipeline taking different paths.
+
+**Static analysis leads** (Mapper cycle 59):
+
+1. **sym_06078680 (shared surface buffer)**: FUN_0600CA96 writes to it for
+   EVERY car. FUN_0602F5B6 (player call 11) reads from it. If AI car writes
+   change this buffer before the player reads it, that's the collision path.
+   **Test**: read_u32 at sym_06078680 (and +4, +8, +0xC, +0x10) at frame 100
+   (pre-graze) and frame 101 (graze). If values differ, the buffer IS shared.
+
+2. **sym_0602F4B4 (proximity check, call 10)**: Sets car[+0xD6] = 0x14 when
+   opponent within 0x1E0000 distance. This ONLY writes +0xD6 in the assembly.
+   But it runs BEFORE the surface writer (call 11) and force accumulator (call 15).
+   **Test**: read car[+0xD6] at frames 98-103 during graze. If it goes from 0 to
+   20 (0x14) at the contact frame, proximity detection IS triggering.
+
+3. **FUN_0600C5D6 (AI steering/force)**: Has a conditional at car[+0x208] and
+   car[+0x204] that triggers a SECOND call to FUN_0600CA96. If collision state
+   is active, the surface buffer gets re-sampled.
+   **Test**: read car[+0x204] and car[+0x208] for the AI car being grazed during
+   frames 98-105.
+
+**The definitive experiment**: Run `pc_trace_frame` at frame 100 (pre-contact)
+AND frame 101 (contact) of the car_graze replay. Diff the two traces:
+- Same functions, same order → pipeline paths diverge (branch-level change)
+- New function appears → explicit collision detection we missed
+- Same functions, different CALL COUNTS → some function runs extra iterations
+
+This tells us exactly what code changes behavior at the collision moment.
+
+### QW5: Globals read audit (sym_0607EA9C)
 
 The AI pipeline reads sym_0607EA9C (segment distance limit) which is NOT
 in the globals_writer_map.md. Check its value and whether it changes
