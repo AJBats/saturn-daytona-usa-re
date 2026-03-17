@@ -86,7 +86,7 @@ The collision RESPONSE code (calls 13-15) is already mapped.
 | ~0x0600E526 | FUN_0600E526 | Within wrapper chain |
 | [PENDING] | ... | Additional orchestration from Phase 1 |
 
-### 1e. Shared Math Functions [PENDING Phase 6]
+### 1e. Shared Math Functions (PARTIALLY VERIFIED — no external data deps)
 
 | Address | Name | Size | Purpose |
 |---------|------|------|---------|
@@ -141,12 +141,12 @@ The collision RESPONSE code (calls 13-15) is already mapped.
 | 0x060453CC | TBD | Gear shift timing | FUN_06008318 |
 | [PENDING] | ... | Additional tables from Phase 2+4 |
 
-### 2d. Sin/Cos Lookup Tables [PENDING Phase 6]
+### 2d. Sin/Cos Lookup Tables — NONE (self-contained)
 
-| Address | Size | Name |
-|---------|------|------|
-| [PENDING] | TBD | Sin lookup data |
-| [PENDING] | TBD | Cos lookup data |
+Verified: sin_lookup, cos_lookup, isqrt, atan2, FUN_0602755C, FUN_0602ECCC
+all use INLINE pool constants — no external data table references. The
+lookup tables are embedded within the function code itself. No additional
+data section entries needed for shared math.
 
 ---
 
