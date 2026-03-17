@@ -36,26 +36,29 @@ as a complete package. Thin adapter converts output to CCE rendering format.
 | — | 0x0602EEB8 | FUN_0602EEB8 | ~270 | Dispatcher (calls all above) | — |
 | — | 0x0602D89A | FUN_0602D89A | ~30 | Position writer prologue | — |
 
-### 1b. AI Pipeline [PENDING Phase 2]
+### 1b. AI Pipeline (CONFIRMED — Phase 2 complete)
 
-| Address | Name | Role | Shared with Player? |
-|---------|------|------|-------------------|
-| 0x0600E0C0 | FUN_0600E0C0 | AI car iteration loop (i=1..car_count) | No |
-| 0x0600E71A | FUN_0600e71a | Normal mode physics | No (separate from player) |
-| 0x0600E906 | FUN_0600e906 | AI mode physics | No |
-| 0x0600C4F8 | FUN_0600c4f8 | Speed/accel calculator (AI) | No (player uses sym_0602D814) |
-| 0x0600C5D6 | FUN_0600c5d6 | Core steering/force (AI) | No |
-| 0x0600C74E | FUN_0600c74e | AI core physics | No |
-| 0x0600C970 | FUN_0600c970 | AI-specific steering | No |
-| 0x0600CA96 | FUN_0600ca96 | Friction/drag (shared surface lookup) | SHARED — also used by player |
-| 0x0600CF58 | FUN_0600cf58 | Collision dispatch (AI) | No |
-| 0x0600CC38 | FUN_0600cc38 | Force application (AI) | No |
-| 0x0600C8CC | FUN_0600c8cc | Heading calculator (shared) | SHARED |
-| 0x0600C928 | FUN_0600c928 | Heading correction (shared) | SHARED |
-| 0x0600C7D4 | FUN_0600c7d4 | Heading/speed damping (shared) | SHARED |
-| 0x0600CEBA | FUN_0600ceba | Track segment advance (shared) | SHARED |
-| 0x0600CD40 | FUN_0600cd40 | Track position query (shared) | SHARED — reads car[+0x10] |
-| [PENDING] | ... | Additional sub-calls from Phase 2 | ... |
+Per-car call sequence (39 iterations): 9 functions, ~770 PCs/car, ~12% of frame.
+
+| Address | Name | Calls/Frame | Role | Shared? |
+|---------|------|------------|------|---------|
+| 0x0600E0C0 | FUN_0600E0C0 | 1 | AI car iteration loop (i=1..car_count) | No |
+| 0x0600E71A | FUN_0600e71a | 39 | Normal mode pipeline entry | No |
+| 0x0600C4F8 | FUN_0600c4f8 | 39 | Speed/accel calculator | No |
+| 0x0600C5D6 | FUN_0600c5d6 | 39 | Core steering/force dispatcher | No |
+| 0x0600CD40 | FUN_0600cd40 | 39 | Track segment detail | **SHARED** with player |
+| 0x0600CA96 | FUN_0600ca96 | 39 | Friction/drag computation | **SHARED** with player |
+| 0x0600C8CC | FUN_0600c8cc | 39 | Heading calculator | No (player uses FUN_0602CDF6) |
+| 0x0600C928 | FUN_0600c928 | 39 | Heading correction | No (player uses embedded) |
+| 0x0600C7D8 | FUN_0600c7d8 | 3 | Heading/speed damping (conditional: airborne) | No |
+| 0x0600CEBA | FUN_0600ceba | 39 | Track segment advance | **SHARED** with player |
+
+NOT triggered in normal racing:
+| 0x0600E906 | FUN_0600e906 | 0 | AI alt pipeline (bit 15 of sym_0607EBC4) | No |
+| 0x0600C74E | FUN_0600c74e | 0 | AI core (within alt pipeline) | No |
+| 0x0600C970 | FUN_0600c970 | 0 | AI-specific steering (within alt pipeline) | No |
+| 0x0600CF58 | FUN_0600cf58 | 0 | Collision dispatch (not in normal mode) | No |
+| 0x0600CC38 | FUN_0600cc38 | 0 | Force application (not in normal mode) | No |
 
 ### 1c. Collision Detection [PENDING Phase 3]
 
