@@ -52,6 +52,9 @@ SAVE_STATES = {
     # Manual transmission time trial — from save_states README
     "manual_throttle_4gear": os.path.join(PROJECT, "build", "save_states",
         "usa_tt_manual_straight.mc0"),
+    # Car graze collision — race mode, 40 cars
+    "car_graze": os.path.join(PROJECT, "build", "save_states",
+        "daytona_rebuilt.8180a74b2162ad4393a9630de58615e3.mc0"),
 }
 
 SCENARIO_INPUTS = {
@@ -85,6 +88,20 @@ def _is_timed_scenario(scenario):
     """Check if a scenario uses timed input events (list of tuples)."""
     inputs = SCENARIO_INPUTS.get(scenario, [])
     return inputs and isinstance(inputs[0], tuple)
+
+
+def _is_playback_scenario(scenario):
+    """Check if a scenario uses input playback from a recording file."""
+    return scenario in SCENARIO_PLAYBACK
+
+
+# Scenarios driven by recorded input playback files.
+# These use Mednafen's input_playback_start command — the emulator injects
+# inputs at the correct frames automatically. Just frame_advance after starting.
+SCENARIO_PLAYBACK = {
+    "car_graze": os.path.join(PROJECT, "build", "save_states",
+        "daytona_rebuilt_car_graze.input.txt"),
+}
 
 CUE_PATH = os.path.join(
     PROJECT, "external_resources",
@@ -139,8 +156,8 @@ def test_writes_to(claim, bot, verbose=False):
     if target_addr is None:
         return False, "Could not resolve target address"
 
-    # Apply inputs for simple scenarios (timed scenarios need special handling)
-    if not _is_timed_scenario(scenario):
+    # Apply inputs — playback scenarios handle inputs automatically via emulator
+    if not _is_timed_scenario(scenario) and not _is_playback_scenario(scenario):
         _apply_simple_inputs(bot, scenario)
 
     bot.send_and_wait(f"watchpoint {_fmt_addr(target_addr)}", "ok watchpoint", timeout=5)
@@ -148,7 +165,7 @@ def test_writes_to(claim, bot, verbose=False):
     if verbose:
         print(f"  Watchpoint set at {_fmt_addr(target_addr)}, advancing {frames} frames...")
 
-    if _is_timed_scenario(scenario):
+    if _is_timed_scenario(scenario) and not _is_playback_scenario(scenario):
         # For timed scenarios, replay events while watchpoint is active.
         # Watchpoint hits will interrupt frame_advance — handle inline.
         events = [(f, a, b) for f, a, b in SCENARIO_INPUTS[scenario] if f <= frames]
@@ -207,7 +224,7 @@ def test_writes_to(claim, bot, verbose=False):
 
     bot.send_and_wait("watchpoint_clear", "ok watchpoint_clear", timeout=5)
 
-    if not _is_timed_scenario(scenario):
+    if not _is_timed_scenario(scenario) and not _is_playback_scenario(scenario):
         _release_simple_inputs(bot, scenario)
 
     if func_end:
@@ -231,7 +248,9 @@ def test_call_count_per_frame(claim, bot, verbose=False):
 
     _load_scenario(bot, scenario, verbose)
 
-    if not _is_timed_scenario(scenario):
+    if _is_playback_scenario(scenario):
+        pass  # inputs handled by emulator playback
+    elif not _is_timed_scenario(scenario):
         _apply_simple_inputs(bot, scenario)
     else:
         # For call_count, apply initial presses (frame 0 events)
@@ -261,7 +280,9 @@ def test_call_count_per_frame(claim, bot, verbose=False):
 
     bot.send_and_wait("breakpoint_clear", "breakpoint_clear", timeout=5)
 
-    if not _is_timed_scenario(scenario):
+    if _is_playback_scenario(scenario):
+        pass  # playback auto-stops
+    elif not _is_timed_scenario(scenario):
         _release_simple_inputs(bot, scenario)
     else:
         for frame, action, button in SCENARIO_INPUTS[scenario]:
@@ -295,7 +316,11 @@ def test_value_changes_with_input(claim, bot, verbose=False):
     if verbose:
         print(f"  Before: {target_addr:#010x} = 0x{before:08X} ({before})")
 
-    if _is_timed_scenario(scenario):
+    if _is_playback_scenario(scenario):
+        # Playback handles inputs — just advance frames
+        bot.send_and_wait(f"frame_advance {frames}", "done frame_advance",
+                          timeout=max(frames, 30))
+    elif _is_timed_scenario(scenario):
         _advance_with_timed_inputs(bot, scenario, frames, verbose)
     else:
         if input_btn and input_btn != "none":
@@ -358,7 +383,7 @@ def test_value_stable(claim, bot, verbose=False):
 # --- Helpers ---
 
 def _load_scenario(bot, scenario, verbose=False):
-    """Load the save state for a scenario."""
+    """Load the save state for a scenario. Starts input playback if available."""
     state_path = SAVE_STATES.get(scenario)
     if not state_path:
         raise ValueError(f"Unknown scenario: {scenario}")
@@ -367,6 +392,16 @@ def _load_scenario(bot, scenario, verbose=False):
     if not ack or "error" in ack.lower():
         raise RuntimeError(f"Failed to load save state: {ack}")
     bot.send_and_wait("frame_advance 2", "done frame_advance", timeout=10)
+    # Start input playback if this scenario has a recording file.
+    # The emulator injects inputs at the correct frames — test functions
+    # just frame_advance as normal.
+    if _is_playback_scenario(scenario):
+        playback_path = SCENARIO_PLAYBACK[scenario]
+        bot.send_and_wait(
+            f"input_playback_start {_win_path(playback_path)}",
+            "ok input_playback", timeout=5)
+        if verbose:
+            print(f"  Input playback started: {os.path.basename(playback_path)}")
     if verbose:
         print(f"  Loaded scenario '{scenario}'")
 
