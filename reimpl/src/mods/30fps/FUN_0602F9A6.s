@@ -242,7 +242,7 @@ FUN_0602F9A6:
     mov.l @(12, r14), r0
     cmp/ge r5, r0
     bf      .L_0602FBB4
-    mov #0x7, r5    /* 30fps: throttle ramp 10 -> 7 (x2/3) */
+    mov #0xA, r5    /* 30fps: REVERTED to retail — full throttle response */
     mov.b r5, @r3
     .byte   0xD5, 0x02    /* mov.l .L_0602FB68, r5 */
     jsr @r12

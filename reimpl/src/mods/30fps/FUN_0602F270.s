@@ -261,20 +261,16 @@ sym_0602F3EC:
     mov r4, r2
 .L_0602F41A:
     mov.l r2, @(8, r0)
-    shll8 r2              /* drag = speed_index × 64 (should be ×43 for 30fps) */
-    shlr2 r2              /* WORKAROUND: ×64 not ×43 — growing the function by 2 bytes
-                              to use mulu.w breaks downstream .byte pool references.
-                              Clamp scaling (0x2AAA -> 0x1C71) compensates at high speed.
-                              At moderate speeds drag is ~49% too high.
-                              REAL FIX: mulu.w r4,r2 with r4=43 (3 insns instead of 2).
-                              Requires fixing 4 .byte pool refs that break on size change.
-                              Use the real fix when porting to CCE. */
+    mov #0x2B, r4         /* 30fps: drag ×64 -> ×43 (x2/3) */
+    mulu.w r4, r2         /* unsigned 16-bit multiply */
+    sts macl, r2          /* r2 = speed_index × 43 */
     mov.l   .L_0602F42C, r4
     cmp/ge r4, r2
     bt      .L_0602F430
     bra     .L_0602F448
     mov r4, r2
     .2byte  0x0000
+    .2byte  0x0000        /* 30fps: alignment pad for +2 byte growth from mulu.w */
 .L_0602F42C:
     .4byte  0x00000000
 .L_0602F430:

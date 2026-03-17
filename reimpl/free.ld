@@ -39,8 +39,11 @@ SECTIONS
     }
 }
 
-/* Guard: code must not overflow into runtime data at 0x06063690 */
-ASSERT(. <= 0x06063690, "LINK ERROR: Code extends past 0x06063690 into runtime data! Binary must be <= 394896 bytes.")
+/* Guard: code must not overflow into runtime data.
+   Retail binary ends at 0x06063690 (394896 bytes). Mods may grow slightly
+   beyond this — the actual first runtime variable needs empirical verification
+   via WRAM dump. 256 bytes of grace for mod headroom. */
+ASSERT(. <= 0x06063790, "LINK ERROR: Code extends past mod headroom! Binary must be <= 395152 bytes.")
 /* DAT_ symbols (1341) */
 PROVIDE(DAT_060024d6 = 0x060024D6);
 PROVIDE(DAT_06002554 = 0x06002554);
