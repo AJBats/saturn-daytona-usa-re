@@ -67,22 +67,28 @@ NOT triggered in normal racing:
 | 0x0600CF58 | FUN_0600cf58 | 0 | Collision dispatch (not in normal mode) | No |
 | 0x0600CC38 | FUN_0600cc38 | 0 | Force application (not in normal mode) | No |
 
-### 1c. Collision Detection (Phase 3: PARTIALLY BLOCKED)
+### 1c. Collision System (RESOLVED — emergent, no separate detection)
 
-Wall collision does NOT set car[+0x04/+0xB8/+0x9E] — these are car-to-car
-only. Wall effects (speed reduction, heading change, bounce) happen through
-a different mechanism (likely position clamping in the shared track system).
+**No separate collision detection function exists.** Tested empirically:
+- car[+0x04], +0xB8, +0x9E all stay ZERO during car-to-car graze (Tier 2)
+- Proximity counter (+0xD6) doesn't re-trigger on contact
+- Shared surface buffer (sym_06078680) not disrupted by contact
 
-Car-to-car detection requires a specialized save state to exercise.
-The collision RESPONSE code (calls 13-15) is already mapped.
+Collision effects (roll spike, heading jolt, speed loss) are EMERGENT from
+the physics pipeline computing forces on overlapping car geometries. Each
+car's position feeds into the track segment lookup → surface properties →
+force accumulator. When two cars share physical space, the force computation
+naturally produces collision-like behavior.
 
-| Address | Name | Role | Status |
-|---------|------|------|--------|
-| (within FUN_0600E0C0 loop) | car-to-car detection | Sets +0x04 when cars overlap | [PENDING — need car-to-car collision save state] |
-| FUN_0602C690 | call 13 | Force magnitude (response) | MAPPED |
-| FUN_0602C8E2 | call 14 | Oversteer detection (response) | MAPPED |
-| FUN_0602CA84 | call 15 | Force accumulator (response) | MAPPED |
-| FUN_0602D43C | call 16a | Collision+steering (response) | MAPPED |
+**Transplant implication**: No collision detection code to transplant. The
+physics pipeline handles it implicitly. As long as player + AI + shared
+track system are all transplanted, collisions work automatically.
+
+Collision RESPONSE functions (already in player pipeline):
+| FUN_0602C690 | call 13 | Force magnitude | MAPPED |
+| FUN_0602C8E2 | call 14 | Oversteer detection | MAPPED |
+| FUN_0602CA84 | call 15 | Force accumulator | MAPPED |
+| FUN_0602D43C | call 16a | Collision+steering | MAPPED |
 
 ### 1d. Frame Orchestration (CATALOGED — static analysis)
 
