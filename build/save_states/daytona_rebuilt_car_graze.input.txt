@@ -1,0 +1,9 @@
+# Input trace -- frame PRESS/RELEASE BUTTON
+frame=0 PRESS C
+frame=33 PRESS LEFT
+frame=38 RELEASE LEFT
+frame=75 PRESS LEFT
+frame=106 RELEASE LEFT
+frame=131 PRESS START
+frame=135 RELEASE C
+frame=137 RELEASE START

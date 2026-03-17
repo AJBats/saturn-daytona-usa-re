@@ -22,6 +22,34 @@ Renaming `.mc0` files is fine when loading by explicit path (e.g., via MCP
 - **Avoid for**: Clean throttle/brake speed tests (cars everywhere), manual
   transmission studies
 
+### Scenarios (deterministic replay from daytona_rebuilt save state)
+
+**car_graze** — chase and graze AI car ahead
+
+| Frame | Event | Notes |
+|-------|-------|-------|
+| 0 | PRESS C | Throttle from rolling start (~179 mph, pos 40/40) |
+| 33 | PRESS LEFT | First steer toward AI car ahead |
+| 38 | RELEASE LEFT | |
+| 75 | PRESS LEFT | Second steer — commits to collision line |
+| 106 | RELEASE LEFT | |
+| 131 | PRESS START | Pause after graze — sparks visible |
+| 135 | RELEASE C | |
+| 137 | RELEASE START | |
+
+Car-to-car contact (graze with sparks) occurs around frames 100-130.
+
+**Input recording**: `build/save_states/daytona_rebuilt_car_graze.input.txt`
+
+**Automated replay** (using input playback):
+```
+load_state  build/save_states/daytona_rebuilt.8180a74b2162ad4393a9630de58615e3.mc0
+input_playback_start  build/save_states/daytona_rebuilt_car_graze.input.txt
+sample_memory 0x06078900 616 140 <output_path>
+```
+The input playback injects all button events at the correct frames while
+sample_memory captures data. No manual frame-stepping needed.
+
 ## daytona_manual_trans.8180a74b2162ad4393a9630de58615e3.mc0
 
 - **Mode**: Race (40 cars, 1P)
