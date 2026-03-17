@@ -60,12 +60,22 @@ NOT triggered in normal racing:
 | 0x0600CF58 | FUN_0600cf58 | 0 | Collision dispatch (not in normal mode) | No |
 | 0x0600CC38 | FUN_0600cc38 | 0 | Force application (not in normal mode) | No |
 
-### 1c. Collision Detection [PENDING Phase 3]
+### 1c. Collision Detection (Phase 3: PARTIALLY BLOCKED)
 
-| Address | Name | Role |
-|---------|------|------|
-| [PENDING] | ... | Wall/car contact detection |
-| [PENDING] | ... | Sets car[+0x04] and car[+0x9E] |
+Wall collision does NOT set car[+0x04/+0xB8/+0x9E] — these are car-to-car
+only. Wall effects (speed reduction, heading change, bounce) happen through
+a different mechanism (likely position clamping in the shared track system).
+
+Car-to-car detection requires a specialized save state to exercise.
+The collision RESPONSE code (calls 13-15) is already mapped.
+
+| Address | Name | Role | Status |
+|---------|------|------|--------|
+| (within FUN_0600E0C0 loop) | car-to-car detection | Sets +0x04 when cars overlap | [PENDING — need car-to-car collision save state] |
+| FUN_0602C690 | call 13 | Force magnitude (response) | MAPPED |
+| FUN_0602C8E2 | call 14 | Oversteer detection (response) | MAPPED |
+| FUN_0602CA84 | call 15 | Force accumulator (response) | MAPPED |
+| FUN_0602D43C | call 16a | Collision+steering (response) | MAPPED |
 
 ### 1d. Frame Orchestration [PENDING Phase 1]
 
