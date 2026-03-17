@@ -53,6 +53,13 @@ Per-car call sequence (39 iterations): 9 functions, ~770 PCs/car, ~12% of frame.
 | 0x0600C7D8 | FUN_0600c7d8 | 3 | Heading/speed damping (conditional: airborne) | No |
 | 0x0600CEBA | FUN_0600ceba | 39 | Track segment advance | **SHARED** with player |
 
+Additional AI sub-functions (called from FUN_0600E71A dispatcher):
+| 0x06008318 | FUN_06008318 | 39 | Gear shift handler | No — uses 0x060453CC table |
+| 0x06008640 | sym_06008640 | TBD | Collision/bounce handler | No — uses 0x060453B4/C4 tables |
+| 0x0600D26A | FUN_0600D26A | 39 | Unknown (called from E71A) | TBD |
+| 0x06027552 | FUN_06027552 | 39+ | Fixed-point multiply (shared math) | **SHARED** |
+| 0x0602744C | FUN_0602744C | 39+ | atan2 variant (shared math) | **SHARED** |
+
 NOT triggered in normal racing:
 | 0x0600E906 | FUN_0600e906 | 0 | AI alt pipeline (bit 15 of sym_0607EBC4) | No |
 | 0x0600C74E | FUN_0600c74e | 0 | AI core (within alt pipeline) | No |
@@ -130,16 +137,21 @@ The collision RESPONSE code (calls 13-15) is already mapped.
 | 0x060C6000 | 12,544 | 784×16 | Surface/waypoint table | Course disc file |
 | 0x060D5840 | 588 | 147×4 | Segment distance table | Course disc file |
 
-### 2c. AI/Shared Tables [PENDING Phase 4]
+### 2c. AI/Shared Tables (CATALOGED — sizes need dump)
 
-| Address | Size | Name | Referenced By |
-|---------|------|------|--------------|
-| 0x060477EC | TBD | AI speed table 1 | FUN_0600C4F8 |
-| 0x060454CC | TBD | AI speed table 2 | FUN_0600C4F8 |
-| 0x060453B4 | TBD | Collision speed 1 | FUN_06008640 |
-| 0x060453C4 | TBD | Collision speed 2 | FUN_06008640 |
-| 0x060453CC | TBD | Gear shift timing | FUN_06008318 |
-| [PENDING] | ... | Additional tables from Phase 2+4 |
+| Address | Size | Name | Referenced By | Shared? |
+|---------|------|------|--------------|---------|
+| 0x060477EC | TBD (dump needed) | AI speed table 1 (drag numerator) | FUN_0600C4F8 | AI-only |
+| 0x060454CC | TBD (dump needed) | AI speed table 2 (drag denominator) | FUN_0600C4F8 | AI-only |
+| 0x060453B4 | TBD (dump needed) | Collision speed 1 (alt path) | sym_06008640 | AI-only |
+| 0x060453C4 | TBD (dump needed) | Collision speed 2 (alt path) | sym_06008640 | AI-only |
+| 0x060453CC | TBD (dump needed) | Gear shift timing (angle lookup) | FUN_06008318 | AI-only |
+| 0x0607EB84 | 4 (pointer) | Segment table pointer | FUN_0600CEBA, FUN_0600CD40 | **SHARED** |
+| 0x0607EB88 | 4 (pointer) | Surface table pointer | FUN_0600CA96, FUN_0600CC38 | **SHARED** |
+| 0x0607EA9C | 4 | Segment distance limit | FUN_0600CD40, FUN_0600CEBA | **SHARED** |
+
+Explorer task: `read_memory` at 0x060477EC, 0x060454CC, 0x060453B4, 0x060453C4,
+0x060453CC — dump 128 bytes each to determine table sizes.
 
 ### 2d. Sin/Cos Lookup Tables — NONE (self-contained)
 

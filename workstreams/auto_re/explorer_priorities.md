@@ -226,3 +226,44 @@ The final manifest will be assembled from all 6 phase outputs into:
 6. Phase 6 (shared math) — can partially derive from Phase 1 output
 
 Phases 1+4 first, then 2+3 in parallel, then 5+6 as cleanup.
+
+---
+
+## QUICK WINS (from Mapper static analysis, cycle 56)
+
+### QW1: Dump 5 AI-exclusive data tables
+
+The Mapper cataloged all AI pipeline pool constants. 5 tables need their
+contents dumped to determine sizes:
+
+```
+read_memory 0x060477EC 128    # AI speed table 1 (FUN_0600C4F8)
+read_memory 0x060454CC 128    # AI speed table 2 (FUN_0600C4F8)
+read_memory 0x060453B4 32     # Collision speed 1 (sym_06008640)
+read_memory 0x060453C4 32     # Collision speed 2 (sym_06008640)
+read_memory 0x060453CC 128    # Gear shift timing (FUN_06008318)
+```
+
+These are from the race-start save state (tables are static in APROG.BIN).
+Look for the end of meaningful data (zeros or repeating patterns) to
+determine actual table sizes.
+
+### QW2: FUN_0600D26A identification
+
+FUN_0600D26A is called by FUN_0600E71A (AI pipeline) for every car but
+is not in the call_tree.md or any observation. Read its Ghidra decompilation
+or disassemble ~64 bytes to identify its role and data dependencies.
+
+```
+read_memory 0x0600D26A 64     # Disassemble to identify
+```
+
+### QW3: Globals read audit (sym_0607EA9C)
+
+The AI pipeline reads sym_0607EA9C (segment distance limit) which is NOT
+in the globals_writer_map.md. Check its value and whether it changes
+during racing.
+
+```
+read_u32 0x0607EA9C           # Read current value
+```
