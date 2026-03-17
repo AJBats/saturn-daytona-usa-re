@@ -1,138 +1,228 @@
 # Explorer Priorities — Loop 2, Updated 2026-03-16
 
-**Strategic direction**: Frame timing is the new #1. The DUSA physics uses
-fixed per-frame constants with no dt variable. Every `+= K` assumes a specific
-frame interval. If DUSA runs at 20fps and CCE at 30fps, the transplanted
-physics runs 1.5× too fast. We need to: (1) measure DUSA's actual framerate,
-(2) find the frame timing mechanism, (3) modify DUSA to 30fps as a proving
-ground before transplanting to CCE.
+**Strategic direction**: TRANSPLANT MANIFEST. We need a complete, gap-free
+inventory of every function, data table, global variable, and struct that
+must be transplanted from DUSA APROG.BIN into CCE's race.bin. A single
+missing dependency crashes the transplant.
 
-## HIGH PRIORITY — Frame Timing
+The player physics pipeline is exhaustively mapped (18 calls, all verified).
+The surrounding infrastructure is NOT. Tonight's goal: classify every
+racing-only function as INSIDE or OUTSIDE the physics box.
 
-### Experiment A: Measure DUSA frame rate
+---
 
-**Goal**: Determine exactly how many VBlanks pass between consecutive
-physics frames. NTSC VBlank = 60Hz. If physics runs every 3 VBlanks = 20fps.
-Every 2 VBlanks = 30fps.
+## MISSION: Complete Physics Box Manifest
 
-**What to do**:
-1. Load `usa_tt_straight.mc0`. Set breakpoint at FUN_0600C010 (racing
-   orchestrator, the first game code each frame).
-2. Read the VBlank counter. On Saturn, the SCU's timer or the VBlank
-   interrupt counter tracks this. Check sym_0607EAAC (we identified this
-   as a frame counter that increments +1/frame). If this increments by 1
-   each physics frame, it doesn't tell us VBlank count.
-3. **Better approach**: Use `dump_cycle` to read the cycle counter at two
-   consecutive FUN_0600C010 breakpoint hits. The delta in CPU cycles ÷
-   the SH-2 clock rate (28.6MHz) gives the exact frame interval.
-   - 20fps = 50ms = 1,430,000 cycles between frames
-   - 30fps = 33ms = 953,333 cycles between frames
-4. Measure during idle (no input) AND during racing (C held) — the
-   frame time may vary if it's not VBlank-locked.
+### Phase 1: Frame orchestrator call graph (top-down trace)
 
-**What this tells us**: The exact N in "60/N fps" and whether the game
-runs at fixed or variable frame rate.
-
-### Experiment B: Find the VBlank wait mechanism
-
-**Goal**: Identify which function in the main loop chain waits for VBlank.
-This is the framerate governor — changing it would change the fps.
+**Goal**: Starting from FUN_0600C010 (racing orchestrator), trace EVERY
+function call downward. Build the complete call tree for one racing frame.
+Prune at the rendering boundary (FUN_0600B6A0/B914 and everything they call).
+Everything that remains is a candidate for the physics box.
 
 **What to do**:
-1. The main loop chain is: BIOS → 0x06000310 → 0x060072E4 → 0x0600305C
-   → 0x0600943C → FUN_0600C010.
-2. One of these early functions (likely 0x060072E4 or 0x0600305C) contains
-   a VBlank wait loop. On Saturn, this typically looks like:
-   - Reading SMPC or SCU interrupt status register
-   - OR: writing to the VBlank semaphore and spinning until cleared
-   - OR: calling SGL's `slSynch()` which waits for VBlank count
-3. Set breakpoint at each function in the chain. At each break, read the
-   cycle counter. The function with the LARGEST cycle count between entry
-   and exit is the one doing the wait (it's spinning).
-4. Alternatively, search for reads of the VBlank counter register or
-   the string "slSynch" in the binary.
+1. Load `usa_tt_straight.mc0`. Run `pc_trace_frame` starting from
+   FUN_0600C010 for 1 frame with C held.
+2. From the PC trace, extract every unique function address that executes.
+   We already have this data from the cycle 6 observation (217K PCs) but
+   need it broken down by call chain, not just region.
+3. Classify each function:
+   - **PHYSICS**: called from the player pipeline or AI loop
+   - **RENDERING**: called from FUN_0600B6A0/B914 or FUN_0600D336
+   - **SHARED**: called from both (math functions, etc.)
+   - **ORCHESTRATION**: frame loop, timing, input polling
+4. For each PHYSICS and SHARED function, record:
+   - Address and size
+   - Caller(s)
+   - Pool constants (data table references)
+   - Global variables read/written
 
-**What this tells us**: Where to patch for 30fps. If the wait counts 3
-VBlanks (20fps), changing it to 2 gives 30fps.
+**Deliverable**: `workstreams/auto_re/observations/frame_call_graph_full.md`
 
-### Experiment C: Catalog all per-frame fixed constants
+### Phase 2: AI pipeline deep trace
 
-**Goal**: Build the complete list of constants that need 20/30 scaling
-for the 30fps conversion.
-
-**What to do**: This can largely be done from existing data (Mapper work).
-From the data flow chains, every `+= K` or `-= K` per frame is a fixed
-constant. Catalog:
-
-| Constant | Location | Current Value | 30fps Value (×2/3) |
-|----------|----------|---------------|-------------------|
-| Throttle ramp | sym_0602FDA4 | +10/frame | +6.67 → +7 |
-| Brake ramp | sym_0602FDA4 | +40/frame | +26.67 → +27 |
-| Drag amount | sym_0602F3EC | speed_idx × 64 | speed_idx × 43 |
-| Traction decay | FUN_0602CCEC | -1474/frame | -983 |
-| Heading correction | FUN_0602CDF6 | ±60/frame | ±40 |
-| Throttle decay | sym_0602FDA4 | toward 56 | rate × 2/3 |
-| Brake decay | sym_0602FDA4 | r4 - r4/2 | same formula, runs less often |
-| Timer decrements | sym_0602F7BC | -1/frame | -1/frame (but frame count changes) |
-| Steering deadzone | FUN_0602EFF0 | ×255 scale | ×170 |
-| EMA blend | sym_0602F0E8 | (B0<<8 + D0)>>1 | blend rate needs adjustment |
-
-**What this tells us**: The exact patch list for 30fps conversion.
-Some constants can use integer 2/3 approximation. Others (like EMA blend
-rates and exponential decays) need more careful recalculation.
-
-## COMPLETED (data flow gaps)
-
-Both previous experiments resolved:
-- Experiment 1 (brake): CLOSED via CSV analysis — symmetric with throttle
-- Experiment 2 (manual gear): CLOSED — +0xDC and +0xDE synchronized
-
-**Goal**: Find exactly how car[+0x90] (brake force, range 56-184) produces
-negative car[+0xFC] (accel delta, observed peak -303).
-
-**What we know**:
-- B button → sym_0602FDA4 → car[+0x90] += 40/frame (max 184+), car[+0x88] = 1
-- The force formula's final step subtracts car[+0x114] (resistance term)
-- During braking, +0x114 = 26214400 (from animation lookup table sym_060477D8)
-- car[+0x90] is NOT in FUN_0602CA84's 28 pool constants (no 0x0090 offset)
-- So the brake signal enters through a register argument or through an
-  intermediate field that changes when braking
+**Goal**: Trace FUN_0600E0C0 (AI car loop) with the same depth as the
+player pipeline. The AI loop processes cars 1..39 using FUN_0600e71a
+(normal mode) or FUN_0600e906 (AI mode). We need every sub-call and
+every data table reference.
 
 **What to do**:
-1. Load `usa_tt_straight.mc0`. Hold C for 200 frames (build to ~27 mph).
-2. Release C, hold B. Set breakpoint at FUN_0602CA84 entry (0x0602EF48 is
-   the JSR in the dispatcher — break AFTER it, at 0x0602CA84 itself... but
-   this is the free-build address. Use retail address 0x0602CA84).
-3. At the breakpoint, read car[+0x90], car[+0x8C], car[+0x84], car[+0x74].
-   Compare these with values from a no-brake run at the same frame.
-4. The field that DIFFERS is the brake carrier. If +0x84 differs (which call 6
-   copies from +0x74 in normal path), then brake may override +0x84.
-5. Alternative approach: just compare ALL fields in the +0x60-+0xFC range
-   between brake-held and idle at the same speed. The differences reveal
-   every brake-affected intermediate.
+1. Load `daytona_rebuilt.*.mc0` (race mode, 40 cars).
+2. Set breakpoint at FUN_0600E0C0 entry. Run `pc_trace_frame` for 1 frame.
+3. Extract the AI pipeline call tree. Key sub-functions (from call_tree.md):
+   - FUN_0600e71a: normal mode physics (cars 1..N when sym_0607EBC4 bit 15 clear)
+   - FUN_0600c5d6: core steering/force dispatcher
+   - FUN_0600c4f8: speed/acceleration calculator
+   - FUN_0600ca96: friction/drag
+   - FUN_0600cf58: collision dispatch
+   - FUN_0600cc38: force application
+   - FUN_0600c8cc: heading calculator
+   - FUN_0600c928: heading correction
+   - FUN_0600c7d4: heading/speed damping
+   - FUN_0600ceba: track segment advance
+4. For each AI sub-function, dump its pool constants to find data table
+   references. Use `read_memory` on the pool region (typically 0x20-0x80
+   bytes after the function body).
 
-**Simplest approach**: Use existing CSV captures. We have `tt_brake_300f.csv`
-(B held from 27 mph) and `tt_throttle_300f.csv` (C held from 0). Compare
-fields at the frame where both runs have similar speed (~15 mph, around
-frame 50 of brake and frame 200 of throttle). Fields that differ between
-"accelerating at 15 mph" and "braking at 15 mph" carry the brake signal.
+**Deliverable**: `workstreams/auto_re/observations/ai_pipeline_full_obs.md`
 
-**What this closes**: The exact field that distinguishes throttle from brake
-inside the force accumulator.
+### Phase 3: Collision detection system
 
-## Experiment 2: Manual gear writer for +0xDC
-
-**Goal**: Confirm that FUN_06008318 (or another function) writes car[+0xDC]
-when the player presses UP/DOWN in manual transmission mode.
+**Goal**: Find the collision DETECTION code (not response — we have that).
+Something sets car[+0x04] (collision target) and car[+0x9E] (collision
+flag). That code must be in the physics box.
 
 **What to do**:
-1. Load `daytona_manual_trans.mc0` (manual transmission save state).
-2. Read car[+0xDC] at 0x06078ADC. Note initial value.
-3. Hold UP for 1 frame. Read car[+0xDC] again.
-4. If it changed: set watchpoint on 0x06078ADC, press UP again, record
-   the writer PC. That PC is the manual gear → +0xDC bridge.
-5. If it didn't change: UP may need speed > 0. Hold C for 100 frames to
-   build speed, then press UP.
+1. Load `daytona_rebuilt.*.mc0`. Hold C + RIGHT to drive into the wall.
+2. Set watchpoint on car[+0x04] (0x06078904) — it should trigger when
+   collision is detected. Record the writer PC.
+3. Also try watchpoint on car[+0x9E] (0x0607899E, 16-bit — may need
+   the `sample_memory` approach instead due to watchpoint limitations).
+4. If watchpoints fail: sample car[+0x04] every frame during the wall
+   approach. The first frame it changes from 0 reveals the collision
+   detection timing. Then use `pc_trace_frame` on THAT frame to find
+   the detection code.
 
-**What this closes**: The +0xDE → +0xDC link (or discovery that manual mode
-uses a completely different path than auto's sym_0602F17C threshold system).
+**Deliverable**: `workstreams/auto_re/observations/collision_detection_obs.md`
+
+### Phase 4: Data section catalog
+
+**Goal**: Dump every data table referenced by physics functions. These
+are embedded in the code section (pool constants) or in the data region
+(0x0604xxxx-0x0605xxxx). The transplant must include ALL of them.
+
+**What to do**:
+1. For each known physics function, read its pool constant region and
+   extract all `.4byte` addresses that point to data tables (addresses
+   in the 0x0604xxxx-0x0606xxxx range, NOT function addresses).
+2. Known tables to verify are present:
+   | Table | Address | Size | Purpose |
+   |-------|---------|------|---------|
+   | Gear ratios | sym_060477BC | 32 bytes | Speed→force scaling |
+   | Gear-up thresholds | sym_060477AC | 16 bytes | Upshift triggers |
+   | Gear-down thresholds | sym_0604779C | 16 bytes | Downshift triggers |
+   | Section scaling | sym_060477CC | 16 bytes | Gear change speed recomp |
+   | Traction force | sym_0602E938 | 128 bytes | Gear × section force |
+   | Track force bounds | sym_0602F3CC | 32 bytes | Force clamp per gear |
+   | Drift scaling | sym_0602E8B8 | 64 bytes | Drift velocity multiplier |
+   | Animation states | sym_060477D8 | 20 bytes | Display state lookup |
+   | Surface table | [sym_0607EB88] | 12544 bytes | Track physics geometry |
+   | Segment table | [sym_0607EB84] | 588 bytes | Track progress milestones |
+   | Button mapping | sym_06081888 | 12 bytes | Controller button masks |
+   | Speed tables (AI) | 0x060477EC | TBD | AI acceleration lookup |
+   | Speed tables (AI) #2 | 0x060454CC | TBD | AI second accel table |
+   | Collision speed | 0x060453B4 | TBD | Collision bounce magnitude |
+   | Collision speed #2 | 0x060453C4 | TBD | Collision bounce #2 |
+   | Gear shift timing | 0x060453CC | TBD | Gear shift animation |
+   | Steering kick S-curve | 0x060453CC | 33 entries | Gear shift steering kick |
+3. For any NEW table addresses found in Phase 2 (AI pipeline), dump those too.
+4. Also check: are there tables in the 0x0605xxxx range? Or in WRAM High
+   outside the binary (like the track data at 0x060Cxxxx)?
+
+**Deliverable**: `workstreams/auto_re/observations/data_tables_manifest.md`
+
+### Phase 5: Globals region complete audit
+
+**Goal**: Identify EVERY global variable the physics box reads or writes.
+The globals_writer_map.md has 21 globals with WRITE data. We need READS too.
+
+**What to do**:
+1. Known physics globals (from struct_map.md and writer_map):
+   | Address | Name | Role |
+   |---------|------|------|
+   | 0x0607E940 | sym_0607E940 | Current car pointer |
+   | 0x0607E944 | sym_0607E944 | Player car pointer |
+   | 0x0607E948 | sym_0607E948 | Car array base (car[1]) |
+   | 0x0607EA98 | sym_0607EA98 | Car count |
+   | 0x0607EAAC | sym_0607EAAC | Race countdown timer |
+   | 0x0607EBC4 | sym_0607EBC4 | Pipeline mode flag |
+   | 0x0607EBD0 | sym_0607EBD0 | Speed/progress threshold |
+   | 0x0607EBDC | sym_0607EBDC | Car iteration index |
+   | 0x0607EB84 | sym_0607EB84 | Track segment table ptr |
+   | 0x0607EB88 | sym_0607EB88 | Surface table ptr |
+   | 0x06063D98 | sym_06063D98 | g_pad_state (controller) |
+   | 0x060635C4 | (unnamed) | VBlank semaphore |
+   | 0x06078680 | sym_06078680 | Surface buffer |
+   | 0x06078900 | sym_06078900 | Car struct array base |
+2. Use `mem_profile` on the globals region (0x0607E940-0x0607EC00) for
+   60 frames of racing. This captures ALL writes. Cross-reference with
+   the existing globals_writer_map.md to find any new globals.
+3. For READS: search all physics function pool constants for addresses
+   in the 0x0607xxxx range. Each is a global variable read.
+4. Also check: does the physics read from the button mapping table region
+   (0x06081888)? From the car struct region header? From any other
+   fixed address outside the code section?
+
+**Deliverable**: `workstreams/auto_re/observations/globals_audit.md`
+
+### Phase 6: Shared math function inventory
+
+**Goal**: List every shared math/utility function called by physics code.
+These are small but critical — a missing sin/cos lookup crashes everything.
+
+**Known shared functions** (from pipeline observations):
+| Address | Name | Size | Purpose |
+|---------|------|------|---------|
+| 0x06027344 | FUN_06027344 | ~4 | cos lookup |
+| 0x06027348 | cos_lookup | ~16 | cos table entry |
+| 0x0602734C | sin_lookup | ~16 | sin table entry |
+| 0x0602735C | FUN_06027358 | ~32 | sin/cos pair call |
+| 0x0602737C | FUN_06027378 | ~212 | inverse trig |
+| 0x06027450 | atan2 | ~16 | atan2 entry |
+| 0x0602744C | FUN_0602744C | ~4+ | atan2 variant |
+| 0x0602749C | isqrt | ~34 | integer sqrt |
+| 0x06027550 | swap_sign_ext | ~6 | sign extension |
+| 0x06027556 | fpdiv_setup | ~10+ | fixed-point divide |
+| 0x06027560 | fpdiv_setup | ~24 | FP divide setup |
+| 0x06027610 | memcpy_byte_idx | ~18 | byte copy |
+| 0x06027622 | memcpy_word_idx | ~18 | word copy |
+| 0x06027634 | memcpy_long_idx | ~18 | long copy |
+| 0x0602755C | FUN_0602755C | ~TBD | clamp/normalize |
+| 0x0602ECCC | FUN_0602ECCC | ~TBD | atan2/rotation computation |
+
+**What to do**:
+1. Verify this list is complete by scanning all physics function pool
+   constants for addresses in the 0x06027xxx range.
+2. For each shared function, read its pool constants to find any data
+   table dependencies (sin/cos lookup tables, etc.).
+3. Check: do the sin/cos functions read from a lookup table in the data
+   section? If so, that table must be transplanted too.
+4. Measure exact sizes (read_memory at each address, find the `rts`).
+
+**Deliverable**: `workstreams/auto_re/observations/shared_math_manifest.md`
+
+---
+
+## Output Format
+
+For each phase, produce the observation file with:
+
+```
+FUNCTIONS:
+  0xADDRESS | size_bytes | name | caller | role
+
+DATA TABLES:
+  0xADDRESS | size_bytes | name | referenced_by | content_description
+
+GLOBALS:
+  0xADDRESS | size_bytes | name | readers | writers | initial_value
+
+STRUCTS:
+  base_address | stride | count | description
+```
+
+The final manifest will be assembled from all 6 phase outputs into:
+`workstreams/driving_model/transplant_manifest.md`
+
+---
+
+## Priority Order
+
+1. Phase 1 (frame call graph) — gives us the total function count
+2. Phase 4 (data tables) — can run in parallel with Phase 1
+3. Phase 2 (AI pipeline) — fills the biggest function gap
+4. Phase 3 (collision detection) — fills the biggest behavioral gap
+5. Phase 5 (globals audit) — completeness check
+6. Phase 6 (shared math) — can partially derive from Phase 1 output
+
+Phases 1+4 first, then 2+3 in parallel, then 5+6 as cleanup.
