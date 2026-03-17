@@ -38,3 +38,4 @@ throttle_gap	0	0	0	Finding: throttle gap RESOLVED. C button → +0x74 (throttle 
 lookup_tables	0	0	0	Data extraction: 7 pipeline lookup tables + 2 track geometry tables (784-entry surface, 147-entry segment). Phase 3 sim constants + course data.
 steering_writer	0	0	0	Finding: steering gap RESOLVED. LEFT (0x4000) → sub-call 0x0603006A within sym_0602FDA4 → car[+0xAC] = -16. All 6 racing inputs (C,B,UP,DOWN,LEFT,RIGHT) now traced to car struct writers.
 FUN_0602D08A	0	0	0	Pipeline call 16b (alt collision). UNREACHABLE: car[+0x9E] always 0 in all tested scenarios (wall strike, race). Only untested pipeline path.
+collision_detect	0	0	0	BLOCKED: car[+0x04], +0xB8, +0x9E all zero in every scenario. Wall collisions don't set these — car-to-car only. Needs specialized save state.
