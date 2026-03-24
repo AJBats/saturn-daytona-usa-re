@@ -51,3 +51,40 @@ DAT_0602e80a:
     .byte   0xD4, 0x05    /* mov.l .L_pool_0602E838, r4 */
     .byte   0xD5, 0x06    /* mov.l .L_pool_0602E83C, r5 */
     .byte   0xDD, 0x06    /* mov.l .L_pool_0602E840, r13 */
+
+
+    .global FUN_0602E826
+    .type FUN_0602E826, @function
+FUN_0602E826:
+    sts.l pr, @-r15
+    jsr @r13
+    nop
+    lds.l @r15+, pr
+    .reloc ., R_SH_IND12W, FUN_0602E78C - 4
+    .2byte 0xA000    /* bra FUN_0602E78C (linker-resolved) */
+    nop
+    .2byte  0x0000
+    .4byte  0x00000050
+    .4byte  0x00000000
+    .4byte  0xAE1106FF
+    .4byte  FUN_0601D5F4
+    .4byte  0xD404D505
+    .2byte  0xDD05
+
+    .global FUN_0602E84A
+    .type FUN_0602E84A, @function
+FUN_0602E84A:
+    sts.l pr, @-r15
+    jsr @r13
+    nop
+    lds.l @r15+, pr
+    .reloc ., R_SH_IND12W, FUN_0602E78C - 4
+    .2byte 0xA000    /* bra FUN_0602E78C (linker-resolved) */
+    nop
+    .2byte  0x0000
+    .4byte  0x00000000
+    .4byte  0xAE110AFF
+    .4byte  FUN_0601D5F4
+    .4byte  0xD3053833
+    .4byte  0x8910D405
+    .4byte  0xD505DD06

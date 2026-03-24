@@ -131,3 +131,11 @@ FUN_06015678:
     .byte 0x64, 0xF0
     .byte 0x43, 0x2B
     .byte 0x7F, 0x04
+
+
+    .global FUN_060156A6
+    .type FUN_060156A6, @function
+FUN_060156A6:
+    .byte 0x2F, 0xE6
+    .byte 0x2F, 0xD6
+    .byte 0x6D, 0x43

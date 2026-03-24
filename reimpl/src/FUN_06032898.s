@@ -42,3 +42,15 @@ FUN_06032898:
     mov.l @r0+, r5
     mov.l @r0+, r6
     .byte   0xD0, 0x67    /* mov.l .L_pool_06032A80, r0 */
+
+
+    .global FUN_060328E2
+    .type FUN_060328E2, @function
+FUN_060328E2:
+    sts.l pr, @-r15
+    jsr @r0
+    nop
+    lds.l @r15+, pr
+    .byte   0xD0, 0x70    /* mov.l .L_pool_06032AAC, r0 */
+    mov.w @(r0, r14), r4
+    .byte   0xD0, 0x68    /* mov.l .L_pool_06032A90, r0 */

@@ -15,3 +15,9 @@ FUN_0601444C:
     .byte 0xD3, 0x20
     .byte 0x43, 0x2B
     .byte 0x4F, 0x26
+
+
+    .global FUN_06014466
+    .type FUN_06014466, @function
+FUN_06014466:
+    .byte 0xE5, 0x1C

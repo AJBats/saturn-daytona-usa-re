@@ -107,3 +107,9 @@ FUN_060121A8:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
+
+
+    .global FUN_0601228A
+    .type FUN_0601228A, @function
+FUN_0601228A:
+    .byte 0xE2, 0x6E

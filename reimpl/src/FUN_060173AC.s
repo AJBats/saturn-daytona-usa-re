@@ -535,3 +535,17 @@ DAT_0601772a:
     .global DAT_0601772c
 DAT_0601772c:
     .2byte  0x5000
+
+
+    .global FUN_0601772E
+    .type FUN_0601772E, @function
+FUN_0601772E:
+    mov.l r14, @-r15
+    mov.l r13, @-r15
+    mov r4, r13
+    mov.l r12, @-r15
+    mov #0x2C, r12
+    mov.l r11, @-r15
+    sub r13, r12
+    mov.l r10, @-r15
+    extu.b r12, r12

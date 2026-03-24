@@ -57,3 +57,28 @@ FUN_0603307C:
     .4byte  0xD0076002
     .4byte  0x60024015
     .2byte  0x8907
+
+
+    .global FUN_06033086
+    .type FUN_06033086, @function
+FUN_06033086:
+    sts.l pr, @-r15
+    .reloc ., R_SH_IND12W, FUN_06033330 - 4
+    .2byte 0xB000    /* bsr FUN_06033330 (linker-resolved) */
+    nop
+    lds.l @r15+, pr
+
+    .global FUN_0603308E
+    .type FUN_0603308E, @function
+FUN_0603308E:
+    sts.l pr, @-r15
+    bsr     .L_060330A0
+    nop
+    lds.l @r15+, pr
+    rts
+    nop
+    .2byte  0x0000
+    .4byte  sym_06033864
+.L_060330A0:
+    .byte   0xD0, 0x28    /* mov.l .L_pool_06033144, r0 */
+    mov.l @r0, r0

@@ -173,3 +173,13 @@ FUN_06020814:
     .reloc ., R_SH_IND12W, FUN_06020DEE - 4
     .2byte 0xA000    /* bra FUN_06020DEE (linker-resolved) */
     mov.l @r15+, r14
+
+
+    .global FUN_06020946
+    .type FUN_06020946, @function
+FUN_06020946:
+    mov.l r14, @-r15
+    mov.l r13, @-r15
+    mov.l r12, @-r15
+    mov.l r11, @-r15
+    mov #0x1C, r11

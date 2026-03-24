@@ -46,3 +46,9 @@ FUN_06040B34:
     .byte 0xE0, 0x00
     .byte 0x66, 0xE3
     .byte 0x65, 0xE3
+
+
+    .global FUN_06040B8E
+    .type FUN_06040B8E, @function
+FUN_06040B8E:
+    .byte 0x2F, 0xE6

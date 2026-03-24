@@ -232,3 +232,9 @@ DAT_06013dd6:
     .byte 0x6D, 0xF6
     .byte 0x00, 0x0B
     .byte 0x6E, 0xF6
+
+
+    .global FUN_06013E12
+    .type FUN_06013E12, @function
+FUN_06013E12:
+    .byte 0xE2, 0x10

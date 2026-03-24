@@ -12,3 +12,19 @@ FUN_06032ED8:
     .byte   0xD0, 0x46    /* mov.l .L_pool_06032FFC, r0 */
     mov.w @(r0, r14), r4
     .byte   0xD0, 0x46    /* mov.l .L_pool_06033000, r0 */
+
+
+    .global FUN_06032EE6
+    .type FUN_06032EE6, @function
+FUN_06032EE6:
+    sts.l pr, @-r15
+    jsr @r0
+    nop
+    lds.l @r15+, pr
+    .byte   0xD0, 0x45    /* mov.l .L_pool_06033004, r0 */
+    mov.w @(r0, r14), r1
+    .byte   0xD0, 0x3F    /* mov.l .L_pool_06032FF0, r0 */
+    tst r0, r1
+    .byte   0x89, 0x24    /* bt 0x06032F42 (external) */
+    mov.l r1, @-r15
+    .byte   0xD0, 0x3A    /* mov.l .L_pool_06032FE4, r0 */

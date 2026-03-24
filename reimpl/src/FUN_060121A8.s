@@ -128,3 +128,9 @@ FUN_060121A8:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
+
+
+    .global FUN_0601228A
+    .type FUN_0601228A, @function
+FUN_0601228A:
+    mov #0x6E, r2

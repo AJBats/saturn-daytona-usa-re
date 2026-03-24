@@ -287,3 +287,9 @@ DAT_06013dd6:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
+
+
+    .global FUN_06013E12
+    .type FUN_06013E12, @function
+FUN_06013E12:
+    mov #0x10, r2

@@ -62,3 +62,31 @@ FUN_06032768:
     .4byte  0x00000084
 .L_060327FC:
     .byte   0xD0, 0x9D    /* mov.l @cross-TU pool (render pipeline dispatch), r0 */
+
+
+    .global FUN_060327FE
+    .type FUN_060327FE, @function
+FUN_060327FE:
+    sts.l pr, @-r15
+    jsr @r0
+    nop
+    lds.l @r15+, pr
+    .byte   0xDD, 0x9C    /* mov.l .L_pool_06032A78, r13 */
+    mov.l @r13, r13
+    .byte   0xD0, 0x9C    /* mov.l .L_pool_06032A7C, r0 */
+    add r12, r0
+    mov.l @r0+, r4
+    mov.l @r0+, r5
+    mov.l @r0+, r6
+    .byte   0xD0, 0x9A    /* mov.l .L_pool_06032A80, r0 */
+
+    .global FUN_06032816
+    .type FUN_06032816, @function
+FUN_06032816:
+    sts.l pr, @-r15
+    jsr @r0
+    nop
+    lds.l @r15+, pr
+    .byte   0xD0, 0x99    /* mov.l .L_pool_06032A84, r0 */
+    mov.w @(r0, r14), r4
+    .byte   0xD0, 0x99    /* mov.l .L_pool_06032A88, r0 */

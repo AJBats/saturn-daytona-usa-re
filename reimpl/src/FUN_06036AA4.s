@@ -44,3 +44,11 @@ FUN_06036AA4:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
+
+
+    .global FUN_06036AF2
+    .type FUN_06036AF2, @function
+FUN_06036AF2:
+    mov.l r14, @-r15
+    mov.l r13, @-r15
+    mov r4, r14

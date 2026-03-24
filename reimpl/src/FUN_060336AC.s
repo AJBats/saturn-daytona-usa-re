@@ -48,3 +48,17 @@ FUN_06033700:
     .4byte  0x68066502
     .4byte  0x2F1664D3
     .2byte  0xD12D
+
+
+    .global FUN_06033726
+    .type FUN_06033726, @function
+FUN_06033726:
+    sts.l pr, @-r15
+    jsr @r1
+    nop
+    lds.l @r15+, pr
+    swap.w r0, r1
+    exts.w r1, r13
+    mov r14, r4
+    mov r8, r5
+    .byte   0xD1, 0x29    /* mov.l .L_pool_060337DC, r1 */

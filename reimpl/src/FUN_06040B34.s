@@ -58,3 +58,9 @@ FUN_06040B34:
 .L_06040B8A:
     mov r14, r6
     mov r14, r5
+
+
+    .global FUN_06040B8E
+    .type FUN_06040B8E, @function
+FUN_06040B8E:
+    mov.l r14, @-r15

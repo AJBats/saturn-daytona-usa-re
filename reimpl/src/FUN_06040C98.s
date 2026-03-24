@@ -376,3 +376,11 @@ sym_06040EEC:
     mov #-0x4, r0
     rts
     nop
+
+
+    .global FUN_06040F16
+    .type FUN_06040F16, @function
+FUN_06040F16:
+    mov.l r14, @-r15
+    mov.l r13, @-r15
+    mov r4, r14

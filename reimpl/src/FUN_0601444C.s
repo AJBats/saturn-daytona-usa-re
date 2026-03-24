@@ -18,3 +18,9 @@ FUN_0601444C:
     .byte   0xD3, 0x20    /* mov.l .L_pool_060144E4, r3 */
     jmp @r3
     lds.l @r15+, pr
+
+
+    .global FUN_06014466
+    .type FUN_06014466, @function
+FUN_06014466:
+    mov #0x1C, r5

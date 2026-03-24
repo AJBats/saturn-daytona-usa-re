@@ -323,3 +323,11 @@ sym_06040EEC:
     .byte 0xE0, 0xFC
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
+
+
+    .global FUN_06040F16
+    .type FUN_06040F16, @function
+FUN_06040F16:
+    .byte 0x2F, 0xE6
+    .byte 0x2F, 0xD6
+    .byte 0x6E, 0x43

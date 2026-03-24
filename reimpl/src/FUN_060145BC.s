@@ -68,8 +68,7 @@ FUN_060145BC:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .reloc ., R_SH_IND12W, FUN_060146D2 - 4
-    .2byte 0xA000    /* bra FUN_060146D2 (linker-resolved) */
+    bra     FUN_060146D2
     mov.l @r15+, r14
 .L_0601463A:
     mov.l @r14, r0
@@ -147,3 +146,9 @@ DAT_06014682:
     .4byte  0x8901A002
     .4byte  0x0009000B
     .2byte  0x0009
+
+
+    .global FUN_060146D2
+    .type FUN_060146D2, @function
+FUN_060146D2:
+    mov #0x0, r3
