@@ -1,0 +1,50 @@
+# auto_re project configuration — Daytona USA (1995)
+
+game_name: "Daytona USA (1995)"
+
+assembly_dir: reimpl/src
+
+car_struct:
+  base: 0x06078900
+  stride: 0x268
+  count: 40
+  addressing: direct
+
+controls:
+  throttle: C
+  brake: B
+  steer_left: LEFT
+  steer_right: RIGHT
+
+save_states:
+  race_idle:
+    file: build/save_states/daytona_rebuilt.8180a74b2162ad4393a9630de58615e3.mc0
+    inputs: []
+    notes: "40 cars, rolling start ~150 mph, no input"
+  race_throttle:
+    file: build/save_states/daytona_rebuilt.8180a74b2162ad4393a9630de58615e3.mc0
+    inputs: [C]
+    notes: "40 cars, rolling start, throttle held"
+  straight_throttle:
+    file: build/save_states/usa_tt_straight.mc0
+    inputs: [C]
+    frames: 1314
+    notes: "Dead stop, hold C, wall strike at frame 1314"
+  right_wall_strike:
+    file: build/save_states/usa_tt_straight.mc0
+    inputs: [RIGHT, C]
+    frames: 662
+    notes: "Angled right wall collision"
+  offtrack_throttle:
+    file: build/save_states/usa_tt_offtrack_stop.mc0
+    inputs: [C]
+    frames: 566
+    notes: "Grass at frame 109, traction loss"
+
+struct_map_path: workstreams/driving_model/struct_map.md
+
+cue_path: "external_resources/Daytona USA (USA)/Daytona USA (USA).cue"
+
+mednafen:
+  ipc_dir: build/mcp_ipc
+  home_dir: build/mednafen_home
