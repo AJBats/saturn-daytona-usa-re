@@ -4,9 +4,11 @@
       "type": "stdio",
       "command": "python",
       "args": [
-        "mednafen/mcp_server.py",
+        "D:/Projects/SaturnAutoRE/mednafen/mcp_server.py",
         "--ipc-dir",
-        "build/mcp_ipc"
+        "build/mcp_ipc",
+        "--home-dir",
+        "build/mednafen_home"
       ],
       "env": {}
     }
