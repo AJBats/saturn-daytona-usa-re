@@ -10,9 +10,12 @@
 
     .global sym_0602D814
 sym_0602D814:
-    /* Adapter: car arrives in r4, original expects r14 */
+    /* Adapter: car arrives in r4, original expects r14.
+     * r14 is callee-saved — must preserve for caller's use. */
+    mov.l r14, @-r15
+    sts.l pr, @-r15
     mov r4, r14
-    /* Fall through to original code */
+    /* Original code */
     mov r14, r0
     mov.l @(12, r0), r4
     mov.w .Lv_d862, r2       /* r2 = 0xFC (accel_delta offset) */
@@ -68,8 +71,9 @@ sym_0602D814:
 .Lv_D884:
     mov.w .Lv_d88c, r1       /* r1 = 0xE8 */
     mov.l r6, @(r0, r1)      /* car[+0xE8] = excess */
+    lds.l @r15+, pr
     rts
-    nop
+    mov.l @r15+, r14
 
     .align 1
 .Lv_d862:
