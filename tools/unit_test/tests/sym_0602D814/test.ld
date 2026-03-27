@@ -26,6 +26,6 @@ SECTIONS
 
     .results (NOLOAD) : {
         _results_start = .;
-        . += 0x100;
+        . += 0x800;    /* 8 byte header + 100 tests * 16 bytes = 1608 bytes */
     } > RAM
 }
