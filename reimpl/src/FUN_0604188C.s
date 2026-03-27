@@ -28,7 +28,7 @@ FUN_0604188C:
     .4byte  0x00008000
 .L_060418B0:
     mov #0x0, r5
-    .byte   0xD2, 0x2A    /* mov.l .L_pool_0604195C, r2 */
+    mov.l   .L_0604195C, r2
     mov.l @r2, r2
     mov.l r5, @(60, r2)
     lds.l @r15+, pr
@@ -51,8 +51,8 @@ FUN_060418BE:
     mov #0x3, r8
     mov #0x0, r9
     mov #0x1, r11
-    .byte   0xDC, 0x22    /* mov.l .L_06041960, r12 */
-    .byte   0xDE, 0x20    /* mov.l .L_0604195C, r14 */
+    mov.l   .L_06041960, r12
+    mov.l   .L_0604195C, r14
     mov r4, r10
     bra     .L_060419F6
     mov r9, r13
@@ -71,7 +71,7 @@ FUN_060418BE:
     mov.l r5, @r15
     mov.b @(1, r5), r0
     mov.l @r15, r4
-    .byte   0xD3, 0x19    /* mov.l .L_06041964, r3 */
+    mov.l   .L_06041964, r3
     mov r0, r5
     jsr @r3
     mov.b @r4, r4
@@ -112,7 +112,7 @@ FUN_060418BE:
     mov.l r5, @r15
     add #0x2, r5
     mov.l @r15, r4
-    .byte   0xD3, 0x07    /* mov.l .L_06041968, r3 */
+    mov.l   .L_06041968, r3
     jsr @r3
     mov.b @r4, r4
     mov r0, r4
@@ -176,7 +176,7 @@ FUN_060418BE:
     mov.l @(12, r6), r6
     mov.l @r15, r5
     mov.l @r15, r4
-    .byte   0xD3, 0x27    /* mov.l .L_06041A64, r3 */
+    mov.l   .L_06041A64, r3
     mov.l @(8, r5), r5
     jsr @r3
     mov.b @r4, r4
@@ -228,7 +228,7 @@ FUN_060418BE:
     mov r4, r1
     mov r13, r2
     mov.l @r14, r5
-    .byte   0xD3, 0x11    /* mov.l .L_06041A68, r3 */
+    mov.l   .L_06041A68, r3
     shll2 r1
     shll2 r2
     add #0x5C, r5
@@ -252,7 +252,7 @@ FUN_060418BE:
 .L_06041A48:
     mov #0x40, r3
     mov.l r3, @r15
-    .byte   0xD3, 0x07    /* mov.l .L_06041A6C, r3 */
+    mov.l   .L_06041A6C, r3
     jsr @r3
     nop
     mov r0, r5

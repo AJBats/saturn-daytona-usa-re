@@ -694,7 +694,7 @@ sym_0602D88E:
 FUN_0602D89A:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    .byte   0xD0, 0x06    /* mov.l .L_pool_0602D8B9, r0 */
+    mov.l   .L_pool_0602D8B9, r0
     mov.l @r0, r0
     bsr     sym_0602D8BC
     nop
@@ -733,12 +733,12 @@ FUN_0602D8C6:
     mov.l @(24, r0), r6
     mov.l r5, @(56, r0)
     mov.l r6, @(60, r0)
-    .byte   0xD0, 0x0F    /* mov.l .L_pool_0602D91E, r0 */
+    mov.l   .L_pool_0602D91E, r0
     jsr @r0
     nop
     mov r0, r8
     mov r7, r4
-    .byte   0xD0, 0x0D    /* mov.l .L_pool_0602D922, r0 */
+    mov.l   .L_pool_0602D922, r0
     jsr @r0
     nop
     dmuls.l r0, r3

@@ -59,7 +59,7 @@ FUN_06041258:
 FUN_060412B2:
     sts.l pr, @-r15
     add #-0x4, r15
-    .byte   0xD7, 0x15    /* mov.l .L_pool_0604130D, r7 */
+    mov.l   .L_pool_0604130D, r7
     mov.w   .L_06041306, r0
     mov.l @r7, r3
     mov.l @(r0, r3), r0

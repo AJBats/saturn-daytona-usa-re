@@ -227,7 +227,7 @@ FUN_0600ADD4:
     jsr @r3
     mov.l @r4, r4
 .L_0600AF8C:
-    .byte   0xD2, 0x27    /* mov.l @(0x0600B02C), r2 */
+    mov.l   .L_0600B02C, r2
     .byte   0xD3, 0x28    /* mov.l @(0x0600B030), r3 */
     mov.l @r2, r2
     and r3, r2
@@ -257,31 +257,31 @@ FUN_0600AFB2:
     mov.l r12, @-r15
     mov.l r11, @-r15
     sts.l pr, @-r15
-    .byte   0xDB, 0x1F    /* mov.l .L_0600B03C, r11 */
-    .byte   0xDD, 0x20    /* mov.l .L_0600B040, r13 */
-    .byte   0xDE, 0x20    /* mov.l .L_0600B044, r14 */
-    .byte   0xD3, 0x21    /* mov.l .L_0600B048, r3 */
+    mov.l   .L_0600B03C, r11
+    mov.l   .L_0600B040, r13
+    mov.l   .L_0600B044, r14
+    mov.l   .L_0600B048, r3
     mov.l @r14, r14
     mov.l r14, @r3
-    .byte   0xD3, 0x20    /* mov.l .L_0600B04C, r3 */
+    mov.l   .L_0600B04C, r3
     jsr @r3
     nop
     mov.l @(24, r14), r6
     mov.l @(20, r14), r5
-    .byte   0xD3, 0x1F    /* mov.l .L_0600B050, r3 */
+    mov.l   .L_0600B050, r3
     jsr @r3
     mov.l @(16, r14), r4
     mov.l @(32, r14), r4
-    .byte   0xD2, 0x1E    /* mov.l .L_0600B054, r2 */
-    .byte   0xD3, 0x1E    /* mov.l .L_0600B058, r3 */
+    mov.l   .L_0600B054, r2
+    mov.l   .L_0600B058, r3
     jsr @r3
     add r2, r4
     mov.l @(36, r14), r4
-    .byte   0xD3, 0x1D    /* mov.l .L_0600B05C, r3 */
+    mov.l   .L_0600B05C, r3
     jsr @r3
     neg r4, r4
-    .byte   0xD2, 0x10    /* mov.l .L_0600B02C, r2 */
-    .byte   0xD3, 0x1C    /* mov.l .L_0600B060, r3 */
+    mov.l   .L_0600B02C, r2
+    mov.l   .L_0600B060, r3
     mov.l @r2, r2
     and r3, r2
     tst r2, r2
@@ -291,7 +291,7 @@ FUN_0600AFB2:
     mov.w @r11, r3
     extu.w r3, r2
     shll2 r2
-    .byte   0xD3, 0x18    /* mov.l .L_0600B064, r3 */
+    mov.l   .L_0600B064, r3
     add r2, r3
     mov.l @r3, r2
     bra     .L_0600B080
@@ -335,13 +335,13 @@ FUN_0600AFB2:
 .L_0600B068:
     mov.l @(28, r14), r4
     neg r4, r4
-    .byte   0xD3, 0x26    /* mov.l .L_0600B108, r3 */
+    mov.l   .L_0600B108, r3
     mov.l @r3, r3
     add r3, r4
     mov.w @r11, r2
     extu.w r2, r1
     shll2 r1
-    .byte   0xD2, 0x24    /* mov.l .L_0600B10C, r2 */
+    mov.l   .L_0600B10C, r2
     add r1, r2
     mov.l @r2, r1
     add r1, r4
@@ -353,23 +353,23 @@ FUN_0600AFB2:
     add #-0xC, r0
     mov.l @(r0, r14), r3
     add r3, r4
-    .byte   0xD3, 0x20    /* mov.l .L_0600B110, r3 */
+    mov.l   .L_0600B110, r3
     jsr @r3
     nop
-    .byte   0xD0, 0x1F    /* mov.l .L_0600B114, r0 */
+    mov.l   .L_0600B114, r0
     mov.l @r0, r0
     tst r0, r0
     bt      .L_0600B17A
-    .byte   0xD5, 0x1E    /* mov.l .L_0600B118, r5 */
-    .byte   0xD4, 0x1F    /* mov.l .L_0600B11C, r4 */
-    .byte   0xD3, 0x1F    /* mov.l .L_0600B120, r3 */
+    mov.l   .L_0600B118, r5
+    mov.l   .L_0600B11C, r4
+    mov.l   .L_0600B120, r3
     mov.l @r5, r5
     jsr @r3
     mov.l @r4, r4
-    .byte   0xD6, 0x1E    /* mov.l .L_0600B124, r6 */
-    .byte   0xD5, 0x1F    /* mov.l .L_0600B128, r5 */
-    .byte   0xD4, 0x1F    /* mov.l .L_0600B12C, r4 */
-    .byte   0xD3, 0x20    /* mov.l .L_0600B130, r3 */
+    mov.l   .L_0600B124, r6
+    mov.l   .L_0600B128, r5
+    mov.l   .L_0600B12C, r4
+    mov.l   .L_0600B130, r3
     mov.l @r6, r6
     mov.w @r5, r5
     extu.w r5, r5
@@ -377,18 +377,18 @@ FUN_0600AFB2:
     mov.l @r4, r4
     mov #0x0, r6
     mov.w   DAT_0600b102, r0
-    .byte   0xD3, 0x1D    /* mov.l .L_0600B134, r3 */
+    mov.l   .L_0600B134, r3
     mov.l @(r0, r14), r5
     jsr @r3
     mov r6, r4
     mov.w   DAT_0600b104, r0
-    .byte   0xD3, 0x1B    /* mov.l .L_0600B138, r3 */
+    mov.l   .L_0600B138, r3
     jsr @r3
     mov.l @(r0, r14), r4
     mov.w   DAT_0600b106, r0
     jsr @r13
     mov.l @(r0, r14), r4
-    .byte   0xD0, 0x19    /* mov.l .L_0600B13C, r0 */
+    mov.l   .L_0600B13C, r0
     mov.b @r0, r0
     tst #0x2, r0
     bf      .L_0600B0E2
@@ -404,10 +404,10 @@ FUN_0600AFB2:
     mov #0xD, r12
     mov.w @r11, r4
     extu.w r4, r4
-    .byte   0xD3, 0x13    /* mov.l .L_0600B140, r3 */
+    mov.l   .L_0600B140, r3
     add r3, r4
     mov.b @r4, r4
-    .byte   0xD2, 0x12    /* mov.l .L_0600B144, r2 */
+    mov.l   .L_0600B144, r2
     mov.l @r2, r2
     bra     .L_0600B14C
     add r2, r4

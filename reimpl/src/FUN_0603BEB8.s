@@ -69,7 +69,7 @@ FUN_0603BF22:
     mov.l @(24, r4), r4
     add #0x4, r15
     lds.l @r15+, pr
-    .byte   0xD3, 0x08    /* mov.l .L_0603BF70, r3 */
+    mov.l   .L_0603BF70, r3
     jmp @r3
     mov.l @r15+, r14
     .2byte  0x7F04
@@ -102,7 +102,7 @@ sym_0603BF7C:
     mov.l r9, @-r15
     mov #0x3F, r9
     mov #0x40, r10
-    .byte   0xDB, 0x1C    /* mov.l .L_0603BFFC, r11 */
+    mov.l   .L_0603BFFC, r11
     mov.w   .L_0603BFF8, r12
     mov #0x0, r7
     mov.w   .L_0603BFFA, r5
@@ -175,7 +175,7 @@ sym_0603C000:
     mov #0x40, r10
     mov #0x3F, r11
     mov.w   DAT_0603c07a, r12
-    .byte   0xDD, 0x1C    /* mov.l .L_0603C080, r13 */
+    mov.l   .L_0603C080, r13
     mov #0x0, r7
     mov.w   .L_0603C07C, r5
     mov.b @r5, r0
@@ -219,8 +219,8 @@ sym_0603C000:
 
     .global sym_0603C05C
 sym_0603C05C:
-    .byte   0xD3, 0x09    /* mov.l .L_0603C084, r3 */
-    .byte   0xD2, 0x0A    /* mov.l .L_0603C088, r2 */
+    mov.l   .L_0603C084, r3
+    mov.l   .L_0603C088, r2
     and r3, r4
     or r2, r4
     mov r4, r7

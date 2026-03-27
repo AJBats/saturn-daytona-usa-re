@@ -110,7 +110,7 @@ FUN_0601A0F0:
 
     .global FUN_0601A1A8
 FUN_0601A1A8:
-    .byte   0xD3, 0x25    /* mov.l .L_pool_0601A240, r3 */
+    mov.l   .L_pool_0601A24D, r3
     mov.b @r3, r3
     extu.b r3, r3
     shll2 r3
@@ -128,7 +128,7 @@ FUN_0601A1BA:
     mov.l r13, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    .byte   0xD3, 0x21    /* mov.l .L_0601A248, r3 */
+    mov.l   .L_0601A248, r3
     mov.w @r3, r2
     extu.w r2, r2
     mov.w   .L_0601A23A, r3
@@ -136,38 +136,38 @@ FUN_0601A1BA:
     tst r2, r2
     bt/s    .L_0601A1FE
     mov #0x0, r14
-    .byte   0xD4, 0x1B    /* mov.l .L_pool_0601A24D, r4 */
+    mov.l   .L_pool_0601A24D, r4
     mov.b @r4, r3
     add #0x1, r3
     mov.b r3, @r4
-    .byte   0xD4, 0x1C    /* mov.l .L_0601A24C, r4 */
+    mov.l   .L_0601A24C, r4
     mov.b @r4, r2
     add #0x1, r2
     mov.b r2, @r4
-    .byte   0xD2, 0x1B    /* mov.l .L_0601A250, r2 */
+    mov.l   .L_0601A250, r2
     mov.b r14, @r2
-    .byte   0xD2, 0x1B    /* mov.l .L_0601A254, r2 */
+    mov.l   .L_0601A254, r2
     mov.l r14, @r2
-    .byte   0xD4, 0x1B    /* mov.l .L_0601A258, r4 */
-    .byte   0xD1, 0x1B    /* mov.l .L_0601A25C, r1 */
-    .byte   0xD3, 0x1C    /* mov.l .L_0601A260, r3 */
+    mov.l   .L_0601A258, r4
+    mov.l   .L_0601A25C, r1
+    mov.l   .L_0601A260, r3
     mov.l @r4, r2
     or r1, r2
     jsr @r3
     mov.l r2, @r4
     mov #0x1, r2
-    .byte   0xD3, 0x1A    /* mov.l .L_0601A264, r3 */
+    mov.l   .L_0601A264, r3
     mov.b r2, @r3
 .L_0601A1FE:
     mov #0x8, r3
-    .byte   0xDD, 0x19    /* mov.l .L_0601A268, r13 */
+    mov.l   .L_0601A268, r13
     mov.b @r13, r2
     extu.b r2, r2
     cmp/ge r3, r2
     bt      .L_0601A278
-    .byte   0xD7, 0x18    /* mov.l .L_0601A26C, r7 */
+    mov.l   .L_0601A26C, r7
     mov.w   .L_0601A23C, r6
-    .byte   0xD3, 0x18    /* mov.l .L_0601A270, r3 */
+    mov.l   .L_0601A270, r3
     mov.l r3, @r15
     mov r3, r5
     add #0xD, r5
@@ -186,7 +186,7 @@ FUN_0601A1BA:
     add #0x4, r15
     lds.l @r15+, pr
     mov.l @r15+, r13
-    .byte   0xD3, 0x0F    /* mov.l .L_0601A274, r3 */
+    mov.l   .L_0601A274, r3
     jmp @r3
     mov.l @r15+, r14
 .L_0601A23A:

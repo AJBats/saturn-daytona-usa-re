@@ -94,7 +94,7 @@ FUN_060410CA:
     add #-0x14, r15
     mov.l r4, @r15
     mov.l r6, @(4, r15)
-    .byte   0xD3, 0x0B    /* mov.l .L_pool_06041102, r3 */
+    mov.l   .L_pool_06041102, r3
     jsr @r3
     mov.l @r15, r4
     mov r0, r4
@@ -106,7 +106,7 @@ FUN_060410CA:
     mov #-0xA, r0
 .L_060410E6:
     mov.l @(4, r15), r5
-    .byte   0xD3, 0x06    /* mov.l .L_pool_06041106, r3 */
+    mov.l   .L_pool_06041106, r3
     jsr @r3
     mov.l @r15, r4
     mov r0, r4

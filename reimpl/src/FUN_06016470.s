@@ -7,7 +7,7 @@
 FUN_06016470:
     sts.l pr, @-r15
     extu.b r13, r14
-    .byte   0xD2, 0x22    /* mov.l .L_pool_06016500, r2 */
+    mov.l   .L_06016500, r2
     mov r14, r3
     shll2 r14
     shll2 r3
@@ -32,7 +32,7 @@ FUN_06016470:
     add #0x1, r3
     mov r3, r0
     mov.b r0, @(2, r14)
-    .byte   0xD0, 0x1A    /* mov.l .L_pool_06016510, r0 */
+    mov.l   .L_06016510, r0
     mov.b @r0, r0
     tst r0, r0
     bt      .L_060164C6
@@ -44,7 +44,7 @@ FUN_06016470:
     shll2 r3
     add r3, r13
     exts.w r13, r13
-    .byte   0xD2, 0x10    /* mov.l .L_pool_06016500, r2 */
+    mov.l   .L_06016500, r2
     add r2, r13
     mov #0x3, r3
     mov r3, r0
@@ -63,8 +63,8 @@ FUN_060164CE:
     mov.l r13, @-r15
     mov.l r12, @-r15
     mov #0x0, r12
-    .byte   0xDD, 0x0A    /* mov.l .L_06016500, r13 */
-    .byte   0xD0, 0x0D    /* mov.l .L_06016510, r0 */
+    mov.l   .L_06016500, r13
+    mov.l   .L_06016510, r0
     mov.b @r0, r0
     tst r0, r0
     bt/s    .L_06016514
@@ -92,7 +92,7 @@ FUN_060164CE:
 .L_06016510:
     .4byte  sym_06085F89
 .L_06016514:
-    .byte   0xD5, 0x44    /* mov.l .L_06016628, r5 */
+    mov.l   .L_06016628, r5
     extu.b r14, r2
     mov r2, r3
     shll2 r2
@@ -191,7 +191,7 @@ FUN_060164CE:
     sub r2, r3
     mov r3, r2
     mov.l r3, @(24, r4)
-    .byte   0xD3, 0x15    /* mov.l .L_0601662C, r3 */
+    mov.l   .L_0601662C, r3
     cmp/gt r3, r2
     bt      .L_0601661A
     extu.b r14, r4

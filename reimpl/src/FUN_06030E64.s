@@ -43,7 +43,7 @@ FUN_06030E72:
     mov.l r6, @(24, r14)
     mov.l @(12, r14), r3
     mov.w   DAT_06030eae, r10
-    .byte   0xD4, 0x08    /* mov.l .L_pool_06030EBB, r4 */
+    mov.l   .L_pool_06030EBB, r4
     add r14, r10
     mov.w @r10, r9
     mov #0x8, r8
@@ -52,7 +52,7 @@ FUN_06030E72:
     add #-0x2, r8
     cmp/ge r8, r9
     bf      .L_06030EC2
-    .byte   0xD4, 0x04    /* mov.l .L_pool_06030EBF, r4 */
+    mov.l   .L_pool_06030EBF, r4
     bra     .L_06030EC2
     nop
 
@@ -66,7 +66,7 @@ DAT_06030eae:
 .L_pool_06030EBF:
     .4byte  0x0000FAE1
 .L_06030EC0:
-    .byte   0xD4, 0x06    /* mov.l .L_pool_06030EE0, r4 */
+    mov.l   .L_pool_06030EE0, r4
 .L_06030EC2:
     dmuls.l r3, r4
     sts mach, r3
@@ -89,7 +89,7 @@ FUN_06030ECC:
     .global sym_06030EE0
 sym_06030EE0:
     mov.w   .L_wpool_06030EF9, r0
-    .byte   0xD1, 0x05    /* mov.l .L_pool_06030EFD, r1 */
+    mov.l   .L_pool_06030EFD, r1
     mov.l @r1, r3
     mov.w @(r0, r3), r2
     cmp/pl r2

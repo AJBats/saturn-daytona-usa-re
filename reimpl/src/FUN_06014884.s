@@ -28,8 +28,8 @@ FUN_060148A2:
     mov.l r14, @-r15
     mov.l r13, @-r15
     sts.l pr, @-r15
-    .byte   0xDD, 0x12    /* mov.l .L_pool_060148F6, r13 */
-    .byte   0xDE, 0x13    /* mov.l .L_pool_060148FA, r14 */
+    mov.l   .L_pool_060148F6, r13
+    mov.l   .L_pool_060148FA, r14
     mov.w   .L_wpool_060148E4, r4
     jsr @r14
     mov.b @r13, r5

@@ -26,7 +26,7 @@ FUN_06019324:
     mov #0x0, r5
     jsr @r14
     mov #0x1, r4
-    .byte   0xD4, 0x0B    /* mov.l .L_pool_0601937C, r4 */
+    mov.l   .L_0601937C, r4
     .byte   0xD3, 0x0B    /* mov.l .L_pool_06019380, r3 */
     mov.l @r4, r2
     or r3, r2
@@ -40,14 +40,14 @@ FUN_06019324:
     .type FUN_0601935E, @function
 FUN_0601935E:
     sts.l pr, @-r15
-    .byte   0xD4, 0x06    /* mov.l .L_0601937C, r4 */
-    .byte   0xD3, 0x08    /* mov.l .L_06019384, r3 */
+    mov.l   .L_0601937C, r4
+    mov.l   .L_06019384, r3
     mov.l @r4, r2
     or r3, r2
-    .byte   0xD3, 0x07    /* mov.l .L_06019388, r3 */
+    mov.l   .L_06019388, r3
     jsr @r3
     mov.l r2, @r4
-    .byte   0xD3, 0x06    /* mov.l .L_06019388, r3 */
+    mov.l   .L_06019388, r3
     jmp @r3
     lds.l @r15+, pr
     .4byte  0x0100FFFF

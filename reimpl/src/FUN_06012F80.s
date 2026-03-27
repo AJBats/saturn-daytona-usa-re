@@ -1446,10 +1446,10 @@ DAT_060137c2:
     mov #0x50, r2
     .byte   0xD3, 0x2E    /* mov.l .L_init_param_0x50, r3 */
     mov.l r2, @r3
-    .byte   0x92, 0x53    /* mov.w .L_vdp1_erase_color, r2 */
+    mov.w   DAT_060138d6, r2
     .byte   0xD3, 0x2E    /* mov.l .L_vdp1_framebuf_cfg, r3 */
     mov.w r2, @r3
-    .byte   0x92, 0x51    /* mov.w .L_display_res_param, r2 */
+    mov.w   DAT_060138d8, r2
     .byte   0xD3, 0x2D    /* mov.l .L_display_mode_addr, r3 */
     mov.l r2, @r3
     mov #0x0, r5
@@ -1480,7 +1480,7 @@ DAT_060137c2:
     mov.w r2, @r1
     mov #0x0, r1
     mov.l @r4, r3
-    .byte   0x92, 0x33    /* mov.w .L_course_data_offset, r2 */
+    mov.w   DAT_060138da, r2
     add r2, r3
     .byte   0xD2, 0x22    /* mov.l .L_course_base_addr, r2 */
     mov.l r3, @r2
@@ -1529,15 +1529,15 @@ FUN_0601389E:
     .type FUN_060138BE, @function
 FUN_060138BE:
     mov.l r14, @-r15
-    .byte   0xD3, 0x17    /* mov.l .L_06013920, r3 */
+    mov.l   .L_06013920, r3
     mov.l r3, @-r15
-    .byte   0xD5, 0x17    /* mov.l .L_pool_06013928, r5 */
-    .byte   0xD3, 0x18    /* mov.l .L_pool_0601392C, r3 */
+    mov.l   .L_pool_06013928, r5
+    mov.l   .L_pool_0601392C, r3
     jsr @r3
     mov r2, r4
     add #0xC, r15
     lds.l @r15+, pr
-    .byte   0xD3, 0x16    /* mov.l .L_pool_06013930, r3 */
+    mov.l   .L_pool_06013930, r3
     jmp @r3
     mov.l @r15+, r14
 
@@ -1581,10 +1581,10 @@ DAT_060138da:
     .global FUN_06013930
 FUN_06013930:
     mov #0x1, r3
-    .byte   0xD2, 0x03    /* mov.l .L_pool_06013946, r2 */
+    mov.l   .L_pool_06013946, r2
     mov.b r3, @r2
     mov #0x20, r3
-    .byte   0xD2, 0x02    /* mov.l .L_pool_0601394A, r2 */
+    mov.l   .L_pool_0601394A, r2
     mov.w r3, @r2
     .reloc ., R_SH_IND12W, FUN_06013948 - 4
     .2byte 0xA000    /* bra FUN_06013948 (linker-resolved) */

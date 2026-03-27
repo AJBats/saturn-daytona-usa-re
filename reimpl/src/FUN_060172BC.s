@@ -109,7 +109,7 @@ sym_060172E4:
     .global FUN_06017372
     .type FUN_06017372, @function
 FUN_06017372:
-    .byte   0xD7, 0x0D    /* mov.l .L_pool_060173A9, r7 */
+    mov.l   .L_pool_060173A9, r7
     mov #0x12, r6
     mov #0x0, r5
 .L_06017378:

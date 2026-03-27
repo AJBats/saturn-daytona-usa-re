@@ -158,7 +158,7 @@ FUN_0602EF48:
     .global sym_0602EFCC
 sym_0602EFCC:
     mov.l @(36, r0), r4
-    .byte   0x95, 0x0A    /* mov.w DAT_0602efe6, r5 */
+    mov.w   DAT_0602efe6, r5
     .byte   0x96, 0x0A    /* mov.w DAT_0602efe8, r6 */
     add r0, r5
     add r0, r6

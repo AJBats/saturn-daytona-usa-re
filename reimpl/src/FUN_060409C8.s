@@ -13,7 +13,7 @@ FUN_060409C8:
     jsr @r3
     mov.l @(4, r4), r4
     add #0x4, r15
-    .byte   0xD3, 0x14    /* mov.l .L_pool_06040A2C, r3 */
+    mov.l   .L_06040A2C, r3
     jmp @r3
     lds.l @r15+, pr
 
@@ -36,7 +36,7 @@ FUN_060409E6:
     mov.l r11, @-r15
     sts.l pr, @-r15
     add #-0x8, r15
-    .byte   0xDB, 0x0D    /* mov.l .L_06040A2C, r11 */
+    mov.l   .L_06040A2C, r11
     cmp/pz r13
     bt/s    .L_06040A00
     mov r4, r14
@@ -69,8 +69,8 @@ FUN_060409E6:
     mov.l r12, @-r15
     mov #0x0, r5
     mov r15, r7
-    .byte   0xD6, 0x26    /* mov.l .L_06040AD0, r6 */
-    .byte   0xD3, 0x26    /* mov.l .L_06040AD4, r3 */
+    mov.l   .L_06040AD0, r6
+    mov.l   .L_06040AD4, r3
     add #0x4, r7
     jsr @r3
     mov.l @(4, r14), r4
@@ -113,7 +113,7 @@ FUN_060409E6:
     bf      .L_06040A98
     mov.l @r15, r6
     mov #0x0, r5
-    .byte   0xD3, 0x14    /* mov.l .L_06040AD8, r3 */
+    mov.l   .L_06040AD8, r3
     jsr @r3
     mov.l @(4, r14), r4
     jsr @r11
@@ -142,8 +142,8 @@ FUN_060409E6:
     mov.l r14, @(4, r15)
     mov #0x0, r5
     mov r14, r4
-    .byte   0xD6, 0x05    /* mov.l .L_06040AD0, r6 */
-    .byte   0xD3, 0x06    /* mov.l .L_06040AD8, r3 */
+    mov.l   .L_06040AD0, r6
+    mov.l   .L_06040AD8, r3
     jsr @r3
     mov.l @(4, r4), r4
     jsr @r11

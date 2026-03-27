@@ -15,7 +15,7 @@ FUN_0601EB70:
     .byte   0xDD, 0x1F    /* mov.l .L_pool_0601EBFC, r13 */
     .byte   0xD7, 0x1F    /* mov.l .L_pool_0601EC00, r7 */
     .byte   0xD6, 0x20    /* mov.l .L_pool_0601EC04, r6 */
-    .byte   0xD0, 0x20    /* mov.l .L_pool_0601EC08, r0 */
+    mov.l   .L_0601EC08, r0
     mov.b @r0, r0
     extu.b r0, r0
     tst r0, r0
@@ -72,7 +72,7 @@ FUN_0601EBDA:
     mov.l r12, @-r15
     mov.l r11, @-r15
     mov.w   .L_0601EBF0, r5
-    .byte   0xD0, 0x09    /* mov.l .L_0601EC08, r0 */
+    mov.l   .L_0601EC08, r0
     mov.b @r0, r0
     extu.b r0, r0
     tst r0, r0
@@ -90,10 +90,10 @@ FUN_0601EBDA:
 .L_0601EC08:
     .4byte  sym_06087080
 .L_0601EC0C:
-    .byte   0xD4, 0xB5    /* mov.l .L_0601EEE4, r4 */
+    mov.l   .L_0601EEE4, r4
     mov.l @r4, r4
     add #0x10, r4
-    .byte   0xD6, 0xB5    /* mov.l .L_0601EEE8, r6 */
+    mov.l   .L_0601EEE8, r6
     mov r6, r7
     mov r6, r11
     add #0x48, r11
@@ -148,7 +148,7 @@ FUN_0601EBDA:
     add #0x8, r7
     cmp/hs r11, r7
     bf      .L_0601EC1A
-    .byte   0xD6, 0x9B    /* mov.l .L_0601EEEC, r6 */
+    mov.l   .L_0601EEEC, r6
     mov r6, r7
     add #0x18, r7
 .L_0601EC82:
@@ -181,7 +181,7 @@ FUN_0601EBDA:
     cmp/hs r7, r6
     bf/s    .L_0601EC82
     mov.b r2, @r14
-    .byte   0xD6, 0x8C    /* mov.l .L_0601EEF0, r6 */
+    mov.l   .L_0601EEF0, r6
     mov r6, r7
     add #0x20, r7
 .L_0601ECC2:
@@ -213,7 +213,7 @@ FUN_0601EBDA:
     cmp/hs r7, r6
     bf/s    .L_0601ECC2
     mov.b r2, @r14
-    .byte   0xD6, 0x7E    /* mov.l .L_0601EEF4, r6 */
+    mov.l   .L_0601EEF4, r6
     mov r6, r7
     add #0x20, r7
 .L_0601ED00:
@@ -245,7 +245,7 @@ FUN_0601EBDA:
     cmp/hs r7, r6
     bf/s    .L_0601ED00
     mov.b r2, @r14
-    .byte   0xD6, 0x6F    /* mov.l .L_0601EEF8, r6 */
+    mov.l   .L_0601EEF8, r6
     mov r6, r7
     mov r6, r14
     add #0x24, r14
@@ -289,7 +289,7 @@ FUN_0601EBDA:
     cmp/hs r14, r7
     bf/s    .L_0601ED40
     mov.b r2, @r6
-    .byte   0xD6, 0x5B    /* mov.l .L_0601EEFC, r6 */
+    mov.l   .L_0601EEFC, r6
     mov.b @r4+, r1
     mov.b r1, @r6
     add #0x1, r6
@@ -301,7 +301,7 @@ FUN_0601EBDA:
     add #0x1, r6
     mov.b @r4+, r2
     mov.b r2, @r6
-    .byte   0xD6, 0x56    /* mov.l .L_0601EF00, r6 */
+    mov.l   .L_0601EF00, r6
     mov.b @r4+, r1
     mov.b r1, @r6
     add #0x1, r6
@@ -313,7 +313,7 @@ FUN_0601EBDA:
     add #0x1, r6
     mov.b @r4+, r2
     mov.b r2, @r6
-    .byte   0xD6, 0x51    /* mov.l .L_0601EF04, r6 */
+    mov.l   .L_0601EF04, r6
     mov.b @r4+, r1
     mov.b r1, @r6
     add #0x1, r6
@@ -326,78 +326,66 @@ FUN_0601EBDA:
     mov.b @r4+, r2
     mov.b r2, @r6
     mov.b @r4+, r2
-    .byte   0xD3, 0x4B    /* mov.l .L_0601EF08, r3 */
+    mov.l   .L_0601EF08, r3
     mov.b r2, @r3
     mov.b @r4+, r3
-    .byte   0xD2, 0x4B    /* mov.l .L_0601EF0C, r2 */
+    mov.l   .L_0601EF0C, r2
     mov.b r3, @r2
     mov.b @r4+, r2
-    .byte   0xD3, 0x4A    /* mov.l .L_0601EF10, r3 */
+    mov.l   .L_0601EF10, r3
     mov.b r2, @r3
     mov.b @r4+, r3
-    .byte   0xD2, 0x4A    /* mov.l .L_0601EF14, r2 */
+    mov.l   .L_0601EF14, r2
     mov.b r3, @r2
-    .byte   0xD6, 0x4A    /* mov.l .L_0601EF18, r6 */
+    mov.l   .L_0601EF18, r6
     mov.b @r4+, r1
     mov.b r1, @r6
     add #0x1, r6
     mov.b @r4+, r2
     mov.b r2, @r6
-    .byte   0xD6, 0x48    /* mov.l .L_0601EF1C, r6 */
+    mov.l   .L_0601EF1C, r6
     mov.b @r4+, r1
     mov.b r1, @r6
     add #0x1, r6
     mov.b @r4+, r2
     mov.b r2, @r6
-    .byte   0xD6, 0x46    /* mov.l .L_0601EF20, r6 */
+    mov.l   .L_0601EF20, r6
     mov.b @r4+, r1
     mov.b r1, @r6
     add #0x1, r6
     mov.b @r4+, r2
     mov.b r2, @r6
-    .byte   0xD6, 0x44    /* mov.l .L_0601EF24, r6 */
+    mov.l   .L_0601EF24, r6
     mov.b @r4+, r1
     mov.b r1, @r6
     add #0x1, r6
     mov.b @r4+, r2
     mov.b r2, @r6
-    .byte   0xD6, 0x42    /* mov.l .L_0601EF28, r6 */
+    mov.l   .L_0601EF28, r6
     mov.b @r4+, r1
     mov.b r1, @r6
     add #0x1, r6
     mov.b @r4+, r2
     mov.b r2, @r6
-    .byte   0xD6, 0x40    /* mov.l .L_0601EF2C, r6 */
+    mov.l   .L_0601EF2C, r6
     mov.b @r4+, r1
     mov.b r1, @r6
     add #0x1, r6
     mov.b @r4+, r2
     mov.b r2, @r6
-    .byte   0xD6, 0x3E    /* mov.l .L_0601EF30, r6 */
+    mov.l   .L_0601EF30, r6
     mov.b @r4+, r1
     mov.b r1, @r6
     add #0x1, r6
     mov.b @r4+, r2
     mov.b r2, @r6
-    .byte   0xD6, 0x3C    /* mov.l .L_0601EF34, r6 */
+    mov.l   .L_0601EF34, r6
     mov.b @r4+, r1
     mov.b r1, @r6
     add #0x1, r6
     mov.b @r4+, r2
     mov.b r2, @r6
-    .byte   0xD6, 0x3A    /* mov.l .L_0601EF38, r6 */
-    mov.b @r4+, r1
-    mov.b r1, @r6
-    add #0x1, r6
-    mov.b @r4+, r1
-    mov.b r1, @r6
-    add #0x1, r6
-    mov.b @r4+, r1
-    mov.b r1, @r6
-    add #0x1, r6
-    mov.b @r4+, r2
-    mov.b r2, @r6
-    .byte   0xD6, 0x35    /* mov.l .L_0601EF3C, r6 */
+    mov.l   .L_0601EF38, r6
     mov.b @r4+, r1
     mov.b r1, @r6
     add #0x1, r6
@@ -409,7 +397,7 @@ FUN_0601EBDA:
     add #0x1, r6
     mov.b @r4+, r2
     mov.b r2, @r6
-    .byte   0xD6, 0x30    /* mov.l .L_0601EF40, r6 */
+    mov.l   .L_0601EF3C, r6
     mov.b @r4+, r1
     mov.b r1, @r6
     add #0x1, r6
@@ -421,38 +409,50 @@ FUN_0601EBDA:
     add #0x1, r6
     mov.b @r4+, r2
     mov.b r2, @r6
-    .byte   0xD6, 0x2B    /* mov.l .L_0601EF44, r6 */
+    mov.l   .L_0601EF40, r6
+    mov.b @r4+, r1
+    mov.b r1, @r6
+    add #0x1, r6
+    mov.b @r4+, r1
+    mov.b r1, @r6
+    add #0x1, r6
     mov.b @r4+, r1
     mov.b r1, @r6
     add #0x1, r6
     mov.b @r4+, r2
     mov.b r2, @r6
-    .byte   0xD6, 0x29    /* mov.l .L_0601EF48, r6 */
+    mov.l   .L_0601EF44, r6
     mov.b @r4+, r1
     mov.b r1, @r6
     add #0x1, r6
     mov.b @r4+, r2
     mov.b r2, @r6
-    .byte   0xD6, 0x27    /* mov.l .L_0601EF4C, r6 */
+    mov.l   .L_0601EF48, r6
+    mov.b @r4+, r1
+    mov.b r1, @r6
+    add #0x1, r6
+    mov.b @r4+, r2
+    mov.b r2, @r6
+    mov.l   .L_0601EF4C, r6
     mov r6, r3
     add #0x1, r6
     mov.b @r4+, r1
     mov.b r1, @r3
     mov.b @r4+, r2
     mov.b r2, @r6
-    .byte   0xD6, 0x24    /* mov.l .L_0601EF50, r6 */
+    mov.l   .L_0601EF50, r6
     mov.b @r4+, r1
     mov.b r1, @r6
     add #0x1, r6
     mov.b @r4+, r2
     mov.b r2, @r6
-    .byte   0xD6, 0x22    /* mov.l .L_0601EF54, r6 */
+    mov.l   .L_0601EF54, r6
     mov.b @r4+, r1
     mov.b r1, @r6
     add #0x1, r6
     mov.b @r4+, r2
     mov.b r2, @r6
-    .byte   0xD6, 0x20    /* mov.l .L_0601EF58, r6 */
+    mov.l   .L_0601EF58, r6
     mov.b @r4+, r1
     mov.b r1, @r6
     add #0x1, r6

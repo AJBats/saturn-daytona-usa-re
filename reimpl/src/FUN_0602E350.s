@@ -153,17 +153,17 @@ FUN_0602E462:
     mov.l @(24, r0), r6
     mov.l r5, @(56, r0)
     mov.l r6, @(60, r0)
-    .byte   0xD0, 0x0D    /* mov.l .L_pool_0602E4B0, r0 */
+    mov.l   .L_pool_0602E4B0, r0
     jsr @r0
     nop
     mov r0, r8
     mov r7, r4
-    .byte   0xD0, 0x0C    /* mov.l .L_pool_0602E4B4, r0 */
+    mov.l   .L_pool_0602E4B4, r0
     jsr @r0
     nop
     dmuls.l r0, r3
     mov r14, r0
-    .byte   0xDA, 0x0A    /* mov.l .L_pool_0602E4B8, r10 */
+    mov.l   .L_pool_0602E4B8, r10
     sts mach, r11
     sts macl, r3
     xtrct r11, r3
@@ -171,7 +171,7 @@ FUN_0602E462:
     add r3, r5
     mov.l r5, @(16, r0)
     dmuls.l r8, r9
-    .byte   0xDA, 0x07    /* mov.l .L_pool_0602E4BC, r10 */
+    mov.l   .L_pool_0602E4BC, r10
     sts mach, r8
     sts macl, r9
     xtrct r8, r9

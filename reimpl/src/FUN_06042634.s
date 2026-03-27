@@ -21,7 +21,7 @@ FUN_060425E8:
 FUN_060425FA:
 
     sts.l pr, @-r15
-    .byte   0xDB, 0x2D    /* mov.l .L_pool_06042707, r11 */
+    mov.l   .L_pool_06042707, r11
 
     cmp/pz r10
     bt/s    .L_06042652
@@ -36,12 +36,12 @@ FUN_060425FA:
     mov #0x41, r2
     cmp/ge r2, r5
     bt      .L_06042664
-    .byte   0xDD, 0x29    /* mov.l .L_pool_0604270B, r13 */
+    mov.l   .L_pool_0604270B, r13
     bra     .L_06042674
     nop
 
 .L_06042664:
-    .byte   0xD0, 0x25    /* mov.l .L_pool_06042703, r0 */
+    mov.l   .L_pool_06042703, r0
     swap.w r4, r2
     mov.l r5, @r0
     exts.w r2, r2
@@ -97,10 +97,10 @@ FUN_060425FA:
     sts macl, r4
     xtrct r3, r4
 
-    .byte   0xD2, 0x12    /* mov.l .L_pool_0604270F, r2 */
+    mov.l   .L_pool_0604270F, r2
     cmp/gt r2, r4
     bf      .L_060426C4
-    .byte   0xD4, 0x11    /* mov.l .L_pool_0604270F, r4 */
+    mov.l   .L_pool_0604270F, r4
 
 .L_060426C4:
     mov r14, r0
@@ -117,12 +117,12 @@ FUN_060425FA:
     cmp/pz r12
     bf      .L_060426DE
 
-    .byte   0xD2, 0x0C    /* mov.l .L_pool_06042713, r2 */
+    mov.l   .L_pool_06042713, r2
     bra     .L_060426E0
     nop
 
 .L_060426DE:
-    .byte   0xD2, 0x0C    /* mov.l .L_pool_06042717, r2 */
+    mov.l   .L_pool_06042717, r2
 
 .L_060426E0:
     sub r4, r2

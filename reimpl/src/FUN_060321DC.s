@@ -26,14 +26,14 @@ FUN_060321EE:
     nop
     lds.l @r15+, pr
     mov.l @r15+, r7
-    .byte   0xD0, 0x15    /* mov.l .L_pool_06032250, r0 */
+    mov.l   .L_pool_06032257, r0
     mov r7, r1
     shll2 r1
     mov.l @(r0, r1), r2
-    .byte   0xD1, 0x14    /* mov.l .L_pool_06032254, r1 */
+    mov.l   .L_pool_0603225B, r1
     add r14, r1
     mov.l r7, @-r15
-    .byte   0xD6, 0x14    /* mov.l .L_pool_06032258, r6 */
+    mov.l   .L_pool_0603225F, r6
 .L_06032208:
     mov.b @r2+, r7
     mov.b r7, @r1
@@ -42,15 +42,15 @@ FUN_060321EE:
     bf      .L_06032208
     mov.l @r15+, r7
     add #0x1, r7
-    .byte   0xD0, 0x11    /* mov.l .L_pool_0603225C, r0 */
+    mov.l   .L_pool_06032263, r0
     cmp/gt r0, r7
     .byte   0x8B, 0xD9    /* bf 0x060321D0 (external) */
     xor r1, r1
-    .byte   0xD0, 0x10    /* mov.l .L_pool_06032260, r0 */
+    mov.l   .L_pool_06032267, r0
     mov.l r1, @r0
-    .byte   0xD0, 0x10    /* mov.l .L_pool_06032264, r0 */
+    mov.l   .L_pool_0603226B, r0
     mov.b r1, @r0
-    .byte   0xD0, 0x10    /* mov.l .L_pool_06032268, r0 */
+    mov.l   .L_pool_0603226F, r0
     mov.b r1, @r0
     mov.l @r15+, r8
     mov.l @r15+, r9

@@ -277,7 +277,7 @@ FUN_06016C40:
     mov #0x27, r3
     add r2, r5
     mov.b r0, @(1, r5)
-    .byte   0xD2, 0x11    /* mov.l pool@0x06016CA0 (external: global entry-counter ptr), r2 */
+    mov.l   .L_pool_06016CA1, r2
     mov.b r3, @r2
     mov.b @(2, r5), r0
     mov r0, r3
@@ -294,7 +294,7 @@ FUN_06016C6A:
     sts.l pr, @-r15
     add #-0x4, r15
     mov.b r4, @r15
-    .byte   0xDE, 0x0B    /* mov.l .L_pool_06016CA1, r14 */
+    mov.l   .L_pool_06016CA1, r14
     .reloc ., R_SH_IND12W, FUN_0601772E - 4
     .2byte 0xB000    /* bsr FUN_0601772E (linker-resolved) */
     mov.b @r14, r4
@@ -336,13 +336,13 @@ FUN_06016CA4:
     shll2 r2
     add r2, r3
     exts.w r3, r3
-    .byte   0xD1, 0x06    /* mov.l .L_pool_06016CD7, r1 */
+    mov.l   .L_pool_06016CD7, r1
     add r1, r3
     mov.b @(0x2, r3), r0
     mov r0, r3
     extu.b r3, r3
     shll2 r3
-    .byte   0xD2, 0x04    /* mov.l .L_pool_06016CDB, r2 */
+    mov.l   .L_pool_06016CDB, r2
     add r2, r3
     mov.l @r3, r3
     mov.b @r15, r4

@@ -102,11 +102,11 @@ FUN_060334DA:
     .global FUN_06033504
 FUN_06033504:
 .L_06033504:
-    .byte   0xD0, 0x04    /* mov.l .L_pool_0603351A, r0 */
+    mov.l   .L_pool_0603351A, r0
     mov.l @r0, r1
     add #0x1, r1
     mov.l r1, @r0
-    .byte   0xD2, 0x03    /* mov.l .L_pool_0603351E, r2 */
+    mov.l   .L_pool_0603351E, r2
     mov.l @r2, r1
     add #0x20, r1
     mov.l r1, @r2

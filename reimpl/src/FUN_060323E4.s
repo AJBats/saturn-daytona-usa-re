@@ -74,13 +74,13 @@ FUN_0603242A:
 
     .global FUN_0603243C
 FUN_0603243C:
-    .byte   0xD2, 0x04    /* mov.l .L_pool_06032450, r2 */
-    .byte   0xD0, 0x05    /* mov.l .L_pool_06032454, r0 */
+    mov.l   .L_pool_06032450, r2
+    mov.l   .L_pool_06032454, r0
     mov.b @r0, r1
     or r2, r1
     mov.b r1, @r0
     xor r1, r1
-    .byte   0xD0, 0x03    /* mov.l .L_pool_06032458, r0 */
+    mov.l   .L_pool_06032458, r0
     .reloc ., R_SH_IND12W, FUN_0603230A - 4
     .2byte 0xA000    /* bra FUN_0603230A (linker-resolved) */
     mov.l r1, @r0
@@ -94,8 +94,8 @@ FUN_0603243C:
 
     .global FUN_0603245C
 FUN_0603245C:
-    .byte   0xD2, 0x03    /* mov.l .L_pool_0603246C, r2 */
-    .byte   0xD0, 0x04    /* mov.l .L_pool_06032470, r0 */
+    mov.l   .L_pool_0603246C, r2
+    mov.l   .L_pool_06032470, r0
     not r2, r2
     mov.b @r0, r1
     and r2, r1
@@ -110,8 +110,8 @@ FUN_0603245C:
 
     .global FUN_06032474
 FUN_06032474:
-    .byte   0xD2, 0x03    /* mov.l .L_pool_06032484, r2 */
-    .byte   0xD0, 0x04    /* mov.l .L_pool_06032488, r0 */
+    mov.l   .L_pool_06032484, r2
+    mov.l   .L_pool_06032488, r0
     not r2, r2
     mov.b @r0, r1
     and r2, r1
@@ -126,8 +126,8 @@ FUN_06032474:
 
     .global FUN_0603248C
 FUN_0603248C:
-    .byte   0xD2, 0x02    /* mov.l .L_pool_06032498, r2 */
-    .byte   0xD0, 0x03    /* mov.l .L_pool_0603249C, r0 */
+    mov.l   .L_pool_06032498, r2
+    mov.l   .L_pool_0603249C, r0
     mov.b @r0, r1
     or r2, r1
     .reloc ., R_SH_IND12W, FUN_0603230A - 4
@@ -140,18 +140,18 @@ FUN_0603248C:
 
     .global FUN_060324A0
 FUN_060324A0:
-    .byte   0xD0, 0x07    /* mov.l .L_pool_060324C0, r0 */
+    mov.l   .L_pool_060324C0, r0
     mov.l @r0, r0
     mov.l @r0, r1
-    .byte   0xD2, 0x07    /* mov.l .L_pool_060324C4, r2 */
+    mov.l   .L_pool_060324C4, r2
     and r2, r1
     mov.l r1, @r0
-    .byte   0xD0, 0x06    /* mov.l .L_pool_060324C8, r0 */
+    mov.l   .L_pool_060324C8, r0
     xor r1, r1
     mov.b r1, @r0
-    .byte   0xD0, 0x06    /* mov.l .L_pool_060324CC, r0 */
+    mov.l   .L_pool_060324CC, r0
     mov.b @r0, r1
-    .byte   0xD2, 0x06    /* mov.l .L_pool_060324D0, r2 */
+    mov.l   .L_pool_060324D0, r2
     or r2, r1
     .reloc ., R_SH_IND12W, FUN_0603230A - 4
     .2byte 0xA000    /* bra FUN_0603230A (linker-resolved) */

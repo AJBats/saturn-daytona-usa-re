@@ -22,7 +22,7 @@ FUN_06016CE6:
     mov r1, r0
     shll2 r3
     shll2 r2
-    .byte   0xDD, 0x32    /* mov.l .L_pool_06016DC6, r13 */
+    mov.l   .L_pool_06016DC6, r13
     shll2 r2
     mov.b r5, @r15
     shll2 r2
@@ -30,11 +30,11 @@ FUN_06016CE6:
     exts.w r3, r3
     add r13, r3
     mov.b r0, @(1, r3)
-    .byte   0xD0, 0x2F    /* mov.l .L_pool_06016DCA, r0 */
+    mov.l   .L_pool_06016DCA, r0
     mov.b @r0, r0
     tst r0, r0
     .word 0x0029
-    .byte   0xD3, 0x2E    /* mov.l .L_pool_06016DCE, r3 */
+    mov.l   .L_pool_06016DCE, r3
     mov.l @r3, r3
     and r3, r0
     tst #0x1, r0
@@ -50,10 +50,10 @@ FUN_06016CE6:
     add r2, r3
     exts.w r3, r3
     add r13, r3
-    .byte   0xD1, 0x27    /* mov.l .L_06016DCC, r1 */
+    mov.l   .L_06016DCC, r1
     mov.l r1, @(44, r3)
 .L_06016D30:
-    .byte   0xD5, 0x27    /* mov.l .L_pool_06016DD6, r5 */
+    mov.l   .L_pool_06016DD6, r5
     extu.b r14, r6
     mov.b @r15, r4
     extu.b r7, r2
@@ -103,7 +103,7 @@ FUN_06016CE6:
     .2byte 0xB000    /* bsr FUN_06016DD8 (linker-resolved) */
     extu.b r14, r4
     extu.b r14, r4
-    .byte   0xD2, 0x10    /* mov.l .L_pool_06016DDA, r2 */
+    mov.l   .L_pool_06016DDA, r2
     mov r4, r3
     shll2 r4
     shll2 r3

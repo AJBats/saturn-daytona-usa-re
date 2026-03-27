@@ -13,7 +13,7 @@ FUN_0600F898:
     .byte   0xD3, 0x12    /* mov.l .L_pool_0600F8EC, r3 */
     mov.l r2, @r3
     mov #0x14, r2
-    .byte   0xD3, 0x0D    /* mov.l .L_pool_0600F8E0, r3 */
+    mov.l   .L_pool_0600F8E2, r3
     mov.w r2, @r3
     mov #0x0, r2
     .byte   0xD3, 0x10    /* mov.l .L_pool_0600F8F0, r3 */
@@ -30,14 +30,14 @@ FUN_0600F898:
     .type FUN_0600F8BE, @function
 FUN_0600F8BE:
     sts.l pr, @-r15
-    .byte   0xD4, 0x07    /* mov.l .L_pool_0600F8E2, r4 */
+    mov.l   .L_pool_0600F8E2, r4
     mov.w @r4, r3
     add #-0x1, r3
     mov.w r3, @r4
     exts.w r3, r3
     cmp/pl r3
     bf      .L_0600F8F8
-    .byte   0xD3, 0x09    /* mov.l .L_pool_0600F8F6, r3 */
+    mov.l   .L_pool_0600F8F6, r3
     jmp @r3
     lds.l @r15+, pr
     .4byte  0x0708FFFF

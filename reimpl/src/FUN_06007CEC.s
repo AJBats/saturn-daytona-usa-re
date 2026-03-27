@@ -129,7 +129,7 @@ FUN_06007D8E:
     mov.b @r13, r0
     and #0xF, r0
     mov.b r0, @r13
-    .byte   0xD5, 0x08    /* mov.l .L_pool_06007E02, r5 */
+    mov.l   .L_pool_06007E02, r5
     tst r4, r4
     bt      .L_06007DEE
     mov.w @r5, r3
@@ -144,7 +144,7 @@ FUN_06007D8E:
 .L_06007DF4:
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xD3, 0x02    /* mov.l .L_pool_06007E06, r3 */
+    mov.l   .L_pool_06007E06, r3
     jmp @r3
     mov.l @r15+, r14
     .2byte  0xFFFF

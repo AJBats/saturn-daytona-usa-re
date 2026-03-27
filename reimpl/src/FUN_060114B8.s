@@ -63,7 +63,7 @@ FUN_060114B8:
     mov.w @r12, r2
     mov.l r2, @-r15
     .byte   0xD7, 0x2A    /* mov.l @(+0x06 cross-TU pool), r7 */
-    .byte   0x96, 0x4F    /* mov.w @(+0x00 cross-TU pool), r6 */
+    mov.w   DAT_060115c6, r6
     .byte   0xD2, 0x2A    /* mov.l @(+0x0A cross-TU pool), r2 */
     add r2, r11
     add #0xC, r11
@@ -113,8 +113,8 @@ FUN_0601155E:
     mov.w r4, @r15
     mov #0x0, r4
     mov.w @r15, r1
-    .byte   0xDC, 0x1A    /* mov.l .L_060115DC, r12 */
-    .byte   0xD7, 0x1A    /* mov.l .L_060115E0, r7 */
+    mov.l   .L_060115DC, r12
+    mov.l   .L_060115E0, r7
     extu.w r1, r1
     mov.l @r12, r12
     add #0x4, r12
@@ -140,8 +140,8 @@ FUN_0601155E:
     bf/s    .L_0601157E
     mov.w r0, @(2, r5)
 
-    .byte   0xD7, 0x0E    /* mov.l .L_060115DC, r7 */
-    .byte   0xD3, 0x0F    /* mov.l .L_060115E4, r3 */
+    mov.l   .L_060115DC, r7
+    mov.l   .L_060115E4, r3
     mov.w @r15, r0
     mov.l @(4, r7), r7
     extu.w r0, r0
@@ -149,13 +149,13 @@ FUN_0601155E:
     and #0x3F, r0
     mov r0, r6
     shll r6
-    .byte   0xD5, 0x0C    /* mov.l .L_060115E8, r5 */
+    mov.l   .L_060115E8, r5
     mov #0x8, r4
     add #0x4, r15
     lds.l @r15+, macl
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xD3, 0x0A    /* mov.l .L_060115EC, r3 */
+    mov.l   .L_060115EC, r3
     jmp @r3
     mov.l @r15+, r14
 

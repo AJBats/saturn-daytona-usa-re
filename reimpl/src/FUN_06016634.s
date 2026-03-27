@@ -18,7 +18,7 @@ FUN_06016634:
     tst r0, r0
     bt      .L_06016672
     extu.b r14, r4
-    .byte   0xD2, 0x24    /* mov.l .L_pool_060166E0, r2 */
+    mov.l   .L_pool_060166E1, r2
     extu.b r14, r0
     mov r4, r3
     shll r0
@@ -52,7 +52,7 @@ FUN_0601667A:
     mov.l r12, @-r15
     add #-0x4, r15
     mov #0x6, r12
-    .byte   0xDD, 0x16    /* mov.l .L_pool_060166E1, r13 */
+    mov.l   .L_pool_060166E1, r13
     mov #0x8, r14
     mov.b r4, @r15
     mov #0x0, r4
@@ -104,7 +104,7 @@ FUN_0601667A:
 FUN_060166E4:
     add #-0x4, r15
     mov.b r4, @r15
-    .byte   0xD5, 0x18    /* mov.l .L_pool_0601674F, r5 */
+    mov.l   .L_pool_0601674F, r5
     mov.b @r15, r4
     extu.b r4, r4
     mov r4, r3
@@ -140,7 +140,7 @@ FUN_060166E4:
 FUN_06016724:
     mov #0x0, r6
     extu.b r4, r5
-    .byte   0xD2, 0x08    /* mov.l .L_pool_0601674F, r2 */
+    mov.l   .L_pool_0601674F, r2
     mov #0x40, r0
     mov r5, r3
     shll2 r5

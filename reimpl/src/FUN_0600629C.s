@@ -286,16 +286,16 @@ DAT_06006362:
     mov #0x2, r2
     mov #0x0, r5
     mov.l r13, @r3
-    .byte   0xD3, 0x2A    /* mov.l .L_pool_06006554, r3 */
+    mov.l   .L_06006554, r3
     mov.l r2, @r3
     mov #0x1, r2
     .byte   0xD3, 0x2A    /* mov.l .L_pool_06006558, r3 */
     mov.l r2, @r3
-    .byte   0xD3, 0x2A    /* mov.l .L_pool_0600655C, r3 */
+    mov.l   .L_0600655C, r3
     jsr @r3
     mov #0x8, r4
     .byte   0xD2, 0x29    /* mov.l .L_pool_06006560, r2 */
-    .byte   0xD3, 0x2A    /* mov.l .L_pool_06006564, r3 */
+    mov.l   .L_06006564, r3
     mov.l r2, @r3
     .byte   0xD4, 0x2A    /* mov.l .L_pool_06006568, r4 */
     .byte   0xD3, 0x2A    /* mov.l .L_pool_0600656C, r3 */
@@ -311,7 +311,7 @@ DAT_06006362:
     .byte   0xD3, 0x2B    /* mov.l .L_pool_06006584, r3 */
     mov.l r4, @r3
     mov #0x2, r2
-    .byte   0xD3, 0x2B    /* mov.l .L_pool_06006588, r3 */
+    mov.l   .L_06006588, r3
     mov.l r2, @r3
     lds.l @r15+, macl
     lds.l @r15+, pr
@@ -335,12 +335,12 @@ FUN_060064F2:
     mov.l r11, @-r15
     mov.l r10, @-r15
     sts.l pr, @-r15
-    .byte   0xDB, 0x23    /* mov.l .L_0600658C, r11 */
-    .byte   0xDC, 0x23    /* mov.l .L_06006590, r12 */
-    .byte   0xDD, 0x14    /* mov.l .L_06006554, r13 */
-    .byte   0xDE, 0x17    /* mov.l .L_06006564, r14 */
-    .byte   0xD3, 0x20    /* mov.l .L_06006588, r3 */
-    .byte   0xD2, 0x22    /* mov.l .L_06006594, r2 */
+    mov.l   .L_0600658C, r11
+    mov.l   .L_06006590, r12
+    mov.l   .L_06006554, r13
+    mov.l   .L_06006564, r14
+    mov.l   .L_06006588, r3
+    mov.l   .L_06006594, r2
     mov.l @r3, r3
     shll2 r3
     add r2, r3
@@ -350,20 +350,20 @@ FUN_060064F2:
     cmp/gt r11, r3
     bt/s    .L_06006532
     mov #0x1, r10
-    .byte   0xD0, 0x1E    /* mov.l .L_06006598, r0 */
+    mov.l   .L_06006598, r0
     mov.b @r0, r0
     extu.b r0, r0
     cmp/eq #0x4, r0
     bt      .L_06006532
     mov #0x5, r5
-    .byte   0xD3, 0x0C    /* mov.l .L_0600655C, r3 */
+    mov.l   .L_0600655C, r3
     jsr @r3
     mov #0x8, r4
     bra     .L_0600653A
     nop
 .L_06006532:
     mov #0x0, r5
-    .byte   0xD3, 0x09    /* mov.l .L_0600655C, r3 */
+    mov.l   .L_0600655C, r3
     jsr @r3
     mov #0x8, r4
 .L_0600653A:
@@ -371,7 +371,7 @@ FUN_060064F2:
     mov.l @r12, r3
     cmp/eq r3, r2
     bf      .L_0600659C
-    .byte   0xD3, 0x11    /* mov.l .L_06006588, r3 */
+    mov.l   .L_06006588, r3
     mov.l @r3, r3
     mov.l r3, @r13
     bra     .L_06006780
@@ -405,18 +405,18 @@ FUN_060064F2:
 .L_06006598:
     .4byte  sym_06078654
 .L_0600659C:
-    .byte   0xD0, 0x33    /* mov.l .L_0600666C, r0 */
-    .byte   0xD1, 0x34    /* mov.l .L_06006670, r1 */
-    .byte   0xD7, 0x34    /* mov.l .L_06006674, r7 */
-    .byte   0xD6, 0x35    /* mov.l .L_06006678, r6 */
-    .byte   0xD5, 0x35    /* mov.l .L_0600667C, r5 */
-    .byte   0xD4, 0x36    /* mov.l .L_06006680, r4 */
+    mov.l   .L_0600666C, r0
+    mov.l   .L_06006670, r1
+    mov.l   .L_06006674, r7
+    mov.l   .L_06006678, r6
+    mov.l   .L_0600667C, r5
+    mov.l   .L_06006680, r4
     mov.l @r12, r2
     mov.l @r14, r3
     cmp/ge r3, r2
     bt      .L_060066A0
     mov.l @r14, r3
-    .byte   0xD2, 0x34    /* mov.l .L_06006684, r2 */
+    mov.l   .L_06006684, r2
     cmp/gt r2, r3
     bf      .L_060065D6
     mov #0x4, r2
@@ -428,7 +428,7 @@ FUN_060064F2:
     mov.l @r4, r3
     sub r2, r3
     mov.l r3, @r4
-    .byte   0xD2, 0x2F    /* mov.l .L_06006688, r2 */
+    mov.l   .L_06006688, r2
     mov.l @r5, r3
     sub r2, r3
     mov.l r3, @r5
@@ -448,7 +448,7 @@ FUN_060064F2:
     mov.l @r4, r2
     sub r3, r2
     mov.l r2, @r4
-    .byte   0xD3, 0x26    /* mov.l .L_0600668C, r3 */
+    mov.l   .L_0600668C, r3
     mov.l @r5, r2
     sub r3, r2
     bra     .L_0600665E
@@ -459,7 +459,7 @@ FUN_060064F2:
     bf      .L_06006622
     mov #0x2, r2
     mov.l r2, @r13
-    .byte   0xD3, 0x22    /* mov.l .L_06006690, r3 */
+    mov.l   .L_06006690, r3
     mov.l @r14, r2
     sub r3, r2
     mov.l r2, @r14
@@ -490,15 +490,15 @@ FUN_060064F2:
     mov.l @r5, r2
     sub r0, r2
     mov.l r2, @r5
-    .byte   0xD3, 0x14    /* mov.l .L_06006694, r3 */
+    mov.l   .L_06006694, r3
     mov.l @r6, r2
     sub r3, r2
     mov.l r2, @r6
-    .byte   0xD0, 0x13    /* mov.l .L_06006698, r0 */
+    mov.l   .L_06006698, r0
     mov.b @r0, r0
     tst r0, r0
     bt      .L_0600665E
-    .byte   0xD3, 0x12    /* mov.l .L_0600669C, r3 */
+    mov.l   .L_0600669C, r3
     mov.l @r6, r2
     sub r3, r2
     bra     .L_0600665E
@@ -570,15 +570,15 @@ DAT_06006668:
     mov.l @r5, r2
     add r0, r2
     mov.l r2, @r5
-    .byte   0xD3, 0x24    /* mov.l .L_0600675C, r3 */
+    mov.l   .L_0600675C, r3
     mov.l @r6, r2
     add r3, r2
     mov.l r2, @r6
-    .byte   0xD0, 0x23    /* mov.l .L_06006760, r0 */
+    mov.l   .L_06006760, r0
     mov.b @r0, r0
     tst r0, r0
     bt      .L_06006780
-    .byte   0xD3, 0x22    /* mov.l .L_06006764, r3 */
+    mov.l   .L_06006764, r3
     mov.l @r6, r2
     add r3, r2
     bra     .L_06006780
@@ -588,7 +588,7 @@ DAT_06006668:
     cmp/ge r0, r2
     bt      .L_0600670A
     mov.l r10, @r13
-    .byte   0xD2, 0x1F    /* mov.l .L_06006768, r2 */
+    mov.l   .L_06006768, r2
     mov.l @r14, r3
     add r2, r3
     mov.l r3, @r14
@@ -606,7 +606,7 @@ DAT_06006668:
     nop
 .L_0600670A:
     mov.l @r14, r2
-    .byte   0xD3, 0x17    /* mov.l .L_0600676C, r3 */
+    mov.l   .L_0600676C, r3
     cmp/ge r3, r2
     bt      .L_0600672E
     mov #0x2, r3
@@ -618,14 +618,14 @@ DAT_06006668:
     mov.l @r4, r2
     add #-0x80, r2
     mov.l r2, @r4
-    .byte   0xD3, 0x12    /* mov.l .L_06006770, r3 */
+    mov.l   .L_06006770, r3
     mov.l @r5, r2
     add r3, r2
     bra     .L_06006780
     mov.l r2, @r5
 .L_0600672E:
     mov.l @r14, r2
-    .byte   0xD3, 0x10    /* mov.l .L_06006774, r3 */
+    mov.l   .L_06006774, r3
     cmp/ge r3, r2
     bt      .L_0600677C
     mov #0x3, r3
@@ -637,7 +637,7 @@ DAT_06006668:
     mov.l @r4, r2
     add r3, r2
     mov.l r2, @r4
-    .byte   0xD3, 0x0B    /* mov.l .L_06006778, r3 */
+    mov.l   .L_06006778, r3
     mov.l @r5, r2
     add r3, r2
     bra     .L_06006780

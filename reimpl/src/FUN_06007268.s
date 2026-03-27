@@ -98,14 +98,14 @@ FUN_060072E6:
     sts.l mach, @-r15
     sts.l macl, @-r15
 
-    .byte   0xD3, 0x16    /* mov.l .L_06007364, r3 */
+    mov.l   .L_06007364, r3
     mov.w   .L_0600735C, r5
     mov.l @r3, r3
     jsr @r3
     mov #-0x1, r4
 
-    .byte   0xD2, 0x14    /* mov.l .L_06007368, r2 */
-    .byte   0xD3, 0x14    /* mov.l .L_06007368, r3 */
+    mov.l   .L_06007368, r2
+    mov.l   .L_06007368, r3
     mov.l @r2, r2
     add #0x1, r2
     mov.l r2, @r3
@@ -116,7 +116,7 @@ FUN_060072E6:
     and #0x87, r0
     mov.b r0, @r5
 
-    .byte   0xD3, 0x0E    /* mov.l .L_06007364, r3 */
+    mov.l   .L_06007364, r3
     mov.w   .L_06007360, r4
     mov.l @r3, r3
     jsr @r3

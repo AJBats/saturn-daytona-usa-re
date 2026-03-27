@@ -46,9 +46,9 @@ FUN_0603B3FE:
     mov.b @(r0, r3), r3
     extu.b r3, r3
     mov.l r3, @r5
-    .byte   0xD5, 0x04    /* mov.l .L_0603B41C, r5 */
+    mov.l   .L_0603B41C, r5
     mov.l @r15, r4
-    .byte   0xD3, 0x04    /* mov.l .L_0603B420, r3 */
+    mov.l   .L_0603B420, r3
     jsr @r3
     mov.l @(4, r4), r4
     mov #0x0, r4

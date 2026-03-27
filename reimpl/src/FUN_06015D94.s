@@ -53,7 +53,7 @@ FUN_06015D94:
 FUN_06015DE8:
     add #-0x4, r15
     mov.b r4, @r15
-    .byte   0xD4, 0x20    /* mov.l .L_pool_06015E70, r4 */
+    mov.l   .L_pool_06015E72, r4
     mov.b @r15, r3
     extu.b r3, r3
     mov r3, r2
@@ -79,7 +79,7 @@ FUN_06015DE8:
     mov.b r0, @(2, r3)
     mov.b @r15, r4
     extu.b r4, r4
-    .byte   0xD3, 0x14    /* mov.l .L_pool_06015E74, r3 */
+    mov.l   .L_pool_06015E76, r3
     jmp @r3
     add #0x4, r15
 
@@ -91,7 +91,7 @@ FUN_06015E26:
     mov.l r13, @-r15
     mov.l r12, @-r15
     add #-0x4, r15
-    .byte   0xDC, 0x10    /* mov.l .L_pool_06015E72, r12 */
+    mov.l   .L_pool_06015E72, r12
     mov #0x8, r13
     mov #0x0, r14
     mov.b r4, @r15
@@ -121,7 +121,7 @@ FUN_06015E26:
     add #0x4, r15
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xD3, 0x02    /* mov.l .L_pool_06015E76, r3 */
+    mov.l   .L_pool_06015E76, r3
     jmp @r3
     mov.l @r15+, r14
     .2byte  0xFFFF

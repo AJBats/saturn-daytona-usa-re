@@ -144,7 +144,7 @@ FUN_0603ACEA:
     add r0, r15
     mov r5, r0
     mov.l r5, @r15
-    .byte   0xDD, 0x0F    /* mov.l .L_pool_0603AD3A, r13 */
+    mov.l   .L_pool_0603AD3A, r13
     tst r0, r0
     bf/s    .L_0603AD40
     mov r4, r12
@@ -160,7 +160,7 @@ FUN_0603ACEA:
     bra     .L_0603AD9E
     nop
 .L_0603AD14:
-    .byte   0xD3, 0x09    /* mov.l .L_pool_0603AD3E, r3 */
+    mov.l   .L_pool_0603AD3E, r3
     jsr @r3
     mov r12, r4
     mov r0, r4

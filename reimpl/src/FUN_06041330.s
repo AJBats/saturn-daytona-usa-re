@@ -27,7 +27,7 @@ FUN_06041330:
     .type FUN_0604134E, @function
 FUN_0604134E:
     sts.l pr, @-r15
-    .byte   0xD3, 0x04    /* mov.l .L_pool_06041365, r3 */
+    mov.l   .L_pool_06041365, r3
     mov.l @r3, r3
     mov.l @(56, r3), r2
     cmp/eq r5, r2
@@ -56,7 +56,7 @@ FUN_06041382:
     mov.l r14, @-r15
     sts.l pr, @-r15
     add #-0x8, r15
-    .byte   0xDE, 0x1A    /* mov.l .L_pool_060413F5, r14 */
+    mov.l   .L_pool_060413F5, r14
     mov.l @r14, r3
     add #0x18, r3
     mov.l r3, @(4, r15)
@@ -139,7 +139,7 @@ FUN_0604140E:
     rts
     mov #-0x6, r0
 .L_06041424:
-    .byte   0xD0, 0x09    /* mov.l .L_0604144C, r0 */
+    mov.l   .L_0604144C, r0
     mov.l @r0, r0
     mov.b @(r0, r4), r3
     tst r3, r3
@@ -149,7 +149,7 @@ FUN_0604140E:
     rts
     mov #-0x7, r0
 .L_06041436:
-    .byte   0xD3, 0x06    /* mov.l .L_06041450, r3 */
+    mov.l   .L_06041450, r3
     jsr @r3
     nop
     mov r0, r4

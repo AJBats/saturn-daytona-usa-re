@@ -21,13 +21,13 @@ FUN_060325AE:
     jsr @r0
     nop
     lds.l @r15+, pr
-    .byte   0xD1, 0x0C    /* mov.l .L_pool_060325EC, r1 */
-    .byte   0xD0, 0x0C    /* mov.l .L_pool_060325F0, r0 */
+    mov.l   .L_pool_060325EC, r1
+    mov.l   .L_pool_060325F0, r0
     mov.b @(r0, r14), r0
-    .byte   0xD2, 0x0C    /* mov.l .L_pool_060325F4, r2 */
+    mov.l   .L_pool_060325F4, r2
     tst r2, r0
     bf      .L_060325F8
-    .byte   0xD0, 0x0C    /* mov.l .L_pool_060325F8, r0 */
+    mov.l   .L_pool_060325F8, r0
     bra     .L_060325FA
     add r0, r1
     .4byte  sym_06026DBC

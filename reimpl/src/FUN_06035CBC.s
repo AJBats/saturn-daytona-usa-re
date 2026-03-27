@@ -105,8 +105,8 @@ FUN_06035D5A:
     sts.l pr, @-r15
     add #-0x4, r15
 
-    .byte   0xDE, 0x09    /* mov.l .L_06035D90, r14 */
-    .byte   0xD3, 0x09    /* mov.l .L_06035D94, r3 */
+    mov.l   .L_06035D90, r14
+    mov.l   .L_06035D94, r3
     mov.w @r14, r2
     mov.w @r3, r3
     extu.w r3, r3

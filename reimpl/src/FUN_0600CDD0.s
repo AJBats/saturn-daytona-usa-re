@@ -10,8 +10,8 @@ FUN_0600CDD0:
     mov.l r12, @-r15
     mov.l r11, @-r15
     sts.l pr, @-r15
-    .byte   0xDE, 0x2D    /* mov.l .L_pool_0600CE90, r14 */
-    .byte   0x90, 0x53    /* mov.w .L_wpool_0600CE86, r0 */
+    mov.l   .L_pool_0600CE91, r14
+    mov.w   DAT_0600ce86, r0
     mov.l @r14, r14
     mov.l @(r0, r14), r13
     add #-0x4, r0
@@ -26,7 +26,7 @@ FUN_0600CDD0:
     mov.w @(22, r13), r0
     mov r0, r3
     extu.w r3, r3
-    .byte   0x90, 0x45    /* mov.w .L_wpool_0600CE88, r0 */
+    mov.w   DAT_0600ce88, r0
     mov.l r3, @(r0, r14)
     add #0x60, r0
     mov.l @(r0, r14), r4
@@ -41,7 +41,7 @@ FUN_0600CDD0:
 .L_0600CE10:
     mov r12, r11
     mov r12, r3
-    .byte   0x90, 0x39    /* mov.w .L_wpool_0600CE8A, r0 */
+    mov.w   DAT_0600ce8a, r0
     mov.l @(24, r14), r5
     shll2 r11
     shll2 r3
@@ -72,10 +72,10 @@ FUN_0600CDD0:
 .L_0600CE4C:
     mov r4, r2
 .L_0600CE4E:
-    .byte   0x93, 0x1D    /* mov.w .L_wpool_0600CE8C, r3 */
+    mov.w   DAT_0600ce8c, r3
     cmp/gt r3, r2
     bf      .L_0600CE58
-    .byte   0x90, 0x17    /* mov.w .L_wpool_0600CE86, r0 */
+    mov.w   DAT_0600ce86, r0
     mov.l r12, @(r0, r14)
 .L_0600CE58:
     mov r13, r0
@@ -92,7 +92,7 @@ FUN_0600CDD0:
 FUN_0600CE66:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    .byte   0xDE, 0x09    /* mov.l .L_pool_0600CE91, r14 */
+    mov.l   .L_pool_0600CE91, r14
     mov.w   DAT_0600ce8e, r0
     mov.l @r14, r14
     mov.l @(r0, r14), r3
@@ -135,8 +135,8 @@ DAT_0600ce8e:
     bsr     FUN_0600CDD0
     nop
 .L_0600CEA0:
-    .byte   0x90, 0x4B    /* mov.w .L_wpool_0600CF3A, r0 */
-    .byte   0xD3, 0x28    /* mov.l .L_pool_0600CF44, r3 */
+    mov.w   DAT_0600cf3a, r0
+    mov.l   .L_0600CF44, r3
     mov.l @(r0, r14), r2
     mov.l @r3, r3
     shll2 r2
@@ -153,9 +153,9 @@ DAT_0600ce8e:
     .type FUN_0600CEBA, @function
 FUN_0600CEBA:
     sts.l pr, @-r15
-    .byte   0xD4, 0x22    /* mov.l .L_0600CF48, r4 */
+    mov.l   .L_0600CF48, r4
     mov.w   DAT_0600cf3a, r0
-    .byte   0xD3, 0x20    /* mov.l .L_0600CF44, r3 */
+    mov.l   .L_0600CF44, r3
     mov.l @r4, r4
     mov.l @r3, r3
     mov.l @(r0, r4), r5
@@ -171,13 +171,13 @@ FUN_0600CEBA:
     mov.l r3, @(r0, r4)
     mov.w   .L_0600CF3C, r1
     mov.w   .L_0600CF3E, r2
-    .byte   0xD3, 0x1A    /* mov.l .L_0600CF4C, r3 */
+    mov.l   .L_0600CF4C, r3
     add r4, r1
     add r4, r2
     jsr @r3
     mov #0x2, r0
     mov r5, r2
-    .byte   0xD3, 0x17    /* mov.l .L_0600CF4C, r3 */
+    mov.l   .L_0600CF4C, r3
     mov.w   .L_0600CF3E, r1
     add #0x2, r2
     add r4, r1
@@ -192,7 +192,7 @@ FUN_0600CEBA:
     exts.w r6, r5
     cmp/pl r5
     bf      .L_0600CF34
-    .byte   0xD2, 0x11    /* mov.l .L_0600CF50, r2 */
+    mov.l   .L_0600CF50, r2
     mov.l @r2, r2
     add #-0x10, r2
     cmp/gt r2, r5
@@ -203,7 +203,7 @@ FUN_0600CEBA:
     mov.l r2, @(r0, r4)
     add #-0xC, r0
     mov.l r2, @(r0, r4)
-    .byte   0xD5, 0x0C    /* mov.l .L_0600CF54, r5 */
+    mov.l   .L_0600CF54, r5
     mov.l @r5, r3
     add #0x10, r0
     mov.l @(r0, r4), r2

@@ -140,7 +140,7 @@ FUN_0600579C:
     tst r0, r0
     bf      .L_0600589E
     mov #0x30, r6
-    .byte   0x95, 0x3C    /* mov.w .L_wpool_0600590E, r5 */
+    mov.w   DAT_0600590e, r5
     .byte   0xD7, 0x21    /* mov.l .L_pool_0600591C, r7 */
     .byte   0xD3, 0x1F    /* mov.l .L_pool_06005914, r3 */
     mov.l @r7, r7
@@ -166,7 +166,7 @@ FUN_0600579C:
     mov.l r7, @r15
     shll2 r6
     mov.l @(4, r7), r7
-    .byte   0x93, 0x26    /* mov.w .L_wpool_06005910, r3 */
+    mov.w   DAT_06005910, r3
     shll2 r6
     add r3, r7
     add #0x16, r6

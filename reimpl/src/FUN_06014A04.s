@@ -45,7 +45,7 @@ FUN_06014A42:
     .reloc ., R_SH_IND12W, FUN_06014F34 - 4
     .2byte 0xB000    /* bsr FUN_06014F34 (linker-resolved) */
     nop
-    .byte   0xD3, 0x09    /* mov.l .L_pool_06014A71, r3 */
+    mov.l   .L_pool_06014A71, r3
     jmp @r3
     lds.l @r15+, pr
     .2byte  0x0260

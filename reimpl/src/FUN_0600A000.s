@@ -31,7 +31,7 @@ FUN_0600A000:
 FUN_0600A026:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    .byte   0xDE, 0x13    /* mov.l .L_0600A078, r14 */
+    mov.l   .L_0600A078, r14
     jsr @r14
     mov #0x0, r4
     jsr @r14
@@ -40,11 +40,11 @@ FUN_0600A026:
     mov #0x8, r4
     jsr @r14
     mov #0xC, r4
-    .byte   0xD3, 0x0F    /* mov.l .L_0600A07C, r3 */
+    mov.l   .L_0600A07C, r3
     jsr @r3
     nop
     mov #0x0, r6
-    .byte   0xDE, 0x0E    /* mov.l .L_0600A080, r14 */
+    mov.l   .L_0600A080, r14
     mov r6, r5
     jsr @r14
     mov #0x4, r4

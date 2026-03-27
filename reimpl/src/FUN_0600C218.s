@@ -49,7 +49,7 @@ FUN_0600C218:
     cmp/eq r14, r2
     bf      .L_0600C262
     mov.b @r12, r0
-    .byte   0xD3, 0x1B    /* mov.l .L_fn_render_finalize, r3 */
+    mov.l   .L_0600C2DC, r3
     and #0xF, r0
     jsr @r3
     mov.b r0, @r12
@@ -67,17 +67,17 @@ FUN_0600C218:
     .type FUN_0600C286, @function
 FUN_0600C286:
     sts.l pr, @-r15
-    .byte   0xD3, 0x14    /* mov.l .L_0600C2DC, r3 */
+    mov.l   .L_0600C2DC, r3
     jsr @r3
     nop
-    .byte   0xD3, 0x14    /* mov.l .L_0600C2E0, r3 */
+    mov.l   .L_0600C2E0, r3
     jsr @r3
     nop
-    .byte   0xD4, 0x13    /* mov.l .L_0600C2E4, r4 */
+    mov.l   .L_0600C2E4, r4
     mov.b @r4, r2
     tst r2, r2
     bf      .L_0600C2EC
-    .byte   0xD3, 0x12    /* mov.l .L_0600C2E8, r3 */
+    mov.l   .L_0600C2E8, r3
     jsr @r3
     nop
     bra     .L_0600C2F8
@@ -108,12 +108,12 @@ FUN_0600C286:
     mov.b @r4, r0
     cmp/eq #0x1, r0
     bf      .L_0600C2F8
-    .byte   0xD3, 0x21    /* mov.l .L_0600C378, r3 */
+    mov.l   .L_0600C378, r3
     jsr @r3
     nop
 .L_0600C2F8:
-    .byte   0xD2, 0x20    /* mov.l .L_0600C37C, r2 */
-    .byte   0xD3, 0x21    /* mov.l .L_0600C380, r3 */
+    mov.l   .L_0600C37C, r2
+    mov.l   .L_0600C380, r3
     lds.l @r15+, pr
     rts
     mov.w r2, @r3
@@ -121,7 +121,7 @@ FUN_0600C286:
     .global sym_0600C302
 sym_0600C302:
     mov #0x68, r0
-    .byte   0xD4, 0x1F    /* mov.l .L_0600C384, r4 */
+    mov.l   .L_0600C384, r4
     mov.l @r4, r4
     mov.l @(r0, r4), r3
     add #0x7C, r0

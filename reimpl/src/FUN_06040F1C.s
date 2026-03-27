@@ -75,17 +75,17 @@ FUN_06040F82:
     sts.l pr, @-r15
     add #-0x4, r15
     mov r15, r5
-    .byte   0xD3, 0x09    /* mov.l .L_06040FB0, r3 */
+    mov.l   .L_06040FB0, r3
     jsr @r3
     mov #0x0, r4
     mov r15, r5
     mov r15, r4
-    .byte   0xD3, 0x07    /* mov.l .L_06040FB0, r3 */
+    mov.l   .L_06040FB0, r3
     mov.b @r4, r4
     jsr @r3
     extu.b r4, r4
     mov r15, r0
-    .byte   0xD3, 0x05    /* mov.l .L_06040FB4, r3 */
+    mov.l   .L_06040FB4, r3
     mov.l @r0, r0
     add #0x4, r15
     lds.l @r15+, pr
@@ -100,7 +100,7 @@ FUN_06040F82:
 
     .global sym_06040FB8
 sym_06040FB8:
-    .byte   0xD4, 0x15    /* mov.l .L_06041010, r4 */
+    mov.l   .L_06041010, r4
     mov.l @r4, r0
     mov.l @(48, r0), r0
     cmp/eq #0x1, r0
@@ -130,7 +130,7 @@ sym_06040FB8:
 
     .global sym_06040FEA
 sym_06040FEA:
-    .byte   0xD5, 0x09    /* mov.l .L_06041010, r5 */
+    mov.l   .L_06041010, r5
     mov.l @r5, r3
     mov.l @(48, r3), r0
     tst r0, r0

@@ -146,13 +146,13 @@ DAT_0600deb2:
     .type FUN_0600DF66, @function
 FUN_0600DF66:
     sts.l pr, @-r15
-    .byte   0xD3, 0x12    /* mov.l .L_pool_0600DFB7, r3 */
+    mov.l   .L_pool_0600DFB7, r3
     mov.l @r3, r3
     shar r3
     exts.w r3, r3
-    .byte   0xD2, 0x11    /* mov.l .L_pool_0600DFBB, r2 */
+    mov.l   .L_pool_0600DFBB, r2
     mov.w r3, @r2
-    .byte   0xD0, 0x11    /* mov.l .L_pool_0600DFBF, r0 */
+    mov.l   .L_pool_0600DFBF, r0
     bra     .L_0600DFC0
     mov.b @r0, r0
 

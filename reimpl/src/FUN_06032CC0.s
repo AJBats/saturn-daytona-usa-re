@@ -57,7 +57,7 @@ FUN_06032D0E:
     jsr @r0
     nop
     lds.l @r15+, pr
-    .byte   0xDD, 0x0C    /* mov.l .L_06032D48, r13 */
+    mov.l   .L_06032D48, r13
     mov.l @r13, r13
     rts
     nop

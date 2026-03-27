@@ -12,7 +12,7 @@ FUN_06012AC4:
     .byte   0xDC, 0x1C    /* mov.l .L_pool_06012B40, r12 */
     .byte   0xDD, 0x1D    /* mov.l .L_pool_06012B44, r13 */
     .byte   0xDE, 0x1D    /* mov.l .L_pool_06012B48, r14 */
-    .byte   0x95, 0x30    /* mov.w .L_wpool_06012B36, r5 */
+    mov.w   .L_wpool_06012B39, r5
     mov r12, r7
     mov r14, r6
     jsr @r13
@@ -40,11 +40,11 @@ FUN_06012AFA:
     mov.l r14, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    .byte   0xDE, 0x12    /* mov.l .L_pool_06012B4F, r14 */
+    mov.l   .L_pool_06012B4F, r14
     mov.l @r14, r0
     tst #0x4, r0
     bt      .L_06012B24
-    .byte   0xD3, 0x11    /* mov.l .L_pool_06012B53, r3 */
+    mov.l   .L_pool_06012B53, r3
     mov.l r3, @r15
     mov r3, r7
     mov.w   .L_wpool_06012B39, r6
@@ -53,7 +53,7 @@ FUN_06012AFA:
     mov.w   .L_wpool_06012B3F, r3
     mov.l @r5, r5
     add r3, r7
-    .byte   0xD3, 0x0E    /* mov.l .L_pool_06012B57, r3 */
+    mov.l   .L_pool_06012B57, r3
     jsr @r3
     mov #0x8, r4
     bra     .L_06012B28

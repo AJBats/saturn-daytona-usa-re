@@ -13,7 +13,7 @@ FUN_06033738:
     exts.w r1, r14
     mov.l @r15+, r1
     .byte   0xD4, 0x26    /* mov.l .L_pool_060337E0, r4 */
-    .byte   0xD3, 0x4E    /* mov.l .L_pool_06033884, r3 */
+    mov.l   sym_06033884, r3
     mov.b @r3, r3
     cmp/pl r3
     bf      .L_06033756

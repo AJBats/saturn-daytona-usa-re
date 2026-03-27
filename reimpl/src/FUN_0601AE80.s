@@ -76,12 +76,12 @@ sym_0601AEB6:
 
     .global FUN_0601AF04
 FUN_0601AF04:
-    .byte   0xD4, 0x19    /* mov.l .L_pool_0601AF6C, r4 */
+    mov.l   .L_0601AF6C, r4
     mov.b @r4, r3
     extu.b r3, r3
     tst r3, r3
     bf      .L_0601AF16
-    .byte   0xD5, 0x18    /* mov.l .L_pool_0601AF70, r5 */
+    mov.l   .L_0601AF70, r5
     mov.b @r5, r3
     add #0x1, r3
     mov.b r3, @r5
@@ -98,21 +98,21 @@ FUN_0601AF1E:
     mov.l r14, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    .byte   0xD3, 0x13    /* mov.l .L_0601AF74, r3 */
+    mov.l   .L_0601AF74, r3
     mov.l r3, @r15
     mov r3, r7
     mov.w   .L_0601AF6A, r6
     mov.l @r15, r5
     mov.l @(4, r7), r7
-    .byte   0xD3, 0x11    /* mov.l .L_0601AF78, r3 */
+    mov.l   .L_0601AF78, r3
     mov.l @r5, r5
     add r3, r7
-    .byte   0xD3, 0x11    /* mov.l .L_0601AF7C, r3 */
+    mov.l   .L_0601AF7C, r3
     jsr @r3
     mov #0x8, r4
-    .byte   0xDE, 0x10    /* mov.l .L_0601AF80, r14 */
-    .byte   0xD5, 0x11    /* mov.l .L_0601AF84, r5 */
-    .byte   0xD4, 0x11    /* mov.l .L_0601AF88, r4 */
+    mov.l   .L_0601AF80, r14
+    mov.l   .L_0601AF84, r5
+    mov.l   .L_0601AF88, r4
     mov.b @r14, r6
     mov.l @r5, r5
     mov.l @r4, r4
@@ -124,9 +124,9 @@ FUN_0601AF1E:
     mov.b @r14, r2
     add #0x5, r2
     mov.b r2, @r14
-    .byte   0xD2, 0x05    /* mov.l .L_0601AF6C, r2 */
+    mov.l   .L_0601AF6C, r2
     mov.b r3, @r2
-    .byte   0xD4, 0x05    /* mov.l .L_0601AF70, r4 */
+    mov.l   .L_0601AF70, r4
     mov.b @r4, r3
     add #0x1, r3
     mov.b r3, @r4

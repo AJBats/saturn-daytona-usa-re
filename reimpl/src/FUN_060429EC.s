@@ -170,7 +170,7 @@ FUN_06042A7E:
     cmp/eq #0x4, r0
     bf/s    .L_06042B24
     mov.l @r7, r6
-    .byte   0xD2, 0x24    /* mov.l .L_pool_06042BA9, r2 */
+    mov.l   .L_pool_06042BA9, r2
     and r2, r6
     mov.l @(12, r4), r3
     shll8 r3

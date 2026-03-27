@@ -91,11 +91,11 @@ FUN_06026362:
     mov.l r14, @-r15
     mov.l r13, @-r15
     mov.l r12, @-r15
-    .byte   0xDC, 0x0C    /* mov.l .L_pool_060263A0, r12 */
+    mov.l   .L_pool_060263A0, r12
     mov #0xA, r13
-    .byte   0xDE, 0x0C    /* mov.l .L_pool_060263A4, r14 */
-    .byte   0xD7, 0x0D    /* mov.l .L_pool_060263A8, r7 */
-    .byte   0xD5, 0x0D    /* mov.l .L_060263A8, r5 */
+    mov.l   .L_pool_060263A4, r14
+    mov.l   .L_pool_060263A8, r7
+    mov.l   .L_060263A8, r5
     mov #0x0, r4
     extu.w r4, r6
 .L_06026376:

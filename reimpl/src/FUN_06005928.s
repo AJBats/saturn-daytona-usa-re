@@ -171,7 +171,7 @@ FUN_06005A22:
     mov.l r14, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    .byte   0xD4, 0x26    /* mov.l .L_pool_06005AC4, r4 */
+    mov.l   .L_pool_06005AC4, r4
     mov.l @r4, r3
     cmp/pl r3
     bf      .L_06005AE0
@@ -181,7 +181,7 @@ FUN_06005A22:
     tst #0x1, r0
     bt/s    .L_06005A9C
     mov.l r3, @r4
-    .byte   0xD0, 0x22    /* mov.l .L_pool_06005AC8, r0 */
+    mov.l   .L_pool_06005AC8, r0
     mov.b @r0, r0
     tst r0, r0
     bt      .L_06005A4A
@@ -191,14 +191,14 @@ FUN_06005A22:
 .L_06005A4A:
     mov #0x21, r14
 .L_06005A4C:
-    .byte   0xD0, 0x1F    /* mov.l .L_pool_06005ACC, r0 */
+    mov.l   .L_pool_06005ACC, r0
     mov.l @r0, r0
     tst r0, r0
     bt      .L_06005A78
     mov r14, r7
     shll2 r7
     shll r7
-    .byte   0xD3, 0x1D    /* mov.l .L_pool_06005AD0, r3 */
+    mov.l   .L_pool_06005AD0, r3
     add r3, r7
     mov.l r7, @r15
     mov.l @(4, r7), r7
@@ -210,14 +210,14 @@ FUN_06005A22:
     mov #0x8, r4
     add #0x4, r15
     lds.l @r15+, pr
-    .byte   0xD3, 0x18    /* mov.l .L_pool_06005AD4, r3 */
+    mov.l   .L_pool_06005AD4, r3
     jmp @r3
     mov.l @r15+, r14
 .L_06005A78:
     mov r14, r7
     shll2 r7
     shll r7
-    .byte   0xD3, 0x14    /* mov.l .L_pool_06005AD0, r3 */
+    mov.l   .L_pool_06005AD0, r3
     add r3, r7
     mov.l r7, @r15
     mov.l @(4, r7), r7
@@ -229,23 +229,23 @@ FUN_06005A22:
     mov #0x8, r4
     add #0x4, r15
     lds.l @r15+, pr
-    .byte   0xD3, 0x0F    /* mov.l .L_pool_06005AD4, r3 */
+    mov.l   .L_pool_06005AD4, r3
     jmp @r3
     mov.l @r15+, r14
 .L_06005A9C:
-    .byte   0xD7, 0x0E    /* mov.l .L_pool_06005AD8, r7 */
+    mov.l   .L_pool_06005AD8, r7
     mov.w   .L_wpool_06005AC2, r6
     mov.w   DAT_06005abe, r5
-    .byte   0xD3, 0x0E    /* mov.l .L_pool_06005ADC, r3 */
+    mov.l   .L_pool_06005ADC, r3
     jsr @r3
     mov #0x8, r4
-    .byte   0xD7, 0x0B    /* mov.l .L_pool_06005AD8, r7 */
+    mov.l   .L_pool_06005AD8, r7
     mov.w   .L_wpool_06005AC2, r6
     mov.w   DAT_06005ac0, r5
     mov #0x8, r4
     add #0x4, r15
     lds.l @r15+, pr
-    .byte   0xD3, 0x09    /* mov.l .L_pool_06005ADC, r3 */
+    mov.l   .L_pool_06005ADC, r3
     jmp @r3
     mov.l @r15+, r14
 

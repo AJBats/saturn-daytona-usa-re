@@ -59,26 +59,26 @@ sym_06012E62:
     .type FUN_06012E6A, @function
 FUN_06012E6A:
     sts.l pr, @-r15
-    .byte   0xD5, 0x0B    /* mov.l .L_pool_06012E9C, r5 */
-    .byte   0xD4, 0x0C    /* mov.l .L_pool_06012EA0, r4 */
+    mov.l   .L_pool_06012E9C, r5
+    mov.l   .L_pool_06012EA0, r4
     .byte   0xBE, 0xE4    /* bsr FUN_06012C3C */
     nop
-    .byte   0xD5, 0x0B    /* mov.l .L_pool_06012EA4, r5 */
-    .byte   0xD4, 0x0C    /* mov.l .L_pool_06012EA8, r4 */
+    mov.l   .L_pool_06012EA4, r5
+    mov.l   .L_pool_06012EA8, r4
     .byte   0xAE, 0xE0    /* bra FUN_06012C3C */
     lds.l @r15+, pr
 
     .global sym_06012E7C
 sym_06012E7C:
-    .byte   0xD5, 0x0B    /* mov.l .L_pool_06012EAC, r5 */
-    .byte   0xD4, 0x0C    /* mov.l .L_pool_06012EB0, r4 */
+    mov.l   .L_pool_06012EAC, r5
+    mov.l   .L_pool_06012EB0, r4
     .byte   0xAE, 0xDC    /* bra FUN_06012C3C */
     nop
 
     .global sym_06012E84
 sym_06012E84:
-    .byte   0xD5, 0x0B    /* mov.l .L_pool_06012EB4, r5 */
-    .byte   0xD4, 0x0C    /* mov.l .L_pool_06012EB8, r4 */
+    mov.l   .L_pool_06012EB4, r5
+    mov.l   .L_pool_06012EB8, r4
     .byte   0xAE, 0xD8    /* bra FUN_06012C3C */
     nop
     .4byte  sym_06044978
@@ -104,15 +104,15 @@ sym_06012E84:
 
     .global sym_06012EBC
 sym_06012EBC:
-    .byte   0xD5, 0x09    /* mov.l .L_pool_06012EE4, r5 */
-    .byte   0xD4, 0x0A    /* mov.l .L_pool_06012EE8, r4 */
+    mov.l   .L_pool_06012EE4, r5
+    mov.l   .L_pool_06012EE8, r4
     .byte   0xAE, 0xBC    /* bra FUN_06012C3C */
     nop
 
     .global sym_06012EC4
 sym_06012EC4:
-    .byte   0xD5, 0x09    /* mov.l .L_pool_06012EEC, r5 */
-    .byte   0xD4, 0x08    /* mov.l .L_pool_06012EE8, r4 */
+    mov.l   .L_pool_06012EEC, r5
+    mov.l   .L_pool_06012EE8, r4
     .byte   0xAE, 0xB8    /* bra FUN_06012C3C */
     nop
     .4byte  0xD508D409
@@ -122,8 +122,8 @@ sym_06012EC4:
 
     .global sym_06012EDC
 sym_06012EDC:
-    .byte   0xD5, 0x01    /* mov.l .L_pool_06012EE4, r5 */
-    .byte   0xD4, 0x07    /* mov.l .L_pool_06012EFC, r4 */
+    mov.l   .L_pool_06012EE4, r5
+    mov.l   .L_pool_06012EFC, r4
     .byte   0xAE, 0xAC    /* bra FUN_06012C3C */
     nop
 .L_pool_06012EE4:
@@ -140,8 +140,8 @@ sym_06012EDC:
 
     .global sym_06012F00
 sym_06012F00:
-    .byte   0xD5, 0x09    /* mov.l .L_pool_06012F28, r5 */
-    .byte   0xD4, 0x0A    /* mov.l .L_pool_06012F2C, r4 */
+    mov.l   .L_pool_06012F28, r5
+    mov.l   .L_pool_06012F2C, r4
     .byte   0xAE, 0x9A    /* bra FUN_06012C3C */
     nop
     .4byte  0xD509D40A
@@ -149,8 +149,8 @@ sym_06012F00:
 
     .global sym_06012F10
 sym_06012F10:
-    .byte   0xD5, 0x09    /* mov.l .L_pool_06012F38, r5 */
-    .byte   0xD4, 0x0A    /* mov.l .L_pool_06012F3C, r4 */
+    mov.l   .L_pool_06012F38, r5
+    mov.l   .L_pool_06012F3C, r4
     .byte   0xAE, 0x92    /* bra FUN_06012C3C */
     nop
     .4byte  0xD505D409
@@ -158,8 +158,8 @@ sym_06012F10:
 
     .global sym_06012F20
 sym_06012F20:
-    .byte   0xD5, 0x05    /* mov.l .L_pool_06012F38, r5 */
-    .byte   0xD4, 0x08    /* mov.l .L_pool_06012F44, r4 */
+    mov.l   .L_pool_06012F38, r5
+    mov.l   .L_pool_06012F44, r4
     .byte   0xAE, 0x8A    /* bra FUN_06012C3C */
     nop
 .L_pool_06012F28:
@@ -180,22 +180,22 @@ sym_06012F20:
 
     .global sym_06012F50
 sym_06012F50:
-    .byte   0xD5, 0x07    /* mov.l .L_pool_06012F70, r5 */
-    .byte   0xD4, 0x08    /* mov.l .L_pool_06012F74, r4 */
+    mov.l   .L_pool_06012F70, r5
+    mov.l   .L_pool_06012F74, r4
     .byte   0xAE, 0x72    /* bra FUN_06012C3C */
     nop
 
     .global sym_06012F58
 sym_06012F58:
-    .byte   0xD5, 0x05    /* mov.l .L_pool_06012F70, r5 */
-    .byte   0xD4, 0x07    /* mov.l .L_pool_06012F78, r4 */
+    mov.l   .L_pool_06012F70, r5
+    mov.l   .L_pool_06012F78, r4
     .byte   0xAE, 0x6E    /* bra FUN_06012C3C */
     nop
 
     .global sym_06012F60
 sym_06012F60:
-    .byte   0xD5, 0x03    /* mov.l .L_pool_06012F70, r5 */
-    .byte   0xD4, 0x06    /* mov.l .L_pool_06012F7C, r4 */
+    mov.l   .L_pool_06012F70, r5
+    mov.l   .L_pool_06012F7C, r4
     .byte   0xAE, 0x6A    /* bra FUN_06012C3C */
     nop
     .4byte  0x25A10000

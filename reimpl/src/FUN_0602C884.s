@@ -154,7 +154,7 @@ FUN_0602C8E2:
     dmuls.l r5, r5
     sts mach, r0
     dmuls.l r4, r4
-    .byte   0xDD, 0x12    /* mov.l .L_0602C9EC, r13 */
+    mov.l   .L_0602C9EC, r13
     sts mach, r1
     jsr @r13
     add r6, r0
@@ -267,7 +267,7 @@ DAT_0602c9e6:
     add #-0x1, r5
     mov.w r5, @(r0, r8)
     mov.w   .L_0602CA74, r2
-    .byte   0xD4, 0x18    /* mov.l .L_0602CA7C, r4 */
+    mov.l   .L_0602CA7C, r4
     mov.l @(r0, r2), r3
     dmuls.l r3, r4
     sts mach, r3
@@ -282,7 +282,7 @@ DAT_0602c9e6:
     add #-0x1, r5
     mov.w r5, @(r0, r8)
     mov.w   .L_0602CA74, r2
-    .byte   0xD3, 0x12    /* mov.l .L_0602CA80, r3 */
+    mov.l   .L_0602CA80, r3
     mov.l r3, @(r0, r2)
 .L_0602CA38:
     add #0x2, r8

@@ -47,19 +47,19 @@ FUN_06020366:
     sts.l pr, @-r15
     sts.l macl, @-r15
     add #-0xC, r15
-    .byte   0xDA, 0x14    /* mov.l .L_pool_060203CF, r10 */
+    mov.l   .L_pool_060203CF, r10
     mov #0x15, r11
     mov.w   DAT_060203be, r12
     extu.b r4, r14
     shll2 r14
-    .byte   0xD3, 0x12    /* mov.l .L_pool_060203D3, r3 */
+    mov.l   .L_pool_060203D3, r3
     add r3, r14
     mov.l @r14, r14
     mov.b @(2, r14), r0
     mov r0, r7
     extu.b r7, r7
     shll2 r7
-    .byte   0xD2, 0x10    /* mov.l .L_pool_060203D7, r2 */
+    mov.l   .L_pool_060203D7, r2
     add r2, r7
     mov.l @r7, r7
     mov.w @r7, r1

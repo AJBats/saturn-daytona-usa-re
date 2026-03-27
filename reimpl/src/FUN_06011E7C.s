@@ -108,10 +108,10 @@ sym_06011F1C:
     mov.l r11, @-r15
     mov.l r10, @-r15
     mov.l r9, @-r15
-    .byte   0x99, 0x55    /* mov.w .L_wpool_06011FD4, r9 */
+    mov.w   DAT_06011fd4, r9
     mov #0x1F, r10
     mov #0x10, r11
-    .byte   0x9C, 0x53    /* mov.w .L_wpool_06011FD6, r12 */
+    mov.w   DAT_06011fd6, r12
     .byte   0x9D, 0x53    /* mov.w .L_wpool_06011FD8, r13 */
     mov #0x0, r6
     exts.w r6, r5

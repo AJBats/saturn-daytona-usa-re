@@ -167,7 +167,7 @@ DAT_0600e870:
     add r3, r4
     mov.w @(20, r4), r0
     mov r0, r3
-    .byte   0x90, 0x23    /* mov.w .L_wpool_0600E920, r0 */
+    mov.w   DAT_0600e920, r0
     mov.l r3, @(r0, r14)
 
     .byte   0xD3, 0x15    /* mov.l .L_pool_0600E930, r3 */
@@ -183,7 +183,7 @@ DAT_0600e870:
     mov.l @(12, r14), r4
     shlr16 r0
     exts.w r0, r0
-    .byte   0x91, 0x16    /* mov.w .L_wpool_0600E922, r1 */
+    mov.w   DAT_0600e922, r1
     add r14, r1
     mov.l r0, @r1
     .byte   0x91, 0x14    /* mov.w .L_wpool_0600E924, r1 */
@@ -203,8 +203,8 @@ FUN_0600E906:
     mov.l r14, @-r15
     sts.l pr, @-r15
     sts.l macl, @-r15
-    .byte   0xDE, 0x0C    /* mov.l .L_pool_0600E942, r14 */
-    .byte   0xD0, 0x0D    /* mov.l .L_pool_0600E946, r0 */
+    mov.l   .L_pool_0600E942, r14
+    mov.l   .L_pool_0600E946, r0
     mov.l @r0, r0
     tst r0, r0
     bt/s    .L_0600E948

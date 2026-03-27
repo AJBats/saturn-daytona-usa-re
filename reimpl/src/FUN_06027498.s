@@ -269,12 +269,12 @@ FUN_06027642:
 
     .global FUN_0602766C
 FUN_0602766C:
-    .byte   0xD0, 0x07
+    mov.l   .L_0602768C, r0
     mov.l @r0, r0
-    .byte   0xD1, 0x07
+    mov.l   .L_06027690, r1
     tst r1, r0
     bf      FUN_0602766C
-    .byte   0xD1, 0x07
+    mov.l   .L_06027694, r1
     mov.w   .L_0602768A, r2
     mov.l r4, @(4, r1)
     mov.l r5, @(0, r1)
