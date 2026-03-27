@@ -66,13 +66,25 @@ RETAIL_OBJS := $(patsubst retail/%.s,$(BUILDDIR)/%.o,$(RETAIL_ASM))
 
 # Auto-discover reimplemented files (src/ overrides retail/ by stem name)
 # src/*.s and src/*.c are always active — these must byte-match retail.
-# src/mods/ contains relocation patches that intentionally change the binary.
-# src/mods/re_tests/ contains experimental C reimplementations for testing.
+#
+# ─── Mod System ──────────────────────────────────────────────────────────
+# MODS=1       — enable scdq/ fix (prerequisite for any resized build)
+# RE_TESTS=1   — enable re_tests/ experimental modifications
+# FPS30=1      — enable 30fps/ mod
+# MOD=<name>   — enable a specific mod overlay from mods/<name>/
+#                 (e.g., MOD=decomp for C decompilation overlay)
+#
+# Mods are organized as subdirectories under src/mods/:
+#   scdq/       — SCDQ poll timeout fix (latent Sega bug)
+#   re_tests/   — car flip benchmark experiments
+#   30fps/      — 30fps mod (WIP)
+#   decomp/     — C decompilation overlay (Cygnus 2.7 compiled)
+# ─────────────────────────────────────────────────────────────────────────
 REIMPL_S    := $(wildcard src/*.s)
 REIMPL_C    := $(wildcard src/*.c)
 ifeq ($(MODS),1)
-REIMPL_S    += $(wildcard src/mods/*.s)
-REIMPL_C    += $(wildcard src/mods/*.c)
+REIMPL_S    += $(wildcard src/mods/scdq/*.s)
+REIMPL_C    += $(wildcard src/mods/scdq/*.c)
 endif
 ifeq ($(RE_TESTS),1)
 REIMPL_S    += $(wildcard src/mods/re_tests/*.s)
@@ -81,6 +93,10 @@ endif
 ifeq ($(FPS30),1)
 REIMPL_S    += $(wildcard src/mods/30fps/*.s)
 REIMPL_C    += $(wildcard src/mods/30fps/*.c)
+endif
+ifdef MOD
+REIMPL_S    += $(wildcard src/mods/$(MOD)/*.s)
+REIMPL_C    += $(wildcard src/mods/$(MOD)/*.c)
 endif
 REIMPL_STEMS := $(sort $(basename $(notdir $(REIMPL_C) $(REIMPL_S))))
 
@@ -103,7 +119,7 @@ ORIGINAL := $(PROJDIR)/build/disc/files/APROG.BIN
 
 # Config change detection: if flags changed since last build, force a full rebuild.
 # Includes reimpl stems so switching between free/retail rebuilds overridden objects.
-CONFIG_STR := LDSCRIPT=$(LDSCRIPT) SHIFT=$(SHIFT) MODS=$(MODS) RE_TESTS=$(RE_TESTS) FPS30=$(FPS30) REIMPL=$(REIMPL_STEMS)
+CONFIG_STR := LDSCRIPT=$(LDSCRIPT) SHIFT=$(SHIFT) MODS=$(MODS) MOD=$(MOD) RE_TESTS=$(RE_TESTS) FPS30=$(FPS30) REIMPL=$(REIMPL_STEMS)
 PREV_CONFIG := $(shell cat $(BUILDDIR)/.build_config 2>/dev/null)
 ifneq ($(CONFIG_STR),$(PREV_CONFIG))
     $(info Config changed: [$(PREV_CONFIG)] -> [$(CONFIG_STR)])
@@ -153,10 +169,20 @@ $(BUILDDIR)/%.o: src/mods/re_tests/%.c | $(BUILDDIR)
 endif
 
 ifeq ($(MODS),1)
-$(BUILDDIR)/%.o: src/mods/%.c | $(BUILDDIR)
+$(BUILDDIR)/%.o: src/mods/scdq/%.c | $(BUILDDIR)
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-$(BUILDDIR)/%.o: src/mods/%.s | $(BUILDDIR)
+$(BUILDDIR)/%.o: src/mods/scdq/%.s | $(BUILDDIR)
+	$(AS) --isa=sh2 -big -o $@ $<
+endif
+
+ifdef MOD
+$(BUILDDIR)/%.o: src/mods/$(MOD)/%.c | $(BUILDDIR)
+	@echo "  CC (cygnus) $<"
+	bash $(PROJDIR)/tools/cygnus_compile.sh $< $(BUILDDIR)/$*.s $*
+	$(AS) --isa=sh2 -big -o $@ $(BUILDDIR)/$*.s
+
+$(BUILDDIR)/%.o: src/mods/$(MOD)/%.s | $(BUILDDIR)
 	$(AS) --isa=sh2 -big -o $@ $<
 endif
 
