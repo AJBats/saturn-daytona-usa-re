@@ -56,11 +56,14 @@ void FUN_0602D7E4(int car)
     if (speed <= 0) return;
 
     counter = *(short *)(car + 0x166);
-    if (counter > 3) {
-        *(short *)(car + 0x166) = counter - 3;
-    } else if (counter != 0) {
-        *(short *)(car + 0x166) = 10;
+    if (counter <= 3) {
+        if (counter != 0) {
+            *(short *)(car + 0x166) = 7;   /* 10 - 3 */
+        } else {
+            *(short *)(car + 0x166) = 10;
+        }
     }
+    /* counter > 3: do nothing */
 }
 
 /* ──────────────────────────────────────────────────────────────────────
