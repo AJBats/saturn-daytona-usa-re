@@ -4,10 +4,10 @@
 Test procedure:
   1. make retail-validate  — retail (sega.ld) byte-identical to original
   2. make validate         — free (free.ld) byte-identical to original
-  3. Free+4shift (MODS=1)  — byte-matches golden shifted binary + boots to menu
+  3. Free+4shift (MODS=scdq)  — byte-matches golden shifted binary + boots to menu
 
 Tests 1-2 are Makefile targets (fast, binary compare only).
-Test 3 builds with MODS=1 SHIFT=4, compares against golden_free4_APROG.BIN,
+Test 3 builds with MODS=scdq SHIFT=4, compares against golden_free4_APROG.BIN,
 injects into disc, and runs a 3-stage screenshot boot test via test_boot_auto.py.
 
 Usage:
@@ -81,16 +81,16 @@ def test_free():
 
 
 def test_free_shifted(shift=4):
-    """Test 3: free+4shift (MODS=1) — golden binary match + screenshot boot test."""
+    """Test 3: free+4shift (MODS=scdq) — golden binary match + screenshot boot test."""
     print("=" * 60)
-    print(f"TEST 3: Free+{shift}shift (MODS=1) — golden match + boot test")
+    print(f"TEST 3: Free+{shift}shift (MODS=scdq) — golden match + boot test")
     print("=" * 60)
 
-    # Step 1: Build with MODS=1 SHIFT=4
+    # Step 1: Build with MODS=scdq SHIFT=4
     projdir_wsl = wsl_path(PROJECT)
-    print(f"  Building free+{shift}shift with MODS=1...")
+    print(f"  Building free+{shift}shift with MODS=scdq...")
     rc, out, err = run_wsl(
-        f'make -C "{projdir_wsl}/reimpl" SHIFT={shift} MODS=1 2>&1',
+        f'make -C "{projdir_wsl}/reimpl" SHIFT={shift} MODS=scdq 2>&1',
         timeout=120,
     )
     if rc != 0:
@@ -139,7 +139,7 @@ def test_free_shifted(shift=4):
     # Step 3: Inject into disc and run boot test
     print(f"  Injecting into disc image...")
     rc, out, err = run_wsl(
-        f'make -C "{projdir_wsl}/reimpl" SHIFT={shift} MODS=1 disc 2>&1',
+        f'make -C "{projdir_wsl}/reimpl" SHIFT={shift} MODS=scdq disc 2>&1',
         timeout=120,
     )
     if rc != 0 or "Injecting" not in out:

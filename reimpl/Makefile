@@ -12,26 +12,23 @@
 #   make retail       — build with sega.ld (original linker script)
 #   make validate     — verify all builds match original
 #
-# ─── MODS Flag ──────────────────────────────────────────────────────────
+# ─── Mod System ─────────────────────────────────────────────────────────
 #
-# If you want to start moving code around — changing function sizes, writing
-# C reimplementations, fixing bugs — enable MODS. This activates a curated
-# list of patches (in src/mods/) that fix latent Sega bugs exposed by code
-# relocation. Without these patches, shifted builds hang or crash.
+# MODS=name1,name2,...  — comma-separated list of mod overlays to enable.
+# Each mod is a subdirectory under src/mods/ containing .s and/or .c files.
 #
-# Currently MODS=1 enables:
-#   - cdb_wait_scdq.c   SCDQ poll timeout fix (latent Sega bug — retail code
-#                        polls CD status forever; shifting addresses changes
-#                        cache-line timing and triggers the infinite loop)
+# Available mods:
+#   scdq        — SCDQ poll timeout fix (prerequisite for resized builds)
+#   re_tests    — car flip benchmark experiments
+#   30fps       — 30fps mod (WIP)
+#   decomp      — C decompilation overlay (Cygnus 2.7 compiled)
 #
-# If you need more patches to make relocated code work, add them to src/mods/.
-# The free.ld linker script handles arbitrary function sizing. The +4 shift
-# build validates that all pointers relocate correctly — if it boots, your
-# relocation is clean.
+# The decomp mod compiles .c files with Cygnus 2.7-96Q3 GCC (via DOSBox)
+# to match the original Sega toolchain. All other mods use sh-elf-gcc.
 #
-#   make MODS=1               — build with relocation patches
-#   make MODS=1 disc          — build + inject modified binary
-#   make disc-4shift           — +4 byte shift build (MODS=1 auto-enabled)
+#   make MODS=scdq              — build with SCDQ fix
+#   make MODS=scdq,decomp disc  — build with SCDQ + decomp, inject into disc
+#   make disc-4shift            — +4 byte shift build (scdq auto-enabled)
 #
 # Full L3 validation procedure:
 #   make retail-validate                 — test 1: retail matches original
@@ -52,9 +49,7 @@ CFLAGS  := -m2 -Os -nostdlib -ffreestanding -ffunction-sections -fno-leading-und
 BUILDDIR := build
 LDSCRIPT := free.ld
 SHIFT    ?= 0
-MODS     ?= 0
-RE_TESTS ?= 0
-FPS30    ?= 0
+MODS     ?=
 LDFLAGS  := -T $(LDSCRIPT) -nostdlib -Map=$(BUILDDIR)/daytona.map
 ifneq ($(SHIFT),0)
     LDFLAGS += --defsym __pad_size=$(SHIFT)
@@ -68,36 +63,35 @@ RETAIL_OBJS := $(patsubst retail/%.s,$(BUILDDIR)/%.o,$(RETAIL_ASM))
 # src/*.s and src/*.c are always active — these must byte-match retail.
 #
 # ─── Mod System ──────────────────────────────────────────────────────────
-# MODS=1       — enable scdq/ fix (prerequisite for any resized build)
-# RE_TESTS=1   — enable re_tests/ experimental modifications
-# FPS30=1      — enable 30fps/ mod
-# MOD=<name>   — enable a specific mod overlay from mods/<name>/
-#                 (e.g., MOD=decomp for C decompilation overlay)
+# MODS=name1,name2,...  — enable one or more mod overlays from src/mods/
 #
-# Mods are organized as subdirectories under src/mods/:
-#   scdq/       — SCDQ poll timeout fix (latent Sega bug)
-#   re_tests/   — car flip benchmark experiments
-#   30fps/      — 30fps mod (WIP)
-#   decomp/     — C decompilation overlay (Cygnus 2.7 compiled)
+# Each mod is a subdirectory under src/mods/ containing .s and/or .c files.
+# Comma-separated list. Examples:
+#   make MODS=scdq                — SCDQ fix only
+#   make MODS=scdq,decomp         — SCDQ fix + C decompilation overlay
+#   make MODS=scdq,re_tests disc  — SCDQ fix + car flip experiments
+#
+# Available mods:
+#   scdq        — SCDQ poll timeout fix (prerequisite for resized builds)
+#   re_tests    — car flip benchmark experiments
+#   30fps       — 30fps mod (WIP)
+#   decomp      — C decompilation overlay (Cygnus 2.7 compiled)
+#
+# The decomp mod uses the Cygnus 2.7-96Q3 compiler (via DOSBox) for .c
+# files to match the original Sega toolchain. All other mods use sh-elf-gcc.
 # ─────────────────────────────────────────────────────────────────────────
 REIMPL_S    := $(wildcard src/*.s)
 REIMPL_C    := $(wildcard src/*.c)
-ifeq ($(MODS),1)
-REIMPL_S    += $(wildcard src/mods/scdq/*.s)
-REIMPL_C    += $(wildcard src/mods/scdq/*.c)
-endif
-ifeq ($(RE_TESTS),1)
-REIMPL_S    += $(wildcard src/mods/re_tests/*.s)
-REIMPL_C    += $(wildcard src/mods/re_tests/*.c)
-endif
-ifeq ($(FPS30),1)
-REIMPL_S    += $(wildcard src/mods/30fps/*.s)
-REIMPL_C    += $(wildcard src/mods/30fps/*.c)
-endif
-ifdef MOD
-REIMPL_S    += $(wildcard src/mods/$(MOD)/*.s)
-REIMPL_C    += $(wildcard src/mods/$(MOD)/*.c)
-endif
+
+# Parse comma-separated MODS list into space-separated MOD_LIST
+comma := ,
+MOD_LIST := $(subst $(comma), ,$(MODS))
+
+# Activate each mod's source files
+$(foreach mod,$(MOD_LIST),\
+    $(eval REIMPL_S += $(wildcard src/mods/$(mod)/*.s))\
+    $(eval REIMPL_C += $(wildcard src/mods/$(mod)/*.c))\
+)
 REIMPL_STEMS := $(sort $(basename $(notdir $(REIMPL_C) $(REIMPL_S))))
 
 # Build object list: retail objects in original order. Make's pattern rule
@@ -119,7 +113,7 @@ ORIGINAL := $(PROJDIR)/build/disc/files/APROG.BIN
 
 # Config change detection: if flags changed since last build, force a full rebuild.
 # Includes reimpl stems so switching between free/retail rebuilds overridden objects.
-CONFIG_STR := LDSCRIPT=$(LDSCRIPT) SHIFT=$(SHIFT) MODS=$(MODS) MOD=$(MOD) RE_TESTS=$(RE_TESTS) FPS30=$(FPS30) REIMPL=$(REIMPL_STEMS)
+CONFIG_STR := LDSCRIPT=$(LDSCRIPT) SHIFT=$(SHIFT) MODS=$(MODS) REIMPL=$(REIMPL_STEMS)
 PREV_CONFIG := $(shell cat $(BUILDDIR)/.build_config 2>/dev/null)
 ifneq ($(CONFIG_STR),$(PREV_CONFIG))
     $(info Config changed: [$(PREV_CONFIG)] -> [$(CONFIG_STR)])
@@ -150,41 +144,25 @@ $(ELF): $(ALL_OBJS) $(LDSCRIPT)
 
 # Compile rules: src/ overrides retail/ for reimplemented functions.
 # Guarded so retail builds don't accidentally pick up src/ files via pattern matching.
-# src/mods/ rules are additionally gated by MODS=1 so they don't leak into default builds.
-# src/mods/re_tests/ rules are gated by RE_TESTS=1.
-ifeq ($(FPS30),1)
-$(BUILDDIR)/%.o: src/mods/30fps/%.s | $(BUILDDIR)
-	$(AS) --isa=sh2 -big -o $@ $<
+#
+# Mod compile rules: generated for each mod in MOD_LIST.
+# The 'decomp' mod uses Cygnus 2.7 GCC (via DOSBox) for .c files.
+# All other mods use sh-elf-gcc for .c files.
+# Assembly (.s) rules are the same for all mods.
 
-$(BUILDDIR)/%.o: src/mods/30fps/%.c | $(BUILDDIR)
-	$(CC) $(CFLAGS) -c -o $@ $<
-endif
-
-ifeq ($(RE_TESTS),1)
-$(BUILDDIR)/%.o: src/mods/re_tests/%.s | $(BUILDDIR)
-	$(AS) --isa=sh2 -big -o $@ $<
-
-$(BUILDDIR)/%.o: src/mods/re_tests/%.c | $(BUILDDIR)
-	$(CC) $(CFLAGS) -c -o $@ $<
-endif
-
-ifeq ($(MODS),1)
-$(BUILDDIR)/%.o: src/mods/scdq/%.c | $(BUILDDIR)
-	$(CC) $(CFLAGS) -c -o $@ $<
-
-$(BUILDDIR)/%.o: src/mods/scdq/%.s | $(BUILDDIR)
-	$(AS) --isa=sh2 -big -o $@ $<
-endif
-
-ifdef MOD
-$(BUILDDIR)/%.o: src/mods/$(MOD)/%.c | $(BUILDDIR)
-	@echo "  CC (cygnus) $<"
-	bash $(PROJDIR)/tools/cygnus_compile.sh $< $(BUILDDIR)/$*.s $*
-	$(AS) --isa=sh2 -big -o $@ $(BUILDDIR)/$*.s
-
-$(BUILDDIR)/%.o: src/mods/$(MOD)/%.s | $(BUILDDIR)
-	$(AS) --isa=sh2 -big -o $@ $<
-endif
+# Generate pattern rules for each active mod
+$(foreach mod,$(MOD_LIST),\
+    $(eval $(BUILDDIR)/%.o: src/mods/$(mod)/%.s | $(BUILDDIR) ; \
+        $$(AS) --isa=sh2 -big -o $$@ $$<)\
+    $(if $(filter decomp,$(mod)),\
+        $(eval $(BUILDDIR)/%.o: src/mods/$(mod)/%.c | $(BUILDDIR) ; \
+            @echo "  CC (cygnus) $$<" && \
+            bash $$(PROJDIR)/tools/cygnus_compile.sh $$< $$(BUILDDIR)/$$*.s $$* && \
+            $$(AS) --isa=sh2 -big -o $$@ $$(BUILDDIR)/$$*.s),\
+        $(eval $(BUILDDIR)/%.o: src/mods/$(mod)/%.c | $(BUILDDIR) ; \
+            $$(CC) $$(CFLAGS) -c -o $$@ $$<)\
+    )\
+)
 
 ifneq ($(strip $(REIMPL_STEMS)),)
 $(BUILDDIR)/%.o: src/%.c | $(BUILDDIR)
@@ -205,9 +183,9 @@ disc: $(BIN)
 	@echo "Injecting APROG.BIN into disc image..."
 	python3 $(PROJDIR)/tools/inject_binary.py $(BUILDDIR)/APROG.BIN
 
-# Build + inject with +4 shift (relocation validation, MODS=1 required)
+# Build + inject with +4 shift (relocation validation, scdq mod required)
 disc-4shift:
-	$(MAKE) SHIFT=4 MODS=1 disc
+	$(MAKE) SHIFT=4 MODS=scdq disc
 
 # Byte-identical retail build (sega.ld — original linker script)
 retail:
