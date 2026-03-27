@@ -8,9 +8,12 @@
 test_car:
     .space 0x268
 
-/* Gear ratio table — copied from original binary at sym_060477BC */
+/* Gear ratio table — copied from original binary at sym_060477BC.
+ * Sentinel before table: gear[-1] reads this when gear_idx is negative.
+ * Makes negative gear_idx deterministic instead of reading random memory. */
     .section .rodata
     .align 4
+    .4byte 0xDEADBEEF    /* sentinel: gear[-1] for sign extension test */
     .global sym_060477BC
 sym_060477BC:
     .4byte 0x00093756    /* gear 0 */

@@ -43,7 +43,10 @@ static int speeds[] = {
     100,            /* small positive */
     0x10000,        /* medium (64K) */
     0x100000,       /* large (1M) — pushes gear_scaled past clamp */
+    0x40000000,     /* very large — negative mid1 after first dmuls */
     0x7FFFFFFF,     /* INT_MAX — overflow when accel added */
+    0x0001B0B1,     /* exact clamp boundary: scaled == 0x2134 (gear 0) */
+    0x0001B0BE,     /* just above clamp: scaled == 0x2135, excess == 1 */
     -1,             /* minimal negative — immediate clamp */
     -0x100000       /* large negative — clamp */
 };
@@ -58,7 +61,7 @@ static int accels[] = {
     0x7FFFFFFF      /* huge — overflow with positive speed */
 };
 
-static short gears[] = { 0, 1, 2, 3 };
+static short gears[] = { 0, 1, 2, 3, -1, 4 };
 
 /* Fill car with canary pattern, then set inputs */
 static void setup_car(char *car, int speed, int accel, short gear)
@@ -104,9 +107,9 @@ void run_tests(void)
     car = &test_car;
     test_num = 0;
 
-    n_speeds = 8;
+    n_speeds = 11;
     n_accels = 7;
-    n_gears = 4;
+    n_gears = 6;
 
     for (si = 0; si < n_speeds; si++) {
         for (ai = 0; ai < n_accels; ai++) {
