@@ -3,13 +3,9 @@
     .section .bss
     .align 4
 
-/* Two car structs for vanilla vs decomp comparison */
-    .global vanilla_car
-vanilla_car:
-    .space 0x268
-
-    .global decomp_car
-decomp_car:
+/* Single car struct — same harness used for both builds */
+    .global test_car
+test_car:
     .space 0x268
 
 /* Gear ratio table — copied from original binary at sym_060477BC */

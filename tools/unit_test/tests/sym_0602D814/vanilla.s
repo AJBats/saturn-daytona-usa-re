@@ -8,13 +8,11 @@
     .section .text.vanilla
     .align 2
 
-    .global vanilla_sym_0602D814
-vanilla_sym_0602D814:
+    .global sym_0602D814
+sym_0602D814:
     /* Adapter: car arrives in r4, original expects r14 */
     mov r4, r14
     /* Fall through to original code */
-
-    /* Original sym_0602D814 */
     mov r14, r0
     mov.l @(12, r0), r4
     mov.w .Lv_d862, r2       /* r2 = 0xFC (accel_delta offset) */

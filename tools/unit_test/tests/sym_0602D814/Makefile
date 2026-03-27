@@ -1,10 +1,13 @@
 # Unit test for sym_0602D814 (speed writer)
 #
-# Builds two disc images:
-#   test_vanilla.cue  — vanilla assembly version
-#   test_decomp.cue   — C decompiled version
-# Both run the same harness, sweep identical inputs, write results to memory.
-# Compare results via MCP: read_memory at _results_start.
+# Run from WSL:
+#   cd tools/unit_test/tests/sym_0602D814
+#   make clean && make
+#
+# Builds two disc images with identical harness:
+#   build/test_vanilla.cue  — linked with original assembly
+#   build/test_decomp.cue   — linked with C decompilation
+# Boot each in Mednafen, read results at _results_start, compare.
 
 PROJDIR  := $(shell cd ../../../.. && pwd)
 TOOLDIR  := $(PROJDIR)/tools/sh-elf/bin
@@ -48,19 +51,12 @@ $(BUILDDIR)/test_vanilla.bin: $(BUILDDIR)/test_vanilla.elf
 	$(OBJCOPY) -O binary $< $@
 
 $(BUILDDIR)/test_vanilla.cue: $(BUILDDIR)/test_vanilla.bin
-	wsl -d Ubuntu -- python3 $(shell wslpath -a $(SHARED)/build_disc.py 2>/dev/null || echo $(SHARED)/build_disc.py) \
-		$(shell wslpath -a $< 2>/dev/null || echo $<) \
-		$(shell wslpath -a $@ 2>/dev/null || echo $@) \
-		$(shell wslpath -a $(SHARED)/IP.BIN 2>/dev/null || echo $(SHARED)/IP.BIN)
+	python3 $(SHARED)/build_disc.py $< $@ $(SHARED)/IP.BIN
 
 # ─── Decomp build ───────────────────────────────────────────────────────
 
 $(BUILDDIR)/decomp.s: decomp.c | $(BUILDDIR)
-	wsl -d Ubuntu -- bash -lc "cd $(shell wslpath -a $(PROJDIR)) && \
-		bash tools/cygnus_compile.sh \
-		$(shell wslpath -a $(CURDIR)/decomp.c) \
-		$(shell wslpath -a $(CURDIR)/$(BUILDDIR)/decomp.s) \
-		decomp_sym_0602D814"
+	bash $(CYGNUS) $(CURDIR)/decomp.c $(CURDIR)/$(BUILDDIR)/decomp.s sym_0602D814
 
 $(BUILDDIR)/decomp.o: $(BUILDDIR)/decomp.s
 	$(AS) -big -o $@ $<
@@ -73,10 +69,7 @@ $(BUILDDIR)/test_decomp.bin: $(BUILDDIR)/test_decomp.elf
 	$(OBJCOPY) -O binary $< $@
 
 $(BUILDDIR)/test_decomp.cue: $(BUILDDIR)/test_decomp.bin
-	wsl -d Ubuntu -- python3 $(shell wslpath -a $(SHARED)/build_disc.py 2>/dev/null || echo $(SHARED)/build_disc.py) \
-		$(shell wslpath -a $< 2>/dev/null || echo $<) \
-		$(shell wslpath -a $@ 2>/dev/null || echo $@) \
-		$(shell wslpath -a $(SHARED)/IP.BIN 2>/dev/null || echo $(SHARED)/IP.BIN)
+	python3 $(SHARED)/build_disc.py $< $@ $(SHARED)/IP.BIN
 
 # ─── Housekeeping ────────────────────────────────────────────────────────
 

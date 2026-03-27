@@ -15,7 +15,7 @@ static __inline__ int fixed_mul(int a, int b)
     return (hi << 16) | ((uint)lo >> 16);
 }
 
-void decomp_sym_0602D814(int car)
+void sym_0602D814(int car)
 {
     int speed, accel_delta;
     int gear_idx, gear_ratio;
