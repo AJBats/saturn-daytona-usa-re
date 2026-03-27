@@ -36,6 +36,7 @@ extern int FUN_06027344();   /* sin lookup */
 extern int FUN_06027348();   /* cos lookup */
 extern int FUN_06027378();   /* atan2 variant */
 extern int sym_0602ECCC();   /* fixed-point divide */
+extern void FUN_0602D924();  /* drift position update (external TU) */
 
 /* External data */
 extern char sym_060477BC;    /* gear ratio table (8 entries x 4 bytes) */
@@ -209,7 +210,8 @@ void sym_0602D8BC(int car)
 
     drift = *(short *)(car + 0x250);
     if (drift != 0) {
-        /* drift handler at 0x0602D924 — external, not in this TU */
+        /* bf to external drift handler — separate TU */
+        FUN_0602D924(car);
         return;
     }
     FUN_0602D8C6(car);
