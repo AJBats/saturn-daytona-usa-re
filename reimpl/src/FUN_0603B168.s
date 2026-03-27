@@ -85,7 +85,7 @@ FUN_0603B1B6:
     cmp/eq #-0x1, r0
     bf/s    .L_0603B1F8
     sub r3, r5
-    .byte   0x9D, 0x3D    /* mov.w .L_wpool_0603B270, r13 */
+    mov.w   DAT_0603b270, r13
     mul.l r13, r5
     sts macl, r13
 .L_0603B1F8:

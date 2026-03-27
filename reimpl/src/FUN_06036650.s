@@ -21,7 +21,7 @@ FUN_06036650:
 .L_0603666A:
     mov r13, r6
     mov r14, r5
-    .byte   0xD3, 0x22    /* mov.l .L_pool_060366F8, r3 */
+    mov.l   .L_060366F8, r3
     jsr @r3
     mov #0x0, r4
     mov r0, r4

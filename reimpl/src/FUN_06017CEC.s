@@ -788,7 +788,7 @@ DAT_0601821a:
     shll2 r3
     shll r3
     add r13, r3
-    .byte   0x92, 0x4E    /* mov.w .L_wpool_060182F2, r2 */
+    mov.w   DAT_060182f2, r2
     mov r2, r0
     mov.w r0, @(6, r3)
 .L_06018258:

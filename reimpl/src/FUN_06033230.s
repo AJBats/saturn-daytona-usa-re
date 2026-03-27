@@ -9,7 +9,7 @@ FUN_06033230:
     bsr     FUN_06033278
     nop
     lds.l @r15+, pr
-    .byte   0xD4, 0x0D    /* mov.l .L_pool_06033270, r4 */
+    mov.l   .L_06033270, r4
     add r4, r1
     and #0xF, r0
     mov r0, r5

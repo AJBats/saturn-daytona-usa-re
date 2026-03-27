@@ -11,7 +11,7 @@ FUN_0600F870:
     .byte   0xD3, 0x18    /* mov.l .L_pool_0600F8DC, r3 */
     jsr @r3
     nop
-    .byte   0xD4, 0x18    /* mov.l .L_pool_0600F8E0, r4 */
+    mov.l   .L_pool_0600F8E2, r4
     mov.w @r4, r2
     add #-0x1, r2
     mov.w r2, @r4
@@ -80,7 +80,7 @@ FUN_0600F8BE:
     .byte   0xD3, 0x19    /* mov.l .L_pool_0600F960, r3 */
     jsr @r3
     mov #0x4, r4
-    .byte   0xD4, 0x19    /* mov.l .L_pool_0600F964, r4 */
+    mov.l   .L_pool_0600F964, r4
     lds.l @r15+, pr
     mov.b @r4, r2
     add #0x1, r2
@@ -89,7 +89,7 @@ FUN_0600F8BE:
 
     .global FUN_0600F90A
 FUN_0600F90A:
-    .byte   0xD4, 0x16    /* mov.l .L_pool_0600F964, r4 */
+    mov.l   .L_pool_0600F964, r4
     mov.b @r4, r3
     add #0x1, r3
     rts

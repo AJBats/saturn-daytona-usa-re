@@ -117,7 +117,7 @@ FUN_06032604:
     jsr @r0
     nop
     lds.l @r15+, pr
-    .byte   0xDD, 0x19    /* mov.l .L_pool_06032674, r13 */
+    mov.l   .L_pool_06032675, r13
     mov.l @r13, r13
     mov.l r7, @-r15
     .byte   0xD0, 0x15    /* mov.l .L_pool_06032668, r0 */

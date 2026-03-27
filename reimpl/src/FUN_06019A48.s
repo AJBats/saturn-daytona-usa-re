@@ -144,7 +144,7 @@ FUN_06019A48:
     .4byte  sym_06026CE0
 .L_06019B50:
     mov.w @(2, r4), r0
-    .byte   0x93, 0x53    /* mov.w _wpool_dpad_left_mask, r3 */
+    mov.w   DAT_06019bfc, r3
     mov r0, r2
     extu.w r2, r2
     and r3, r2
@@ -186,7 +186,7 @@ FUN_06019A48:
     mov.b @r4, r2
     add #0x1, r2
     mov.b r2, @r4
-    .byte   0xD4, 0x19    /* mov.l .L_pool_06019C08, r4 */
+    mov.l   .L_pool_06019C08, r4
     mov.b @r4, r3
     add #0x1, r3
     mov.b r3, @r4

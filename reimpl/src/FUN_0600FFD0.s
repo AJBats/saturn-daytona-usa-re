@@ -109,13 +109,13 @@ DAT_06010046:
     bf      .L_06010088
     .byte   0xD7, 0x1F    /* mov.l .L_pool_060100FC, r7 */
     mov r9, r6
-    .byte   0x95, 0x36    /* mov.w .L_wpool_060100F2, r5 */
+    mov.w   DAT_060100f2, r5
     bra     .L_06010090
     mov #0xC, r4
 .L_06010088:
     .byte   0xD7, 0x1C    /* mov.l .L_pool_060100FC, r7 */
     mov r9, r6
-    .byte   0x95, 0x32    /* mov.w .L_wpool_060100F4, r5 */
+    mov.w   DAT_060100f4, r5
     mov #0x8, r4
 .L_06010090:
     jsr @r11

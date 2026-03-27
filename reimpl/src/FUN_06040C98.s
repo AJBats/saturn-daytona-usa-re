@@ -355,7 +355,7 @@ sym_06040EBA:
 sym_06040EEC:
     mov #0x1, r1
     mov #0x18, r7
-    .byte   0xD6, 0x12    /* mov.l .L_pool_06040F3C, r6 */
+    mov.l   .L_pool_06040F3C, r6
     mov #0x0, r5
 .L_06040EF4:
     mov.l @r6, r0
@@ -540,7 +540,7 @@ sym_06040FEA:
 
     .global sym_06041014
 sym_06041014:
-    .byte   0xD5, 0x11    /* mov.l .L_06041010, r5 */
+    mov.l   .L_pool_0604105C, r5
     mov.l @r5, r3
     mov.l @(48, r3), r0
     tst r0, r0
@@ -684,7 +684,7 @@ FUN_060410CA:
     .byte   0xD3, 0x1B    /* mov.l .L_pool_06041178, r3 */
     jsr @r3
     add #0x8, r4
-    .byte   0xD2, 0x1A    /* mov.l .L_pool_0604117C, r2 */
+    mov.l   .L_pool_0604117C, r2
     mov.l @r2, r2
     mov r15, r3
     add #0x8, r3

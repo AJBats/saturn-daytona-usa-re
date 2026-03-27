@@ -9,7 +9,7 @@ FUN_06017740:
     extu.b r12, r3
     sts.l macl, @-r15
     .byte   0xDA, 0x18    /* mov.l .L_pool_060177A8, r10 */
-    .byte   0xDB, 0x18    /* mov.l .L_pool_060177AC, r11 */
+    mov.l   .L_pool_060177AC, r11
     cmp/pl r3
     bf/s    .L_06017774
     mov #0x0, r14

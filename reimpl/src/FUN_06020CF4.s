@@ -7,7 +7,7 @@
 FUN_06020CF4:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    .byte   0x95, 0x5B    /* mov.w .L_wpool_06020DB2, r5 */
+    mov.w   DAT_06020db2, r5
     .byte   0xD4, 0x2E    /* mov.l .L_pool_06020DB4, r4 */
     exts.w r5, r0
     mov.w r0, @(8, r4)

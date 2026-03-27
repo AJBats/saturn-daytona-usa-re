@@ -6,7 +6,7 @@
     .type FUN_06041180, @function
 FUN_06041180:
     sts.l pr, @-r15
-    .byte   0xD3, 0x1E    /* mov.l .L_pool_060411FC, r3 */
+    mov.l   .L_pool_060411FC, r3
     mov.l @r3, r3
     mov.l @(56, r3), r2
     cmp/eq r5, r2

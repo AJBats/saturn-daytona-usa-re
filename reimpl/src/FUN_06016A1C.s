@@ -9,7 +9,7 @@ FUN_06016A1C:
     add #-0x4, r15
     mov.b r4, @r15
     mov.b @r15, r14
-    .byte   0xD2, 0x2C    /* mov.l .L_pool_06016AD8, r2 */
+    mov.l   .L_pool_06016AD8, r2
     mov.b @r15, r4
     extu.b r14, r14
     mov r14, r3

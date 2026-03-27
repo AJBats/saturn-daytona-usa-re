@@ -387,7 +387,7 @@ DAT_0603fb24:
     mov #0x34, r0
     mov.b @(r0, r14), r0
     extu.b r0, r0
-    .byte   0x93, 0x35    /* mov.w .L_wpool_0603FCB6, r3 */
+    mov.w   DAT_0603fcb6, r3
     and r3, r0
 .L_0603FC4C:
     add #0x4, r15

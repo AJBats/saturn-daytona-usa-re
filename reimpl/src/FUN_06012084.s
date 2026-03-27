@@ -6,10 +6,10 @@
     .type FUN_06012084, @function
 FUN_06012084:
     sts.l pr, @-r15
-    .byte   0xDE, 0x0F    /* mov.l .L_pool_060120C4, r14 */
+    mov.l   .L_pool_060120C4, r14
     jsr @r14
     mov #0x8, r4
-    .byte   0x94, 0x19    /* mov.w .L_wpool_060120C2, r4 */
+    mov.w   .L_wpool_060120C2, r4
     jsr @r14
     mov #0x5, r5
     mov #0x4, r5

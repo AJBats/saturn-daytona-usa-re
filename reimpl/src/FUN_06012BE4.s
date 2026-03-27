@@ -7,7 +7,7 @@
 FUN_06012BE4:
     sts.l pr, @-r15
     .byte   0xDC, 0x20    /* mov.l .L_fn_ptr_cdb_read_status, r12 */
-    .byte   0x9E, 0x3D    /* mov.w .L_pool_06012C67, r14 */
+    mov.w   DAT_06012c66, r14
     .byte   0xD7, 0x20    /* mov.l .L_str_set_daytona_disc, r7 */
     .byte   0xD6, 0x20    /* mov.l .L_pool_06012C70, r6 */
     .byte   0xD3, 0x21    /* mov.l .L_fn_ptr_geom_render_dispatch, r3 */

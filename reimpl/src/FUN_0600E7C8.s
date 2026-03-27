@@ -241,7 +241,7 @@ DAT_0600e922:
     jsr @r3
     nop
     .byte   0xD5, 0x28    /* mov.l .L_pool_0600E9F8, r5 */
-    .byte   0xD3, 0x29    /* mov.l .L_pool_0600E9FC, r3 */
+    mov.l   .L_0600E9FC, r3
     jsr @r3
     mov.l @(12, r14), r4
     shlr16 r0
@@ -251,7 +251,7 @@ DAT_0600e922:
     .byte   0xD3, 0x26    /* mov.l .L_pool_0600EA00, r3 */
     jsr @r3
     mov.l r2, @(48, r14)
-    .byte   0x90, 0x3A    /* mov.w .L_wpool_0600E9E2, r0 */
+    mov.w   .L_wpool_0600E9E2, r0
     .byte   0xD3, 0x25    /* mov.l .L_pool_0600EA04, r3 */
     mov.l @(r0, r14), r2
     mov.l @r3, r3
@@ -267,7 +267,7 @@ DAT_0600e922:
     tst r0, r0
     bf      .L_0600E994
     mov #0x0, r3
-    .byte   0x90, 0x2B    /* mov.w .L_wpool_0600E9E4, r0 */
+    mov.w   DAT_0600e9e4, r0
     mov.l r3, @(r0, r14)
     .byte   0x93, 0x2A    /* mov.w .L_wpool_0600E9E6, r3 */
     add #-0x18, r0

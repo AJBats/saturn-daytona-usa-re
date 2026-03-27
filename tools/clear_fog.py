@@ -179,6 +179,12 @@ def process_file(filepath, apply=False):
 
             if target in addr_to_label:
                 label = addr_to_label[target]
+                # mov.l requires pool target to be 4-byte aligned relative
+                # to section start. GNU as checks this and rejects if not.
+                # SUBALIGN(2) means sections can start at 2-byte boundaries,
+                # causing the assembler's check to fail for valid runtime code.
+                if insn_type == 'mov.l' and (target - section_addr) % 4 != 0:
+                    continue  # skip — assembler would reject
                 # Preserve original indentation
                 indent = line[:len(line) - len(line.lstrip())]
                 new_line = f"{indent}{insn_type}   {label}, r{reg}\n"

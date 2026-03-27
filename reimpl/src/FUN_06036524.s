@@ -8,7 +8,7 @@ FUN_06036524:
     sts.l pr, @-r15
     add #-0x10, r15
     mov r15, r4
-    .byte   0xD3, 0x24    /* mov.l .L_pool_060365BC, r3 */
+    mov.l   .L_060365BC, r3
     jsr @r3
     add #0x8, r4
     mov r15, r2
@@ -18,7 +18,7 @@ FUN_06036524:
     add #0x8, r2
     add #0x8, r5
     mov.b r3, @r2
-    .byte   0xD3, 0x20    /* mov.l .L_pool_060365C0, r3 */
+    mov.l   .L_060365C0, r3
     jsr @r3
     mov #0x0, r4
     mov r0, r4

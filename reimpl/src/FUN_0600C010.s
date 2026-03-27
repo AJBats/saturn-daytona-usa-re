@@ -179,7 +179,7 @@ FUN_0600C010:
     add #-0x1, r2
     mov.b r2, @r13
 .L_0600C152:
-    .byte   0xD3, 0x17    /* mov.l .L_pool_0600C1B4, r3 */
+    mov.l   .L_0600C1B0, r3
     jsr @r3
     nop
     mov.l @r12, r2

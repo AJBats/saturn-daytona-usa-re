@@ -256,7 +256,7 @@ DAT_0602c7fa:
     .byte   0x98, 0x41    /* mov.w .L_wpool_0602C89A, r8 (r8 = 0x00EE, activation weight for bit 0 = 238) [HIGH] */
     mov #0x1, r9
 .L_0602C818:
-    .byte   0x96, 0x40    /* mov.w .L_wpool_0602C89C, r6 (r6 = 0x0004, activation bit 2 mask) [HIGH] */
+    mov.w   DAT_0602c89c, r6
     tst r6, r4
     not r6, r7
     bt/s    .L_0602C828
@@ -265,7 +265,7 @@ DAT_0602c7fa:
     add r6, r8
     add #0x1, r9
 .L_0602C828:
-    .byte   0x96, 0x3A    /* mov.w .L_wpool_0602C8A0, r6 (r6 = 0x0002, activation bit 1 mask) [HIGH] */
+    mov.w   DAT_0602c8a0, r6
     tst r6, r4
     not r6, r7
     bt/s    .L_0602C838

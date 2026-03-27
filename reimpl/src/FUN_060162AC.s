@@ -131,12 +131,12 @@ FUN_060162AC:
     mov.l r2, @(4, r4)
     extu.b r10, r11
 .L_060163A2:
-    .byte   0xD0, 0x2E    /* mov.l .L_pool_0601645C, r0 */
+    mov.l   .L_pool_0601645C, r0
     mov.b @r0, r0
     tst r0, r0
     bt      .L_060163E0
     extu.b r14, r4
-    .byte   0x92, 0x55    /* mov.w .L_wpool_0601645A, r2 */
+    mov.w   .L_0601645A, r2
     mov r4, r3
     shll2 r4
     shll2 r3

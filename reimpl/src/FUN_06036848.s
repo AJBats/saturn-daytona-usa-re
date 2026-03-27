@@ -7,7 +7,7 @@
 FUN_06036848:
     sts.l pr, @-r15
     add #-0x8, r15
-    .byte   0xD3, 0x21    /* mov.l .L_pool_060368D4, r3 */
+    mov.l   .L_060368D4, r3
     jsr @r3
     mov r15, r4
     mov r15, r2
@@ -25,8 +25,8 @@ FUN_06036848:
     mov r15, r3
     mov r13, r0
     mov.w r0, @(6, r3)
-    .byte   0x94, 0x2E    /* mov.w .L_wpool_060368D0, r4 */
-    .byte   0xD3, 0x19    /* mov.l .L_pool_060368D8, r3 */
+    mov.w   .L_060368D0, r4
+    mov.l   .L_060368D8, r3
     jsr @r3
     mov r15, r5
     mov r0, r4

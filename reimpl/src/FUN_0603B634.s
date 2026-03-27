@@ -30,7 +30,7 @@ FUN_0603B634:
     .2byte 0xA000    /* bra FUN_0603B93C (linker-resolved) */
     mov.l @r15+, r14
 .L_0603B65E:
-    .byte   0xD2, 0x10    /* mov.l .L_pool_0603B6A0, r2 */
+    mov.l   .L_0603B6A0, r2
     mov.l @r2, r2
     .byte   0x90, 0x19    /* mov.w .L_wpool_0603B698, r0 */
     mov.l r14, @(r0, r2)

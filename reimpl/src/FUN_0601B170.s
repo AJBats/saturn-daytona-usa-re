@@ -379,7 +379,7 @@ DAT_0601b392:
 .L_0601B3F0:
     .4byte  sym_0608600D
 .L_0601B3F4:
-    .byte   0xD3, 0x19    /* mov.l r3, sym_0608600C */
+    mov.l   .L_pool_0601B45C, r3
     mov.b r2, @r3
     .byte   0xD3, 0x19    /* mov.l r3, sym_0608600E */
     mov.b r2, @r3

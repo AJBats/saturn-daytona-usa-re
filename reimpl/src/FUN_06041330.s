@@ -168,7 +168,7 @@ FUN_0604140E:
     .byte   0xD3, 0x1C    /* mov.l .L_pool_060414C8, r3 */
     jsr @r3
     mov r15, r4
-    .byte   0xD2, 0x1C    /* mov.l .L_pool_060414CC, r2 */
+    mov.l   .L_060414CC, r2
     mov.l @r2, r2
     mov r15, r3
     mov.b @r3, r1

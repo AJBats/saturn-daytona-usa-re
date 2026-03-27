@@ -139,10 +139,10 @@ DAT_060082b2:
     bt      .L_060082FC
     mov.l @r14, r3
     mov #0x1, r2
-    .byte   0x90, 0x39    /* mov.w .L_wpool_06008358, r0 */
+    mov.w   .L_06008358, r0
     mov.l r4, @(r0, r3)
     mov.l @r14, r3
-    .byte   0x90, 0x37    /* mov.w .L_wpool_0600835A, r0 */
+    mov.w   DAT_0600835a, r0
     mov.l r2, @(r0, r3)
     mov.l @r6, r3
     and r3, r5

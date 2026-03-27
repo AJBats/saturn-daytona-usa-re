@@ -114,7 +114,7 @@ FUN_0604077C:
 .L_pool_0604084C:
     .4byte  FUN_06041034
 .L_06040850:
-    .byte   0x96, 0x24    /* mov.w .L_wpool_0604089C, r6 */
+    mov.w   DAT_0604089c, r6
     mov.l @(4, r15), r5
     .byte   0xD3, 0x12    /* mov.l .L_pool_060408A0, r3 */
     jsr @r3

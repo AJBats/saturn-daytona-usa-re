@@ -155,7 +155,7 @@ FUN_06013C10:
     .byte   0xD2, 0x0F    /* mov.l .L_pool_06013C50, r2 */
     mov.b r3, @r2
     mov #0x0, r3
-    .byte   0xD2, 0x0E    /* mov.l .L_pool_06013C54, r2 */
+    mov.l   .L_pool_06013C54, r2
     mov.w r3, @r2
     .byte   0xA0, 0x00    /* bra FUN_06013C20 (falls through) */
     nop

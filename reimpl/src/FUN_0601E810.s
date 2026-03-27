@@ -290,7 +290,7 @@ FUN_0601E958:
     mov.b r4, @r2
     mov.l @r9, r6
     mov.b @r14, r5
-    .byte   0xD2, 0x2D    /* mov.l @(0xB4,PC), r2 */
+    mov.l   .L_pool_0601EAD8, r2
     mov.b @r14, r4
     extu.b r5, r5
     extu.b r4, r4
@@ -405,7 +405,7 @@ FUN_0601EAA0:
     mov.b @r14, r0
     extu.b r0, r0
     mov.b r5, @(r0, r6)
-    .byte   0xD6, 0x19    /* mov.l .L_pool_0601EB5C, r6 */
+    mov.l   .L_pool_0601EB5C, r6
     cmp/ge r2, r4
     bf      .L_0601EB08
     mov.b @r14, r0

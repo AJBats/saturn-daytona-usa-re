@@ -360,7 +360,7 @@ DAT_0602f1f2:
     add #-0x1, r1
     mov r1, r3
     mov.w r1, @(r0, r9)
-    .byte   0x98, 0x22    /* mov.w .L_wpool_0602F24C, r8 */
+    mov.w   DAT_0602f24c, r8
     mov.l @(r0, r8), r4
     shll16 r4
     .byte   0xD2, 0x12    /* mov.l .L_pool_0602F254, r2 */

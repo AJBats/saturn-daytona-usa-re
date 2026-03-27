@@ -1210,7 +1210,7 @@ DAT_0600f34a:
     extu.w r11, r3
     .byte   0xD2, 0x22    /* mov.l .L_pool_0600F480, r2 */
     mov.w r3, @r2
-    .byte   0xD2, 0x22    /* mov.l .L_pool_0600F484, r2 */
+    mov.l   .L_0600F484, r2
     mov.b r11, @r2
     .byte   0xD4, 0x22    /* mov.l .L_pool_0600F488, r4 */
     .byte   0xD1, 0x23    /* mov.l .L_pool_0600F48C, r1 */

@@ -149,7 +149,7 @@ FUN_06004F28:
     shll r6
     shll r4
     add r3, r4
-    .byte   0xD3, 0x28    /* mov.l .L_pool_060050E0, r3 */
+    mov.l   .L_060050E0, r3
     jsr @r3
     mov r13, r5
 .L_06005042:

@@ -316,9 +316,9 @@ FUN_0601228C:
     mov #0x10, r2
     mov.l r5, @r4
     exts.b r5, r5
-    .byte   0xD3, 0x10    /* mov.l .L_pool_0601232C, r3 */
+    mov.l   .L_0601232C, r3
     mov.l r2, @r3
-    .byte   0xD3, 0x10    /* mov.l .L_pool_06012330, r3 */
+    mov.l   .L_06012330, r3
     lds.l @r15+, pr
     rts
     mov.b r5, @r3

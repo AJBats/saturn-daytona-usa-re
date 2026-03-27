@@ -186,12 +186,12 @@ FUN_0603ACEA:
 
 .L_0603AD40:
     mov.l @r13, r2
-    .byte   0x90, 0x4A    /* mov.w .L_wpool_0603ADDA, r0 */
+    mov.w   .L_0603ADDA, r0
     mov.l @(r0, r2), r0
     tst r0, r0
     bf      .L_0603AD5A
     mov.l @r13, r5
-    .byte   0x90, 0x46    /* mov.w .L_wpool_0603ADDC, r0 */
+    mov.w   .L_0603ADDC, r0
     .byte   0xD3, 0x24    /* mov.l .L_pool_0603ADE0, r3 */
     mov.l @(r0, r5), r5
     jsr @r3
@@ -200,7 +200,7 @@ FUN_0603ACEA:
     nop
 .L_0603AD5A:
     mov.l @r13, r5
-    .byte   0x90, 0x3E    /* mov.w .L_wpool_0603ADDC, r0 */
+    mov.w   .L_0603ADDC, r0
     .byte   0xD3, 0x21    /* mov.l .L_pool_0603ADE4, r3 */
     mov.l @(r0, r5), r5
     jsr @r3

@@ -7,7 +7,7 @@
 FUN_0601F40C:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    .byte   0xDE, 0x20    /* mov.l .L_pool_0601F494, r14 */
+    mov.l   .L_pool_0601F495, r14
     .byte   0xD2, 0x21    /* mov.l .L_pool_0601F498, r2 */
     mov.b @r14, r3
     extu.b r3, r3
@@ -21,7 +21,7 @@ FUN_0601F40C:
     nop
     .byte   0xD6, 0x1D    /* mov.l .L_pool_0601F49C, r6 */
     mov.b @r14, r5
-    .byte   0xD2, 0x1D    /* mov.l .L_pool_0601F4A0, r2 */
+    mov.l   .L_pool_0601F4A1, r2
     mov.b @r14, r4
     mov.l @r6, r6
     extu.b r5, r5
@@ -32,7 +32,7 @@ FUN_0601F40C:
     shll r3
     add r3, r5
     add r2, r5
-    .byte   0xD3, 0x18    /* mov.l .L_pool_0601F4A4, r3 */
+    mov.l   .L_pool_0601F4A5, r3
     add r3, r4
     mov.b @r4, r4
     .reloc ., R_SH_IND12W, FUN_0601E810 - 4

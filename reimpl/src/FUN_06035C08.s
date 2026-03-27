@@ -55,7 +55,7 @@ sym_06035C48:
 
     .global sym_06035C4E
 sym_06035C4E:
-    .byte   0xD0, 0x0A    /* mov.l pool@0x06035C78 (external: CD HIRQ reg addr), r0 */
+    mov.l   .L_06035C78, r0
     rts
     mov.w @r0, r0
 

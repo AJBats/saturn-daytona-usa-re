@@ -21,7 +21,7 @@ FUN_06035E90:
 FUN_06035EA2:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    .byte   0xD3, 0x11    /* mov.l .L_pool_06035EEC, r3 */
+    mov.l   .L_06035EEC, r3
     jsr @r3
     mov r6, r14
     mov r0, r4
@@ -64,7 +64,7 @@ FUN_06035EC8:
     .4byte  FUN_06035D22
     .4byte  sym_06063594
 .L_06035EF4:
-    .byte   0xD5, 0x10    /* mov.l .L_input_config_table, r5 */
+    mov.l   .L_06035F38, r5
     bsr     FUN_06035F16
     mov r15, r4
     mov r14, r0

@@ -130,7 +130,7 @@ DAT_0600ccfa:
     .4byte  sym_0607EB88
 
 .L_0600CD04:
-    .byte   0x90, 0x5A    /* mov.w .L_wpool_0600CDBC, r0 */
+    mov.w   DAT_0600cdbc, r0
     mov.l @(r0, r6), r2
     shll2 r2
     shll r2

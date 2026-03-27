@@ -13,7 +13,7 @@ FUN_06015D30:
     mov #0x5, r11
     mov #0x8, r12
     mov #0x0, r13
-    .byte   0xDE, 0x27    /* mov.l .L_pool_06015DE0, r14 */
+    mov.l   .L_pool_06015DE0, r14
     mov.b r4, @r15
     extu.b r13, r4
 .L_06015D46:
@@ -54,7 +54,7 @@ FUN_06015D30:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xD3, 0x15    /* mov.l .L_pool_06015DE4, r3 */
+    mov.l   .L_pool_06015DE4, r3
     jmp @r3
     mov.l @r15+, r14
 

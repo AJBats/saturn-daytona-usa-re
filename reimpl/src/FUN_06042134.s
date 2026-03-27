@@ -161,7 +161,7 @@ DAT_0604222e:
     mov.l @r14, r7
     exts.w r5, r4
     exts.w r13, r6
-    .byte   0x93, 0x5E    /* mov.w .L_wpool_0604230A, r3 */
+    mov.w   DAT_0604230a, r3
     add r3, r7
     mov r4, r3
     mov r7, r2
@@ -182,7 +182,7 @@ DAT_0604222e:
     mov.l @r1, r3
     mov.l r3, @r2
     mov.l @r14, r7
-    .byte   0x93, 0x49    /* mov.w .L_wpool_0604230A, r3 */
+    mov.w   DAT_0604230a, r3
     add r3, r7
     mov r7, r2
     add r4, r2
@@ -191,7 +191,7 @@ DAT_0604222e:
     mov.l @(4, r3), r1
     mov.l r1, @(4, r2)
     mov.l @r14, r7
-    .byte   0x93, 0x40    /* mov.w .L_wpool_0604230A, r3 */
+    mov.w   DAT_0604230a, r3
     add r3, r7
     add r7, r4
     add r7, r6
@@ -201,17 +201,17 @@ DAT_0604222e:
     add #0x1, r5
 .L_06042296:
     mov.l @r14, r3
-    .byte   0x90, 0x38    /* mov.w .L_wpool_0604230C, r0 */
+    mov.w   DAT_0604230c, r0
     mov.l @(r0, r3), r2
     cmp/ge r2, r13
     bf      .L_06042244
     mov.l @r14, r2
-    .byte   0x90, 0x33    /* mov.w .L_wpool_0604230C, r0 */
+    mov.w   DAT_0604230c, r0
     mov.l r5, @(r0, r2)
 .L_060422A6:
     mov #0x40, r3
     mov.l r3, @r15
-    .byte   0xD3, 0x19    /* mov.l .L_pool_06042310, r3 */
+    mov.l   .L_06042310, r3
     jsr @r3
     nop
     mov r0, r5
@@ -228,7 +228,7 @@ DAT_0604222e:
     tst r4, r4
     bt      .L_060422D6
     mov.l @r14, r3
-    .byte   0x90, 0x20    /* mov.w .L_wpool_0604230C, r0 */
+    mov.w   DAT_0604230c, r0
     mov.l @(r0, r3), r0
     tst r0, r0
     bf      .L_060422D6
@@ -237,7 +237,7 @@ DAT_0604222e:
     mov.l r12, @(r0, r3)
 .L_060422D6:
     mov.l @r14, r0
-    .byte   0x91, 0x18    /* mov.w .L_wpool_0604230C, r1 */
+    mov.w   DAT_0604230c, r1
     mov.l @(r0, r1), r0
     add #0x10, r15
     lds.l @r15+, pr

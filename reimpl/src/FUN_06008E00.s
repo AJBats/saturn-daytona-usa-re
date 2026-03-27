@@ -13,7 +13,7 @@ FUN_06008E00:
     jsr @r3
     nop
     mov #0xD, r2
-    .byte   0xD3, 0x1E    /* mov.l .L_game_state, r3 */
+    mov.l   .L_06008E8C, r3
     mov.l r2, @r3
     .byte   0xD3, 0x1E    /* mov.l .L_fn_car_physics_init, r3 */
     jsr @r3
@@ -26,11 +26,11 @@ FUN_06008E00:
     mov.l @r4, r3
     or r2, r3
     mov.l r3, @r4
-    .byte   0xD3, 0x1D    /* mov.l .L_fn_display_commit, r3 */
+    mov.l   .L_06008EA0, r3
     jsr @r3
     nop
     mov #0x0, r2
-    .byte   0xD3, 0x1C    /* mov.l .L_results_flag, r3 */
+    mov.l   .L_06008EA4, r3
     mov.l r2, @r3
     mov #0x3, r2
     .byte   0xD3, 0x1B    /* mov.l .L_phase_flag, r3 */

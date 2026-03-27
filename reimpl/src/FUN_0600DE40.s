@@ -6,8 +6,8 @@
     .type FUN_0600DE40, @function
 FUN_0600DE40:
     sts.l pr, @-r15
-    .byte   0xD3, 0x1C    /* mov.l .L_pool_0600DEB4, r3 */
-    .byte   0xD2, 0x1C    /* mov.l .L_pool_0600DEB8, r2 */
+    mov.l   .L_pool_0600DEB4, r3
+    mov.l   .L_pool_0600DEB8, r2
     mov.l @r3, r3
     shar r3
     mov.w r3, @r2
@@ -23,13 +23,13 @@ FUN_0600DE40:
     .type FUN_0600DE54, @function
 FUN_0600DE54:
     sts.l pr, @-r15
-    .byte   0xD3, 0x17    /* mov.l .L_pool_0600DEB4, r3 */
-    .byte   0xD2, 0x17    /* mov.l .L_pool_0600DEB8, r2 */
+    mov.l   .L_pool_0600DEB4, r3
+    mov.l   .L_pool_0600DEB8, r2
     mov.l @r3, r3
     shar r3
     mov.w r3, @r2
-    .byte   0xD1, 0x16    /* mov.l .L_pool_0600DEBC, r1 */
-    .byte   0xD2, 0x17    /* mov.l .L_pool_0600DEC0, r2 */
+    mov.l   .L_pool_0600DEBC, r1
+    mov.l   .L_pool_0600DEC0, r2
     mov.l @r1, r1
     mov.l r1, @r2
     .reloc ., R_SH_IND12W, FUN_0600E99C - 4

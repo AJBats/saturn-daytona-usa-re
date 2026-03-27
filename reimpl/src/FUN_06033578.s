@@ -141,7 +141,7 @@ FUN_06033648:
     bra     .L_0603366C
     mov #0x1, r6
 .L_0603365A:
-    .byte   0xD0, 0x82    /* mov.l .L_pool_06033864, r0 */
+    mov.l   sym_06033864, r0
     mov.l @r0, r0
     cmp/pl r0
     .byte   0x89, 0x28    /* bt 0x060336B4 (external) */
@@ -178,7 +178,7 @@ FUN_0603367A:
     bt      .L_06033682
 .L_06033692:
     mov #0x6, r2
-    .byte   0xD3, 0x7A    /* mov.l .L_pool_06033880, r3 */
+    mov.l   sym_06033880, r3
     mov.b @r3, r3
     cmp/pl r3
     bt      .L_060336AA

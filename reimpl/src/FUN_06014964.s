@@ -7,8 +7,8 @@
 FUN_06014964:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    .byte   0xDE, 0x17    /* mov.l .L_pool_060149C8, r14 */
-    .byte   0x94, 0x2B    /* mov.w .L_wpool_060149C4, r4 */
+    mov.l   .L_pool_060149C8, r14
+    mov.w   .L_wpool_060149C4, r4
     jsr @r14
     mov #0x0, r5
     mov #0x1, r5

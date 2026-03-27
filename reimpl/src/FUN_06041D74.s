@@ -205,7 +205,7 @@ DAT_06041eb6:
     jsr @r3
     nop
     mov.l @r14, r2
-    .byte   0x90, 0x5D    /* mov.w .L_wpool_06041F90, r0 */
+    mov.w   DAT_06041f90, r0
     mov.l r13, @(r0, r2)
     mov.l @r14, r3
     mov.l r13, @(52, r3)

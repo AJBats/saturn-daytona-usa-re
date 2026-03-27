@@ -128,7 +128,7 @@ FUN_06015678:
     shll2 r2
     add r2, r3
     exts.w r3, r3
-    .byte   0xD1, 0x28    /* mov.l .L_pool_06015730, r1 */
+    mov.l   .L_pool_06015730, r1
     add r1, r3
     mov.b @(2, r3), r0
     mov r0, r3

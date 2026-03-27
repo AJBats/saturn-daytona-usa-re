@@ -18,11 +18,11 @@ FUN_06008B04:
     .byte   0xD3, 0x11    /* mov.l .L_pool_06008B60, r3 */
     jsr @r3
     nop
-    .byte   0xD3, 0x11    /* mov.l .L_pool_06008B64, r3 */
+    mov.l   .L_pool_06008B64, r3
     jsr @r3
     nop
     mov #0x0, r2
-    .byte   0xD3, 0x10    /* mov.l .L_pool_06008B68, r3 */
+    mov.l   .L_pool_06008B68, r3
     mov.l r2, @r3
     mov #0x3, r2
     .byte   0xD3, 0x0F    /* mov.l .L_pool_06008B6C, r3 */
