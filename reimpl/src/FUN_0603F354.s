@@ -37,7 +37,7 @@ FUN_0603F354:
     mov #0xC, r6
     mov r15, r5
     mov r14, r4
-    .byte   0xD3, 0x28    /* mov.l .L_pool_0603F430, r3 */
+    mov.l   .L_pool_0603F430, r3
     add #0x4, r5
     add #0x10, r5
     jsr @r3
@@ -85,8 +85,8 @@ FUN_0603F3DA:
 
 .L_0603F3DA:
     mov.l r5, @r4
-    .byte   0xD3, 0x15    /* mov.l .L_pool_0603F434, r3 */
-    .byte   0x92, 0x24    /* mov.w .L_wpool_0603F42A, r2 */
+    mov.l   .L_pool_0603F434, r3
+    mov.w   .L_pool_0603F42A, r2
     mov.l @r3, r3
     add r3, r2
     mov.l r2, @(4, r4)
@@ -129,11 +129,14 @@ FUN_0603F3F6:
     mov.l   .L_pool_0603F439, r3
     jmp @r3
     mov.l @r15+, r14
+.L_pool_0603F42A:
     .2byte  0x043C
 .L_0603F42C:
     .2byte  0x0800
     .2byte  0xFFFF
+.L_pool_0603F430:
     .4byte  sym_06036D94
+.L_pool_0603F434:
     .4byte  sym_060A4D14
 .L_pool_0603F439:
     .4byte  sym_06036D78
@@ -142,14 +145,14 @@ FUN_0603F3F6:
     mov r4, r0
     cmp/eq #-0x1, r0
     bt      .L_0603F44A
-    .byte   0x93, 0x3D    /* mov.w .L_0603F42C_ext, r3 */
+    mov.w   .L_pool_0603F4C2, r3
     cmp/ge r3, r4
     bf      .L_0603F45A
 .L_0603F44A:
     mov r11, r7
     mov.l @(4, r14), r6
     mov #0x1, r5
-    .byte   0xD3, 0x1C    /* mov.l .L_fn_cmd_multi_validate, r3 */
+    mov.l   .L_pool_0603F4C4, r3
     jsr @r3
     mov.l @r14, r4
     mov #0x0, r2
@@ -168,7 +171,7 @@ FUN_0603F3F6:
 .L_0603F46C:
     mov r12, r6
     mov.l @(4, r14), r5
-    .byte   0xD3, 0x15    /* mov.l .L_fn_memmove, r3 */
+    mov.l   .L_pool_0603F4C8, r3
     add r9, r5
     jsr @r3
     mov r10, r4
@@ -180,13 +183,13 @@ FUN_0603F3F6:
     sub r12, r13
     mov r11, r7
     mov #0x1, r5
-    .byte   0xD3, 0x0E    /* mov.l .L_fn_cmd_multi_validate, r3 */
+    mov.l   .L_pool_0603F4C4, r3
     mov.l @(4, r14), r6
     jsr @r3
     mov.l @r14, r4
     mov r13, r6
     mov r12, r4
-    .byte   0xD3, 0x0C    /* mov.l .L_fn_memmove, r3 */
+    mov.l   .L_pool_0603F4C8, r3
     mov.l @(4, r14), r5
     jsr @r3
     add r10, r4
@@ -215,6 +218,9 @@ FUN_0603F4B0:
     lds.l @r15+, pr
     rts
     nop
+.L_pool_0603F4C2:
     .2byte  0x0800
+.L_pool_0603F4C4:
     .4byte  FUN_0603B21C
+.L_pool_0603F4C8:
     .4byte  sym_060360FC

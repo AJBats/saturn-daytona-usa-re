@@ -48,17 +48,17 @@ FUN_0603B324:
     .2byte 0xB000    /* bsr FUN_0603BE7C (linker-resolved) */
     mov.l @r14, r4
     mov #0x0, r5
-    .byte   0xD3, 0x10    /* mov.l .L_pool_0603B3B0, r3 */
+    mov.l   .L_pool_0603B3B0, r3
     jsr @r3
     mov.l @(8, r14), r4
     mov #0x1, r7
     mov #0x0, r6
-    .byte   0xD3, 0x0F    /* mov.l .L_pool_0603B3B4, r3 */
+    mov.l   .L_pool_0603B3B4, r3
     mov r6, r5
     jsr @r3
     mov.l @(4, r14), r4
     mov #-0x1, r5
-    .byte   0xD3, 0x0D    /* mov.l .L_pool_0603B3B8, r3 */
+    mov.l   .L_pool_0603B3B8, r3
     jsr @r3
     mov.l @(8, r14), r4
     mov #0x0, r4
@@ -89,8 +89,11 @@ FUN_0603B392:
     lds.l @r15+, pr
     rts
     mov #0x1, r0
+.L_pool_0603B3B0:
     .4byte  sym_0603F9DA
+.L_pool_0603B3B4:
     .4byte  sym_0603EF54
+.L_pool_0603B3B8:
     .4byte  FUN_0603FA1A
 .L_0603B3BC:
     mov #0x0, r0

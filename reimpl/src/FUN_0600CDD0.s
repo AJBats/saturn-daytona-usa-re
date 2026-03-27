@@ -36,7 +36,7 @@ FUN_0600CDD0:
     bra     .L_0600CE10
     add #-0x1, r12
 .L_0600CE0C:
-    .byte   0xDC, 0x21    /* mov.l .L_pool_0600CE94, r12 */
+    mov.l   .L_pool_0600CE94, r12
     mov.l @r12, r12
 .L_0600CE10:
     mov r12, r11
@@ -54,7 +54,7 @@ FUN_0600CDD0:
     mov.l @r11, r4
     mov.l @(16, r14), r2
     sub r3, r5
-    .byte   0xD3, 0x1A    /* mov.l .L_pool_0600CE98, r3 */
+    mov.l   .L_pool_0600CE98, r3
     jsr @r3
     sub r2, r4
     exts.w r0, r6
@@ -129,7 +129,9 @@ DAT_0600ce8e:
     .2byte  0x01EC
 .L_pool_0600CE91:
     .4byte  sym_0607E940
+.L_pool_0600CE94:
     .4byte  sym_0607EA9C
+.L_pool_0600CE98:
     .4byte  FUN_0602744C
 .L_0600CE9C:
     bsr     FUN_0600CDD0

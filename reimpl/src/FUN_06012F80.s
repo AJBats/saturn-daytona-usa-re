@@ -1438,25 +1438,25 @@ DAT_060137c2:
 .L_06013818:
     .4byte  sym_06084B08
 .L_0601381C:
-    .byte   0xD3, 0x2F    /* mov.l .L_game_timer_addr, r3 */
+    mov.l   .L_pool_060138DC, r3
     mov.l r4, @r3
     mov #0x0, r2
-    .byte   0xD3, 0x2F    /* mov.l .L_game_counter_addr, r3 */
+    mov.l   .L_pool_060138E0, r3
     mov.l r2, @r3
     mov #0x50, r2
-    .byte   0xD3, 0x2E    /* mov.l .L_init_param_0x50, r3 */
+    mov.l   .L_pool_060138E4, r3
     mov.l r2, @r3
     mov.w   DAT_060138d6, r2
-    .byte   0xD3, 0x2E    /* mov.l .L_vdp1_framebuf_cfg, r3 */
+    mov.l   .L_pool_060138E8, r3
     mov.w r2, @r3
     mov.w   DAT_060138d8, r2
-    .byte   0xD3, 0x2D    /* mov.l .L_display_mode_addr, r3 */
+    mov.l   .L_pool_060138EC, r3
     mov.l r2, @r3
     mov #0x0, r5
     extu.b r5, r2
-    .byte   0xD3, 0x2C    /* mov.l .L_player_state_byte, r3 */
+    mov.l   .L_pool_060138F0, r3
     mov.b r2, @r3
-    .byte   0xD4, 0x2C    /* mov.l .L_player_flags_base, r4 */
+    mov.l   .L_pool_060138F4, r4
     extu.b r5, r3
     mov.b r3, @r4
     add #0x1, r4
@@ -1470,8 +1470,8 @@ DAT_060137c2:
     mov.b r5, @r4
     mov.l @r6, r4
     shll2 r4
-    .byte   0xD3, 0x26    /* mov.l .L_course_seg_table, r3 */
-    .byte   0xD1, 0x27    /* mov.l .L_track_seg_count_addr, r1 */
+    mov.l   .L_pool_060138F8, r3
+    mov.l   .L_pool_060138FC, r1
     shll2 r4
     shll r4
     add r3, r4
@@ -1482,15 +1482,15 @@ DAT_060137c2:
     mov.l @r4, r3
     mov.w   DAT_060138da, r2
     add r2, r3
-    .byte   0xD2, 0x22    /* mov.l .L_course_base_addr, r2 */
+    mov.l   .L_pool_06013900, r2
     mov.l r3, @r2
-    .byte   0xD2, 0x22    /* mov.l .L_race_lap_count_addr, r2 */
+    mov.l   .L_pool_06013904, r2
     mov.w r1, @r2
-    .byte   0xD5, 0x22    /* mov.l .L_fn_course_data_init, r5 */
-    .byte   0xD2, 0x23    /* mov.l .L_fn_race_config, r2 */
+    mov.l   .L_pool_06013908, r5
+    mov.l   .L_pool_0601390C, r2
     jsr @r2
     mov r1, r4
-    .byte   0xD3, 0x22    /* mov.l .L_fn_final_init, r3 */
+    mov.l   .L_pool_06013910, r3
     jsr @r3
     nop
     add #0x8, r15
@@ -1500,7 +1500,7 @@ DAT_060137c2:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xD3, 0x1E    /* mov.l .L_fn_tail_call, r3 */
+    mov.l   .L_pool_06013914, r3
     jmp @r3
     mov.l @r15+, r14
 
@@ -1510,8 +1510,8 @@ DAT_060137c2:
 FUN_0601389E:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    .byte   0xD3, 0x13    /* mov.l .L_pool_060138F0, r3 */
-    .byte   0xD2, 0x1C    /* mov.l .L_pool_06013918, r2 */
+    mov.l   .L_pool_060138F0, r3
+    mov.l   .L_pool_06013918, r2
     mov.b @r3, r3
     extu.b r3, r3
     shll2 r3
@@ -1519,7 +1519,7 @@ FUN_0601389E:
     mov.l @r3, r3
     jsr @r3
     nop
-    .byte   0xDE, 0x19    /* mov.l .L_pool_0601391C, r14 */
+    mov.l   .L_pool_0601391C, r14
     mov #0x0, r2
     mov r14, r7
     mov r14, r6
@@ -1552,22 +1552,39 @@ DAT_060138d8:
     .global DAT_060138da
 DAT_060138da:
     mov.b @(r0, r0), r2
+.L_pool_060138DC:
     .4byte  sym_06084B0C
+.L_pool_060138E0:
     .4byte  sym_06084B18
+.L_pool_060138E4:
     .4byte  sym_06084B20
+.L_pool_060138E8:
     .4byte  sym_06084AF0
+.L_pool_060138EC:
     .4byte  sym_0607EBCC
+.L_pool_060138F0:
     .4byte  sym_06084AF2
+.L_pool_060138F4:
     .4byte  sym_06084B14
+.L_pool_060138F8:
     .4byte  sym_0605AD5C
+.L_pool_060138FC:
     .4byte  sym_06084AF8
+.L_pool_06013900:
     .4byte  sym_06084AFC
+.L_pool_06013904:
     .4byte  sym_0605AAA0
+.L_pool_06013908:
     .4byte  0xAB1100FF
+.L_pool_0601390C:
     .4byte  FUN_0601D5F4
+.L_pool_06013910:
     .4byte  sym_060149CC
+.L_pool_06013914:
     .4byte  sym_06026CE0
+.L_pool_06013918:
     .4byte  sym_0605B6B8
+.L_pool_0601391C:
     .4byte  0x00010000
 .L_06013920:
     .4byte  0x00008000

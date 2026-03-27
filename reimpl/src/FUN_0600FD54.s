@@ -6,8 +6,8 @@
     .type FUN_0600FD54, @function
 FUN_0600FD54:
     sts.l pr, @-r15
-    .byte   0xD5, 0x1F    /* mov.l .L_pool_0600FDD4, r5 */
-    .byte   0xD3, 0x1F    /* mov.l .L_pool_0600FDD8, r3 */
+    mov.l   .L_pool_0600FDD4, r5
+    mov.l   .L_pool_0600FDD8, r3
     jsr @r3
     mov #0x0, r4
     mov #0x78, r2
@@ -78,7 +78,9 @@ FUN_0600FD8A:
     jmp @r3
     lds.l @r15+, pr
     .2byte  0xFFFF
+.L_pool_0600FDD4:
     .4byte  0xAB1101FF
+.L_pool_0600FDD8:
     .4byte  FUN_0601D5F4
 .L_pool_0600FDDC:
     .4byte  sym_0607887A

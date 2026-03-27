@@ -31,7 +31,7 @@ FUN_06018DDC:
     mov r15, r3
     mov #0x10, r0
     mov.b r6, @(r0, r3)
-    .byte   0xD3, 0x0C    /* mov.l .L_pool_06018E44, r3 */
+    mov.l   .L_pool_06018E44, r3
     jsr @r3
     mov r15, r4
     add #0x14, r15
@@ -65,6 +65,7 @@ FUN_06018E22:
     lds.l @r15+, pr
     rts
     nop
+.L_pool_06018E44:
     .4byte  FUN_06034D1C
 .L_06018E48:
     .4byte  FUN_06034DEA

@@ -8,7 +8,7 @@ FUN_06017740:
     sts.l pr, @-r15
     extu.b r12, r3
     sts.l macl, @-r15
-    .byte   0xDA, 0x18    /* mov.l .L_pool_060177A8, r10 */
+    mov.l   .L_pool_060177A8, r10
     mov.l   .L_pool_060177AC, r11
     cmp/pl r3
     bf/s    .L_06017774
@@ -64,6 +64,7 @@ FUN_06017784:
     bra     .L_060177F8
     extu.w r11, r12
     .2byte  0xFFFF
+.L_pool_060177A8:
     .4byte  sym_06028400
 .L_pool_060177AC:
     .4byte  sym_06085640

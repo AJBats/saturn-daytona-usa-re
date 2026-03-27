@@ -11,13 +11,13 @@ FUN_0603F0FC:
     mov.l r12, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    .byte   0xDC, 0x1E    /* mov.l .L_pool_0603F184, r12 */
+    mov.l   .L_pool_0603F184, r12
     mov.l r6, @r15
     tst r14, r14
     bt/s    .L_0603F122
     mov r5, r13
     mov.l @r15, r5
-    .byte   0xD3, 0x1C    /* mov.l .L_pool_0603F188, r3 */
+    mov.l   .L_pool_0603F188, r3
     jsr @r3
     mov r14, r4
 .L_0603F11A:
@@ -86,7 +86,9 @@ FUN_0603F148:
 .L_0603F180:
     .2byte  0x0080
     .2byte  0xFFFF
+.L_pool_0603F184:
     .4byte  FUN_0603B424
+.L_pool_0603F188:
     .4byte  FUN_0603B31C
 .L_0603F18C:
     .4byte  sym_06036D94

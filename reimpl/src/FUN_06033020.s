@@ -80,7 +80,7 @@ FUN_0603308E:
     .2byte  0x0000
     .4byte  sym_06033864
 .L_060330A0:
-    .byte   0xD0, 0x28    /* mov.l .L_pool_06033144, r0 */
+    mov.l   .L_pool_06033144, r0
     mov.l @r0, r0
 
 
@@ -91,13 +91,13 @@ FUN_060330A4:
     bsr     FUN_0603316C
     nop
     lds.l @r15+, pr
-    .byte   0xD8, 0x26    /* mov.l .L_pool_06033148, r8 */
-    .byte   0xD9, 0x27    /* mov.l .L_pool_0603314C, r9 */
+    mov.l   .L_pool_06033148, r8
+    mov.l   .L_pool_0603314C, r9
     mov.l @(r0, r8), r13
     mov.l @(r0, r9), r14
-    .byte   0xDA, 0x26    /* mov.l .L_pool_06033150, r10 */
+    mov.l   .L_pool_06033150, r10
     add r10, r0
-    .byte   0xD7, 0x26    /* mov.l .L_pool_06033154, r7 */
+    mov.l   .L_pool_06033154, r7
     mov.l @r7, r7
     mov.l @r7, r7
     add #-0x1, r7
@@ -112,7 +112,7 @@ FUN_060330A4:
     add r4, r11
     mov r12, r4
     mov r11, r1
-    .byte   0xD2, 0x20    /* mov.l .L_pool_06033158, r2 */
+    mov.l   .L_pool_06033158, r2
     cmp/pz r1
     bt      .L_060330DE
     neg r1, r1
@@ -120,7 +120,7 @@ FUN_060330A4:
     cmp/gt r2, r1
     .byte   0x89, 0x29    /* bt 0x06033136 (external) */
     mov r12, r1
-    .byte   0xD2, 0x1D    /* mov.l .L_pool_0603315C, r2 */
+    mov.l   .L_pool_0603315C, r2
     cmp/pz r1
     bt      .L_060330EC
     neg r1, r1
@@ -144,17 +144,17 @@ FUN_06033100:
     nop
     lds.l @r15+, pr
     add r6, r0
-    .byte   0xD3, 0x15    /* mov.l .L_pool_06033160, r3 */
+    mov.l   .L_pool_06033160, r3
     mov.l @r3, r3
     mov.b @r3, r3
     extu.b r3, r3
-    .byte   0xD4, 0x14    /* mov.l .L_pool_06033164, r4 */
+    mov.l   .L_pool_06033164, r4
     cmp/pl r3
     bt      .L_0603311A
     neg r0, r0
 .L_0603311A:
     add r4, r0
-    .byte   0xD4, 0x12    /* mov.l .L_pool_06033168, r4 */
+    mov.l   .L_pool_06033168, r4
     and r4, r0
     shlr8 r0
     shlr2 r0
@@ -179,15 +179,25 @@ FUN_0603312C:
     rts
     nop
     .2byte  0x0000
+.L_pool_06033144:
     .4byte  sym_06033870
+.L_pool_06033148:
     .4byte  0x00000010
+.L_pool_0603314C:
     .4byte  0x00000018
+.L_pool_06033150:
     .4byte  0x00000268
+.L_pool_06033154:
     .4byte  sym_0603386C
+.L_pool_06033158:
     .4byte  0x00220000
+.L_pool_0603315C:
     .4byte  0x001A0000
+.L_pool_06033160:
     .4byte  sym_06033884
+.L_pool_06033164:
     .4byte  0x00000700
+.L_pool_06033168:
     .4byte  0x0000FFFF
     .global FUN_0603316C
 FUN_0603316C:

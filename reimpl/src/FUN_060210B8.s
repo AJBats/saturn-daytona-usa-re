@@ -18,7 +18,7 @@ FUN_060210B8:
     extu.b r14, r4
 .L_060210CE:
     extu.b r4, r2
-    .byte   0x93, 0x1F    /* mov.w .L_wpool_06021112, r3 */
+    mov.w   .L_pool_06021112, r3
     shll2 r2
     add #0x1, r4
     add r12, r3
@@ -56,6 +56,7 @@ FUN_060210F6:
     mov.l   .L_pool_06021125, r3
     jmp @r3
     lds.l @r15+, pr
+.L_pool_06021112:
     .2byte  0x1810
 .L_pool_06021119:
     .4byte  sym_06087C84

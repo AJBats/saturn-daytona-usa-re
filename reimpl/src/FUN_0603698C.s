@@ -29,8 +29,8 @@ FUN_0603698C:
     mov r15, r3
     mov r12, r0
     mov.w r0, @(6, r3)
-    .byte   0x94, 0x27    /* mov.w .L_wpool_06036A0E, r4 */
-    .byte   0xD3, 0x15    /* mov.l .L_pool_06036A14, r3 */
+    mov.w   .L_pool_06036A0E, r4
+    mov.l   .L_pool_06036A14, r3
     jsr @r3
     mov r15, r5
     mov r0, r4
@@ -79,9 +79,11 @@ FUN_060369D8:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
+.L_pool_06036A0E:
     .2byte  0x0100
 .L_06036A10:
     .4byte  FUN_06035E90
+.L_pool_06036A14:
     .4byte  FUN_06035EC8    /* [HIGH] adjacent pool entry — FUN_06035EC8 @ 0x06035EC8 (not directly referenced in this function) */
 .L_06036A18:
     .4byte  FUN_06035EA2

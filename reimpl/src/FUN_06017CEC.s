@@ -625,7 +625,7 @@ DAT_06018104:
 .L_06018134:
     .4byte  sym_06026DF8
 .L_06018138:
-    .byte   0xD3, 0x38    /* mov.l .L_pool_0601821C, r3 */
+    mov.l   .L_pool_0601821C, r3
     jsr @r3
     nop
     add #0x1, r11
@@ -635,7 +635,7 @@ DAT_06018104:
     bra     .L_06018026
     nop
 .L_0601814A:
-    .byte   0xD3, 0x35    /* mov.l .L_pool_06018220, r3 */
+    mov.l   .L_pool_06018220, r3
     jsr @r3
     nop
     add #0xC, r15
@@ -762,7 +762,9 @@ DAT_06018216:
     .global DAT_0601821a
 DAT_0601821a:
     .2byte  0x056C
+.L_pool_0601821C:
     .4byte  sym_06026DF8
+.L_pool_06018220:
     .4byte  FUN_06021178
 .L_pool_0601822C:
     .4byte  sym_0605BE2C
@@ -792,8 +794,8 @@ DAT_0601821a:
     mov r2, r0
     mov.w r0, @(6, r3)
 .L_06018258:
-    .byte   0xD3, 0x27    /* mov.l .L_pool_060182F8, r3 */
-    .byte   0xD2, 0x28    /* mov.l .L_pool_060182FC, r2 */
+    mov.l   .L_pool_060182F8, r3
+    mov.l   .L_pool_060182FC, r2
     mov.l @r3, r3
     and r2, r3
     tst r3, r3
@@ -892,7 +894,9 @@ DAT_060182f2:
 .L_wpool_060182F4:
     .2byte  0x0460
     .2byte  0xFFFF
+.L_pool_060182F8:
     .4byte  sym_0607EBC4
+.L_pool_060182FC:
     .4byte  0x00800000
 .L_06018300:
     .4byte  sym_06063D9A

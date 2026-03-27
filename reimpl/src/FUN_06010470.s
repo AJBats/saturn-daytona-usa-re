@@ -11,9 +11,9 @@ FUN_06010470:
     mov.l r12, @-r15
     sts.l pr, @-r15
     mov.l   .L_0601050C, r13
-    .byte   0x9E, 0x44    /* mov.w .L_wpool_06010508, r14 */
-    .byte   0xD0, 0x24    /* mov.l .L_pool_06010510, r0 */
-    .byte   0xD3, 0x24    /* mov.l .L_pool_06010514, r3 */
+    mov.w   .L_pool_06010508, r14
+    mov.l   .L_pool_06010510, r0
+    mov.l   .L_pool_06010514, r3
     mov.w @r0, r0
     extu.w r0, r0
     xor r3, r0
@@ -32,31 +32,31 @@ FUN_06010470:
     mov.l @r13, r2
     mov.l   .L_0601051C, r3
     mov.l r2, @r3
-    .byte   0xDC, 0x1E    /* mov.l .L_pool_06010520, r12 */
+    mov.l   .L_pool_06010520, r12
     mov.l @r4, r0
     tst r0, r0
     bt      .L_060104BE
     mov r14, r6
-    .byte   0xD5, 0x1D    /* mov.l .L_pool_06010524, r5 */
-    .byte   0xD4, 0x1D    /* mov.l .L_pool_06010528, r4 */
+    mov.l   .L_pool_06010524, r5
+    mov.l   .L_pool_06010528, r4
     mov.l @r5, r5
     jsr @r12
     mov.l @r4, r4
-    .byte   0xD5, 0x1C    /* mov.l .L_pool_0601052C, r5 */
+    mov.l   .L_pool_0601052C, r5
     bra     .L_060104CE
     mov r14, r6
 .L_060104BE:
     mov r14, r6
-    .byte   0xD5, 0x1B    /* mov.l .L_pool_06010530, r5 */
-    .byte   0xD4, 0x19    /* mov.l .L_pool_06010528, r4 */
+    mov.l   .L_pool_06010530, r5
+    mov.l   .L_pool_06010528, r4
     mov.l @r5, r5
     jsr @r12
     mov.l @r4, r4
     mov r14, r6
-    .byte   0xD5, 0x19    /* mov.l .L_pool_06010534, r5 */
+    mov.l   .L_pool_06010534, r5
 .L_060104CE:
     mov.l @r5, r5
-    .byte   0xD4, 0x19    /* mov.l .L_pool_06010538, r4 */
+    mov.l   .L_pool_06010538, r4
     jsr @r12
     mov.l @r4, r4
     lds.l @r15+, pr
@@ -90,21 +90,31 @@ FUN_060104E0:
 .L_06010504:
     bra     .L_06010570
     mov #0x5, r4
+.L_pool_06010508:
     .4byte  0x00C0FFFF
 .L_0601050C:
     .4byte  sym_0607EADC
+.L_pool_06010510:
     .4byte  sym_06063D9C
+.L_pool_06010514:
     .4byte  0x0000FFFF
 .L_06010518:
     .4byte  sym_0607EAB8
 .L_0601051C:
     .4byte  sym_06078868
+.L_pool_06010520:
     .4byte  FUN_0602766C
+.L_pool_06010524:
     .4byte  sym_0605D084
+.L_pool_06010528:
     .4byte  sym_06078884
+.L_pool_0601052C:
     .4byte  sym_0605D060
+.L_pool_06010530:
     .4byte  sym_0605D05C
+.L_pool_06010534:
     .4byte  sym_0605D088
+.L_pool_06010538:
     .4byte  sym_06078880
 .L_0601053C:
     .4byte  sym_060788A8

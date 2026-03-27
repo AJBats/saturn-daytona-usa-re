@@ -140,7 +140,7 @@ FUN_06019DB8:
     mov.l r0, @r15
     shll2 r7
     mov.w @(r0, r8), r3
-    .byte   0xD2, 0x29    /* mov.l .L_pool_06019F44, r2 */
+    mov.l   .L_pool_06019F44, r2
     extu.w r3, r3
     shll2 r3
     shll r3
@@ -149,7 +149,7 @@ FUN_06019DB8:
     mov.l @(4, r2), r3
     mov.l @r15, r6
     add r3, r7
-    .byte   0xD3, 0x25    /* mov.l .L_pool_06019F48, r3 */
+    mov.l   .L_pool_06019F48, r3
     add r3, r6
     mov.l r6, @(4, r15)
     mov.b @(1, r6), r0
@@ -235,7 +235,9 @@ FUN_06019EF0:
 .L_wpool_06019F40:
     .2byte  0x4000
     .2byte  0xFFFF
+.L_pool_06019F44:
     .4byte  sym_06063750
+.L_pool_06019F48:
     .4byte  sym_06049B18
 .L_pool_06019F4C:
     .4byte  g_pad_state

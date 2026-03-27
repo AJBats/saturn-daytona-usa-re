@@ -10,12 +10,12 @@ FUN_06020B58:
     mov.l r12, @-r15
     mov.l r11, @-r15
     sts.l pr, @-r15
-    .byte   0xD4, 0x27    /* mov.l .L_ptr_race_event_bits, r4 */
+    mov.l   .L_pool_06020C00, r4
     mov.l @r4, r0
     or #0x1, r0
     .byte   0xBF, 0xDA    /* bsr display_list_copy_inline (0x06020B20) */
     mov.l r0, @r4
-    .byte   0xD3, 0x25    /* mov.l .L_fn_display_layer_fill_cfg, r3 */
+    mov.l   .L_pool_06020C04, r3
     jsr @r3
     mov #0xC, r4
     mov #0x0, r14
@@ -41,16 +41,16 @@ FUN_06020B58:
     jsr @r12
     mov.l r14, @r13
     mov #0x3, r3
-    .byte   0xD2, 0x1E    /* mov.l .L_ptr_obj_visibility_mode, r2 */
+    mov.l   .L_pool_06020C1C, r2
     mov.b r3, @r2
     mov #0x1, r2
-    .byte   0xD3, 0x1E    /* mov.l .L_ptr_display_enable_flag, r3 */
+    mov.l   .L_pool_06020C20, r3
     mov.b r2, @r3
-    .byte   0xD3, 0x1E    /* mov.l .L_ptr_attract_countdown, r3 */
+    mov.l   .L_pool_06020C24, r3
     mov.l r14, @r3
     .byte   0xB1, 0x0F    /* bsr FUN_06020DD0 (0x06020DD0) */
     nop
-    .byte   0xD2, 0x1D    /* mov.l .L_ptr_car_struct_base, r2 */
+    mov.l   .L_pool_06020C28, r2
     mov.l @r2, r2
     add #0x10, r2
     mov.b r14, @r2
@@ -95,8 +95,11 @@ FUN_06020BCE:
     mov.l   .L_06020C18, r3
     jmp @r3
     lds.l @r15+, pr
+.L_pool_06020C00:
 
+.L_pool_06020C00:
     .4byte  sym_0607EBF4
+.L_pool_06020C04:
     .4byte  sym_0602853E
 .L_06020C08:
     .4byte  sym_0605B6D8
@@ -108,9 +111,13 @@ FUN_06020BCE:
     .4byte  sym_0605A00C
 .L_06020C18:
     .4byte  sym_06026CE0
+.L_pool_06020C1C:
     .4byte  sym_06059F6F
+.L_pool_06020C20:
     .4byte  sym_06085F8A
+.L_pool_06020C24:
     .4byte  sym_0607EBCC
+.L_pool_06020C28:
     .4byte  sym_06063F5C
 .L_06020C2C:
     .4byte  sym_0603850C

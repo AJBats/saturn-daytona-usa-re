@@ -8,7 +8,7 @@ FUN_06041204:
     sts.l pr, @-r15
     add #-0x4, r15
     mov.l   .L_pool_06041290, r7
-    .byte   0x90, 0x40    /* mov.w .L_wpool_0604128E, r0 */
+    mov.w   .L_pool_0604128E, r0
     mov.l @r7, r3
     mov.l @(r0, r3), r0
     tst r0, r0
@@ -31,7 +31,7 @@ FUN_06041204:
     mov #0x1, r3
     mov.l r3, @(52, r2)
     mov.l @r7, r2
-    .byte   0x90, 0x2B    /* mov.w .L_wpool_0604128E, r0 */
+    mov.w   .L_pool_0604128E, r0
     mov.l r3, @(r0, r2)
     mov.l @r7, r3
     add #0x4, r0
@@ -83,13 +83,14 @@ FUN_06041258:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
+.L_pool_0604128E:
     .2byte  0x0328
 .L_pool_06041290:
     .4byte  sym_060A5400
 .L_pool_06041294:
     .4byte  FUN_06034CC8
 .L_06041298:
-    .byte   0xD3, 0x1B    /* mov.l .L_pool_06041308, r3 */
+    mov.l   .L_pool_06041308, r3
     jsr @r3
     mov r15, r4
     mov.l @r14, r2
@@ -154,6 +155,7 @@ FUN_060412B2:
     nop
 .L_06041306:
     .2byte  0x0338
+.L_pool_06041308:
     .4byte  FUN_060349B6
 .L_pool_0604130D:
     .4byte  sym_060A5400

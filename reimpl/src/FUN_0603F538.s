@@ -24,9 +24,9 @@ FUN_0603F538:
     mov.l @(16, r14), r3
     cmp/eq r3, r2
     bt      .L_0603F578
-    .byte   0x97, 0x2C    /* mov.w .L_wpool_0603F5B8, r7 */
+    mov.w   .L_pool_0603F5B8, r7
     mov #0x1, r5
-    .byte   0xD3, 0x16    /* mov.l .L_pool_0603F5BC, r3 */
+    mov.l   .L_pool_0603F5BC, r3
     mov.l @(4, r14), r6
     jsr @r3
     mov.l @r14, r4
@@ -79,7 +79,9 @@ FUN_0603F582:
     bf      .L_0603F5C0
     bra     .L_0603F838
     nop
+.L_pool_0603F5B8:
     .4byte  0x0800FFFF
+.L_pool_0603F5BC:
     .4byte  FUN_0603B21C
 .L_0603F5C0:
     mov r14, r4

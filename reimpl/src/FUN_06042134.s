@@ -233,7 +233,7 @@ DAT_0604222e:
     tst r0, r0
     bf      .L_060422D6
     mov.l @r14, r3
-    .byte   0x90, 0x1C    /* mov.w .L_wpool_0604230E, r0 */
+    mov.w   .L_pool_0604230E, r0
     mov.l r12, @(r0, r3)
 .L_060422D6:
     mov.l @r14, r0
@@ -275,6 +275,7 @@ DAT_0604230a:
     .global DAT_0604230c
 DAT_0604230c:
     mov.b @(r0, r13), r1
+.L_pool_0604230E:
     .word 0x01E0
 .L_06042310:
     .4byte  sym_06035C4E

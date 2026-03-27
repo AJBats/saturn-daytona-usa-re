@@ -13,7 +13,7 @@ FUN_0602E714:
     mov.l @r15+, r4
     sub r6, r4
     mov r4, r5
-    .byte   0xDD, 0x0D    /* mov.l .L_pool_0602E75C, r13 */
+    mov.l   .L_pool_0602E75C, r13
 
 
     .global FUN_0602E726
@@ -28,7 +28,7 @@ FUN_0602E726:
     .byte   0x89, 0x17    /* bt 0x0602E764 (external) */
     mov r7, r4
     shlr2 r4
-    .byte   0xDD, 0x09    /* mov.l .L_pool_0602E760, r13 */
+    mov.l   .L_pool_0602E760, r13
 
     .global FUN_0602E73A
     .type FUN_0602E73A, @function
@@ -46,6 +46,8 @@ FUN_0602E73A:
     .4byte  0x00000008
     .4byte  0x00000010
     .4byte  0x00000018
+.L_pool_0602E75C:
     .4byte  FUN_06027552
+.L_pool_0602E760:
     .4byte  FUN_06027476
     .4byte  0x6473DD07

@@ -6,23 +6,23 @@
     .type FUN_06008E00, @function
 FUN_06008E00:
     sts.l pr, @-r15
-    .byte   0xD3, 0x20    /* mov.l .L_fn_race_resource_init, r3 */
+    mov.l   .L_pool_06008E84, r3
     jsr @r3
     nop
-    .byte   0xD3, 0x1F    /* mov.l .L_fn_race_prep_init, r3 */
+    mov.l   .L_pool_06008E88, r3
     jsr @r3
     nop
     mov #0xD, r2
     mov.l   .L_06008E8C, r3
     mov.l r2, @r3
-    .byte   0xD3, 0x1E    /* mov.l .L_fn_car_physics_init, r3 */
+    mov.l   .L_pool_06008E90, r3
     jsr @r3
     nop
-    .byte   0xD3, 0x1E    /* mov.l .L_fn_obj_render_update, r3 */
+    mov.l   .L_pool_06008E94, r3
     jsr @r3
     nop
-    .byte   0xD4, 0x1D    /* mov.l .L_display_flags, r4 */
-    .byte   0xD2, 0x1E    /* mov.l .L_race_ready_bit, r2 */
+    mov.l   .L_pool_06008E98, r4
+    mov.l   .L_pool_06008E9C, r2
     mov.l @r4, r3
     or r2, r3
     mov.l r3, @r4
@@ -33,12 +33,12 @@ FUN_06008E00:
     mov.l   .L_06008EA4, r3
     mov.l r2, @r3
     mov #0x3, r2
-    .byte   0xD3, 0x1B    /* mov.l .L_phase_flag, r3 */
+    mov.l   .L_pool_06008EA8, r3
     mov.w r2, @r3
     mov #0xF, r6
     mov #0x5, r5
     mov r5, r4
-    .byte   0xD3, 0x1A    /* mov.l .L_fn_handler_dispatch, r3 */
+    mov.l   .L_pool_06008EAC, r3
     jmp @r3
     lds.l @r15+, pr
 
@@ -79,19 +79,27 @@ FUN_06008E48:
     rts
     nop
     .2byte  0xFFFF
+.L_pool_06008E84:
     .4byte  FUN_0600A0C0
+.L_pool_06008E88:
     .4byte  FUN_06018FA4
 .L_06008E8C:
     .4byte  FUN_0605ACC4
+.L_pool_06008E90:
     .4byte  FUN_0600EC78
+.L_pool_06008E94:
     .4byte  FUN_060210F6
+.L_pool_06008E98:
     .4byte  sym_0605B6D8
+.L_pool_06008E9C:
     .4byte  0x40000000
 .L_06008EA0:
     .4byte  sym_06026CE0
 .L_06008EA4:
     .4byte  sym_06059F44
+.L_pool_06008EA8:
     .4byte  sym_0605A016
+.L_pool_06008EAC:
     .4byte  FUN_06018DDC
 .L_06008EB0:
     .4byte  sym_0607EBCC

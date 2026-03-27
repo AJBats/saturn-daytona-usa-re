@@ -6,35 +6,35 @@
     .type FUN_0601A770, @function
 FUN_0601A770:
     sts.l pr, @-r15
-    .byte   0xD0, 0x1C    /* mov.l .L_ptr_course_active_flag, r0 */
+    mov.l   .L_pool_0601A7E4, r0
     mov.b @r0, r0
     extu.b r0, r0
     tst r0, r0
     bt      .L_0601A78E
-    .byte   0xD3, 0x1A    /* mov.l .L_fn_load_gamed_lowram, r3 */
+    mov.l   .L_pool_0601A7E8, r3
     jsr @r3
     nop
-    .byte   0xD3, 0x1A    /* mov.l .L_fn_load_slctd_lowram, r3 */
+    mov.l   .L_pool_0601A7EC, r3
     jsr @r3
     nop
     mov #0x0, r2
-    .byte   0xD3, 0x16    /* mov.l .L_ptr_course_active_flag, r3 */
+    mov.l   .L_pool_0601A7E4, r3
     mov.b r2, @r3
 .L_0601A78E:
-    .byte   0xD2, 0x18    /* mov.l .L_ptr_variant_init_flag, r2 */
+    mov.l   .L_pool_0601A7F0, r2
     mov.b @r2, r2
     tst r2, r2
     bt      .L_0601A7A2
-    .byte   0xD3, 0x17    /* mov.l .L_fn_race_variant_e, r3 */
+    mov.l   .L_pool_0601A7F4, r3
     jsr @r3
     nop
     mov #0x0, r2
-    .byte   0xD3, 0x14    /* mov.l .L_ptr_variant_init_flag, r3 */
+    mov.l   .L_pool_0601A7F0, r3
     mov.b r2, @r3
 .L_0601A7A2:
-    .byte   0xD5, 0x15    /* mov.l .L_snd_init_cmd, r5 */
+    mov.l   .L_pool_0601A7F8, r5
     mov #0x0, r4
-    .byte   0xD3, 0x15    /* mov.l .L_fn_sound_cmd_dispatch, r3 */
+    mov.l   .L_pool_0601A7FC, r3
     jmp @r3
     lds.l @r15+, pr
 
@@ -75,12 +75,19 @@ FUN_0601A7AC:
     lds.l @r15+, pr
 .L_0601A7E2:
     .2byte  0x4000
+.L_pool_0601A7E4:
     .4byte  sym_06085FF6
+.L_pool_0601A7E8:
     .4byte  sym_06012EC4
+.L_pool_0601A7EC:
     .4byte  sym_06012F00
+.L_pool_0601A7F0:
     .4byte  sym_06085FF7
+.L_pool_0601A7F4:
     .4byte  FUN_060191E0
+.L_pool_0601A7F8:
     .4byte  0xAE0001FF
+.L_pool_0601A7FC:
     .4byte  FUN_0601D5F4
 .L_pool_0601A800:
     .4byte  sym_0605D241

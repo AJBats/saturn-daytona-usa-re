@@ -9,7 +9,7 @@ FUN_06036650:
     mov r4, r14
     mov.l r13, @-r15
     sts.l pr, @-r15
-    .byte   0xD3, 0x26    /* mov.l .L_pool_060366F4, r3 */
+    mov.l   .L_pool_060366F4, r3
     jsr @r3
     mov r5, r13
     mov r0, r4
@@ -99,6 +99,7 @@ FUN_06036688:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
+.L_pool_060366F4:
     .4byte  sym_06035C4E
 .L_060366F8:
     .4byte  FUN_06035EA2              /* [HIGH] jsr target: digital input processor */

@@ -6,23 +6,23 @@
     .type FUN_06012BE4, @function
 FUN_06012BE4:
     sts.l pr, @-r15
-    .byte   0xDC, 0x20    /* mov.l .L_fn_ptr_cdb_read_status, r12 */
+    mov.l   .L_pool_06012C68, r12
     mov.w   DAT_06012c66, r14
-    .byte   0xD7, 0x20    /* mov.l .L_str_set_daytona_disc, r7 */
-    .byte   0xD6, 0x20    /* mov.l .L_pool_06012C70, r6 */
-    .byte   0xD3, 0x21    /* mov.l .L_fn_ptr_geom_render_dispatch, r3 */
+    mov.l   .L_pool_06012C6C, r7
+    mov.l   .L_pool_06012C70, r6
+    mov.l   .L_pool_06012C74, r3
     mov r14, r5
     jsr @r3
     mov #0x8, r4
     mov #0x24, r6
-    .byte   0xD5, 0x1F    /* mov.l .L_vram_cfg_src, r5 */
-    .byte   0xD4, 0x20    /* mov.l .L_vram_cfg_dst_ptr, r4 */
-    .byte   0xD3, 0x20    /* mov.l .L_fn_ptr_memcpy_word_idx, r3 */
+    mov.l   .L_pool_06012C78, r5
+    mov.l   .L_pool_06012C7C, r4
+    mov.l   .L_pool_06012C80, r3
     add r14, r5
     mov.l @r4, r4
     jsr @r3
     add r14, r4
-    .byte   0xD3, 0x1F    /* mov.l .L_fn_ptr_ai_brake_zone_calc, r3 */
+    mov.l   .L_pool_06012C84, r3
     jsr @r3
     nop
 .L_06012C0C:
@@ -31,16 +31,16 @@ FUN_06012BE4:
     and r13, r0
     cmp/eq #0x1, r0
     bf      .L_06012C0C
-    .byte   0xD7, 0x1C    /* mov.l .L_str_spaces_clear, r7 */
+    mov.l   .L_pool_06012C88, r7
     mov r14, r5
-    .byte   0xD3, 0x16    /* mov.l .L_fn_ptr_geom_render_dispatch, r3 */
-    .byte   0xD6, 0x14    /* mov.l .L_pool_06012C78, r6 */
+    mov.l   .L_pool_06012C74, r3
+    mov.l   .L_pool_06012C70, r6
     jsr @r3
     mov #0x8, r4
     mov #0x24, r6
-    .byte   0xD5, 0x14    /* mov.l .L_vram_cfg_src, r5 */
-    .byte   0xD4, 0x15    /* mov.l .L_vram_cfg_dst_ptr, r4 */
-    .byte   0xD3, 0x15    /* mov.l .L_fn_ptr_memcpy_word_idx, r3 */
+    mov.l   .L_pool_06012C78, r5
+    mov.l   .L_pool_06012C7C, r4
+    mov.l   .L_pool_06012C80, r3
     add r14, r5
     mov.l @r4, r4
     jsr @r3
@@ -81,14 +81,23 @@ FUN_06012C3C:
     .global DAT_06012c66
 DAT_06012c66:
     sts macl, r10
+.L_pool_06012C68:
     .4byte  FUN_06018EAC
+.L_pool_06012C6C:
     .4byte  sym_060448D4
+.L_pool_06012C70:
     .4byte  0x0000E000
+.L_pool_06012C74:
     .4byte  sym_060283E0
+.L_pool_06012C78:
     .4byte  sym_060612C4
+.L_pool_06012C7C:
     .4byte  sym_060612B4
+.L_pool_06012C80:
     .4byte  FUN_0602761E
+.L_pool_06012C84:
     .4byte  FUN_06034C48
+.L_pool_06012C88:
     .4byte  sym_0605ACCA
 .L_pool_06012C8C:
     .4byte  FUN_0603B1B6

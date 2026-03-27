@@ -200,8 +200,8 @@ DAT_06041eb6:
 .L_pool_06041EC4:
     .4byte  sym_06035C4E
 .L_06041EC8:
-    .byte   0xD4, 0x33    /* mov.l .L_pool_06041F98, r4 */
-    .byte   0xD3, 0x34    /* mov.l .L_pool_06041F9C, r3 */
+    mov.l   .L_pool_06041F98, r4
+    mov.l   .L_pool_06041F9C, r3
     jsr @r3
     nop
     mov.l @r14, r2
@@ -324,7 +324,9 @@ DAT_06041f94:
     .global DAT_06041f96
 DAT_06041f96:
     .2byte  0x034C
+.L_pool_06041F98:
     .4byte  0x0000FFF7
+.L_pool_06041F9C:
     .4byte  FUN_06035C54
 .L_06041FA0:
     .4byte  FUN_060349B6

@@ -125,7 +125,7 @@ sym_0601A5F8:
 .L_pool_0601A654:
     .4byte  sym_06063D9E
 .L_0601A658:
-    .byte   0x90, 0x40    /* mov.w .L_wpool_0601A6DC, r0 (cross-TU word pool) */
+    mov.w   .L_pool_0601A6DC, r0
     rts
     nop
 
@@ -200,6 +200,7 @@ FUN_0601A65E:
     add r3, r7
     bra     .L_0601A726
     nop
+.L_pool_0601A6DC:
     .2byte  0x00A9
 
     .global DAT_0601a6de

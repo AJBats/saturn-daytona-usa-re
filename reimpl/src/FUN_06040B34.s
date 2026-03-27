@@ -28,7 +28,7 @@ FUN_06040B34:
     mov r15, r7
     mov.l @(24, r15), r6
     mov.l @(16, r13), r5
-    .byte   0xD3, 0x26    /* mov.l .L_pool_06040BFC, r3 */
+    mov.l   .L_pool_06040BFC, r3
     add #0x4, r7
     jsr @r3
     mov.l @(4, r13), r4
@@ -38,7 +38,7 @@ FUN_06040B34:
     bra     FUN_06040BF2
     mov #0x0, r0
 .L_06040B72:
-    .byte   0xD3, 0x23    /* mov.l .L_pool_06040C00, r3 */
+    mov.l   .L_pool_06040C00, r3
     jsr @r3
     nop
     tst r0, r0
@@ -122,7 +122,9 @@ FUN_06040BF2:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
+.L_pool_06040BFC:
     .4byte  FUN_060411A0
+.L_pool_06040C00:
     .4byte  FUN_0604188C
 .L_pool_06040C04:
     .4byte  sym_06040220

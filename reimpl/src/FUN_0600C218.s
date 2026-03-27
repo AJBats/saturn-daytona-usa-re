@@ -10,36 +10,36 @@ FUN_0600C218:
     mov.l r13, @-r15
     mov.l r12, @-r15
     sts.l pr, @-r15
-    .byte   0x9C, 0x40    /* mov.w .L_ftcsr_addr, r12 */
-    .byte   0xDD, 0x21    /* mov.l .L_secondary_obj_state_ptr, r13 */
-    .byte   0x9E, 0x3F    /* mov.w .L_icf_mask, r14 */
+    mov.w   .L_pool_0600C2A6, r12
+    mov.l   .L_pool_0600C2AC, r13
+    mov.w   .L_pool_0600C2A8, r14
     mov.l @r13, r3
     add #0x30, r3
     mov.l r3, @r13
     mov r3, r4
-    .byte   0xD5, 0x1F    /* mov.l .L_primary_obj_state_ptr, r5 */
-    .byte   0xD3, 0x20    /* mov.l .L_fn_memcpy_long_idx, r3 */
+    mov.l   .L_pool_0600C2B0, r5
+    mov.l   .L_pool_0600C2B4, r3
     jsr @r3
     mov.l @r5, r5
-    .byte   0xD3, 0x1F    /* mov.l .L_fn_physics_calc_dispatch, r3 */
+    mov.l   .L_pool_0600C2B8, r3
     jsr @r3
     nop
-    .byte   0xD2, 0x1F    /* mov.l .L_fn_race_utility_fn, r2 */
-    .byte   0xD3, 0x1F    /* mov.l .L_secondary_callback_ptr, r3 */
+    mov.l   .L_pool_0600C2BC, r2
+    mov.l   .L_pool_0600C2C0, r3
     mov.l r2, @r3
-    .byte   0xD2, 0x1F    /* mov.l .L_pool_0600C2CC, r2 */
-    .byte   0xD3, 0x20    /* mov.l .L_minit_register, r3 */
+    mov.l   .L_pool_0600C2C4, r2
+    mov.l   .L_pool_0600C2C8, r3
     mov.w r2, @r3
-    .byte   0xD3, 0x20    /* mov.l .L_fn_frame_dispatch, r3 */
+    mov.l   .L_pool_0600C2CC, r3
     jsr @r3
     nop
-    .byte   0xD3, 0x1F    /* mov.l .L_fn_scene_post_render, r3 */
+    mov.l   .L_pool_0600C2D0, r3
     jsr @r3
     nop
-    .byte   0xD3, 0x1F    /* mov.l .L_fn_replay_playback, r3 */
+    mov.l   .L_pool_0600C2D4, r3
     jsr @r3
     nop
-    .byte   0xD0, 0x1E    /* mov.l .L_timing_var, r0 */
+    mov.l   .L_pool_0600C2D8, r0
     mov.l @r0, r0
     tst r0, r0
 .L_0600C262:
@@ -82,19 +82,33 @@ FUN_0600C286:
     nop
     bra     .L_0600C2F8
     nop
+.L_pool_0600C2A6:
     .2byte  0xFE11
+.L_pool_0600C2A8:
     .4byte  0x0080FFFF
+.L_pool_0600C2AC:
     .4byte  sym_0608A52C
+.L_pool_0600C2B0:
     .4byte  sym_06089EDC
+.L_pool_0600C2B4:
     .4byte  FUN_06027630
+.L_pool_0600C2B8:
     .4byte  FUN_0600D31C
+.L_pool_0600C2BC:
     .4byte  FUN_0600C286
+.L_pool_0600C2C0:
     .4byte  sym_06063574
+.L_pool_0600C2C4:
     .4byte  0x0000FFFF
+.L_pool_0600C2C8:
     .4byte  0x21000000
+.L_pool_0600C2CC:
     .4byte  FUN_060058FA
+.L_pool_0600C2D0:
     .4byte  FUN_06006868
+.L_pool_0600C2D4:
     .4byte  FUN_0601BDEC
+.L_pool_0600C2D8:
     .4byte  sym_06059FF8
 .L_0600C2DC:
     .4byte  sym_0603C000

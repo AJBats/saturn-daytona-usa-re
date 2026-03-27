@@ -11,7 +11,7 @@ FUN_0603B5D0:
     mov.l r4, @r15
     mov.l r5, @(12, r3)
     mov.l @r15, r4
-    .byte   0xD3, 0x12    /* mov.l .L_pool_0603B628, r3 */
+    mov.l   .L_pool_0603B628, r3
     jsr @r3
     mov.l @(8, r4), r4
     mov.l r0, @r15
@@ -62,6 +62,7 @@ FUN_0603B60C:
     lds.l @r15+, pr
     rts
     nop
+.L_pool_0603B628:
     .4byte  FUN_0603F970
 .L_0603B62C:
     .4byte  sym_0603F9FA

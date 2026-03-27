@@ -19,7 +19,7 @@ FUN_0603B634:
     .2byte 0xB000    /* bsr FUN_0603B058 (linker-resolved) */
     mov r14, r4
     mov r0, r5
-    .byte   0xD3, 0x13    /* mov.l .L_pool_0603B69C, r3 */
+    mov.l   .L_pool_0603B69C, r3
     jsr @r3
     mov.l @r14, r4
     tst r0, r0
@@ -32,7 +32,7 @@ FUN_0603B634:
 .L_0603B65E:
     mov.l   .L_0603B6A0, r2
     mov.l @r2, r2
-    .byte   0x90, 0x19    /* mov.w .L_wpool_0603B698, r0 */
+    mov.w   .L_pool_0603B698, r0
     mov.l r14, @(r0, r2)
 .L_0603B666:
     mov #0x0, r4
@@ -62,9 +62,11 @@ FUN_0603B680:
     lds.l @r15+, pr
     rts
     nop
+.L_pool_0603B698:
     .2byte  0x00A8
 .L_0603B69A:
     .2byte  0x00B8
+.L_pool_0603B69C:
     .4byte  FUN_060406B4
 .L_0603B6A0:
     .4byte  sym_060A4D14               /* [HIGH] global UI/command state pointer — dereferenced to get struct base */

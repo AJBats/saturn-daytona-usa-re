@@ -157,7 +157,7 @@ FUN_0601E810:
     .4byte  sym_06087094
 .L_0601E930:
     mov #0x19, r3
-    .byte   0xD2, 0x2F    /* mov.l .L_pool_0601E9F0, r2 (out-of-TU: SMPC COMREG 0x2010001F) */
+    mov.l   .L_pool_0601E9F0, r2
     mov.b r3, @r2
 .L_0601E936:
     mov.b @r13, r2
@@ -265,6 +265,7 @@ FUN_0601E958:
     .reloc ., R_SH_IND12W, FUN_0601F40C - 4
     .2byte 0xA000    /* bra FUN_0601F40C (linker-resolved) */
     mov.l @r15+, r14
+.L_pool_0601E9F0:
     .4byte  0x2010001F
 .L_pool_0601E9F4:
     .4byte  sym_0605E098
@@ -284,7 +285,7 @@ FUN_0601E958:
     .4byte  sym_060877D9
 .L_0601EA14:
     mov.b @r14, r2
-    .byte   0xD3, 0x2F    /* mov.l @(0xBC,PC), r3 */
+    mov.l   .L_pool_0601EAD4, r3
     extu.b r2, r2
     add r3, r2
     mov.b r4, @r2
@@ -300,7 +301,7 @@ FUN_0601E958:
     shll r3
     add r3, r5
     add r2, r5
-    .byte   0xD3, 0x27    /* mov.l @(0x9C,PC), r3 */
+    mov.l   .L_pool_0601EAD4, r3
     add r3, r4
     mov.b @r4, r4
     .reloc ., R_SH_IND12W, FUN_0601E764 - 4
@@ -314,7 +315,7 @@ FUN_0601E958:
     bra     .L_0601EA8E
     nop
 .L_0601EA4E:
-    .byte   0xD2, 0x23    /* mov.l @(0x8C,PC), r2 */
+    mov.l   .L_pool_0601EADC, r2
     mov.b @r2, r2
     extu.b r2, r2
     tst r2, r2
@@ -324,7 +325,7 @@ FUN_0601E958:
     mov.l @r9, r3
     add r4, r3
     mov.b @r3, r2
-    .byte   0xD3, 0x1F    /* mov.l @(0x7C,PC), r3 */
+    mov.l   .L_pool_0601EAE0, r3
     extu.b r2, r2
     add r4, r3
     mov.b @r3, r1
@@ -390,10 +391,13 @@ FUN_0601EAA0:
     mov.b r3, @(r0, r6)
     bra     .L_0601EB12
     nop
+.L_pool_0601EAD4:
     .4byte  sym_060877D9
 .L_pool_0601EAD8:
     .4byte  sym_0604A57C
+.L_pool_0601EADC:
     .4byte  sym_06087080
+.L_pool_0601EAE0:
     .4byte  sym_0604A5AC
 .L_pool_0601EAE4:
     .4byte  sym_060877D8

@@ -1184,43 +1184,43 @@ DAT_0600f34a:
 .L_0600F3C0:
     .4byte  0x25F00120
 .L_0600F3C4:
-    .byte   0xD4, 0x27    /* mov.l .L_pool_0600F464, r4 */
+    mov.l   .L_pool_0600F464, r4
     jsr @r14
     nop
     mov #0x20, r6
-    .byte   0xD3, 0x26    /* mov.l .L_pool_0600F468, r3 */
+    mov.l   .L_pool_0600F468, r3
     mov.l r3, @r15
-    .byte   0xD4, 0x26    /* mov.l .L_pool_0600F46C, r4 */
+    mov.l   .L_pool_0600F46C, r4
     jsr @r14
     mov r3, r5
     mov #0x20, r6
-    .byte   0xD4, 0x25    /* mov.l .L_pool_0600F470, r4 */
+    mov.l   .L_pool_0600F470, r4
     jsr @r14
     mov.l @r15, r5
     mov #0x20, r6
-    .byte   0xD3, 0x24    /* mov.l .L_pool_0600F474, r3 */
+    mov.l   .L_pool_0600F474, r3
     mov.l r3, @r15
-    .byte   0xD4, 0x24    /* mov.l .L_pool_0600F478, r4 */
+    mov.l   .L_pool_0600F478, r4
     jsr @r14
     mov r3, r5
     mov #0x20, r6
-    .byte   0xD4, 0x23    /* mov.l .L_pool_0600F47C, r4 */
+    mov.l   .L_pool_0600F47C, r4
     jsr @r14
     mov.l @r15, r5
     extu.w r11, r3
-    .byte   0xD2, 0x22    /* mov.l .L_pool_0600F480, r2 */
+    mov.l   .L_pool_0600F480, r2
     mov.w r3, @r2
     mov.l   .L_0600F484, r2
     mov.b r11, @r2
-    .byte   0xD4, 0x22    /* mov.l .L_pool_0600F488, r4 */
-    .byte   0xD1, 0x23    /* mov.l .L_pool_0600F48C, r1 */
-    .byte   0xD3, 0x23    /* mov.l .L_pool_0600F490, r3 */
+    mov.l   .L_pool_0600F488, r4
+    mov.l   .L_pool_0600F48C, r1
+    mov.l   .L_pool_0600F490, r3
     mov.l @r4, r2
     or r1, r2
     jsr @r3
     mov.l r2, @r4
     mov r11, r2
-    .byte   0xD3, 0x21    /* mov.l .L_pool_0600F494, r3 */
+    mov.l   .L_pool_0600F494, r3
     mov.l r11, @r3
     add #0x4, r15
     lds.l @r15+, pr
@@ -1271,19 +1271,31 @@ FUN_0600F424:
     nop
 .L_0600F462:
     .2byte  0x0148
+.L_pool_0600F464:
     .4byte  0x25F00720
+.L_pool_0600F468:
     .4byte  sym_060487CC
+.L_pool_0600F46C:
     .4byte  0x25F00680
+.L_pool_0600F470:
     .4byte  0x25F00140
+.L_pool_0600F474:
     .4byte  sym_060483EC
+.L_pool_0600F478:
     .4byte  0x25F000C0
+.L_pool_0600F47C:
     .4byte  0x25F006C0
+.L_pool_0600F480:
     .4byte  sym_0605AAA0
 .L_0600F484:
     .4byte  sym_0607887F
+.L_pool_0600F488:
     .4byte  sym_0605B6D8
+.L_pool_0600F48C:
     .4byte  0x40000000
+.L_pool_0600F490:
     .4byte  sym_06026CE0
+.L_pool_0600F494:
     .4byte  sym_06059F44
 .L_0600F498:
     .4byte  sym_0607EBCC

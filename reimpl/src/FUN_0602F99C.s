@@ -9,7 +9,7 @@ FUN_0602F99C:
     mov.l r13, @-r15
     mov.l r12, @-r15
     mov.l r11, @-r15
-    .byte   0xDE, 0x18    /* mov.l .L_pool_0602FA08, r14 */
+    mov.l   .L_pool_0602FA08, r14
 
 
     .global FUN_0602F9A6
@@ -67,6 +67,7 @@ FUN_0602F9A6:
     bt      .L_0602FA3E
     bra     .L_0602FA42
     nop
+.L_pool_0602FA08:
     .4byte  sym_0607E944
 .L_0602FA0C:
     .4byte  FUN_0601D5F4

@@ -146,7 +146,7 @@ FUN_06015C30:
     mov r0, r3
     extu.b r3, r3
     shll2 r3
-    .byte   0xD2, 0x14    /* mov.l .L_pool_06015CA4, r2 */
+    mov.l   .L_pool_06015CA4, r2
     add r2, r3
     mov.l @r3, r3
     mov.b @r15, r4
@@ -194,6 +194,7 @@ FUN_06015C5E:
     .2byte  0xFFFF
 .L_pool_06015CA2:
     .4byte  sym_06084FC8
+.L_pool_06015CA4:
     .4byte  sym_0605B8B0
 .L_pool_06015CAA:
     .4byte  sym_060172E4

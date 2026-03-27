@@ -6,7 +6,7 @@
     .type FUN_06040964, @function
 FUN_06040964:
     sts.l pr, @-r15
-    .byte   0xD3, 0x12    /* mov.l .L_pool_060409B0, r3 */
+    mov.l   .L_pool_060409B0, r3
     jsr @r3
     nop
     mov r0, r4
@@ -54,6 +54,7 @@ FUN_06040980:
     mov.l   .L_pool_060409BC, r3
     jmp @r3
     mov.l @r15+, r14
+.L_pool_060409B0:
     .4byte  FUN_06041648
 .L_pool_060409B4:
     .4byte  sym_06035228

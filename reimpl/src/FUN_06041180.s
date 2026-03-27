@@ -15,7 +15,7 @@ FUN_06041180:
     rts
     mov #-0x9, r0
 .L_06041192:
-    .byte   0xD3, 0x1B    /* mov.l .L_pool_06041200, r3 */
+    mov.l   .L_pool_06041200, r3
     jsr @r3
     nop
     mov #0x0, r0
@@ -81,4 +81,5 @@ DAT_060411f6:
     .2byte  0xFFFF
 .L_pool_060411FC:
     .4byte  sym_060A5400
+.L_pool_06041200:
     .4byte  FUN_06034D1C

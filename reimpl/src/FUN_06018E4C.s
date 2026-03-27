@@ -14,9 +14,9 @@ FUN_06018E4C:
     mov.l r4, @r3
     mov r15, r3
     mov.l r4, @(8, r2)
-    .byte   0x92, 0x1F    /* mov.w .L_wpool_06018EA0, r2 */
+    mov.w   .L_pool_06018EA0, r2
     mov.b r2, @(r0, r3)
-    .byte   0xD3, 0x10    /* mov.l .L_pool_06018EA4, r3 */
+    mov.l   .L_pool_06018EA4, r3
     jsr @r3
     mov r15, r4
     add #0x14, r15
@@ -56,7 +56,9 @@ FUN_06018E88:
     lds.l @r15+, pr
     rts
     nop
+.L_pool_06018EA0:
     .4byte  0x00FFFFFF
+.L_pool_06018EA4:
     .4byte  FUN_06034D1C
 .L_06018EA8:
     .4byte  FUN_06034DEA

@@ -6,9 +6,9 @@
     .type FUN_06030540, @function
 FUN_06030540:
     mov.l r14, @-r15
-    .byte   0xDE, 0x0B    /* mov.l .L_pool_06030570, r14 */
+    mov.l   .L_pool_06030570, r14
     mov.w r4, @r14
-    .byte   0xDE, 0x0B    /* mov.l .L_pool_06030574, r14 */
+    mov.l   .L_pool_06030574, r14
 
 
     /* THEORY: player_collision_response_chain — calls speed_damping (FUN_06030E72)
@@ -46,7 +46,9 @@ DAT_0603056a:
 .L_0603056C:
     .2byte  0x0080
     .2byte  0x0000
+.L_pool_06030570:
     .4byte  sym_06030FBE
+.L_pool_06030574:
     .4byte  sym_0607E940
 .L_06030578:
     and r3, r4
@@ -1370,7 +1372,7 @@ DAT_06030da2:
     mov.l @(24, r14), r6
     mov.l r5, @(56, r14)
     mov.l r6, @(60, r14)
-    .byte   0xD0, 0x13    /* mov.l .L_pool_06030EB0, r0 */
+    mov.l   .L_pool_06030EB0, r0
 
     .global FUN_06030E64
     .type FUN_06030E64, @function
@@ -1381,7 +1383,7 @@ FUN_06030E64:
     lds.l @r15+, pr
     mov r0, r8
     mov r10, r4
-    .byte   0xD0, 0x10    /* mov.l .L_pool_06030EB4, r0 */
+    mov.l   .L_pool_06030EB4, r0
 
 
     /* THEORY: speed_damping — multiplies car speed by a friction factor.
@@ -1429,7 +1431,9 @@ FUN_06030E72:
     .global DAT_06030eae
 DAT_06030eae:
     .2byte  0x007C
+.L_pool_06030EB0:
     .4byte  FUN_06027344
+.L_pool_06030EB4:
     .4byte  FUN_06027348
 .L_pool_06030EBB:
     .4byte  0x0000DEB8

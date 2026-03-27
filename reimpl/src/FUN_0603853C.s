@@ -132,7 +132,7 @@ FUN_0603853C:
     mov #0x0, r6
     mov r6, r5
     mov r6, r4
-    .byte   0xD3, 0x21    /* mov.l .L_pool_060386A8, r3 */
+    mov.l   .L_pool_060386A8, r3
     jmp @r3
     mov.l @r15+, r14
 .L_06038626:
@@ -211,6 +211,7 @@ FUN_06038642:
     bra     .L_0603876C
     nop
     .2byte  0xFFFF
+.L_pool_060386A8:
     .4byte  FUN_0603DDFC
 .L_pool_060386AF:
     .4byte  sym_060A4C78

@@ -276,39 +276,39 @@ DAT_06006362:
     .4byte  sym_06063F14
 .L_06006494:
     mov #0x3, r2
-    .byte   0x90, 0x59    /* mov.w .L_wpool_0600654C, r0 */
+    mov.w   .L_pool_0600654C, r0
     mov.w r2, @(r0, r4)
     mov r2, r3
     add #0x2, r0
     mov.w r3, @(r0, r4)
 .L_060064A0:
-    .byte   0xD3, 0x2B    /* mov.l .L_pool_06006550, r3 */
+    mov.l   .L_pool_06006550, r3
     mov #0x2, r2
     mov #0x0, r5
     mov.l r13, @r3
     mov.l   .L_06006554, r3
     mov.l r2, @r3
     mov #0x1, r2
-    .byte   0xD3, 0x2A    /* mov.l .L_pool_06006558, r3 */
+    mov.l   .L_pool_06006558, r3
     mov.l r2, @r3
     mov.l   .L_0600655C, r3
     jsr @r3
     mov #0x8, r4
-    .byte   0xD2, 0x29    /* mov.l .L_pool_06006560, r2 */
+    mov.l   .L_pool_06006560, r2
     mov.l   .L_06006564, r3
     mov.l r2, @r3
-    .byte   0xD4, 0x2A    /* mov.l .L_pool_06006568, r4 */
-    .byte   0xD3, 0x2A    /* mov.l .L_pool_0600656C, r3 */
+    mov.l   .L_pool_06006568, r4
+    mov.l   .L_pool_0600656C, r3
     mov.l r4, @r3
-    .byte   0xD2, 0x2A    /* mov.l .L_pool_06006570, r2 */
-    .byte   0xD3, 0x2B    /* mov.l .L_pool_06006574, r3 */
+    mov.l   .L_pool_06006570, r2
+    mov.l   .L_pool_06006574, r3
     mov.l r2, @r3
-    .byte   0xD2, 0x2B    /* mov.l .L_pool_06006578, r2 */
-    .byte   0xD3, 0x2B    /* mov.l .L_pool_0600657C, r3 */
+    mov.l   .L_pool_06006578, r2
+    mov.l   .L_pool_0600657C, r3
     mov.l r2, @r3
-    .byte   0xD3, 0x2B    /* mov.l .L_pool_06006580, r3 */
+    mov.l   .L_pool_06006580, r3
     mov.l r13, @r3
-    .byte   0xD3, 0x2B    /* mov.l .L_pool_06006584, r3 */
+    mov.l   .L_pool_06006584, r3
     mov.l r4, @r3
     mov #0x2, r2
     mov.l   .L_06006588, r3
@@ -376,23 +376,35 @@ FUN_060064F2:
     mov.l r3, @r13
     bra     .L_06006780
     nop
+.L_pool_0600654C:
     .4byte  0x00DCFFFF
+.L_pool_06006550:
     .4byte  sym_060620D0
 .L_06006554:
     .4byte  sym_06063E1C
+.L_pool_06006558:
     .4byte  sym_06059F30
 .L_0600655C:
     .4byte  FUN_06038BD4
+.L_pool_06006560:
     .4byte  0x00058000
 .L_06006564:
     .4byte  sym_06063E24
+.L_pool_06006568:
     .4byte  0x0000F300
+.L_pool_0600656C:
     .4byte  sym_06063E34
+.L_pool_06006570:
     .4byte  0x006E0000
+.L_pool_06006574:
     .4byte  sym_06063E28
+.L_pool_06006578:
     .4byte  0x00100000
+.L_pool_0600657C:
     .4byte  sym_06063E2C
+.L_pool_06006580:
     .4byte  sym_06063E30
+.L_pool_06006584:
     .4byte  sym_06063EEC
 .L_06006588:
     .4byte  sym_06063E20

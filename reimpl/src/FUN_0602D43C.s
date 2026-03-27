@@ -713,7 +713,7 @@ FUN_0602D89A:
     .global sym_0602D8BC
 sym_0602D8BC:
     mov #0x0, r4
-    .byte   0x91, 0x2A    /* mov.w .L_wpool_0602D916, r1 */
+    mov.w   .L_pool_0602D916, r1
     mov.w @(r0, r1), r2
     cmp/eq r4, r2
     .byte   0x8B, 0x2E    /* bf 0x0602D924 (external) */
@@ -761,6 +761,7 @@ FUN_0602D8C6:
     lds.l @r15+, pr
     rts
     nop
+.L_pool_0602D916:
     .2byte  0x0250
 
     .global DAT_0602d918

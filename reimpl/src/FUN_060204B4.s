@@ -7,10 +7,10 @@
 FUN_060204B4:
     sts.l pr, @-r15
     add #-0x4, r15
-    .byte   0xD3, 0x16    /* mov.l .L_pool_06020514, r3 */
+    mov.l   .L_pool_06020514, r3
     jsr @r3
     mov.b r4, @r15
-    .byte   0xD3, 0x16    /* mov.l .L_pool_06020518, r3 */
+    mov.l   .L_pool_06020518, r3
     jsr @r3
     nop
     mov.b @r15, r4
@@ -67,7 +67,9 @@ FUN_060204D0:
 FUN_06020510:
     rts
     nop
+.L_pool_06020514:
     .4byte  sym_06028560
+.L_pool_06020518:
     .4byte  FUN_060032D4
 .L_pool_0602051C:
     .4byte  sym_06087814

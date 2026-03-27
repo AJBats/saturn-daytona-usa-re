@@ -363,11 +363,11 @@ DAT_0602f1f2:
     mov.w   DAT_0602f24c, r8
     mov.l @(r0, r8), r4
     shll16 r4
-    .byte   0xD2, 0x12    /* mov.l .L_pool_0602F254, r2 */
+    mov.l   .L_pool_0602F254, r2
     shll2 r3
     add r2, r3
     mov.l @r3, r5
-    .byte   0xDC, 0x11    /* mov.l .L_pool_0602F258, r12 */
+    mov.l   .L_pool_0602F258, r12
 
 
     .global FUN_0602F214
@@ -414,7 +414,9 @@ DAT_0602f24e:
 .L_wpool_0602F250:
     .2byte  0x00C0
     .2byte  0x0000
+.L_pool_0602F254:
     .4byte  sym_060477CC                 /* [MEDIUM] course speed table (shared pool, not referenced in this TU) */
+.L_pool_0602F258:
     .4byte  FUN_0602755C
 .L_pool_0602F25C:
     .4byte  sym_0602F3CC

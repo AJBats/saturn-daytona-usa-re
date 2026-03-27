@@ -10,11 +10,11 @@ FUN_0601EB70:
     mov.l r13, @-r15
     mov.l r12, @-r15
     mov.l r11, @-r15
-    .byte   0xDB, 0x1E    /* mov.l .L_pool_0601EBF4, r11 */
-    .byte   0xDC, 0x1E    /* mov.l .L_pool_0601EBF8, r12 */
-    .byte   0xDD, 0x1F    /* mov.l .L_pool_0601EBFC, r13 */
-    .byte   0xD7, 0x1F    /* mov.l .L_pool_0601EC00, r7 */
-    .byte   0xD6, 0x20    /* mov.l .L_pool_0601EC04, r6 */
+    mov.l   .L_pool_0601EBF4, r11
+    mov.l   .L_pool_0601EBF8, r12
+    mov.l   .L_pool_0601EBFC, r13
+    mov.l   .L_pool_0601EC00, r7
+    mov.l   .L_pool_0601EC04, r6
     mov.l   .L_0601EC08, r0
     mov.b @r0, r0
     extu.b r0, r0
@@ -82,10 +82,15 @@ FUN_0601EBDA:
 .L_0601EBF0:
     .2byte  0x00F0
     .2byte  0xFFFF
+.L_pool_0601EBF4:
     .4byte  sym_0604A5C0
+.L_pool_0601EBF8:
     .4byte  sym_060877D8
+.L_pool_0601EBFC:
     .4byte  sym_0605E098
+.L_pool_0601EC00:
     .4byte  sym_0604A5AC
+.L_pool_0601EC04:
     .4byte  sym_0605E09C
 .L_0601EC08:
     .4byte  sym_06087080
@@ -521,31 +526,19 @@ FUN_0601EBDA:
 .L_0601EF58:
     .4byte  sym_06060D66
 .L_0601EF5C:
-    .byte   0xD6, 0x1F    /* mov.l .L_ptr_xform_param_28, r6 */
+    mov.l   .L_pool_0601EFDC, r6
     mov.b @r4+, r1
     mov.b r1, @r6
     add #0x1, r6
     mov.b @r4+, r2
     mov.b r2, @r6
-    .byte   0xD6, 0x1D    /* mov.l .L_ptr_xform_param_2A, r6 */
+    mov.l   .L_pool_0601EFE0, r6
     mov.b @r4+, r1
     mov.b r1, @r6
     add #0x1, r6
     mov.b @r4+, r2
     mov.b r2, @r6
-    .byte   0xD6, 0x1B    /* mov.l .L_ptr_xform_param_2C, r6 */
-    mov.b @r4+, r1
-    mov.b r1, @r6
-    add #0x1, r6
-    mov.b @r4+, r1
-    mov.b r1, @r6
-    add #0x1, r6
-    mov.b @r4+, r1
-    mov.b r1, @r6
-    add #0x1, r6
-    mov.b @r4+, r2
-    mov.b r2, @r6
-    .byte   0xD6, 0x16    /* mov.l .L_ptr_xform_param_30, r6 */
+    mov.l   .L_pool_0601EFE4, r6
     mov.b @r4+, r1
     mov.b r1, @r6
     add #0x1, r6
@@ -557,7 +550,19 @@ FUN_0601EBDA:
     add #0x1, r6
     mov.b @r4+, r2
     mov.b r2, @r6
-    .byte   0xD6, 0x11    /* mov.l .L_ptr_xform_param_34, r6 */
+    mov.l   .L_pool_0601EFE8, r6
+    mov.b @r4+, r1
+    mov.b r1, @r6
+    add #0x1, r6
+    mov.b @r4+, r1
+    mov.b r1, @r6
+    add #0x1, r6
+    mov.b @r4+, r1
+    mov.b r1, @r6
+    add #0x1, r6
+    mov.b @r4+, r2
+    mov.b r2, @r6
+    mov.l   .L_pool_0601EFEC, r6
     mov.b @r4+, r1
     mov.b r1, @r6
     add #0x1, r6
@@ -592,10 +597,15 @@ FUN_0601EFC4:
     nop
 .L_0601EFDA:
     .2byte  0x00F0
+.L_pool_0601EFDC:
     .4byte  sym_06060D68
+.L_pool_0601EFE0:
     .4byte  sym_06060D6A
+.L_pool_0601EFE4:
     .4byte  sym_06060D70
+.L_pool_0601EFE8:
     .4byte  sym_06060D74
+.L_pool_0601EFEC:
     .4byte  sym_06060D6C
 .L_0601EFF0:
     .4byte  sym_06087080

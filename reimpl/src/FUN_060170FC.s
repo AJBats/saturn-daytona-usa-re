@@ -10,7 +10,7 @@ FUN_060170FC:
     mov #0x12, r5
     add #-0x4, r15
     mov.b r4, @r15
-    .byte   0xD3, 0x24    /* mov.l .L_pool_06017198, r3 */
+    mov.l   .L_pool_06017198, r3
     jsr @r3
     mov r5, r4
     mov.b @r15, r4
@@ -27,7 +27,7 @@ FUN_06017116:
     sts.l pr, @-r15
     add #-0x4, r15
     mov.b r4, @r15
-    .byte   0xD3, 0x1F    /* mov.l .L_pool_0601719C, r3 */
+    mov.l   .L_pool_0601719C, r3
     jsr @r3
     mov #0x12, r4
     mov.b @r15, r4
@@ -97,7 +97,9 @@ FUN_0601712C:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
+.L_pool_06017198:
     .4byte  FUN_06018DDC
+.L_pool_0601719C:
     .4byte  sym_06018E1E
 .L_pool_060171A0:
     .4byte  sym_06084FC8

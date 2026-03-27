@@ -8,45 +8,45 @@ FUN_0600E060:
     mov.l r14, @-r15
     mov.l r13, @-r15
     sts.l pr, @-r15
-    .byte   0xDE, 0x21    /* mov.l .L_pool_0600E0EC, r14 */
-    .byte   0xD3, 0x21    /* mov.l .L_pool_0600E0F0, r3 */
-    .byte   0xD2, 0x22    /* mov.l .L_pool_0600E0F4, r2 */
+    mov.l   .L_pool_0600E0EC, r14
+    mov.l   .L_pool_0600E0F0, r3
+    mov.l   .L_pool_0600E0F4, r2
     mov.l @r14, r14
     mov.l @r3, r3
     shar r3
     mov.w r3, @r2
     mov.l   .L_0600E0F8, r2
     mov.l r14, @r2
-    .byte   0xD1, 0x20    /* mov.l .L_pool_0600E0FC, r1 */
-    .byte   0xD2, 0x21    /* mov.l .L_pool_0600E100, r2 */
+    mov.l   .L_pool_0600E0FC, r1
+    mov.l   .L_pool_0600E100, r2
     mov.l r1, @r2
-    .byte   0xD2, 0x21    /* mov.l .L_pool_0600E104, r2 */
+    mov.l   .L_pool_0600E104, r2
     jsr @r2
     nop
     mov.l @(24, r14), r5
-    .byte   0xD3, 0x20    /* mov.l .L_pool_0600E108, r3 */
+    mov.l   .L_pool_0600E108, r3
     jsr @r3
     mov.l @(16, r14), r4
-    .byte   0xD3, 0x1F    /* mov.l .L_pool_0600E10C, r3 */
+    mov.l   .L_pool_0600E10C, r3
     mov.l r0, @r3
-    .byte   0xD3, 0x1F    /* mov.l .L_pool_0600E110, r3 */
+    mov.l   .L_pool_0600E110, r3
     jsr @r3
     nop
     mov.l   .L_0600E114, r13
-    .byte   0xD4, 0x1F    /* mov.l .L_pool_0600E118, r4 */
+    mov.l   .L_pool_0600E118, r4
     jsr @r13
     mov #0x0, r5
-    .byte   0xD4, 0x1F    /* mov.l .L_pool_0600E11C, r4 */
+    mov.l   .L_pool_0600E11C, r4
     jsr @r13
     mov #0x1, r5
-    .byte   0xD4, 0x1E    /* mov.l .L_pool_0600E120, r4 */
+    mov.l   .L_pool_0600E120, r4
     jsr @r13
     mov #0x2, r5
-    .byte   0xD4, 0x1E    /* mov.l .L_pool_0600E124, r4 */
+    mov.l   .L_pool_0600E124, r4
     jsr @r13
     mov #0x3, r5
     mov r14, r4
-    .byte   0xD3, 0x1D    /* mov.l .L_pool_0600E128, r3 */
+    mov.l   .L_pool_0600E128, r3
     jsr @r3
     add #0x14, r4
     lds.l @r15+, pr
@@ -86,23 +86,37 @@ FUN_0600E0C0:
     mov #0x1, r13
 .L_0600E0EA:
     .2byte  0x0268
+.L_pool_0600E0EC:
     .4byte  sym_0607E944
+.L_pool_0600E0F0:
     .4byte  sym_0607EA98
+.L_pool_0600E0F4:
     .4byte  sym_060786CA
 .L_0600E0F8:
     .4byte  sym_0607E940
+.L_pool_0600E0FC:
     .4byte  sym_06078B68
+.L_pool_0600E100:
     .4byte  sym_0607E948
+.L_pool_0600E104:
     .4byte  sym_0602DC18
+.L_pool_0600E108:
     .4byte  sym_06006838
+.L_pool_0600E10C:
     .4byte  sym_060786B8
+.L_pool_0600E110:
     .4byte  FUN_06005ECC
 .L_0600E114:
     .4byte  FUN_06027CA4
+.L_pool_0600E118:
     .4byte  sym_06063EB0
+.L_pool_0600E11C:
     .4byte  sym_06063E9C
+.L_pool_0600E120:
     .4byte  sym_06063ED8
+.L_pool_0600E124:
     .4byte  sym_06063EC4
+.L_pool_0600E128:
     .4byte  FUN_06033020
 .L_0600E12C:
     .4byte  sym_0607EBC4

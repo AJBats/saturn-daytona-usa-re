@@ -40,7 +40,7 @@ FUN_060362B0:
     mov.b @(5, r14), r0
     mov r0, r2
     mov.b r0, @(7, r3)
-    .byte   0xD3, 0x20    /* mov.l .L_pool_06036378, r3 */
+    mov.l   .L_pool_06036378, r3
     jsr @r3
     mov #0x40, r4
     mov r0, r4
@@ -114,6 +114,7 @@ FUN_06036310:
     .2byte  0xFFFF
 .L_pool_06036374:
     .4byte  FUN_06035E90
+.L_pool_06036378:
     .4byte  FUN_06035EC8
 .L_pool_0603637C:
     .4byte  FUN_06035EA2

@@ -8,8 +8,8 @@ FUN_060034D4:
     mov.l r14, @-r15
     sts.l pr, @-r15
 
-    .byte   0x96, 0x30    /* mov.w .L_pal_copy_size, r6 */
-    .byte   0xD5, 0x1A    /* mov.l .L_vdp2_cram_0x860, r5 */
+    mov.w   .L_pool_0600353C, r6
+    mov.l   .L_pool_06003544, r5
     mov.l   .L_06003548, r4
     mov.l   .L_0600354C, r3
     jsr @r3
@@ -17,18 +17,18 @@ FUN_060034D4:
 
     mov.l   .L_06003550, r14
     mov.l   .L_06003554, r5
-    .byte   0xD4, 0x1B    /* mov.l .L_vdp2_vram_0x497E4, r4 */
+    mov.l   .L_pool_06003558, r4
     jsr @r14
     nop
 
     mov.l   .L_0600355C, r5
-    .byte   0xD4, 0x1B    /* mov.l .L_vdp2_vram_0x4108C, r4 */
+    mov.l   .L_pool_06003560, r4
     jsr @r14
     mov.l @r5, r5
 
     mov.l   .L_0600355C, r5
     mov.w   .L_0600353E, r2
-    .byte   0xD4, 0x1A    /* mov.l .L_vdp2_vram_0x41A24, r4 */
+    mov.l   .L_pool_06003564, r4
     mov.l @r5, r5
     jsr @r14
     add r2, r5
@@ -67,12 +67,14 @@ FUN_06003508:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
+.L_pool_0600353C:
     .2byte  0x00E0
 .L_0600353E:
     .2byte  0x2000
 .L_06003540:
     .2byte  0x0100
     .2byte  0xFFFF
+.L_pool_06003544:
     .4byte  0x25F00860
 .L_06003548:
     .4byte  0x25F00200
@@ -82,10 +84,13 @@ FUN_06003508:
     .4byte  FUN_06028654
 .L_06003554:
     .4byte  0x25E34000
+.L_pool_06003558:
     .4byte  0x25E497E4
 .L_0600355C:
     .4byte  sym_060612AC
+.L_pool_06003560:
     .4byte  0x25E4108C
+.L_pool_06003564:
     .4byte  0x25E41A24
 .L_06003568:
     .4byte  0x25F00940

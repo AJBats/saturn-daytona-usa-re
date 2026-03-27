@@ -172,7 +172,7 @@ DAT_0603b270:
 .L_0603B274:
     .4byte  0x7FFFFFFF
 .L_0603B278:
-    .byte   0xD3, 0x24    /* mov.l .L_pool_0603B30C, r3 */
+    mov.l   .L_pool_0603B30C, r3
     jsr @r3
     nop
     bra     .L_0603B244
@@ -261,6 +261,7 @@ FUN_0603B290:
     .reloc ., R_SH_IND12W, FUN_0603B93C - 4
     .2byte 0xA000    /* bra FUN_0603B93C (linker-resolved) */
     mov.l @r15+, r14
+.L_pool_0603B30C:
     .4byte  FUN_06063644
 .L_pool_0603B311:
     .4byte  sym_0603F9DA

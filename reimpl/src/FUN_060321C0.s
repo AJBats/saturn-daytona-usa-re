@@ -14,10 +14,10 @@ FUN_060321C0:
     mov.l r8, @-r15
     xor r7, r7
     mov r7, r1
-    .byte   0xD0, 0x1A    /* mov.l .L_pool_0603223C, r0 */
+    mov.l   .L_pool_0603223C, r0
     shll2 r1
     mov.l @(r0, r1), r14
-    .byte   0xD0, 0x19    /* mov.l .L_pool_06032240, r0 */
+    mov.l   .L_pool_06032240, r0
     mov.b r7, @(r0, r14)
 
 
@@ -29,11 +29,11 @@ FUN_060321DC:
     .2byte 0xB000    /* bsr FUN_06032D90 (linker-resolved) */
     nop
     lds.l @r15+, pr
-    .byte   0xD1, 0x17    /* mov.l .L_pool_06032244, r1 */
-    .byte   0xD0, 0x18    /* mov.l .L_pool_06032248, r0 */
+    mov.l   .L_pool_06032244, r1
+    mov.l   .L_pool_06032248, r0
     mov.w r1, @(r0, r14)
     mov.l r7, @-r15
-    .byte   0xD4, 0x17    /* mov.l .L_pool_0603224C, r4 */
+    mov.l   .L_pool_0603224C, r4
 
 
     .global FUN_060321EE
@@ -80,10 +80,15 @@ FUN_060321EE:
     mov.l @r15+, r14
     rts
     nop
+.L_pool_0603223C:
     .4byte  sym_060623B0
+.L_pool_06032240:
     .4byte  0x000002DC
+.L_pool_06032244:
     .4byte  0x00000004
+.L_pool_06032248:
     .4byte  0x0000000E
+.L_pool_0603224C:
     .4byte  0x00000000
 .L_pool_06032257:
     .4byte  sym_06062464

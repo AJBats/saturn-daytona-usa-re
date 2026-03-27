@@ -11,57 +11,57 @@ FUN_0600E47C:
     mov.l   .L_0600E528, r3
     mov.l @r14, r14
     mov.l r14, @r3
-    .byte   0xD3, 0x28    /* mov.l .L_fn_audio_phase, r3 */
+    mov.l   .L_pool_0600E52C, r3
     jsr @r3
     nop
-    .byte   0xD3, 0x28    /* mov.l .L_fn_gas_force, r3 */
+    mov.l   .L_pool_0600E530, r3
     jsr @r3
     nop
-    .byte   0xD3, 0x27    /* mov.l .L_fn_brake_force, r3 */
+    mov.l   .L_pool_0600E534, r3
     jsr @r3
     nop
-    .byte   0xD3, 0x27    /* mov.l .L_fn_timer_trigger, r3 */
+    mov.l   .L_pool_0600E538, r3
     jsr @r3
     nop
-    .byte   0xD3, 0x26    /* mov.l .L_fn_timer_decrement, r3 */
+    mov.l   .L_pool_0600E53C, r3
     jsr @r3
     nop
     .byte   0xB1, 0x8F    /* bsr FUN_0600E7C8 */
     nop
     mov.l @(24, r14), r5
-    .byte   0xD3, 0x24    /* mov.l .L_fn_grid_pack, r3 */
+    mov.l   .L_pool_0600E540, r3
     jsr @r3
     mov.l @(16, r14), r4
-    .byte   0xD3, 0x24    /* mov.l .L_grid_result_store, r3 */
+    mov.l   .L_pool_0600E544, r3
     mov.l r0, @r3
-    .byte   0xD3, 0x24    /* mov.l .L_fn_seg_track, r3 */
+    mov.l   .L_pool_0600E548, r3
     jsr @r3
     nop
-    .byte   0xDE, 0x23    /* mov.l .L_fn_scene_3d, r14 */
-    .byte   0xD4, 0x24    /* mov.l .L_geom_channel_0, r4 */
+    mov.l   .L_pool_0600E54C, r14
+    mov.l   .L_pool_0600E550, r4
     jsr @r14
     mov #0x0, r5
-    .byte   0xD4, 0x23    /* mov.l .L_geom_channel_1, r4 */
+    mov.l   .L_pool_0600E554, r4
     jsr @r14
     mov #0x1, r5
-    .byte   0xD4, 0x23    /* mov.l .L_geom_channel_2, r4 */
+    mov.l   .L_pool_0600E558, r4
     jsr @r14
     mov #0x2, r5
-    .byte   0xD4, 0x22    /* mov.l .L_geom_channel_3, r4 */
+    mov.l   .L_pool_0600E55C, r4
     jsr @r14
     mov #0x3, r5
-    .byte   0xD3, 0x22    /* mov.l .L_fn_finish_prox, r3 */
+    mov.l   .L_pool_0600E560, r3
     jsr @r3
     nop
-    .byte   0xD3, 0x21    /* mov.l .L_fn_collision, r3 */
+    mov.l   .L_pool_0600E564, r3
     jsr @r3
     nop
-    .byte   0xD3, 0x21    /* mov.l .L_fn_render_finalize, r3 */
+    mov.l   .L_pool_0600E568, r3
     jsr @r3
     mov #0x0, r4
     mov #0x0, r4
     lds.l @r15+, pr
-    .byte   0xD3, 0x1F    /* mov.l .L_fn_checkpoint, r3 */
+    mov.l   .L_pool_0600E56C, r3
     jmp @r3
     mov.l @r15+, r14
 
@@ -101,22 +101,39 @@ DAT_0600e522:
     .4byte  sym_0607E944
 .L_0600E528:
     .4byte  sym_0607E940
+.L_pool_0600E52C:
     .4byte  sym_0600A8BC
+.L_pool_0600E530:
     .4byte  FUN_060081F4
+.L_pool_0600E534:
     .4byte  FUN_060085B8
+.L_pool_0600E538:
     .4byte  sym_06030A06
+.L_pool_0600E53C:
     .4byte  sym_06030EE0
+.L_pool_0600E540:
     .4byte  sym_06006838
+.L_pool_0600E544:
     .4byte  sym_060786B8
+.L_pool_0600E548:
     .4byte  FUN_06005ECC
+.L_pool_0600E54C:
     .4byte  FUN_06027CA4
+.L_pool_0600E550:
     .4byte  sym_06063EB0
+.L_pool_0600E554:
     .4byte  sym_06063E9C
+.L_pool_0600E558:
     .4byte  sym_06063ED8
+.L_pool_0600E55C:
     .4byte  sym_06063EC4
+.L_pool_0600E560:
     .4byte  FUN_0600DA7C
+.L_pool_0600E564:
     .4byte  FUN_0600CE66
+.L_pool_0600E568:
     .4byte  sym_0603053C
+.L_pool_0600E56C:
     .4byte  FUN_0600D780
 .L_0600E570:
     .4byte  sym_060786BC

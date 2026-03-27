@@ -7,9 +7,9 @@
 FUN_06008B78:
     sts.l pr, @-r15
     mov #0x9, r3
-    .byte   0xD2, 0x0F    /* mov.l .L_pool_06008BBC, r2 */
+    mov.l   .L_pool_06008BBC, r2
     mov.l r3, @r2
-    .byte   0xD3, 0x0F    /* mov.l .L_pool_06008BC0, r3 */
+    mov.l   .L_pool_06008BC0, r3
     jsr @r3
     nop
     mov.l   .L_pool_06008BC4, r3
@@ -19,7 +19,7 @@ FUN_06008B78:
     mov.l   .L_pool_06008BC8, r3
     mov.l r2, @r3
     mov #0x3, r2
-    .byte   0xD3, 0x0D    /* mov.l .L_pool_06008BCC, r3 */
+    mov.l   .L_pool_06008BCC, r3
     lds.l @r15+, pr
     rts
     mov.w r2, @r3
@@ -44,12 +44,15 @@ FUN_06008B9C:
     rts
     mov.l r2, @r3
     .2byte  0xFFFF
+.L_pool_06008BBC:
     .4byte  FUN_0605ACC4
+.L_pool_06008BC0:
     .4byte  FUN_060198E0
 .L_pool_06008BC4:
     .4byte  sym_06026CE0
 .L_pool_06008BC8:
     .4byte  sym_06059F44
+.L_pool_06008BCC:
     .4byte  sym_0605A016
 .L_pool_06008BD0:
     .4byte  FUN_06019A48

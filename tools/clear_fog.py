@@ -36,11 +36,33 @@ def compute_pc(section_addr, lines, line_idx):
     return section_addr + offset
 
 
+def compute_line_sizes(lines):
+    """Compute byte sizes for all lines, tracking block comment state."""
+    sizes = []
+    in_comment = False
+    for line in lines:
+        stripped = line.strip()
+        if in_comment:
+            sizes.append(0)
+            if '*/' in stripped:
+                in_comment = False
+            continue
+        if stripped.startswith('/*'):
+            sizes.append(0)
+            if '*/' not in stripped:
+                in_comment = True
+            continue
+        sizes.append(line_byte_size(line))
+    return sizes
+
+
 def line_byte_size(text):
-    """Return bytes emitted by one assembly source line."""
+    """Return bytes emitted by one assembly source line (no comment tracking)."""
     stripped = text.strip()
-    if not stripped or stripped.startswith('/*') or stripped.startswith('*'):
+    if not stripped:
         return 0
+    if stripped.startswith('/*') or stripped.startswith('*'):
+        return 0  # single-line comment
     if stripped.startswith('.section') or stripped.startswith('.global') or \
        stripped.startswith('.type') or stripped.startswith('.align') or \
        stripped.startswith('.balign'):
@@ -91,14 +113,15 @@ def extract_section_addr(lines):
 def build_label_map(lines, section_addr):
     """Build map of label_name -> address for all labels in the file."""
     labels = {}
+    sizes = compute_line_sizes(lines)
     offset = 0
-    for line in lines:
+    for i, line in enumerate(lines):
         stripped = line.strip()
         m = re.match(r'^(\.?[A-Za-z_]\w*)\s*:', stripped)
         if m:
             label_name = m.group(1)
             labels[label_name] = section_addr + offset
-        offset += line_byte_size(line)
+        offset += sizes[i]
     return labels
 
 
@@ -162,11 +185,13 @@ def process_file(filepath, apply=False):
 
     labels = build_label_map(lines, section_addr)
     addr_to_label = build_addr_to_label(labels)
+    sizes = compute_line_sizes(lines)
+    section_size = sum(sizes)
 
-    # Scan for pool loads
+    # Pass 1: identify pool loads and needed labels
     total = 0
-    convertible = 0
-    conversions = []  # (line_idx, new_line)
+    needed_labels = {}  # target_addr -> label_name
+    pool_loads = []     # (line_idx, insn_type, reg, target)
     offset = 0
 
     for i, line in enumerate(lines):
@@ -177,29 +202,67 @@ def process_file(filepath, apply=False):
             target = compute_pool_target(insn_type, pc, disp)
             total += 1
 
-            if target in addr_to_label:
-                label = addr_to_label[target]
-                # mov.l requires pool target to be 4-byte aligned relative
-                # to section start. GNU as checks this and rejects if not.
-                # SUBALIGN(2) means sections can start at 2-byte boundaries,
-                # causing the assembler's check to fail for valid runtime code.
-                if insn_type == 'mov.l' and (target - section_addr) % 4 != 0:
-                    continue  # skip — assembler would reject
-                # Preserve original indentation
-                indent = line[:len(line) - len(line.lstrip())]
-                new_line = f"{indent}{insn_type}   {label}, r{reg}\n"
-                conversions.append((i, new_line, line.rstrip(), label, target))
-                convertible += 1
+            in_section = section_addr <= target < section_addr + section_size
+            if not in_section:
+                offset += sizes[i]
+                continue  # cross-section, can't convert
+            if insn_type == 'mov.l' and (target - section_addr) % 4 != 0:
+                offset += sizes[i]
+                continue  # assembler would reject
 
-        offset += line_byte_size(line)
+            if target not in addr_to_label and target not in needed_labels:
+                needed_labels[target] = f".L_pool_{target:08X}"
+
+            pool_loads.append((i, insn_type, reg, target))
+
+        offset += sizes[i]
+
+    if not pool_loads:
+        return 0, total, []
+
+    # Pass 2: rebuild file — insert labels and convert pool loads
+    # Build offset->addr map for label insertion points
+    convert_set = {}  # line_idx -> (insn_type, reg, label_name)
+    for idx, insn_type, reg, target in pool_loads:
+        label = addr_to_label.get(target) or needed_labels.get(target)
+        if label:
+            convert_set[idx] = (insn_type, reg, label)
+
+    # Build insertion points: offset_in_section -> label_name
+    insert_at_offset = {}
+    for addr, name in needed_labels.items():
+        insert_at_offset[addr - section_addr] = name
+
+    # Rebuild lines
+    new_lines = []
+    offset = 0
+    conversions = []
+    for i, line in enumerate(lines):
+        # Insert label if needed at this offset
+        if offset in insert_at_offset:
+            new_lines.append(f"{insert_at_offset[offset]}:\n")
+
+        # Convert pool load if applicable
+        if i in convert_set:
+            insn_type, reg, label = convert_set[i]
+            indent = line[:len(line) - len(line.lstrip())]
+            new_line = f"{indent}{insn_type}   {label}, r{reg}\n"
+            new_lines.append(new_line)
+            conversions.append((i, new_line, line.rstrip(), label, 0))
+        else:
+            new_lines.append(line)
+
+        offset += sizes[i]
+
+    # Check for label at very end
+    if offset in insert_at_offset:
+        new_lines.append(f"{insert_at_offset[offset]}:\n")
 
     if apply and conversions:
-        for idx, new_line, _, _, _ in conversions:
-            lines[idx] = new_line
         with open(filepath, 'w', newline='\n') as f:
-            f.writelines(lines)
+            f.writelines(new_lines)
 
-    return convertible, total, conversions
+    return len(conversions), total, conversions
 
 
 def main():

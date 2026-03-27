@@ -12,7 +12,7 @@ FUN_0603226C:
     mov.l r10, @-r15
     mov.l r9, @-r15
     mov.l r8, @-r15
-    .byte   0xD4, 0x15    /* mov.l .L_pool_060322D0, r4 */
+    mov.l   .L_pool_060322D0, r4
 
 
     .global FUN_0603227C
@@ -22,7 +22,7 @@ FUN_0603227C:
     bsr     FUN_06032304
     nop
     lds.l @r15+, pr
-    .byte   0xD4, 0x13    /* mov.l .L_pool_060322D4, r4 */
+    mov.l   .L_pool_060322D4, r4
 
 
     .global FUN_06032286
@@ -32,7 +32,7 @@ FUN_06032286:
     bsr     FUN_06032304
     nop
     lds.l @r15+, pr
-    .byte   0xD4, 0x12    /* mov.l .L_pool_060322D8, r4 */
+    mov.l   .L_pool_060322D8, r4
 
     .global FUN_06032290
     .type FUN_06032290, @function
@@ -41,7 +41,7 @@ FUN_06032290:
     bsr     FUN_06032304
     nop
     lds.l @r15+, pr
-    .byte   0xD4, 0x10    /* mov.l .L_pool_060322DC, r4 */
+    mov.l   .L_pool_060322DC, r4
 
 
     .global FUN_0603229A
@@ -51,7 +51,7 @@ FUN_0603229A:
     bsr     FUN_06032304
     nop
     lds.l @r15+, pr
-    .byte   0xD4, 0x0F    /* mov.l .L_pool_060322E0, r4 */
+    mov.l   .L_pool_060322E0, r4
 
     .global FUN_060322A4
     .type FUN_060322A4, @function
@@ -60,7 +60,7 @@ FUN_060322A4:
     bsr     FUN_06032304
     nop
     lds.l @r15+, pr
-    .byte   0xD4, 0x0D    /* mov.l .L_pool_060322E4, r4 */
+    mov.l   .L_pool_060322E4, r4
 
 
     .global FUN_060322AE
@@ -87,11 +87,17 @@ FUN_060322B6:
     mov.l @r15+, r14
     rts
     nop
+.L_pool_060322D0:
     .4byte  0x00000000
+.L_pool_060322D4:
     .4byte  0x00000001
+.L_pool_060322D8:
     .4byte  0x00000002
+.L_pool_060322DC:
     .4byte  0x00000003
+.L_pool_060322E0:
     .4byte  0x00000004
+.L_pool_060322E4:
     .4byte  0x00000005
 
 .L_060322E8:
@@ -170,15 +176,15 @@ FUN_0603237C:
 
     .global FUN_0603239C
 FUN_0603239C:
-    .byte   0xD0, 0x08    /* mov.l .L_pool_060323C0, r0 */
+    mov.l   .L_pool_060323C0, r0
     mov.w @(r0, r14), r1
-    .byte   0xD2, 0x08    /* mov.l .L_pool_060323C4, r2 */
+    mov.l   .L_pool_060323C4, r2
     not r2, r2
     and r2, r1
     mov.w r1, @(r0, r14)
 
 .L_060323A8:
-    .byte   0xD0, 0x07    /* mov.l .L_pool_060323C8, r0 */
+    mov.l   .L_pool_060323C8, r0
     mov.l @(r0, r14), r2
     cmp/eq r7, r2
     .byte   0x89, 0x04    /* bt 0x060323BA (external) */
@@ -195,8 +201,11 @@ FUN_060323B2:
     bra     FUN_0603230A
     nop
     .2byte  0x0000
+.L_pool_060323C0:
     .4byte  0x0000000E
+.L_pool_060323C4:
     .4byte  0x00000003
+.L_pool_060323C8:
     .4byte  0x000002D0
 
     .global FUN_060323CC

@@ -381,7 +381,7 @@ DAT_0601b392:
 .L_0601B3F4:
     mov.l   .L_pool_0601B45C, r3
     mov.b r2, @r3
-    .byte   0xD3, 0x19    /* mov.l r3, sym_0608600E */
+    mov.l   .L_pool_0601B460, r3
     mov.b r2, @r3
     mov #0xF, r6
     mov #0x4, r5
@@ -394,7 +394,7 @@ DAT_0601b392:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte   0xD3, 0x14    /* mov.l r3, FUN_06018DDC */
+    mov.l   .L_pool_0601B464, r3
     jmp @r3
     mov.l @r15+, r14
 
@@ -439,7 +439,9 @@ FUN_0601B418:
     .2byte  0x0101
 .L_pool_0601B45C:
     .4byte  sym_0608600C
+.L_pool_0601B460:
     .4byte  sym_0608600E
+.L_pool_0601B464:
     .4byte  FUN_06018DDC
 .L_pool_0601B468:
     .4byte  sym_0608600D

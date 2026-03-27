@@ -129,7 +129,7 @@ FUN_0603FA1A:
     bt      .L_0603FA9A
     mov.l @(4, r15), r6
     mov.l @(4, r14), r5
-    .byte   0xD3, 0x27    /* mov.l .L_pool_0603FB28, r3 */
+    mov.l   .L_pool_0603FB28, r3
     jsr @r3
     mov.l @(8, r15), r4
     mov.l @(4, r14), r2
@@ -144,7 +144,7 @@ FUN_0603FA1A:
     bt      .L_0603FAAC
     mov.l @(4, r15), r6
     mov.l @(12, r14), r5
-    .byte   0xD3, 0x20    /* mov.l .L_pool_0603FB28, r3 */
+    mov.l   .L_pool_0603FB28, r3
     jsr @r3
     mov.l @(12, r15), r4
     mov.l r10, @(12, r14)
@@ -228,6 +228,7 @@ DAT_0603fb22:
 DAT_0603fb24:
     .2byte  0xFF7F
     .2byte  0xFFFF
+.L_pool_0603FB28:
     .4byte  sym_0603F91C
 .L_0603FB2C:
     mov r9, r6
@@ -465,7 +466,7 @@ DAT_0603fcb6:
     tst r0, r0
     bf      .L_0603FCDA
     mov r13, r5
-    .byte   0xD3, 0x1A    /* mov.l .L_pool_0603FD34, r3 */
+    mov.l   .L_pool_0603FD34, r3
     jsr @r3
     mov.l @r15, r4
     mov.l r0, @(4, r14)
@@ -525,6 +526,7 @@ FUN_0603FCE4:
     mov.l @r15+, r14
     .2byte  0x000B
     .4byte  0xE001FFFF
+.L_pool_0603FD34:
     .4byte  sym_0603F900
 .L_pool_0603FD38:
     .4byte  sym_0603F8EE

@@ -135,7 +135,7 @@ DAT_0600c59a:
     mov #0x0, r2
     mov.l r2, @(12, r14)
 .L_0600C5C0:
-    .byte   0xD5, 0x16    /* mov.l .L_pool_0600C61C, r5 */
+    mov.l   .L_pool_0600C61C, r5
     jsr @r13
     mov.l @(12, r14), r4
     shlr16 r0
@@ -194,6 +194,7 @@ DAT_0600c616:
 .L_0600C618:
     .2byte  0x00B8
     .2byte  0xFFFF
+.L_pool_0600C61C:
     .4byte  0x00480000
 .L_0600C620:
     .4byte  FUN_06027552

@@ -7,8 +7,8 @@
 FUN_06035E90:
     sts.l pr, @-r15
     mov r4, r1
-    .byte   0xD2, 0x13    /* mov.l .L_pool_06035EE4, r2 */
-    .byte   0xD3, 0x14    /* mov.l .L_pool_06035EE8, r3 */
+    mov.l   .L_pool_06035EE4, r2
+    mov.l   .L_pool_06035EE8, r3
     jsr @r3
     mov #0x8, r0
     lds.l @r15+, pr
@@ -32,7 +32,7 @@ FUN_06035EA2:
     rts
     mov.l @r15+, r14
 .L_06035EBA:
-    .byte   0xD3, 0x0D    /* mov.l .L_pool_06035EF0, r3 */
+    mov.l   .L_pool_06035EF0, r3
     mov.b @r14, r2
     mov.b r2, @r3
     mov r4, r0
@@ -58,10 +58,13 @@ FUN_06035EC8:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
+.L_pool_06035EE4:
     .4byte  sym_06059CB0
+.L_pool_06035EE8:
     .4byte  sym_06035168
 .L_06035EEC:
     .4byte  FUN_06035D22
+.L_pool_06035EF0:
     .4byte  sym_06063594
 .L_06035EF4:
     mov.l   .L_06035F38, r5

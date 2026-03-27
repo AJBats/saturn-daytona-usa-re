@@ -22,7 +22,7 @@ FUN_06019150:
     mov.l @r0, r0
     tst r0, r0
     bf      .L_0601917C
-    .byte   0xD3, 0x18    /* mov.l .L_pool_060191D4, r3 */
+    mov.l   .L_pool_060191D4, r3
     jsr @r3
     nop
     mov #0x0, r2
@@ -84,6 +84,7 @@ FUN_0601918C:
     .4byte  0xAE0001FF
 .L_pool_060191D0:
     .4byte  0xAE0005FF
+.L_pool_060191D4:
     .4byte  sym_06012F58
 .L_pool_060191D8:
     .4byte  0x25A02DBE

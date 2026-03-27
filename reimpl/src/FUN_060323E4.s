@@ -56,7 +56,7 @@ FUN_06032414:
 FUN_06032424:
     mov #0x0, r4
     mov r7, r5
-    .byte   0xD0, 0x03    /* mov.l .L_pool_06032438, r0 */
+    mov.l   .L_pool_06032438, r0
 
 
     .global FUN_0603242A
@@ -70,6 +70,7 @@ FUN_0603242A:
     .2byte 0xA000    /* bra FUN_0603230A (linker-resolved) */
     nop
     .2byte  0x0000
+.L_pool_06032438:
     .4byte  FUN_0601D5F4
 
     .global FUN_0603243C

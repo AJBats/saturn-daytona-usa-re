@@ -40,7 +40,7 @@ FUN_06035CBC:
     bf/s    .L_06035CF4
     add #0x2, r4
 .L_06035D00:
-    .byte   0xD3, 0x22    /* mov.l .L_pool_06035D8C, r3 */
+    mov.l   .L_pool_06035D8C, r3
     jsr @r3
     mov r15, r4
     mov r0, r4
@@ -72,7 +72,7 @@ FUN_06035D22:
     and #0xF, r0
     mov r0, r14
     stc sr, r0
-    .byte   0x93, 0x29    /* mov.w .L_wpool_06035D88, r3 */
+    mov.w   .L_pool_06035D88, r3
     and r3, r0
     or #0xF0, r0
     ldc r0, sr
@@ -84,7 +84,7 @@ FUN_06035D22:
     shll2 r0
     shll2 r0
     stc sr, r2
-    .byte   0x93, 0x1D    /* mov.w .L_wpool_06035D88, r3 */
+    mov.w   .L_pool_06035D88, r3
     and r3, r2
     or r2, r0
     ldc r0, sr
@@ -121,8 +121,11 @@ FUN_06035D5A:
     mov r6, r11
     bra     .L_06035DF2
     mov #-0x1, r0
+.L_pool_06035D88:
 
+.L_pool_06035D88:
     .4byte  0xFF0FFFFF
+.L_pool_06035D8C:
     .4byte  FUN_06034CC8
 .L_06035D90:
     .4byte  sym_06063590
@@ -167,7 +170,7 @@ FUN_06035D5A:
     mov r11, r4
 
     mov.b @r11, r4
-    .byte   0x93, 0x27    /* mov.w .L_wpool_06035E22, r3 */
+    mov.w   .L_pool_06035E22, r3
     extu.b r4, r2
     cmp/eq r3, r2
     bf      .L_06035DDC
@@ -221,6 +224,7 @@ FUN_06035E00:
     mov r14, r1
     bra     .L_06035E32
     mov.w r6, @r5
+.L_pool_06035E22:
     .2byte  0x00FF
 .L_06035E24:
     .4byte  0x25890008

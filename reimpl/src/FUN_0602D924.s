@@ -7,12 +7,12 @@
 FUN_0602D924:
     sts.l pr, @-r15
     mov r0, r14
-    .byte   0x93, 0x11    /* mov.w .L_wpool_0602D94E, r3 */
+    mov.w   .L_pool_0602D94E, r3
     mov.l @(48, r0), r5
     mov.l @(r0, r3), r1
-    .byte   0xD0, 0x08    /* mov.l .L_pool_0602D950, r0 */
+    mov.l   .L_pool_0602D950, r0
     mov.l r12, @-r15
-    .byte   0xDC, 0x08    /* mov.l .L_pool_0602D954, r12 */
+    mov.l   .L_pool_0602D954, r12
 
 
     .global FUN_0602D934
@@ -31,8 +31,11 @@ FUN_0602D934:
     add r1, r5
     bra     .L_0602D95E
     nop
+.L_pool_0602D94E:
     .2byte  0x024C
+.L_pool_0602D950:
     .4byte  0x0000000F
+.L_pool_0602D954:
     .4byte  sym_0602ECCC
 .L_0602D958:
     .4byte  0x00000300

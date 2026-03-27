@@ -6,9 +6,9 @@
     .type FUN_0602DB0C, @function
 FUN_0602DB0C:
     mov.l r14, @-r15
-    .byte   0xD4, 0x2D    /* mov.l .L_pool_0602DBC4, r4 */
+    mov.l   .L_pool_0602DBC4, r4
     mov.l   .L_pool_0602DBC8, r5
-    .byte   0xDD, 0x2E    /* mov.l .L_pool_0602DBCC, r13 */
+    mov.l   .L_pool_0602DBCC, r13
 
 
     .global FUN_0602DB14
@@ -18,9 +18,9 @@ FUN_0602DB14:
     jsr @r13
     nop
     lds.l @r15+, pr
-    .byte   0xD4, 0x2C    /* mov.l .L_pool_0602DBD0, r4 */
+    mov.l   .L_pool_0602DBD0, r4
     mov.l   .L_pool_0602DBC8, r5
-    .byte   0xDD, 0x2A    /* mov.l .L_pool_0602DBCC, r13 */
+    mov.l   .L_pool_0602DBCC, r13
 
 
     .global FUN_0602DB22
@@ -145,10 +145,13 @@ DAT_0602dbc0:
     .global DAT_0602dbc2
 DAT_0602dbc2:
     .2byte  0x0002
+.L_pool_0602DBC4:
     .4byte  0x00000002
 .L_pool_0602DBC8:
     .4byte  0x00000000
+.L_pool_0602DBCC:
     .4byte  FUN_0601D5F4
+.L_pool_0602DBD0:
     .4byte  0x00000003
 .L_pool_0602DBD4:
     .4byte  sym_06082A30

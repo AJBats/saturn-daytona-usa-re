@@ -10,9 +10,9 @@ FUN_0601AF8C:
     .2byte 0xB000    /* bsr FUN_0601B0D8 (linker-resolved) */
     nop
     mov #0x14, r2
-    .byte   0xD3, 0x0C    /* mov.l .L_pool_0601AFC8, r3 */
+    mov.l   .L_pool_0601AFC8, r3
     mov.b r2, @r3
-    .byte   0xD4, 0x0C    /* mov.l .L_pool_0601AFCC, r4 */
+    mov.l   .L_pool_0601AFCC, r4
     lds.l @r15+, pr
     mov.b @r4, r2
     add #0x1, r2
@@ -43,7 +43,9 @@ FUN_0601AFA4:
     lds.l @r15+, pr
 .L_0601AFC6:
     .2byte  0x0196
+.L_pool_0601AFC8:
     .4byte  sym_0608600F
+.L_pool_0601AFCC:
     .4byte  sym_06086011
 .L_pool_0601AFD0:
     .4byte  sym_0604A480

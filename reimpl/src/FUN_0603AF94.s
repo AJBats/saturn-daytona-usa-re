@@ -31,7 +31,7 @@ FUN_0603AF94:
     .2byte 0xB000    /* bsr FUN_0603B8F4 (linker-resolved) */
     mov r12, r4
     mov r12, r5
-    .byte   0xD3, 0x1D    /* mov.l .L_pool_0603B034, r3 */
+    mov.l   .L_pool_0603B034, r3
     jsr @r3
     mov r13, r4
     mov #0x0, r4
@@ -105,6 +105,7 @@ FUN_0603AFDC:
     .2byte 0xA000    /* bra FUN_0603B93C (linker-resolved) */
     mov.l @r15+, r14
     .2byte  0xFFFF
+.L_pool_0603B034:
     .4byte  FUN_0603BF22
 .L_pool_0603B038:
     .4byte  sym_060A4D14

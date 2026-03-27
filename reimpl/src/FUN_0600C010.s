@@ -117,32 +117,32 @@ FUN_0600C010:
     extu.b r2, r2
     mov.w r2, @r4
 .L_0600C0E2:
-    .byte   0xD3, 0x29    /* mov.l .L_pool_0600C188, r3 */
-    .byte   0xD2, 0x29    /* mov.l .L_pool_0600C18C, r2 */
+    mov.l   .L_pool_0600C188, r3
+    mov.l   .L_pool_0600C18C, r2
     mov.l r3, @r2
-    .byte   0xD3, 0x29    /* mov.l .L_pool_0600C190, r3 */
-    .byte   0xD2, 0x2A    /* mov.l .L_pool_0600C194, r2 */
+    mov.l   .L_pool_0600C190, r3
+    mov.l   .L_pool_0600C194, r2
     mov.w r3, @r2
     mov.l @r8, r3
-    .byte   0xD2, 0x29    /* mov.l .L_pool_0600C198, r2 */
+    mov.l   .L_pool_0600C198, r2
     and r2, r3
     tst r3, r3
     bf      .L_0600C0FE
-    .byte   0xD3, 0x28    /* mov.l .L_pool_0600C19C, r3 */
+    mov.l   .L_pool_0600C19C, r3
     jsr @r3
     nop
 .L_0600C0FE:
-    .byte   0xD3, 0x28    /* mov.l .L_pool_0600C1A0, r3 */
+    mov.l   .L_pool_0600C1A0, r3
     jsr @r3
     nop
     .reloc ., R_SH_IND12W, FUN_0600B6A0 - 4
     .2byte 0xB000    /* bsr FUN_0600B6A0 (linker-resolved) */
     nop
     mov.l @r8, r2
-    .byte   0xD3, 0x26    /* mov.l .L_pool_0600C0AC, r3 */
+    mov.l   .L_pool_0600C1A4, r3
     cmp/eq r3, r2
     bt      .L_0600C11C
-    .byte   0xD3, 0x25    /* mov.l .L_pool_0600C1A8, r3 */
+    mov.l   .L_pool_0600C1A8, r3
     jsr @r3
     nop
     bra     .L_0600C11C
@@ -161,7 +161,7 @@ FUN_0600C010:
     tst r9, r9
     bt      .L_0600C144
     mov.b @r13, r3
-    .byte   0xD2, 0x1E    /* mov.l .L_pool_0600C0D8, r2 */
+    mov.l   .L_pool_0600C1AC, r2
     extu.b r3, r3
     mov.l @r2, r2
     cmp/ge r2, r3
@@ -212,15 +212,25 @@ FUN_0600C170:
     nop
     bra     .L_0600C1BE
     nop
+.L_pool_0600C188:
     .4byte  FUN_0600C170
+.L_pool_0600C18C:
     .4byte  sym_06063574
+.L_pool_0600C190:
     .4byte  0x0000FFFF
+.L_pool_0600C194:
     .4byte  0x21000000
+.L_pool_0600C198:
     .4byte  0x02800008
+.L_pool_0600C19C:
     .4byte  FUN_060058FA
+.L_pool_0600C1A0:
     .4byte  FUN_06006868
+.L_pool_0600C1A4:
     .4byte  0x02000000
+.L_pool_0600C1A8:
     .4byte  FUN_0601BDEC
+.L_pool_0600C1AC:
     .4byte  sym_0607EA98
 .L_0600C1B0:
     .4byte  sym_0603C000

@@ -313,16 +313,16 @@ FUN_060114B8:
 .L_06011510:
     extu.w r13, r12
     extu.w r13, r11
-    .byte   0xD3, 0x2C    /* mov.l @(+0x02 cross-TU pool), r3 */
+    mov.l   .L_pool_060115C8, r3
     shll r12
     shll2 r11
     add r3, r12
     shll2 r11
     mov.w @r12, r2
     mov.l r2, @-r15
-    .byte   0xD7, 0x2A    /* mov.l @(+0x06 cross-TU pool), r7 */
+    mov.l   .L_pool_060115CC, r7
     mov.w   DAT_060115c6, r6
-    .byte   0xD2, 0x2A    /* mov.l @(+0x0A cross-TU pool), r2 */
+    mov.l   .L_pool_060115D0, r2
     add r2, r11
     add #0xC, r11
     mov.l @r11, r5
@@ -332,14 +332,14 @@ FUN_060114B8:
     add #0x4, r15
     mov.w @r12, r7
     mov.l @r11, r6
-    .byte   0xD4, 0x26    /* mov.l @(+0x0E cross-TU pool), r4 */
+    mov.l   .L_pool_060115D4, r4
     .reloc ., R_SH_IND12W, FUN_06011978 - 4
     .2byte 0xB000    /* bsr FUN_06011978 (linker-resolved) */
     mov.l @r14, r5
     mov.w @r12, r7
     mov.l @r11, r6
     mov.l @r14, r5
-    .byte   0xD4, 0x24    /* mov.l @(+0x12 cross-TU pool), r4 */
+    mov.l   .L_pool_060115D8, r4
     lds.l @r15+, pr
     mov.l @r15+, r11
     mov.l @r15+, r12
@@ -420,10 +420,15 @@ FUN_0601155E:
     .global DAT_060115c6
 DAT_060115c6:
     mov.b r0, @(0, r0)
+.L_pool_060115C8:
     .4byte  sym_060447A4
+.L_pool_060115CC:
     .4byte  0x00010000
+.L_pool_060115D0:
     .4byte  sym_060447A8
+.L_pool_060115D4:
     .4byte  sym_06044764
+.L_pool_060115D8:
     .4byte  sym_06044784
 .L_060115DC:
     .4byte  sym_06063788

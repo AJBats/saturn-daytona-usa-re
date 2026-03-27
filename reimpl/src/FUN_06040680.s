@@ -26,7 +26,7 @@ sym_0604069A:
     add #-0x4, r15
     mov.l r4, @r15
     mov.l @(24, r4), r4
-    .byte   0xD3, 0x0E    /* mov.l .L_pool_060406DC, r3 */
+    mov.l   .L_pool_060406DC, r3
     jmp @r3
     add #0x4, r15
 
@@ -36,7 +36,7 @@ sym_060406A6:
     mov.l r4, @r15
     mov #0x0, r6
     mov.l @(24, r4), r4
-    .byte   0xD3, 0x0C    /* mov.l .L_pool_060406E0, r3 */
+    mov.l   .L_pool_060406E0, r3
     jmp @r3
     add #0x4, r15
 
@@ -70,7 +70,9 @@ FUN_060406BC:
     bt      .L_060406E8
     bra     .L_06040716
     mov #0x0, r0
+.L_pool_060406DC:
     .4byte  sym_060409DE
+.L_pool_060406E0:
     .4byte  FUN_060409E6
 .L_060406E4:
     .4byte  sym_06040FB8
@@ -91,10 +93,10 @@ FUN_060406BC:
     mov.l @(4, r13), r2
     add r2, r0
     mov.l r0, @r8
-    .byte   0xD3, 0x18    /* mov.l .L_pool_0604076C, r3 */
+    mov.l   .L_pool_0604076C, r3
     jsr @r3
     add #0x4, r4
-    .byte   0xD3, 0x18    /* mov.l .L_pool_06040770, r3 */
+    mov.l   .L_pool_06040770, r3
     jsr @r3
     mov r14, r4
     mov #0x1, r0
@@ -150,7 +152,9 @@ FUN_06040724:
     lds.l @r15+, pr
     rts
     nop
+.L_pool_0604076C:
     .4byte  FUN_0604134E
+.L_pool_06040770:
     .4byte  sym_06040FEA
 .L_06040774:
     .4byte  sym_06034FFC

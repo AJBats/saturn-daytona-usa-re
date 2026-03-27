@@ -22,7 +22,7 @@ FUN_060190BC:
     mov.l @r0, r0
     tst r0, r0
     bf      .L_060190E8
-    .byte   0xD3, 0x18    /* mov.l .L_pool_06019140, r3 */
+    mov.l   .L_pool_06019140, r3
     jsr @r3
     nop
     mov #0x0, r2
@@ -84,6 +84,7 @@ FUN_060190F8:
     .4byte  0xAE0001FF                          /* sound stop command (channel 00, cmd 01) */
 .L_pool_0601913C:
     .4byte  0xAE0005FF                          /* system variant command (channel 00, cmd 05) */
+.L_pool_06019140:
     .4byte  sym_06012F20
 .L_pool_06019144:
     .4byte  0x25A02DBE

@@ -13,12 +13,12 @@ FUN_06007CEC:
     mov.l r9, @-r15
     mov.l r8, @-r15
     sts.l pr, @-r15
-    .byte   0xD8, 0x29    /* mov.l .L_fn_distorted_sprite_builder, r8 */
-    .byte   0xD9, 0x2A    /* mov.l .L_ptr_sort_key_array, r9 */
-    .byte   0xDA, 0x2A    /* mov.l .L_const_cmdpmod_hss, r10 */
-    .byte   0xDD, 0x2B    /* mov.l .L_ptr_sprite_data_table, r13 */
-    .byte   0xDE, 0x2B    /* mov.l .L_ptr_vdp1_write_cursor, r14 */
-    .byte   0xD3, 0x2C    /* mov.l .L_fn_render_finalize, r3 */
+    mov.l   .L_pool_06007DA4, r8
+    mov.l   .L_pool_06007DA8, r9
+    mov.l   .L_pool_06007DAC, r10
+    mov.l   .L_pool_06007DB0, r13
+    mov.l   .L_pool_06007DB4, r14
+    mov.l   .L_pool_06007DB8, r3
     jsr @r3
     nop
     bra     .L_06007D6E
@@ -65,7 +65,7 @@ FUN_06007CEC:
     shll2 r3
     add r3, r4
     extu.w r4, r4
-    .byte   0xD3, 0x16    /* mov.l .L_fn_normal_sprite_builder, r3 */
+    mov.l   .L_pool_06007DBC, r3
     jsr @r3
     add r13, r4
 .L_06007D66:
@@ -74,12 +74,12 @@ FUN_06007CEC:
     add #0x20, r2
     mov.l r2, @r14
 .L_06007D6E:
-    .byte   0xD3, 0x14    /* mov.l .L_ptr_sprite_count, r3 */
+    mov.l   .L_pool_06007DC0, r3
     mov.l @r3, r3
     cmp/hs r3, r11
     bf      .L_06007D10
-    .byte   0xD3, 0x13    /* mov.l .L_const_vdp1_end_marker, r3 */
-    .byte   0xD2, 0x13    /* mov.l .L_const_vdp1_cmd_table, r2 */
+    mov.l   .L_pool_06007DC4, r3
+    mov.l   .L_pool_06007DC8, r2
     mov.w r3, @r2
     lds.l @r15+, pr
     mov.l @r15+, r8
@@ -108,15 +108,25 @@ FUN_06007D8E:
 .L_wpool_06007DA0:
     .2byte  0x0080
     .2byte  0xFFFF
+.L_pool_06007DA4:
     .4byte  sym_060281B8
+.L_pool_06007DA8:
     .4byte  sym_0606A4F8
+.L_pool_06007DAC:
     .4byte  0x00008000
+.L_pool_06007DB0:
     .4byte  sym_0608AC20
+.L_pool_06007DB4:
     .4byte  sym_06078624
+.L_pool_06007DB8:
     .4byte  sym_0603C000
+.L_pool_06007DBC:
     .4byte  sym_060280F8
+.L_pool_06007DC0:
     .4byte  sym_06078620
+.L_pool_06007DC4:
     .4byte  0x0000FFFF
+.L_pool_06007DC8:
     .4byte  0x21800000
 .L_06007DCC:
     mov r12, r4

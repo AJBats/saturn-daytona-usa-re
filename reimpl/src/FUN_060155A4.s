@@ -134,7 +134,7 @@ FUN_06015678:
     mov r0, r3
     extu.b r3, r3
     shll2 r3
-    .byte   0xD2, 0x26    /* mov.l .L_pool_06015734, r2 */
+    mov.l   .L_pool_06015734, r2
     add r2, r3
     mov.l @r3, r3
     mov.b @r15, r4
@@ -221,6 +221,7 @@ FUN_060156AC:
     mov.l @r15+, r14
 .L_pool_06015730:
     .4byte  sym_06084FC8
+.L_pool_06015734:
     .4byte  sym_0605B858
 .L_pool_06015738:
     .4byte  sym_0605B8A0

@@ -150,7 +150,7 @@ FUN_06019A48:
     and r3, r2
     tst r2, r2
     bt      .L_06019B9A
-    .byte   0xD7, 0x28    /* mov.l .L_pool_06019B40_far, r7 */
+    mov.l   .L_pool_06019C00, r7
     mov r9, r6
     mov.b @r14, r5
     mov.l @r7, r7
@@ -182,7 +182,7 @@ FUN_06019A48:
     exts.b r10, r3
     mov.b r3, @r12
 .L_06019B9A:
-    .byte   0xD4, 0x1A    /* mov.l .L_pool_06019C04, r4 */
+    mov.l   .L_pool_06019C04, r4
     mov.b @r4, r2
     add #0x1, r2
     mov.b r2, @r4
@@ -192,7 +192,7 @@ FUN_06019A48:
     mov.b r3, @r4
     mov.b @r14, r2
     shll2 r2
-    .byte   0xD3, 0x17    /* mov.l .L_pool_06019C0C, r3 */
+    mov.l   .L_pool_06019C0C, r3
     add r3, r2
     mov.l @r2, r2
     add #0x4, r15
@@ -245,10 +245,13 @@ FUN_06019BC8:
 DAT_06019bfc:
     mov.l r0, @(0, r0)
     .word 0xFFFF
+.L_pool_06019C00:
     .4byte  sym_0605D4F0
+.L_pool_06019C04:
     .4byte  sym_0605D243
 .L_pool_06019C08:
     .4byte  sym_0605D242
+.L_pool_06019C0C:
     .4byte  sym_0605D260
 .L_pool_06019C10:
     .4byte  sym_06049B12

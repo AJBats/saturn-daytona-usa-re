@@ -146,11 +146,11 @@ DAT_0603b4ce:
     mov r4, r0
     cmp/eq #0x5, r0
     bf      .L_0603B526
-    .byte   0xD3, 0x18    /* mov.l .L_pool_0603B55C, r3 */
+    mov.l   .L_pool_0603B55C, r3
     jsr @r3
     mov.l @(8, r14), r4
     mov r0, r8
-    .byte   0xD3, 0x17    /* mov.l .L_pool_0603B560, r3 */
+    mov.l   .L_pool_0603B560, r3
     jsr @r3
     mov.l @(8, r14), r4
     mov r8, r5
@@ -207,7 +207,9 @@ FUN_0603B53C:
     mov.l r11, @r12
     bra     .L_0603B586
     mov r11, r14
+.L_pool_0603B55C:
     .4byte  sym_0603F9F2
+.L_pool_0603B560:
     .4byte  sym_0603F9F6
 .L_pool_0603B564:
     .4byte  sym_060A4D14

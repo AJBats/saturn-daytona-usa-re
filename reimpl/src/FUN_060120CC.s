@@ -115,7 +115,7 @@ DAT_0601214e:
 
     .global sym_06012198
 sym_06012198:
-    .byte   0xD0, 0x21    /* mov.l .L_pool_06012220, r0 */
+    mov.l   .L_pool_06012220, r0
     mov.l @r0, r0
     tst r0, r0
     bt      .L_060121A4
@@ -196,6 +196,7 @@ FUN_060121A8:
     .2byte  0x0490
 .L_wpool_0601221E:
     .2byte  0x0590
+.L_pool_06012220:
     .4byte  sym_0607EAD8
 .L_pool_06012224:
     .4byte  sym_060788AC
@@ -223,14 +224,14 @@ FUN_060121A8:
     cmp/gt r3, r2
     bf      .L_0601226A
     mov #0x0, r3
-    .byte   0xD2, 0x1D    /* mov.l .L_pool_060122CC, r2 */
+    mov.l   .L_pool_060122CC, r2
     mov.b r3, @r2
-    .byte   0xD5, 0x1D    /* mov.l .L_pool_060122D0, r5 */
+    mov.l   .L_pool_060122D0, r5
     mov r3, r4
     add #0x4, r15
     lds.l @r15+, pr
     mov.l @r15+, r13
-    .byte   0xD3, 0x1B    /* mov.l .L_pool_060122D4, r3 */
+    mov.l   .L_pool_060122D4, r3
     jmp @r3
     mov.l @r15+, r14
 .L_0601226A:
@@ -304,8 +305,11 @@ FUN_0601228C:
     .2byte 0xA000    /* bra FUN_06012710 (linker-resolved) */
     lds.l @r15+, pr
     .2byte  0xFFFF
+.L_pool_060122CC:
     .4byte  sym_06078636
+.L_pool_060122D0:
     .4byte  0xAE110FFF
+.L_pool_060122D4:
     .4byte  FUN_0601D5F4
 .L_pool_060122D8:
     .4byte  sym_0607EBCC

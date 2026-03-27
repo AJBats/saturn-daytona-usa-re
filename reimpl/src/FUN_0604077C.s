@@ -116,7 +116,7 @@ FUN_0604077C:
 .L_06040850:
     mov.w   DAT_0604089c, r6
     mov.l @(4, r15), r5
-    .byte   0xD3, 0x12    /* mov.l .L_pool_060408A0, r3 */
+    mov.l   .L_pool_060408A0, r3
     jsr @r3
     mov.l @r15, r4
     tst r0, r0
@@ -124,7 +124,7 @@ FUN_0604077C:
     bra     .L_06040872
     mov #0x0, r0
 .L_06040862:
-    .byte   0xD3, 0x10    /* mov.l .L_pool_060408A4, r3 */
+    mov.l   .L_pool_060408A4, r3
     jsr @r3
     nop
     tst r0, r0
@@ -168,7 +168,9 @@ sym_06040894:
 DAT_0604089c:
     mac.l @r15+, @r0+
     .word 0xFFFF
+.L_pool_060408A0:
     .4byte  FUN_060414D0
+.L_pool_060408A4:
     .4byte  FUN_0604188C
 .L_pool_060408A8:
     .4byte  FUN_06040F16

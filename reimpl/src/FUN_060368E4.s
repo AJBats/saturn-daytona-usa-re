@@ -21,7 +21,7 @@ FUN_060368E4:
     mov.b r0, @(4, r2)
     mov r13, r0
     mov.w r0, @(6, r3)
-    .byte   0x94, 0x34    /* mov.w .L_wpool_06036970, r4 */
+    mov.w   .L_pool_06036970, r4
     mov.l   .L_06036978, r3
     jsr @r3
     mov r15, r5
@@ -84,6 +84,7 @@ FUN_06036928:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
+.L_pool_06036970:
     .2byte  0x0080
 .L_06036972:
     .2byte  0x0100                      /* [MEDIUM] command parameter mask — 0x100 (cf. 0x0080 in FUN_06036890, 0x0200 in FUN_06036BA6) */

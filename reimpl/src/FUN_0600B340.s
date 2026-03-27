@@ -463,11 +463,11 @@ DAT_0600b636:
 .L_pool_0600B69C:
     .4byte  sym_060634DC
 .L_0600B680:
-    .byte   0xD2, 0x11    /* mov.l .L_pool_0600B6E8, r2 */
+    mov.l   .L_pool_0600B6C8, r2
     jsr @r2
     nop
 .L_0600B686:
-    .byte   0xD4, 0x11    /* mov.l .L_pool_0600B6EC, r4 */
+    mov.l   .L_pool_0600B6CC, r4
     mov.l @r4, r3
     add #-0x30, r3
     mov.l r3, @r4
@@ -508,7 +508,9 @@ FUN_0600B6A0:
     bt      .L_0600B6E4
     bra     .L_0600B8F8
     nop
+.L_pool_0600B6C8:
     .4byte  sym_06031DF4
+.L_pool_0600B6CC:
     .4byte  sym_0608A52C
 .L_0600B6D0:
     .4byte  sym_06089EDC

@@ -7,37 +7,37 @@
 FUN_0601B48C:
     sts.l pr, @-r15
     add #-0x4, r15
-    .byte   0x96, 0x2F    /* mov.w .L_wpool_0601B4F2, r6 */
-    .byte   0xD5, 0x19    /* mov.l .L_palette_src_a, r5 */
-    .byte   0xD4, 0x19    /* mov.l .L_cram_dst_020, r4 */
-    .byte   0xD3, 0x1A    /* mov.l .L_fn_memcpy_word_idx, r3 */
+    mov.w   .L_pool_0601B4F2, r6
+    mov.l   .L_pool_0601B4F8, r5
+    mov.l   .L_pool_0601B4FC, r4
+    mov.l   .L_pool_0601B500, r3
     jsr @r3
     nop
-    .byte   0xD5, 0x19    /* mov.l .L_palette_src_b, r5 */
-    .byte   0xD4, 0x1A    /* mov.l .L_cram_dst_180, r4 */
-    .byte   0xD3, 0x17    /* mov.l .L_fn_memcpy_word_idx, r3 */
+    mov.l   .L_pool_0601B504, r5
+    mov.l   .L_pool_0601B508, r4
+    mov.l   .L_pool_0601B500, r3
     jsr @r3
     mov #0x20, r6
-    .byte   0xD3, 0x19    /* mov.l .L_fn_vram_config_reset, r3 */
+    mov.l   .L_pool_0601B50C, r3
     jsr @r3
     nop
-    .byte   0xD3, 0x18    /* mov.l .L_fn_vram_fill_indexed, r3 */
+    mov.l   .L_pool_0601B510, r3
     jsr @r3
     mov #0xC, r4
     mov #0x16, r6
-    .byte   0xD2, 0x17    /* mov.l .L_course_dlist_desc, r2 */
+    mov.l   .L_pool_0601B514, r2
     mov.l r2, @r15
     mov r2, r7
     mov r2, r5
-    .byte   0xD3, 0x16    /* mov.l .L_pool_0601B520, r3 */
+    mov.l   .L_pool_0601B518, r3
     mov.l @(4, r7), r7
     mov.l @r5, r5
     add r3, r7
-    .byte   0xD3, 0x15    /* mov.l .L_fn_vram_rect_fill, r3 */
+    mov.l   .L_pool_0601B51C, r3
     jsr @r3
     mov #0x8, r4
     mov #0x1, r2
-    .byte   0xD3, 0x14    /* mov.l .L_disc_load_phase, r3 */
+    mov.l   .L_pool_0601B520, r3
     add #0x4, r15
     lds.l @r15+, pr
     rts
@@ -61,20 +61,32 @@ FUN_0601B4D6:
     mov.l   .L_0601B52C, r3
     jmp @r3
     lds.l @r15+, pr
+.L_pool_0601B4F2:
     .2byte  0x0080
 .L_0601B4F4:
     .2byte  0x0100
     .2byte  0xFFFF
+.L_pool_0601B4F8:
     .4byte  sym_060485EC
+.L_pool_0601B4FC:
     .4byte  0x25F00020
+.L_pool_0601B500:
     .4byte  FUN_0602761E
+.L_pool_0601B504:
     .4byte  sym_060485CC
+.L_pool_0601B508:
     .4byte  0x25F00180
+.L_pool_0601B50C:
     .4byte  sym_06028560
+.L_pool_0601B510:
     .4byte  sym_0602853E
+.L_pool_0601B514:
     .4byte  sym_060638C8
+.L_pool_0601B518:
     .4byte  0x0000C000
+.L_pool_0601B51C:
     .4byte  sym_06028400
+.L_pool_0601B520:
     .4byte  sym_0608600D
 .L_0601B524:
     .4byte  sym_06063D9A

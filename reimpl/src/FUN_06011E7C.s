@@ -112,7 +112,7 @@ sym_06011F1C:
     mov #0x1F, r10
     mov #0x10, r11
     mov.w   DAT_06011fd6, r12
-    .byte   0x9D, 0x53    /* mov.w .L_wpool_06011FD8, r13 */
+    mov.w   .L_pool_06011FD8, r13
     mov #0x0, r6
     exts.w r6, r5
 .L_06011F34:
@@ -217,6 +217,7 @@ DAT_06011fd4:
     .global DAT_06011fd6
 DAT_06011fd6:
     .2byte  0x7C00                 /* blue channel mask (bits 10-14) — loaded by mov.w */
+.L_pool_06011FD8:
     .2byte  0xF800                 /* (adjacent data, not used by this function) */
 .L_wpool_06011FDA:
     .2byte  0x0400

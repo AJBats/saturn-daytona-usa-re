@@ -6,28 +6,28 @@
     .type FUN_06009DD0, @function
 FUN_06009DD0:
     sts.l pr, @-r15
-    .byte   0xD3, 0x19    /* mov.l .L_pool_06009E38, r3 */
+    mov.l   .L_pool_06009E38, r3
     jsr @r3
     nop
     mov #0x1B, r2
     mov.l   .L_pool_06009E42, r3
     mov.l r2, @r3
-    .byte   0x92, 0x29    /* mov.w .L_wpool_06009E34, r2 */
+    mov.w   .L_pool_06009E34, r2
     mov.l   .L_pool_06009E46, r3
     mov.l r2, @r3
-    .byte   0xD3, 0x17    /* mov.l .L_pool_06009E44, r3 */
+    mov.l   .L_pool_06009E44, r3
     jsr @r3
     nop
-    .byte   0xD3, 0x17    /* mov.l .L_pool_06009E48, r3 */
+    mov.l   .L_pool_06009E48, r3
     jsr @r3
     nop
     mov #0x3, r2
-    .byte   0xD3, 0x16    /* mov.l .L_pool_06009E4C, r3 */
+    mov.l   .L_pool_06009E4C, r3
     mov.w r2, @r3
     mov #0x0, r6
     mov #0x13, r5
     mov r5, r4
-    .byte   0xD3, 0x14    /* mov.l .L_pool_06009E50, r3 */
+    mov.l   .L_pool_06009E50, r3
     jmp @r3
     lds.l @r15+, pr
 
@@ -62,15 +62,21 @@ FUN_06009E02:
     lds.l @r15+, pr
     rts
     mov.b r2, @r3
+.L_pool_06009E34:
     .4byte  0x0258FFFF
+.L_pool_06009E38:
     .4byte  FUN_060190B8
 .L_pool_06009E42:
     .4byte  FUN_0605ACC4
 .L_pool_06009E46:
     .4byte  sym_0607EBCC
+.L_pool_06009E44:
     .4byte  sym_06028560
+.L_pool_06009E48:
     .4byte  FUN_06012F80
+.L_pool_06009E4C:
     .4byte  sym_0605A016
+.L_pool_06009E50:
     .4byte  FUN_06018DDC
 .L_pool_06009E5A:
     .4byte  FUN_0601389E

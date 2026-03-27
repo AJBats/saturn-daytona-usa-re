@@ -8,14 +8,14 @@ FUN_06020330:
     sts.l pr, @-r15
     add #-0x4, r15
     mov.b r4, @r15
-    .byte   0xD0, 0x22    /* mov.l .L_pool_060203C0, r0 */
+    mov.l   .L_pool_060203C0, r0
     mov.w @r0, r0
     extu.w r0, r0
     tst r0, r0
     bt      .L_0602035C
     mov #0x40, r0
     mov.b @r15, r4
-    .byte   0xD2, 0x1F    /* mov.l .L_pool_060203C4, r2 */
+    mov.l   .L_pool_060203C4, r2
     extu.b r4, r4
     mov r4, r3
     shll2 r4
@@ -88,7 +88,9 @@ FUN_06020366:
     .global DAT_060203be
 DAT_060203be:
     .2byte  0x00FF
+.L_pool_060203C0:
     .4byte  sym_0608780A
+.L_pool_060203C4:
     .4byte  sym_0608782C
 .L_pool_060203CF:
     .4byte  sym_0604BD72

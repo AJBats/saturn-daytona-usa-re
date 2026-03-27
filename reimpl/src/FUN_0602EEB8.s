@@ -159,11 +159,11 @@ FUN_0602EF48:
 sym_0602EFCC:
     mov.l @(36, r0), r4
     mov.w   DAT_0602efe6, r5
-    .byte   0x96, 0x0A    /* mov.w DAT_0602efe8, r6 */
+    mov.w   .L_pool_0602EFE8, r6
     add r0, r5
     add r0, r6
     mov r0, r14
-    .byte   0xDC, 0x04    /* mov.l .L_sincos_pair, r12 */
+    mov.l   .L_pool_0602EFEC, r12
 
 
     .global FUN_0602EFDA
@@ -179,6 +179,8 @@ FUN_0602EFDA:
     .global DAT_0602efe6
 DAT_0602efe6:
     .word 0x0100
+.L_pool_0602EFE8:
     mov.b r0, @(r0, r1)
     .word 0x0000
+.L_pool_0602EFEC:
     .4byte  FUN_06027358

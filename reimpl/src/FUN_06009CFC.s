@@ -8,14 +8,14 @@ FUN_06009CFC:
     sts.l pr, @-r15
 
     mov #0x3, r3
-    .byte   0xD2, 0x1E    /* mov.l .L_pool_06009D7C, r2 */  /* &sym_0605A016 (phase flag) */
+    mov.l   .L_pool_06009D7C, r2
     mov.w r3, @r2
 
-    .byte   0xD3, 0x1E    /* mov.l .L_pool_06009D80, r3 */  /* &FUN_06014A74 (FUN_06014A74) */
+    mov.l   .L_pool_06009D80, r3
     jsr @r3
     nop
 
-    .byte   0xD3, 0x1E    /* mov.l .L_pool_06009D84, r3 */  /* &FUN_06019058 (FUN_06019058) */
+    mov.l   .L_pool_06009D84, r3
     jsr @r3
     nop
 
@@ -24,37 +24,37 @@ FUN_06009CFC:
     nop
 
     mov #0x19, r2
-    .byte   0xD3, 0x1C    /* mov.l .L_pool_06009D88, r3 */  /* &FUN_0605ACC4 (game state variable) */
+    mov.l   .L_pool_06009D88, r3
     mov.l r2, @r3
 
     mov #0x6, r2
-    .byte   0xD3, 0x1B    /* mov.l .L_pool_06009D8C, r3 */  /* &sym_06078654 (difficulty byte) */
+    mov.l   .L_pool_06009D8C, r3
     mov.b r2, @r3
 
-    .byte   0xD3, 0x1B    /* mov.l .L_pool_06009D90, r3 */  /* &FUN_060032D4 (FUN_060032D4) */
+    mov.l   .L_pool_06009D90, r3
     jsr @r3
     nop
-    .byte   0xD3, 0x1B    /* mov.l .L_pool_06009D94, r3 */  /* &FUN_060210F6 (FUN_060210F6) */
+    mov.l   .L_pool_06009D94, r3
     jsr @r3
     nop
 
-    .byte   0xD2, 0x1A    /* mov.l .L_pool_06009D98, r2 */  /* &sym_0607E944 (car state pointer) */
+    mov.l   .L_pool_06009D98, r2
     mov #0x0, r3
     mov.l @r2, r2
     mov.l r3, @(8, r2)
 
-    .byte   0xD4, 0x19    /* mov.l .L_pool_06009D9C, r4 */  /* &sym_0605B6D8 (display flags) */
-    .byte   0xD2, 0x1A    /* mov.l .L_pool_06009DA0, r2 */  /* 0x40000000 (bit 30 mask) */
+    mov.l   .L_pool_06009D9C, r4
+    mov.l   .L_pool_06009DA0, r2
     mov.l @r4, r3
     or r2, r3
     mov.l r3, @r4
 
-    .byte   0xD3, 0x19    /* mov.l .L_pool_06009DA4, r3 */  /* &sym_06026CE0 (camera state finalization) */
+    mov.l   .L_pool_06009DA4, r3
     jsr @r3
     nop
 
     mov #0x0, r2
-    .byte   0xD3, 0x18    /* mov.l .L_pool_06009DA8, r3 */  /* &sym_06059F44 (results flag) */
+    mov.l   .L_pool_06009DA8, r3
     lds.l @r15+, pr
     rts
     mov.l r2, @r3
@@ -89,18 +89,31 @@ FUN_06009D4E:
     mov.l   .L_pool_06009DD5, r3
     jmp @r3
     lds.l @r15+, pr
+.L_pool_06009D7C:
 
+.L_pool_06009D7C:
     .4byte  sym_0605A016
+.L_pool_06009D80:
     .4byte  FUN_06014A74
+.L_pool_06009D84:
     .4byte  FUN_06019058
+.L_pool_06009D88:
     .4byte  FUN_0605ACC4
+.L_pool_06009D8C:
     .4byte  sym_06078654
+.L_pool_06009D90:
     .4byte  FUN_060032D4
+.L_pool_06009D94:
     .4byte  FUN_060210F6
+.L_pool_06009D98:
     .4byte  sym_0607E944
+.L_pool_06009D9C:
     .4byte  sym_0605B6D8
+.L_pool_06009DA0:
     .4byte  0x40000000
+.L_pool_06009DA4:
     .4byte  sym_06026CE0
+.L_pool_06009DA8:
     .4byte  sym_06059F44
 .L_pool_06009DB5:
     .4byte  FUN_06014D2C

@@ -9,11 +9,11 @@ FUN_06016634:
     add #-0x10, r15
     mov r15, r5
     mov r15, r1
-    .byte   0xD2, 0x25    /* mov.l .L_pool_060166D4, r2 */
-    .byte   0xD3, 0x26    /* mov.l .L_pool_060166D8, r3 */
+    mov.l   .L_pool_060166D4, r2
+    mov.l   .L_pool_060166D8, r3
     jsr @r3
     mov #0x10, r0
-    .byte   0xD0, 0x25    /* mov.l .L_pool_060166DC, r0 */
+    mov.l   .L_pool_060166DC, r0
     mov.b @r0, r0
     tst r0, r0
     bt      .L_06016672
@@ -94,8 +94,11 @@ FUN_0601667A:
     .2byte 0xA000    /* bra FUN_060172E4 (linker-resolved) */
     mov.l @r15+, r14
     .2byte  0xFFFF
+.L_pool_060166D4:
     .4byte  sym_0605BAFA
+.L_pool_060166D8:
     .4byte  sym_06035228
+.L_pool_060166DC:
     .4byte  sym_06085F89
 .L_pool_060166E1:
     .4byte  sym_06084FC8

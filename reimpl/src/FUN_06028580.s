@@ -11,7 +11,7 @@ FUN_06028580:
     add r4, r5
     mov.l r13, @-r15
     shll r5
-    .byte   0x94, 0x25    /* mov.w .L_wpool_060285DA, r4 */
+    mov.w   .L_pool_060285DA, r4
     cmp/pz r6
     mov.l r12, @-r15
     .byte   0x8D, 0x01    /* bt/s 0x06028598 (external) */
@@ -58,6 +58,7 @@ FUN_06028598:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
+.L_pool_060285DA:
     .2byte  0x2710
 .L_060285DC:
     .4byte  sym_06028614

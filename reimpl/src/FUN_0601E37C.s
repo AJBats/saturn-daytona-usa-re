@@ -155,7 +155,7 @@ DAT_0601e444:
     cmp/ge r9, r3
     bf      .L_0601E39C
 
-    .byte   0xD3, 0x29    /* mov.l .L_pool_0601E518, r3 (out-of-TU: output element count address) */
+    mov.l   .L_pool_0601E518, r3
     mov.w r13, @r3
     lds.l @r15+, pr
     mov.l @r15+, r8
@@ -180,13 +180,13 @@ FUN_0601E48C:
     sts.l pr, @-r15
     add #-0x4, r15
     mov.w r4, @r15
-    .byte   0xD3, 0x22    /* mov.l .L_pool_0601E51C, r3 */
+    mov.l   .L_pool_0601E51C, r3
     mov.w @r15, r14
     mov.l @r3, r3
     extu.w r14, r14
     mov.l @(4, r3), r2
     shll2 r14
-    .byte   0xD3, 0x20    /* mov.l .L_pool_0601E520, r3 */
+    mov.l   .L_pool_0601E520, r3
     shll2 r14
     shll r14
     add r3, r14
@@ -194,15 +194,15 @@ FUN_0601E48C:
     mov r0, r4
     jsr @r2
     extu.w r4, r4
-    .byte   0xD0, 0x1B    /* mov.l .L_pool_0601E51C, r0 */
+    mov.l   .L_pool_0601E51C, r0
     mov.l @r0, r0
     mov.l @(12, r0), r0
     mov r14, r6
-    .byte   0xD5, 0x1B    /* mov.l .L_pool_0601E524, r5 */
+    mov.l   .L_pool_0601E524, r5
     mov.b @r5, r5
     extu.b r5, r5
     shll2 r5
-    .byte   0xD3, 0x1A    /* mov.l .L_pool_0601E528, r3 */
+    mov.l   .L_pool_0601E528, r3
     add r3, r5
     mov.l @r5, r5
     mov #0x1C, r4
@@ -253,11 +253,17 @@ FUN_0601E4D4:
     mov.b r8, @r4
     bra     .L_0601E5C4
     mov r8, r12
+.L_pool_0601E518:
 
+.L_pool_0601E518:
     .4byte  sym_06087084
+.L_pool_0601E51C:
     .4byte  sym_06000354
+.L_pool_0601E520:
     .4byte  sym_06087094
+.L_pool_0601E524:
     .4byte  sym_060877D8
+.L_pool_0601E528:
     .4byte  sym_0604A5C0
 .L_0601E52C:
     .4byte  0x2010001F

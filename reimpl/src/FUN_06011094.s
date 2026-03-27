@@ -126,7 +126,7 @@ DAT_0601112c:
     mov.l r7, @(8, r15)
     add r11, r7
     mov.w   DAT_06011206, r6
-    .byte   0xD5, 0x29    /* mov.l .L_pool_06011210, r5 */
+    mov.l   .L_pool_06011210, r5
     mov.l @(12, r15), r3
     mov.l @r5, r5
     shll2 r5
@@ -135,7 +135,7 @@ DAT_0601112c:
     jsr @r13
     mov #0x4, r4
     mov.l @(8, r15), r7
-    .byte   0x96, 0x44    /* mov.w .L_vdp1_cmd_offset_2b, r6 */
+    mov.w   .L_pool_06011208, r6
     mov.l @r8, r5
     mov.l @r15, r3
     add r10, r7
@@ -159,8 +159,8 @@ DAT_0601112c:
     shll2 r7
     mov.l r7, @(4, r15)
     add r11, r7
-    .byte   0x96, 0x2F    /* mov.w .L_vdp1_cmd_offset_3a, r6 */
-    .byte   0xD5, 0x19    /* mov.l .L_pool_06011214, r5 */
+    mov.w   .L_pool_0601120A, r6
+    mov.l   .L_pool_06011210, r5
     mov.l @(12, r15), r3
     mov.l @r5, r5
     shll2 r5
@@ -169,7 +169,7 @@ DAT_0601112c:
     jsr @r13
     mov #0x4, r4
     mov.l @(4, r15), r7
-    .byte   0x96, 0x26    /* mov.w .L_vdp1_cmd_offset_3b, r6 */
+    mov.w   .L_pool_0601120C, r6
     mov.l @r8, r5
     mov.l @r15, r3
     add r10, r7
@@ -215,10 +215,14 @@ FUN_060111E2:
     .global DAT_06011206
 DAT_06011206:
     mov.l @(r0, r9), r2
+.L_pool_06011208:
     .word 0x04A8
+.L_pool_0601120A:
     .word 0x02BA
+.L_pool_0601120C:
     mov.b r12, @(r0, r4)
     .word 0xFFFF
+.L_pool_06011210:
     .4byte  sym_06078644
 .L_06011214:
     .4byte  sym_0607887F

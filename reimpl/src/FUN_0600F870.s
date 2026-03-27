@@ -5,10 +5,10 @@
     .type FUN_0600F870, @function
 FUN_0600F870:
     sts.l pr, @-r15
-    .byte   0xD3, 0x19    /* mov.l .L_pool_0600F8D8, r3 */
+    mov.l   .L_pool_0600F8D8, r3
     jsr @r3
     mov #0x0, r4
-    .byte   0xD3, 0x18    /* mov.l .L_pool_0600F8DC, r3 */
+    mov.l   .L_pool_0600F8DC, r3
     jsr @r3
     nop
     mov.l   .L_pool_0600F8E2, r4
@@ -19,7 +19,7 @@ FUN_0600F870:
     cmp/pl r2
     bt      .L_0600F892
     mov #0x4, r2
-    .byte   0xD3, 0x15    /* mov.l .L_pool_0600F8E4, r3 */
+    mov.l   .L_pool_0600F8E4, r3
     mov.b r2, @r3
 .L_0600F892:
     lds.l @r15+, pr
@@ -31,19 +31,19 @@ FUN_0600F870:
     .type FUN_0600F898, @function
 FUN_0600F898:
     sts.l pr, @-r15
-    .byte   0xD3, 0x13    /* mov.l .L_pool_0600F8E8, r3 */
+    mov.l   .L_pool_0600F8E8, r3
     jsr @r3
     nop
-    .byte   0x92, 0x18    /* mov.w .L_wpool_0600F8D4, r2 */
-    .byte   0xD3, 0x12    /* mov.l .L_pool_0600F8EC, r3 */
+    mov.w   .L_pool_0600F8D4, r2
+    mov.l   .L_pool_0600F8EC, r3
     mov.l r2, @r3
     mov #0x14, r2
     mov.l   .L_pool_0600F8E2, r3
     mov.w r2, @r3
     mov #0x0, r2
-    .byte   0xD3, 0x10    /* mov.l .L_pool_0600F8F0, r3 */
+    mov.l   .L_pool_0600F8F0, r3
     mov.w r2, @r3
-    .byte   0xD4, 0x0C    /* mov.l .L_pool_0600F8E4, r4 */
+    mov.l   .L_pool_0600F8E4, r4
     lds.l @r15+, pr
     mov.b @r4, r2
     add #0x1, r2
@@ -65,19 +65,26 @@ FUN_0600F8BE:
     mov.l   .L_pool_0600F8F6, r3
     jmp @r3
     lds.l @r15+, pr
+.L_pool_0600F8D4:
     .4byte  0x0708FFFF
+.L_pool_0600F8D8:
     .4byte  FUN_060114AC
+.L_pool_0600F8DC:
     .4byte  FUN_06011094
 .L_pool_0600F8E2:
     .4byte  sym_0607887C
+.L_pool_0600F8E4:
     .4byte  sym_0607887F
+.L_pool_0600F8E8:
     .4byte  sym_06028560
+.L_pool_0600F8EC:
     .4byte  sym_0607EBCC
+.L_pool_0600F8F0:
     .4byte  sym_0607886E
 .L_pool_0600F8F6:
     .4byte  FUN_060115F0
 .L_0600F8F8:
-    .byte   0xD3, 0x19    /* mov.l .L_pool_0600F960, r3 */
+    mov.l   .L_pool_0600F960, r3
     jsr @r3
     mov #0x4, r4
     mov.l   .L_pool_0600F964, r4
@@ -136,6 +143,7 @@ FUN_0600F914:
     jmp @r3
     mov.l @r15+, r14
     .2byte  0xFFFF
+.L_pool_0600F960:
     .4byte  sym_0602853E
 .L_pool_0600F964:
     .4byte  sym_0607887F

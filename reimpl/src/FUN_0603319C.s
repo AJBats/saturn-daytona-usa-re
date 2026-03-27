@@ -11,7 +11,7 @@ FUN_0603319C:
     lds.l @r15+, pr
     mov r2, r4
     mov r11, r5
-    .byte   0xD0, 0x17    /* mov.l .L_pool_06033208, r0 */
+    mov.l   .L_pool_06033208, r0
 
 
     .global FUN_060331AA
@@ -24,7 +24,7 @@ FUN_060331AA:
     mov r0, r3
     mov r2, r4
     mov r12, r5
-    .byte   0xD0, 0x13    /* mov.l .L_pool_06033208, r0 */
+    mov.l   .L_pool_06033208, r0
 
     .global FUN_060331BA
     .type FUN_060331BA, @function
@@ -36,7 +36,7 @@ FUN_060331BA:
     mov r0, r6
     mov r1, r4
     mov r11, r5
-    .byte   0xD0, 0x0F    /* mov.l .L_pool_06033208, r0 */
+    mov.l   .L_pool_06033208, r0
 
     .global FUN_060331CA
     .type FUN_060331CA, @function
@@ -48,7 +48,7 @@ FUN_060331CA:
     mov r0, r8
     mov r1, r4
     mov r12, r5
-    .byte   0xD0, 0x0B    /* mov.l .L_pool_06033208, r0 */
+    mov.l   .L_pool_06033208, r0
 
     .global FUN_060331DA
     .type FUN_060331DA, @function
@@ -72,6 +72,7 @@ FUN_060331DA:
     .4byte  sym_0606318C
     .4byte  sym_06063190
     .4byte  FUN_06027358
+.L_pool_06033208:
     .4byte  FUN_06027552
     .global FUN_0603320C
 FUN_0603320C:

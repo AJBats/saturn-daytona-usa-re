@@ -20,11 +20,11 @@ FUN_06009508:
     bra     .L_06009534
     nop
 .L_06009524:
-    .byte   0xD0, 0x1E    /* mov.l .L_p_race_end_flag, r0 */
+    mov.l   .L_pool_060095A0, r0
     mov.l @r0, r0
     tst r0, r0
     bf      .L_06009534
-    .byte   0xD4, 0x1D    /* mov.l .L_p_frame_counter, r4 */
+    mov.l   .L_pool_060095A4, r4
     mov.l @r4, r3
     add #0x1, r3
     mov.l r3, @r4
@@ -32,22 +32,22 @@ FUN_06009508:
     mov #0x1D, r2
     mov.l   .L_0600959C, r3
     mov.l r2, @r3
-    .byte   0xD3, 0x1B    /* mov.l .L_p_race_update_abort, r3 */
+    mov.l   .L_pool_060095A8, r3
     jsr @r3
     nop
-    .byte   0xD3, 0x1A    /* mov.l .L_p_camera_system, r3 */
+    mov.l   .L_pool_060095AC, r3
     jsr @r3
     nop
-    .byte   0xD6, 0x1A    /* mov.l .L_p_camera_eye_pos, r6 */
-    .byte   0xD5, 0x1A    /* mov.l .L_p_camera_target_vec, r5 */
-    .byte   0xD4, 0x1B    /* mov.l .L_p_camera_up_vec, r4 */
-    .byte   0xD3, 0x1B    /* mov.l .L_p_camera_orient_calc, r3 */
+    mov.l   .L_pool_060095B0, r6
+    mov.l   .L_pool_060095B4, r5
+    mov.l   .L_pool_060095B8, r4
+    mov.l   .L_pool_060095BC, r3
     jsr @r3
     mov.l @r6, r6
-    .byte   0xD3, 0x1B    /* mov.l .L_p_scene_update, r3 */
+    mov.l   .L_pool_060095C0, r3
     jsr @r3
     nop
-    .byte   0xD3, 0x1A    /* mov.l .L_p_frame_end_commit, r3 */
+    mov.l   .L_pool_060095C4, r3
     jmp @r3
     lds.l @r15+, pr
 
@@ -90,15 +90,25 @@ FUN_0600955E:
     .4byte  sym_0607EBF4
 .L_0600959C:
     .4byte  FUN_0605ACC4
+.L_pool_060095A0:
     .4byte  sym_0607EAD0
+.L_pool_060095A4:
     .4byte  sym_0607EBD0
+.L_pool_060095A8:
     .4byte  FUN_0600DFD0
+.L_pool_060095AC:
     .4byte  FUN_0600BB94
+.L_pool_060095B0:
     .4byte  sym_06063E24
+.L_pool_060095B4:
     .4byte  sym_06063EEC
+.L_pool_060095B8:
     .4byte  sym_06063EF8
+.L_pool_060095BC:
     .4byte  FUN_060053AC
+.L_pool_060095C0:
     .4byte  FUN_0600C218
+.L_pool_060095C4:
     .4byte  FUN_060078DC
 .L_060095C8:
     .4byte  sym_06063D9A

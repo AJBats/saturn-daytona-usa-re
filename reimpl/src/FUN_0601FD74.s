@@ -8,12 +8,12 @@ FUN_0601FD74:
     sts.l pr, @-r15
     add #-0x10, r15
     mov r15, r1
-    .byte   0xD2, 0x1E    /* mov.l .L_pool_0601FDF4, r2 */
-    .byte   0xD3, 0x1E    /* mov.l .L_pool_0601FDF8, r3 */
+    mov.l   .L_pool_0601FDF4, r2
+    mov.l   .L_pool_0601FDF8, r3
     jsr @r3
     mov #0x10, r0
     mov r15, r3
-    .byte   0xD2, 0x1D    /* mov.l .L_pool_0601FDFC, r2 */
+    mov.l   .L_pool_0601FDFC, r2
     mov.w @r2, r2
     extu.w r2, r2
     shll2 r2
@@ -79,8 +79,11 @@ FUN_0601FD9C:
     rts
     nop
     .2byte  0xFFFF
+.L_pool_0601FDF4:
     .4byte  sym_0605F498
+.L_pool_0601FDF8:
     .4byte  sym_06035168                  /* secondary SH-2 command handler entry */
+.L_pool_0601FDFC:
     .4byte  sym_06087804
 .L_0601FE00:
     .4byte  sym_060877F8

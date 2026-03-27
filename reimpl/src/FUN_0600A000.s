@@ -6,7 +6,7 @@
     .type FUN_0600A000, @function
 FUN_0600A000:
     sts.l pr, @-r15
-    .byte   0xDE, 0x1A    /* mov.l .L_pool_0600A06C, r14 */
+    mov.l   .L_pool_0600A06C, r14
     jsr @r14
     mov #0x1, r4
     mov #0x0, r5
@@ -15,10 +15,10 @@ FUN_0600A000:
     mov #0x0, r5
     jsr @r14
     mov #0x2, r4
-    .byte   0xD5, 0x16    /* mov.l .L_pool_0600A070, r5 */
+    mov.l   .L_pool_0600A070, r5
     jsr @r14
     mov #0x0, r4
-    .byte   0xD5, 0x16    /* mov.l .L_pool_0600A074, r5 */
+    mov.l   .L_pool_0600A074, r5
     jsr @r14
     mov #0x0, r4
     lds.l @r15+, pr
@@ -64,8 +64,11 @@ FUN_0600A026:
     rts
     mov.l @r15+, r14
     .2byte  0xFFFF
+.L_pool_0600A06C:
     .4byte  FUN_0601D5F4
+.L_pool_0600A070:
     .4byte  0xAE0001FF
+.L_pool_0600A074:
     .4byte  0xAE0600FF
 .L_0600A078:
     .4byte  sym_0602853E

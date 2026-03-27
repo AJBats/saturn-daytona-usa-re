@@ -49,7 +49,7 @@ sym_06035C2C:
 
     .global sym_06035C48
 sym_06035C48:
-    .byte   0xD0, 0x0A    /* mov.l pool@0x06035C74 (external: 0x25818000 VDP1 TVMR), r0 */
+    mov.l   .L_pool_06035C74, r0
     rts
     nop
 
@@ -82,6 +82,7 @@ sym_06035C6E:
     mov.l   .L_06035C78, r3
     rts
     mov.w r4, @r3
+.L_pool_06035C74:
     .4byte  0x25818000
 .L_06035C78:
     .4byte  0x25890008

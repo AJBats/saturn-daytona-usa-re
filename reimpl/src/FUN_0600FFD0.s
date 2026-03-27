@@ -107,13 +107,13 @@ DAT_06010046:
     extu.b r0, r0
     cmp/eq #0x9, r0
     bf      .L_06010088
-    .byte   0xD7, 0x1F    /* mov.l .L_pool_060100FC, r7 */
+    mov.l   .L_pool_060100FC, r7
     mov r9, r6
     mov.w   DAT_060100f2, r5
     bra     .L_06010090
     mov #0xC, r4
 .L_06010088:
-    .byte   0xD7, 0x1C    /* mov.l .L_pool_060100FC, r7 */
+    mov.l   .L_pool_060100FC, r7
     mov r9, r6
     mov.w   DAT_060100f4, r5
     mov #0x8, r4
@@ -189,6 +189,7 @@ DAT_060100f6:
 DAT_060100f8:
     .2byte  0x8000
     .2byte  0xFFFF
+.L_pool_060100FC:
     .4byte  sym_0605AB19
 .L_06010100:
     .4byte  sym_060447C8

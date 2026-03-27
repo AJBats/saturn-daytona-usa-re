@@ -10,7 +10,7 @@ FUN_0603B058:
     mov #0x10, r0
     add #-0x8, r15
     mov.l r4, @r15
-    .byte   0xD3, 0x13    /* mov.l .L_pool_0603B0B0, r3 */
+    mov.l   .L_pool_0603B0B0, r3
     mov.b @(r0, r2), r2
     mov.l @r3, r3
     extu.b r2, r2
@@ -56,6 +56,7 @@ FUN_0603B08E:
     lds.l @r15+, pr
     rts
     mov #0x1, r0
+.L_pool_0603B0B0:
     .4byte  sym_060A4D14
 .L_0603B0B4:
     mov #0x0, r0

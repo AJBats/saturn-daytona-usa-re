@@ -100,10 +100,10 @@ FUN_06036AF8:
     mov r13, r5
     add #0x4, r3
     mov.l @r3, r2
-    .byte   0xD3, 0x20    /* mov.l .L_pool_06036BD0, r3 */
+    mov.l   .L_pool_06036BD0, r3
     and r3, r2
     mov.l r2, @r15
-    .byte   0xD3, 0x20    /* mov.l .L_pool_06036BD4, r3 */
+    mov.l   .L_pool_06036BD4, r3
     jsr @r3
     mov r2, r4
     mov r0, r4
@@ -181,7 +181,9 @@ FUN_06036BA6:
     mov r0, r4
 .L_06036BCE:
     .2byte  0x0200
+.L_pool_06036BD0:
     .4byte  0x00FFFFFF
+.L_pool_06036BD4:
     .4byte  FUN_06035CBC
 .L_06036BD8:
     .4byte  FUN_06035E90

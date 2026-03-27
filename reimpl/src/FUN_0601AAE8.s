@@ -217,7 +217,7 @@ FUN_0601ABC8:
     cmp/hs r3, r2
     bt      .L_0601AC76
     mov #0x1, r2
-    .byte   0xD3, 0x21    /* mov.l .L_pool_0601ACF8, r3 */
+    mov.l   .L_pool_0601ACF8, r3
     mov.b r2, @r3
 .L_0601AC76:
     lds.l @r15+, pr
@@ -295,6 +295,7 @@ FUN_0601AC88:
     .4byte  sym_0605DD6C
 .L_0601ACF4:
     .4byte  sym_060786A4
+.L_pool_0601ACF8:
     .4byte  sym_06085FF8
 .L_0601ACFC:
     .4byte  sym_0605DE24
@@ -453,10 +454,10 @@ DAT_0601ae3e:
 .L_0601AE68:
     .4byte  sym_0607EAB8
 .L_0601AE6C:
-    .byte   0xD4, 0x17    /* mov.l .L_pool_0601AECC, r4 */
+    mov.l   .L_pool_0601AECC, r4
     mov.l @r4, r4
 .L_0601AE70:
-    .byte   0xD0, 0x17    /* mov.l .L_pool_0601AED0, r0 */
+    mov.l   .L_pool_0601AED0, r0
     mov.b @r0, r0
     tst r0, r0
     bt/s    .L_0601AE7C
@@ -511,7 +512,9 @@ sym_0601AEB6:
 .L_wpool_0601AEC8:
     .2byte  0x0180
     .2byte  0xFFFF
+.L_pool_0601AECC:
     .4byte  sym_06078868
+.L_pool_0601AED0:
     .4byte  sym_06078663
 .L_pool_0601AED4:
     .4byte  sym_06086010

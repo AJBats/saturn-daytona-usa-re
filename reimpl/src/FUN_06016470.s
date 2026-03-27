@@ -21,11 +21,11 @@ FUN_06016470:
     .reloc ., R_SH_IND12W, FUN_06016CDC - 4
     .2byte 0xB000    /* bsr FUN_06016CDC (linker-resolved) */
     extu.b r13, r4
-    .byte   0xD2, 0x1D    /* mov.l .L_pool_06016504, r2 */
+    mov.l   .L_pool_06016504, r2
     mov.l r2, @(12, r14)
-    .byte   0xD3, 0x1D    /* mov.l .L_pool_06016508, r3 */
+    mov.l   .L_pool_06016508, r3
     mov.l r3, @(24, r14)
-    .byte   0xD2, 0x1D    /* mov.l .L_pool_0601650C, r2 */
+    mov.l   .L_pool_0601650C, r2
     mov.l r2, @(36, r14)
     mov.b @(2, r14), r0
     mov r0, r3
@@ -86,8 +86,11 @@ FUN_060164CE:
     .2byte  0xFFFF
 .L_06016500:
     .4byte  sym_06084FC8
+.L_pool_06016504:
     .4byte  0x000B0000
+.L_pool_06016508:
     .4byte  0x00040000
+.L_pool_0601650C:
     .4byte  0x0000C000
 .L_06016510:
     .4byte  sym_06085F89

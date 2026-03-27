@@ -29,7 +29,7 @@ FUN_06030FCC:
     sub r6, r4
     mov r9, r5
     sub r7, r5
-    .byte   0xD0, 0x30    /* mov.l .L_pool_060310BC, r0 */
+    mov.l   .L_pool_060310BC, r0
 
 
     .global FUN_06030FFC
@@ -51,7 +51,7 @@ FUN_06030FFC:
     sub r6, r4
     mov r9, r5
     sub r7, r5
-    .byte   0xD0, 0x27    /* mov.l .L_pool_060310BC, r0 */
+    mov.l   .L_pool_060310BC, r0
 
 
     .global FUN_0603101E
@@ -146,6 +146,7 @@ FUN_0603101E:
 DAT_060310b8:
     .2byte  0x8000
     .2byte  0x0000
+.L_pool_060310BC:
     .4byte  FUN_0602744C
 .L_pool_060310C1:
     .4byte  FUN_06027348
@@ -573,7 +574,7 @@ FUN_0603137A:
     sub r6, r4
     mov r9, r5
     sub r7, r5
-    .byte   0xD0, 0x28    /* mov.l .L_pool_0603143C, r0 */
+    mov.l   .L_pool_0603143C, r0
 
     .global FUN_0603139C
     .type FUN_0603139C, @function
@@ -668,6 +669,7 @@ FUN_0603139C:
     .global DAT_0603143a
 DAT_0603143a:
     .2byte  0x8000
+.L_pool_0603143C:
     .4byte  FUN_0602744C
 .L_pool_06031440:
     .4byte  FUN_06027348

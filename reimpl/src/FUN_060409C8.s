@@ -8,8 +8,8 @@ FUN_060409C8:
     sts.l pr, @-r15
     add #-0x4, r15
     mov.l r4, @r15
-    .byte   0xD6, 0x15    /* mov.l .L_pool_06040A24, r6 */
-    .byte   0xD3, 0x15    /* mov.l .L_pool_06040A28, r3 */
+    mov.l   .L_pool_06040A24, r6
+    mov.l   .L_pool_06040A28, r3
     jsr @r3
     mov.l @(4, r4), r4
     add #0x4, r15
@@ -61,7 +61,9 @@ FUN_060409E6:
     bra     .L_06040AEA
     mov r13, r0
     .2byte  0xFFFF
+.L_pool_06040A24:
     .4byte  0x0000FFFF
+.L_pool_06040A28:
     .4byte  FUN_060412B2
 .L_06040A2C:
     .4byte  FUN_0604188C
