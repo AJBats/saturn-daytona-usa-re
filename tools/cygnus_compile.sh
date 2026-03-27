@@ -69,5 +69,5 @@ fi
 # Convert COFF assembly to ELF-compatible format
 python3 "$PROJDIR/tools/cygnus_to_elf.py" "$TEMPS" "$OUTPUT" --section "$SECTION"
 
-# Cleanup temp files
-rm -f "$TEMPC" "$TEMPS" "$CONF"
+# Cleanup temp files (keep .S — needed to validate against production .s)
+rm -f "$TEMPC" "$CONF"

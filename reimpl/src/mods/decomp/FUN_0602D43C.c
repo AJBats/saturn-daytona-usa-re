@@ -19,6 +19,18 @@ typedef unsigned int uint;
 typedef unsigned short ushort;
 typedef unsigned char uchar;
 
+/* Fixed-point multiply: (a * b) >> 16 using SH-2 hardware dmuls.l + xtrct.
+ * This is the core operation for all physics math in the game.
+ * Cygnus 2.7 doesn't optimize long long multiply to dmuls.l,
+ * so we use inline asm to get the hardware instruction directly. */
+static __inline__ int fixed_mul(int a, int b)
+{
+    int hi, lo;
+    asm("dmuls.l %2,%3\n\tsts mach,%0\n\tsts macl,%1"
+        : "=r"(hi), "=r"(lo) : "r"(a), "r"(b));
+    return (hi << 16) | ((uint)lo >> 16);
+}
+
 /* External functions */
 extern int FUN_06027344();   /* sin lookup */
 extern int FUN_06027348();   /* cos lookup */
@@ -83,9 +95,7 @@ void sym_0602D814(int car)
 {
     int speed, accel_delta;
     int gear_idx, gear_ratio;
-    int scaled, clamped, excess;
-    long long prod;
-    int mid32;
+    int mid32, scaled, clamped, excess;
 
     /* Step 1: speed += accel_delta */
     speed = *(int *)(car + 0x0C);
@@ -103,13 +113,11 @@ void sym_0602D814(int car)
     gear_idx = *(short *)(car + 0xDC);
     gear_ratio = *(int *)((int)&sym_060477BC + (gear_idx << 2));
 
-    /* 64-bit multiply, extract middle 32 bits (xtrct) */
-    prod = (long long)speed * (long long)gear_ratio;
-    mid32 = (int)((uint)(prod >> 32) << 16) | (int)((uint)prod >> 16);
+    /* fixed_mul: (speed * gear_ratio) >> 16 via dmuls.l + xtrct */
+    mid32 = fixed_mul(speed, gear_ratio);
 
-    /* Second multiply by 0x0221AC91, extract middle 32, then shift */
-    prod = (long long)mid32 * (long long)0x0221AC91;
-    mid32 = (int)((uint)(prod >> 32) << 16) | (int)((uint)prod >> 16);
+    /* Second fixed_mul by constant 0x0221AC91 */
+    mid32 = fixed_mul(mid32, 0x0221AC91);
     scaled = (int)((uint)mid32 >> 16);
 
     /* Clamp to [0, 0x2134] */
@@ -152,7 +160,6 @@ void FUN_0602D8C6(int car)
     int speed, world_x, world_z, slip;
     int sin_val, cos_val;
     int vel_x, vel_z;
-    long long prod;
 
     /* Copy heading */
     *(int *)(car + 0x20) = *(int *)(car + 0x30);
@@ -171,15 +178,13 @@ void FUN_0602D8C6(int car)
     sin_val = FUN_06027344(slip);
     cos_val = FUN_06027348(slip);
 
-    /* Velocity X = (cos_val * speed) >> 16 via xtrct */
-    prod = (long long)cos_val * (long long)speed;
-    vel_x = (int)((uint)(prod >> 32) << 16) | (int)((uint)prod >> 16);
+    /* Velocity X = (cos_val * speed) >> 16 via dmuls.l + xtrct */
+    vel_x = fixed_mul(cos_val, speed);
     *(int *)(car + 0x18C) = vel_x;
     *(int *)(car + 0x10) = world_x + vel_x;
 
-    /* Velocity Z = (sin_val * speed) >> 16 via xtrct */
-    prod = (long long)sin_val * (long long)speed;
-    vel_z = (int)((uint)(prod >> 32) << 16) | (int)((uint)prod >> 16);
+    /* Velocity Z = (sin_val * speed) >> 16 via dmuls.l + xtrct */
+    vel_z = fixed_mul(sin_val, speed);
     *(int *)(car + 0x190) = vel_z;
     *(int *)(car + 0x18) = world_z + vel_z;
 }
