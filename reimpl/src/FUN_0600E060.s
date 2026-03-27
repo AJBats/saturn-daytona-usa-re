@@ -15,7 +15,7 @@ FUN_0600E060:
     mov.l @r3, r3
     shar r3
     mov.w r3, @r2
-    .byte   0xD2, 0x20    /* mov.l .L_pool_0600E0F8, r2 */
+    mov.l   .L_0600E0F8, r2
     mov.l r14, @r2
     .byte   0xD1, 0x20    /* mov.l .L_pool_0600E0FC, r1 */
     .byte   0xD2, 0x21    /* mov.l .L_pool_0600E100, r2 */
@@ -32,7 +32,7 @@ FUN_0600E060:
     .byte   0xD3, 0x1F    /* mov.l .L_pool_0600E110, r3 */
     jsr @r3
     nop
-    .byte   0xDD, 0x1F    /* mov.l .L_pool_0600E114, r13 */
+    mov.l   .L_0600E114, r13
     .byte   0xD4, 0x1F    /* mov.l .L_pool_0600E118, r4 */
     jsr @r13
     mov #0x0, r5
