@@ -1,817 +1,242 @@
-/* TU: FUN_0602D43C — Collision/steering response + speed/position writers */
-/* Functions: FUN_0602D43C, FUN_0602D7E4, sym_0602D814, sym_0602D82A,
- *            sym_0602D88E, FUN_0602D89A, sym_0602D8BC, FUN_0602D8C6 */
+/* TU: FUN_0602D43C — Collision/steering response + speed/position writers
+ *
+ * 8 functions from the player physics pipeline:
+ *   FUN_0602D43C  — Collision + steering response (pipeline call 16a)
+ *   FUN_0602D7E4  — Helper: decrement drift counter
+ *   sym_0602D814  — Speed writer (pipeline call 18)
+ *   sym_0602D82A  — Speed writer continued (gear scaling)
+ *   sym_0602D88E  — Fall-through prologue for FUN_0602D89A
+ *   FUN_0602D89A  — Player position update entry (loads car ptr, calls D8BC)
+ *   sym_0602D8BC  — Position writer body (pipeline call 19)
+ *   FUN_0602D8C6  — Position writer core (sin/cos integration)
+ *
+ * Car pointer convention:
+ *   FUN_0602D43C, FUN_0602D7E4, sym_0602D814: car in r14 (caller prologue)
+ *   sym_0602D8BC, FUN_0602D8C6: car in r0 (loaded from global)
+ */
 
+typedef unsigned int uint;
+typedef unsigned short ushort;
+typedef unsigned char uchar;
 
-/* ============ FUN_0602D43C ============ */
+/* External functions */
+extern int FUN_06027344();   /* sin lookup */
+extern int FUN_06027348();   /* cos lookup */
+extern int FUN_06027378();   /* atan2 variant */
+extern int sym_0602ECCC();   /* fixed-point divide */
 
-extern int DAT_0602d48a;
+/* External data */
+extern char sym_060477BC;    /* gear ratio table (8 entries x 4 bytes) */
+extern char sym_0607E944;    /* player car pointer global */
 
-extern int DAT_0602d48c;
-
-extern int DAT_0602d48e;
-
-extern int DAT_0602d490;
-
-extern int DAT_0602d492;
-
-extern int DAT_0602d494;
-
-extern int DAT_0602d496;
-
-extern int DAT_0602d542;
-
-extern int DAT_0602d544;
-
-extern int DAT_0602d546;
-
-extern int DAT_0602d548;
-
-extern int DAT_0602d54a;
-
-extern int DAT_0602d5f0;
-
-extern int DAT_0602d5f2;
-
-extern int DAT_0602d5f4;
-
-extern int DAT_0602d5f6;
-
-extern int DAT_0602d62c;
-
-extern int DAT_0602d62e;
-
-extern int DAT_0602d67c;
-
-extern int DAT_0602d67e;
-
-extern int DAT_0602d680;
-
-extern int DAT_0602d682;
-
-extern int DAT_0602d6be;
-
-extern int DAT_0602d6c2;
-
-extern int DAT_0602d730;
-
-extern int DAT_0602d732;
-
-extern int DAT_0602d790;
-
-extern int DAT_0602d792;
-
-extern int PTR_DAT_0602d54c;
-
-extern int PTR_DAT_0602d54c;
-
-extern int PTR_DAT_0602d5f8;
-
-extern int PTR_DAT_0602d5f8;
-
-extern int PTR_DAT_0602d794;
-
-extern int PTR_DAT_0602d794;
-
-extern int PTR_DAT_0602d7dc;
-
-extern int PTR_DAT_0602d7dc;
-
-extern int FUN_0602d7e4();
-
-void FUN_0602d43c()
+/* ──────────────────────────────────────────────────────────────────────
+ * FUN_0602D7E4 — Decrement drift counter
+ *
+ * Assembly: 36 bytes. Decrements car[+0x166] when speed > 0.
+ * If counter > 3: subtract 3. If counter in [1,3] and nonzero: set to 10.
+ * ────────────────────────────────────────────────────────────────────── */
+void FUN_0602D7E4(int car)
 {
+    int speed;
+    short counter;
 
-  long long lVar1;
+    speed = *(int *)(car + 8);
+    if (speed <= 0) return;
 
-  unsigned int *puVar2;
-
-  int *puVar3;
-
-  unsigned int uVar4;
-
-  int iVar5;
-
-  unsigned int uVar6;
-
-  int uVar7;
-
-  char *puVar8;
-
-  short sVar9;
-
-  int iVar10;
-
-  int iVar11;
-
-  int iVar12;
-
-  unsigned int *unaff_r14;
-
-  unsigned int local_8;
-
-  iVar11 = *(int *)((int)DAT_0602d48a + (int)unaff_r14);
-
-  iVar12 = 0x168;
-
-  if (*(short *)((int)DAT_0602d48e + (int)unaff_r14) < 1) {
-
-    iVar5 = 0x2f8;
-
-    if (((0xf0 <= (int)unaff_r14[2]) &&
-
-        (*(int *)(0x40 + (int)unaff_r14) != 0)) &&
-
-       (*(int *)((int)DAT_0602d496 + (int)unaff_r14) <= (int)0x00006800)) {
-
-      iVar10 = iVar11;
-
-      if (iVar11 <= iVar5) {
-
-        if (-iVar5 <= iVar11) goto LAB_0602d4a4;
-
-        iVar10 = -iVar11;
-
-      }
-
-      iVar10 = iVar10 - iVar5;
-
-      if (iVar10 < 5) {
-
-        iVar10 = 4;
-
-      }
-
-      else if (9 < iVar10) {
-
-        iVar10 = 10;
-
-      }
-
-      *(short *)(iVar12 + (int)unaff_r14) = (short)iVar10;
-
+    counter = *(short *)(car + 0x166);
+    if (counter > 3) {
+        *(short *)(car + 0x166) = counter - 3;
+    } else if (counter != 0) {
+        *(short *)(car + 0x166) = 10;
     }
-
-  }
-
-LAB_0602d4a4:
-
-  iVar5 = (int)*(short *)(iVar12 + (int)unaff_r14);
-
-  puVar2 = unaff_r14;
-
-  if (0 < iVar5) {
-
-    if (*(int *)((int)DAT_0602d542 + (int)unaff_r14) == 0) {
-
-      iVar5 = iVar5 + -2;
-
-    }
-
-    *(short *)(iVar12 + (int)unaff_r14) = (short)(iVar5 + -1);
-
-    uVar7 = 0;
-
-    if (-1 < (int)(0x000A0000 + (iVar5 + -1) * -0x10000)) {
-
-      lVar1 = (long long)*(int *)((int)DAT_0602d544 + (int)unaff_r14) *
-
-              (long long)(int)(0x000A0000 + (iVar5 + -1) * -0x10000);
-
-      puVar3 = (int *)-256;
-
-      *puVar3 = 0x000A0000;
-
-      puVar3[4] = (int)(short)((unsigned long long)lVar1 >> 0x20);
-
-      puVar3[5] = (unsigned int)lVar1 & 0xffff0000;
-
-      uVar7 = puVar3[7];
-
-    }
-
-    *(int *)((int)DAT_0602d544 + (int)unaff_r14) = uVar7;
-
-    puVar2 = (unsigned int *)FUN_0602d7e4();
-
-  }
-
-  iVar12 = (*(int(*)())0x06027344)(*(int *)((int)DAT_0602d548 + (int)puVar2));
-
-  lVar1 = (long long)*(int *)((int)DAT_0602d544 + (int)unaff_r14) *
-
-          (long long)*(int *)((int)DAT_0602d54a + (int)unaff_r14);
-
-  lVar1 = (long long)(int)((int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10) *
-
-          (long long)(int)*(short *)((int)PTR_DAT_0602d54c + (int)unaff_r14);
-
-  uVar6 = (unsigned int)lVar1 >> 0x18 | (int)((unsigned long long)lVar1 >> 0x20) << 8;
-
-  uVar4 = unaff_r14[3];
-
-  if ((int)uVar4 < 0x00000100) {
-
-    puVar8 = 0x00004000;
-
-    if ((int)uVar6 < 0) {
-
-      puVar8 = (char *)-(int)0x00004000;
-
-    }
-
-    local_8 = 0;
-
-  }
-
-  else {
-
-    local_8 = (int)((unsigned long long)((long long)(int)uVar4 * (long long)(int)uVar4) >> 0x20) << 0x10 |
-
-              (unsigned int)((long long)(int)uVar4 * (long long)(int)uVar4) >> 0x10;
-
-    puVar2 = (unsigned int *)-256;
-
-    *puVar2 = local_8;
-
-    puVar2[4] = (int)(short)((unsigned long long)lVar1 >> 0x28);
-
-    puVar2[5] = uVar6 << 0x10;
-
-    puVar8 = (char *)(*(int(*)())0x06027378)(puVar2[7]);
-
-    if (puVar8 == (char *)0x0) {
-
-      puVar8 = (char *)(int)*(char *)((int)DAT_0602d5f2 + (int)unaff_r14);
-
-    }
-
-  }
-
-  sVar9 = (short)puVar8;
-
-  if (((0 < *(short *)((int)DAT_0602d5f4 + (int)unaff_r14)) && ((int)unaff_r14[2] < 0x46)) &&
-
-     ((int)(*(unsigned int *)((int)PTR_DAT_0602d5f8 + (int)unaff_r14) ^
-
-           *(unsigned int *)(0x40 + (int)unaff_r14)) < 0)) {
-
-    iVar10 = (int)(int)puVar8 << 0x10;
-
-    iVar5 = (*(int(*)())0x06027344)((short)((int)*(unsigned int *)(0x40 + (int)unaff_r14) >> 1) * 9);
-
-    sVar9 = (short)((unsigned long long)((long long)iVar10 * (long long)iVar5) >> 0x20);
-
-    if (sVar9 < 0) {
-
-      sVar9 = 0;
-
-    }
-
-  }
-
-  iVar5 = sVar9 * 3;
-
-  iVar10 = -*(int *)((int)PTR_DAT_0602d5f8 + (int)unaff_r14);
-
-  if (iVar10 < 0) {
-
-    iVar5 = sVar9 * -3;
-
-    if (iVar10 <= iVar5) goto LAB_0602d610;
-
-  }
-
-  else if (iVar5 <= iVar10) goto LAB_0602d610;
-
-  iVar5 = iVar10;
-
-LAB_0602d610:
-
-  iVar5 = iVar5 - (short)((unsigned long long)((long long)(iVar11 << 0x10) * (long long)iVar12) >> 0x20);
-
-  iVar12 = 0x300;
-
-  iVar11 = -iVar12;
-
-  if ((iVar11 < iVar5) && (iVar11 = iVar5, iVar12 <= iVar5)) {
-
-    iVar11 = iVar12;
-
-  }
-
-  *(int *)(0x178 + (int)unaff_r14) = iVar11;
-
-  iVar12 = *(int *)((int)DAT_0602d67c + (int)unaff_r14);
-
-  iVar11 = iVar11 + iVar12;
-
-  *(int *)((int)DAT_0602d67c + (int)unaff_r14) = iVar11 - (-(iVar12 - iVar11) >> 3);
-
-  lVar1 = (long long)*(int *)(0x108 + (int)unaff_r14) *
-
-          (long long)*(int *)(0x140 + (int)unaff_r14);
-
-  lVar1 = (long long)(int)((int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10) *
-
-          (long long)(int)*(short *)((int)DAT_0602d682 + (int)unaff_r14);
-
-  if (local_8 != 0) {
-
-    puVar2 = (unsigned int *)-256;
-
-    *puVar2 = local_8;
-
-    puVar2[4] = (int)(short)((unsigned long long)lVar1 >> 0x28);
-
-    puVar2[5] = ((unsigned int)lVar1 >> 0x18 | (int)((unsigned long long)lVar1 >> 0x20) << 8) << 0x10;
-
-    (*(int(*)())0x06027378)(puVar2[7]);
-
-  }
-
-  (*(int(*)())0x0602ECCC)(DAT_0602d6c2 + -0x32);
-
-  uVar4 = *(unsigned int *)(0x40 + (int)unaff_r14);
-
-  uVar6 = uVar4 - *(int *)((int)DAT_0602d732 + (int)unaff_r14);
-
-  if ((int)(uVar6 ^ uVar4) < 0) {
-
-    iVar11 = 0x00000FE0;
-
-    if ((int)uVar4 < 0) {
-
-      iVar11 = -0x00000FE0;
-
-    }
-
-    (*(int(*)())0x0602ECCC)(iVar11);
-
-  }
-
-  iVar11 = (*(int(*)())0x0602ECCC)();
-
-  *(unsigned int *)((int)DAT_0602d790 + (int)unaff_r14) =
-
-       (iVar11 - uVar6) -
-
-       ((int)-(*(int *)((int)DAT_0602d790 + (int)unaff_r14) - (iVar11 - uVar6)) >> 3);
-
-  iVar11 = (int)PTR_DAT_0602d794;
-
-  if (0x41 < (int)unaff_r14[2]) {
-
-    if (0xFFFFCD80 < *(int *)(iVar11 + (int)unaff_r14)) {
-
-      if (-0xFFFFCD80 <= *(int *)(iVar11 + (int)unaff_r14)) {
-
-        *unaff_r14 = *unaff_r14 | (unsigned int)0x20000000 | 0x40000000;
-
-      }
-
-    }
-
-    else {
-
-      *unaff_r14 = *unaff_r14 | 0x10000000 | 0x40000000;
-
-    }
-
-  }
-
-  iVar5 = *(int *)(iVar11 + (int)unaff_r14);
-
-  iVar12 = 0xFFFFCC00;
-
-  if ((iVar5 <= 0xFFFFCC00) || (iVar12 = -0xFFFFCC00, iVar12 < iVar5)) {
-
-    *(short *)((int)PTR_DAT_0602d7dc + (int)unaff_r14) = 1;
-
-    iVar5 = iVar12;
-
-  }
-
-  *(int *)(iVar11 + (int)unaff_r14) = iVar5;
-
-  return;
-
 }
 
-
-/* ============ FUN_0602D7E4 ============ */
-
-extern int PTR_DAT_0602d80c;
-
-extern int PTR_DAT_0602d80c;
-
-void FUN_0602d7e4()
+/* ──────────────────────────────────────────────────────────────────────
+ * sym_0602D814 + sym_0602D82A — Speed writer
+ *
+ * Integrates accel_delta (+0xFC) into speed (+0x0C).
+ * Then gear-scales the result for downstream consumption.
+ *
+ * Assembly (sym_0602D814):
+ *   mov r14, r0          ; car ptr
+ *   mov.l @(12, r0), r4  ; speed = car[+0x0C]
+ *   mov.w DAT_d862, r2   ; r2 = 0xFC
+ *   mov.l @(r0, r2), r3  ; accel_delta = car[+0xFC]
+ *   add r3, r4           ; speed += accel_delta
+ *   mov.l r4, @(12, r0)  ; car[+0x0C] = speed
+ *   cmp/pz r4            ; if speed >= 0 goto D82A
+ *   bt sym_0602D82A
+ *   mov #0, r3           ; else: speed = 0, accel_delta = 0
+ *   mov.l r3, @(12, r0)
+ *   mov.l r3, @(r0, r2)
+ *
+ * Assembly (sym_0602D82A):
+ *   gear_idx = car[+0xDC] (short)
+ *   gear_ratio = sym_060477BC[gear_idx * 4]
+ *   product = (speed * gear_ratio) >> 16  (xtrct = middle 32 of 64)
+ *   scaled = (product * 0x0221AC91) >> 16
+ *   clamped = clamp(scaled, 0, 0x2134)
+ *   car[+0xE0] = clamped
+ *   car[+0xE8] = max(scaled - clamped, 0)
+ * ────────────────────────────────────────────────────────────────────── */
+void sym_0602D814(int car)
 {
+    int speed, accel_delta;
+    int gear_idx, gear_ratio;
+    int scaled, clamped, excess;
+    long long prod;
+    int mid32;
 
-  short sVar1;
+    /* Step 1: speed += accel_delta */
+    speed = *(int *)(car + 0x0C);
+    accel_delta = *(int *)(car + 0xFC);
+    speed = speed + accel_delta;
+    *(int *)(car + 0x0C) = speed;
 
-  int in_r0;
-
-  short sVar2;
-
-  if ((0 < *(int *)(in_r0 + 8)) && (sVar1 = *(short *)(PTR_DAT_0602d80c + in_r0), sVar1 < 4))
-
-  {
-
-    sVar2 = (short)0x0000000A;
-
-    if (sVar1 != 0) {
-
-      sVar2 = sVar2 + -3;
-
+    if (speed < 0) {
+        *(int *)(car + 0x0C) = 0;
+        *(int *)(car + 0xFC) = 0;
     }
 
-    *(short *)(PTR_DAT_0602d80c + in_r0) = sVar2;
+    /* Step 2 (sym_0602D82A): gear-scaled speed */
+    speed = *(int *)(car + 0x0C);
+    gear_idx = *(short *)(car + 0xDC);
+    gear_ratio = *(int *)((int)&sym_060477BC + (gear_idx << 2));
 
-  }
+    /* 64-bit multiply, extract middle 32 bits (xtrct) */
+    prod = (long long)speed * (long long)gear_ratio;
+    mid32 = (int)((uint)(prod >> 32) << 16) | (int)((uint)prod >> 16);
 
-  return;
+    /* Second multiply by 0x0221AC91, extract middle 32, then shift */
+    prod = (long long)mid32 * (long long)0x0221AC91;
+    mid32 = (int)((uint)(prod >> 32) << 16) | (int)((uint)prod >> 16);
+    scaled = (int)((uint)mid32 >> 16);
 
-}
-
-
-/* ============ FUN_0602D814 ============ */
-
-extern int DAT_0602d862;
-
-extern int DAT_0602d864;
-
-extern int DAT_0602d866;
-
-extern int DAT_0602d88c;
-
-void FUN_0602d814()
-{
-
-  long long lVar1;
-
-  unsigned long long uVar2;
-
-  int iVar3;
-
-  int iVar4;
-
-  char *puVar5;
-
-  char *puVar6;
-
-  int unaff_r14;
-
-  iVar3 = (int)DAT_0602d862;
-
-  iVar4 = *(int *)(unaff_r14 + 0xc) + *(int *)(iVar3 + unaff_r14);
-
-  *(int *)(unaff_r14 + 0xc) = iVar4;
-
-  if (iVar4 < 0) {
-
-    *(int *)(unaff_r14 + 0xc) = 0;
-
-    *(int *)(iVar3 + unaff_r14) = 0;
-
-  }
-
-  lVar1 = (long long)*(int *)(0x060477BC + *(short *)(DAT_0602d864 + unaff_r14) << 2) *
-
-          (long long)*(int *)(unaff_r14 + 0xc);
-
-  uVar2 = (long long)(int)0x0221AC91 *
-
-          (long long)(int)((int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10);
-
-  puVar5 = (char *)((unsigned int)(uVar2 >> 0x20) & 0xffff);
-
-  if ((uVar2 & 0xffff00000000) == 0) {
-
-    puVar6 = (char *)0x0;
-
-  }
-
-  else {
-
-    puVar6 = puVar5;
-
-    if ((int)0x00002134 <= (int)puVar5) {
-
-      puVar6 = 0x00002134;
-
+    /* Clamp to [0, 0x2134] */
+    clamped = scaled;
+    if (scaled <= 0) {
+        clamped = 0;
+    } else if (scaled > 0x2134) {
+        clamped = 0x2134;
     }
+    *(int *)(car + 0xE0) = clamped;
 
-  }
-
-  *(char **)(DAT_0602d866 + unaff_r14) = puVar6;
-
-  iVar3 = (int)puVar5 - (int)puVar6;
-
-  if (iVar3 < 0) {
-
-    iVar3 = 0;
-
-  }
-
-  *(int *)(DAT_0602d88c + unaff_r14) = iVar3;
-
-  return;
-
+    /* Excess = raw - clamped, clamped >= 0 */
+    excess = scaled - clamped;
+    if (excess < 0) excess = 0;
+    *(int *)(car + 0xE8) = excess;
 }
 
-
-/* ============ FUN_0602D82A ============ */
-
-extern int DAT_0602d864;
-
-extern int DAT_0602d866;
-
-extern int DAT_0602d88c;
-
-void FUN_0602d82a()
+/* ──────────────────────────────────────────────────────────────────────
+ * FUN_0602D8C6 — Position writer core
+ *
+ * Integrates speed into world position using sin/cos of slip angle.
+ *
+ * Assembly:
+ *   car[+0x20] = car[+0x30]           ; heading = heading_copy
+ *   slip = -car[+0x28]                ; negate slip angle
+ *   speed = car[+0x0C]
+ *   save car[+0x38] = car[+0x10]      ; pre-update X
+ *   save car[+0x3C] = car[+0x18]      ; pre-update Z
+ *   sin_val = FUN_06027344(slip)       ; sin
+ *   cos_val = FUN_06027348(slip)       ; cos
+ *   vel_x = (speed * cos_val) >> 16   ; xtrct
+ *   car[+0x18C] = vel_x
+ *   car[+0x10] += vel_x
+ *   vel_z = (speed * sin_val) >> 16   ; xtrct
+ *   car[+0x190] = vel_z
+ *   car[+0x18] += vel_z
+ * ────────────────────────────────────────────────────────────────────── */
+void FUN_0602D8C6(int car)
 {
+    int speed, world_x, world_z, slip;
+    int sin_val, cos_val;
+    int vel_x, vel_z;
+    long long prod;
 
-  long long lVar1;
+    /* Copy heading */
+    *(int *)(car + 0x20) = *(int *)(car + 0x30);
 
-  unsigned long long uVar2;
+    /* Negate slip angle */
+    slip = -(*(int *)(car + 0x28));
+    speed = *(int *)(car + 0x0C);
+    world_x = *(int *)(car + 0x10);
+    world_z = *(int *)(car + 0x18);
 
-  int in_r0;
+    /* Save pre-update position */
+    *(int *)(car + 0x38) = world_x;
+    *(int *)(car + 0x3C) = world_z;
 
-  char *puVar3;
+    /* sin/cos of negated slip angle */
+    sin_val = FUN_06027344(slip);
+    cos_val = FUN_06027348(slip);
 
-  char *puVar4;
+    /* Velocity X = (cos_val * speed) >> 16 via xtrct */
+    prod = (long long)cos_val * (long long)speed;
+    vel_x = (int)((uint)(prod >> 32) << 16) | (int)((uint)prod >> 16);
+    *(int *)(car + 0x18C) = vel_x;
+    *(int *)(car + 0x10) = world_x + vel_x;
 
-  int iVar5;
+    /* Velocity Z = (sin_val * speed) >> 16 via xtrct */
+    prod = (long long)sin_val * (long long)speed;
+    vel_z = (int)((uint)(prod >> 32) << 16) | (int)((uint)prod >> 16);
+    *(int *)(car + 0x190) = vel_z;
+    *(int *)(car + 0x18) = world_z + vel_z;
+}
 
-  lVar1 = (long long)*(int *)(0x060477BC + *(short *)(DAT_0602d864 + in_r0) << 2) *
+/* ──────────────────────────────────────────────────────────────────────
+ * sym_0602D8BC — Position writer (drift check gate)
+ *
+ * Assembly:
+ *   mov #0, r4
+ *   mov.w .L_pool_D916, r1  ; r1 = 0x250
+ *   mov.w @(r0, r1), r2     ; drift = car[+0x250] (short)
+ *   cmp/eq r4, r2            ; if drift == 0
+ *   bf external_0602D924     ; else branch to drift handler
+ *   <fall through to FUN_0602D8C6>
+ * ────────────────────────────────────────────────────────────────────── */
+void sym_0602D8BC(int car)
+{
+    short drift;
 
-          (long long)*(int *)(in_r0 + 0xc);
-
-  uVar2 = (long long)(int)0x0221AC91 *
-
-          (long long)(int)((int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10);
-
-  puVar3 = (char *)((unsigned int)(uVar2 >> 0x20) & 0xffff);
-
-  if ((uVar2 & 0xffff00000000) == 0) {
-
-    puVar4 = (char *)0x0;
-
-  }
-
-  else {
-
-    puVar4 = puVar3;
-
-    if ((int)0x00002134 <= (int)puVar3) {
-
-      puVar4 = 0x00002134;
-
+    drift = *(short *)(car + 0x250);
+    if (drift != 0) {
+        /* drift handler at 0x0602D924 — external, not in this TU */
+        return;
     }
-
-  }
-
-  *(char **)(DAT_0602d866 + in_r0) = puVar4;
-
-  iVar5 = (int)puVar3 - (int)puVar4;
-
-  if (iVar5 < 0) {
-
-    iVar5 = 0;
-
-  }
-
-  *(int *)(DAT_0602d88c + in_r0) = iVar5;
-
-  return;
-
+    FUN_0602D8C6(car);
 }
 
-
-/* ============ FUN_0602D88E ============ */
-
-extern int FUN_0602d8bc();
-
-void FUN_0602d88e()
+/* ──────────────────────────────────────────────────────────────────────
+ * sym_0602D88E + FUN_0602D89A — Player position update entry
+ *
+ * sym_0602D88E: pushes r8-r13 (callee-saved), falls into FUN_0602D89A
+ * FUN_0602D89A: pushes r14+pr, loads car ptr from sym_0607E944,
+ *               calls sym_0602D8BC, pops everything, returns.
+ *
+ * In C: one function (the prologue push is compiler-generated).
+ * ────────────────────────────────────────────────────────────────────── */
+void FUN_0602D89A(void)
 {
+    int car;
 
-  FUN_0602d8bc();
-
-  return;
-
+    car = *(int *)&sym_0607E944;
+    sym_0602D8BC(car);
 }
 
-
-/* ============ FUN_0602D89A ============ */
-
-/* FUN_0602D89A  0x0602D89A */
-
-
-void FUN_0602d89a(void)
-
+/* ──────────────────────────────────────────────────────────────────────
+ * FUN_0602D43C — Collision + steering response
+ *
+ * 563-byte function with complex collision/heading correction logic.
+ * Calls FUN_06027344, FUN_06027378 (trig), sym_0602ECCC (divide).
+ *
+ * Deferred — will decompile after speed/position writers are validated.
+ * For now, this is a stub that does nothing.
+ * ────────────────────────────────────────────────────────────────────── */
+void FUN_0602D43C(int car)
 {
-  FUN_0602d8bc();
-  return;
+    /* TODO: Full decompilation — 563 bytes, complex branching.
+     * Pool constants resolved. Assembly cross-referenced.
+     * Defer until unit tests validate sym_0602D814 + FUN_0602D8C6.
+     */
 }
-
-
-
-/* ============ FUN_0602D8BC ============ */
-
-extern int DAT_0602d916;
-
-extern int DAT_0602d918;
-
-extern int DAT_0602d91a;
-
-extern int DAT_0602d9d0;
-
-extern int DAT_0602d9d2;
-
-void FUN_0602d8bc()
-{
-
-  long long lVar1;
-
-  unsigned int *in_r0;
-
-  int iVar2;
-
-  int extraout_r1;
-
-  unsigned int uVar3;
-
-  int extraout_r3;
-
-  unsigned int uVar4;
-
-  int iVar5;
-
-  unsigned int uVar6;
-
-  char *puVar7;
-
-  unsigned int uVar8;
-
-  int unaff_r14;
-
-  long long uVar9;
-
-  if (*(short *)(0x250 + (int)in_r0) != 0) {
-
-    uVar3 = in_r0[0xc];
-
-    (*(int(*)())0x0602ECCC)();
-
-    iVar2 = extraout_r1;
-
-    if ((*in_r0 & 0x00000300) == 0) {
-
-      iVar2 = -extraout_r1;
-
-    }
-
-    in_r0[0xc] = uVar3 + iVar2;
-
-    in_r0[8] = uVar3 + iVar2;
-
-    uVar3 = *(unsigned int *)(0x248 + (int)in_r0);
-
-    in_r0[10] = uVar3;
-
-    puVar7 = (char *)
-
-             ((int)((unsigned long long)
-
-                    ((long long)
-
-                     *(int *)(0x0602E8B8 + *(short *)(0x250 + (int)in_r0) << 2) *
-
-                    (long long)(int)in_r0[3]) >> 0x20) << 0x10 |
-
-             (unsigned int)((long long)
-
-                    *(int *)(0x0602E8B8 + *(short *)(0x250 + (int)in_r0) << 2) *
-
-                   (long long)(int)in_r0[3]) >> 0x10);
-
-    in_r0[3] = (unsigned int)puVar7;
-
-    if ((int)in_r0[2] < 0x29) {
-
-      puVar7 = 0x00006AAA;
-
-    }
-
-    uVar4 = in_r0[4];
-
-    uVar6 = in_r0[6];
-
-    in_r0[0xe] = uVar4;
-
-    in_r0[0xf] = uVar6;
-
-    iVar2 = (*(int(*)())0x06027344)();
-
-    uVar9 = (*(int(*)())0x06027348)(-uVar3);
-
-    lVar1 = (long long)(int)puVar7 * (long long)(int)uVar9;
-
-    uVar3 = (int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10;
-
-    *(unsigned int *)(0x0000018C + (int)in_r0) = uVar3;
-
-    in_r0[4] = uVar4 + uVar3;
-
-    lVar1 = (long long)(int)((unsigned long long)uVar9 >> 0x20) * (long long)iVar2;
-
-    uVar3 = (int)((unsigned long long)lVar1 >> 0x20) << 0x10 | (unsigned int)lVar1 >> 0x10;
-
-    *(unsigned int *)(0x00000190 + (int)in_r0) = uVar3;
-
-    in_r0[6] = uVar6 + uVar3;
-
-    return;
-
-  }
-
-  in_r0[8] = in_r0[0xc];
-
-  iVar5 = -in_r0[10];
-
-  uVar3 = in_r0[3];
-
-  uVar6 = in_r0[4];
-
-  uVar8 = in_r0[6];
-
-  in_r0[0xe] = uVar6;
-
-  in_r0[0xf] = uVar8;
-
-  iVar2 = (*(int(*)())0x06027344)();
-
-  iVar5 = (*(int(*)())0x06027348)(iVar5);
-
-  uVar4 = (int)((unsigned long long)((long long)extraout_r3 * (long long)iVar5) >> 0x20) << 0x10 |
-
-          (unsigned int)((long long)extraout_r3 * (long long)iVar5) >> 0x10;
-
-  *(unsigned int *)(DAT_0602d918 + unaff_r14) = uVar4;
-
-  *(unsigned int *)(unaff_r14 + 0x10) = uVar6 + uVar4;
-
-  uVar3 = (int)((unsigned long long)((long long)(int)uVar3 * (long long)iVar2) >> 0x20) << 0x10 |
-
-          (unsigned int)((long long)(int)uVar3 * (long long)iVar2) >> 0x10;
-
-  *(unsigned int *)(DAT_0602d91a + unaff_r14) = uVar3;
-
-  *(unsigned int *)(unaff_r14 + 0x18) = uVar8 + uVar3;
-
-  return;
-
-}
-
-
-/* ============ FUN_0602D8C6 ============ */
-
-/* FUN_0602D8C6  0x0602D8C6 */
-
-
-void FUN_0602d8c6(void)
-
-{
-  longlong lVar1;
-  int in_r0;
-  int iVar2;
-  int iVar3;
-  int extraout_r3;
-  uint uVar4;
-  int iVar5;
-  int iVar6;
-  int iVar7;
-  int unaff_r14;
-  
-  *(undefined4 *)(in_r0 + 0x20) = *(undefined4 *)(in_r0 + 0x30);
-  iVar5 = -*(int *)(in_r0 + 0x28);
-  iVar3 = *(int *)(in_r0 + 0xc);
-  iVar6 = *(int *)(in_r0 + 0x10);
-  iVar7 = *(int *)(in_r0 + 0x18);
-  *(int *)(in_r0 + 0x38) = iVar6;
-  *(int *)(in_r0 + 0x3c) = iVar7;
-  iVar2 = (*(code *)PTR_FUN_0602d91c)();
-  iVar5 = (*DAT_0602d920)(iVar5);
-  uVar4 = (int)((ulonglong)((longlong)extraout_r3 * (longlong)iVar5) >> 0x20) << 0x10 |
-          (uint)((longlong)extraout_r3 * (longlong)iVar5) >> 0x10;
-  *(uint *)(DAT_0602d918 + unaff_r14) = uVar4;
-  *(uint *)(unaff_r14 + 0x10) = iVar6 + uVar4;
-  lVar1 = (longlong)iVar3 * (longlong)iVar2;
-  uVar4 = (int)((ulonglong)lVar1 >> 0x20) << 0x10 | (uint)lVar1 >> 0x10;
-  *(uint *)(DAT_0602d91a + unaff_r14) = uVar4;
-  *(uint *)(unaff_r14 + 0x18) = iVar7 + uVar4;
-  return;
-}
-
-
