@@ -29,15 +29,17 @@ SRC_DIR = PROJECT / 'reimpl' / 'src'
 RETAIL_DIR = PROJECT / 'reimpl' / 'retail'
 
 
-def merge_group(head_name, member_names, dry_run=False):
+def merge_group(head_name, member_names, dry_run=False, force_strip_section=False):
     """Merge member .s files into the head's .s file.
 
     Processes both src/ and retail/ directories.
+    force_strip_section: strip .section from ALL members regardless of alignment
+                         (used for cross-section pool merges where all members are 4-byte aligned).
     Returns (success, message).
     """
     results = []
     for src_dir in [SRC_DIR, RETAIL_DIR]:
-        ok, msg = _merge_in_dir(src_dir, head_name, member_names, dry_run)
+        ok, msg = _merge_in_dir(src_dir, head_name, member_names, dry_run, force_strip_section)
         results.append((src_dir.name, ok, msg))
 
     all_ok = all(ok for _, ok, _ in results)
@@ -45,7 +47,7 @@ def merge_group(head_name, member_names, dry_run=False):
     return all_ok, "; ".join(msgs)
 
 
-def _merge_in_dir(src_dir, head_name, member_names, dry_run):
+def _merge_in_dir(src_dir, head_name, member_names, dry_run, force_strip_section=False):
     """Merge members into head within a single directory."""
     head_path = src_dir / f"{head_name}.s"
     if not head_path.exists():
@@ -129,8 +131,8 @@ def _merge_in_dir(src_dir, head_name, member_names, dry_run):
         skip_blank = True  # skip leading blanks after stripping header
         for line in lines:
             stripped = line.strip()
-            # Only strip .section for non-aligned members (inner TU functions)
-            if stripped.startswith(".section") and not member_aligned:
+            # Strip .section for non-aligned members OR when force_strip_section is set
+            if stripped.startswith(".section") and (not member_aligned or force_strip_section):
                 continue
             # Skip header comments (/* FUN_xxx -- ... */ or /* TU: ... */)
             if stripped.startswith("/*") and (mn in stripped or "TU:" in stripped) and stripped.endswith("*/"):
@@ -194,6 +196,8 @@ def main():
     parser.add_argument('--members', nargs='+', help="Member function names to merge")
     parser.add_argument('--batch', help="Batch file: one group per line (head member1 member2 ...)")
     parser.add_argument('--dry-run', action='store_true', help="Show plan without executing")
+    parser.add_argument('--force-strip-section', action='store_true',
+                        help="Strip .section from ALL members (for cross-section pool merges)")
     args = parser.parse_args()
 
     if args.batch:
@@ -210,7 +214,7 @@ def main():
         success = 0
         fail = 0
         for head, members in groups:
-            ok, msg = merge_group(head, members, args.dry_run)
+            ok, msg = merge_group(head, members, args.dry_run, args.force_strip_section)
             if ok:
                 success += 1
                 if not args.dry_run:
@@ -222,7 +226,7 @@ def main():
         print(f"\n{success} succeeded, {fail} failed")
 
     elif args.head and args.members:
-        ok, msg = merge_group(args.head, args.members, args.dry_run)
+        ok, msg = merge_group(args.head, args.members, args.dry_run, args.force_strip_section)
         print(f"{'OK' if ok else 'FAIL'}: {args.head} <- {', '.join(args.members)} ({msg})")
 
     else:

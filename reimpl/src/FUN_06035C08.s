@@ -58,3 +58,32 @@ sym_06035C4E:
     .byte   0xD0, 0x0A    /* mov.l pool@0x06035C78 (external: CD HIRQ reg addr), r0 */
     rts
     mov.w @r0, r0
+
+
+    .global FUN_06035C54
+    .type FUN_06035C54, @function
+FUN_06035C54:
+    sts.l pr, @-r15
+    mov.l   .L_06035C78, r3
+    mov.w @r3, r3
+    extu.w r3, r3
+    mov.l   .L_pool_06035C7C, r2
+    mov.w @r2, r2
+    or r3, r2
+    mov.l   .L_pool_06035C7C, r3
+    mov.w r2, @r3
+    mov #0x1, r1
+    or r1, r4
+    bra     sym_06035C6E
+    lds.l @r15+, pr
+
+    .global sym_06035C6E
+sym_06035C6E:
+    mov.l   .L_06035C78, r3
+    rts
+    mov.w r4, @r3
+    .4byte  0x25818000
+.L_06035C78:
+    .4byte  0x25890008
+.L_pool_06035C7C:
+    .4byte  sym_06063590

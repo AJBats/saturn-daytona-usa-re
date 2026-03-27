@@ -119,8 +119,7 @@ DAT_0603ac9e:
     .2byte 0xA000    /* bra FUN_0603B93C (linker-resolved) */
     mov.l @r15+, r14
 .L_0603ACD8:
-    .reloc ., R_SH_IND12W, FUN_0603ADAC - 4
-    .2byte 0xB000    /* bsr FUN_0603ADAC (linker-resolved) */
+    bsr     FUN_0603ADAC
     mov r14, r4
     .reloc ., R_SH_IND12W, FUN_0603B93C - 4
     .2byte 0xB000    /* bsr FUN_0603B93C (linker-resolved) */
@@ -250,3 +249,125 @@ FUN_0603ACEA:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
+
+
+    .global FUN_0603ADAC
+    .type FUN_0603ADAC, @function
+FUN_0603ADAC:
+    mov.l r14, @-r15
+    sts.l pr, @-r15
+    mov.l   .L_pool_0603ADEC, r5
+    mov.w   .L_0603ADDA, r3
+    mov.l @r5, r14
+    tst r4, r4
+    bf/s    .L_0603ADF0
+    add r3, r14
+    mov.l @r5, r3
+    mov.w   .L_0603ADDC, r0
+    mov.l @(r0, r3), r0
+    tst r0, r0
+    bt      .L_0603ADCE
+    mov #-0x7, r4
+    lds.l @r15+, pr
+    .reloc ., R_SH_IND12W, FUN_0603B93C - 4
+    .2byte 0xA000    /* bra FUN_0603B93C (linker-resolved) */
+    mov.l @r15+, r14
+.L_0603ADCE:
+    mov #0x0, r4
+    mov.l r4, @(8, r14)
+    mov.l r4, @(12, r14)
+    mov r4, r2
+    bra     .L_0603AE00
+    mov.l r4, @(4, r14)
+.L_0603ADDA:
+    .2byte  0x0098
+.L_0603ADDC:
+    .2byte  0x00A0
+    .2byte  0x00F4
+    .4byte  sym_0603F1E0
+    .4byte  sym_0603F1F0
+    .4byte  FUN_0603F0FC
+.L_pool_0603ADEC:
+    .4byte  sym_060A4D14
+.L_0603ADF0:
+    mov r14, r1
+    mov r4, r2
+    .byte   0xD3, 0x1C    /* mov.l pool_memcpy_long@0x0603AE68, r3 */
+    jsr @r3
+    mov #0xC, r0
+    .reloc ., R_SH_IND12W, FUN_0603B7C0 - 4
+    .2byte 0xB000    /* bsr FUN_0603B7C0 (linker-resolved) */
+    nop
+    mov.l r0, @(12, r14)
+.L_0603AE00:
+    mov #0x0, r4
+    lds.l @r15+, pr
+    .reloc ., R_SH_IND12W, FUN_0603B93C - 4
+    .2byte 0xA000    /* bra FUN_0603B93C (linker-resolved) */
+    mov.l @r15+, r14
+
+    .global FUN_0603AE08
+    .type FUN_0603AE08, @function
+FUN_0603AE08:
+    mov.l r14, @-r15
+    sts.l pr, @-r15
+    add #-0x4, r15
+    mov.l r4, @r15
+    mov.l   .L_pool_0603AE6C, r14
+    mov.w   .L_0603AE60, r0
+    mov.l @r14, r3
+    mov.l @(r0, r3), r0
+    tst r0, r0
+    bt      .L_0603AE26
+    mov.l @r14, r0
+    mov.w   .L_0603AE62, r1
+    mov.l @(r0, r1), r0
+    cmp/eq #0x1, r0
+    bt      .L_0603AE30
+.L_0603AE26:
+    mov #-0x8, r4
+    add #0x4, r15
+    lds.l @r15+, pr
+    .reloc ., R_SH_IND12W, FUN_0603B93C - 4
+    .2byte 0xA000    /* bra FUN_0603B93C (linker-resolved) */
+    mov.l @r15+, r14
+.L_0603AE30:
+    mov.l @r14, r6
+    mov.w   .L_0603AE64, r0
+    mov.l @r15, r5
+    mov.l @r14, r4
+    mov.l   .L_pool_0603AE70, r3
+    mov.l @(r0, r6), r6
+    mov.w   .L_0603AE60, r0
+    jsr @r3
+    mov.l @(r0, r4), r4
+    mov r0, r14
+    cmp/pz r14
+    bt      .L_0603AE52
+    mov #-0x9, r4
+    add #0x4, r15
+    lds.l @r15+, pr
+    .reloc ., R_SH_IND12W, FUN_0603B93C - 4
+    .2byte 0xA000    /* bra FUN_0603B93C (linker-resolved) */
+    mov.l @r15+, r14
+.L_0603AE52:
+    .reloc ., R_SH_IND12W, FUN_0603B93C - 4
+    .2byte 0xB000    /* bsr FUN_0603B93C (linker-resolved) */
+    mov #0x0, r4
+    mov r14, r0
+    add #0x4, r15
+    lds.l @r15+, pr
+    rts
+    mov.l @r15+, r14
+.L_0603AE60:
+    .2byte  0x00A0
+.L_0603AE62:
+    .2byte  0x0098
+.L_0603AE64:
+    .2byte  0x009C
+    .2byte  0xFFFF
+    .4byte  sym_06035168
+.L_pool_0603AE6C:
+    .4byte  sym_060A4D14                    /* [HIGH] global command state struct pointer */
+.L_pool_0603AE70:
+    .4byte  FUN_0603F148

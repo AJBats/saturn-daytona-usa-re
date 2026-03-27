@@ -139,3 +139,38 @@ FUN_0604077C:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
+
+
+    .global FUN_0604087C
+    .type FUN_0604087C, @function
+FUN_0604087C:
+    sts.l pr, @-r15
+    add #-0x4, r15
+    mov.l r4, @r15
+    mov.l   .L_pool_060408A8, r3
+    jsr @r3
+    mov.l @(4, r4), r4
+    mov.l @r15, r4
+    mov.l @(20, r4), r4
+    add #0x4, r15
+    mov.l   .L_pool_060408AC, r3
+    jmp @r3
+    lds.l @r15+, pr
+
+    .global sym_06040894
+sym_06040894:
+    mov.l @(36, r4), r0
+    extu.b r5, r5
+    rts
+    mov.l r5, @(36, r4)
+
+    .global DAT_0604089c
+DAT_0604089c:
+    mac.l @r15+, @r0+
+    .word 0xFFFF
+    .4byte  FUN_060414D0
+    .4byte  FUN_0604188C
+.L_pool_060408A8:
+    .4byte  FUN_06040F16
+.L_pool_060408AC:
+    .4byte  sym_06040EBA

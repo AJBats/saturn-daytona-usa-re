@@ -170,3 +170,127 @@ FUN_0600F650:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
+
+
+    .global FUN_0600F794
+    .type FUN_0600F794, @function
+FUN_0600F794:
+    mov.l r14, @-r15
+    sts.l pr, @-r15
+    add #-0x4, r15
+
+    mov.l   .L_pool_0600F7E4, r3
+    mov.l r3, @r15
+    mov r3, r14
+    add #0x2, r14
+    mov.l   .L_pool_0600F7E8, r3
+    mov.w @r14, r14
+    jsr @r3
+    mov #0x0, r4
+
+    mov.l   .L_pool_0600F7EC, r3
+    jsr @r3
+    nop
+
+    mov.l @r15, r0
+    mov.w @(6, r0), r0
+    extu.w r0, r0
+    cmp/eq #0x10, r0
+    bf      .L_0600F7F0
+    .reloc ., R_SH_IND12W, FUN_06010238 - 4
+    .2byte 0xB000    /* bsr FUN_06010238 (linker-resolved) */
+    nop
+    bra     .L_0600F7F4
+    nop
+
+    .2byte  0x0B04
+    .4byte  0x0B380170
+    .4byte  0x0C2604B0
+    .4byte  sym_06063750
+    .4byte  0x00009000
+    .4byte  0x0000A000
+    .4byte  sym_0607EADC
+    .4byte  sym_0607EBCC
+    .4byte  sym_0607887F
+.L_pool_0600F7E4:
+    .4byte  g_pad_state
+.L_pool_0600F7E8:
+    .4byte  FUN_060114AC
+.L_pool_0600F7EC:
+    .4byte  FUN_06011094
+
+.L_0600F7F0:
+    .reloc ., R_SH_IND12W, FUN_060102A8 - 4
+    .2byte 0xB000    /* bsr FUN_060102A8 (linker-resolved) */
+    mov r14, r4
+
+.L_0600F7F4:
+    .reloc ., R_SH_IND12W, FUN_060102EA - 4
+    .2byte 0xB000    /* bsr FUN_060102EA (linker-resolved) */
+    mov r14, r4
+
+    .byte   0xD0, 0x14    /* mov.l .L_pool_0600F84C, r0 */
+    mov.b @r0, r0
+    tst r0, r0
+    bt      .L_0600F81A
+    .byte   0xD4, 0x13    /* mov.l .L_pool_0600F850, r4 */
+    .byte   0x92, 0x21    /* mov.w .L_wpool_0600F848, r2 */
+    mov.w @r4, r4
+    extu.w r4, r4
+    and r2, r4
+    tst r4, r4
+    bt      .L_0600F812
+    bra     .L_0600F814
+    mov #0x1, r3
+.L_0600F812:
+    mov #0x0, r3
+.L_0600F814:
+    exts.b r3, r3
+    .byte   0xD2, 0x0F    /* mov.l .L_pool_0600F854, r2 */
+    mov.b r3, @r2
+
+.L_0600F81A:
+    add #0x4, r15
+    lds.l @r15+, pr
+    rts
+    mov.l @r15+, r14
+
+
+    .global FUN_0600F822
+    .type FUN_0600F822, @function
+FUN_0600F822:
+    sts.l pr, @-r15
+    mov.l   .L_pool_0600F85E, r5
+    mov.l   .L_pool_0600F862, r3
+    jsr @r3
+    mov #0x0, r4
+    mov.l   .L_pool_0600F866, r3
+    jsr @r3
+    mov #0x0, r4
+    mov.l   .L_pool_0600F86A, r3
+    jsr @r3
+    nop
+    mov #0x78, r2
+    mov.l   .L_pool_0600F86E, r3
+    mov.w r2, @r3
+    mov #0x3, r2
+    mov.l   .L_pool_0600F872, r3
+    lds.l @r15+, pr
+    rts
+    mov.b r2, @r3
+    .4byte  0x0800FFFF
+    .4byte  sym_06085FF4
+    .4byte  g_pad_state
+    .4byte  sym_06078663
+.L_pool_0600F85E:
+    .4byte  0xAB1101FF
+.L_pool_0600F862:
+    .4byte  FUN_0601D5F4           /* sound command dispatcher */
+.L_pool_0600F866:
+    .4byte  FUN_060114AC
+.L_pool_0600F86A:
+    .4byte  FUN_06011094
+.L_pool_0600F86E:
+    .4byte  sym_0607887C
+.L_pool_0600F872:
+    .4byte  sym_0607887F

@@ -201,3 +201,20 @@ FUN_0603F3F6:
     rts
     mov.l @r15+, r14
     .2byte  0xE601
+
+
+    .global FUN_0603F4B0
+    .type FUN_0603F4B0, @function
+FUN_0603F4B0:
+    sts.l pr, @-r15
+    add #-0x4, r15
+    bsr     FUN_0603F3F6
+    mov r15, r5
+    mov.b @r15, r0
+    add #0x4, r15
+    lds.l @r15+, pr
+    rts
+    nop
+    .2byte  0x0800
+    .4byte  FUN_0603B21C
+    .4byte  sym_060360FC
