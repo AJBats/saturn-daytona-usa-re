@@ -31,8 +31,19 @@ static __inline__ int fixed_mul(int a, int b)
     return (hi << 16) | ((uint)lo >> 16);
 }
 
+/* Fixed-point multiply variant: extracts bits [55:24] of 64-bit product.
+ * Assembly pattern: dmuls.l; shll8 mach; shlr16 macl; shlr8 macl; or
+ * Different from standard xtrct which extracts bits [47:16]. */
+static __inline__ int fixed_mul_shift8(int a, int b)
+{
+    int hi, lo;
+    asm("dmuls.l %2,%3\n\tsts mach,%0\n\tsts macl,%1"
+        : "=r"(hi), "=r"(lo) : "r"(a), "r"(b));
+    return (hi << 8) | ((uint)lo >> 24);
+}
+
 /* External functions */
-extern int FUN_06027344();   /* sin lookup */
+extern int FUN_06027344();   /* sin/atan2 lookup */
 extern int FUN_06027348();   /* cos lookup */
 extern int FUN_06027378();   /* atan2 variant */
 extern int sym_0602ECCC();   /* fixed-point divide */
@@ -253,25 +264,26 @@ void FUN_0602D89A(void)
 void FUN_0602D43C(int car)
 {
     int collision_val, counter_limit;
-    int heading_rate, heading_corr;
-    int speed_sq, atan_result;
+    int atan_result;
     int force_product, force_scaled;
     int delta, clamp_val, temp;
     int r12_val;
     short counter;
     int angle_sign;
     int push_val;
+    int speed_sq;
+    int *scratch;
+
+    /* FIX #1: scratch area is at 0xFFFFFF00 (sign-extended from mov.w 0xFF00) */
+    scratch = (int *)0xFFFFFF00;
 
     /* r10 = car[+0x154] (collision value) */
     collision_val = *(int *)(car + 0x154);
     counter_limit = 0x168;
 
-    /* r7 = car[+0x166] (counter, sign-extended short) */
     counter = *(short *)(car + 0x166);
 
-    /* if counter > 0, skip the collision check block */
     if (counter <= 0) {
-        /* Collision gate: check speed, heading_rate, and threshold */
         if (*(int *)(car + 8) >= 0xF0 &&
             *(int *)(car + 0x40) != 0 &&
             *(int *)(car + 0x10C) <= 0x6800)
@@ -289,7 +301,6 @@ void FUN_0602D43C(int car)
 
             abs_cv = abs_cv - 0x2F8;
 
-            /* Clamp to [4, 10] */
             if (abs_cv < 5) {
                 abs_cv = 4;
             } else if (abs_cv > 10) {
@@ -301,11 +312,9 @@ void FUN_0602D43C(int car)
     }
 
 skip_counter_write:
-    /* Read counter back (might have been written above) */
     counter = *(short *)(car + counter_limit);
 
     if (counter > 0) {
-        /* Decrement counter */
         if (*(int *)(car + 0x11C) == 0) {
             counter = counter - 2;
         }
@@ -315,54 +324,53 @@ skip_counter_write:
         push_val = 0;
         temp = 0x000A0000 - (counter * 0x10000);
         if (temp >= 0) {
-            /* fixed_mul: car[+0x10C] * temp */
             force_product = fixed_mul(*(int *)(car + 0x10C), temp);
 
-            /* Write to scratch area at 0xFF00 and compute atan2 */
-            /* This is a local struct pattern — Ghidra shows writes to -256 */
-            *(int *)(0xFF00) = 0x000A0000;
-            *(int *)(0xFF10) = (short)(force_product >> 16);
-            *(int *)(0xFF14) = force_product << 16;
-            push_val = *(int *)(0xFF1C);
+            /* FIX #1: use scratch (0xFFFFFF00) not 0xFF00 */
+            scratch[0] = 0x000A0000;
+            scratch[4] = (short)(force_product >> 16);
+            scratch[5] = force_product << 16;
+            push_val = scratch[7];
         }
 
         *(int *)(car + 0x10C) = push_val;
         FUN_0602D7E4(car);
     }
 
-    /* atan2 of car[+0x5C] (heading rate component) */
+    /* atan2 of car[+0x5C] */
     atan_result = FUN_06027344(*(int *)(car + 0x5C));
+
+    /* FIX #3: transform collision_val with atan result (r10 update)
+     * Assembly: shll16 r10; dmuls.l r0,r10; xtrct; shlr16; exts.w; neg */
+    collision_val = collision_val << 16;
+    collision_val = fixed_mul(atan_result, collision_val);
+    collision_val = (short)((uint)collision_val >> 16);
+    collision_val = -collision_val;
 
     /* Compute force_product: fixed_mul(car[+0x10C], car[+0x144]) */
     force_product = fixed_mul(*(int *)(car + 0x10C), *(int *)(car + 0x144));
 
-    /* Second multiply: force_product * car[+0xCC] (shift variant) */
-    {
-        int mid;
-        mid = fixed_mul(force_product, *(short *)(car + 0xCE));
-        force_scaled = (mid >> 8) & 0x00FFFFFF;  /* shll8 mach; shlr16 macl; shlr8 macl; or */
-    }
+    /* FIX #2: shift variant multiply — bits [55:24] not [47:16] */
+    force_scaled = fixed_mul_shift8(force_product, *(short *)(car + 0xCE));
 
-    /* Branch based on speed (car[+0x0C]) vs 0x100 */
+    /* Branch based on speed vs 0x100 */
     if (*(int *)(car + 0x0C) < 0x100) {
-        /* Low speed: use fixed angle_sign */
         angle_sign = 0x4000;
         if ((int)force_scaled < 0) {
             angle_sign = -0x4000;
         }
         push_val = 0;
     } else {
-        /* High speed: compute speed^2, then atan2 */
         int speed_val;
         speed_val = *(int *)(car + 0x0C);
         speed_sq = fixed_mul(speed_val, speed_val);
         push_val = speed_sq;
 
-        /* Write speed_sq to scratch, compute atan2 */
-        *(int *)(0xFF00) = speed_sq;
-        *(int *)(0xFF10) = (short)(force_scaled >> 16);
-        *(int *)(0xFF14) = force_scaled << 16;
-        angle_sign = FUN_06027378(*(int *)(0xFF1C));
+        /* FIX #1: scratch at 0xFFFFFF00 */
+        scratch[0] = speed_sq;
+        scratch[4] = (short)(force_scaled >> 16);
+        scratch[5] = force_scaled << 16;
+        angle_sign = FUN_06027378(scratch[7]);
 
         if (angle_sign == 0) {
             angle_sign = *(char *)(car + 0x7F);
@@ -377,7 +385,6 @@ skip_counter_write:
         hr = *(int *)(car + 0x40);
         xor_val = hr ^ *(int *)(car + 0x5C);
         if (xor_val < 0) {
-            /* Signs differ — apply damping */
             int scaled_angle;
             scaled_angle = angle_sign << 16;
             temp = FUN_06027344((short)(hr >> 1) * 9);
@@ -401,9 +408,8 @@ skip_counter_write:
     delta = temp;
 
 use_delta:
-    /* Subtract atan2-scaled collision contribution */
-    temp = -delta;
-    delta = collision_val - temp - *(int *)(car + 0x178);
+    /* FIX #3/#4: use atan-transformed collision_val (r10) */
+    delta = collision_val - (-delta) - *(int *)(car + 0x178);
     delta = delta + *(int *)(car + 0x178);
 
     /* Clamp to [-0x300, 0x300] */
@@ -416,27 +422,27 @@ use_delta:
     }
     *(int *)(car + 0x178) = clamp_val;
 
-    /* EMA smoothing on car[+0x5C] */
-    heading_corr = *(int *)(car + 0x5C);
-    temp = clamp_val + heading_corr;
-    *(int *)(car + 0x5C) = temp - (-(heading_corr - temp) >> 3);
-
-    /* Second force computation: fixed_mul(car[+0x140], car[+0x108]) */
-    force_product = fixed_mul(*(int *)(car + 0x140), *(int *)(car + 0x108));
-
-    /* Multiply by car[+0xCC] field (shift variant) */
+    /* EMA smoothing on car[+0x5C]: new = (val + old) - ((val + old - old) >> 3)
+     * Simplifies to: new = val - (val >> 3) + (old >> 3) */
     {
-        int mid;
-        mid = fixed_mul(force_product, *(short *)(car + 0xCC));
-        force_scaled = (mid >> 8) & 0x00FFFFFF;
+        int old_val, new_val;
+        old_val = *(int *)(car + 0x5C);
+        new_val = clamp_val + old_val;
+        *(int *)(car + 0x5C) = new_val - (-( old_val - new_val) >> 3);
     }
 
+    /* Second force computation */
+    force_product = fixed_mul(*(int *)(car + 0x140), *(int *)(car + 0x108));
+
+    /* FIX #2: shift variant multiply */
+    force_scaled = fixed_mul_shift8(force_product, *(short *)(car + 0xCC));
+
     if (push_val != 0) {
-        /* speed_sq was nonzero — compute atan2 */
-        *(int *)(0xFF00) = push_val;
-        *(int *)(0xFF10) = (short)(force_scaled >> 16);
-        *(int *)(0xFF14) = force_scaled << 16;
-        angle_sign = FUN_06027378(*(int *)(0xFF1C));
+        /* FIX #1: scratch at 0xFFFFFF00 */
+        scratch[0] = push_val;
+        scratch[4] = (short)(force_scaled >> 16);
+        scratch[5] = force_scaled << 16;
+        angle_sign = FUN_06027378(scratch[7]);
 
         if (angle_sign == 0) {
             angle_sign = *(char *)(car + 0x7E);
@@ -445,23 +451,16 @@ use_delta:
         angle_sign = 0x4000;
     }
 
-    /* Divide/scale step */
+    /* FIX #5: speed clamped to [0x32, 0xFA], no car+0xFA read */
     {
-        int speed_idx, fa_val;
+        int speed_idx;
         speed_idx = *(int *)(car + 8);
-        fa_val = *(int *)(car + 0xFA);
-        if (speed_idx > 0x32) {
-            /* clamp */
-        } else {
+        if (speed_idx <= 0x32) {
             speed_idx = 0x32;
+        } else if (speed_idx >= 0xFA) {
+            speed_idx = 0xFA;
         }
-        if (fa_val > speed_idx) {
-            /* already fine */
-        } else {
-            fa_val = speed_idx;
-        }
-
-        r12_val = sym_0602ECCC(fa_val - 0x32, (speed_idx - 0x32) << 8);
+        r12_val = sym_0602ECCC(0xFA - 0x32, (speed_idx - 0x32) << 8);
     }
 
     /* Apply angle_sign * r12_val scaling */
@@ -469,16 +468,22 @@ use_delta:
         int heading_a, heading_b, diff, xor_val;
         heading_a = *(int *)(car + 0x40);
         heading_b = *(int *)(car + 0x5C);
-        temp = heading_b;
         diff = heading_a - heading_b;
-        push_val = r12_val;
 
-        r12_val = (short)angle_sign * (short)((r12_val * 3 + 0x200) & 0xFFFF);
-        r12_val = r12_val >> 8;
+        /* FIX #7: push_val = 3 * (short)r12_val + 0x200, not raw r12_val */
+        {
+            short r1_short;
+            r1_short = (short)r12_val;
+            push_val = (int)r1_short * 3 + 0x200;
+        }
+
+        /* muls.w angle_sign * push_val, then shlr8 */
+        /* FIX #6: logical right shift (shlr8), not arithmetic */
+        r12_val = (short)angle_sign * (short)push_val;
+        r12_val = (int)((uint)r12_val >> 8);
 
         xor_val = heading_a ^ diff;
         if (xor_val < 0) {
-            /* Sign correction */
             int limit;
             limit = 0xFE0;
             if ((int)heading_a < 0) {
@@ -486,49 +491,42 @@ use_delta:
             }
             heading_a = heading_a - limit;
             heading_a = -heading_a;
-            r12_val = sym_0602ECCC(limit, (heading_a * r12_val) & 0xFFFFFFFF);
+            r12_val = sym_0602ECCC(limit, heading_a * r12_val);
         }
 
-        /* Clamp and apply */
+        /* FIX #8: clamp conditions — assembly clamps r6 DOWN to diff */
         if (diff >= 0) {
-            if (r12_val > diff) goto apply_heading;
+            if (r12_val > diff) r12_val = diff;
         } else {
             r12_val = -r12_val;
-            if (diff > r12_val) goto apply_heading;
+            if (r12_val < diff) r12_val = diff;
         }
-        r12_val = diff;
     }
 
-apply_heading:
+    /* Final sym_0602ECCC call */
     r12_val = r12_val << 8;
+    r12_val = sym_0602ECCC(push_val, r12_val);
+
+    /* FIX #9: EMA smoothing on car[+0x58] — correct formula */
     {
-        int val;
-        val = sym_0602ECCC(push_val, r12_val);
-        r12_val = val;
+        int old_val, new_val;
+        new_val = r12_val - delta;  /* assembly: sub r5, r6 (diff was in r5) */
+        old_val = *(int *)(car + 0x58);
+        *(int *)(car + 0x58) = new_val - ((new_val - old_val) >> 3);
     }
 
-    /* EMA smoothing on car[+0x58] */
-    {
-        int smooth;
-        smooth = *(int *)(car + 0x58);
-        temp = smooth - r12_val;
-        temp = -(smooth - temp);
-        *(int *)(car + 0x58) = temp - (-(smooth - temp) >> 3);
-    }
-
-    /* Speed gate: check car[+0x08] >= 0x41 */
+    /* Speed gate */
     if (*(int *)(car + 8) > 0x41) {
         int hval;
         hval = *(int *)(car + 0x5C);
         if (hval <= (int)0xFFFFCD80) {
-            /* Set collision flags */
             *(int *)(car) = *(int *)(car) | 0x10000000 | 0x40000000;
         } else if (hval >= -(int)0xFFFFCD80) {
             *(int *)(car) = *(int *)(car) | 0x20000000 | 0x40000000;
         }
     }
 
-    /* Final clamp on car[+0x5C] to [-0xFFFFCC00, 0xFFFFCC00] */
+    /* Final clamp on car[+0x5C] */
     {
         int hval;
         hval = *(int *)(car + 0x5C);
