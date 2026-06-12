@@ -1,7 +1,15 @@
 # Driving Model Transplant Proposal: Manual Rewrite with Debug Draw
 
 **Date**: 2026-03-17
-**Status**: PROPOSAL — awaiting CCE engineer review
+**Status**: SUPERSEDED (2026-06-12) — the adopted architecture is the
+**embedded-DUSA design**: `DaytonaCCEReverse/workstreams/transplant/embedded_design.md`.
+DUSA code runs byte-faithful (modulo relocation) in its own struct
+layout/coordinate space/track data inside CCE's race.bin, with a bridge
+converting outputs to CCE's car struct — NOT rewritten to CCE offsets as
+proposed below. The "why not direct code copy" evidence (hidden BSR/BRA
+resize hazard in DUSA's build) remains true and is exactly why the port
+happens in CCE's resizable hybrid build. The incremental step ladder and
+debug-draw concept survive in revised form in the new doc.
 **Authors**: Human + DUSA Engineer
 
 ## Goal
