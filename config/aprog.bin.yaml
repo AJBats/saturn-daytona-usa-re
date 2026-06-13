@@ -22,6 +22,21 @@ islands:
   - seed: 0x0600E0C0                  # drone pipeline (later), ~2.5 KB
     end:  0x0600E9FF
 subsegments:
+  - start: 0x0600CA96
+    type:  code
+    end:   0x0600CB8F
+  - start: 0x0600CB90
+    type:  code
+    end:   0x0600CC37
+  - start: 0x0600CC38
+    type:  code
+    end:   0x0600CD3F
+  - start: 0x0600CD40
+    type:  code
+    end:   0x0600CDCF
+  - start: 0x0600CDD0
+    type:  code
+    end:   0x0600CE65
   - start: 0x06027344
     type:  code
     end:   0x06027357

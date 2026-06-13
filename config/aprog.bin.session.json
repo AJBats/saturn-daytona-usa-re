@@ -827,6 +827,51 @@
       "feedback": "",
       "ts": 1781392835.2215347,
       "type": "code"
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0600CA96",
+      "candidate_start": 100715158,
+      "candidate_end": 100715407,
+      "feedback": "",
+      "ts": 1781393137.0046263,
+      "type": "code"
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0600CB90",
+      "candidate_start": 100715408,
+      "candidate_end": 100715575,
+      "feedback": "",
+      "ts": 1781393143.7264926,
+      "type": "code"
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0600CC38",
+      "candidate_start": 100715576,
+      "candidate_end": 100715839,
+      "feedback": "",
+      "ts": 1781393158.486026,
+      "type": "code"
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0600CD40",
+      "candidate_start": 100715840,
+      "candidate_end": 100715983,
+      "feedback": "",
+      "ts": 1781393160.822593,
+      "type": "code"
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0600CDD0",
+      "candidate_start": 100715984,
+      "candidate_end": 100716133,
+      "feedback": "",
+      "ts": 1781393163.3317933,
+      "type": "code"
     }
   ],
   "ai_override": null,
@@ -834,5 +879,5 @@
   "audit_mode": null,
   "pending_partners": [],
   "pending_entries": {},
-  "active_island": 100823876
+  "active_island": 100715158
 }
