@@ -134,6 +134,30 @@ subsegments:
   - start: 0x060284AE
     type:  code
     end:   0x0602853D
+  - start: 0x0602853E
+    type:  code
+    end:   0x0602855F
+  - start: 0x06028560
+    type:  code
+    end:   0x0602857F
+  - start: 0x06028580
+    type:  code
+    end:   0x060285DF
+  - start: 0x060285E0
+    type:  code
+    end:   0x060285EF
+  - start: 0x060285F0
+    type:  code
+    end:   0x060285FF
+  - start: 0x06028600
+    type:  code
+    end:   0x06028613
+  - start: 0x06028614
+    type:  data
+    end:   0x06028653
+  - start: 0x06028654
+    type:  code
+    end:   0x0602872B
   - start: 0x0602C690
     type:  code
     end:   0x0602C7FB
