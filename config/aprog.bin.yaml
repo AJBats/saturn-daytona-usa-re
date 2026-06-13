@@ -37,6 +37,33 @@ subsegments:
   - start: 0x0600CDD0
     type:  code
     end:   0x0600CE65
+  - start: 0x0600E0C0
+    type:  code
+    end:   0x0600E1D3
+  - start: 0x0600E1D4
+    type:  code
+    end:   0x0600E40F
+  - start: 0x0600E410
+    type:  code
+    end:   0x0600E47B
+  - start: 0x0600E47C
+    type:  code
+    end:   0x0600E4F1
+  - start: 0x0600E4F2
+    type:  code
+    end:   0x0600E719
+  - start: 0x0600E71A
+    type:  code
+    end:   0x0600E7C7
+  - start: 0x0600E7C8
+    type:  code
+    end:   0x0600E905
+  - start: 0x0600E906
+    type:  code
+    end:   0x0600E99B
+  - start: 0x0600E99C
+    type:  code
+    end:   0x0600EA17
   - start: 0x06027344
     type:  code
     end:   0x06027357

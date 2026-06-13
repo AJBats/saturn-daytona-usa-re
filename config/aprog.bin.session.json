@@ -872,6 +872,87 @@
       "feedback": "",
       "ts": 1781393163.3317933,
       "type": "code"
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0600E0C0",
+      "candidate_start": 100720832,
+      "candidate_end": 100721107,
+      "feedback": "",
+      "ts": 1781394534.6831553,
+      "type": "code"
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0600E1D4",
+      "candidate_start": 100721108,
+      "candidate_end": 100721679,
+      "feedback": "",
+      "ts": 1781394536.061281,
+      "type": "code"
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0600E410",
+      "candidate_start": 100721680,
+      "candidate_end": 100721787,
+      "feedback": "",
+      "ts": 1781394541.9056807,
+      "type": "code"
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0600E47C",
+      "candidate_start": 100721788,
+      "candidate_end": 100721905,
+      "feedback": "",
+      "ts": 1781394545.7583654,
+      "type": "code"
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0600E4F2",
+      "candidate_start": 100721906,
+      "candidate_end": 100722457,
+      "feedback": "",
+      "ts": 1781394546.7053468,
+      "type": "code"
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0600E71A",
+      "candidate_start": 100722458,
+      "candidate_end": 100722631,
+      "feedback": "",
+      "ts": 1781394547.4297035,
+      "type": "code"
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0600E7C8",
+      "candidate_start": 100722632,
+      "candidate_end": 100722949,
+      "feedback": "",
+      "ts": 1781394548.078434,
+      "type": "code"
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0600E906",
+      "candidate_start": 100722950,
+      "candidate_end": 100723099,
+      "feedback": "",
+      "ts": 1781394548.9171882,
+      "type": "code"
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0600E99C",
+      "candidate_start": 100723100,
+      "candidate_end": 100723223,
+      "feedback": "",
+      "ts": 1781394549.6331275,
+      "type": "code"
     }
   ],
   "ai_override": null,
@@ -879,5 +960,5 @@
   "audit_mode": null,
   "pending_partners": [],
   "pending_entries": {},
-  "active_island": 100715158
+  "active_island": 100720832
 }
