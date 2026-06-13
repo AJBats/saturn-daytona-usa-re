@@ -1,0 +1,27 @@
+options:
+  target_path: build/disc/files/APROG.BIN
+  vram:        0x06003000             # APROG.BIN load address (see build/aprog.ld)
+  # ghidra_funcs.s = labels-only stub from decomp export filenames (tools/ghidra_funcs_to_reference.py);
+  # regen after ExportDecompiledAll.java. Alt: build/aprog.s (1234 labels).
+  reference_dir: ghidra_reference
+  # Pool priors sidecar config/aprog.bin.pool_priors.txt auto-loads if present; generate via
+  # ghidra_scripts/ExportPoolPriors.java (NOT extract_pool_priors.py on build/aprog.s — all .byte = "everything is data").
+  runtime_hits_dirs:                  # globbed for *.summary.json; empty/missing dirs are fine
+    - build/probes
+    - build/mcp_ipc
+
+# Coverage islands: declaration order = work order; `end` is a soft target
+# (a straddling function stamps fully). Outside islands = legally unswept.
+islands:
+  - seed: 0x0602C690                  # player physics pipeline (18 calls + dispatcher), ~15 KB
+    end:  0x06030100
+  - seed: 0x06027344                  # shared math (sin/cos/atan2/clamp), <1 KB
+    end:  0x060275FF
+  - seed: 0x0600CA96                  # shared track query system, ~1 KB
+    end:  0x0600CDFF
+  - seed: 0x0600E0C0                  # drone pipeline (later), ~2.5 KB
+    end:  0x0600E9FF
+subsegments:
+  - start: 0x0602C690
+    type:  code
+    end:   0x0602C7FB

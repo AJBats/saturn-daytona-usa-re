@@ -1,0 +1,19 @@
+{
+  "history": [
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602C690",
+      "candidate_start": 100845200,
+      "candidate_end": 100845563,
+      "feedback": "",
+      "ts": 1781311265.619752,
+      "type": "code"
+    }
+  ],
+  "ai_override": null,
+  "analyze_mode": null,
+  "audit_mode": null,
+  "pending_partners": [],
+  "pending_entries": {},
+  "active_island": 100845200
+}
