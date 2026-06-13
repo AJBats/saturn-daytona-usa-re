@@ -15,13 +15,50 @@ options:
 islands:
   - seed: 0x0602C690                  # player physics pipeline (18 calls + dispatcher), ~15 KB
     end:  0x06030100
-  - seed: 0x06027344                  # shared math (sin/cos/atan2/clamp), <1 KB
-    end:  0x060275FF
+  - seed: 0x06027344                  # shared math + utility library, ~5 KB (ends at data gap 0x6028700)
+    end:  0x06028700
   - seed: 0x0600CA96                  # shared track query system, ~1 KB
     end:  0x0600CDFF
   - seed: 0x0600E0C0                  # drone pipeline (later), ~2.5 KB
     end:  0x0600E9FF
 subsegments:
+  - start: 0x06027344
+    type:  code
+    end:   0x06027357
+    entries: [0x06027348]
+  - start: 0x06027358
+    type:  code
+    end:   0x06027377
+  - start: 0x06027378
+    type:  code
+    end:   0x0602744B
+  - start: 0x0602744C
+    type:  code
+    end:   0x06027475
+  - start: 0x06027476
+    type:  code
+    end:   0x06027497
+  - start: 0x06027498
+    type:  code
+    end:   0x060274D9
+  - start: 0x060274DA
+    type:  code
+    end:   0x0602754B
+  - start: 0x0602754C
+    type:  code
+    end:   0x06027551
+  - start: 0x06027552
+    type:  code
+    end:   0x0602755B
+  - start: 0x0602755C
+    type:  code
+    end:   0x06027573
+  - start: 0x06027574
+    type:  code
+    end:   0x060275A3
+  - start: 0x060275A4
+    type:  code
+    end:   0x060275D7
   - start: 0x0602C690
     type:  code
     end:   0x0602C7FB
