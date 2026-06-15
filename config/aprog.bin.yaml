@@ -13,14 +13,18 @@ options:
 # Coverage islands: declaration order = work order; `end` is a soft target
 # (a straddling function stamps fully). Outside islands = legally unswept.
 islands:
-  - seed: 0x0602C690                  # player physics pipeline (18 calls + dispatcher), ~15 KB
+  - seed: 0x0602C690
     end:  0x06030100
-  - seed: 0x06027344                  # shared math + utility library, ~5 KB (ends at data gap 0x6028700)
+  - seed: 0x06027344
     end:  0x06028700
-  - seed: 0x0600CA96                  # shared track query system, ~1 KB
+  - seed: 0x0600CA96
     end:  0x0600CDFF
-  - seed: 0x0600E0C0                  # drone pipeline (later), ~2.5 KB
+  - seed: 0x0600E0C0
     end:  0x0600E9FF
+  - seed: 0x060302C6
+    end:  0x0603053B
+  - seed: 0x06042CBC
+    end:  0x0606368F
 subsegments:
   - start: 0x0600CA96
     type:  code
@@ -327,3 +331,9 @@ subsegments:
   - start: 0x0602FDA4
     type:  code
     end:   0x060302C5
+  - start: 0x060302C6
+    type:  code
+    end:   0x0603053B
+  - start: 0x06042CBC
+    type:  data
+    end:   0x0606368F

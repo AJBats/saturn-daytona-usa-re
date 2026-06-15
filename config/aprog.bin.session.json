@@ -953,6 +953,24 @@
       "feedback": "",
       "ts": 1781394549.6331275,
       "type": "code"
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "060302C6",
+      "candidate_start": 100860614,
+      "candidate_end": 100861243,
+      "feedback": "",
+      "ts": 1781527114.594119,
+      "type": "code"
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06042CBC",
+      "candidate_start": 100936892,
+      "candidate_end": 101070479,
+      "feedback": "",
+      "ts": 1781528358.8626308,
+      "type": "data"
     }
   ],
   "ai_override": null,
@@ -960,5 +978,5 @@
   "audit_mode": null,
   "pending_partners": [],
   "pending_entries": {},
-  "active_island": 100720832
+  "active_island": 100936892
 }
