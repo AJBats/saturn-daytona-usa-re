@@ -28,6 +28,69 @@ islands:
   - seed: 0x0600B1A0
     end:  0x0600CA95
 subsegments:
+  - start: 0x0600B1A0
+    type:  code
+    end:   0x0600B33F
+  - start: 0x0600B340
+    type:  code
+    end:   0x0600B4D1
+  - start: 0x0600B4D2
+    type:  code
+    end:   0x0600B69F
+  - start: 0x0600B6A0
+    type:  code
+    end:   0x0600B913
+  - start: 0x0600B914
+    type:  code
+    end:   0x0600BB93
+  - start: 0x0600BB94
+    type:  code
+    end:   0x0600BF6F
+  - start: 0x0600BF70
+    type:  code
+    end:   0x0600BFFB
+  - start: 0x0600BFFC
+    type:  code
+    end:   0x0600C16F
+  - start: 0x0600C170
+    type:  code
+    end:   0x0600C217
+  - start: 0x0600C218
+    type:  code
+    end:   0x0600C285
+  - start: 0x0600C286
+    type:  code
+    end:   0x0600C301
+  - start: 0x0600C302
+    type:  code
+    end:   0x0600C3A7
+  - start: 0x0600C3A8
+    type:  code
+    end:   0x0600C4F7
+  - start: 0x0600C4F8
+    type:  code
+    end:   0x0600C5D5
+  - start: 0x0600C5D6
+    type:  code
+    end:   0x0600C74D
+  - start: 0x0600C74E
+    type:  code
+    end:   0x0600C7D3
+  - start: 0x0600C7D4
+    type:  code
+    end:   0x0600C8CB
+  - start: 0x0600C8CC
+    type:  code
+    end:   0x0600C927
+  - start: 0x0600C928
+    type:  code
+    end:   0x0600C96F
+  - start: 0x0600C970
+    type:  code
+    end:   0x0600C993
+  - start: 0x0600C994
+    type:  code
+    end:   0x0600CA95
   - start: 0x0600CA96
     type:  code
     end:   0x0600CB8F
