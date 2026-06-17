@@ -18,13 +18,15 @@ islands:
   - seed: 0x06027344
     end:  0x06028700
   - seed: 0x0600CA96
-    end:  0x0600CDFF
+    end:  0x0600E0BF
   - seed: 0x0600E0C0
     end:  0x0600E9FF
   - seed: 0x060302C6
     end:  0x0603053B
   - seed: 0x06042CBC
     end:  0x0606368F
+  - seed: 0x0600B1A0
+    end:  0x0600CA95
 subsegments:
   - start: 0x0600CA96
     type:  code
@@ -41,6 +43,102 @@ subsegments:
   - start: 0x0600CDD0
     type:  code
     end:   0x0600CE65
+  - start: 0x0600CE66
+    type:  code
+    end:   0x0600CEB9
+  - start: 0x0600CEBA
+    type:  code
+    end:   0x0600CF57
+  - start: 0x0600CF58
+    type:  code
+    end:   0x0600D0B7
+  - start: 0x0600D0B8
+    type:  code
+    end:   0x0600D12B
+  - start: 0x0600D12C
+    type:  code
+    end:   0x0600D20F
+  - start: 0x0600D210
+    type:  code
+    end:   0x0600D265
+  - start: 0x0600D266
+    type:  code
+    end:   0x0600D27F
+  - start: 0x0600D280
+    type:  code
+    end:   0x0600D31B
+  - start: 0x0600D31C
+    type:  code
+    end:   0x0600D335
+  - start: 0x0600D336
+    type:  code
+    end:   0x0600D37B
+  - start: 0x0600D37C
+    type:  code
+    end:   0x0600D3C3
+  - start: 0x0600D3C4
+    type:  code
+    end:   0x0600D41B
+  - start: 0x0600D41C
+    type:  code
+    end:   0x0600D495
+  - start: 0x0600D496
+    type:  code
+    end:   0x0600D50B
+  - start: 0x0600D50C
+    type:  code
+    end:   0x0600D77F
+  - start: 0x0600D780
+    type:  code
+    end:   0x0600D84B
+  - start: 0x0600D84C
+    type:  code
+    end:   0x0600D8A3
+  - start: 0x0600D8A4
+    type:  code
+    end:   0x0600D92B
+  - start: 0x0600D92C
+    type:  code
+    end:   0x0600D9BB
+  - start: 0x0600D9BC
+    type:  code
+    end:   0x0600DA7B
+  - start: 0x0600DA7C
+    type:  code
+    end:   0x0600DB63
+  - start: 0x0600DB64
+    type:  code
+    end:   0x0600DB9D
+  - start: 0x0600DB9E
+    type:  code
+    end:   0x0600DC73
+  - start: 0x0600DC74
+    type:  code
+    end:   0x0600DCC7
+  - start: 0x0600DCC8
+    type:  code
+    end:   0x0600DD87
+  - start: 0x0600DD88
+    type:  code
+    end:   0x0600DE3F
+  - start: 0x0600DE40
+    type:  code
+    end:   0x0600DE53
+  - start: 0x0600DE54
+    type:  code
+    end:   0x0600DE6F
+  - start: 0x0600DE70
+    type:  code
+    end:   0x0600DF65
+  - start: 0x0600DF66
+    type:  code
+    end:   0x0600DFCF
+  - start: 0x0600DFD0
+    type:  code
+    end:   0x0600E05F
+  - start: 0x0600E060
+    type:  code
+    end:   0x0600E0BF
   - start: 0x0600E0C0
     type:  code
     end:   0x0600E1D3
