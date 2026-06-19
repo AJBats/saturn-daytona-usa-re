@@ -584,6 +584,36 @@ subsegments:
     type:  code
     end:   0x06030EDF
     partners: [0x0603053C]
+  - start: 0x06030EE0
+    type:  code
+    end:   0x06030EFB
+  - start: 0x0603226C
+    type:  code
+    end:   0x060322E7
+  - start: 0x06033020
+    type:  code
+    end:   0x0603307B
+  - start: 0x06034900
+    type:  code
+    end:   0x06034983
+  - start: 0x06034F78
+    type:  code
+    end:   0x06034FDF
+  - start: 0x06034FE0
+    type:  code
+    end:   0x06034FFB
+  - start: 0x06035168
+    type:  code
+    end:   0x06035227
+  - start: 0x06035228
+    type:  code
+    end:   0x0603527F
+  - start: 0x06035280
+    type:  code
+    end:   0x0603533F
+  - start: 0x06035340
+    type:  code
+    end:   0x06035437
   - start: 0x06042CBC
     type:  data
     end:   0x0606368F
