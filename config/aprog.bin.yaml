@@ -32,17 +32,17 @@ islands:
   - seed: 0x06006838
     end:  0x0600683A
   - seed: 0x060081F4
-    end:  0x06008318
+    end:  0x06008460
   - seed: 0x060085B8
-    end:  0x06008640
+    end:  0x06008730
   - seed: 0x0600A8BC
     end:  0x0600A8BE
   - seed: 0x0601D5F4
     end:  0x0601D7D0
   - seed: 0x06030EE0
-    end:  0x06030EE2
+    end:  0x06030FBE
   - seed: 0x0603226C
-    end:  0x0603226E
+    end:  0x06032304
   - seed: 0x06033020
     end:  0x06033022
   - seed: 0x06034900
@@ -51,6 +51,12 @@ islands:
     end:  0x06034FE0
   - seed: 0x06035168
     end:  0x06035342
+  - seed: 0x0601DB84
+    end:  0x0601DB86
+  - seed: 0x06026DBC
+    end:  0x06026FFC
+  - seed: 0x06036068
+    end:  0x0603606A
 subsegments:
   - start: 0x06005ECC
     type:  code
@@ -67,12 +73,24 @@ subsegments:
   - start: 0x06008318
     type:  code
     end:   0x06008417
+  - start: 0x06008418
+    type:  code
+    end:   0x0600845F
+  - start: 0x06008460
+    type:  code
+    end:   0x060084C9
   - start: 0x060085B8
     type:  code
     end:   0x0600863F
   - start: 0x06008640
     type:  code
     end:   0x060086BF
+  - start: 0x060086C0
+    type:  code
+    end:   0x0600872F
+  - start: 0x06008730
+    type:  code
+    end:   0x060088CB
   - start: 0x0600A8BC
     type:  code
     end:   0x0600A913
@@ -587,9 +605,21 @@ subsegments:
   - start: 0x06030EE0
     type:  code
     end:   0x06030EFB
+  - start: 0x06030EFC
+    type:  code
+    end:   0x06030F1B
+  - start: 0x06030F1C
+    type:  data
+    end:   0x06030FBF
   - start: 0x0603226C
     type:  code
     end:   0x060322E7
+  - start: 0x060322E8
+    type:  code
+    end:   0x06032303
+  - start: 0x06032304
+    type:  code
+    end:   0x0603253B
   - start: 0x06033020
     type:  code
     end:   0x0603307B

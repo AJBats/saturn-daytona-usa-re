@@ -1727,6 +1727,78 @@
       "feedback": "",
       "ts": 1781898254.0477133,
       "type": "code"
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06008418",
+      "candidate_start": 100697112,
+      "candidate_end": 100697183,
+      "feedback": "",
+      "ts": 1783597904.2097275,
+      "type": "code"
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06008460",
+      "candidate_start": 100697184,
+      "candidate_end": 100697289,
+      "feedback": "",
+      "ts": 1783598515.099347,
+      "type": "code"
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "060086C0",
+      "candidate_start": 100697792,
+      "candidate_end": 100697903,
+      "feedback": "",
+      "ts": 1783598524.49738,
+      "type": "code"
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06008730",
+      "candidate_start": 100697904,
+      "candidate_end": 100698315,
+      "feedback": "",
+      "ts": 1783598538.139183,
+      "type": "code"
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06030EFC",
+      "candidate_start": 100863740,
+      "candidate_end": 100863771,
+      "feedback": "",
+      "ts": 1783599928.8892689,
+      "type": "code"
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06030F1C",
+      "candidate_start": 100863772,
+      "candidate_end": 100863935,
+      "feedback": "",
+      "ts": 1783600177.4152138,
+      "type": "data"
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "060322E8",
+      "candidate_start": 100868840,
+      "candidate_end": 100868867,
+      "feedback": "",
+      "ts": 1783600187.4960558,
+      "type": "code"
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06032304",
+      "candidate_start": 100868868,
+      "candidate_end": 100869435,
+      "feedback": "",
+      "ts": 1783602540.2554789,
+      "type": "code"
     }
   ],
   "ai_override": null,
@@ -1734,5 +1806,5 @@
   "audit_mode": null,
   "pending_partners": [],
   "pending_entries": {},
-  "active_island": 100880744
+  "active_island": 100868716
 }
