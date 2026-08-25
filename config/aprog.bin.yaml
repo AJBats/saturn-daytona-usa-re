@@ -32,7 +32,7 @@ islands:
   - seed: 0x06006838
     end:  0x0600683A
   - seed: 0x060081F4
-    end:  0x06008460
+    end:  0x060084CB
   - seed: 0x060085B8
     end:  0x06008730
   - seed: 0x0600A8BC
@@ -42,7 +42,7 @@ islands:
   - seed: 0x06030EE0
     end:  0x06030FBE
   - seed: 0x0603226C
-    end:  0x06032304
+    end:  0x0603268D
   - seed: 0x06033020
     end:  0x06033022
   - seed: 0x06034900
@@ -59,6 +59,18 @@ islands:
     end:  0x0603606A
   - seed: 0x0603603C
     end:  0x060360FB
+  - seed: 0x06032E6C
+    end:  0x06032EA5
+  - seed: 0x0600A474
+    end:  0x0600A4AB
+  - seed: 0x06038BD4
+    end:  0x06038BD6
+  - seed: 0x06031A28
+    end:  0x06031A2A
+  - seed: 0x06031D8C
+    end:  0x06031D8E
+  - seed: 0x06031D1A
+    end:  0x06031D8B
 subsegments:
   - start: 0x06005ECC
     type:  code
@@ -81,6 +93,9 @@ subsegments:
   - start: 0x06008460
     type:  code
     end:   0x060084C9
+  - start: 0x060084CA
+    type:  code
+    end:   0x060085B7
   - start: 0x060085B8
     type:  code
     end:   0x0600863F
@@ -93,6 +108,12 @@ subsegments:
   - start: 0x06008730
     type:  code
     end:   0x060088CB
+  - start: 0x0600A474
+    type:  code
+    end:   0x0600A4A9
+  - start: 0x0600A4AA
+    type:  code
+    end:   0x0600A4C9
   - start: 0x0600A8BC
     type:  code
     end:   0x0600A913
@@ -647,6 +668,20 @@ subsegments:
   - start: 0x06030F1C
     type:  data
     end:   0x06030FBF
+  - start: 0x06031A28
+    type:  code
+    end:   0x06031D19
+    partners: [0x06031D1A]
+  - start: 0x06031D1A
+    type:  code
+    end:   0x06031D3B
+    partners: [0x06031A28]
+  - start: 0x06031D3C
+    type:  data
+    end:   0x06031D8B
+  - start: 0x06031D8C
+    type:  code
+    end:   0x06031DF3
   - start: 0x0603226C
     type:  code
     end:   0x060322E7
@@ -656,6 +691,21 @@ subsegments:
   - start: 0x06032304
     type:  code
     end:   0x0603253B
+  - start: 0x0603253C
+    type:  code
+    end:   0x06032583
+  - start: 0x06032584
+    type:  code
+    end:   0x0603268B
+  - start: 0x0603268C
+    type:  code
+    end:   0x06032D8F
+  - start: 0x06032E6C
+    type:  code
+    end:   0x06032EA3
+  - start: 0x06032EA4
+    type:  code
+    end:   0x0603301F
   - start: 0x06033020
     type:  code
     end:   0x0603307B
@@ -687,6 +737,9 @@ subsegments:
     type:  code
     end:   0x060360FB
     entries: [0x06036068]
+  - start: 0x06038BD4
+    type:  code
+    end:   0x06038E53
   - start: 0x06042CBC
     type:  data
     end:   0x0606368F
