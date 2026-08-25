@@ -57,6 +57,8 @@ islands:
     end:  0x06026FFC
   - seed: 0x06036068
     end:  0x0603606A
+  - seed: 0x0603603C
+    end:  0x060360FB
 subsegments:
   - start: 0x06005ECC
     type:  code
@@ -325,6 +327,40 @@ subsegments:
   - start: 0x0601D7D0
     type:  code
     end:   0x0601D9AF
+  - start: 0x0601DB84
+    type:  code
+    end:   0x0601DB9D
+  - start: 0x06026DBC
+    type:  code
+    end:   0x06026DF7
+  - start: 0x06026DF8
+    type:  code
+    end:   0x06026E01
+  - start: 0x06026E02
+    type:  code
+    end:   0x06026E2D
+    entries: [0x06026E0C]
+  - start: 0x06026E2E
+    type:  code
+    end:   0x06026E5F
+  - start: 0x06026E60
+    type:  code
+    end:   0x06026E93
+  - start: 0x06026E94
+    type:  code
+    end:   0x06026EDD
+  - start: 0x06026EDE
+    type:  code
+    end:   0x06026F29
+  - start: 0x06026F2A
+    type:  code
+    end:   0x06026F71
+  - start: 0x06026F72
+    type:  code
+    end:   0x06026FFB
+  - start: 0x06026FFC
+    type:  code
+    end:   0x06027037
   - start: 0x06027344
     type:  code
     end:   0x06027357
@@ -644,6 +680,13 @@ subsegments:
   - start: 0x06035340
     type:  code
     end:   0x06035437
+  - start: 0x0603603C
+    type:  data
+    end:   0x0603605B
+  - start: 0x0603605C
+    type:  code
+    end:   0x060360FB
+    entries: [0x06036068]
   - start: 0x06042CBC
     type:  data
     end:   0x0606368F
